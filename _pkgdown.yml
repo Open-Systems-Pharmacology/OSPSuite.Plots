@@ -1,0 +1,22 @@
+url: https://www.open-systems-pharmacology.org/OSPSuite.Plots/
+
+template:
+  bootstrap: 5
+
+development:
+  mode: devel
+
+articles:
+  - title: XXXXXX
+    navbar: XXXXXX
+    desc: XXXXXX
+    contents:
+    - vignette1_XXXXXXXXXXXXXXXXXXXXX
+
+reference:
+- title: "XXXXXXXXXXXXXXXXXXX"
+  desc: "XXXXXXXXXXXXXXXXXXXXXX"
+  contents:
+  - matches("XXXXX")
+  - starts_with("XXXXXX")
+  - has_concept("XXXXXXXXXX")

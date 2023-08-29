@@ -39,6 +39,10 @@ on_success:
 test_script:
   - travis-tool.sh run_tests
 
+after_test:
+  - ps: copy ospsuite.plots_*.tar.gz ospsuite.plots.tar.gz
+  - ps: copy ospsuite.plots_*.zip ospsuite.plots.zip
+
 on_failure:
   - 7z a failure.zip *.Rcheck\*
   - appveyor PushArtifact failure.zip

@@ -1,0 +1,42 @@
+Package: ospsuite.plots
+Type: Package
+Title: Library for standardized graphs
+Version: 0.1.0
+Authors@R: 
+    c(person(given = "Open-Systems-Pharmacology Community",
+             role = "cph"),
+      person(given = "Katrin",
+             family = "Coboeken",
+             role = c("aut", "cre"),
+             email = "katrin.coboeken@bayer.com"))
+Description: This library provides a standardized approach to creating graphs and tables in the ospsuite context.
+    It is based on ggplot2.
+License: GPL-2 | file LICENSE
+Language: en-US
+Imports: 
+    ospsuite.utils (>= 1.4.0),
+    data.table,
+    ggnewscale,
+    checkmate,
+    rlang,
+    scales,
+    dplyr,
+    magrittr,
+    tidyr
+Depends: 
+    R (>= 3.6),
+    ggplot2 (>= 3.3.0),
+    ggh4x
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+Roxygen: list(markdown = TRUE)
+Suggests:
+    knitr,
+    rmarkdown,
+    showtext,
+    sysfonts,
+    testthat (>= 3.0.3),
+    vdiffr (>= 1.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+LazyData: true

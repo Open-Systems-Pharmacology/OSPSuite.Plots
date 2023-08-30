@@ -38,18 +38,12 @@ The library is based on `ggplot2` functionality. It uses also the libraries `ggn
 
 
 ```{r get-test-data, echo=FALSE, results='asis'}
-testData <- read.csv(
-  system.file("extdata", "ospsuite-data.csv", package = "tlf"),
-  check.names = FALSE,
-  stringsAsFactors = FALSE
-)
-names(testData)[names(testData) == "Organism|Age"] <- "Age"
-names(testData)[names(testData) == "Organism|Weight"] <- "Weight"
+testData <- exampleDataCovariates %>%
+  dplyr::filter(SetID == "DataSet1") %>% 
+  dplyr::select(c('ID', 'Age',  'Obs', 'Pred','Sex'))
 
-knitr::kable(head(testData[, c(
-  "IndividualId", "Gender",
-  "Age", "Weight", "Compound", "Dose"
-)], 10), digits = 3)
+
+knitr::kable(head(testData), digits = 3)
 ```
 
 
@@ -72,7 +66,7 @@ knitr::kable(head(testData[, c(
 
 ggplot(
   data = testData,
-  mapping = aes(x = Age, y = Weight, color = Gender, shape = Gender)
+  mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)
 ) +
   geom_point() +
   theme(legend.position = "top")
@@ -96,7 +90,7 @@ oldDefaults <- ospsuite.plots::setDefaults()
 
 ggplot(
   data = testData,
-  mapping = aes(x = Age, y = Weight, color = Gender, shape = Gender)
+  mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)
 ) +
   geom_point() +
   theme(legend.position = "top")
@@ -120,7 +114,7 @@ ospsuite.plots::resetDefaults(oldDefaults = oldDefaults)
 
 ggplot(
   data = testData,
-  mapping = aes(x = Age, y = Weight, color = Gender, shape = Gender)
+  mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)
 ) +
   geom_point() +
   theme(legend.position = "top")
@@ -249,7 +243,7 @@ ospsuite.plots.watermark_format <- list(
 The watermark is added with function 
 ```{r}
 plotObject <- ggplot() +
-  layer_watermark()
+  layerWatermark()
 ```
 
 This is one automatically by each plot function of this package

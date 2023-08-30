@@ -17,7 +17,7 @@ initializePlot <- function(metaData = NULL,
   checkmate::assertList(mapping, types = "quosure", null.ok = TRUE)
   # initialize plot object
   plotObject <- ggplot(environment = globalenv()) +
-    layer_watermark()
+    layerWatermark()
 
 
   # add labels
@@ -92,7 +92,7 @@ addLayer <- function(mappedData,
 #'   option 'ospsuite.plots.watermark_enabled' is `TRUE`)), otherwise an empty layer
 #' @export
 #'
-layer_watermark <- function(label = NULL,
+layerWatermark <- function(label = NULL,
                             x = NULL,
                             y = NULL,
                             angle = NULL,

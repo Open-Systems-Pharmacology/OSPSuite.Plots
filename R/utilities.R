@@ -246,10 +246,11 @@ addOverwriteAes <- function(newMaps, mapping) {
 
 
 #' converts metaData List to a data frame
-#' rownames specify properties
+#' row names specify properties
 #'
 #' @param metaData A named list of information about the `data` such as the `dimension` and `unit` of its variables.
 #'
+#' @export
 #' @return metaData as `data.frame`
 #'
 metaData2DataFrame <- function(metaData) {

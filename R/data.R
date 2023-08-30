@@ -6,4 +6,4 @@
 #' data frame which includes example data used in the vignette
 #' \code{vignette("Histogram Plots", package = "ospsuite.plots")}
 #'
-"exampleDataCovariate"
+"exampleDataCovariates"

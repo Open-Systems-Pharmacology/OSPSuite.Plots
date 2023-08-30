@@ -22,375 +22,369 @@ library(tidyr)
 ```
 
 
-<!-- # 1. Introduction -->
+# 1. Introduction
 
-<!-- ## 1.1. Objectives of ospsuite.plots -->
+## 1.1. Objectives of ospsuite.plots
 
 
-<!-- The main purpose of the `ospsuite.plots`-library is to provide standardized plots typically used in PBPK context. -->
-<!-- `ospsuite.plots` supports the plot generation of the packages `OSPSuiteR`  and `OSPSuite.ReportingEngine`.  -->
+The main purpose of the `ospsuite.plots`-library is to provide standardized plots typically used in PBPK context.
+`ospsuite.plots` supports the plot generation of the packages `OSPSuiteR`  and `OSPSuite.ReportingEngine`. 
 
-<!-- The library is based on `ggplot2` functionality. It uses also the libraries `ggnewscale` and `ggh4xs`. -->
+The library is based on `ggplot2` functionality. It uses also the libraries `ggnewscale` and `ggh4xs`.
 
-<!-- # 2. Default settings for Layout -->
+# 2. Default settings for Layout
 
-<!-- `ospsuite.plots` provides default settings for the layout including theme, geometric aesthetics, color and shapes for distinct scales. -->
+`ospsuite.plots` provides default settings for the layout including theme, geometric aesthetics, color and shapes for distinct scales.
 
 
-<!-- ```{r get-test-data, echo=FALSE, results='asis'} -->
-<!-- testData <- read.csv( -->
-<!--   system.file("extdata", "ospsuite-data.csv", package = "tlf"), -->
-<!--   check.names = FALSE, -->
-<!--   stringsAsFactors = FALSE -->
-<!-- ) -->
-<!-- names(testData)[names(testData) == "Organism|Age"] <- "Age" -->
-<!-- names(testData)[names(testData) == "Organism|Weight"] <- "Weight" -->
+```{r get-test-data, echo=FALSE, results='asis'}
+testData <- exampleDataCovariates %>%
+  dplyr::filter(SetID == "DataSet1") %>% 
+  dplyr::select(c('ID', 'Age',  'Obs', 'Pred','Sex'))
 
-<!-- knitr::kable(head(testData[, c( -->
-<!--   "IndividualId", "Gender", -->
-<!--   "Age", "Weight", "Compound", "Dose" -->
-<!-- )], 10), digits = 3) -->
-<!-- ``` -->
 
+knitr::kable(head(testData), digits = 3)
+```
 
 
 
-<!-- ## 2.1 Plots with and without default layout -->
 
-<!-- ## 2.1.1 Default ggplot layout -->
+## 2.1 Plots with and without default layout
 
-<!-- ```{r,warning=FALSE,fig.show='hold'} -->
-<!-- # plot by ospsuite.plots function -->
+## 2.1.1 Default ggplot layout
 
-<!-- # TODO -->
-<!-- # plotHistogram( -->
-<!-- #   data = testData, -->
-<!-- #   mapping = aes(x = Age) -->
-<!-- # ) -->
+```{r,warning=FALSE,fig.show='hold'}
+# plot by ospsuite.plots function
 
-<!-- # customized plot -->
+# TODO
+# plotHistogram(
+#   data = testData,
+#   mapping = aes(x = Age)
+# )
 
-<!-- ggplot( -->
-<!--   data = testData, -->
-<!--   mapping = aes(x = Age, y = Weight, color = Gender, shape = Gender) -->
-<!-- ) + -->
-<!--   geom_point() + -->
-<!--   theme(legend.position = "top") -->
-<!-- ``` -->
+# customized plot
 
-<!-- ## 2.1.2 set ospsuite.plots layout -->
+ggplot(
+  data = testData,
+  mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)
+) +
+  geom_point() +
+  theme(legend.position = "top")
+```
 
-<!-- ```{r,warning=FALSE,fig.show='hold'} -->
-<!-- # set default layout  and save previous layout in variable oldDefaults -->
-<!-- oldDefaults <- ospsuite.plots::setDefaults() -->
+## 2.1.2 set ospsuite.plots layout
 
-<!-- # plot by ospsuite.plots function -->
-<!-- # TODO -->
-<!-- # plotHistogram( -->
-<!-- #   data = testData, -->
-<!-- #   mapping = aes(x = Age) -->
-<!-- # ) -->
+```{r,warning=FALSE,fig.show='hold'}
+# set default layout  and save previous layout in variable oldDefaults
+oldDefaults <- ospsuite.plots::setDefaults()
 
+# plot by ospsuite.plots function
+# TODO
+# plotHistogram(
+#   data = testData,
+#   mapping = aes(x = Age)
+# )
 
-<!-- # customized plot -->
 
-<!-- ggplot( -->
-<!--   data = testData, -->
-<!--   mapping = aes(x = Age, y = Weight, color = Gender, shape = Gender) -->
-<!-- ) + -->
-<!--   geom_point() + -->
-<!--   theme(legend.position = "top") -->
-<!-- ``` -->
+# customized plot
 
-<!-- ## 2.1.3 reset to previously save layout -->
+ggplot(
+  data = testData,
+  mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)
+) +
+  geom_point() +
+  theme(legend.position = "top")
+```
 
+## 2.1.3 reset to previously save layout
 
-<!-- ```{r,warning=FALSE,fig.show='hold'} -->
-<!-- # reset to previously saved layout options -->
-<!-- ospsuite.plots::resetDefaults(oldDefaults = oldDefaults) -->
 
-<!-- # plot by ospsuite.plots function -->
-<!-- # TODO -->
-<!-- # plotHistogram( -->
-<!-- #   data = testData, -->
-<!-- #   mapping = aes(x = Age) -->
-<!-- # ) -->
+```{r,warning=FALSE,fig.show='hold'}
+# reset to previously saved layout options
+ospsuite.plots::resetDefaults(oldDefaults = oldDefaults)
 
-<!-- # customized plot -->
+# plot by ospsuite.plots function
+# TODO
+# plotHistogram(
+#   data = testData,
+#   mapping = aes(x = Age)
+# )
 
-<!-- ggplot( -->
-<!--   data = testData, -->
-<!--   mapping = aes(x = Age, y = Weight, color = Gender, shape = Gender) -->
-<!-- ) + -->
-<!--   geom_point() + -->
-<!--   theme(legend.position = "top") -->
-<!-- ``` -->
+# customized plot
 
+ggplot(
+  data = testData,
+  mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)
+) +
+  geom_point() +
+  theme(legend.position = "top")
+```
 
 
-<!-- ## 2.2 Default Theme -->
 
-<!-- Functions to set the ospsuite.plots default theme only are: `setDefaultTheme()` and `resetDefaultTheme()`. This functions are called by `setDefaults()` and `resetDefaults()`. -->
+## 2.2 Default Theme
 
-<!-- ```{r} -->
-<!-- # set ospsuite.plots Default theme -->
-<!-- oldTheme <- ospsuite.plots::setDefaultTheme() -->
+Functions to set the ospsuite.plots default theme only are: `setDefaultTheme()` and `resetDefaultTheme()`. This functions are called by `setDefaults()` and `resetDefaults()`.
 
-<!-- # customize theme using ggplot functionalities -->
-<!-- theme_update(legend.position = "top") -->
-<!-- theme_update(legend.title = element_blank()) -->
+```{r}
+# set ospsuite.plots Default theme
+oldTheme <- ospsuite.plots::setDefaultTheme()
 
-<!-- # reset to the previously saved -->
-<!-- ggplot2::theme_set(oldTheme) -->
-<!-- ``` -->
+# customize theme using ggplot functionalities
+theme_update(legend.position = "top")
+theme_update(legend.title = element_blank())
 
-<!-- ## 2.3 Default Color -->
+# reset to the previously saved
+ggplot2::theme_set(oldTheme)
+```
 
-<!-- Functions to set the ospsuite.plots default color only are: `setDefaultColorMapDistinct()` and `resetDefaultColorMapDistinct()`. This functions are called by `setDefaults()` and `resetDefaults()`. -->
+## 2.3 Default Color
+
+Functions to set the ospsuite.plots default color only are: `setDefaultColorMapDistinct()` and `resetDefaultColorMapDistinct()`. This functions are called by `setDefaults()` and `resetDefaults()`.
 
-<!-- Colors are set to discrete and ordinal scales for `fill` and `colour` -->
+Colors are set to discrete and ordinal scales for `fill` and `colour`
+
+
+```{r out.width="80%"}
+# set ospsuite.plots Default Color
+oldColors <- ospsuite.plots::setDefaultColorMapDistinct()
 
 
-<!-- ```{r out.width="80%"} -->
-<!-- # set ospsuite.plots Default Color -->
-<!-- oldColors <- ospsuite.plots::setDefaultColorMapDistinct() -->
+ggplot() +
+  geom_tile(aes(
+    x = rep(seq(1, 3), 2),
+    y = rep(seq(1, 2), each = 3),
+    fill = as.factor(seq(1, 6))
+  )) +
+  labs("up to 6 colors") +
+  theme(
+    legend.position = "none",
+    axis.title = element_blank()
+  )
 
+ggplot() +
+  geom_tile(aes(
+    x = c(rep(seq(1, 7), 7), 1, 2),
+    y = c(rep(seq(1, 7), each = 7), 8, 8),
+    fill = as.factor(seq(1, 51))
+  )) +
+  labs("> 6 colors") +
+  theme(
+    legend.position = "none",
+    axis.title = element_blank()
+  )
+
+
+
+# customize colors:
+# set to gray colors
+ospsuite.plots::setDefaultColorMapDistinct(ColorMaps[["grays"]])
+
+ggplot() +
+  geom_tile(aes(
+    x = rep(seq(1, 3), 3),
+    y = rep(seq(1, 3), each = 3),
+    fill = as.factor(seq(1, 9))
+  )) +
+  theme(
+    legend.position = "none",
+    axis.title = element_blank()
+  )
 
-<!-- ggplot() + -->
-<!--   geom_tile(aes( -->
-<!--     x = rep(seq(1, 3), 2), -->
-<!--     y = rep(seq(1, 2), each = 3), -->
-<!--     fill = as.factor(seq(1, 6)) -->
-<!--   )) + -->
-<!--   labs("up to 6 colors") + -->
-<!--   theme( -->
-<!--     legend.position = "none", -->
-<!--     axis.title = element_blank() -->
-<!--   ) -->
+# set to Color palettes inspired by plots in Lancet journals
+ospsuite.plots::setDefaultColorMapDistinct(ColorMaps[["ggsci::pal_lancet()"]])
 
-<!-- ggplot() + -->
-<!--   geom_tile(aes( -->
-<!--     x = c(rep(seq(1, 7), 7), 1, 2), -->
-<!--     y = c(rep(seq(1, 7), each = 7), 8, 8), -->
-<!--     fill = as.factor(seq(1, 51)) -->
-<!--   )) + -->
-<!--   labs("> 6 colors") + -->
-<!--   theme( -->
-<!--     legend.position = "none", -->
-<!--     axis.title = element_blank() -->
-<!--   ) -->
+ggplot() +
+  geom_tile(aes(
+    x = rep(seq(1, 3), 3),
+    y = rep(seq(1, 3), each = 3),
+    fill = as.factor(seq(1, 9))
+  )) +
+  theme(
+    legend.position = "none",
+    axis.title = element_blank()
+  )
 
 
 
-<!-- # customize colors: -->
-<!-- # set to gray colors -->
-<!-- ospsuite.plots::setDefaultColorMapDistinct(ColorMaps[["grays"]]) -->
+# reset to the previously saved
+ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
+```
 
-<!-- ggplot() + -->
-<!--   geom_tile(aes( -->
-<!--     x = rep(seq(1, 3), 3), -->
-<!--     y = rep(seq(1, 3), each = 3), -->
-<!--     fill = as.factor(seq(1, 9)) -->
-<!--   )) + -->
-<!--   theme( -->
-<!--     legend.position = "none", -->
-<!--     axis.title = element_blank() -->
-<!--   ) -->
 
-<!-- # set to Color palettes inspired by plots in Lancet journals -->
-<!-- ospsuite.plots::setDefaultColorMapDistinct(ColorMaps[["ggsci::pal_lancet()"]]) -->
+## 2.5 Default Options
 
-<!-- ggplot() + -->
-<!--   geom_tile(aes( -->
-<!--     x = rep(seq(1, 3), 3), -->
-<!--     y = rep(seq(1, 3), each = 3), -->
-<!--     fill = as.factor(seq(1, 9)) -->
-<!--   )) + -->
-<!--   theme( -->
-<!--     legend.position = "none", -->
-<!--     axis.title = element_blank() -->
-<!--   ) -->
+`getDefaultOptions()` returns a list of options which are used in this package.
+This Options are set by the function `setDefaults()` via the variable  `defaultOptions`.
 
+```{r}
+ospsuite.plots::setDefaults(defaultOptions = ospsuite.plots::getDefaultOptions())
+```
 
 
-<!-- # reset to the previously saved -->
-<!-- ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors) -->
-<!-- ``` -->
+## 2.5.1 Options to customize Watermark
 
+Options to switch watermark on and off, select the albel and customize format:
+see also section [4. Watermark]
 
-<!-- ## 2.5 Default Options -->
+```{r,eval = FALSE}
+ospsuite.plots.watermark_enabled <- TRUE
+ospsuite.plots.watermark_label <- "preliminary analysis"
+ospsuite.plots.watermark_format <- list(
+  x = 0.5,
+  y = 0.5,
+  color = "grey20",
+  angle = 30,
+  fontsize = 12,
+  alpha = 0.7
+)
+```
 
-<!-- `getDefaultOptions()` returns a list of options which are used in this package. -->
-<!-- This Options are set by the function `setDefaults()` via the variable  `defaultOptions`. -->
+The watermark is added with function 
+```{r}
+plotObject <- ggplot() +
+  layerWatermark()
+```
 
-<!-- ```{r} -->
-<!-- ospsuite.plots::setDefaults(defaultOptions = ospsuite.plots::getDefaultOptions()) -->
-<!-- ``` -->
+This is one automatically by each plot function of this package
 
 
-<!-- ## 2.5.1 Options to customize Watermark -->
 
-<!-- Options to switch watermark on and off, select the albel and customize format: -->
-<!-- see also section [4. Watermark] -->
+## 2.5.2 Options to set the defaults for geom layer attributes
 
-<!-- ```{r,eval = FALSE} -->
-<!-- ospsuite.plots.watermark_enabled <- TRUE -->
-<!-- ospsuite.plots.watermark_label <- "preliminary analysis" -->
-<!-- ospsuite.plots.watermark_format <- list( -->
-<!--   x = 0.5, -->
-<!--   y = 0.5, -->
-<!--   color = "grey20", -->
-<!--   angle = 30, -->
-<!--   fontsize = 12, -->
-<!--   alpha = 0.7 -->
-<!-- ) -->
-<!-- ``` -->
+```{r, eval = FALSE}
+ospsuite.plots.geomLineAttributes <- list()
+ospsuite.plots.geomRibbonAttributes <- list(color = NA)
+ospsuite.plots.geomPointAttributes <- list()
+ospsuite.plots.geomErrorbarAttributes <- list(width = 0)
+ospsuite.plots.geomLLOQAttributes <- list(linetype = "dotted")
+ospsuite.plots.geomRatioLineAttributes <- list(linetype = "dashed")
+ospsuite.plots.geomBoxplotAttributes <- list(
+  position = position_dodge(width = 1),
+  color = "black"
+)
+ospsuite.plots.geomBarAttributes <- list(
+  bins = 10,
+  position = ggplot2::position_nudge()
+)
+```
 
-<!-- The watermark is added with function  -->
-<!-- ```{r} -->
-<!-- plotObject <- ggplot() + -->
-<!--   layer_watermark() -->
-<!-- ``` -->
+## 2.5.3 Other Options
 
-<!-- This is one automatically by each plot function of this package -->
+```{r, eval = FALSE}
+# default alpha
+ospsuite.plots.Alpha <- 0.7
 
+# alpha of LLOQ values
+ospsuite.plots.LLOQAlphaVector <- c("TRUE" = 0.618, "FALSE" = 1)
 
+# percentiles for boxwhisker plots
+ospsuite.plots.Percentiles <- c(0.05, 0.25, 0.5, 0.75, 0.95)
+```
 
-<!-- ## 2.5.2 Options to set the defaults for geom layer attributes -->
 
-<!-- ```{r, eval = FALSE} -->
-<!-- ospsuite.plots.geomLineAttributes <- list() -->
-<!-- ospsuite.plots.geomRibbonAttributes <- list(color = NA) -->
-<!-- ospsuite.plots.geomPointAttributes <- list() -->
-<!-- ospsuite.plots.geomErrorbarAttributes <- list(width = 0) -->
-<!-- ospsuite.plots.geomLLOQAttributes <- list(linetype = "dotted") -->
-<!-- ospsuite.plots.geomRatioLineAttributes <- list(linetype = "dashed") -->
-<!-- ospsuite.plots.geomBoxplotAttributes <- list( -->
-<!--   position = position_dodge(width = 1), -->
-<!--   color = "black" -->
-<!-- ) -->
-<!-- ospsuite.plots.geomBarAttributes <- list( -->
-<!--   bins = 10, -->
-<!--   position = ggplot2::position_nudge() -->
-<!-- ) -->
-<!-- ``` -->
 
-<!-- ## 2.5.3 Other Options -->
+# 3. plotFunction
 
-<!-- ```{r, eval = FALSE} -->
-<!-- # default alpha -->
-<!-- ospsuite.plots.Alpha <- 0.7 -->
+If a plot function is called wit variable plotObject = NULL, internally the function  `initializePlot` withc variables metaData and mapping is called. This function constructs labels from the metadata, and adds a watermark layer.
 
-<!-- # alpha of LLOQ values -->
-<!-- ospsuite.plots.LLOQAlphaVector <- c("TRUE" = 0.618, "FALSE" = 1) -->
 
-<!-- # percentiles for boxwhisker plots -->
-<!-- ospsuite.plots.Percentiles <- c(0.05, 0.25, 0.5, 0.75, 0.95) -->
-<!-- ``` -->
+## 3.1 `plotTimeProfile()`
 
+see `\code{vignette("Time Profile Plots", package = "ospsuite.plots")}`
 
+## 3.2 `plotBoxwhisker()`
 
-<!-- # 3. plotFunction -->
+not yet implemented
 
-<!-- If a plot function is called wit variable plotObject = NULL, internally the function  `initializePlot` withc variables metaData and mapping is called. This function constructs labels from the metadata, and adds a watermark layer. -->
+## 3.3 `plotCumulativeTimeProfile()`
 
+not yet implemented
 
-<!-- ## 3.1 `plotTimeProfile()` -->
+## 3.4 `plotHistogram`
 
-<!-- see `\code{vignette("Time Profile Plots", package = "ospsuite.plots")}` -->
+not yet implemented
 
-<!-- ## 3.2 `plotBoxwhisker()` -->
+## 3.5 `plotPkratio()`
 
-<!-- not yet implemented -->
+not yet implemented
 
-<!-- ## 3.3 `plotCumulativeTimeProfile()` -->
+## 3.6 `plotDDiratio()`
 
-<!-- not yet implemented -->
+not yet implemented
 
-<!-- ## 3.4 `plotHistogram` -->
+## 3.7 `plotObsVsPred()`
 
-<!-- not yet implemented -->
+not yet implemented
 
-<!-- ## 3.5 `plotPkratio()` -->
+## 3.8 `plotResVs()`
 
-<!-- not yet implemented -->
+not yet implemented
 
-<!-- ## 3.6 `plotDDiratio()` -->
+## 3.9 `plotQQ()`
 
-<!-- not yet implemented -->
+not yet implemented
 
-<!-- ## 3.7 `plotObsVsPred()` -->
+## 3.10 `plotPiechart()`
 
-<!-- not yet implemented -->
+not yet implemented
 
-<!-- ## 3.8 `plotResVs()` -->
 
-<!-- not yet implemented -->
 
-<!-- ## 3.9 `plotQQ()` -->
+# 4. Shapes
 
-<!-- not yet implemented -->
+## 4.1 Default shapes ggplot:
 
-<!-- ## 3.10 `plotPiechart()` -->
 
-<!-- not yet implemented -->
+```{r, out.width = "90%", fig.asp = 0.4, fig.width = 8}
+shape_names <- c(
+  "circle", paste("circle", c("open", "filled", "cross", "plus", "small")), "bullet",
+  "square", paste("square", c("open", "filled", "cross", "plus", "triangle")),
+  "diamond", paste("diamond", c("open", "filled", "plus")),
+  "triangle", paste("triangle", c("open", "filled", "square")),
+  paste("triangle down", c("open", "filled")),
+  "plus", "cross", "asterisk"
+)
 
+shapes <- data.frame(
+  shape_names = shape_names,
+  x = c(1:7, 1:6, 1:3, 5, 1:3, 6, 2:3, 1:3),
+  y = -rep(1:6, c(7, 6, 4, 4, 2, 3))
+)
 
 
-<!-- # 4. Shapes -->
+ggplot(shapes, aes(x, y)) +
+  geom_point(aes(shape = shape_names), color = "blue", fill = "red", size = 5, stroke = 1) +
+  geom_text(aes(label = shape_names), nudge_y = -0.3, size = 3.5) +
+  scale_shape_identity() +
+  theme_void()
+```
 
-<!-- ## 4.1 Default shapes ggplot: -->
+## 4.2 Use unicode symbols  with showtext
 
+Attention 
+- use of showtext  has side effects   
+- a customized geom_Point function ha to be used
 
-<!-- ```{r, out.width = "90%", fig.asp = 0.4, fig.width = 8} -->
-<!-- shape_names <- c( -->
-<!--   "circle", paste("circle", c("open", "filled", "cross", "plus", "small")), "bullet", -->
-<!--   "square", paste("square", c("open", "filled", "cross", "plus", "triangle")), -->
-<!--   "diamond", paste("diamond", c("open", "filled", "plus")), -->
-<!--   "triangle", paste("triangle", c("open", "filled", "square")), -->
-<!--   paste("triangle down", c("open", "filled")), -->
-<!--   "plus", "cross", "asterisk" -->
-<!-- ) -->
+```{r,  fig.showtext=TRUE,out.width = "90%", fig.asp = 0.8, fig.width = 8}
+shapes <- data.frame(
+  shape_names = names(Shapes),
+  shape_symbols = unlist(unname(Shapes)),
+  x = rep(c(1:5), 8),
+  y = rep(-c(1:8), each = 5)
+)
 
-<!-- shapes <- data.frame( -->
-<!--   shape_names = shape_names, -->
-<!--   x = c(1:7, 1:6, 1:3, 5, 1:3, 6, 2:3, 1:3), -->
-<!--   y = -rep(1:6, c(7, 6, 4, 4, 2, 3)) -->
-<!-- ) -->
 
+# TODO functionName
 
-<!-- ggplot(shapes, aes(x, y)) + -->
-<!--   geom_point(aes(shape = shape_names), color = "blue", fill = "red", size = 5, stroke = 1) + -->
-<!--   geom_text(aes(label = shape_names), nudge_y = -0.3, size = 3.5) + -->
-<!--   scale_shape_identity() + -->
-<!--   theme_void() -->
-<!-- ``` -->
-
-<!-- ## 4.2 Use unicode symbols  with showtext -->
-
-<!-- Attention  -->
-<!-- - use of showtext  has side effects    -->
-<!-- - a customized geom_Point function ha to be used -->
-
-<!-- ```{r,  fig.showtext=TRUE,out.width = "90%", fig.asp = 0.8, fig.width = 8} -->
-<!-- shapes <- data.frame( -->
-<!--   shape_names = names(Shapes), -->
-<!--   shape_symbols = unlist(unname(Shapes)), -->
-<!--   x = rep(c(1:5), 8), -->
-<!--   y = rep(-c(1:8), each = 5) -->
-<!-- ) -->
-
-
-<!-- # TODO functionName -->
-
-<!-- showtext::showtext_auto() -->
-<!-- ggplot(shapes, aes(x, y)) + -->
-<!--   geomPointUnicode(aes(shape = shape_symbols), color = "blue", fill = "red", size = 5) + -->
-<!--   geom_text(aes(label = shape_names), nudge_y = -0.3, size = 3.5) + -->
-<!--   scale_shape_identity() + -->
-<!--   theme_void() -->
-<!-- showtext::showtext_auto(enable = "off") -->
-<!-- ``` -->
+showtext::showtext_auto()
+ggplot(shapes, aes(x, y)) +
+  geomPointUnicode(aes(shape = shape_symbols), color = "blue", fill = "red", size = 5) +
+  geom_text(aes(label = shape_names), nudge_y = -0.3, size = 3.5) +
+  scale_shape_identity() +
+  theme_void()
+showtext::showtext_auto(enable = "off")
+```
 
 
 

@@ -172,7 +172,7 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 #'
 #' @export
 #' @family setDefaultsOspsuite.plots
-setDefaultshapeDiscrete <- function(shapeValues = NULL) {
+setDefaultShapeDiscrete <- function(shapeValues = NULL) {
   if (is.null(shapeValues)) {
     shapeValues <-
       c("circle filled", "diamond filled", "triangle filled", "square filled")
@@ -189,7 +189,7 @@ setDefaultshapeDiscrete <- function(shapeValues = NULL) {
 #'
 #' @family setDefaultsOspsuite.plots
 #' @export
-resetDefaultshapeDiscrete <- function() {
+resetDefaultShapeDiscrete <- function() {
   assign("scale_shape_discrete", ggplot2::scale_shape_discrete, envir = globalenv())
 }
 
@@ -307,7 +307,7 @@ setDefaults <- function(ColorMapList = NULL,
 
   oldDefaults[["theme"]] <- setDefaultTheme()
   oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(ColorMapList = ColorMapList)
-  setDefaultshapeDiscrete(shapeValues = shapeValues)
+  setDefaultShapeDiscrete(shapeValues = shapeValues)
 
   # options
   options(defaultOptions)
@@ -374,5 +374,5 @@ resetDefaults <- function(oldDefaults) {
 
   resetDefaultColorMapDistinct(oldColorMaps = oldDefaults$colorMaps)
 
-  resetDefaultshapeDiscrete()
+  resetDefaultShapeDiscrete()
 }

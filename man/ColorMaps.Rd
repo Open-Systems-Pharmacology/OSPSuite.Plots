@@ -21,11 +21,11 @@ Other setDefaultsOspsuite.plots:
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
 \code{\link{resetDefaultColorMapDistinct}()},
-\code{\link{resetDefaultshapeDiscrete}()},
+\code{\link{resetDefaultShapeDiscrete}()},
 \code{\link{resetDefaults}()},
 \code{\link{setDefaultColorMapDistinct}()},
+\code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},
-\code{\link{setDefaultshapeDiscrete}()},
 \code{\link{setDefaults}()}
 }
 \concept{setDefaultsOspsuite.plots}

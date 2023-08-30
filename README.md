@@ -2,6 +2,9 @@
 
 <!-- badges: start -->
 
+  [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/Open-Systems-Pharmacology/OSPSuite.Plots?branch=develop&svg=true)](https://ci.appveyor.com/project/open-systems-pharmacology-ci/OSPSuite-Plots/branch/develop)
+  [![codecov](https://codecov.io/gh/Open-Systems-Pharmacology/OSPSuite.Plots/branch/develop/graph/badge.svg)](https://codecov.io/gh/Open-Systems-Pharmacology/OSPSuite.Plots)
+
 
 <!-- badges: end -->
 

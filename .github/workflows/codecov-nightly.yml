@@ -2,9 +2,9 @@
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 name: Run Nightly Code Coverage
 # schedule from https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
-on:
-  schedule:
-    - cron: '0 0 * * *'
+on: push
+#  schedule:
+#    - cron: '0 0 * * *'
 
 jobs:
   test-coverage:
@@ -23,6 +23,7 @@ jobs:
       - name: Install ospsuite ecosystem and cran packages
         run: |
           Rscript .github/workflows/install_dependencies.R
+          Rscript -e "install.packages('covr', repos = 'http://cran.us.r-project.org', type='win.binary')"
       - name: Test coverage
         run: |
           covr::codecov(

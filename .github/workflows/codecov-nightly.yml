@@ -21,9 +21,14 @@ jobs:
       - name: Setup Pandoc for word conversion
         uses: r-lib/actions/setup-pandoc@v2
       - name: Install ospsuite ecosystem and cran packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::covr
+          needs: coverage
+      - name: Install ospsuite ecosystem and cran packages
         run: |
           Rscript .github/workflows/install_dependencies.R
-          Rscript -e "install.packages('covr', repos = 'http://cran.us.r-project.org', type='win.binary')"
+#          Rscript -e "install.packages('covr', repos = 'http://cran.us.r-project.org', type='win.binary')"
       - name: Test coverage
         run: |
           covr::codecov(

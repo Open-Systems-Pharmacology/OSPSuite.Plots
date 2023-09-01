@@ -37,7 +37,7 @@ jobs:
         run: |
           cat ${{ runner.temp }}/package/ospsuite.plots/ospsuite.plots-tests/testthat.Rout*
         shell: cmd
-      - name: Upload test results
+      - name: Upload test results in case of failure
         if: failure()
         uses: actions/upload-artifact@v3
         with:

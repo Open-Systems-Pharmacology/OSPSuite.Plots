@@ -6,7 +6,7 @@
 #' @return  invisibly return the previous theme so you can easily save it, then later restore it.
 #'
 #' @export
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 setDefaultTheme <- function() {
   themeNew <-
     ggplot2::theme(
@@ -78,7 +78,7 @@ setDefaultTheme <- function() {
 #' The `ospDefault` color map is based on colors in `default_igv` qualitative
 #' color palette from `{ggsci}` package.
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @export
 ColorMaps <- list(
   default = c("#0078D7", "#D83B01", "#107C10", "#A80000", "#002050", "#B4009E"),
@@ -104,11 +104,11 @@ ColorMaps <- list(
 
 #' @param ColorMapList list of ColorMaps to be set
 #'
-#' @title set the default colormap for discret colors
+#' @title set the default colormap for discrete colors
 #'
-#' @return list wih COlormpas previously set
+#' @return list with COlormaps previously set
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @export
 #'
 setDefaultColorMapDistinct <- function(ColorMapList = NULL) {
@@ -145,12 +145,12 @@ setDefaultColorMapDistinct <- function(ColorMapList = NULL) {
 
 #' @param oldColorMaps
 #'
-#' @title reset the default colormap for discret colors
+#' @title reset the default colormap for discrete colors
 #'
-#' @param oldColorMaps list of colormaps prevoisuly set
+#' @param oldColorMaps list of colormaps previously set
 #'
 #' @export
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #'
 resetDefaultColorMapDistinct <- function(oldColorMaps) {
   checkmate::assertList(oldColorMaps, names = "named")
@@ -171,8 +171,8 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 #' @param shapeValues vector of shapevalues
 #'
 #' @export
-#' @family setDefaultsOspsuite.plots
-setDefaultshapeDiscrete <- function(shapeValues = NULL) {
+#' @family setDefault functions
+setDefaultShapeDiscrete <- function(shapeValues = NULL) {
   if (is.null(shapeValues)) {
     shapeValues <-
       c("circle filled", "diamond filled", "triangle filled", "square filled")
@@ -187,9 +187,9 @@ setDefaultshapeDiscrete <- function(shapeValues = NULL) {
 
 #' resets the scale for discrete shapes to ggplot default
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @export
-resetDefaultshapeDiscrete <- function() {
+resetDefaultShapeDiscrete <- function() {
   assign("scale_shape_discrete", ggplot2::scale_shape_discrete, envir = globalenv())
 }
 
@@ -198,7 +198,7 @@ resetDefaultshapeDiscrete <- function() {
 
 #' get list of default options
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @return names list with default options
 #' @export
 #'
@@ -226,8 +226,11 @@ getDefaultOptions <- function() {
       position = position_dodge(width = 1),
       color = "black"
     ),
-    ospsuite.plots.geomBarAttributes = list(
+    ospsuite.plots.geomHistAttributes = list(
       bins = 10,
+      position = ggplot2::position_nudge()
+    ),
+    ospsuite.plots.geomBarAttributes = list(
       position = ggplot2::position_nudge()
     ),
     # default alpha
@@ -244,11 +247,11 @@ getDefaultOptions <- function() {
 # Geoms ----------
 
 #' get the defaults for the geom attributes used as defaults in plot functions
-#' see \code{vignette("ospsuite.plots", package = "ospsuite.plots")} how to chnage defaults
+#' see \code{vignette("ospsuite.plots", package = "ospsuite.plots")} how to change defaults
 #'
 #' @param geom  type of geom to return attributes
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @return list with default attributes
 #' @export
 #'
@@ -277,7 +280,7 @@ getDefaultGeomAttributes <- function(geom) {
 #'
 #' should be started at the beginning at each workflow
 #'
-#' for detailde information see
+#' for detailed information see
 #' \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 #'
 #'
@@ -285,9 +288,9 @@ getDefaultGeomAttributes <- function(geom) {
 #' @param defaultOptions list of options
 #' @param shapeValues list of Shapes
 #'
-#' @return list of old settings which can be used to reset defaults with restggOPSDefaults
+#' @return list of old settings which can be used to reset defaults with `resetDefaults()`
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @export
 setDefaults <- function(ColorMapList = NULL,
                         shapeValues = NULL,
@@ -297,6 +300,7 @@ setDefaults <- function(ColorMapList = NULL,
   # get old settings of defaults for geoms
   nsenv <- asNamespace("ggplot2")
 
+  oldDefaults[["geomHist"]] <- get("GeomBar", envir = nsenv)$default_aes
   oldDefaults[["geomBar"]] <- get("GeomBar", envir = nsenv)$default_aes
   oldDefaults[["geoPoint"]] <- get("GeomPoint", envir = nsenv)$default_aes
   oldDefaults[["geomBoxplot"]] <- get("GeomBoxplot", envir = nsenv)$default_aes
@@ -307,7 +311,7 @@ setDefaults <- function(ColorMapList = NULL,
 
   oldDefaults[["theme"]] <- setDefaultTheme()
   oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(ColorMapList = ColorMapList)
-  setDefaultshapeDiscrete(shapeValues = shapeValues)
+  setDefaultShapeDiscrete(shapeValues = shapeValues)
 
   # options
   options(defaultOptions)
@@ -349,7 +353,7 @@ setDefaults <- function(ColorMapList = NULL,
 #'
 #' @param oldDefaults `list`with previously stored settings
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @export
 #'
 resetDefaults <- function(oldDefaults) {
@@ -374,5 +378,5 @@ resetDefaults <- function(oldDefaults) {
 
   resetDefaultColorMapDistinct(oldColorMaps = oldDefaults$colorMaps)
 
-  resetDefaultshapeDiscrete()
+  resetDefaultShapeDiscrete()
 }

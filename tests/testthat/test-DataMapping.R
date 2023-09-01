@@ -56,14 +56,14 @@ test_that("adjustForLLOQMatch works", {
     dplyr::filter(SetID == "DataSet3") %>%
     dplyr::filter(Type == "observed") %>%
     dplyr::filter(dimension == "concentration") %>%
-    dplyr::select(c("time", "values", "caption", "lloq", "error_relativ"))
+    dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
 
 
   obsAes <- aes(
     x = time,
     y = values,
     group = caption,
-    error = error_relativ,
+    error_relative = error_relative,
     lloq = lloq
   )
 

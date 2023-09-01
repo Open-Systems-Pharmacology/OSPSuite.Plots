@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{getDataForAesthetic}
 \alias{getDataForAesthetic}
-\title{getDataForAesthetic}
+\title{fetch data column for given aesthetic}
 \usage{
 getDataForAesthetic(aesthetic, data, mapping, stopIfNull = FALSE)
 }
@@ -20,6 +20,6 @@ IF FALSE for non existing columns NULL will be returned}
 vector with values corresponding to the mapped data column
 }
 \description{
-getDataForAesthetic
+fetch data column for given aesthetic
 }
 \keyword{internal}

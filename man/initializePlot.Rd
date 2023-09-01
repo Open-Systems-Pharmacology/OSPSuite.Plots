@@ -2,14 +2,18 @@
 % Please edit documentation in R/add_Layer.R
 \name{initializePlot}
 \alias{initializePlot}
-\title{initializePlot}
+\title{initialize Plot}
 \usage{
-initializePlot(metaData = NULL, mapping = NULL)
+initializePlot(metaData = NULL, mapping = NULL, data = NULL, setMapping = TRUE)
 }
 \arguments{
 \item{metaData}{A named list of information about the \code{data} such as the \code{dimension} and \code{unit} of its variables.}
 
 \item{mapping}{Default list of aesthetic mappings to use for plot}
+
+\item{data}{data passed to ggplot object}
+
+\item{setMapping}{if TRUE (default) mapping is passed to ggplot, otherwise mapping will be used only to create labels}
 }
 \value{
 A \code{ggplot} object

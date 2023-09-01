@@ -3,7 +3,7 @@
 \name{metaData2DataFrame}
 \alias{metaData2DataFrame}
 \title{converts metaData List to a data frame
-rownames specify properties}
+row names specify properties}
 \usage{
 metaData2DataFrame(metaData)
 }
@@ -15,5 +15,5 @@ metaData as \code{data.frame}
 }
 \description{
 converts metaData List to a data frame
-rownames specify properties
+row names specify properties
 }

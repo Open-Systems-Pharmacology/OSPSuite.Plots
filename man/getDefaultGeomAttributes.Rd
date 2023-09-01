@@ -3,7 +3,7 @@
 \name{getDefaultGeomAttributes}
 \alias{getDefaultGeomAttributes}
 \title{get the defaults for the geom attributes used as defaults in plot functions
-see \code{vignette("ospsuite.plots", package = "ospsuite.plots")} how to chnage defaults}
+see \code{vignette("ospsuite.plots", package = "ospsuite.plots")} how to change defaults}
 \usage{
 getDefaultGeomAttributes(geom)
 }
@@ -15,18 +15,18 @@ list with default attributes
 }
 \description{
 get the defaults for the geom attributes used as defaults in plot functions
-see \code{vignette("ospsuite.plots", package = "ospsuite.plots")} how to chnage defaults
+see \code{vignette("ospsuite.plots", package = "ospsuite.plots")} how to change defaults
 }
 \seealso{
-Other setDefaultsOspsuite.plots: 
+Other setDefault functions: 
 \code{\link{ColorMaps}},
 \code{\link{getDefaultOptions}()},
 \code{\link{resetDefaultColorMapDistinct}()},
-\code{\link{resetDefaultshapeDiscrete}()},
+\code{\link{resetDefaultShapeDiscrete}()},
 \code{\link{resetDefaults}()},
 \code{\link{setDefaultColorMapDistinct}()},
+\code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},
-\code{\link{setDefaultshapeDiscrete}()},
 \code{\link{setDefaults}()}
 }
-\concept{setDefaultsOspsuite.plots}
+\concept{setDefault functions}

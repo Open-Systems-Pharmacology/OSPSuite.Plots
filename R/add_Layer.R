@@ -1,23 +1,36 @@
-#' initializePlot
+#' initialize Plot
 #'
 #' Initialize a `ggplot` object
 #' with watermark
 #' and set its labels by metaData
 #'
+#' @param data data passed to ggplot object
 #' @param mapping  Default list of aesthetic mappings to use for plot
 #' @param metaData A named list of information about the `data` such as the `dimension` and `unit` of its variables.
+#' @param setMapping if TRUE (default) mapping is passed to ggplot, otherwise mapping will be used only to create labels
 #'
 #' @return A `ggplot` object
 #' @export
 #'
 initializePlot <- function(metaData = NULL,
-                           mapping = NULL) {
-  # Vlaidation
+                           mapping = NULL,
+                           data = NULL,
+                           setMapping = TRUE) {
+  # Validation
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
   checkmate::assertList(mapping, types = "quosure", null.ok = TRUE)
-  # initialize plot object
-  plotObject <- ggplot(environment = globalenv()) +
-    layer_watermark()
+  checkmate::assertFlag(setMapping)
+
+  mappingToSet <- aes()
+  if (setMapping && !is.null(mapping)) {
+    mappingToSet <- mapping
+  }
+  plotObject <- ggplot(
+    data = data,
+    mapping = mappingToSet,
+    environment = globalenv()
+  ) +
+    layerWatermark()
 
 
   # add labels
@@ -92,14 +105,14 @@ addLayer <- function(mappedData,
 #'   option 'ospsuite.plots.watermark_enabled' is `TRUE`)), otherwise an empty layer
 #' @export
 #'
-layer_watermark <- function(label = NULL,
-                            x = NULL,
-                            y = NULL,
-                            angle = NULL,
-                            color = NULL,
-                            alpha = NULL,
-                            fontsize = NULL,
-                            show = NULL) {
+layerWatermark <- function(label = NULL,
+                           x = NULL,
+                           y = NULL,
+                           angle = NULL,
+                           color = NULL,
+                           alpha = NULL,
+                           fontsize = NULL,
+                           show = NULL) {
   if (is.null(show)) {
     show <- getOption("ospsuite.plots.watermark_enabled", getDefaultOptions()$ospsuite.plots.watermark_enabled)
   }
@@ -110,7 +123,7 @@ layer_watermark <- function(label = NULL,
     }
 
     formatOptions_default <- getDefaultOptions()$ospsuite.plots.watermark_format
-    formatOptions_set <- getOption("ospsuite.plots.watermark_format", formatOptions_default)
+    formatOptions_set <- getOption("ospsuite.plots.watermark_format", formatOptions_default) # nolint
 
     for (f in names(formatOptions_default)) {
       if (is.null(get(f))) {

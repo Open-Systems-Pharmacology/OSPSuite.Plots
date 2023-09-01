@@ -18,25 +18,25 @@ setDefaults(
 \item{defaultOptions}{list of options}
 }
 \value{
-list of old settings which can be used to reset defaults with restggOPSDefaults
+list of old settings which can be used to reset defaults with \code{resetDefaults()}
 }
 \description{
 should be started at the beginning at each workflow
 }
 \details{
-for detailde information see
+for detailed information see
 \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 }
 \seealso{
-Other setDefaultsOspsuite.plots: 
+Other setDefault functions: 
 \code{\link{ColorMaps}},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
 \code{\link{resetDefaultColorMapDistinct}()},
-\code{\link{resetDefaultshapeDiscrete}()},
+\code{\link{resetDefaultShapeDiscrete}()},
 \code{\link{resetDefaults}()},
 \code{\link{setDefaultColorMapDistinct}()},
-\code{\link{setDefaultTheme}()},
-\code{\link{setDefaultshapeDiscrete}()}
+\code{\link{setDefaultShapeDiscrete}()},
+\code{\link{setDefaultTheme}()}
 }
-\concept{setDefaultsOspsuite.plots}
+\concept{setDefault functions}

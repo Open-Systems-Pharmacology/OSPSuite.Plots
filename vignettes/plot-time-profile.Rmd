@@ -12,6 +12,7 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+   fig.show = "hold",
   comment = "#>"
 )
 ```
@@ -30,835 +31,835 @@ theme_update(legend.title = element_blank())
 ```
 
 
-<!-- # 1. Introduction -->
+# 1. Introduction
 
-<!-- The following vignette aims at documenting and illustrating workflows for producing Time Profile plots using the `ospsuite.plots`-Library. -->
+The following vignette aims at documenting and illustrating workflows for producing Time Profile plots using the `ospsuite.plots`-Library.
 
-<!-- Time profile plots are very often used to compare observed and simulated data along time. -->
-<!-- In such plots, observed data are usually plotted as scatter points with errorbars showing population range or confidence intervals; while simulated data are usually plotted using lines with shaded ribbons showing population range or confidence intervals. -->
+Time profile plots are very often used to compare observed and simulated data along time.
+In such plots, observed data are usually plotted as scatter points with errorbars showing population range or confidence intervals; while simulated data are usually plotted using lines with shaded ribbons showing population range or confidence intervals.
 
-<!-- # 1.1 Inputs for plotTimeProfile -->
+# 1.1 Inputs for function `plotTimeProfile`
 
 
-<!-- inputs for data mapping and descriptions -->
-<!-- * `data`  data.frame with simulated data -->
-<!-- * `observedData` data.frame with observed data -->
-<!-- * `mapping`  Default list of aesthetic mappings to use for plot -->
-<!-- * `observedMapping` Default list of aesthetic mappings to use for observed data -->
-<!-- * `metaData` A named list of information about `data` such as the `dimension` and `unit` of its variables. -->
+inputs for data mapping and descriptions
+* `data`  data.frame with simulated data
+* `observedData` data.frame with observed data
+* `mapping`  Default list of aesthetic mappings to use for plot
+* `observedMapping` Default list of aesthetic mappings to use for observed data
+* `metaData` A named list of information about `data` such as the `dimension` and `unit` of its variables.
 
-<!-- In this vignette simulated and observed data have corresponding column names. We can use a common mapping for both datasets. If this is not the case the variabale `observedMapping` has to be used for the observed data. -->
+In this vignette simulated and observed data have corresponding column names. We can use a common mapping for both data sets. If this is not the case the variable `observedMapping` has to be used for the observed data.
 
-<!-- there are some mappings additional mappings to the ones provided by ggplot:  -->
-<!--   * lloq see example [2.4 Observed data with LLOQ] -->
-<!--   * mdv see example [2.2.5. Missing Dependent Variable (mdv)] -->
-<!--   * error, error_relativ see example [2.2.2. Single simulation with confidence interval] -->
-<!--   * y2axis see example [Data with Secondary axis] -->
+there are some mappings additional mappings to the ones provided by ggplot: 
+  * `lloq` see example [2.4 Observed data with LLOQ]
+  * `mdv` see example [2.2.5. Missing Dependent Variable (mdv)]
+  * `error`, `error_relative` see example [2.2.2. Single simulation with confidence interval]
+  * `y2axis` see example [Data with Secondary axis]
 
 
-<!-- * `plotObject` An optional `ggplot` object on which to add the plot layers -->
+* `plotObject` An optional `ggplot` object on which to add the plot layers
 
-<!-- inputs for plot configuration: -->
+inputs for plot configuration:
 
-<!-- * `geomLineAttributes` A `list` with arguments which are passed on to the ggplot2::geom_line -->
-<!-- * `geomRibbonAttributes` A `list` with arguments which are passed on to the ggplot2::geom_ribbon -->
-<!-- * `geomPointAttributes` A `list` with arguments which are passed on to the ggplot2::geom_point -->
-<!-- * `geomErrorbarAttributes` A `list` with arguments which are passed on to the ggplot2::geom_errorbar -->
-<!-- * `geomLLOQAttributes` A `list` with arguments which are passed on to the ggplot2::geom_hline -->
+* `geomLineAttributes` A `list` with arguments which are passed on to the ggplot2::geom_line
+* `geomRibbonAttributes` A `list` with arguments which are passed on to the ggplot2::geom_ribbon
+* `geomPointAttributes` A `list` with arguments which are passed on to the ggplot2::geom_point
+* `geomErrorbarAttributes` A `list` with arguments which are passed on to the ggplot2::geom_errorbar
+* `geomLLOQAttributes` A `list` with arguments which are passed on to the ggplot2::geom_hline
 
-<!-- see example [3.1 Example for changing geom attributes] -->
+see example [3.1 Example for changing geom attributes]
 
+     
+* `groupAesthetics` vector of aesthetics, which are used for columns mapped with group,
+     use of group aesthetics triggers second axis after simulation layers
+     
+see example [2.3. Plot simulated and observed data]
 
-<!-- * groupAesthetics vector of aesthetics, which are used for columns mapped with group, -->
-<!--      use of group aesthetics triggers second axis after simulation layers -->
+inputs to scale x and y axis:
 
-<!-- see example [2.3. Plot simulated and observed data] -->
+* `xscale` either 'linear' then ggplot2::scale_x_continuous() or 'log' then ggplot2::scale_x_log10() is used
+* `xscale.args` list of arguments passed to ggplot2::scale_x_continuous() or ggplot2::scale_x_log10()
+* `yscale` either 'linear' then ggplot2::scale_y_continuous() or 'log' then ggplot2::scale_y_log10() is used
+* `yscale.args` list of arguments passed to ggplot2::scale_y_continuous() or ggplot2::scale_y_log10()
+* `y2scale` either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale
+* `y2scale.args` list of arguments passed to ggplot2::sec_axis(), trans, break are set by code
 
-<!-- inputs to scale x and y axis: -->
+see example [3.3 Example for adjusting x and y scale]
 
-<!-- * xscale either 'linear' then ggplot2::scale_x_continuous() or 'log' then ggplot2::scale_x_log10() is used -->
-<!-- * xscale.args list of arguments passed to ggplot2::scale_x_continuous() or ggplot2::scale_x_log10() -->
-<!-- * yscale either 'linear' then ggplot2::scale_y_continuous() or 'log' then ggplot2::scale_y_log10() is used -->
-<!-- * yscale.args list of arguments passed to ggplot2::scale_y_continuous() or ggplot2::scale_y_log10() -->
-<!-- * y2scale either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale -->
-<!-- * y2scale.args list of arguments passed to ggplot2::sec_axis(), trans, break are set by code -->
 
-<!-- see example [3.3 Example for adjusting x and y scale] -->
+# 1.2 Example data
 
+This vignette uses random generated example data provided by the package, which is loaded at the beginning of each section
 
-<!-- # 1.2 Example data -->
 
-<!-- This vignette uses random generated example data provided by the package, which is loaded at the beginning of each section -->
+The following sections show *how to plot a Time Profile* for specific scenarios
 
+## 2.1. Plot simulated data only
 
-<!-- The following sections show *how to plot a Time Profile* for specific scenarios -->
 
-<!-- ## 2.1. Plot simulated data only -->
+```{r simulation-data}
+simData1 <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID == "DataSet1") %>%
+  dplyr::filter(Type == "simulated") %>%
+  dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
+simData2 <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID == "DataSet2") %>%
+  dplyr::filter(Type == "simulated") %>%
+  dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
-<!-- ```{r simulation-data} -->
-<!-- simData1 <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID == "DataSet1") %>% -->
-<!--   dplyr::filter(Type == "simulated") %>% -->
-<!--   dplyr::select(c("time", "values", "maxValues", "minValues", "caption")) -->
+knitr::kable(head(simData1), digits = 3, caption = "first rows of example data simData1")
 
-<!-- simData2 <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID == "DataSet2") %>% -->
-<!--   dplyr::filter(Type == "simulated") %>% -->
-<!--   dplyr::select(c("time", "values", "maxValues", "minValues", "caption")) -->
+metaData <- attr(exampleDataTimeProfile, "metaData")
+knitr::kable(metaData2DataFrame(metaData), caption = "list of meta data:")
+```
 
-<!-- knitr::kable(head(simData1), digits = 3, caption = "first rows of example data simData1") -->
+### 2.1.1 Single simulation
 
-<!-- metaData <- attr(exampleDataTimeProfile, "metaData") -->
-<!-- knitr::kable(metaData2DataFrame(metaData), caption = "list of meta data:") -->
-<!-- ``` -->
 
-<!-- ### 2.1.1 Single simulation -->
+```{r examples-single-mappingsimulation-plot}
+# Define Data Mapping
+mapping <- aes(
+  x = time,
+  y = values,
+  group = caption
+)
 
+plotTimeProfile(
+  data = simData1,
+  metaData = metaData,
+  mapping = mapping,
+)
+```
 
-<!-- ```{r examples-single-mappingsimulation-plot} -->
-<!-- # Define Data Mapping -->
-<!-- mapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   group = caption -->
-<!-- ) -->
+### 2.1.2. Single simulation with confidence interval
 
-<!-- plotTimeProfile( -->
-<!--   data = simData1, -->
-<!--   metaData = metaData, -->
-<!--   mapping = mapping, -->
-<!-- ) -->
-<!-- ``` -->
+```{r examples-single-simulation-with-confidence-interval}
+# Define Data Mapping
+simDataMapping <- aes(
+  x = time,
+  y = values,
+  ymin = minValues,
+  ymax = maxValues,
+  group = caption
+)
 
-<!-- ### 2.1.2. Single simulation with confidence interval -->
+plotTimeProfile(
+  data = simData1,
+  metaData = metaData,
+  mapping = simDataMapping
+)
+```
 
-<!-- ```{r examples-single-simulation-with-confidence-interval} -->
-<!-- # Define Data Mapping -->
-<!-- simDataMapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   ymin = minValues, -->
-<!--   ymax = maxValues, -->
-<!--   group = caption -->
-<!-- ) -->
 
-<!-- plotTimeProfile( -->
-<!--   data = simData1, -->
-<!--   metaData = metaData, -->
-<!--   mapping = simDataMapping -->
-<!-- ) -->
-<!-- ``` -->
 
 
 
+### 2.1.3. Multiple simulations
 
+Using the aesthetic group in timeprofiles will automatically discriminate grouped profiles by 
+color, linetype, shape and fill.
 
-<!-- ### 2.1.3. Multiple simulations -->
 
-<!-- Using the aesthetic group in timeprofiles will automatically discriminate grouped profiles by  -->
-<!-- color, linetype, shape and fill. -->
+```{r examples-multiple-simulations}
+# Define Data Mapping
 
+simDataMapping <- aes(
+  x = time,
+  y = values,
+  group = caption
+)
 
-<!-- ```{r examples-multiple-simulations} -->
-<!-- # Define Data Mapping -->
+plotTimeProfile(
+  data = rbind.data.frame(
+    simData1,
+    simData2
+  ),
+  metaData = metaData,
+  mapping = simDataMapping
+)
+```
+### 2.1.4. Multiple simulations with confidence interval
 
-<!-- simDataMapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   group = caption -->
-<!-- ) -->
+```{r examples-multiple-simulations-with-confidence-interval}
+# Define Data Mapping
+# ymin and ymax define the CI
+simDataMapping <- aes(
+  x = time,
+  y = values,
+  ymin = minValues,
+  ymax = maxValues,
+  group = caption
+)
 
-<!-- plotTimeProfile( -->
-<!--   data = rbind.data.frame( -->
-<!--     simData1, -->
-<!--     simData2 -->
-<!--   ), -->
-<!--   metaData = metaData, -->
-<!--   mapping = simDataMapping -->
-<!-- ) -->
-<!-- ``` -->
-<!-- ### 2.1.4. Multiple simulations with confidence interval -->
+plotObject <- plotTimeProfile(
+  data = rbind.data.frame(
+    simData2,
+    simData1
+  ),
+  metaData = metaData,
+  mapping = simDataMapping
+)
 
-<!-- ```{r examples-multiple-simulations-with-confidence-interval} -->
-<!-- # Define Data Mapping -->
-<!-- # ymin and ymax define the CI -->
-<!-- simDataMapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   ymin = minValues, -->
-<!--   ymax = maxValues, -->
-<!--   group = caption -->
-<!-- ) -->
+plot(plotObject)
+```
 
-<!-- plotObject <- plotTimeProfile( -->
-<!--   data = rbind.data.frame( -->
-<!--     simData2, -->
-<!--     simData1 -->
-<!--   ), -->
-<!--   metaData = metaData, -->
-<!--   mapping = simDataMapping -->
-<!-- ) -->
 
-<!-- plot(plotObject) -->
-<!-- ``` -->
 
+## 2.2. Plot observed data only
 
 
-<!-- ## 2.2. Plot observed data only -->
 
+```{r observed-data}
+obsData1 <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID == "DataSet1") %>%
+  dplyr::filter(Type == "observed") %>%
+  dplyr::select(c("time", "values", "sd", "caption"))
 
+obsData2 <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID == "DataSet2") %>%
+  dplyr::filter(Type == "observed") %>%
+  dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
-<!-- ```{r observed-data} -->
-<!-- obsData1 <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID == "DataSet1") %>% -->
-<!--   dplyr::filter(Type == "observed") %>% -->
-<!--   dplyr::select(c("time", "values", "sd", "caption")) -->
+obsData <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
+  dplyr::filter(Type == "observed") %>%
+  dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
-<!-- obsData2 <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID == "DataSet2") %>% -->
-<!--   dplyr::filter(Type == "observed") %>% -->
-<!--   dplyr::select(c("time", "values", "maxValues", "minValues", "caption")) -->
 
-<!-- obsData <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>% -->
-<!--   dplyr::filter(Type == "observed") %>% -->
-<!--   dplyr::select(c("time", "values", "maxValues", "minValues", "caption")) -->
+knitr::kable(head(obsData1), digits = 3, caption = "first rows of example data obsData1")
+knitr::kable(head(obsData2), digits = 3, caption = "first rows of example data obsData2")
 
+metaData <- attr(exampleDataTimeProfile, "metaData")
+knitr::kable(metaData2DataFrame(metaData), caption = "list of meta data:")
+```
 
-<!-- knitr::kable(head(obsData1), digits = 3, caption = "first rows of example data obsData1") -->
-<!-- knitr::kable(head(obsData2), digits = 3, caption = "first rows of example data obsData2") -->
 
-<!-- metaData <- attr(exampleDataTimeProfile, "metaData") -->
-<!-- knitr::kable(metaData2DataFrame(metaData), caption = "list of meta data:") -->
-<!-- ``` -->
+### 2.2.1. Single observed data set
 
+```{r examples-single-observation}
+# Define Data Mapping
+obsAes <- aes(
+  x = time,
+  y = values,
+  group = caption
+)
 
-<!-- ### 2.2.1. Single observed data set -->
+plotTimeProfile(
+  observedData = obsData1,
+  metaData = metaData,
+  observedMapping = obsAes
+)
+```
 
-<!-- ```{r examples-single-observation} -->
-<!-- # Define Data Mapping -->
-<!-- obsAes <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   group = caption -->
-<!-- ) -->
+
+
+### 2.2.2. Single simulation with confidence interval
 
-<!-- plotTimeProfile( -->
-<!--   observedData = obsData1, -->
-<!--   metaData = metaData, -->
-<!--   observedMapping = obsAes -->
-<!-- ) -->
-<!-- ``` -->
+For this  data set, the uncertainty/error was defined as standard deviation using the variable `sd`.
+If mapped to 'error' this variable will be used to create corresponding `ymin` and `ymax` values for the error bars $ymin = values - sd$, $ymax = values + sd$. 
+Also available is error_relative where a multiplicative error is assumed: $ymin = values*error_relative$, $ymax = values*error\_relative$
 
-
-
-<!-- ### 2.2.2. Single simulation with confidence interval -->
+**Tips**
 
-<!-- For this  data set, the uncertainty/error was defined as standard deviation using the variable `"sd"`. -->
-<!-- If mapped to 'error' this variable will be used to create corresponding `ymin` and `ymax` values for the error bars $ymin = values - sd$, $ymax = values + sd$.  -->
-<!-- Also available is error_relative where a multiplikative error is assumed: $ymin = values*error_relative$, $ymax = values*error\_relative$ -->
+- For data that include errorbars only partially, `NA` values cannot be used and should be replaced by `0` for error variable or `y` for `ymin` and `ymax` variables. 
+- For logarithmic plots, negative `ymin` values of errorbars should be replaced by `y` beforehand in order to still see the `ymax` range of the errorbars.
 
-<!-- **Tips** -->
+if the mapping `error` is used and the variable `yscale` is set to 'log', all 'ymin' values < 0 are set to 'y'
 
-<!-- - For data that include errorbars only partially, `NA` values cannot be used and should be replaced by `0` for error variable or `y` for `ymin` and `ymax` variables.  -->
-<!-- - For logarithmic plots, negative `ymin` values of errorbars should be replaced by `y` beforehand in order to still see the `ymax` range of the errorbars. -->
 
-<!-- if the mapping `error` is used and the variable `yscale` is set to 'log', all 'ymin' values < 0 are set to 'y' -->
 
+```{r examples-single-observation-with-confidence-interval-as-error}
+# Define Data Mapping
+obsDataMapping1 <- aes(
+  x = time,
+  y = values,
+  error = sd,
+  group = caption
+)
 
+plotTimeProfile(
+  observedData = obsData1,
+  metaData = metaData,
+  mapping = obsDataMapping1
+)
+```
 
-<!-- ```{r examples-single-observation-with-confidence-interval-as-error} -->
-<!-- # Define Data Mapping -->
-<!-- obsDataMapping1 <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   error = sd, -->
-<!--   group = caption -->
-<!-- ) -->
 
-<!-- plotTimeProfile( -->
-<!--   observedData = obsData1, -->
-<!--   metaData = metaData, -->
-<!--   mapping = obsDataMapping1 -->
-<!-- ) -->
-<!-- ``` -->
+For a second dataset, the uncertainty/error was defined as `"minValues"` and `"maxValues"`, they are input directly as `ymin` and `ymax` and will be taken as is.
 
+```{r examples-single-observation-with-confidence-interval-as-ymin-ymax}
+# Define Data Mapping
+obsDataMapping2 <- aes(
+  x = time,
+  y = values,
+  ymin = minValues,
+  ymax = maxValues,
+  group = caption
+)
 
-<!-- For a second dataset, the uncertainty/error was defined as `"minValues"` and `"maxValues"`, they are input directly as `ymin` and `ymax` and will be taken as is. -->
+plotTimeProfile(
+  observedData = obsData2,
+  metaData = metaData,
+  mapping = obsDataMapping2
+)
+```
 
-<!-- ```{r examples-single-observation-with-confidence-interval-as-ymin-ymax} -->
-<!-- # Define Data Mapping -->
-<!-- obsDataMapping2 <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   ymin = minValues, -->
-<!--   ymax = maxValues, -->
-<!--   group = caption -->
-<!-- ) -->
+### 2.2.3. Multiple observed data sets
 
-<!-- plotTimeProfile( -->
-<!--   observedData = obsData2, -->
-<!--   metaData = metaData, -->
-<!--   mapping = obsDataMapping2 -->
-<!-- ) -->
-<!-- ``` -->
+```{r examples-multiple-observations}
+# Define Data Mapping
+obsDataMapping <- aes(
+  x = time,
+  y = values,
+  group = caption
+)
 
-<!-- ### 2.2.3. Multiple observed data sets -->
+plotTimeProfile(
+  observedData = obsData,
+  metaData = metaData,
+  mapping = obsDataMapping
+)
+```
 
-<!-- ```{r examples-multiple-observations} -->
-<!-- # Define Data Mapping -->
-<!-- obsDataMapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   group = caption -->
-<!-- ) -->
+### 2.2.4. Multiple observed data sets with confidence interval
 
-<!-- plotTimeProfile( -->
-<!--   observedData = obsData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = obsDataMapping -->
-<!-- ) -->
-<!-- ``` -->
+In this example, the observed data were not using the same way of displaying errors.
+Before plotting, the data needs to be merged in a consistent way to let the mapping know which variable(s) to use.
 
-<!-- ### 2.2.4. Multiple observed data sets with confidence interval -->
+Below, `ymin` and `ymax` were consequently calculated for `obsData1` before merging.
 
-<!-- In this example, the observed data were not using the same way of displaying errors. -->
-<!-- Before plotting, the data needs to be merged in a consistent way to let the mapping know which variable(s) to use. -->
+```{r examples-multiple-observations-with-confidence-interval}
+# Use common variable before use rbind.data.frame
+obsData1$minValues <- obsData1$values - obsData1$sd
+obsData1$maxValues <- obsData1$values + obsData1$sd
+obsData2$sd <- 0
 
-<!-- Below, `ymin` and `ymax` were consequently calculated for `obsData1` before merging. -->
+# Define Data Mapping
+obsDataMapping <- aes(
+  x = time,
+  y = values,
+  ymin = minValues,
+  ymax = maxValues,
+  group = caption
+)
 
-<!-- ```{r examples-multiple-observations-with-confidence-interval} -->
-<!-- # Use common variable before use rbind.data.frame -->
-<!-- obsData1$minValues <- obsData1$values - obsData1$sd -->
-<!-- obsData1$maxValues <- obsData1$values + obsData1$sd -->
-<!-- obsData2$sd <- 0 -->
+plotTimeProfile(
+  observedData = rbind.data.frame(
+    obsData1,
+    obsData2
+  ),
+  metaData = metaData,
+  mapping = obsDataMapping
+)
+```
 
-<!-- # Define Data Mapping -->
-<!-- obsDataMapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   ymin = minValues, -->
-<!--   ymax = maxValues, -->
-<!--   group = caption -->
-<!-- ) -->
 
-<!-- plotTimeProfile( -->
-<!--   observedData = rbind.data.frame( -->
-<!--     obsData1, -->
-<!--     obsData2 -->
-<!--   ), -->
-<!--   metaData = metaData, -->
-<!--   mapping = obsDataMapping -->
-<!-- ) -->
-<!-- ``` -->
+### 2.2.5. Missing Dependent Variable (mdv)
 
+The following code flags all values higher than `10` as `mdv`, leading to a plot without any observed data points higher than `10` (removing the first observation)
 
-<!-- ### 2.2.5. Missing Dependent Variable (mdv) -->
 
-<!-- The following code flags all values higher than `10` as `mdv`, leading to a plot without any observed data points higher than `10` (removing the first observation) -->
+```{r examples mdv}
+# Use common variable before usinf rbind.data.frame
+mdvData <- obsData1
+mdvData$mdv <- mdvData$values > 10
 
+# Define Data Mapping
+obsDataMapping <- aes(
+  x = time,
+  y = values,
+  ymin = minValues,
+  ymax = maxValues,
+  group = caption,
+  mdv = mdv
+)
 
-<!-- ```{r examples mdv} -->
-<!-- # Use common variable before usinf rbind.data.frame -->
-<!-- mdvData <- obsData1 -->
-<!-- mdvData$mdv <- mdvData$values > 10 -->
+plotTimeProfile(
+  observedData = mdvData,
+  metaData = metaData,
+  mapping = obsDataMapping
+)
+```
 
-<!-- # Define Data Mapping -->
-<!-- obsDataMapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   ymin = minValues, -->
-<!--   ymax = maxValues, -->
-<!--   group = caption, -->
-<!--   mdv = mdv -->
-<!-- ) -->
 
-<!-- plotTimeProfile( -->
-<!--   observedData = mdvData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = obsDataMapping -->
-<!-- ) -->
-<!-- ``` -->
+## 2.3. Plot simulated and observed data
 
 
-<!-- ## 2.3. Plot simulated and observed data -->
+```{r observed-and-simulated-data}
+simData <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
+  dplyr::filter(Type == "simulated") %>%
+  dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
+obsData <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
+  dplyr::filter(Type == "observed") %>%
+  dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
-<!-- ```{r observed-and-simulated-data} -->
-<!-- simData <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>% -->
-<!--   dplyr::filter(Type == "simulated") %>% -->
-<!--   dplyr::select(c("time", "values", "maxValues", "minValues", "caption")) -->
+knitr::kable(head(simData), digits = 3, caption = "first rows of example data simData")
+knitr::kable(head(obsData), digits = 3, caption = "first rows of example data obsData")
 
-<!-- obsData <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>% -->
-<!--   dplyr::filter(Type == "observed") %>% -->
-<!--   dplyr::select(c("time", "values", "maxValues", "minValues", "caption")) -->
+metaData <- attr(exampleDataTimeProfile, "metaData")
+knitr::kable(metaData2DataFrame(metaData), caption = "list of meta data:")
+```
 
-<!-- knitr::kable(head(simData), digits = 3, caption = "first rows of example data simData") -->
-<!-- knitr::kable(head(obsData), digits = 3, caption = "first rows of example data obsData") -->
 
-<!-- metaData <- attr(exampleDataTimeProfile, "metaData") -->
-<!-- knitr::kable(metaData2DataFrame(metaData), caption = "list of meta data:") -->
-<!-- ``` -->
 
 
+### 2.3.1. Corresponding simulated and observed datasets
 
 
-<!-- ### 2.3.1. Corresponding simulated and observed datasets -->
+In this example we want to display corresponding simulated and observed data with same grouping aesthetics like "color" and "linetype", but with different legends. 
+For that they have to be ordered accordingly and the first simulated dataset is the plotted with the same colors as the first observed data set and so on.
 
+(To achieve this internally the scales related to the aesthetics defined with variable `groupAesthetics` are restarted after the simulated ggplots layers and the internal counter for color, linetype,.. is started again.)
 
-<!-- In this example we want to display corresponding simulated and observed data with same grouping aesthetics like "color" and "linetype", but with different legends.  -->
-<!-- For that they have to be ordered accordingly and the first simulated dataset is the plotted with the same colors as the first observed data set and so on. -->
 
-<!-- (To achive this internally the scales related to the aesthetics defined with variable `groupAesthetics` are restarted after the simulated ggplots layers and the internal counter for color, linetype,.. is started again.) -->
+```{r combine-multiple-simulated-and-observed}
+plotTimeProfile(
+  data = simData,
+  observedData = obsData,
+  metaData = metaData,
+  mapping <- aes(
+    x = time,
+    y = values,
+    group = caption
+  )
+)
+```
 
+### 2.3.2 Corresponding simulated and observed datasets with same caption
 
-<!-- ```{r combine-multiple-simulated-and-observed} -->
-<!-- plotTimeProfile( -->
-<!--   data = simData, -->
-<!--   observedData = obsData, -->
-<!--   metaData = metaData, -->
-<!--   mapping <- aes( -->
-<!--     x = time, -->
-<!--     y = values, -->
-<!--     group = caption -->
-<!--   ) -->
-<!-- ) -->
-<!-- ``` -->
+Note that if observed and simulated data share common groupings, they will be merged in the final legend.
 
-<!-- ### 2.3.2 Corresponding simulated and observed datasets with same caption -->
+```{r combine-simulated-and-observed-sharing-legend}
+# create datasets with common caption
+commonSimData <- data.frame(simData) %>%
+  dplyr::mutate(caption = gsub("Simulated ", "", caption))
 
-<!-- Note that if observed and simulated data share common groupings, they will be merged in the final legend. -->
+commonObsData <- data.frame(obsData) %>%
+  dplyr::mutate(caption = gsub("Observed ", "", caption))
 
-<!-- ```{r combine-simulated-and-observed-sharing-legend} -->
-<!-- # create datasets with common caption -->
-<!-- commonSimData <- data.frame(simData) %>% -->
-<!--   dplyr::mutate(caption = gsub("Simulated ", "", caption)) -->
 
-<!-- commonObsData <- data.frame(obsData) %>% -->
-<!--   dplyr::mutate(caption = gsub("Observed ", "", caption)) -->
+plotTimeProfile(
+  data = commonSimData,
+  observedData = commonObsData,
+  metaData = metaData,
+  mapping <- aes(
+    x = time,
+    y = values,
+    group = caption
+  )
+)
+```
 
 
-<!-- plotTimeProfile( -->
-<!--   data = commonSimData, -->
-<!--   observedData = commonObsData, -->
-<!--   metaData = metaData, -->
-<!--   mapping <- aes( -->
-<!--     x = time, -->
-<!--     y = values, -->
-<!--     group = caption -->
-<!--   ) -->
-<!-- ) -->
-<!-- ``` -->
+### 2.3.3. Independent simulated and observed datasets
 
+If simulated and observed data sets are not related, set variable `groupAesthetics` to empty vector.
+It is now necessary to explicitly map all properties as color, shape and caption
 
-<!-- ### 2.3.3. Independent simulated and observed datasets -->
+```{r independent-simulated-and-observed-datasets}
+# Define Data Mappings
+mapping <- aes(
+  x = time,
+  y = values,
+  color = caption,
+  shape = caption,
+  linetype = caption
+)
 
-<!-- If simulated and observed data sets are not related, set variable `groupAesthetics` to empty vector. -->
-<!-- It is now necessary to explicitly map all properties as color, shape and caption -->
+plotTimeProfile(
+  data = simData,
+  observedData = obsData,
+  metaData = metaData,
+  mapping = mapping,
+  groupAesthetics = c()
+)
+```
 
-<!-- ```{r independent-simulated-and-observed-datasets} -->
-<!-- # Define Data Mappings -->
-<!-- mapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   color = caption, -->
-<!--   shape = caption, -->
-<!--   linetype = caption -->
-<!-- ) -->
 
-<!-- plotTimeProfile( -->
-<!--   data = simData, -->
-<!--   observedData = obsData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = mapping, -->
-<!--   groupAesthetics = c() -->
-<!-- ) -->
-<!-- ``` -->
+### 2.3.4. Multiple simulations and observed data sets without legends
 
+To map group with an empty variable `groupAesthetics` leads to a plot without legends:
 
-<!-- ### 2.3.4. Multiple simulations and observed data sets without legends -->
+```{r examples-multiple-simulations-no-caption}
+mapping <- aes(
+  x = time,
+  y = values,
+  group = caption,
+)
 
-<!-- To map group with an empty variable `groupAesthetics` leads to a plot without legends: -->
+plotTimeProfile(
+  data = simData,
+  observedData = obsData,
+  metaData = metaData,
+  mapping = mapping,
+  groupAesthetics = c()
+)
+```
 
-<!-- ```{r examples-multiple-simulations-no-caption} -->
-<!-- mapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   group = caption, -->
-<!-- ) -->
 
-<!-- plotTimeProfile( -->
-<!--   data = simData, -->
-<!--   observedData = obsData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = mapping, -->
-<!--   groupAesthetics = c() -->
-<!-- ) -->
-<!-- ``` -->
 
+### 2.3.5. Multiple simulations and observed data sets with their confidence intervals
 
+```{r combine-multiple-simulated-and-observed-with-ci}
+# Define Data Mappings
+mapping <- aes(
+  x = time,
+  y = values,
+  ymin = minValues,
+  ymax = maxValues,
+  group = caption
+)
 
-<!-- ### 2.3.5. Multiple simulations and observed data sets with their confidence intervals({#s_multiplePlots}) -->
 
-<!-- ```{r combine-multiple-simulated-and-observed-with-ci} -->
-<!-- # Define Data Mappings -->
-<!-- mapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   ymin = minValues, -->
-<!--   ymax = maxValues, -->
-<!--   group = caption -->
-<!-- ) -->
+plotTimeProfile(
+  data = simData,
+  observedData = obsData,
+  metaData = metaData,
+  mapping = mapping,
+)
+```
 
 
-<!-- plotTimeProfile( -->
-<!--   data = simData, -->
-<!--   observedData = obsData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = mapping, -->
-<!-- ) -->
-<!-- ``` -->
+### 2.3.6 Observed data with shape as gender
 
 
-<!-- ### 2.3.6 Observed data with shape as gender -->
+```{r observedData-usead-as-simulatedData}
+obsData <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID == "DataSet4") %>%
+  dplyr::filter(Type == "observed") %>%
+  dplyr::select(c("time", "values", "caption", "gender"))
 
+knitr::kable(head(obsData), digits = 3, caption = "first rows of example data obsData")
+```
 
-<!-- ```{r observedData-usead-as-simulatedData} -->
-<!-- obsData <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID == "DataSet4") %>% -->
-<!--   dplyr::filter(Type == "observed") %>% -->
-<!--   dplyr::select(c("time", "values", "caption", "gender")) -->
+In this example observed data is used as simulated and as observed data, to connect the different data points:
 
-<!-- knitr::kable(head(obsData), digits = 3, caption = "first rows of example data obsData") -->
-<!-- ``` -->
 
-<!-- In this example observed data is used as simulated and as observed data, to connect the different data points: -->
+```{r observedData-usead-as-simulatedData-plot}
+plotTimeProfile(
+  data = obsData,
+  observedData = obsData,
+  metaData = metaData,
+  mapping = aes(
+    x = time,
+    y = values,
+    group = caption,
+    shape = gender
+  ),
+  geomLineAttributes = list(linetype = 1, linewidth = 0.5)
+) + theme(legend.position = "right")
+```
 
 
-<!-- ```{r observedData-usead-as-simulatedData-plot} -->
-<!-- plotTimeProfile( -->
-<!--   data = obsData, -->
-<!--   observedData = obsData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = aes( -->
-<!--     x = time, -->
-<!--     y = values, -->
-<!--     group = caption, -->
-<!--     shape = gender -->
-<!--   ), -->
-<!--   geomLineAttributes = list(linetype = 1, linewidth = 0.5) -->
-<!-- ) + theme(legend.position = "right") -->
-<!-- ``` -->
 
 
 
 
+## 2.4 Observed data with LLOQ
 
+```{r lloq-data}
+simData <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID == c("DataSet3")) %>%
+  dplyr::filter(Type == "simulated") %>%
+  dplyr::filter(dimension == "concentration") %>%
+  dplyr::select(c("time", "values", "caption"))
 
-<!-- ## 2.4 Observed data with LLOQ -->
+obsData <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID == "DataSet3") %>%
+  dplyr::filter(Type == "observed") %>%
+  dplyr::filter(dimension == "concentration") %>%
+  dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
 
-<!-- ```{r lloq-data} -->
-<!-- simData <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID == c("DataSet3")) %>% -->
-<!--   dplyr::filter(Type == "simulated") %>% -->
-<!--   dplyr::filter(dimension == "concentration") %>% -->
-<!--   dplyr::select(c("time", "values", "caption")) -->
+knitr::kable(head(simData), digits = 3, caption = "first rows of example data simData")
+knitr::kable(head(obsData), digits = 3, caption = "first rows of example data obsData")
+
+metaData <- attr(exampleDataTimeProfile, "metaData")
+knitr::kable(metaData2DataFrame(metaData), caption = "list of meta data:")
+```
 
-<!-- obsData <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID == "DataSet3") %>% -->
-<!--   dplyr::filter(Type == "observed") %>% -->
-<!--   dplyr::filter(dimension == "concentration") %>% -->
-<!--   dplyr::select(c("time", "values", "caption", "lloq", "error_relativ")) -->
+If you have mapped a `lloq`, a horizontal line for the `lloq` are displayed, and all values below `lloq` are plotted with decreased alpha.
+Attention we we did some adjustments to get a nicer plot: 
 
-<!-- knitr::kable(head(simData), digits = 3, caption = "first rows of example data simData") -->
-<!-- knitr::kable(head(obsData), digits = 3, caption = "first rows of example data obsData") -->
-
-<!-- metaData <- attr(exampleDataTimeProfile, "metaData") -->
-<!-- knitr::kable(metaData2DataFrame(metaData), caption = "list of meta data:") -->
-<!-- ``` -->
+- `yscale` was set to log, and the y-axis was cut at 0.01
+- The simulated line would be by default in blue, we switched it to black
 
-<!-- If you have mapped a lloq, a horizontal line for the lloq are displayed, and all values below lloq are plotted with decreased alpha. -->
-<!-- Attention we we did some adjustments to get a nicer plot:  -->
 
-<!-- - yscale was set to log, and the y-axis was cut at 0.01 -->
-<!-- - The simulated line would be normaly in blue, we switched it to black -->
+```{r example-lloq}
+plotTimeProfile(
+  data = simData,
+  observedData = obsData,
+  metaData = metaData,
+  mapping = aes(
+    x = time,
+    y = values,
+    group = caption,
+    error_relative = error_relative,
+    lloq = lloq
+  ),
+  yscale = "log",
+  yscale.args = list(limits = c(0.01, NA)),
+  geomLineAttributes = list(color = "black")
+)
+```
 
+## 2.3. Data with Secondary axis
 
-<!-- ```{r example-lloq} -->
-<!-- plotTimeProfile( -->
-<!--   data = simData, -->
-<!--   observedData = obsData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = aes( -->
-<!--     x = time, -->
-<!--     y = values, -->
-<!--     group = caption, -->
-<!--     error_relativ = error_relativ, -->
-<!--     lloq = lloq -->
-<!--   ), -->
-<!--   yscale = "log", -->
-<!--   yscale.args = list(limits = c(0.01, NA)), -->
-<!--   geomLineAttributes = list(color = "black") -->
-<!-- ) -->
-<!-- ``` -->
 
-<!-- ## 2.3. Data with Secondary axis -->
+```{r load-data-with-secondary-axis}
+simData <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID == "DataSet3") %>%
+  dplyr::filter(Type == "simulated") %>%
+  dplyr::select(c("time", "values", "dimension", "caption"))
 
 
-<!-- ```{r load-data-with-secondary-axis} -->
-<!-- simData <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID == "DataSet3") %>% -->
-<!--   dplyr::filter(Type == "simulated") %>% -->
-<!--   dplyr::select(c("time", "values", "dimension", "caption")) -->
+obsData <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID == "DataSet3") %>%
+  dplyr::filter(Type == "observed") %>%
+  dplyr::select(c("time", "values", "dimension", "caption", "lloq", "error_relative"))
+
+knitr::kable(head(obsData), digits = 3, caption = "first rows of example data obsData")
+
+metaData <- attr(exampleDataTimeProfile, "metaData")
+knitr::kable(metaData2DataFrame(metaData), caption = "list of meta data:")
+```
+
 
+In this example a plot is generated with concentration on the left y-axis and Fraction on the right y-axis. As first step the variable `metaData` has to be adjusted.
+For the primary y-axis the column "values" is mapped, and metaData provides for this column the dimension "Concentration". For the secondary y-axis a new entry "y2" is added.
 
-<!-- obsData <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID == "DataSet3") %>% -->
-<!--   dplyr::filter(Type == "observed") %>% -->
-<!--   dplyr::select(c("time", "values", "dimension", "caption", "lloq", "error_relativ")) -->
-
-<!-- knitr::kable(head(obsData), digits = 3, caption = "first rows of example data obsData") -->
-
-<!-- metaData <- attr(exampleDataTimeProfile, "metaData") -->
-<!-- knitr::kable(metaData2DataFrame(metaData), caption = "list of meta data:") -->
-<!-- ``` -->
-
+```{r secondrayAxis_metaData}
+metaData <- list(
+  time = list(
+    dimension = "Time",
+    unit = "h"
+  ),
+  values = list(
+    dimension = "Concentration",
+    unit = "mg/l"
+  ),
+  y2 = list(
+    dimension = "Fraction",
+    unit = ""
+  )
+)
+```
 
-<!-- In this example a plot is generated with concentration on the left y-axis and Fraction on the right y-axis. As first step the variable `metaData` has to be adjusted. -->
-<!-- For the primary y-axis the column "values" is mapped, and metaData provides for this column the dimension "Concentration". For the secondary y-axis a new entry "y2" is added. -->
+
+The mapping `y2axis` has to be logical. In this example it is `(dimension == "fraction")`.
+For the primary y-axis (concentration) a log scale is displayed and for the secondary (Fraction) a linear scale. Limits of the secondary-axis are set to [0,1]
 
-<!-- ```{r secondrayAxis_metaData} -->
-<!-- metaData <- list( -->
-<!--   time = list( -->
-<!--     dimension = "Time", -->
-<!--     unit = "h" -->
-<!--   ), -->
-<!--   values = list( -->
-<!--     dimension = "Concentration", -->
-<!--     unit = "mg/l" -->
-<!--   ), -->
-<!--   y2 = list( -->
-<!--     dimension = "Fraction", -->
-<!--     unit = "" -->
-<!--   ) -->
-<!-- ) -->
-<!-- ``` -->
+```{r secondrayAxis_plot}
+mapping <- aes(
+  x = time,
+  y = values,
+  shape = caption,
+  error_relative = error_relative,
+  lloq = lloq,
+  y2axis = (dimension == "fraction"),
+  color = dimension,
+  linetype = dimension,
+  shape = group
+)
+
+plotTimeProfile(
+  data = simData,
+  observedData = obsData,
+  mapping = mapping,
+  metaData = metaData,
+  yscale = "log",
+  yscale.args = list(limits = c(0.01, NA)),
+  y2scale = "linear",
+  y2scale.args = list(limits = c(0, 1)),
+) +
+  theme(axis.title.y.right = element_text(angle = 90))
+```
 
-
-<!-- The mapping `y2axis` has to be logical. In this example it is `(dimension == "fraction")`. -->
-<!-- For the primary y-axis (concentration) a log scale is displayed and for the secondary (Fraction) a linear scale. Limits of the secondary-axis are set to [0,1] -->
+# 3. Plot Configuration
 
-<!-- ```{r secondrayAxis_plot} -->
-<!-- mapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   shape = caption, -->
-<!--   error_relativ = error_relativ, -->
-<!--   lloq = lloq, -->
-<!--   y2axis = (dimension == "fraction"), -->
-<!--   color = dimension, -->
-<!--   linetype = dimension, -->
-<!--   shape = group -->
-<!-- ) -->
-
-<!-- plotTimeProfile( -->
-<!--   data = simData, -->
-<!--   observedData = obsData, -->
-<!--   mapping = mapping, -->
-<!--   metaData = metaData, -->
-<!--   yscale = "log", -->
-<!--   yscale.args = list(limits = c(0.01, NA)), -->
-<!--   y2scale = "linear", -->
-<!--   y2scale.args = list(limits = c(0, 1)), -->
-<!-- ) + -->
-<!--   theme(axis.title.y.right = element_text(angle = 90)) -->
-<!-- ``` -->
+```{r observed_and_simulated_data2}
+simData <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
+  dplyr::filter(Type == "simulated") %>%
+  dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
-<!-- # 3. Plot Configuration -->
+obsData <- exampleDataTimeProfile %>%
+  dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
+  dplyr::filter(Type == "observed") %>%
+  dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
+```
 
-<!-- ```{r observed_and_simulated_data2} -->
-<!-- simData <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>% -->
-<!--   dplyr::filter(Type == "simulated") %>% -->
-<!--   dplyr::select(c("time", "values", "maxValues", "minValues", "caption")) -->
 
-<!-- obsData <- exampleDataTimeProfile %>% -->
-<!--   dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>% -->
-<!--   dplyr::filter(Type == "observed") %>% -->
-<!--   dplyr::select(c("time", "values", "maxValues", "minValues", "caption")) -->
-<!-- ``` -->
+## 3.1 Example for changing geom attributes
 
+The plot from section [Multiple simulations and observed data sets with their confidence intervals](#s_multiplePlots) was adjusted using geom Attributes:
+
+- `geomLineAttributes = list(linetype = 'solid')` The lines used for the simulated data are set in both datasets to solid. Attention the line type for the errorbars and ribbon edges was not changed.
+- `geomErrorbarAttributes = list()` The default settings for `geomErrorbarAttributes`, width = 0, was deleted. The bar caps are now visible
+- `geomRibbonAttributes = list(alpha = 0.1)` the shade of the ribbons was decreased by setting the alpha to 0.1, the default values for color = NA, was omitted, so that the edges are now visible
+- `geomPointAttributes = list(size = 7)` The size of the symbols are increased
 
-<!-- ## 3.1 Example for changing geom attributes -->
 
-<!-- The plot from section [Multiple simulations and observed data sets with their confidence intervals](#s_multiplePlots) was adjusted using geom Attributes: -->
-
-<!-- - `geomLineAttributes = list(linetype = 'solid')` The lines use dfor the simulated data are set in both datasets to solid. Attention the linetype for the errorbars and ribbon edges was not changed. -->
-<!-- - `geomErrorbarAttributes = list()` The default settings for geomErrorbar, width = 0, was deleted. The bar caps are now visible -->
-<!-- - `geomRibbonAttributes = list(alpha = 0.1)` the shade of the ribbons was decreased by setting the alpha to 0.1, the default values for color = NA, was omitted, so that the edges are now visible -->
-<!-- - 'geomPointAttributes = list(size = 7)' The size of the symbols are increased -->
+```{r changing_geom_attributes}
+# Define Data Mappings
+mapping <- aes(
+  x = time,
+  y = values,
+  ymin = minValues,
+  ymax = maxValues,
+  group = caption
+)
 
 
-<!-- ```{r changing_geom_attributes} -->
-<!-- # Define Data Mappings -->
-<!-- mapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   ymin = minValues, -->
-<!--   ymax = maxValues, -->
-<!--   group = caption -->
-<!-- ) -->
+plotTimeProfile(
+  data = simData,
+  observedData = obsData,
+  metaData = metaData,
+  mapping = mapping,
+  geomLineAttributes = list(linetype = "solid"),
+  geomErrorbarAttributes = list(),
+  geomRibbonAttributes = list(alpha = 0.1),
+  geomPointAttributes = list(size = 7)
+)
+```
 
 
-<!-- plotTimeProfile( -->
-<!--   data = simData, -->
-<!--   observedData = obsData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = mapping, -->
-<!--   geomLineAttributes = list(linetype = "solid"), -->
-<!--   geomErrorbarAttributes = list(), -->
-<!--   geomRibbonAttributes = list(alpha = 0.1), -->
-<!--   geomPointAttributes = list(size = 7) -->
-<!-- ) -->
-<!-- ``` -->
 
+## 3.2 Example for changing color scales
+
+For changing scales which are addressed by the the grouping, the reset of scales after the simulation layers has to be taken in account. (see [Plot simulated and observed data](#s_groupAesthtics)).
+It's a step wise procedure
+
+- call `plotTimeProfile()` for simulated data only
+- set scales for simulated data
+- call `plotTimeProfile()` for observed data only with the simulated plot as input  `plotObject`
+- set scales for observed data
+
 
-
-<!-- ## 3.2 Example for changing color scales -->
-
-<!-- For changing scales which ared adressed by the the grouping, the reset of scales after the simulation layers has to be taken in account. (see [Plot simulated and observed data](#s_groupAesthtics)). -->
-<!-- It's a stepwise procedure -->
-
-<!-- - call plotTimeprofile for simulated data only -->
-<!-- - set scales for simulated data -->
-<!-- - call plotTimeprofile for observed data only with the simulated plot as input  `plotObject` -->
-<!-- - set scales for observed data -->
-
-
-<!-- ```{r example_changeing_colorscales} -->
-<!-- # Define Data Mappings -->
-<!-- mapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   ymin = minValues, -->
-<!--   ymax = maxValues, -->
-<!--   group = caption -->
-<!-- ) -->
-
-
-<!-- plotObject <- plotTimeProfile( -->
-<!--   data = simData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = mapping, -->
-<!-- ) + -->
-<!--   scale_color_manual(values = c("Simulated Data 1" = "darkred", "Simulated Data 2" = "darkgreen")) + -->
-<!--   scale_fill_manual(values = c("Simulated Data 1" = "red", "Simulated Data 2" = "green")) -->
-
-<!-- plotObject <- plotTimeProfile( -->
-<!--   plotObject = plotObject, -->
-<!--   observedData = obsData, -->
-<!--   mapping = mapping -->
-<!-- ) + -->
-<!--   scale_color_manual(values = c("Observed Data 1" = "darkred", "Observed Data 2" = "darkgreen")) -->
-
-<!-- plotObject -->
-<!-- ``` -->
-
-
-
-
-
-<!-- ## 3.3 Example for adjusting x and y scale -->
-
-<!-- In the example we set the scale for the y-axis to log scale. -->
-<!-- Per default a time profile plots starts always at 0, here the defaults were overwritten and the breaks were set manually. -->
-
-<!-- ```{r example_adjsuting_xy_scale} -->
-<!-- mapping <- aes( -->
-<!--   x = time + 24, -->
-<!--   y = values, -->
-<!--   group = caption -->
-<!-- ) -->
-
-<!-- plotTimeProfile( -->
-<!--   data = simData %>% -->
-<!--     dplyr::filter(values > 0), -->
-<!--   metaData = metaData, -->
-<!--   mapping = mapping, -->
-<!--   yscale = "log", -->
-<!--   xscale.args = list( -->
-<!--     limits = c(24, 48), -->
-<!--     breaks = seq(24, 48, 3) -->
-<!--   ) -->
-<!-- ) -->
-<!-- ``` -->
-
-
-
-<!-- # 3.3 Adjust Time unit -->
-
-<!-- The breaks of time axis ar set according to the units provided by the variable `metaData`. -->
-
-<!-- Below we show the same plot with 4 different time units -->
-
-<!-- ```{r example_timeUnit,fig.show='hold'} -->
-<!-- # Define Data Mapping -->
-<!-- mapping <- aes( -->
-<!--   x = time, -->
-<!--   y = values, -->
-<!--   group = caption -->
-<!-- ) -->
-
-<!-- plotTimeProfile( -->
-<!--   data = simData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = mapping -->
-<!-- ) + -->
-<!--   labs( -->
-<!--     title = 'Time unit "h"', -->
-<!--     tag = "A" -->
-<!--   ) -->
-
-<!-- metaData$time$unit <- "day(s)" -->
-
-<!-- plotTimeProfile( -->
-<!--   data = simData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = mapping -->
-<!-- ) + -->
-<!--   labs( -->
-<!--     title = 'Time unit "day(s)"', -->
-<!--     tag = "B" -->
-<!--   ) -->
-
-
-<!-- metaData$time$unit <- "weeks(s)" -->
-
-<!-- plotTimeProfile( -->
-<!--   data = simData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = mapping -->
-<!-- ) + -->
-<!--   labs( -->
-<!--     title = 'Time unit "week(s)"', -->
-<!--     tag = "C" -->
-<!--   ) -->
-
-
-<!-- metaData$time$unit <- "month(s)" -->
-
-<!-- plotTimeProfile( -->
-<!--   data = simData, -->
-<!--   metaData = metaData, -->
-<!--   mapping = mapping -->
-<!-- ) + -->
-<!--   labs( -->
-<!--     title = 'Time unit "month(s)"', -->
-<!--     tag = "D" -->
-<!--   ) -->
-<!-- ``` -->
+```{r example_changeing_colorscales}
+# Define Data Mappings
+mapping <- aes(
+  x = time,
+  y = values,
+  ymin = minValues,
+  ymax = maxValues,
+  group = caption
+)
+
+
+plotObject <- plotTimeProfile(
+  data = simData,
+  metaData = metaData,
+  mapping = mapping,
+) +
+  scale_color_manual(values = c("Simulated Data 1" = "darkred", "Simulated Data 2" = "darkgreen")) +
+  scale_fill_manual(values = c("Simulated Data 1" = "red", "Simulated Data 2" = "green"))
+
+plotObject <- plotTimeProfile(
+  plotObject = plotObject,
+  observedData = obsData,
+  mapping = mapping
+) +
+  scale_color_manual(values = c("Observed Data 1" = "darkred", "Observed Data 2" = "darkgreen"))
+
+plotObject
+```
+
+
+
+
+
+## 3.3 Example for adjusting x and y scale
+
+In the example we set the scale for the y-axis to log scale.
+Per default a time profile plots starts always at 0, here the defaults were overwritten and the breaks were set manually.
+
+```{r example_adjsuting_xy_scale}
+mapping <- aes(
+  x = time + 24,
+  y = values,
+  group = caption
+)
+
+plotTimeProfile(
+  data = simData %>%
+    dplyr::filter(values > 0),
+  metaData = metaData,
+  mapping = mapping,
+  yscale = "log",
+  xscale.args = list(
+    limits = c(24, 48),
+    breaks = seq(24, 48, 3)
+  )
+)
+```
+
+
+
+# 3.3 Adjust Time unit
+
+The breaks of time axis are set according to the units provided by the variable `metaData`.
+
+Below we show the same plot with 4 different time units:
+s
+```{r example_timeUnit,fig.show='hold'}
+# Define Data Mapping
+mapping <- aes(
+  x = time,
+  y = values,
+  group = caption
+)
+
+plotTimeProfile(
+  data = simData,
+  metaData = metaData,
+  mapping = mapping
+) +
+  labs(
+    title = 'Time unit "h"',
+    tag = "A"
+  )
+
+metaData$time$unit <- "day(s)"
+
+plotTimeProfile(
+  data = simData,
+  metaData = metaData,
+  mapping = mapping
+) +
+  labs(
+    title = 'Time unit "day(s)"',
+    tag = "B"
+  )
+
+
+metaData$time$unit <- "weeks(s)"
+
+plotTimeProfile(
+  data = simData,
+  metaData = metaData,
+  mapping = mapping
+) +
+  labs(
+    title = 'Time unit "week(s)"',
+    tag = "C"
+  )
+
+
+metaData$time$unit <- "month(s)"
+
+plotTimeProfile(
+  data = simData,
+  metaData = metaData,
+  mapping = mapping
+) +
+  labs(
+    title = 'Time unit "month(s)"',
+    tag = "D"
+  )
+```
 
 

@@ -4,7 +4,7 @@
 \alias{MappedData}
 \title{MappedData}
 \description{
-R6 class for mapping \code{x} and \code{y} variable to \code{data}
+R6 class for mapping  variables to \code{data}
 }
 \seealso{
 Other MappedData classes: 
@@ -29,15 +29,14 @@ Other MappedData classes:
 
 \item{\code{dataForPlot}}{returns data used for plotting,
 may be adjusted in child classes (e.g. 2 axis in MappedDataTimeProfile)
-check if aesthtic is available in data
+check if aesthetic is available in data
 returns data column for aesthetic
 adds and update mapping
 deletes data where mdv is 1
 
-adds new column isLLOQ.i and updtes Flag LLOQMatch
-adds new columns ymin and ymax if reequired
+adds new column \code{isLLOQ.i} and updates Flag \code{LLOQMatch}
+adds new columns ymin and ymax if required
 copy aesthetics "group", but only if not explicit set
-deletes mappings which do not exists in data
 converts Integer columns, which are no factors to double}
 }
 \if{html}{\out{</div>}}
@@ -101,14 +100,14 @@ check if mandatory are available
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{geom}}{type of geomertic object}
+\item{\code{geom}}{type of geometric object}
 
 \item{\code{geomAttributes}}{additionally arguments for geom layer, will overwrite aesthetics}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-list of axxepted mappings
+list of accepted mappings
 }
 }
 \if{html}{\out{<hr>}}

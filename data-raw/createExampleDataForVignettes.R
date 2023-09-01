@@ -1,4 +1,5 @@
 library(data.table)
+library(tidyr)
 
 # Time profile -------
 
@@ -92,7 +93,7 @@ obsData <- data.frame(
   time = rep(1:7, 2),
   values = c(10 * exp(-1:-7), 10 * exp(-1:-7)),
   dimension = "concentration",
-  error_relativ = exp(abs(rnorm(14, 0, 0.1))),
+  error_relative = exp(abs(rnorm(14, 0, 0.1))),
   caption = c(rep("group A", 7), rep("group B", 7)),
   lloq = c(rep(0.05, 14))
 )
@@ -208,16 +209,18 @@ exampleDataCovariates <- fread(file.path("data-raw", "test-data.csv")) %>%
 ## Set 2  ---
 
 set.seed(1)
-data <- data.table(SetID = 'DataSet2',
-  AgeBin = c(rep("adult", 200), rep("pediatric",150)),
-  Sex = rep(c("Female","Male"), 175),
-  Obs  = c(rnorm(200, 20, 5), rnorm(150,25,10))+
-    rep(c(10,50), 175))
-data[,ID:=.I]
+data <- data.table(
+  SetID = "DataSet2",
+  AgeBin = c(rep("adult", 200), rep("pediatric", 150)),
+  Sex = rep(c("Female", "Male"), 175),
+  Obs = c(rnorm(200, 20, 5), rnorm(150, 25, 10)) +
+    rep(c(10, 50), 175)
+)
+data[, ID := .I]
 
 exampleDataCovariates <- rbind(exampleDataCovariates,
-                                data,
-                                fill = TRUE
+  data,
+  fill = TRUE
 )
 
 

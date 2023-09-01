@@ -73,16 +73,16 @@ Produces timeprofiles for simulated and observed data.
 For the simulated data a geom_line and a geom_ribbon layer are added
 For the observed data a geom_point and a geom_errorbar layer are added
 
-As one of the intension of this plotting routine is to display simulated
-and observed data with same grouping aesthetics like color and linetype, but with different legend,
-between the layers for simulated data and layers for observerd  data new color scales are introduced.
+As one of the intention of this plotting routine is to display simulated
+and observed data with same grouping aesthetics like color and line type, but with different legend,
+between the layers for simulated data and layers for observered  data new color scales are introduced.
 
 Non default mappings which can be used are:
 \itemize{
 \item lloq
 \itemize{
 \item only relevant for observed data
-\item adds horizontal lines and displays measurment below LLOQ with a smaller alpha)
+\item adds horizontal lines and displays measurement below LLOQ with a smaller alpha)
 }
 \item mdv
 \itemize{
@@ -90,7 +90,7 @@ Non default mappings which can be used are:
 \item only relevant for observed data,
 \item data with mdv 1 are not plotted
 }
-\item error, error_relativ
+\item error, error_relative
 \itemize{
 \item calculates ymin and ymax for additive ore relative
 }

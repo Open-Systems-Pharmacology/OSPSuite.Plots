@@ -49,6 +49,7 @@ initializePlot <- function(metaData = NULL,
 #' @param geom character used to select appropriate aesthetics
 #' @param layerToCall function ggplot2 geom layer
 #'
+#' @keywords internal
 #' @return The updated `ggplot` object
 addLayer <- function(mappedData,
                      geomAttributes,
@@ -158,8 +159,8 @@ layerWatermark <- function(label = NULL,
 #' @param alpha opacity of the text
 #' @param fontsize size of the text
 #'
+#' @keywords internal
 #' @return a `grid::textGrob` with the watermark and the additional attribute 'is_watermark' set to `TRUE`
-#' @export
 buildWatermarkGrob <- function(label, x = .5, y = .5, angle = 30,
                                color = "grey20",
                                alpha = 0.7,

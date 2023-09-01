@@ -32,9 +32,8 @@ remotes::install_github("Open-Systems-Pharmacology/ospsuite.plots")
 
 From CRAN:
 
-TODO
-
 -   [ggplot2](https://cran.r-project.org/package=ggplot2/index.html)
+-   [ggh4x](https://cran.r-project.org/package=ggh4x/index.html)
 
 Must be downloaded manually:
 
@@ -42,12 +41,9 @@ Must be downloaded manually:
 
 ## Documentation
 
-
-TODO
-
 A detailed account of existing functions and articles on how to use them
 can be found on the [dedicated
-website](https://www.open-systems-pharmacology.org/TLF-Library/).
+website](https://www.open-systems-pharmacology.org/OSPSuite.Plots/).
 
 ## Code of conduct
 
@@ -66,6 +62,6 @@ standards](https://github.com/Open-Systems-Pharmacology/Suite/blob/master/CODING
 
 ## License
 
-TLF Library is released under the [GPLv2 License](LICENSE).
+OSPSuite.Plots Library is released under the [GPLv2 License](LICENSE).
 
 All trademarks within this document belong to their legitimate owners.

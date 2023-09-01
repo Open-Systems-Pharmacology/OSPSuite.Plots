@@ -57,6 +57,7 @@
 #'
 #' @return A `ggplot` object
 #' @export
+#' @family plot functions
 plotTimeProfile <- function(data = NULL,
                             mapping = NULL,
                             observedData = NULL,

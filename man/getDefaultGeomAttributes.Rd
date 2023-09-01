@@ -20,6 +20,8 @@ see \code{vignette("ospsuite.plots", package = "ospsuite.plots")} how to change 
 \seealso{
 Other setDefault functions: 
 \code{\link{ColorMaps}},
+\code{\link{Shapes}},
+\code{\link{geomPointUnicode}()},
 \code{\link{getDefaultOptions}()},
 \code{\link{resetDefaultColorMapDistinct}()},
 \code{\link{resetDefaultShapeDiscrete}()},

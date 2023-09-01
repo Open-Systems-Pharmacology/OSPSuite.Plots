@@ -23,3 +23,4 @@ The updated \code{ggplot} object
 \description{
 Add layer
 }
+\keyword{internal}

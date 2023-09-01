@@ -15,4 +15,19 @@ List of some \code{ggplot2} shapes.
 The shapes from this list are unicode characters
 corresponding to their appropriate shapes.
 }
+\seealso{
+Other setDefault functions: 
+\code{\link{ColorMaps}},
+\code{\link{geomPointUnicode}()},
+\code{\link{getDefaultGeomAttributes}()},
+\code{\link{getDefaultOptions}()},
+\code{\link{resetDefaultColorMapDistinct}()},
+\code{\link{resetDefaultShapeDiscrete}()},
+\code{\link{resetDefaults}()},
+\code{\link{setDefaultColorMapDistinct}()},
+\code{\link{setDefaultShapeDiscrete}()},
+\code{\link{setDefaultTheme}()},
+\code{\link{setDefaults}()}
+}
+\concept{setDefault functions}
 \keyword{datasets}

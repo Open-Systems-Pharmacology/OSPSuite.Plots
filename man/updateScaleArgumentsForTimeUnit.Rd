@@ -40,11 +40,4 @@ use fixed width for breaks depending on unit:
 use width only if 2 * width < range of time values
 use multiples of width if 20 * width < range of time values
 }
-\examples{
-newScaleArguments <- updateScaleArgumentsForTimeUnit(
-  scale.args = list(),
-  metaData = list(time = list(dimension = "Time", unit = "h")),
-  mapping = aes(x = time)
-)
-
-}
+\keyword{internal}

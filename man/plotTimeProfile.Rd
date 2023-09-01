@@ -104,3 +104,8 @@ For more details and examples see the vignettes:
 \code{vignette("Time Profile Plots", package = "ospsuite.plots")}
 \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 }
+\seealso{
+Other plot functions: 
+\code{\link{plotHistogram}()}
+}
+\concept{plot functions}

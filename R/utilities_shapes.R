@@ -2,6 +2,7 @@
 #' @description List of some `ggplot2` shapes.
 #' The shapes from this list are unicode characters
 #' corresponding to their appropriate shapes.
+#' @family setDefault functions
 #'
 #' @export
 Shapes <- list(
@@ -125,6 +126,7 @@ GeomPointUnicode <- ggplot2::ggproto(
 #' @param inherit.aes a logical value indicating if aesthetics are inherited
 #' @param ... other arguments.
 #' @export
+#' @family setDefault functions
 #'
 geomPointUnicode <- function(mapping = NULL, data = NULL, stat = "identity",
                              position = "identity", na.rm = FALSE, show.legend = NA,

@@ -22,6 +22,7 @@ Imports:
     scales,
     dplyr,
     magrittr,
+    fitdistrplus,
     tidyr
 Depends: 
     R (>= 3.6),

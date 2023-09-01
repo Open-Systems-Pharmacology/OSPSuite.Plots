@@ -35,3 +35,4 @@ a \code{grid::textGrob} with the watermark and the additional attribute 'is_wate
 \description{
 Build a \code{grid::textGrob} to be used as a watermark.
 }
+\keyword{internal}

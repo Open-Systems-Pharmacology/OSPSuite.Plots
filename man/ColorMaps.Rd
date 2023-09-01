@@ -18,6 +18,8 @@ color palette from \code{{ggsci}} package.
 }
 \seealso{
 Other setDefault functions: 
+\code{\link{Shapes}},
+\code{\link{geomPointUnicode}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
 \code{\link{resetDefaultColorMapDistinct}()},

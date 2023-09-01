@@ -18,6 +18,8 @@ set the default colormap for discrete colors
 \seealso{
 Other setDefault functions: 
 \code{\link{ColorMaps}},
+\code{\link{Shapes}},
+\code{\link{geomPointUnicode}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
 \code{\link{resetDefaultColorMapDistinct}()},

@@ -19,15 +19,8 @@
 #' @param scaleDirection either 'x' or 'y'
 #'
 #' @return update list of arguments for scale
-#' @export
 #'
-#' @examples
-#' newScaleArguments <- updateScaleArgumentsForTimeUnit(
-#'   scale.args = list(),
-#'   metaData = list(time = list(dimension = "Time", unit = "h")),
-#'   mapping = aes(x = time)
-#' )
-#'
+#' @keywords internal
 updateScaleArgumentsForTimeUnit <- function(scale.args,
                                             metaData,
                                             mapping,

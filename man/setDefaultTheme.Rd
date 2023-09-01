@@ -13,7 +13,7 @@ invisibly return the previous theme so you can easily save it, then later restor
 set properties of the default theme
 }
 \seealso{
-Other setDefaultsOspsuite.plots: 
+Other setDefault functions: 
 \code{\link{ColorMaps}},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
@@ -24,4 +24,4 @@ Other setDefaultsOspsuite.plots:
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaults}()}
 }
-\concept{setDefaultsOspsuite.plots}
+\concept{setDefault functions}

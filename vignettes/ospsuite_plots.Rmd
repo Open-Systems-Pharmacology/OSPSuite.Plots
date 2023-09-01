@@ -12,7 +12,8 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.show = "hold"
 )
 ```
 
@@ -39,8 +40,8 @@ The library is based on `ggplot2` functionality. It uses also the libraries `ggn
 
 ```{r get-test-data, echo=FALSE, results='asis'}
 testData <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet1") %>% 
-  dplyr::select(c('ID', 'Age',  'Obs', 'Pred','Sex'))
+  dplyr::filter(SetID == "DataSet1") %>%
+  dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex"))
 
 
 knitr::kable(head(testData), digits = 3)
@@ -53,14 +54,16 @@ knitr::kable(head(testData), digits = 3)
 
 ## 2.1.1 Default ggplot layout
 
-```{r,warning=FALSE,fig.show='hold'}
-# plot by ospsuite.plots function
+- A) plot by ospsuite.plots function
+- B) customized plot
 
-# TODO
-# plotHistogram(
-#   data = testData,
-#   mapping = aes(x = Age)
-# )
+```{r,warning=FALSE}
+# ospsuite.plots function
+plotHistogram(
+  data = testData,
+  mapping = aes(x = Age)
+) +
+  labs(tag = "A")
 
 # customized plot
 
@@ -69,22 +72,23 @@ ggplot(
   mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)
 ) +
   geom_point() +
-  theme(legend.position = "top")
+  theme(legend.position = "top") +
+  labs(tag = "B")
 ```
 
 ## 2.1.2 set ospsuite.plots layout
+
 
 ```{r,warning=FALSE,fig.show='hold'}
 # set default layout  and save previous layout in variable oldDefaults
 oldDefaults <- ospsuite.plots::setDefaults()
 
-# plot by ospsuite.plots function
-# TODO
-# plotHistogram(
-#   data = testData,
-#   mapping = aes(x = Age)
-# )
-
+# ospsuite.plots function
+plotHistogram(
+  data = testData,
+  mapping = aes(x = Age)
+) +
+  labs(tag = "A")
 
 # customized plot
 
@@ -93,7 +97,8 @@ ggplot(
   mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)
 ) +
   geom_point() +
-  theme(legend.position = "top")
+  theme(legend.position = "top") +
+  labs(tag = "B")
 ```
 
 ## 2.1.3 reset to previously save layout
@@ -103,12 +108,12 @@ ggplot(
 # reset to previously saved layout options
 ospsuite.plots::resetDefaults(oldDefaults = oldDefaults)
 
-# plot by ospsuite.plots function
-# TODO
-# plotHistogram(
-#   data = testData,
-#   mapping = aes(x = Age)
-# )
+# ospsuite.plots function
+plotHistogram(
+  data = testData,
+  mapping = aes(x = Age)
+) +
+  labs(tag = "A")
 
 # customized plot
 
@@ -117,7 +122,8 @@ ggplot(
   mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)
 ) +
   geom_point() +
-  theme(legend.position = "top")
+  theme(legend.position = "top") +
+  labs(tag = "B")
 ```
 
 
@@ -224,7 +230,7 @@ ospsuite.plots::setDefaults(defaultOptions = ospsuite.plots::getDefaultOptions()
 
 ## 2.5.1 Options to customize Watermark
 
-Options to switch watermark on and off, select the albel and customize format:
+Options to switch watermark on and off, select the label and customize format:
 see also section [4. Watermark]
 
 ```{r,eval = FALSE}
@@ -284,9 +290,9 @@ ospsuite.plots.Percentiles <- c(0.05, 0.25, 0.5, 0.75, 0.95)
 
 
 
-# 3. plotFunction
+# 3. Plot-functions
 
-If a plot function is called wit variable plotObject = NULL, internally the function  `initializePlot` withc variables metaData and mapping is called. This function constructs labels from the metadata, and adds a watermark layer.
+If a plot function is called wit variable `plotObject = NULL`, internally the function  `initializePlot` with variables `metaData` and `mapping` is called. This function constructs labels from the metadata, and adds a watermark layer.
 
 
 ## 3.1 `plotTimeProfile()`
@@ -360,10 +366,10 @@ ggplot(shapes, aes(x, y)) +
   theme_void()
 ```
 
-## 4.2 Use unicode symbols  with showtext
+## 4.2 Use unicode symbols  with {showtext}
 
 Attention 
-- use of showtext  has side effects   
+- use of {showtext}  has side effects   
 - a customized geom_Point function ha to be used
 
 ```{r,  fig.showtext=TRUE,out.width = "90%", fig.asp = 0.8, fig.width = 8}

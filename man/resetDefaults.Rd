@@ -13,7 +13,7 @@ resetDefaults(oldDefaults)
 restore to previously stored settings
 }
 \seealso{
-Other setDefaultsOspsuite.plots: 
+Other setDefault functions: 
 \code{\link{ColorMaps}},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
@@ -24,4 +24,4 @@ Other setDefaultsOspsuite.plots:
 \code{\link{setDefaultTheme}()},
 \code{\link{setDefaults}()}
 }
-\concept{setDefaultsOspsuite.plots}
+\concept{setDefault functions}

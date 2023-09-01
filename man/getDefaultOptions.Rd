@@ -13,7 +13,7 @@ names list with default options
 get list of default options
 }
 \seealso{
-Other setDefaultsOspsuite.plots: 
+Other setDefault functions: 
 \code{\link{ColorMaps}},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{resetDefaultColorMapDistinct}()},
@@ -24,4 +24,4 @@ Other setDefaultsOspsuite.plots:
 \code{\link{setDefaultTheme}()},
 \code{\link{setDefaults}()}
 }
-\concept{setDefaultsOspsuite.plots}
+\concept{setDefault functions}

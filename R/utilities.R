@@ -114,21 +114,19 @@ updateScaleArgumentsForTimeUnit <- function(scale.args,
       metaData = metaData,
       mapping = mapping
     )
-    plotLabels <- c(plotLabels, plotLabelsByMetData)
-    plotLabels <- plotLabels[unique(names(plotLabels))]
+    plotLabels <- utils::modifyList(plotLabels, plotLabelsByMetData)
   }
   # set labels
-  if (!is.null(plotLabels)) {
-    plotObject <- plotObject +
-      eval(parse(text = paste0(
-        "labs(",
-        paste(
-          lapply(names(plotLabels), function(i) paste0(i, " = '", plotLabels[[i]], "'")),
-          collapse = ","
-        ),
-        ")"
-      )))
-  }
+  plotObject <- plotObject +
+    eval(parse(text = paste0(
+      "labs(",
+      paste(
+        lapply(names(plotLabels), function(i) paste0(i, " = '", plotLabels[[i]], "'")),
+        collapse = ","
+      ),
+      ")"
+    )))
+
 
   return(plotObject)
 }
@@ -174,7 +172,7 @@ createDefaultPlotLabels <- function(metaData,
         mapping = mapping
       )
 
-      if (!is.null(tmp)) {
+      if (!is.null(tmp) & is.character(tmp)) {
         names(tmp) <- rownames(metaDF)
         if (trimws(tmp[["unit"]]) != "") {
           plotLabels[[labelEntry]] <- trimws(paste0(tmp[["dimension"]], " [", tmp[["unit"]], "]"))
@@ -189,8 +187,25 @@ createDefaultPlotLabels <- function(metaData,
 }
 
 
+#' check if a data Column is categorical
+#'
+#' @param data data.frame used for mapping
+#' @param mapping list of aesthetic mappings
+#'
+#' @return A `Flag` is true if data column is either non numerical or a factor
+#' @export
+checkIfColumnIsCategorical <- function(data, mapping) {
+  tmp <- getDataForAesthetic("x",
+    data = data,
+    mapping = mapping,
+    stopIfNull = TRUE
+  )
+  isCategorical <- !is.numeric(tmp) | is.factor(tmp)
+  return(isCategorical)
+}
 
-#' getDataForAesthetic
+
+#' fetch data column for given aesthetic
 #'
 #' @param aesthetic Aesthetic fro which the the data is required
 #' @param data  data.frame with data
@@ -216,7 +231,7 @@ getDataForAesthetic <- function(aesthetic,
       if (stopIfNull) {
         stop(paste("evaluation of aesthetic", aesthetic, "failed:", cond))
       } else {
-        dataCol <- NULL
+        NULL
       }
     }
   )
@@ -230,7 +245,7 @@ getDataForAesthetic <- function(aesthetic,
 #' @param mapping  Default list of aesthetic mappings to use for plot
 #' @param newMaps new mapping entry
 #'
-#' @return uppdated mapping
+#' @return updated mapping
 #' @keywords internal
 addOverwriteAes <- function(newMaps, mapping) {
   checkmate::assertList(newMaps, names = "named")

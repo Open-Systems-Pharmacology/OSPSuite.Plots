@@ -5,12 +5,7 @@ codecov
 colormap
 colormaps
 ColorMaps
-errorbar
-geomTLFPoint
-getDataForAesthetic
 ggplot
-GPLv
-hline
 initializePlot
 isLLOQ
 linetype
@@ -23,13 +18,13 @@ mdv
 metaData
 OSP
 ospsuite
+PBPK
 plotLabels
 secAxis
 selectFontFamily
 shapevalue
 shapevalues
 timeprofiles
-TLF
 unicode
 ymax
 ymin

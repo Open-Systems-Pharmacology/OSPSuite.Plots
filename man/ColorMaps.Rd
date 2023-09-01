@@ -17,7 +17,7 @@ The \code{ospDefault} color map is based on colors in \code{default_igv} qualita
 color palette from \code{{ggsci}} package.
 }
 \seealso{
-Other setDefaultsOspsuite.plots: 
+Other setDefault functions: 
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
 \code{\link{resetDefaultColorMapDistinct}()},
@@ -28,5 +28,5 @@ Other setDefaultsOspsuite.plots:
 \code{\link{setDefaultTheme}()},
 \code{\link{setDefaults}()}
 }
-\concept{setDefaultsOspsuite.plots}
+\concept{setDefault functions}
 \keyword{datasets}

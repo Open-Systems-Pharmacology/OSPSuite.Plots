@@ -12,7 +12,7 @@ addOverwriteAes(newMaps, mapping)
 \item{mapping}{Default list of aesthetic mappings to use for plot}
 }
 \value{
-uppdated mapping
+updated mapping
 }
 \description{
 adds and update mapping

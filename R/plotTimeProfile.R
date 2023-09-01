@@ -6,16 +6,16 @@
 #' For the simulated data a geom_line and a geom_ribbon layer are added
 #' For the observed data a geom_point and a geom_errorbar layer are added
 #'
-#' As one of the intension of this plotting routine is to display simulated
-#' and observed data with same grouping aesthetics like color and linetype, but with different legend,
-#' between the layers for simulated data and layers for observerd  data new color scales are introduced.
+#' As one of the intention of this plotting routine is to display simulated
+#' and observed data with same grouping aesthetics like color and line type, but with different legend,
+#' between the layers for simulated data and layers for observered  data new color scales are introduced.
 #'
 #' Non default mappings which can be used are:
 #'
 #'  * lloq
 #'
 #'      * only relevant for observed data
-#'      * adds horizontal lines and displays measurment below LLOQ with a smaller alpha)
+#'      * adds horizontal lines and displays measurement below LLOQ with a smaller alpha)
 #'
 #'  * mdv
 #'
@@ -23,7 +23,7 @@
 #'      * only relevant for observed data,
 #'      * data with mdv 1 are not plotted
 #'
-#'  * error, error_relativ
+#'  * error, error_relative
 #'
 #'      * calculates ymin and ymax for additive ore relative
 #'
@@ -100,10 +100,12 @@ plotTimeProfile <- function(data = NULL,
   checkmate::assertCharacter(groupAesthetics, min.len = 0, all.missing = TRUE, null.ok = TRUE)
 
   #-  create default plot ----------
+  # mapping can not be set in ggplot as observed and simulated mappings may differ
   if (is.null(plotObject)) {
     plotObject <- initializePlot(
       metaData = metaData,
-      mapping = mapping %||% observedMapping
+      mapping = mapping %||% observedMapping,
+      setMapping = FALSE
     )
 
     # add y2 label to y2scale.args

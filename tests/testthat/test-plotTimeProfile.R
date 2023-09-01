@@ -64,7 +64,7 @@ test_that("plotTimeProfile works lloq", {
     dplyr::filter(SetID == "DataSet3") %>%
     dplyr::filter(Type == "observed") %>%
     dplyr::filter(dimension == "concentration") %>%
-    dplyr::select(c("time", "values", "caption", "lloq", "error_relativ"))
+    dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
 
   vdiffr::expect_doppelganger(
     title = "with lloq",
@@ -76,7 +76,7 @@ test_that("plotTimeProfile works lloq", {
         x = time,
         y = values,
         group = caption,
-        error_relativ = error_relativ,
+        error_relative = error_relative,
         lloq = lloq
       ),
       yscale = "log",
@@ -115,7 +115,7 @@ test_that("plotTimeProfile works secondary axis", {
   obsData <- exampleDataTimeProfile %>%
     dplyr::filter(SetID == "DataSet3") %>%
     dplyr::filter(Type == "observed") %>%
-    dplyr::select(c("time", "values", "dimension", "caption", "lloq", "error_relativ"))
+    dplyr::select(c("time", "values", "dimension", "caption", "lloq", "error_relative"))
 
 
 
@@ -129,7 +129,7 @@ test_that("plotTimeProfile works secondary axis", {
         x = time,
         y = values,
         shape = caption,
-        error_relativ = error_relativ,
+        error_relative = error_relative,
         lloq = lloq,
         y2axis = (dimension == "fraction"),
         color = dimension,
@@ -170,7 +170,7 @@ test_that("plotTimeProfile works secondary axis", {
         x = time,
         y = values,
         shape = caption,
-        error_relativ = error_relativ,
+        error_relative = error_relative,
         lloq = lloq,
         y2axis = (dimension != "fraction"),
         color = dimension,

@@ -31,7 +31,7 @@ ymax;ggplot2;;2;;;;;;2;;;;;;;1
 ymin;ggplot2;;2;;;;;;2;;;;;;;1
 z;ggplot2;;;;;;;;;;;;;;;
 error;ospsuite.plots;;;;;;;;;;;;;;;
-error_relativ;ospsuite.plots;;;;;;;;;;;;;;;
+error_relative;ospsuite.plots;;;;;;;;;;;;;;;
 lloq;ospsuite.plots;;;;;;;;;;;;;;;1
 mdv;ospsuite.plots;;;;;;;;;;;;;;;
 y2axis;ospsuite.plots;;;;;;;;;;;;;;;

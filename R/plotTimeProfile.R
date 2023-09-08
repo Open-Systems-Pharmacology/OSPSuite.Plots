@@ -3,12 +3,12 @@
 #' @description Produces timeprofiles for simulated and observed data.
 #'
 #' @details
-#' For the simulated data a geom_line and a geom_ribbon layer are added
-#' For the observed data a geom_point and a geom_errorbar layer are added
+#' For the simulated data a `geom_line` and a `geom_ribbon` layer are added
+#' For the observed data a `geom_point` and a `geom_errorbar` layer are added
 #'
 #' As one of the intention of this plotting routine is to display simulated
 #' and observed data with same grouping aesthetics like color and line type, but with different legend,
-#' between the layers for simulated data and layers for observered  data new color scales are introduced.
+#' between the layers for simulated data and layers for observed  data new color scales are introduced.
 #'
 #' Non default mappings which can be used are:
 #'
@@ -41,19 +41,19 @@
 #' @param observedMapping Default list of aesthetic mappings to use for observed data
 #' @param metaData A named list of information about `data` such as the `dimension` and `unit` of its variables.
 #' @param plotObject An optional `ggplot` object on which to add the plot layers
-#' @param geomLineAttributes A `list` with arguments which are passed on to the ggplot2::geom_line
-#' @param geomRibbonAttributes A `list` with arguments which are passed on to the ggplot2::geom_ribbon
-#' @param geomPointAttributes A `list` with arguments which are passed on to the ggplot2::geom_point
-#' @param geomErrorbarAttributes A `list` with arguments which are passed on to the ggplot2::geom_errorbar
-#' @param geomLLOQAttributes A `list` with arguments which are passed on to the ggplot2::geom_hline
+#' @param geomLineAttributes A `list` with arguments which are passed on to the `ggplot2::geom_line`
+#' @param geomRibbonAttributes A `list` with arguments which are passed on to the `ggplot2::geom_ribbon`
+#' @param geomPointAttributes A `list` with arguments which are passed on to the `ggplot2::geom_point`
+#' @param geomErrorbarAttributes A `list` with arguments which are passed on to the `ggplot2::geom_errorbar`
+#' @param geomLLOQAttributes A `list` with arguments which are passed on to the `ggplot2::geom_hline`
 #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with group,
 #'            use of group aesthetics triggers second axis after simulation layers
-#' @param xscale either 'linear' then ggplot2::scale_x_continuous() or 'log' then ggplot2::scale_x_log10() is used
-#' @param xscale.args list of arguments passed to ggplot2::scale_x_continuous() or ggplot2::scale_x_log10()
-#' @param yscale either 'linear' then ggplot2::scale_y_continuous() or 'log' then ggplot2::scale_y_log10() is used
-#' @param yscale.args list of arguments passed to ggplot2::scale_y_continuous() or ggplot2::scale_y_log10()
+#' @param xscale either 'linear' then `ggplot2::scale_x_continuous()` or 'log' then `ggplot2::scale_x_log10()` is used
+#' @param xscale.args list of arguments passed to `ggplot2::scale_x_continuous()` or `ggplot2::scale_x_log10()`
+#' @param yscale either 'linear' then `ggplot2::scale_y_continuous()` or 'log' then `ggplot2::scale_y_log10()` is used
+#' @param yscale.args list of arguments passed to `ggplot2::scale_y_continuous()` or `ggplot2::scale_y_log10()`
 #' @param y2scale either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale
-#' @param y2scale.args list of arguments passed to ggplot2::sec_axis(), trans, break are set by code
+#' @param y2scale.args list of arguments passed to `ggplot2::sec_axis()`, trans, break are set by code
 #'
 #' @return A `ggplot` object
 #' @export
@@ -205,13 +205,10 @@ plotTimeProfile <- function(data = NULL,
     scaleDirection = "x"
   )
 
-  plotObject <- addXscale(
+  plotObject <- addXYScale(
     plotObject = plotObject,
     xscale = xscale,
-    xscale.args = xscale.args
-  )
-  plotObject <- addYscale(
-    plotObject = plotObject,
+    xscale.args = xscale.args,
     yscale = yscale,
     yscale.args = yscale.args,
     secAxis = secAxis

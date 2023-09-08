@@ -12,7 +12,7 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-   fig.show = "hold",
+  fig.show = "hold",
   comment = "#>"
 )
 ```
@@ -1392,7 +1392,7 @@ mapping <- aes(
   y2axis = (dimension == "fraction"),
   color = dimension,
   linetype = dimension,
-  shape = group
+  shape = caption
 )
 
 plotTimeProfile(
@@ -1534,7 +1534,7 @@ plotTimeProfile(
 The breaks of time axis are set according to the units provided by the variable `metaData`.
 
 Below we show the same plot with 4 different time units:
-s
+
 ```{r example_timeUnit,fig.show='hold'}
 # Define Data Mapping
 mapping <- aes(

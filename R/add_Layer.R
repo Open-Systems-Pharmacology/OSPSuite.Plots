@@ -181,6 +181,37 @@ buildWatermarkGrob <- function(label, x = .5, y = .5, angle = 30,
 }
 
 
+#' add X and Y-scale
+#'
+#' @param plotObject A `ggplot` object on which to add the scale
+#' @inheritParams plotTimeProfile
+#'
+#' @return The updated `ggplot` object
+#' @export
+addXYScale <- function(plotObject,
+                       xscale = NULL,
+                       xscale.args = list(),
+                       yscale = NULL,
+                       yscale.args = list(),
+                       secAxis = waiver()) {
+  if (!is.null(xscale)) {
+    plotObject <- addXscale(plotObject,
+      xscale = xscale,
+      xscale.args = xscale.args
+    )
+  }
+
+  if (!is.null(yscale)) {
+    plotObject <- addYscale(plotObject,
+      yscale = yscale,
+      yscale.args = yscale.args,
+      secAxis = secAxis
+    )
+  }
+
+  return(plotObject)
+}
+
 
 #' add X-scale
 #'
@@ -192,22 +223,31 @@ buildWatermarkGrob <- function(label, x = .5, y = .5, angle = 30,
 addXscale <- function(plotObject,
                       xscale,
                       xscale.args = list()) {
-  checkmate::assertChoice(xscale, choices = c("linear", "log"), null.ok = TRUE)
+  checkmate::assertChoice(xscale, choices = c("linear", "log", "discrete"), null.ok = TRUE)
 
   plotObject <- plotObject +
-    if (xscale == "linear") {
-      if (is.null(xscale.args$guide)) xscale.args$guide <- "axis_minor"
-      do.call(
-        what = scale_x_continuous,
-        args = xscale.args
-      )
-    } else {
-      if (is.null(xscale.args$guide)) xscale.args$guide <- "axis_logticks"
-      do.call(
-        what = scale_x_log10,
-        args = xscale.args
-      )
-    }
+    switch(xscale,
+      "linear" = {
+        if (is.null(xscale.args$guide)) xscale.args$guide <- "axis_minor"
+        do.call(
+          what = scale_x_continuous,
+          args = xscale.args
+        )
+      },
+      "log" = {
+        if (is.null(xscale.args$guide)) xscale.args$guide <- "axis_logticks"
+        do.call(
+          what = scale_x_log10,
+          args = xscale.args
+        )
+      },
+      "discrete" = {
+        do.call(
+          what = scale_x_discrete,
+          args = xscale.args
+        )
+      }
+    )
 
   return(plotObject)
 }

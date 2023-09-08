@@ -54,7 +54,7 @@ Shapes <- list(
 
 
 
-#' @title GeomTLFPoint
+#' @title Geom to point unicode as shapes
 #' @description
 #' Define a Geom using `ggplot2::ggproto()` and based on GeomPoint.
 #' The Geom internally uses `textGrob` instead of `pointsGrob` so that fonts leverage for drawing shapes.
@@ -63,7 +63,7 @@ Shapes <- list(
 #' @keywords internal
 #'
 GeomPointUnicode <- ggplot2::ggproto(
-  "GeomTLFPoint",
+  "GeomPointUnicode",
   GeomPoint,
   # This will correspond to the default property displayed in legend
   # if property not used in data mapping
@@ -114,7 +114,7 @@ GeomPointUnicode <- ggplot2::ggproto(
   }
 )
 
-#' @title geomTLFPoint
+#' @title layer to point unicode as shapes
 #' @description
 #' geom similar to `geom_point()` but that leverage fonts to draw its shapes
 #' @param mapping mapping from `ggplot2` package as provided by `aes()`

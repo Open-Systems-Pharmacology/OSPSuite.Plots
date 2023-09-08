@@ -234,16 +234,17 @@ Options to switch watermark on and off, select the label and customize format:
 see also section [4. Watermark]
 
 ```{r,eval = FALSE}
-ospsuite.plots.watermark_enabled <- TRUE
-ospsuite.plots.watermark_label <- "preliminary analysis"
-ospsuite.plots.watermark_format <- list(
-  x = 0.5,
-  y = 0.5,
-  color = "grey20",
-  angle = 30,
-  fontsize = 12,
-  alpha = 0.7
-)
+options(list(
+  ospsuite.plots.watermark_enabled = TRUE,
+  ospsuite.plots.watermark_label = "preliminary analysis",
+  ospsuite.plots.watermark_format = list(
+    x = 0.5,
+    y = 0.5,
+    color = "grey20",
+    angle = 30,
+    fontsize = 12,
+    alpha = 0.7
+  )))
 ```
 
 The watermark is added with function 
@@ -252,47 +253,56 @@ plotObject <- ggplot() +
   layerWatermark()
 ```
 
-This is one automatically by each plot function of this package
+This is done automatically by each plot function of this package
 
 
 
 ## 2.5.2 Options to set the defaults for geom layer attributes
 
 ```{r, eval = FALSE}
-ospsuite.plots.geomLineAttributes <- list()
-ospsuite.plots.geomRibbonAttributes <- list(color = NA)
-ospsuite.plots.geomPointAttributes <- list()
-ospsuite.plots.geomErrorbarAttributes <- list(width = 0)
-ospsuite.plots.geomLLOQAttributes <- list(linetype = "dotted")
-ospsuite.plots.geomRatioLineAttributes <- list(linetype = "dashed")
-ospsuite.plots.geomBoxplotAttributes <- list(
-  position = position_dodge(width = 1),
-  color = "black"
-)
-ospsuite.plots.geomBarAttributes <- list(
-  bins = 10,
-  position = ggplot2::position_nudge()
-)
+options(list(
+  ospsuite.plots.geomLineAttributes = list(),
+  ospsuite.plots.geomRibbonAttributes = list(color = NA),
+  ospsuite.plots.geomPointAttributes = list(),
+  ospsuite.plots.geomErrorbarAttributes = list(width = 0),
+  ospsuite.plots.geomLLOQAttributes = list(linetype = "dotted"),
+  ospsuite.plots.geomRatioLineAttributes = list(linetype = "dashed"),
+  ospsuite.plots.geomBoxplotAttributes = list(
+    position = position_dodge(width = 1),
+    color = "black"
+  ),
+  ospsuite.plots.geomBarAttributes = list(
+    bins = 10,
+    position = ggplot2::position_nudge()
+  )
+))
 ```
 
-## 2.5.3 Other Options
+## 2.5.3 Alpha
 
 ```{r, eval = FALSE}
 # default alpha
-ospsuite.plots.Alpha <- 0.7
+options(ospsuite.plots.Alpha = 0.7)
 
 # alpha of LLOQ values
-ospsuite.plots.LLOQAlphaVector <- c("TRUE" = 0.618, "FALSE" = 1)
+options(ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.618, "FALSE" = 1))
+```
 
+
+## 2.5.3 Percentiles
+
+Percentiles are used within the function `plotBoxwhisker`
+
+```{r, eval = FALSE}
 # percentiles for boxwhisker plots
-ospsuite.plots.Percentiles <- c(0.05, 0.25, 0.5, 0.75, 0.95)
+options(ospsuite.plots.Percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95))
 ```
 
 
 
 # 3. Plot-functions
 
-If a plot function is called wit variable `plotObject = NULL`, internally the function  `initializePlot` with variables `metaData` and `mapping` is called. This function constructs labels from the metadata, and adds a watermark layer.
+If a plot function is called  internally the function  `initializePlot` with variables `metaData` and `mapping` is called. This function constructs labels from the metadata, and adds a watermark layer.
 
 
 ## 3.1 `plotTimeProfile()`
@@ -309,7 +319,7 @@ not yet implemented
 
 ## 3.4 `plotHistogram`
 
-not yet implemented
+see `\code{vignette("Histogram Plots", package = "ospsuite.plots")}`
 
 ## 3.5 `plotPkratio()`
 

@@ -200,13 +200,13 @@ usethis::use_data(exampleDataTimeProfile, overwrite = TRUE, internal = FALSE)
 
 # Covariates -------
 
-## Set 1  ---
+##  Set 1 ----
 
 exampleDataCovariates <- fread(file.path("data-raw", "test-data.csv")) %>%
   dplyr::mutate(SetID = "DataSet1")
 
 
-## Set 2  ---
+## Set 2  ----
 
 set.seed(1)
 data <- data.table(
@@ -226,26 +226,27 @@ exampleDataCovariates <- rbind(exampleDataCovariates,
 
 # metaData will be used during the smart mapping
 # to label the axes as "dimension [unit]"
+# Load example
 metaData <- list(
   Age = list(
-    dimension = "Age in years",
-    unit = "year(s)"
-  ),
-  Ratio = list(
-    dimension = "Fraction",
-    unit = ""
+    dimension = "Age",
+    unit = "yrs"
   ),
   Obs = list(
-    dimension = "Concentration",
-    unit = "µg/ml"
+    dimension = "Clearance",
+    unit = "dL/h/kg"
   ),
   Pred = list(
-    dimension = "Concentration",
-    unit = "µg/ml"
+    dimension = "Clearance",
+    unit = "dL/h/kg"
   ),
   SD = list(
-    dimension = "Concentration",
-    unit = "µg/ml"
+    dimension = "Clearance",
+    unit = "dL/h/kg"
+  ),
+  Ratio = list(
+    dimension = "Ratio",
+    unit = ""
   )
 )
 

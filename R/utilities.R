@@ -281,3 +281,31 @@ metaData2DataFrame <- function(metaData) {
 
   return(metaDF)
 }
+
+#' creates labels for percentiles
+#'
+#' convert a numeric percentile to a label
+#' e.g. c(25,75)   to c("25th percentile", "75th percentile")
+#'
+#' @param percentiles numeric input
+#' @param suffix common ending
+#'
+#' @return character vector with labels
+#' @export
+#'
+labelsForPercentile <- function(percentiles, suffix = " percentile") {
+  tmp <- lapply(
+    percentiles,
+    function(x) {
+      ending <- "th"
+      if (x %in% c(1, seq(21, 91, 10))) ending <- "st"
+      if (x %in% c(2, seq(22, 92, 10))) ending <- "nd"
+      if (x %in% c(3, seq(23, 93, 10))) ending <- "rd"
+      return(paste0(x, ending))
+    }
+  ) %>%
+    unlist()
+
+
+  paste0(tmp, suffix)
+}

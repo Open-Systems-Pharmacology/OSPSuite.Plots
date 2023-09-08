@@ -3,17 +3,6 @@ oldDefaults <- ospsuite.plots::setDefaults()
 theme_update(legend.position = "top")
 theme_update(legend.title = element_blank())
 
-# load data
-metaData <- list(
-  time = list(
-    dimension = "Time",
-    unit = "h"
-  ),
-  values = list(
-    dimension = "Concentration",
-    unit = "mg/l"
-  )
-)
 
 test_that("plotTimeProfile works basic", {
   skip_if_not_installed("vdiffr")
@@ -29,6 +18,8 @@ test_that("plotTimeProfile works basic", {
     dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
     dplyr::filter(Type == "observed") %>%
     dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
+
+  metaData <- attr(exampleDataTimeProfile, "metaData")
 
 
   vdiffr::expect_doppelganger(
@@ -65,6 +56,8 @@ test_that("plotTimeProfile works lloq", {
     dplyr::filter(Type == "observed") %>%
     dplyr::filter(dimension == "concentration") %>%
     dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
+
+  metaData <- attr(exampleDataTimeProfile, "metaData")
 
   vdiffr::expect_doppelganger(
     title = "with lloq",

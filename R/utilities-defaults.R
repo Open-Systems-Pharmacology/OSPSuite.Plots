@@ -69,7 +69,7 @@ setDefaultTheme <- function() {
 
 # Default ColorMap Discrete -------------
 
-#' @title ColorMaps
+#' @title Color maps
 #'
 #' @description
 #'
@@ -106,7 +106,7 @@ ColorMaps <- list(
 #'
 #' @title set the default colormap for discrete colors
 #'
-#' @return list with COlormaps previously set
+#' @return list with Colormaps previously set
 #'
 #' @family setDefault functions
 #' @export

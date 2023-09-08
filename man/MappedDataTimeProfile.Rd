@@ -8,6 +8,7 @@ R6 class for mapping variable to \code{data}
 }
 \seealso{
 Other MappedData classes: 
+\code{\link{MappedDataBoxplot}},
 \code{\link{MappedData}}
 }
 \concept{MappedData classes}

@@ -67,6 +67,20 @@ setDefaultTheme <- function() {
 }
 
 
+#' reset the default theme
+#'
+#' wrapper for ggplot2::theme_set(oldTheme)
+#'
+#' @param oldTheme
+#'
+#' @export
+#'
+#' @family setDefault functions
+resetDefaultTheme = function(oldTheme){
+  ggplot2::theme_set(oldTheme)
+}
+
+
 # Default ColorMap Discrete -------------
 
 #' @title Color maps
@@ -307,7 +321,7 @@ setDefaults <- function(ColorMapList = NULL,
   oldDefaults[["geomRibbon"]] <- get("GeomRibbon", envir = nsenv)$default_aes
   oldDefaults[["geomLine"]] <- get("GeomLine", envir = nsenv)$default_aes
 
-  # set them, color and shapes
+  # set theme, color and shapes
 
   oldDefaults[["theme"]] <- setDefaultTheme()
   oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(ColorMapList = ColorMapList)

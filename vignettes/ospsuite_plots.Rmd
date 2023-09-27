@@ -37,8 +37,9 @@ The library is based on `ggplot2` functionality. It uses also the libraries `ggn
 
 `ospsuite.plots` provides default settings for the layout including theme, geometric aesthetics, color and shapes for distinct scales.
 
+Examples within this vignette are plotted with following test data:
 
-```{r get-test-data, echo=FALSE, results='asis'}
+```{r get-test-data,  results='asis'}
 testData <- exampleDataCovariates %>%
   dplyr::filter(SetID == "DataSet1") %>%
   dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex"))
@@ -78,9 +79,13 @@ ggplot(
 
 ## 2.1.2 set ospsuite.plots layout
 
+To set the default we use the same logic as used in `ggplot2::theme_set()`. Invisibly the previous settings are returned so you can easily save it, then later restore it.
+
+`setDefaults()` sets the theme, discrete color palette, shapes and various options. All objects can als be set separately as described below.
+
 
 ```{r,warning=FALSE,fig.show='hold'}
-# set default layout  and save previous layout in variable oldDefaults
+# set default layout  and save previous layout in variable old defaults
 oldDefaults <- ospsuite.plots::setDefaults()
 
 # ospsuite.plots function
@@ -141,7 +146,7 @@ theme_update(legend.position = "top")
 theme_update(legend.title = element_blank())
 
 # reset to the previously saved
-ggplot2::theme_set(oldTheme)
+resetDefaultTheme(oldTheme)
 ```
 
 ## 2.3 Default Color
@@ -149,6 +154,20 @@ ggplot2::theme_set(oldTheme)
 Functions to set the ospsuite.plots default color only are: `setDefaultColorMapDistinct()` and `resetDefaultColorMapDistinct()`. This functions are called by `setDefaults()` and `resetDefaults()`.
 
 Colors are set to discrete and ordinal scales for `fill` and `colour`
+
+The package provides some color palettes in the object ColorMaps (See `? ColorMaps`)
+
+The example below show a plot with  
+
+* A plot with default settings for up to 6 different colors
+* B plot with default settings for more the 6 different colors
+* C customize settings for all following plots using the `ColorMaps[["grays"]]`
+* D customize plot: set grey scale for this plot only using function `scale_fill_grey()`    
+
+You can also use color Palettes from other packages e.g ggsci:  
+
+* E customize settings for all following plots using as colormap ggsci::pal_lancet()(9)
+* F customized plots set grey scale for this plot only using function `ggsci::scale_color_lancet()`    
 
 
 ```{r out.width="80%"}
@@ -162,7 +181,8 @@ ggplot() +
     y = rep(seq(1, 2), each = 3),
     fill = as.factor(seq(1, 6))
   )) +
-  labs("up to 6 colors") +
+  labs(title = "up to 6 colors",
+       tag = 'A') +
   theme(
     legend.position = "none",
     axis.title = element_blank()
@@ -174,7 +194,7 @@ ggplot() +
     y = c(rep(seq(1, 7), each = 7), 8, 8),
     fill = as.factor(seq(1, 51))
   )) +
-  labs("> 6 colors") +
+  labs(title = "> 6 colors") +
   theme(
     legend.position = "none",
     axis.title = element_blank()
@@ -195,10 +215,10 @@ ggplot() +
   theme(
     legend.position = "none",
     axis.title = element_blank()
-  )
+  ) +
+  labs(title = 'ColorMaps gray',
+       tag = 'C')
 
-# set to Color palettes inspired by plots in Lancet journals
-ospsuite.plots::setDefaultColorMapDistinct(ColorMaps[["ggsci::pal_lancet()"]])
 
 ggplot() +
   geom_tile(aes(
@@ -209,7 +229,44 @@ ggplot() +
   theme(
     legend.position = "none",
     axis.title = element_blank()
-  )
+  ) +
+  scale_fill_grey() +
+  labs(title = 'scale_fill_grey',
+       tag = 'D')
+
+# set to Color palettes inspired by plots in Lancet journals
+ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
+
+ggplot() +
+  geom_tile(aes(
+    x = rep(seq(1, 3), 3),
+    y = rep(seq(1, 3), each = 3),
+    fill = as.factor(seq(1, 9))
+  )) +
+  theme(
+    legend.position = "none",
+    axis.title = element_blank()
+  ) +
+  labs(title = 'ggsci::pal_lancet',
+       tag = 'E')
+
+
+# set to Color palettes inspired by plots in Lancet journals
+ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
+
+ggplot() +
+  geom_tile(aes(
+    x = rep(seq(1, 3), 3),
+    y = rep(seq(1, 3), each = 3),
+    fill = as.factor(seq(1, 9))
+  )) +
+  theme(
+    legend.position = "none",
+    axis.title = element_blank()
+  ) +
+  ggsci::scale_color_lancet() +
+  labs(title = 'ggsci::scale_color_lancet',
+       tag = 'F')
 
 
 
@@ -230,8 +287,23 @@ ospsuite.plots::setDefaults(defaultOptions = ospsuite.plots::getDefaultOptions()
 
 ## 2.5.1 Options to customize Watermark
 
-Options to switch watermark on and off, select the label and customize format:
-see also section [4. Watermark]
+Per default a watermark is displayed in all plots
+
+The watermark is added with function 
+```{r}
+plotObject <- ggplot() +
+  layerWatermark()
+```
+
+This is done automatically by each plot function of this package
+
+
+There are options to 
+
+* switch watermark on and off  
+* select the label 
+* customize format
+
 
 ```{r,eval = FALSE}
 options(list(
@@ -247,13 +319,52 @@ options(list(
   )))
 ```
 
-The watermark is added with function 
-```{r}
-plotObject <- ggplot() +
-  layerWatermark()
-```
 
-This is done automatically by each plot function of this package
+examples to customize watermark  
+
+* A change format of watermark
+* B disabled watermark
+* C reset to default
+
+```{r}
+# change format and label of watermark
+options(list(
+    ospsuite.plots.watermark_format = list(
+      x = 0.2,
+      y = 0.9,
+      color = "red",
+      angle = 90,
+      fontsize = 24,
+      alpha = 0.2
+    ),
+    ospsuite.plots.watermark_label = "NEW"
+  ))
+
+initializePlot() +
+  labs(title = 'changed watermark',
+       tag = 'A')
+
+
+# disable
+options(list(ospsuite.plots.watermark_enabled = FALSE))
+
+initializePlot()+
+  labs(title = 'no watermark',
+       tag = 'B')
+
+
+# reste to default
+options(list(
+  ospsuite.plots.watermark_format = NULL,
+  ospsuite.plots.watermark_label = NULL,
+  ospsuite.plots.watermark_enabled = NULL
+))
+
+initializePlot() +
+  labs(title = 'default watermark',
+       tag = 'C')
+
+```
 
 
 
@@ -280,6 +391,9 @@ options(list(
 
 ## 2.5.3 Alpha
 
+Options to set the face alpha of ribbons filled points   
+and options to set the filled points for values below and above lloq
+
 ```{r, eval = FALSE}
 # default alpha
 options(ospsuite.plots.Alpha = 0.7)
@@ -302,12 +416,14 @@ options(ospsuite.plots.Percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95))
 
 # 3. Plot-functions
 
-If a plot function is called  internally the function  `initializePlot` with variables `metaData` and `mapping` is called. This function constructs labels from the metadata, and adds a watermark layer.
+All plot functions listed below call  internally the function  `initializePlot`. 
+This function constructs labels from the metadata, and adds a watermark layer.
+It can also be used to create a customized ggplot
 
 
 ## 3.1 `plotTimeProfile()`
 
-see `\code{vignette("Time Profile Plots", package = "ospsuite.plots")}`
+see \code{vignette("Time Profile Plots", package = "ospsuite.plots")}
 
 ## 3.2 `plotBoxwhisker()`
 
@@ -319,13 +435,13 @@ not yet implemented
 
 ## 3.4 `plotHistogram`
 
-see `\code{vignette("Histogram Plots", package = "ospsuite.plots")}`
+see \code{vignette("Histogram Plots", package = "ospsuite.plots")}
 
-## 3.5 `plotPkratio()`
+## 3.5 `plotPkRatio()`
 
 not yet implemented
 
-## 3.6 `plotDDiratio()`
+## 3.6 `plotDDiRatio()`
 
 not yet implemented
 
@@ -341,10 +457,9 @@ not yet implemented
 
 not yet implemented
 
-## 3.10 `plotPiechart()`
+## 3.10 `plotPieChart()`
 
 not yet implemented
-
 
 
 # 4. Shapes

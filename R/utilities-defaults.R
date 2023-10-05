@@ -189,7 +189,11 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 setDefaultShapeDiscrete <- function(shapeValues = NULL) {
   if (is.null(shapeValues)) {
     shapeValues <-
-      c("circle filled", "diamond filled", "triangle filled", "square filled")
+      c("circle filled", "diamond filled", "triangle filled", "square filled","triangle down filled",
+        "plus","cross","asteriks",
+        "circle cross","square cross",
+        "circle plus","square plus","diamond plus",
+        "square triangle")
   }
   # shape
   scale_shape_discrete <- function(...) {
@@ -250,7 +254,7 @@ getDefaultOptions <- function() {
     # default alpha
     ospsuite.plots.Alpha = 0.7,
     # alpha of LLOQ values
-    ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.618, "FALSE" = 1),
+    ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.3, "FALSE" = 1),
     # percentiles
     ospsuite.plots.Percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95)
   )
@@ -311,12 +315,17 @@ setDefaults <- function(ColorMapList = NULL,
                         defaultOptions = getDefaultOptions()) {
   oldDefaults <- list()
 
+  # options
+  options(defaultOptions)
+
+  defaultAlpha <- getOption("ospsuite.plots.Alpha", getDefaultOptions()[["ospsuite.plots.Alpha"]])
+
   # get old settings of defaults for geoms
   nsenv <- asNamespace("ggplot2")
 
   oldDefaults[["geomHist"]] <- get("GeomBar", envir = nsenv)$default_aes
   oldDefaults[["geomBar"]] <- get("GeomBar", envir = nsenv)$default_aes
-  oldDefaults[["geoPoint"]] <- get("GeomPoint", envir = nsenv)$default_aes
+  oldDefaults[["geomPoint"]] <- get("GeomPoint", envir = nsenv)$default_aes
   oldDefaults[["geomBoxplot"]] <- get("GeomBoxplot", envir = nsenv)$default_aes
   oldDefaults[["geomRibbon"]] <- get("GeomRibbon", envir = nsenv)$default_aes
   oldDefaults[["geomLine"]] <- get("GeomLine", envir = nsenv)$default_aes
@@ -326,11 +335,6 @@ setDefaults <- function(ColorMapList = NULL,
   oldDefaults[["theme"]] <- setDefaultTheme()
   oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(ColorMapList = ColorMapList)
   setDefaultShapeDiscrete(shapeValues = shapeValues)
-
-  # options
-  options(defaultOptions)
-
-  defaultAlpha <- getOption("ospsuite.plots.Alpha", getDefaultOptions()[["ospsuite.plots.Alpha"]])
 
   # set geoms
   update_geom_defaults("point", list(

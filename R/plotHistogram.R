@@ -48,6 +48,9 @@ plotHistogram <- function(data,
 
   checkmate::assertChoice(xscale, choices = c("linear", "log"), null.ok = TRUE)
   checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
+  checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)
+  checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
+
 
   #-  map Data
   mappedData <- MappedData$new(
@@ -72,7 +75,7 @@ plotHistogram <- function(data,
   plotObject <- initializePlot(
     metaData = metaData,
     mapping = mappedData$mapping,
-    data = mappedData$data
+    data = mappedData$dataForPlot
   )
 
 

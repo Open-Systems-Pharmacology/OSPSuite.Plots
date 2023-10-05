@@ -254,7 +254,7 @@ plotTimeProfile(
 
 
 
-### 2.2.2. Single simulation with confidence interval
+### 2.2.2. Single observed data set with confidence interval
 
 For this  data set, the uncertainty/error was defined as standard deviation using the variable `sd`.
 If mapped to 'error' this variable will be used to create corresponding `ymin` and `ymax` values for the error bars $ymin = values - sd$, $ymax = values + sd$. 
@@ -466,6 +466,7 @@ mapping <- aes(
   x = time,
   y = values,
   color = caption,
+  fill = caption,
   shape = caption,
   linetype = caption
 )

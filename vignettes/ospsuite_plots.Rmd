@@ -99,12 +99,13 @@ plotHistogram(
 
 ggplot(
   data = testData,
-  mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)
+  mapping = aes(x = Obs, y = Pred, color = Sex, fill = Sex,shape = Sex)
 ) +
   geom_point() +
   theme(legend.position = "top") +
   labs(tag = "B")
 ```
+
 
 ## 2.1.3 reset to previously save layout
 
@@ -439,7 +440,7 @@ see \code{vignette("Histogram Plots", package = "ospsuite.plots")}
 
 ## 3.5 `plotPkRatio()`
 
-not yet implemented
+see \code{vignette("PK-Ratio Plots", package = "ospsuite.plots")}
 
 ## 3.6 `plotDDiRatio()`
 
@@ -505,8 +506,6 @@ shapes <- data.frame(
   y = rep(-c(1:8), each = 5)
 )
 
-
-# TODO functionName
 
 showtext::showtext_auto()
 ggplot(shapes, aes(x, y)) +

@@ -4,12 +4,10 @@
 \alias{createDefaultPlotLabels}
 \title{create Default labels with unit for plot}
 \usage{
-createDefaultPlotLabels(metaData, mapping)
+createDefaultPlotLabels(mappedData)
 }
 \arguments{
-\item{metaData}{A named list of information about the \code{data} such as the \code{dimension} and \code{unit} of its variables.}
-
-\item{mapping}{Default list of aesthetic mappings to use for plot}
+\item{mappedData}{MappedData object with information of mapped dimensions and units}
 }
 \value{
 list with plotLabels

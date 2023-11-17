@@ -1,12 +1,14 @@
 #' @title generates histograms
-#'
-#' @description Produces histograms with optional distribution fit
+#' @description
+#' Produces histograms with optional distribution fit
 #'
 #' For more details and examples see the vignettes:
-#' \code{vignette("Histogram Plots", package = "ospsuite.plots")}
-#' \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
+#' * \code{vignette("Histogram Plots", package = "ospsuite.plots")}
+#' * \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
+#' * \code{vignette("Goodness of fit", package = "ospsuite.plots")}
 #'
 #' @inheritParams plotTimeProfile
+#' @inheritParams plotYVsX
 #' @param plotAsFrequency A `Flag` defining if histogram displays a frequency in y axis
 #' @param asBarPlot A `Flag` defining if geom_histogram should be used (continuous data) or geom_bar (categorical)
 #'    if TRUE variables `distribution`, `meanFunction`, `xacale` and `xscale.args` are ignored
@@ -22,42 +24,47 @@
 plotHistogram <- function(data,
                           mapping,
                           metaData = NULL,
-                          asBarPlot = checkIfColumnIsCategorical(
-                            data = data,
-                            mapping = mapping
-                          ),
+                          asBarPlot = NULL,
                           geomHistAttributes =
-                            getDefaultGeomAttributes(
-                              ifelse(asBarPlot,
-                                "Bar",
-                                "Hist"
-                              )
-                            ),
+                            getDefaultGeomAttributes("Hist"),
                           plotAsFrequency = FALSE,
                           xscale = "linear",
                           xscale.args = list(),
                           yscale = "linear",
                           yscale.args = list(),
                           distribution = "none",
-                          meanFunction = "auto") {
+                          meanFunction = "auto",
+                          residualScale = "log") {
   #----- Validation and formatting of input arguments
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
 
   checkmate::assertFlag(plotAsFrequency)
+  checkmate::assertFlag(plotAsFrequency)
   if (plotAsFrequency & "y" %in% names(mapping)) warning("plotAsFrequency = TRUE will overwrite mapping of y")
+
+  checkmate::assertList(geomHistAttributes, null.ok = FALSE, min.len = 0)
 
   checkmate::assertChoice(xscale, choices = c("linear", "log"), null.ok = TRUE)
   checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
   checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)
   checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
+  checkmate::assertChoice(residualScale, choices = c("linear", "log", "ratio"), null.ok = TRUE)
 
 
   #-  map Data
   mappedData <- MappedData$new(
     data = data,
     mapping = mapping,
+    groupAesthetics = "fill",
+    residualScale = residualScale,
+    residualAesthetic = "x"
   )
+  mappedData$addMetaData(metaData)
 
+  if (is.null(asBarPlot)) {
+    asBarPlot <- !(mappedData$columnClasses[["x"]] %in% c("numeric"))
+  }
+  if (asBarPlot) geomHistAttributes$bins <- NULL
 
   plotHelper <- plotHelperHistogram$new(
     xscale = xscale,
@@ -73,15 +80,19 @@ plotHistogram <- function(data,
 
   #-  initialize plot
   plotObject <- initializePlot(
-    metaData = metaData,
-    mapping = mappedData$mapping,
-    data = mappedData$dataForPlot
+    mappedData
   )
 
 
   if (plotAsFrequency) {
     plotObject <-
       plotObject + labs(y = "Relative Frequency")
+  }
+
+  if (mappedData$hasResidualMapping) {
+    plotObject <-
+      plotObject +
+      labs(x = mappedData$residualLabel)
   }
 
   # adds histogram
@@ -93,7 +104,7 @@ plotHistogram <- function(data,
       ),
       args = c(
         list(
-          mapping = plotHelper$histMapping,
+          mapping = plotHelper$getHistMapping,
           na.rm = TRUE
         ),
         geomHistAttributes
@@ -122,6 +133,7 @@ plotHistogram <- function(data,
 
   if (plotHelper$distribution != "none") {
     distrMapping <- plotHelper$getDistrMapping(mappedData, plotObject)
+
     plotObject <-
       plotObject +
       stat_theodensity(
@@ -140,8 +152,9 @@ plotHistogram <- function(data,
       plotObject +
       stat_summary(
         mapping = meanMapping,
-        fun.data = plotHelper$scaledMeanFun,
+        fun = plotHelper$scaledMeanFun,
         geom = "vline",
+        orientation = "y",
         inherit.aes = !plotHelper$isStacked
       )
   }
@@ -241,19 +254,19 @@ plotHelperHistogram <- R6::R6Class( # nolint
     #'
     #' @return mapping
     getMeanMapping = function(mappedData) {
-      meanMapping <- aes(x = 1)
-      meanMapping$y <- mappedData$mapping$x
+      meanMapping <- aes(xintercept = after_stat(x), y = 0)
+      meanMapping$x <- mappedData$mapping$x
       if (!self$isStacked) meanMapping$colour <- mappedData$mapping$fill
       return(meanMapping)
     }
   ),
   active = list(
-    #' @field histMapping generates mapping for histogram
-    histMapping = function() {
+    #' @field getHistMapping generates mapping for histogram
+    getHistMapping = function() {
       newMapping <- aes()
       if (self$plotAsFrequency) {
         if (self$isStacked) {
-          newMapping <- aes(y = after_stat(count / sum(count)))
+          newMapping <- aes(y = after_stat(count) / sum(count) / after_stat(width))
         } else {
           newMapping <- aes(y = after_stat(density))
         }
@@ -290,12 +303,13 @@ plotHelperHistogram <- R6::R6Class( # nolint
       binwidth <- c()
       for (iLayer in seq_len(length(plotBuild$data))) {
         if (all(c("xmin", "xmax", "count", "y") %in% names(plotBuild$data[[iLayer]]))) {
-          binwidth <- unique(plotBuild$data[[iLayer]]$xmax - plotBuild$data[[iLayer]]$xmin)
+          binwidth <- unique(diff(plotBuild$data[[iLayer]]$x))
+          binwidth <- binwidth[binwidth > 0]
         }
       }
 
       if (length(binwidth) == 0) stop("error within bin width determination. No binwidth found. Is the plot empty?")
-      if (diff(range(binwidth, na.rm = TRUE)) / mean(binwidth, na.rm = TRUE) > 1e-5) {
+      if (abs(diff(range(binwidth, na.rm = TRUE)) / mean(binwidth, na.rm = TRUE)) > 1e-5) {
         stop("error within bin width determination. Are the bins not unique?")
       }
 
@@ -318,31 +332,22 @@ plotHelperHistogram <- R6::R6Class( # nolint
         )
       }
       if (meanFunction == "none") {
-        scaledMeanFun <- NULL
+        meanFun <- NULL
       } else {
         meanFun <- switch(meanFunction,
           "mean" = function(x) {
-            data.frame(xintercept = mean(x, na.rm = TRUE))
+            mean(x, na.rm = TRUE)
           },
           "geomean" = function(x) {
-            data.frame(xintercept = exp(mean(log(x), na.rm = TRUE)))
+            exp(mean(log(x), na.rm = TRUE))
           },
           "median" = function(x) {
-            data.frame(xintercept = median(x, na.rm = TRUE))
+            median(x, na.rm = TRUE)
           }
         )
-        if (xscale == "linear") {
-          scaledMeanFun <- function(x) {
-            return(meanFun(x))
-          }
-        } else if (xscale == "log") {
-          scaledMeanFun <- function(x) {
-            return(meanFun(log10(x)))
-          }
-        }
       }
 
-      return(scaledMeanFun)
+      return(meanFun)
     }
   )
 )

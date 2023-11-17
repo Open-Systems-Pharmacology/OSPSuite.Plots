@@ -6,7 +6,7 @@
 \title{data frame which includes example data used in the vignette
 \code{vignette("Time Profile Plots", package = "ospsuite.plots")}}
 \format{
-An object of class \code{data.frame} with 773 rows and 13 columns.
+An object of class \code{data.frame} with 843 rows and 13 columns.
 }
 \usage{
 exampleDataTimeProfile

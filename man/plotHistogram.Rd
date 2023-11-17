@@ -8,21 +8,24 @@ plotHistogram(
   data,
   mapping,
   metaData = NULL,
-  asBarPlot = checkIfColumnIsCategorical(data = data, mapping = mapping),
-  geomHistAttributes = getDefaultGeomAttributes(ifelse(asBarPlot, "Bar", "Hist")),
+  asBarPlot = NULL,
+  geomHistAttributes = getDefaultGeomAttributes("Hist"),
   plotAsFrequency = FALSE,
   xscale = "linear",
   xscale.args = list(),
   yscale = "linear",
   yscale.args = list(),
   distribution = "none",
-  meanFunction = "auto"
+  meanFunction = "auto",
+  residualScale = "log"
 )
 }
 \arguments{
-\item{data}{data.frame with simulated data}
+\item{data}{data.frame with simulated data will be displayed as lines with ribbons}
 
-\item{mapping}{Default list of aesthetic mappings to use for plot}
+\item{mapping}{a list of aesthetic mappings to use for plot,
+additional to {ggplot2} aesthetics, the aesthetics \code{groupby},\code{error},\code{error_relative},\code{lloq}, \code{mdv}, \code{y2axis} are available,
+see vignettes for more details and examples}
 
 \item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
 
@@ -54,11 +57,20 @@ A \code{ggplot} object
 Produces histograms with optional distribution fit
 
 For more details and examples see the vignettes:
-\code{vignette("Histogram Plots", package = "ospsuite.plots")}
-\code{vignette("ospsuite.plots", package = "ospsuite.plots")}
+\itemize{
+\item \code{vignette("Histogram Plots", package = "ospsuite.plots")}
+\item \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
+\item \code{vignette("Goodness of fit", package = "ospsuite.plots")}
+}
 }
 \seealso{
 Other plot functions: 
-\code{\link{plotTimeProfile}()}
+\code{\link{plotBoxWhisker}()},
+\code{\link{plotPredVsObs}()},
+\code{\link{plotQQ}()},
+\code{\link{plotRatioVsCov}()},
+\code{\link{plotResVsCov}()},
+\code{\link{plotTimeProfile}()},
+\code{\link{plotYVsX}()}
 }
 \concept{plot functions}

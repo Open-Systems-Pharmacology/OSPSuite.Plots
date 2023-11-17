@@ -10,7 +10,7 @@ setDefaultColorMapDistinct(ColorMapList = NULL)
 \item{ColorMapList}{list of ColorMaps to be set}
 }
 \value{
-list with COlormaps previously set
+list with Colormaps previously set
 }
 \description{
 set the default colormap for discrete colors
@@ -24,6 +24,7 @@ Other setDefault functions:
 \code{\link{getDefaultOptions}()},
 \code{\link{resetDefaultColorMapDistinct}()},
 \code{\link{resetDefaultShapeDiscrete}()},
+\code{\link{resetDefaultTheme}()},
 \code{\link{resetDefaults}()},
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},

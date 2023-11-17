@@ -1,53 +1,32 @@
 #' @title generate time profile plots
-#'
 #' @description Produces timeprofiles for simulated and observed data.
 #'
-#' @details
 #' For the simulated data a `geom_line` and a `geom_ribbon` layer are added
 #' For the observed data a `geom_point` and a `geom_errorbar` layer are added
 #'
-#' As one of the intention of this plotting routine is to display simulated
-#' and observed data with same grouping aesthetics like color and line type, but with different legend,
-#' between the layers for simulated data and layers for observed  data new color scales are introduced.
-#'
-#' Non default mappings which can be used are:
-#'
-#'  * lloq
-#'
-#'      * only relevant for observed data
-#'      * adds horizontal lines and displays measurement below LLOQ with a smaller alpha)
-#'
-#'  * mdv
-#'
-#'      * missing dependent Variable , should be 0 or 1
-#'      * only relevant for observed data,
-#'      * data with mdv 1 are not plotted
-#'
-#'  * error, error_relative
-#'
-#'      * calculates ymin and ymax for additive ore relative
-#'
-#'  * y2axis
-#'
-#'      * should be logical, defines if some of the outputs should be displayed wit a secondary axis
-#'
 #' For more details and examples see the vignettes:
-#' \code{vignette("Time Profile Plots", package = "ospsuite.plots")}
-#' \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
+#' * \code{vignette("Time Profile Plots", package = "ospsuite.plots")}
+#' * \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 #'
-#' @param data  data.frame with simulated data
-#' @param observedData data.frame with observed data
-#' @param mapping  Default list of aesthetic mappings to use for plot
-#' @param observedMapping Default list of aesthetic mappings to use for observed data
+#'
+#' @param data  data.frame with simulated data will be displayed as lines with ribbons
+#' @param observedData data.frame with observed data  will be displayed as points with errorbars
+#' @param mapping  a list of aesthetic mappings to use for plot,
+#'           additional to {ggplot2} aesthetics, the aesthetics `groupby`,`error`,`error_relative`,`lloq`, `mdv`, `y2axis` are available,
+#'           see vignettes for more details and examples
+#' @param observedMapping a list of aesthetic mappings to use for observed data,
+#'           per default is is set to mapping. So if both data sets have the same mapping, use only `mapping`,
+#'           if a different mapping is necessary use `mapping` and `observedMapping`
 #' @param metaData A named list of information about `data` such as the `dimension` and `unit` of its variables.
+#' @param mapSimulatedAndObserved table with columns observed and simulated which mapps simulated and observed data
+#'            use of `mapSimulatedAndObserved` triggers reset of aesthetic scales after simulation layers
 #' @param plotObject An optional `ggplot` object on which to add the plot layers
-#' @param geomLineAttributes A `list` with arguments which are passed on to the `ggplot2::geom_line`
-#' @param geomRibbonAttributes A `list` with arguments which are passed on to the `ggplot2::geom_ribbon`
-#' @param geomPointAttributes A `list` with arguments which are passed on to the `ggplot2::geom_point`
-#' @param geomErrorbarAttributes A `list` with arguments which are passed on to the `ggplot2::geom_errorbar`
-#' @param geomLLOQAttributes A `list` with arguments which are passed on to the `ggplot2::geom_hline`
-#' @param groupAesthetics vector of aesthetics, which are used for columns mapped with group,
-#'            use of group aesthetics triggers second axis after simulation layers
+#' @param geomLineAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_line`
+#' @param geomRibbonAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_ribbon`
+#' @param geomPointAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_point`
+#' @param geomErrorbarAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_errorbar`
+#' @param geomLLOQAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_hline`
+#' @param groupAesthetics vector of aesthetics, which are used for columns mapped with groupby,
 #' @param xscale either 'linear' then `ggplot2::scale_x_continuous()` or 'log' then `ggplot2::scale_x_log10()` is used
 #' @param xscale.args list of arguments passed to `ggplot2::scale_x_continuous()` or `ggplot2::scale_x_log10()`
 #' @param yscale either 'linear' then `ggplot2::scale_y_continuous()` or 'log' then `ggplot2::scale_y_log10()` is used
@@ -63,6 +42,7 @@ plotTimeProfile <- function(data = NULL,
                             observedData = NULL,
                             observedMapping = mapping,
                             metaData = NULL,
+                            mapSimulatedAndObserved  = NULL,
                             xscale = "linear",
                             xscale.args = list(limits = c(0, NA)),
                             yscale = "linear",
@@ -93,28 +73,17 @@ plotTimeProfile <- function(data = NULL,
 
   checkmate::assertList(geomLineAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomRibbonAttributes, null.ok = FALSE, min.len = 0)
-  checkmate::assertList(geomLineAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomPointAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomErrorbarAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomLLOQAttributes, null.ok = FALSE, min.len = 0)
 
   checkmate::assertCharacter(groupAesthetics, min.len = 0, all.missing = TRUE, null.ok = TRUE)
-
-  #-  create default plot ----------
-  # mapping can not be set in ggplot as observed and simulated mappings may differ
-  if (is.null(plotObject)) {
-    plotObject <- initializePlot(
-      metaData = metaData,
-      mapping = mapping %||% observedMapping,
-      setMapping = FALSE
-    )
-
-    # add y2 label to y2scale.args
-    if (!is.null(plotObject$labels$y2) &
-      is.null(y2scale.args$name)) {
-      y2scale.args$name <- plotObject$labels$y2
-    }
+  checkmate::assertDataFrame(mapSimulatedAndObserved , null.ok = TRUE)
+  if (!is.null(mapSimulatedAndObserved )) {
+    checkmate::assertNames(names(mapSimulatedAndObserved ),must.include  = c('simulated','observed'))
+    names(mapSimulatedAndObserved) = standardise_aes_names(names(mapSimulatedAndObserved))
   }
+
 
   ## - create MappedDataTimeprofile and get common ylimits ----
 
@@ -128,17 +97,20 @@ plotTimeProfile <- function(data = NULL,
 
 
   if (!isEmpty(data)) {
+
     simMappedData <- MappedDataTimeProfile$new(
       data = data,
       mapping = mapping,
       groupAesthetics = groupAesthetics,
       direction = "y",
       isObserved = FALSE,
-      scaleOfDirection = yscale,
+      groupOrder = if(!is.null(mapSimulatedAndObserved )){mapSimulatedAndObserved $simulated } else {NULL},
+      scaleOfPrimaryAxis = yscale,
       scaleOfSecondaryAxis = y2scale,
       ylimits = yscale.args$limits,
       y2limits = y2scale.args$limits
     )
+    simMappedData$addMetaData(metaData = metaData)
     requireDualAxis <- simMappedData$requireDualAxis
     commonLimits <- .adjustLimits(
       commonLimits,
@@ -147,19 +119,25 @@ plotTimeProfile <- function(data = NULL,
         y2 = simMappedData$y2limits
       )
     )
+  } else{
+    simMappedData = NULL
   }
   if (!isEmpty(observedData)) {
     obsMappedData <- MappedDataTimeProfile$new(
       data = observedData,
       mapping = observedMapping %||% mapping,
       groupAesthetics = groupAesthetics,
+      groupOrder = if(!is.null(mapSimulatedAndObserved )){mapSimulatedAndObserved $observed } else {NULL},
       isObserved = TRUE,
       direction = "y",
-      scaleOfDirection = yscale,
+      scaleOfPrimaryAxis = yscale,
       scaleOfSecondaryAxis = y2scale,
       ylimits = yscale.args$limits,
       y2limits = y2scale.args$limits
     )
+
+    obsMappedData$addMetaData(metaData = metaData)
+
 
     requireDualAxis <- requireDualAxis | obsMappedData$requireDualAxis
     commonLimits <- .adjustLimits(
@@ -170,7 +148,37 @@ plotTimeProfile <- function(data = NULL,
       )
     )
 
-    if (requireDualAxis) {
+  } else{
+    obsMappedData = NULL
+  }
+
+
+
+  #-  create default plot ----------
+  # mapping can not be set in ggplot as observed and simulated mappings may differ
+  if (is.null(plotObject)) {
+    plotObject <- initializePlot(mappedData = simMappedData %||% obsMappedData,
+                                 setMapping = FALSE)
+
+    # add y2 label to y2scale.args
+    if (!is.null(plotObject$labels$y2) &
+        is.null(y2scale.args$name)) {
+      y2scale.args$name <- plotObject$labels$y2
+    }
+  }
+
+  # add common limits and yscale arguments
+  if (requireDualAxis){
+    if (!isEmpty(data)) {
+      simMappedData <- simMappedData$scaleDataForSecondaryAxis(
+        ylimits = commonLimits$y,
+        y2limits = commonLimits$y2,
+        y2scale.args = y2scale.args
+      )
+
+      secAxis <- simMappedData$secAxis %||% secAxis
+    }
+    if (!isEmpty(observedData)) {
       obsMappedData <- obsMappedData$scaleDataForSecondaryAxis(
         ylimits = commonLimits$y,
         y2limits = commonLimits$y2,
@@ -179,29 +187,18 @@ plotTimeProfile <- function(data = NULL,
 
       secAxis <- obsMappedData$secAxis %||% secAxis
     }
+
+    # to suppress warnings add limits if secondary axis exists
+    yscale.args$limits <- commonLimits$y
   }
-  if (!isEmpty(data) & requireDualAxis) {
-    simMappedData <- simMappedData$scaleDataForSecondaryAxis(
-      ylimits = commonLimits$y,
-      y2limits = commonLimits$y2,
-      y2scale.args = y2scale.args
-    )
-
-    secAxis <- simMappedData$secAxis %||% secAxis
-  }
-
-  # to suppress warnings add limits if secondary axis exists
-  if (requireDualAxis) yscale.args$limits <- commonLimits$y
-
 
   ## -- set scale before the layers especially for creating new axis with ggnewscale, ----
   # as otherwise warnings appear
 
   # check for timeUnit scaling
-  xscale.args <- updateScaleArgumentsForTimeUnit(
+  myMappedData = simMappedData %||% obsMappedData
+  xscale.args <- myMappedData$updateScaleArgumentsForTimeUnit(
     scale.args = xscale.args,
-    metaData = metaData,
-    mapping = mapping %||% observedMapping,
     scaleDirection = "x"
   )
 
@@ -237,6 +234,16 @@ plotTimeProfile <- function(data = NULL,
       plotObject = plotObject,
       layerToCall = geom_line
     )
+
+
+    if (!is.null(mapSimulatedAndObserved)){
+      for (aesthetic in intersect(groupAesthetics,names(mapSimulatedAndObserved))) {
+        plotObject <- plotObject +
+          scale_discrete_manual(aesthetic, values = mapSimulatedAndObserved[[aesthetic]], breaks = waiver())
+      }
+    }
+
+
   }
 
 
@@ -244,10 +251,11 @@ plotTimeProfile <- function(data = NULL,
   if (!isEmpty(observedData)) {
     # add new scales for all aesthetics which occurs in simulated AND in observed data
     # to separate simulated and observed legend entries and start again with default colors
-    for (aesthetic in groupAesthetics) {
-      plotObject <- plotObject + ggnewscale::new_scale(aesthetic)
+    if (!is.null(mapSimulatedAndObserved)) {
+      for (aesthetic in groupAesthetics) {
+        plotObject <- plotObject + ggnewscale::new_scale(aesthetic)
+      }
     }
-
 
     # - If available, add error bars
     plotObject <- addLayer(
@@ -279,6 +287,14 @@ plotTimeProfile <- function(data = NULL,
         layerToCall = geom_hline
       )
     }
+
+    if (!is.null(mapSimulatedAndObserved)){
+      for (aesthetic in intersect(groupAesthetics,names(mapSimulatedAndObserved))) {
+        plotObject <- plotObject +
+          scale_discrete_manual(aesthetic, values = mapSimulatedAndObserved[[aesthetic]], breaks = waiver())
+      }
+    }
+
   }
 
 

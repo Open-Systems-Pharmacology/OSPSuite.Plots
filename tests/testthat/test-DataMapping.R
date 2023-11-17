@@ -5,20 +5,20 @@ test_that("adjustGroupAesthetics works", {
     dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
 
-  simAes <- aes(
+  mapping <- aes(
     x = time,
     y = values,
-    group = caption
+    groupby = caption
   )
 
   simDataMatch <- MappedData$new(
     data = simData1,
-    mapping = simAes,
+    mapping = mapping,
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
 
   expect_named(simDataMatch$mapping,
-    expected = c("x", "y", "group", "colour", "fill", "linetype", "shape")
+    expected = c("x", "y", "colour", "fill", "linetype", "shape", "group")
   )
 })
 
@@ -32,7 +32,7 @@ test_that("getAestheticsForGeom works", {
   simAes <- aes(
     x = time,
     y = values,
-    group = caption
+    groupby = caption
   )
 
   lineMapping <- MappedData$new(
@@ -62,7 +62,7 @@ test_that("adjustForLLOQMatch works", {
   obsAes <- aes(
     x = time,
     y = values,
-    group = caption,
+    groupby = caption,
     error_relative = error_relative,
     lloq = lloq
   )
@@ -138,7 +138,7 @@ test_that("adjust secondary y axis scaling works lin to lin", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, scaleOfDirection = "linear", scaleOfSecondaryAxis = "linear"
+    data = obsData, scaleOfPrimaryAxis = "linear", scaleOfSecondaryAxis = "linear"
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -176,7 +176,7 @@ test_that("adjust secondary y axis scaling works log to log", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, scaleOfDirection = "log", scaleOfSecondaryAxis = "log"
+    data = obsData, scaleOfPrimaryAxis = "log", scaleOfSecondaryAxis = "log"
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -214,7 +214,7 @@ test_that("adjust secondary y axis scaling works lin to log", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, scaleOfDirection = "log", scaleOfSecondaryAxis = "linear"
+    data = obsData, scaleOfPrimaryAxis = "log", scaleOfSecondaryAxis = "linear"
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -249,7 +249,7 @@ test_that("adjust secondary y axis scaling works log to lin", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, scaleOfDirection = "linear", scaleOfSecondaryAxis = "log"
+    data = obsData, scaleOfPrimaryAxis = "linear", scaleOfSecondaryAxis = "log"
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -265,4 +265,74 @@ test_that("adjust secondary y axis scaling works log to lin", {
   expect_equal(dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 1, ]$y,
     expected = dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 0, ]$y
   )
+})
+
+test_that("grouping for simulation and observed works", {
+  simData <- exampleDataTimeProfile %>%
+    dplyr::filter(Type == "simulated") %>%
+    dplyr::select(c("time", "values", "minValues", "maxValues", "caption", "dimension"))
+
+
+
+  simMappedData <- MappedDataTimeProfile$new(
+    data = simData,
+    mapping = mapping <- aes(
+      x = time,
+      y = values,
+      groupby = caption
+    ),
+    groupAesthetics = c("colour", "fill", "linetype", "shape"),
+    direction = "y",
+    isObserved = FALSE,
+    groupOrder = c("Simulated Data 2", "Simulated Data 1", "simulated"),
+    scaleOfPrimaryAxis = "linear",
+    scaleOfSecondaryAxis = "linear",
+    ylimits = list(),
+    y2limits = list()
+  )
+
+  expect_true(is.factor(simMappedData$dataForPlot$groupBy.i))
+  expect_equal(
+    object = as.character(rlang::quo_get_expr(simMappedData$mapping[["group"]])),
+    expected = "groupBy.i"
+  )
+
+
+  expect_error(
+    simMappedData <- MappedDataTimeProfile$new(
+      data = simData,
+      mapping = mapping <- aes(
+        x = time,
+        y = values,
+      ),
+      groupAesthetics = c("colour", "fill", "linetype", "shape"),
+      direction = "y",
+      isObserved = FALSE,
+      groupOrder = c("Simulated Data 2", "Simulated Data 1", "simulated"),
+      scaleOfPrimaryAxis = "linear",
+      scaleOfSecondaryAxis = "linear",
+      ylimits = list(),
+      y2limits = list()
+    )
+  )
+
+
+  simMappedData <- MappedDataTimeProfile$new(
+    data = simData,
+    mapping = mapping <- aes(
+      x = time,
+      y = values,
+      groupby = interaction(caption, dimension)
+    ),
+    groupAesthetics = c("colour", "fill", "linetype", "shape"),
+    direction = "y",
+    isObserved = FALSE,
+    groupOrder = c("Simulated Data 2.concentration", "Simulated Data 1.concentration", "simulated.concentration", "simulated.fraction"),
+    scaleOfPrimaryAxis = "linear",
+    scaleOfSecondaryAxis = "linear",
+    ylimits = list(),
+    y2limits = list()
+  )
+
+  expect_true(is.factor(simMappedData$dataForPlot$groupBy.i))
 })

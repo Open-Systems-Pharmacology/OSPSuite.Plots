@@ -6,7 +6,7 @@
 \title{data frame which includes example data used in the vignette
 \code{vignette("Histogram Plots", package = "ospsuite.plots")}}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 400 rows and 10 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 410 rows and 11 columns.
 }
 \usage{
 exampleDataCovariates

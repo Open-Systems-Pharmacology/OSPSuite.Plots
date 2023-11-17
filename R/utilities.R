@@ -1,7 +1,6 @@
 #' adjust arguments for scale if dimension of scale is time
 #'
-#' use metadata and mapping to determine dimension of axis
-#' use fixed width for breaks depending on unit:
+#' adds break function with fixed width for breaks depending on unit:
 #'
 #' * s: width = 15,
 #' * min: width = 15,
@@ -13,45 +12,36 @@
 #' use width only if 2 * width < range of time values
 #' use multiples of width if 20 * width < range of time values
 #'
-#' @param scale.args list of arguments for scale to be updated
-#' @param mapping  Default list of aesthetic mappings to use for plot
-#' @param metaData A named list of information about the `data` such as the `dimension` and `unit` of its variables.
-#' @param scaleDirection either 'x' or 'y'
+#' @param scale.args list of arguments for scale to be updated, passed to scale_x_continuous or scale_x_log10
+#' @param dimension  dimension of axis, if not 'time' list will not be updated
+#' @param unit A named list of information about the `data` such as the `dimension` and `unit` of its variables.
 #'
 #' @return update list of arguments for scale
 #'
-#' @keywords internal
+#' @export
+#'
+#' @examples
+#' xscale.args <- list(limits = c(0, 24))
+#' xscale.args <- updateScaleArgumentsForTimeUnit(scale.args = xscale.args, dimension = "time", unit = "h")
+#' addXscale(plotObject = ggplot(), xscale = "linear", xscale.args = xscale.args)
 updateScaleArgumentsForTimeUnit <- function(scale.args,
-                                            metaData,
-                                            mapping,
-                                            scaleDirection = "x") {
+                                            dimension,
+                                            unit) {
   ## Validation
-  checkmate::assertList(metaData, types = "list", null.ok = TRUE)
+  checkmate::assertList(scale.args, null.ok = TRUE)
 
   # check if anything to do
-  if (is.null(metaData)) {
-    return(scale.args)
-  }
   if (any(c("breaks", "labels") %in% names(scale.args))) {
     return(scale.args)
   }
 
-  # get unit and dimension of x Axis
-  metaDF <- metaData2DataFrame(metaData)
-  tmp <- getDataForAesthetic(
-    aesthetic = scaleDirection,
-    data = metaDF,
-    mapping = mapping
-  )
+  checkmate::assertCharacter(dimension, max.len = 1, null.ok = TRUE)
+  checkmate::assertCharacter(unit, max.len = 1, null.ok = TRUE)
 
-  # if x has no metadata return
-  if (is.null(tmp)) {
+
+  if (is.null(dimension) | is.null(unit)) {
     return(scale.args)
   }
-  names(tmp) <- rownames(metaDF)
-
-  dimension <- tmp[["dimension"]]
-  unit <- tmp[["unit"]]
 
 
   # if x has no time Unit return
@@ -95,17 +85,16 @@ updateScaleArgumentsForTimeUnit <- function(scale.args,
 
 #' adds a labels by meta data to ggplot object
 #'
-#' @inheritParams initializePlot
+#' @param mappedData  MappedData object with information of mapped dimensions and units
 #' @param plotObject  A `ggplot` object on which to add the labels
 #'
 #' @keywords internal
 #' @return  updated `ggplot` object
-.addLabels <- function(plotObject, metaData, mapping) {
+addLabels <- function(plotObject, mappedData) {
   plotLabels <- plotObject$labels
-  if (!is.null(metaData) & !is.null(mapping)) {
+  if (!is.null(mappedData)) {
     plotLabelsByMetData <- createDefaultPlotLabels(
-      metaData = metaData,
-      mapping = mapping
+      mappedData
     )
     plotLabels <- utils::modifyList(plotLabels, plotLabelsByMetData)
   }
@@ -127,26 +116,19 @@ updateScaleArgumentsForTimeUnit <- function(scale.args,
 
 #' create Default labels with unit for plot
 #'
-#' @param mapping  Default list of aesthetic mappings to use for plot
-#' @param metaData A named list of information about the `data` such as the `dimension` and `unit` of its variables.
+#' @param mappedData  MappedData object with information of mapped dimensions and units
 #'
 #' @return  list with plotLabels
 #' @keywords internal
-createDefaultPlotLabels <- function(metaData,
-                                    mapping) {
+createDefaultPlotLabels <- function(mappedData) {
   # initialize variables used in aes or data,table to avoid message in check
   y2 <- scalingRelevant <- NULL
 
-  # convert metaData
-  metaDF <- metaData2DataFrame(metaData)
-
-  # add y2
-  mapping <- addOverwriteAes(newMaps = aes(y2 = y2), mapping = mapping)
 
   # match mapping to axis
   matchList <- list(
     x = "x",
-    y = listOfAesthetics[scalingRelevant >= 1, ]$aesthetic,
+    y = listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1),]$aesthetic,
     y2 = "y2"
   )
 
@@ -155,101 +137,24 @@ createDefaultPlotLabels <- function(metaData,
   for (labelEntry in names(matchList)) {
     mapEntry <- intersect(
       matchList[[labelEntry]],
-      names(mapping)
+      names(mappedData$mapping)
     )
 
     for (aesthetic in mapEntry) {
-      tmp <- getDataForAesthetic(
-        aesthetic = aesthetic,
-        data = metaDF,
-        mapping = mapping
-      )
+      dimension <- mappedData$dimensions[[aesthetic]]
+      unit <- mappedData$units[[aesthetic]]
 
-      if (!is.null(tmp) & is.character(tmp)) {
-        names(tmp) <- rownames(metaDF)
-        if (trimws(tmp[["unit"]]) != "") {
-          plotLabels[[labelEntry]] <- trimws(paste0(tmp[["dimension"]], " [", tmp[["unit"]], "]"))
+      if (!is.null(dimension) & !is.null(unit)) {
+        if (trimws(unit) != "") {
+          plotLabels[[labelEntry]] <- paste0(trimws(dimension), " [", trimws(unit), "]")
         } else {
-          plotLabels[[labelEntry]] <- tmp[["dimension"]]
+          plotLabels[[labelEntry]] <- trimws(dimension)
         }
       }
     }
   }
 
   return(plotLabels)
-}
-
-
-#' check if a data Column is categorical
-#'
-#' @param data data.frame used for mapping
-#' @param mapping list of aesthetic mappings
-#'
-#' @return A `Flag` is true if data column is either non numerical or a factor
-#' @export
-checkIfColumnIsCategorical <- function(data, mapping) {
-  tmp <- getDataForAesthetic("x",
-    data = data,
-    mapping = mapping,
-    stopIfNull = TRUE
-  )
-  isCategorical <- !is.numeric(tmp) | is.factor(tmp)
-  return(isCategorical)
-}
-
-
-#' fetch data column for given aesthetic
-#'
-#' @param aesthetic Aesthetic fro which the the data is required
-#' @param data  data.frame with data
-#' @param mapping  Default list of aesthetic mappings to use for plot
-#' @param stopIfNull If TRUE error will be thrown if data column does not exists,
-#'    IF FALSE for non existing columns NULL will be returned
-#'
-#' @return vector with values corresponding to the mapped data column
-#' @keywords internal
-getDataForAesthetic <- function(aesthetic,
-                                data,
-                                mapping,
-                                stopIfNull = FALSE) {
-  dataCol <- tryCatch(
-    {
-      rlang::eval_tidy(
-        expr = rlang::get_expr(mapping[[aesthetic]]),
-        data = data,
-        env = rlang::get_env(mapping[[aesthetic]])
-      )
-    },
-    error = function(cond) {
-      if (stopIfNull) {
-        stop(paste("evaluation of aesthetic", aesthetic, "failed:", cond))
-      } else {
-        NULL
-      }
-    }
-  )
-
-  return(dataCol)
-}
-
-
-#' adds and update mapping
-#'
-#' @param mapping  Default list of aesthetic mappings to use for plot
-#' @param newMaps new mapping entry
-#'
-#' @return updated mapping
-#' @keywords internal
-addOverwriteAes <- function(newMaps, mapping) {
-  checkmate::assertList(newMaps, names = "named")
-
-  mapping <-
-    mapping[setdiff(names(mapping), names(newMaps))]
-
-  mapping <-
-    structure(c(mapping, newMaps), class = "uneval")
-
-  return(mapping)
 }
 
 
@@ -308,4 +213,31 @@ labelsForPercentile <- function(percentiles, suffix = " percentile") {
 
 
   paste0(tmp, suffix)
+}
+
+
+#' creates a list with fold Distances
+#'
+#' this list is used as input for plotPKRatio, plotPredvsOvs
+#'
+#' @param vector of folds e.g. c(1.5,2) must be >1
+#' @param includeIdentity Flag, if TRUE (default) line of identity is added
+#'
+#' @return named list with fold distances
+#' @export
+getFoldDistanceList <- function(folds = c(1.5, 2),
+                                includeIdentity = TRUE) {
+  checkmate::assertDouble(folds, lower = 1)
+
+  foldDistance <- list()
+
+  if (includeIdentity) {
+    foldDistance[["identity"]] <- 1
+  }
+
+  for (fd in folds) {
+    foldDistance[[paste(fd, "fold")]] <- c(fd, 1 / fd)
+  }
+
+  return(foldDistance)
 }

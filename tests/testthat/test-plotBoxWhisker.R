@@ -1,7 +1,7 @@
+# setDefaults
+oldDefaults <- ospsuite.plots::setDefaults()
+
 test_that("plotWhisker works", {
-
-
-
   pkRatioData <- exampleDataCovariates %>%
     dplyr::filter(SetID == "DataSet1") %>%
     dplyr::mutate(SetID = NULL) %>%
@@ -24,7 +24,7 @@ test_that("plotWhisker works", {
     function(x) {
       q <- stats::quantile(x, probs = c(0.1, 0.9), names = FALSE, na.rm = TRUE)
       pp <- subset(x, x < q[1] |
-                     x > q[2])
+        x > q[2])
       if (length(pp) < 1) {
         return(as.double(NA))
       } else {
@@ -60,7 +60,7 @@ test_that("plotWhisker works", {
     fig = plotBoxWhisker(
       mapping = aes(
         x = meanAge,
-        group = meanAge,
+        groupby = meanAge,
         y = Ratio,
         fill = Country
       ),
@@ -69,6 +69,9 @@ test_that("plotWhisker works", {
       xscale.args = list(limits = c(29, 31))
     )
   )
-
-
 })
+
+
+
+
+ospsuite.plots::resetDefaults(oldDefaults)

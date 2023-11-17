@@ -23,6 +23,8 @@ addXYScale(
 \item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
 \item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
+
+\item{secAxis}{secondary axis arguments for scale_y functions}
 }
 \value{
 The updated \code{ggplot} object

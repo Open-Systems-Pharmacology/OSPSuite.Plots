@@ -71,12 +71,12 @@ setDefaultTheme <- function() {
 #'
 #' wrapper for ggplot2::theme_set(oldTheme)
 #'
-#' @param oldTheme
+#' @param oldTheme theme to set
 #'
 #' @export
 #'
 #' @family setDefault functions
-resetDefaultTheme = function(oldTheme){
+resetDefaultTheme <- function(oldTheme) {
   ggplot2::theme_set(oldTheme)
 }
 
@@ -135,9 +135,7 @@ setDefaultColorMapDistinct <- function(ColorMapList = NULL) {
 
   optionNames <- c(
     "ggplot2.discrete.colour",
-    "ggplot2.discrete.fill",
-    "ggplot2.ordinal.colour",
-    "ggplot2.ordinal.fill"
+    "ggplot2.discrete.fill"
   )
 
   oldColorOptions <- list()
@@ -189,11 +187,13 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 setDefaultShapeDiscrete <- function(shapeValues = NULL) {
   if (is.null(shapeValues)) {
     shapeValues <-
-      c("circle filled", "diamond filled", "triangle filled", "square filled","triangle down filled",
-        "plus","cross","asteriks",
-        "circle cross","square cross",
-        "circle plus","square plus","diamond plus",
-        "square triangle")
+      c(
+        "circle filled", "diamond filled", "triangle filled", "square filled", "triangle down filled",
+        "plus", "cross", "asterisk",
+        "circle cross", "square cross",
+        "circle plus", "square plus", "diamond plus",
+        "square triangle"
+      )
   }
   # shape
   scale_shape_discrete <- function(...) {
@@ -239,7 +239,8 @@ getDefaultOptions <- function() {
     ospsuite.plots.geomPointAttributes = list(),
     ospsuite.plots.geomErrorbarAttributes = list(width = 0),
     ospsuite.plots.geomLLOQAttributes = list(linetype = "dotted"),
-    ospsuite.plots.geomRatioLineAttributes = list(linetype = "dashed"),
+    ospsuite.plots.geomComparisonLineAttributes = list(linetype = "dashed"),
+    ospsuite.plots.geomGuestLineAttributes = list(linetype = "dashed"),
     ospsuite.plots.geomBoxplotAttributes = list(
       position = position_dodge(width = 1),
       color = "black"
@@ -338,7 +339,7 @@ setDefaults <- function(ColorMapList = NULL,
 
   # set geoms
   update_geom_defaults("point", list(
-    shape = "circle"
+    shape = "circle filled"
   ))
   update_geom_defaults("boxplot", list(
     fill = getOption("ggplot2.discrete.fill")[[1]][[1]],
@@ -355,8 +356,7 @@ setDefaults <- function(ColorMapList = NULL,
   ))
   update_geom_defaults("line", list(
     linewidth = 1.25,
-    fill = getOption("ggplot2.discrete.fill")[[1]][[1]],
-    alpha = defaultAlpha
+    fill = getOption("ggplot2.discrete.fill")[[1]][[1]]
   ))
 
 

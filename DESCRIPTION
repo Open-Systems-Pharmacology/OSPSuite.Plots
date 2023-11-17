@@ -36,6 +36,8 @@ Suggests:
     rmarkdown,
     showtext,
     sysfonts,
+    data.table,
+    ggsci,
     testthat (>= 3.0.3),
     vdiffr (>= 1.0.0)
 VignetteBuilder: knitr

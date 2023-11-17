@@ -12,17 +12,35 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  dpi = 300,
   fig.show = "hold",
+  fig.align = "center",
+  fig.width = 7,
+  out.width = "80%",
   comment = "#>"
 )
 ```
 
-```{r setup}
+# 1. Introduction
+
+The following vignette aims at documenting and illustrating workflows for producing box-and-whisker plots using the `ospsuite.plots`-library.
+
+The function for plotting box-whiskers is: `plotBoxWhisker`. 
+Basic documentation of the function can be found using: `?plotBoxWhisker`.
+The output of the function is a `ggplot` object.
+
+## 1.1 Setup
+
+For this vignette we will use the libraries {ospsuite.plots} and {tidyr}.
+We use the default settings of {ospsuite.plots} (see vignette("ospsuite.plots", package = "ospsuite.plots")) but adjust the legend position and the alignment of the caption.
+
+
+```{r setup,warning=FALSE , message=FALSE}
 library(ospsuite.plots)
 library(tidyr)
 
 # setDefaults
-ospsuite.plots::setDefaults()
+oldDefaults <- ospsuite.plots::setDefaults()
 
 
 # Adjust default theme plot for prettier  plots
@@ -31,133 +49,234 @@ theme_update(legend.direction = "horizontal")
 theme_update(plot.caption = element_text(hjust = 1))
 ```
 
-# 1. Introduction
-
-The following vignette aims at documenting and illustrating workflows for producing box-and-whisker plots using the `ospsuite.plots`-Library.
 
 
+## 1.2 Example data
 
-The function for plotting box-whiskers is: `plotBoxWhisker`. 
-Basic documentation of the function can be found using: `?plotBoxWhisker`.
-The output of the function is a `ggplot` object.
+This vignette uses a data set provided by the package:
 
-
-# 2. Examples
-
-## 2.1. Data
-
-To illustrate the workflow to produce boxplots, let's use the `pkRatioDataExample.RData` example data from the `extdata` folder.
-
-It includes the dataset `pkRatioData`:
 
 ```{r load-data, results='asis'}
 pkRatioData <- exampleDataCovariates %>%
   dplyr::filter(SetID == "DataSet1") %>%
-  dplyr::mutate(SetID = NULL) %>%
-  dplyr::group_by(Country) %>%
-  dplyr::mutate(meanAge = round(mean(Age), 2))
+  dplyr::select(-c("SetID", "gsd", "AgeBin")) %>%
+  dplyr::mutate(Agegroup = cut(Age,
+    breaks = c(0, 6, 12, 18, 60),
+    include.lowest = TRUE,
+    labels = c("infants", "school children", "adolescents", "adults")
+  ))
 
-pkRatioMetaData <- attr(exampleDataCovariates, "metaData")
-pkRatioMetaData[["meanAge"]] <- pkRatioMetaData[["Age"]]
-pkRatioMetaData <- pkRatioMetaData[intersect(names(pkRatioData), names(pkRatioMetaData))]
 
-
-# show data
-knitr::kable(utils::head(pkRatioData), digits = 2, caption = "first rows of data")
-
-knitr::kable(metaData2DataFrame(pkRatioMetaData), caption = "list of meta data")
+knitr::kable(
+  head(pkRatioData),
+  digits = 3,
+  caption =
+    "first rows of example data pkRatioData"
+)
 ```
 
 
-## 2.2. Basic examples
-
-- A) In the minimal example, only the basic `y` variable name is indicated. Here, `"Age"` was chosen for the boxplot.  
-- B) Age (mapped to y) is aggregated for different countries (mapped to x)
-- C) Age (mapped to y) is aggregated for different countries (mapped to fill)
-- C) Age (mapped to y) is aggregated for different countries  (mapped to x) and Sex (mapped to fill)
+Metadata is a list, which contains dimension and unit information for dataset columns.
+If available axis labels are set by this information.
 
 
-```{r minimal example}
-# A minimal example
+```{r meta-data, results='asis'}
+metaData <- attr(exampleDataCovariates, "metaData")
+
+
+knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "list of meta data")
+```
+
+
+# 2. Examples
+
+
+## 2.1 Examples for aggregation of categorical data
+
+### 2.1.1 Minimal example
+
+Age (mapped to y) is aggregated.
+
+```{r minimal-example}
 plotBoxWhisker(
   data = pkRatioData,
   mapping = aes(y = Age),
-  metaData = pkRatioMetaData
-) +
-  labs(tag = "A")
+  metaData = metaData
+)
+```
 
+### 2.1.2 Stratification on x-axis
 
-# B Boxplot mapping Country as x"
+Age (mapped to y) is aggregated for different countries (mapped to x)
+
+```{r example-x-stratification}
 plotBoxWhisker(
   mapping = aes(
     x = Country,
     y = Age
   ),
   data = pkRatioData,
-  metaData = pkRatioMetaData
-) +
-  labs(tag = "B")
+  metaData = metaData
+)
+```
 
+### 2.1.3 Stratification by color
 
-# C Boxplot mapping Country as fill"
+Age (mapped to y) is aggregated for different countries (mapped to fill)
+
+```{r minimal-example-color}
 plotBoxWhisker(
   mapping = aes(
     fill = Country,
     y = Age
   ),
   data = pkRatioData,
-  metaData = pkRatioMetaData
-) +
-  labs(tag = "C")
+  metaData = metaData
+)
+```
 
+### 2.1.4 Stratification by color and on x-axis
 
-# D Boxplot mapping Country as x Sex as fill"
+Age (mapped to `y`) is aggregated for different countries  (mapped to `x`) and Sex (mapped to `groupby`). `groupby` is an additional aesthetics of {ospsuite.plots} which works together with the variable `groupAesthetics`. For the function `plotBoxwhisker()`  `groupAesthetics` is not settable and fixed to `fill`.
+
+```{r minimal-example-color-x}
 plotBoxWhisker(
   mapping = aes(
     x = Country,
     y = Age,
-    fill = Sex
+    groupby = Sex
   ),
   data = pkRatioData,
-  metaData = pkRatioMetaData
-) +
-  labs(tag = "D")
+  metaData = metaData,
+)
 ```
 
-## 2.3 Examples with numeric - x axis
+### 2.1.4 Stratification by column combination
 
-It is also possible to create boxplots for distinct numeric values:
+Below `groupby`was mapped to a combination of the colums Sex and Country:
 
-* A) The numeric x -column was converted to a factor. It is displayed like categorical values 
-* B) Here the x- Axis is numeric, but it is necessary to add an additionally mapping group = x Mapping
-
-
-```{r numeric-example}
-# A Boxplot with numeric x Axis as factor
+```{r minimal-example-interaction}
 plotBoxWhisker(
+  mapping = aes(
+    y = Age,
+    groupby = interaction(Country, Sex, sep = "-")
+  ),
+  data = pkRatioData,
+  metaData = metaData
+) +
+  theme(legend.title = element_blank())
+```
+
+
+### 2.1.6 Omit data points flagged as Missing Dependent Variable (mdv)
+
+If some of the data should be omitted, we could do this by mapping a `logcial` column to the aesthetic `mdv`. Below we excluded data from Germany: 
+
+```{r minimal-example-mdv}
+plotBoxWhisker(
+  mapping = aes(
+    x = Country,
+    y = Age,
+    mdv = Country == "Germany",
+    groupby = Sex
+  ),
+  data = pkRatioData,
+  metaData = metaData
+)
+```
+
+
+## 2.2 Examples for aggregation of numeric data 
+
+### 2.2.1 Numeric data as factor
+
+In the next example we added a numeric column as mean age of the age group to the data set.
+This column is mapped as factor to `x`. The values are now displayed like categorical values equidistant:
+
+
+```{r numeric-example-factor}
+pkRatioData <- pkRatioData %>%
+  dplyr::group_by(Agegroup) %>%
+  dplyr::mutate(meanAge = round(mean(Age), 2))
+
+metaData[["meanAge"]] <- metaData[["Age"]]
+metaData <- metaData[intersect(names(pkRatioData), names(metaData))]
+
+
+
+plotBoxWhisker(
+  data = pkRatioData,
   mapping = aes(
     x = as.factor(meanAge),
     y = Ratio,
-    fill = Country
+    fill = Agegroup
   ),
-  data = pkRatioData,
-  metaData = pkRatioMetaData
-) +
-  labs(tag = "A")
+  metaData = metaData
+)
+```
 
-# B Boxplot with numeric x Axis and continuous axis
+### 2.2.2 Numeric data as distinct numeric values
+
+If the column mapped to x is numeric and not a factor, the x-position of the boxes correspond to the numeric value:
+
+
+```{r numeric-example-distinct-values}
 plotBoxWhisker(
   mapping = aes(
     x = meanAge,
-    group = meanAge,
     y = Ratio,
-    fill = Country
+    fill = Agegroup
   ),
   data = pkRatioData,
-  metaData = pkRatioMetaData,
-  xscale.args = list(limits = c(29, 31))
+  metaData = metaData
+)
+```
+
+### 2.2.3 Map continuous column with binning 
+
+By mapping x with a function, it is also possible to aggregate data of a continuous column to bin.
+Below we use the function `cut` to aggregate the data in 4 distinct bin (see ?cut).
+Attention: for `cut(Age)` no `metaData` exists. So we have to set the x label manually
+
+
+```{r numeric-example-bin4}
+plotBoxWhisker(
+  mapping = aes(
+    x = cut(Age, 4),
+    y = Ratio
+  ),
+  data = pkRatioData,
+  metaData = metaData
 ) +
-  labs(tag = "B")
+  labs(x = "Age range [years]")
+```
+
+We can use any functions which converts a continuous vector to a factor.
+Below we define our own cut function simply as a wrapper around cut, with some fixed arguments.
+This function is then mapped to `x`and `groupby`.
+
+```{r numeric-example-binfunction}
+myCutfun <- function(x) {
+  cut(
+    x = x,
+    breaks = c(0, 6, 12, 18, 60),
+    include.lowest = TRUE,
+    labels = c("infants", "school children", "adolescents", "adults")
+  )
+}
+
+
+plotBoxWhisker(
+  mapping = aes(
+    x = myCutfun(Age),
+    y = Ratio,
+    groupby = myCutfun(Age)
+  ),
+  data = pkRatioData,
+  metaData = metaData
+) +
+  theme(legend.title = element_blank()) +
+  labs(x = "")
 ```
 
 
@@ -167,33 +286,16 @@ plotBoxWhisker(
 By default the data is aggregated by percentiles defined by the default option `ospsuite.plots.Percentiles`.
 The percentiles can be customized for a specific plot by the input variable `percentiles` or for all plots generated by `plotBoxwhisker()` by changing the default options (`options(ospsuite.plots.Percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95))`).
 
-It is also possible to use a customized function via the input variable `statFun`. If `statFun`is not `NULL` it will overwrite the percentiles.
+It is also possible to use a customized function via the input variable `statFun`. If `statFun` is not `NULL` it will overwrite the percentiles.
 
 
-**Important**: If you override the defaults this way, please make sure to specify this in the plot annotations as you are basically redefining a boxplot and the reader might not be aware of this and will misinterpret the plot.
+**Important**: If you override the defaults this way, please make sure to specify this in the plot annotations as you are basically redefining a box plot and the reader might not be aware of this and will misinterpret the plot.
 
 ## 2.3.1 Example for customized percentiles
 
-- A) Use "2.5th" and "97.5th" percentile for whiskers
-- B) Do not show whiskers, by setting whisker percentiles to box percentiles
+In the example below we do not show the whiskers, by setting whisker percentiles to box percentiles
 
-```{r}
-# A  Use 0.025 and 0975 for whiskers
-plotBoxWhisker(
-  mapping = aes(
-    x = Country,
-    y = Age
-  ),
-  data = pkRatioData,
-  metaData = pkRatioMetaData,
-  percentiles = c(0.025, 0.25, 0.5, 0.75, 0.975)
-) +
-  labs(
-    tag = "A",
-    caption = "whisker indicate 95% range"
-  )
-
-
+```{r customized-percentiles}
 # B  No whiskers
 plotBoxWhisker(
   mapping = aes(
@@ -201,46 +303,19 @@ plotBoxWhisker(
     y = Age
   ),
   data = pkRatioData,
-  metaData = pkRatioMetaData,
+  metaData = metaData,
   percentiles = c(0.25, 0.25, 0.5, 0.75, 0.75)
-) +
-  labs(tag = "B")
+)
 ```
 
-## 2.3.1 Example for customized aggregation function
+## 2.3.2 Example for customized aggregation function
 
-For instance, when a normal distribution is assumed, mean and standard deviation would be preferred:
+To customize the aggregation provide a function which has as input the vector to aggregate and as output a named list with entries `ymin`,`lower`,`middle`,`upper`,`ymax`
+In the example below  the function `myStatFun` was provided, which uses mean and standard deviation to aggregate:
 
-```{r aggregation-functions-1, fig.cap="Boxplot mapping Country as x, Sex as fill and assuming normal distribution"}
+
+```{r aggregation-functions}
 myStatFun <- function(y) {
-  r <- list(
-    ymin = mean(y) - 1.96 * stats::sd(y),
-    lower = quantile(y, probs = 0.25, names = FALSE),
-    middle = mean(y),
-    upper = quantile(y, probs = 0.75, names = FALSE),
-    ymax = mean(y) + 1.96 * stats::sd(y)
-  )
-  return(r)
-}
-
-
-plotBoxWhisker(
-  mapping = aes(
-    x = Country,
-    y = Age
-  ),
-  data = pkRatioData,
-  metaData = pkRatioMetaData,
-  statFun = myStatFun
-) +
-  labs(
-    tag = "A",
-    caption = "mean for the middle line,
-       25th and 75th percentile  for the box edges
-       and mean +/- 1.96 standard deviation for the whiskers"
-  )
-
-myStatFun2 <- function(y) {
   r <- list(
     ymin = mean(y) - 1.96 * stats::sd(y),
     lower = mean(y) - stats::sd(y),
@@ -257,20 +332,19 @@ plotBoxWhisker(
     y = Age
   ),
   data = pkRatioData,
-  metaData = pkRatioMetaData,
-  statFun = myStatFun2
+  metaData = metaData,
+  statFun = myStatFun
 ) +
   labs(
-    tag = "B",
     caption = "mean for the middle line,
        mean +/- standard deviation for the box edges
        and mean +/- 1.96 standard deviation for the whiskers"
   )
 ```
 
-## 2.3.2 Tables corresponding to plot
+## 2.3.3 Tables corresponding to plot
 
-As there already exist a lot off possibilities to aggregate data in R, this package does not provide an extra function.
+As there already exist a lot off possibilities to aggregate data in R, this package does not provide an extra function to return the aggregated data in a tabular form.
 But the `plotBoxWhisker()` adds the aggregation function to the plot object. So the aggregation can be done easily e.g. with package {data.table}
 
 ```{r aggregationTable}
@@ -282,7 +356,7 @@ plotObject <- plotBoxWhisker(
     fill = Sex
   ),
   data = pkRatioData,
-  metaData = pkRatioMetaData
+  metaData = metaData
 )
 
 plot(plotObject)
@@ -290,7 +364,7 @@ plot(plotObject)
 # convert data to data.table and use  statFun saved in plotObject for aggregation
 # make sure to add all relevant aesthetics to "by" columns
 dt <- pkRatioData %>%
-  setDT() %>%
+  data.table::setDT() %>%
   .[, as.list(plotObject$statFun(Age)),
     by = c("Country", "Sex")
   ]
@@ -301,19 +375,14 @@ knitr::kable(dt)
 
 
 
-## 2.4. Outlier functions
+## 2.4. Show Outlier
+
+
+### 2.4.1 Outlier with default settings
+
 
 Outliers are displayed if variable `outliers` is TRUE. 
-Default outliers are flagged when outside the range from "25th" percentile - 1.5 x IQR to "75th" percentiles + 1.5 x IQR, as suggested by McGill and
-implemented by the current boxplot functions from ggplot (`geom_boxplot`).
-However, these default can also be overridden. 
-
-### 2.4.1 Examples
-
-In the following example, outliers will be flagged when   
-
-- A) outside the default range 
-- B) values are out of the "10th-90th" percentiles, while whiskers will go until these same percentiles:
+Default outliers are flagged when outside the range from "25th" percentile - 1.5 x IQR to "75th" percentiles + 1.5 x IQR, as suggested by McGill and implemented by the current boxplot functions from ggplot (`geom_boxplot`).
 
 
 ```{r example-outliers}
@@ -324,7 +393,7 @@ plotBoxWhisker(
     fill = Country
   ),
   data = pkRatioData,
-  metaData = pkRatioMetaData,
+  metaData = metaData,
   outliers = TRUE
 ) +
   labs(
@@ -333,10 +402,17 @@ plotBoxWhisker(
        and outlier indicate all measurements outside
        25th percentiles - 1.5 x IQR to 75th percentiles + 1.5 x IQR"
   )
+```
+
+### 2.4.2 Outlier with default settings
 
 
 
+In the following example the aggregation is customized to set the whiskers to 10% and 90% and the outlier range is customized to show all points outside the whiskers.
+For that we define a function `myStatFunOutlier` which has as input the vector of the values, and as output the vector of values outside the outlier range. If no value is outside range NA is returned.
 
+
+```{r example-outliers-custom}
 myStatFun <- function(y) {
   r <- stats::quantile(y, probs = c(0.1, 0.25, 0.5, 0.75, 0.9), names = FALSE, na.rm = TRUE)
   names(r) <- c("ymin", "lower", "middle", "upper", "ymax")
@@ -345,14 +421,19 @@ myStatFun <- function(y) {
 
 
 myStatFunOutlier <-
-  function(x) {
-    q <- stats::quantile(x, probs = c(0.1, 0.9), names = FALSE, na.rm = TRUE)
-    pp <- subset(x, x < q[1] |
-      x > q[2])
-    if (length(pp) < 1) {
+  function(y) {
+    q <-
+      stats::quantile(y,
+        probs = c(0.1, 0.9),
+        names = FALSE,
+        na.rm = TRUE
+      )
+    yOutsideRange <- subset(y, y < q[1] |
+      y > q[2])
+    if (length(yOutsideRange) < 1) {
       return(as.double(NA))
     } else {
-      return(pp)
+      return(yOutsideRange)
     }
   }
 
@@ -360,7 +441,7 @@ myStatFunOutlier <-
 
 plotBoxWhisker(
   data = pkRatioData,
-  metaData = pkRatioMetaData,
+  metaData = metaData,
   mapping = aes(
     x = Sex,
     y = Ratio,
@@ -371,13 +452,12 @@ plotBoxWhisker(
   statFunOutlier = myStatFunOutlier
 ) +
   labs(
-    tag = "B",
     caption = "Whisker indicate 80% range (10th - 90th percentile)
        and outlier indicate all measurements outside whiskers"
   )
 ```
 
-## 2.4.1 Retrieve outlier as Table
+## 2.4.3 Retrieve outlier as table
 
 The `plotBoxWhisker()` adds the outlier function to the plot object. So outliers can be easily retrieved e.g. with package {data.table}
 
@@ -386,7 +466,7 @@ The `plotBoxWhisker()` adds the outlier function to the plot object. So outliers
 # generate plotObject
 plotObject <- plotBoxWhisker(
   data = pkRatioData,
-  metaData = pkRatioMetaData,
+  metaData = metaData,
   mapping = aes(
     x = Sex,
     y = Ratio,
@@ -400,7 +480,7 @@ plotObject <- plotBoxWhisker(
 # convert data to data.table and use  statFun saved in plotObject for aggregation
 # make sure to add all relevant aesthetics to "by" columns
 dt <- pkRatioData %>%
-  setDT() %>%
+  data.table::setDT() %>%
   .[, .(outliers = plotObject$statFunOutlier(Ratio)),
     by = c("Country", "Sex")
   ]
@@ -426,11 +506,11 @@ Below you see an example of the same plot
 
 
 
-```{r boxplot-update-configuration, fig.cap="Boxplot with updated plot configuration"}
+```{r boxplot-update-configuration}
 # A default layout
 plotBoxWhisker(
   data = pkRatioData,
-  metaData = pkRatioMetaData,
+  metaData = metaData,
   mapping = aes(
     x = Country,
     y = Age,
@@ -446,7 +526,7 @@ plotBoxWhisker(
 # B customized layout
 plotBoxWhisker(
   data = pkRatioData,
-  metaData = pkRatioMetaData,
+  metaData = metaData,
   mapping = aes(
     x = Country,
     y = Age,
@@ -477,4 +557,7 @@ plotBoxWhisker(
   labs(tag = "B")
 ```
 
+```{r cleanup,echo=FALSE}
+resetDefaults(oldDefaults)
+```
 

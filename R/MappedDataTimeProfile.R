@@ -7,18 +7,18 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
   "MappedDataTimeProfile",
   inherit = MappedData,
   public = list(
-    #' @field ylimits double vector limits of primary y axis
-    ylimits = NULL,
     #' @field y2limits double vector limits of secondary y axis
     y2limits = NULL,
     #' @param data data.frame used for mapping
     #' @param mapping list of aesthetic mappings
-    #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with group,
+    #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with aesthetic 'groupby' ,
     #'            use of group aesthetics triggers second axis after simulation layers
+    #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
-    #' @param scaleOfDirection  scale of direction, either "linear" or "log"
     #' @param isObserved Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated
+    #' @param scaleOfPrimaryAxis  scale of direction, either "linear" or "log"
     #' @param scaleOfSecondaryAxis either 'linear' or 'log'
+    #' @param xlimits limits for x axis (may be NULL)
     #' @param ylimits limits for primary axis (may be NULL)
     #' @param y2limits limits for secondary axis (may be NULL)
     #'
@@ -27,20 +27,28 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     initialize = function(data,
                           mapping,
                           groupAesthetics = NULL,
+                          groupOrder = NULL,
                           direction = "y",
-                          scaleOfDirection = "linear",
                           isObserved = TRUE,
-                          scaleOfSecondaryAxis = "linear",
+                          xlimits = NULL,
                           ylimits = NULL,
+                          scaleOfPrimaryAxis = "linear",
+                          scaleOfSecondaryAxis = "linear",
                           y2limits = NULL) {
       super$initialize(
         data = data,
         mapping = mapping,
         groupAesthetics = groupAesthetics,
+        groupOrder = groupOrder,
         direction = direction,
         isObserved = isObserved,
-        scaleOfDirection = scaleOfDirection
+        xlimits = NULL,
+        ylimits = NULL
       )
+
+      checkmate::assertChoice(scaleOfPrimaryAxis, choices = c("linear", "log"))
+      private$scaleOfPrimaryAxis <- scaleOfPrimaryAxis
+
       # check for secondaryAxis
       if ("y2axis" %in% names(self$mapping)) {
         checkmate::assertLogical(private$getDataForAesthetic(aesthetic = "y2axis"),
@@ -48,6 +56,8 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         )
 
         private$secondaryAxisAvailable <- any(private$getDataForAesthetic("y2axis"))
+
+        private$addOverwriteAes(newMaps = aes(y2 = y2))
       } else {
         private$secondaryAxisAvailable <- FALSE
       }
@@ -57,14 +67,6 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
       if (private$secondaryAxisAvailable) {
         checkmate::assertChoice(scaleOfSecondaryAxis,
           choices = c("linear", "log"),
-          null.ok = TRUE
-        )
-        checkmate::assertDouble(
-          ylimits,
-          sorted = TRUE,
-          any.missing = TRUE,
-          len = 2,
-          unique = TRUE,
           null.ok = TRUE
         )
         checkmate::assertDouble(
@@ -82,7 +84,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         self$y2limits <- y2limits
 
         # setLimits
-        private$setLimits()
+        private$setyLimits()
 
         return(invisible(self))
       }
@@ -111,7 +113,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         null.ok = TRUE
       )
       ylimits <- ylimits %||% self$ylimits
-      if (private$scaleOfDirection == "log") {
+      if (private$scaleOfPrimaryAxis == "log") {
         checkmate::assertDouble(log(ylimits), finite = TRUE)
       }
 
@@ -137,7 +139,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
 
       # get Scaling function
       if (private$scaleOfSecondaryAxis == "linear") {
-        if (private$scaleOfDirection == "linear") {
+        if (private$scaleOfPrimaryAxis == "linear") {
           offsetlin1 <- self$ylimits[1]
           deltalin1 <- diff(self$ylimits)
 
@@ -151,7 +153,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
           funScaleAxis <- function(ytrans) {
             return((ytrans - offsetlin1) / deltalin1 * deltalin2 + offsetlin2)
           }
-        } else if (private$scaleOfDirection == "log") {
+        } else if (private$scaleOfPrimaryAxis == "log") {
           offsetlin <- self$y2limits[1]
           deltalin <- diff(self$y2limits)
 
@@ -167,7 +169,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
           }
         }
       } else if (private$scaleOfSecondaryAxis == "log") {
-        if (private$scaleOfDirection == "linear") {
+        if (private$scaleOfPrimaryAxis == "linear") {
           offsetlin <- self$ylimits[1]
           deltalin <- diff(self$ylimits)
 
@@ -181,7 +183,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
           funScaleAxis <- function(ylin) {
             return(exp((ylin - offsetlin) / deltalin * deltalog + offsetlog))
           }
-        } else if (private$scaleOfDirection == "log") {
+        } else if (private$scaleOfPrimaryAxis == "log") {
           offsetlog1 <- log(self$ylimits[1])
           deltalog1 <- diff(log(self$ylimits))
 
@@ -198,7 +200,8 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         }
       }
       # get data columns to scale
-      scalingRelevantMappings <- listOfAesthetics[get("scalingRelevant") >= 1]$aesthetic %>%
+      scalingRelevantMappings <-
+        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1),]$aesthetic %>%
         intersect(names(self$mapping))
 
 
@@ -267,14 +270,16 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
   ),
   ## private -------
   private = list(
+    scaleOfPrimaryAxis = "linear",
     scaleOfSecondaryAxis = "linear",
     secondaryAxisAvailable = NULL,
     dataScaled = NULL,
     .secAxis = NULL,
     #' adjust limits
-    setLimits = function() {
+    setyLimits = function() {
       # get data columns to scale
-      scalingRelevantMappings <- listOfAesthetics[get("scalingRelevant") >= 1]$aesthetic %>%
+      scalingRelevantMappings <-
+        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1),]$aesthetic %>%
         intersect(names(self$mapping))
 
       # get Limits

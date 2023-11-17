@@ -5,36 +5,31 @@
 #' and set its labels by metaData
 #'
 #' @param data data passed to ggplot object
-#' @param mapping  Default list of aesthetic mappings to use for plot
-#' @param metaData A named list of information about the `data` such as the `dimension` and `unit` of its variables.
+#' @param mappedData  MappedData object
 #' @param setMapping if TRUE (default) mapping is passed to ggplot, otherwise mapping will be used only to create labels
 #'
 #' @return A `ggplot` object
 #' @export
 #'
-initializePlot <- function(metaData = NULL,
-                           mapping = NULL,
-                           data = NULL,
+initializePlot <- function(mappedData = NULL,
                            setMapping = TRUE) {
   # Validation
-  checkmate::assertList(metaData, types = "list", null.ok = TRUE)
-  checkmate::assertList(mapping, types = "quosure", null.ok = TRUE)
+  checkmate::assertClass(mappedData, classes = "MappedData", null.ok = TRUE)
   checkmate::assertFlag(setMapping)
 
   mappingToSet <- aes()
-  if (setMapping && !is.null(mapping)) {
-    mappingToSet <- mapping
+  if (setMapping && !is.null(mappedData)) {
+    mappingToSet <- mappedData$mapping
   }
   plotObject <- ggplot(
-    data = data,
+    data = mappedData$dataForPlot,
     mapping = mappingToSet,
     environment = globalenv()
   ) +
     layerWatermark()
 
-
   # add labels
-  plotObject <- .addLabels(plotObject, metaData, mapping)
+  plotObject <- addLabels(plotObject, mappedData)
 
 
   return(plotObject)
@@ -60,6 +55,7 @@ addLayer <- function(mappedData,
     geom = geom,
     geomAttributes = geomAttributes
   )
+
   if (!is.null(filteredMapping)) {
     plotObject <- plotObject +
       do.call(
@@ -88,6 +84,10 @@ addLayer <- function(mappedData,
 
   return(plotObject)
 }
+
+
+
+
 
 
 #' Create a watermark layer for a ggplot object.
@@ -184,6 +184,7 @@ buildWatermarkGrob <- function(label, x = .5, y = .5, angle = 30,
 #' add X and Y-scale
 #'
 #' @param plotObject A `ggplot` object on which to add the scale
+#' @param secAxis secondary axis arguments for scale_y functions
 #' @inheritParams plotTimeProfile
 #'
 #' @return The updated `ggplot` object
@@ -256,7 +257,7 @@ addXscale <- function(plotObject,
 #' add y-scale
 #'
 #' @param plotObject A `ggplot` object on which to add the scale
-#' @param secAxis description
+#' @param secAxis secondary axis arguments for scale_y functions
 #' @inheritParams plotTimeProfile
 #'
 #' @return The updated `ggplot` object

@@ -12,8 +12,12 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.show = "hold"
+  dpi = 300,
+  fig.show = "hold",
+  fig.align = "center",
+  fig.width = 7,
+  out.width = "80%",
+  comment = "#>"
 )
 ```
 
@@ -55,8 +59,8 @@ knitr::kable(head(testData), digits = 3)
 
 ## 2.1.1 Default ggplot layout
 
-- A) plot by ospsuite.plots function
-- B) customized plot
+* A plot by ospsuite.plots function
+* B customized plot
 
 ```{r,warning=FALSE}
 # ospsuite.plots function
@@ -99,7 +103,7 @@ plotHistogram(
 
 ggplot(
   data = testData,
-  mapping = aes(x = Obs, y = Pred, color = Sex, fill = Sex,shape = Sex)
+  mapping = aes(x = Obs, y = Pred, color = Sex, fill = Sex, shape = Sex)
 ) +
   geom_point() +
   theme(legend.position = "top") +
@@ -171,7 +175,7 @@ You can also use color Palettes from other packages e.g ggsci:
 * F customized plots set grey scale for this plot only using function `ggsci::scale_color_lancet()`    
 
 
-```{r out.width="80%"}
+```{r}
 # set ospsuite.plots Default Color
 oldColors <- ospsuite.plots::setDefaultColorMapDistinct()
 
@@ -182,8 +186,10 @@ ggplot() +
     y = rep(seq(1, 2), each = 3),
     fill = as.factor(seq(1, 6))
   )) +
-  labs(title = "up to 6 colors",
-       tag = 'A') +
+  labs(
+    title = "up to 6 colors",
+    tag = "A"
+  ) +
   theme(
     legend.position = "none",
     axis.title = element_blank()
@@ -217,8 +223,10 @@ ggplot() +
     legend.position = "none",
     axis.title = element_blank()
   ) +
-  labs(title = 'ColorMaps gray',
-       tag = 'C')
+  labs(
+    title = "ColorMaps gray",
+    tag = "C"
+  )
 
 
 ggplot() +
@@ -232,8 +240,10 @@ ggplot() +
     axis.title = element_blank()
   ) +
   scale_fill_grey() +
-  labs(title = 'scale_fill_grey',
-       tag = 'D')
+  labs(
+    title = "scale_fill_grey",
+    tag = "D"
+  )
 
 # set to Color palettes inspired by plots in Lancet journals
 ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
@@ -248,8 +258,10 @@ ggplot() +
     legend.position = "none",
     axis.title = element_blank()
   ) +
-  labs(title = 'ggsci::pal_lancet',
-       tag = 'E')
+  labs(
+    title = "ggsci::pal_lancet",
+    tag = "E"
+  )
 
 
 # set to Color palettes inspired by plots in Lancet journals
@@ -266,8 +278,10 @@ ggplot() +
     axis.title = element_blank()
   ) +
   ggsci::scale_color_lancet() +
-  labs(title = 'ggsci::scale_color_lancet',
-       tag = 'F')
+  labs(
+    title = "ggsci::scale_color_lancet",
+    tag = "F"
+  )
 
 
 
@@ -317,7 +331,8 @@ options(list(
     angle = 30,
     fontsize = 12,
     alpha = 0.7
-  )))
+  )
+))
 ```
 
 
@@ -330,28 +345,32 @@ examples to customize watermark
 ```{r}
 # change format and label of watermark
 options(list(
-    ospsuite.plots.watermark_format = list(
-      x = 0.2,
-      y = 0.9,
-      color = "red",
-      angle = 90,
-      fontsize = 24,
-      alpha = 0.2
-    ),
-    ospsuite.plots.watermark_label = "NEW"
-  ))
+  ospsuite.plots.watermark_format = list(
+    x = 0.2,
+    y = 0.9,
+    color = "red",
+    angle = 90,
+    fontsize = 24,
+    alpha = 0.2
+  ),
+  ospsuite.plots.watermark_label = "NEW"
+))
 
 initializePlot() +
-  labs(title = 'changed watermark',
-       tag = 'A')
+  labs(
+    title = "changed watermark",
+    tag = "A"
+  )
 
 
 # disable
 options(list(ospsuite.plots.watermark_enabled = FALSE))
 
-initializePlot()+
-  labs(title = 'no watermark',
-       tag = 'B')
+initializePlot() +
+  labs(
+    title = "no watermark",
+    tag = "B"
+  )
 
 
 # reste to default
@@ -362,9 +381,10 @@ options(list(
 ))
 
 initializePlot() +
-  labs(title = 'default watermark',
-       tag = 'C')
-
+  labs(
+    title = "default watermark",
+    tag = "C"
+  )
 ```
 
 
@@ -390,7 +410,7 @@ options(list(
 ))
 ```
 
-## 2.5.3 Alpha
+## 2.5.3 Options to set defaults for aesthetic `alpha`
 
 Options to set the face alpha of ribbons filled points   
 and options to set the filled points for values below and above lloq
@@ -406,7 +426,7 @@ options(ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.618, "FALSE" = 1))
 
 ## 2.5.3 Percentiles
 
-Percentiles are used within the function `plotBoxwhisker`
+Percentiles are used within the function `plotBoxwhisker()`
 
 ```{r, eval = FALSE}
 # percentiles for boxwhisker plots
@@ -424,48 +444,148 @@ It can also be used to create a customized ggplot
 
 ## 3.1 `plotTimeProfile()`
 
-see \code{vignette("Time Profile Plots", package = "ospsuite.plots")}
+see `vignette("Time Profile Plots", package = "ospsuite.plots")`
 
 ## 3.2 `plotBoxwhisker()`
 
-not yet implemented
+see `vignette("Box-Whisker Plots", package = "ospsuite.plots")`
 
-## 3.3 `plotCumulativeTimeProfile()`
+## 3.3 `plotHistogram`
 
-not yet implemented
+see `vignette("Histogram Plots", package = "ospsuite.plots")`
 
-## 3.4 `plotHistogram`
+## 3.4 `plotPkRatio()`
 
-see \code{vignette("Histogram Plots", package = "ospsuite.plots")}
+see `vignette("PK-Ratio Plots", package = "ospsuite.plots")`
 
-## 3.5 `plotPkRatio()`
+## 3.5 `plotPredVsObs()`
 
-see \code{vignette("PK-Ratio Plots", package = "ospsuite.plots")}
+see `vignette("Goodness of fit", package = "ospsuite.plots")`
 
-## 3.6 `plotDDiRatio()`
+## 3.6 `plotResVsCov()`
 
-not yet implemented
+see `vignette("Goodness of fit", package = "ospsuite.plots")`
 
-## 3.7 `plotObsVsPred()`
+## 3.7 `plotQQ()`
 
-not yet implemented
-
-## 3.8 `plotResVs()`
-
-not yet implemented
-
-## 3.9 `plotQQ()`
-
-not yet implemented
-
-## 3.10 `plotPieChart()`
-
-not yet implemented
+see `vignette("Goodness of fit", package = "ospsuite.plots")`
 
 
-# 4. Shapes
+# 4. Additional aesthetics
 
-## 4.1 Default shapes ggplot:
+This package provide some additional aesthetics.   
+
+For more details see the example within the vignettes for the respective functions.
+
+
+* `groupby`: Short cut to use different aesthetics to group.  
+All function where this aesthtic is used have also a variable `groupAesthtics. The mapping `groupby`is copied to all aesthetics listed within this variable and to aesthetic `group`.  
+
+* `lloq`: Mapped to column with value of lower limit of quantification, adds horizontal (respectively vertical) lines
+to the plot. All observed values below the "lloq" are plotted with a lighter alpha.  
+As values will be compared row by row, it is possible to have more then one lloq.   
+
+* `error`: Mapped to column with additive error (e.g. standard deviation) errorbars are plotted. 
+This is a short cut to map ymin and ymax directly (`ymin = y - error` and `ymax = y + error`).
+Additionally if yscale is ymin values below 0 are set to y.
+
+* `error_relative`: Mapped to column with relative error (e.g. geometric standard deviation) errorbars are plotted.
+This is a short cut to map ymin and ymax directly (`ymin = y/error_relative` and `ymax = y*error_relative`). 
+
+* `y2axis`: Creates a plot with 2 y axis. It is used to map to column with a logical.
+Values where this column has entry TRUE will be displayed with a secondary axis.
+
+* `mdv`: Mapped to a logical column. rows where this column entries are TRUE, are not plotted.
+(mdv = missing data value is taken from NONMEM notation)
+
+* `observed` / `predicted`: For the function `plotPredVsObs()` `observed` is mapped to `x`and `predicted` is mapped to y. 
+For all other functions residuals ar calculated if both aesthetics are mapped. 
+The variable `residualScale` defines the calculation method: 
+  * `residualScale` = "log" -> $log(observed) - log(predicted)$, 
+  * `residualScale` = "linear" -> $observed - predicted$, 
+  * `residualScale` = "ratio" -> $observed/predicted$
+see `vignette("Goodness of fit", package = "ospsuite.plots")` for examples
+
+
+```{r additional-aesthtic-table, echo=FALSE}
+df <- rbind(
+  data.frame(
+    aesthetic = "`groupby`",
+    functions = c(
+      "plotTimeProfile()",
+      "plotHistogram()",
+      "plotPkRatio()",
+      "plotPredVsObs()",
+      "plotResVsCov()",
+      "plotQQ()"
+    )
+  ),
+  data.frame(
+    aesthetic = "`lloq`",
+    functions = c(
+      "plotTimeProfile()",
+      "plotPredVsObs()"
+    )
+  ),
+  data.frame(
+    aesthetic = "`error`",
+    functions = c(
+      "plotTimeProfile()",
+      "plotPkRatio()",
+      "plotPredVsObs()"
+    )
+  ),
+  data.frame(
+    aesthetic = "`error_relative`",
+    functions = c(
+      "plotTimeProfile()",
+      "plotPkRatio()",
+      "plotPredVsObs()"
+    )
+  ),
+  data.frame(
+    aesthetic = "`y2axis`",
+    functions = "plotTimeProfile()"
+  ),
+  data.frame(
+    aesthetic = "`mdv`",
+    functions = c(
+      "plotTimeProfile()",
+      "plotBoxwhisker()",
+      "plotHistogram()",
+      "plotPkRatio()",
+      "plotPredVsObs()",
+      "plotResVsCov()",
+      "plotQQ()"
+    )
+  ),
+  data.frame(
+    aesthetic = "`observed` / `predicted`",
+    functions = c(
+      "plotBoxwhisker()",
+      "plotHistogram()",
+      "plotPkRatio()",
+      "plotPredVsObs()",
+      "plotResVsCov()",
+      "plotQQ()"
+    )
+  )
+) %>%
+  dplyr::mutate(used = "X") %>%
+  tidyr::pivot_wider(names_from = aesthetic, values_from = used, values_fill = " ")
+
+
+knitr::kable(df, align = "c", caption = "Applicability of additional aesthetics in functions")
+```
+
+
+  
+
+
+
+# 5. Shapes
+
+## 5.1 Default shapes ggplot:
 
 
 ```{r, out.width = "90%", fig.asp = 0.4, fig.width = 8}
@@ -492,7 +612,7 @@ ggplot(shapes, aes(x, y)) +
   theme_void()
 ```
 
-## 4.2 Use unicode symbols  with {showtext}
+## 5.2 Use unicode symbols  with {showtext}
 
 Attention 
 - use of {showtext}  has side effects   
@@ -517,5 +637,8 @@ showtext::showtext_auto(enable = "off")
 ```
 
 
+```{r cleanup,echo=FALSE}
+resetDefaults(oldDefaults)
+```
 
 

@@ -21,6 +21,7 @@ Other setDefault functions:
 \code{\link{getDefaultOptions}()},
 \code{\link{resetDefaultColorMapDistinct}()},
 \code{\link{resetDefaultShapeDiscrete}()},
+\code{\link{resetDefaultTheme}()},
 \code{\link{resetDefaults}()},
 \code{\link{setDefaultColorMapDistinct}()},
 \code{\link{setDefaultShapeDiscrete}()},

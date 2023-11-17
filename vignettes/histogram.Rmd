@@ -12,32 +12,46 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  dpi = 300,
+  fig.show = "hold",
+  fig.align = "center",
+  fig.width = 7,
+  out.width = "80%",
   comment = "#>"
 )
 ```
+
+
+# 1. Introduction
+
+The following vignette aims at documenting and illustrating workflows for producing histograms using the function `plotHistogram` from the `ospsuite.plots` package.
+
+
+## 1.1 Setup
+
+For this vignette we will use the libraries {ospsuite.plots} and {tidyr}.
+We use the default settings of {ospsuite.plots} (see vignette("ospsuite.plots", package = "ospsuite.plots")) but adjust the legend position
 
 ```{r setup}
 library(ospsuite.plots)
 library(tidyr)
 
 # setDefaults
-ospsuite.plots::setDefaults()
+oldDefaults <- ospsuite.plots::setDefaults()
 
 
 # Place default legend position above the plot for prettier time profile plots
 theme_update(legend.position = "top")
+theme_update(legend.direction = "horizontal")
 theme_update(legend.title = element_blank())
 ```
 
-# 1. Introduction
 
-The following vignette aims at documenting and illustrating workflows for producing histograms using the function `plotHistogram` from the `ospsuite.plots` package.
-
-## 1.1 Example data
+## 1.2 Example data
 
 In this vignette following Data sets are used:
 
-###  Data set 1
+* Data set 1
 
 ```{r load-data-1, results='asis'}
 histData <- exampleDataCovariates %>%
@@ -54,7 +68,7 @@ knitr::kable(utils::head(histData), digits = 2, caption = "data")
 knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "list of meta data")
 ```
 
-### Data Set 2
+* Data Set 2
 
 
 ```{r load-data-2, results='asis'}
@@ -72,62 +86,73 @@ knitr::kable(utils::head(histData_distr), digits = 2, caption = "first rows of d
 knitr::kable(metaData2DataFrame(metaData_distr), digits = 2, caption = "list of meta data")
 ```
 
+# Examples
 
-# 2. Illustration of basic histograms
+## 2.1 Illustration of basic histograms
 
 
-## 2.1 Examples for different bins and position
+### 2.1.1 Basic example 
 
-Attention the defaults for the variable `geomHistAttributes` is a list with entries bins = 10 and  position = ggplot2::position_nudge().
-So if you change this variable and you do not want to change binning or position use `utils::modifyList` as in example C below
-`geomHistAttributes` accepts all arguments `ggplot2::geom_histogram` accepts.
+Histogram of column "Ratio" mapped to `x` stratified by column "Sex" mapped to `fill`.
 
-```{r minimalExample_bins, warning=FALSE,message=FALSE}
-mapping <- aes(
-  x = Ratio,
-  fill = Sex
-)
-
-# A Defaults
+```{r minimalExample_default}
 plotHistogram(
   data = histData,
-  mapping = mapping,
+  mapping <- aes(
+    x = Ratio,
+    fill = Sex
+  ),
   metaData = metaData
-) +
-  labs(
-    title = "position_nudge(), 10 bins (default)",
-    tag = "A"
-  )
+)
+```
+
+### 2.1.2 Basic example: change of defaults
+
+The variable `geomHistAttributes`  is set per default to `getDefaultGeomAttributes("Hist")`
+which is a list with entries `bins = 10` and `position = ggplot2::position_nudge()`
+
+In the example below the variable `geomHistAttributes` is set to a list with entry `position = "dodge"`
+That changes the position, but attention, the entry `bins = 10`is now overwritten and the default ggplot number of 30 is used.
+
+The column "Sex" is here mapped to `groupby`. `groupby` is an additional aesthetics of {ospsuite.plots} which works together with the variable `groupAesthetics`. For the function `plotHistogram()`  `groupAesthetics` is not settable and fixed to `fill`.
 
 
-# B ) position dodge default bins
+```{r minimalExample_position, warning=FALSE,message=FALSE}
 plotHistogram(
   data = histData,
-  mapping = mapping,
+  mapping <- aes(
+    x = Ratio,
+    groupby = Sex
+  ),
   metaData = metaData,
   geomHistAttributes = list(position = "dodge")
-) +
-  labs(
-    title = "position dodge, 30 bins",
-    tag = "B"
-  )
+)
+```
 
-# C) add position to default input for geomHistAttributes (nBins = 10)
+### 2.1.3 Basic example: change of psoition but keep number of bins
+
+To preserve the default settings, we modified the variable with `utils::modifyList(getDefaultGeomAttributes("Hist"), 
+list(position = "stack"))` 
+
+That changes the position but preserves the number of bins
+
+
+```{r minimalExample_stack}
 plotHistogram(
   data = histData,
   mapping = mapping,
   metaData = metaData,
   geomHistAttributes = utils::modifyList(
-    getDefaultGeomAttributes("Bar"),
+    getDefaultGeomAttributes("Hist"),
     list(position = "stack")
   )
-) +
-  labs(
-    title = "position stack , 10 bins",
-    tag = "C"
-  )
+)
+```
+### 2.1.4 Basic example: overlay of histograms
 
-# add position and alpha to default input for geomHistAttributes (binwidth 1)
+By setting the position to `identity` and setting `alpha` to a value below 1, an overlay of histograms is produced.
+
+```{r minimalExample_bins}
 plotHistogram(
   data = histData,
   mapping = mapping,
@@ -140,11 +165,65 @@ plotHistogram(
       alpha = 0.5
     )
   )
-) +
-  labs(
-    title = "position identity, with opacity , binwidth",
-    tag = "D"
-  )
+)
+```
+
+### 2.1.5 Omit data points flagged as Missing Dependent Variable (mdv)
+
+If some of the data should be omitted, we could do this by mapping a logcial to the aesthetic `mdv`. Below we excluded data above the value of 4: 
+
+
+```{r minimalExample_mdv}
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = Ratio,
+    fill = Sex,
+    mdv = Ratio > 4
+  ),
+  metaData = metaData
+)
+```
+
+
+### 2.1.6 Startified by a combination of columns
+
+To stratify by a combination of columns use function `interaction` for the mapping to `groupby`:
+
+```{r minimalExample_interaction}
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = Ratio,
+    groupby = interaction(Sex, AgeBin, sep = "-")
+  ),
+  geomHistAttributes = utils::modifyList(
+    getDefaultGeomAttributes("Hist"),
+    list(position = "dodge")
+  ),
+  metaData = metaData
+)
+```
+
+### 2.1.7 Usage of bin boundaries
+
+`geom_histogram` provides many possibilities to customize the binning. Below we defined the bin boundaries 
+by adding the entry `breaks` to `geomHistAttributes`. See `?geom_histogram`
+
+```{r minimalExample_binboundaries}
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = Ratio,
+    groupby = Sex,
+  ),
+  geomHistAttributes =
+    list(
+      position = position_nudge(),
+      breaks = seq(0, 5, 0.5)
+    ),
+  metaData = metaData
+)
 ```
 
 ## 2.2. Frequency
@@ -154,13 +233,13 @@ If variable `plotAsFrequency` is set to TRUE and
 - `position` is `stack`   frequency is calculated as count per bin / total (A)
 - `position` is NOT `stack`   frequency is calculated as count per bin / per group (B)
 
-both plot could also be calculated by directly setting y in the mapping
+both plots could also be calculated by directly setting y in the mapping
 
 - `position` is `stack`   frequency is calculated as count per bin / total (C)
 - `position` is NOT `stack`   frequency is calculated as count per bin / per group (D)
 
 
-```{r}
+```{r examples-frequency}
 # A)
 plotHistogram(
   data = histData,
@@ -226,20 +305,32 @@ plotHistogram(
 
 # 3. Distribution fit
 
+The optional input `distribution` aims at providing the possibility of fitting the data distribution.  
 
-## 3.1 Fit of different distributions and mean functions
+All distributions from package {stats}  are available (see `? stats::distributions`).  
+Internally `ggh4x::stat_theodensity` is used for the fit. Check the help for more details.
 
-The optional input `distribution` aims at providing the possibility of fitting the data distribution.
-All distributions from package {stats}  are available (see ? stats::distributions).
-For the most common the key normal (instead of norm) and lognormal (instead of `lnorm`) are also accepted.
-As vertical line a mean is plotted. The function to calculate the mean is determined by the variable `meanFunction`. Available are `none`,`mean`,`geomean`,`median` and `auto`.
-`auto` is the default is selects the mean function according to the selected distribution: `mean` for `normal` distribution, `geomean` for `lognormal` distribution, `median` for all other distributions, and `none`  if the distribution is also set to `none`.
-Internally `ggh4x::stat_theodensity` is used for the fit. Check the help for more details
+For the most common distributons the key normal (instead of norm) and lognormal (instead of `lnorm`) are also accepted.  
+
+
+The vertical line indicates the mean. The function to calculate the mean is determined by the variable `meanFunction`.   
+Available are  
+
+* `none`  (no line is plotted)
+* `mean`  (arithmetic mean)
+* `geomean`  (geometric mean) 
+* `median`  
+* `auto`  This is the default. It selects the mean function according to the selected distribution:   
+
+   * `mean` for `normal` distribution  
+   * `geomean` for `lognormal` distribution
+   * `median` for all other distributions
+   * `none`  if the distribution is also set to `none`.  
+   
 
 Below examples are shown for 
 
-- A)  `normal` distribution with mean
-- B)  `chisq` distribution without mean
+### 3.1 Fit of a `normal` distribution with `mean` as vertical line
 
 ```{r example-distribution}
 # Plot normal distribution
@@ -251,34 +342,32 @@ plotHistogram(
   ),
   metaData = metaData_distr,
   distribution = "normal"
-) +
-  labs(tag = "A")
+)
+```
 
 
+### 3.2 Fit of a `chisq` distribution without vertical line
 
-# Plot normal distribution
+
+```{r example-distribution-chisq}
 plotHistogram(
   data = histData_distr,
   mapping = aes(
     x = Obs,
-    fill = Sex,
+    groupby = Sex,
   ),
   metaData = metaData_distr,
   distribution = "chisq",
   meanFunction = "none"
-) +
-  labs(tag = "B")
+)
 ```
 
 
-## 3.2 Fit of stacked data
+## 3.3 Fit of stacked data
 
-
-
-With option `stack`, it is also possible to get the distribution of the sum only while splitting the content of the bars.
+With option `stack`, it is also possible to get the distribution of the sum only.
 
 ```{r example-2-distributions-stack}
-# Plot normal distribution of sum but bars are split by gender
 plotHistogram(
   data = histData,
   mapping = aes(
@@ -287,20 +376,20 @@ plotHistogram(
   ),
   metaData = metaData,
   geomHistAttributes = utils::modifyList(
-    getDefaultGeomAttributes("Bar"),
+    getDefaultGeomAttributes("Hist"),
     list(position = "stack")
   ),
   distribution = "normal"
-) +
-  labs(tag = "A")
+)
 ```
 
 
 
 ## 3.2 Fit with frequency TRUE
 
-```{r}
-# Plot normal distribution
+To fit a frequency select a distribution (here "normal") and set variable `plotAsFrequency` to `TRUE` 
+
+```{r example-frequency-fit}
 plotHistogram(
   data = histData_distr,
   mapping = aes(
@@ -310,11 +399,14 @@ plotHistogram(
   metaData = metaData_distr,
   distribution = "normal",
   plotAsFrequency = TRUE
-) +
-  labs(tag = "A")
+)
+```
 
 
-# Plot normal distribution of sum but bars are split by gender
+## 3.3 Fit with frequency TRUE and stacked data
+
+
+```{r example-frequency-stacked}
 plotHistogram(
   data = histData,
   mapping = aes(
@@ -323,24 +415,23 @@ plotHistogram(
   ),
   metaData = metaData,
   geomHistAttributes = utils::modifyList(
-    getDefaultGeomAttributes("Bar"),
+    getDefaultGeomAttributes("Hist"),
     list(position = "stack")
   ),
   distribution = "normal",
   plotAsFrequency = TRUE,
-) +
-  labs(tag = "B")
+)
 ```
 
 
 
 
 
-## 3.3 x-axis on log scale for distribution fir
+## 3.4 x-axis on log scale for distribution fir
 
-As fit is based on binning, and binning is depended on scale, a log scale has to be set before the distribution fit. Please use variable `xscale`
+As fit is based on binning, and binning is depended on scale, a log scale has to be set before the distribution fit. Please use variable `xscale = 'log'`
 
-```{r}
+```{r example-logscale}
 plotHistogram(
   data = histData_distr,
   mapping = aes(
@@ -365,9 +456,7 @@ With default inputs the functions switches automatically to bar plot, if the dat
 It can be done also manual by setting the variable `asBarPlot` to TRUE (see plot B)
 
 
-
-
-```{r}
+```{r example-categorical-data}
 # A Defaults
 plotHistogram(
   data = histData,
@@ -394,5 +483,9 @@ plotHistogram(
     x = "age rounded to 10 years",
     tag = "B"
   )
+```
+
+```{r cleanup,echo=FALSE}
+resetDefaults(oldDefaults)
 ```
 

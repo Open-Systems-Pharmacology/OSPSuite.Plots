@@ -2,7 +2,7 @@
 % Please edit documentation in R/MappedDataBoxplot.R
 \name{MappedDataBoxplot}
 \alias{MappedDataBoxplot}
-\title{MappedDataBoxplot}
+\title{object to map data for boxplots}
 \description{
 R6 class for mapping variable to \code{data}
 }
@@ -18,26 +18,18 @@ Other MappedData classes:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{scale}}{of x axis}
+\item{\code{xscale}}{scale of x axis}
 
-\item{\code{arguments}}{for scale of x axis}
+\item{\code{xscale.args}}{arguments for scale of x axis}
 
-\item{\code{Flag}}{indicates if x is mapped}
-
-\item{\code{mapping}}{for box whisker plot}
+\item{\code{hasXmapping}}{Flag, if TRUE x is mapped}
 }
 \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{scale}}{of x axis}
-
-\item{\code{arguments}}{for scale of x axis}
-
-\item{\code{Flag}}{indicates if x is mapped}
-
-\item{\code{mapping}}{for box whisker plot}
+\item{\code{boxwhiskerMapping}}{mapping for box whisker plot}
 }
 \if{html}{\out{</div>}}
 }
@@ -45,13 +37,16 @@ Other MappedData classes:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-MappedDataBoxplot-new}{\code{MappedDataBoxplot$new()}}
+\item \href{#method-MappedDataBoxplot-doAdjustmentsWithMetaData}{\code{MappedDataBoxplot$doAdjustmentsWithMetaData()}}
 \item \href{#method-MappedDataBoxplot-clone}{\code{MappedDataBoxplot$clone()}}
 }
 }
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
+<li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="addMetaData"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-addMetaData'><code>ospsuite.plots::MappedData$addMetaData()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="getAestheticsForGeom"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-getAestheticsForGeom'><code>ospsuite.plots::MappedData$getAestheticsForGeom()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="updateScaleArgumentsForTimeUnit"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-updateScaleArgumentsForTimeUnit'><code>ospsuite.plots::MappedData$updateScaleArgumentsForTimeUnit()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -66,10 +61,11 @@ Create a new \code{MappedDataBoxplot} object
   mapping,
   groupAesthetics = NULL,
   direction = "y",
-  scaleOfDirection = "linear",
   isObserved = TRUE,
-  xscale,
-  xscale.args
+  xlimits = NULL,
+  ylimits = NULL,
+  residualScale = NULL,
+  residualAesthetic = "y"
 )}\if{html}{\out{</div>}}
 }
 
@@ -80,19 +76,53 @@ Create a new \code{MappedDataBoxplot} object
 
 \item{\code{mapping}}{list of aesthetic mappings}
 
-\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with group,
-use of group aesthetics triggers second axis after simulation layers}
+\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with aesthetic \code{groupby}}
 
 \item{\code{direction}}{direction of plot either "x" or "y"}
 
-\item{\code{scaleOfDirection}}{scale of direction, either "linear" or "log"}
-
 \item{\code{isObserved}}{Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated}
+
+\item{\code{xlimits}}{limits for x-axis (may be NULL)}
+
+\item{\code{ylimits}}{limits for y-axis (may be NULL)}
+
+\item{\code{residualScale}}{scale of x residuals}
+
+\item{\code{residualAesthetic}}{aesthetic used for mapping residuals}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 MappedDataBoxplot class object
+use Metadata to adjust bininng xscale, and group aetsthtic
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-MappedDataBoxplot-doAdjustmentsWithMetaData"></a>}}
+\if{latex}{\out{\hypertarget{method-MappedDataBoxplot-doAdjustmentsWithMetaData}{}}}
+\subsection{Method \code{doAdjustmentsWithMetaData()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MappedDataBoxplot$doAdjustmentsWithMetaData(
+  originalmapping,
+  xscale,
+  xscale.args
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{originalmapping}}{mapping provided by user}
+
+\item{\code{xscale}}{either 'linear','log', discrte or 'auto' (default) auto select linear for continuous data and discrete for categorical data}
+
+\item{\code{xscale.args}}{list of arguments passed to \code{ggplot2::scale_x_continuous()}, \code{ggplot2::scale_x_log10()} or
+\code{ggplot2::scale_x_discrete()}}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+adjusted MappedDataBoxplot class object
 }
 }
 \if{html}{\out{<hr>}}

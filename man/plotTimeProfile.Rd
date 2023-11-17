@@ -10,6 +10,7 @@ plotTimeProfile(
   observedData = NULL,
   observedMapping = mapping,
   metaData = NULL,
+  mapSimulatedAndObserved = NULL,
   xscale = "linear",
   xscale.args = list(limits = c(0, NA)),
   yscale = "linear",
@@ -26,15 +27,22 @@ plotTimeProfile(
 )
 }
 \arguments{
-\item{data}{data.frame with simulated data}
+\item{data}{data.frame with simulated data will be displayed as lines with ribbons}
 
-\item{mapping}{Default list of aesthetic mappings to use for plot}
+\item{mapping}{a list of aesthetic mappings to use for plot,
+additional to {ggplot2} aesthetics, the aesthetics \code{groupby},\code{error},\code{error_relative},\code{lloq}, \code{mdv}, \code{y2axis} are available,
+see vignettes for more details and examples}
 
-\item{observedData}{data.frame with observed data}
+\item{observedData}{data.frame with observed data  will be displayed as points with errorbars}
 
-\item{observedMapping}{Default list of aesthetic mappings to use for observed data}
+\item{observedMapping}{a list of aesthetic mappings to use for observed data,
+per default is is set to mapping. So if both data sets have the same mapping, use only \code{mapping},
+if a different mapping is necessary use \code{mapping} and \code{observedMapping}}
 
 \item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
+
+\item{mapSimulatedAndObserved}{table with columns observed and simulated which mapps simulated and observed data
+use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after simulation layers}
 
 \item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
 
@@ -50,62 +58,41 @@ plotTimeProfile(
 
 \item{plotObject}{An optional \code{ggplot} object on which to add the plot layers}
 
-\item{geomLineAttributes}{A \code{list} with arguments which are passed on to the \code{ggplot2::geom_line}}
+\item{geomLineAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_line}}
 
-\item{geomRibbonAttributes}{A \code{list} with arguments which are passed on to the \code{ggplot2::geom_ribbon}}
+\item{geomRibbonAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_ribbon}}
 
-\item{geomPointAttributes}{A \code{list} with arguments which are passed on to the \code{ggplot2::geom_point}}
+\item{geomPointAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
 
-\item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the \code{ggplot2::geom_errorbar}}
+\item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
 
-\item{geomLLOQAttributes}{A \code{list} with arguments which are passed on to the \code{ggplot2::geom_hline}}
+\item{geomLLOQAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
 
-\item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with group,
-use of group aesthetics triggers second axis after simulation layers}
+\item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with groupby,}
 }
 \value{
 A \code{ggplot} object
 }
 \description{
 Produces timeprofiles for simulated and observed data.
-}
-\details{
+
 For the simulated data a \code{geom_line} and a \code{geom_ribbon} layer are added
 For the observed data a \code{geom_point} and a \code{geom_errorbar} layer are added
 
-As one of the intention of this plotting routine is to display simulated
-and observed data with same grouping aesthetics like color and line type, but with different legend,
-between the layers for simulated data and layers for observed  data new color scales are introduced.
-
-Non default mappings which can be used are:
-\itemize{
-\item lloq
-\itemize{
-\item only relevant for observed data
-\item adds horizontal lines and displays measurement below LLOQ with a smaller alpha)
-}
-\item mdv
-\itemize{
-\item missing dependent Variable , should be 0 or 1
-\item only relevant for observed data,
-\item data with mdv 1 are not plotted
-}
-\item error, error_relative
-\itemize{
-\item calculates ymin and ymax for additive ore relative
-}
-\item y2axis
-\itemize{
-\item should be logical, defines if some of the outputs should be displayed wit a secondary axis
-}
-}
-
 For more details and examples see the vignettes:
-\code{vignette("Time Profile Plots", package = "ospsuite.plots")}
-\code{vignette("ospsuite.plots", package = "ospsuite.plots")}
+\itemize{
+\item \code{vignette("Time Profile Plots", package = "ospsuite.plots")}
+\item \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
+}
 }
 \seealso{
 Other plot functions: 
-\code{\link{plotHistogram}()}
+\code{\link{plotBoxWhisker}()},
+\code{\link{plotHistogram}()},
+\code{\link{plotPredVsObs}()},
+\code{\link{plotQQ}()},
+\code{\link{plotRatioVsCov}()},
+\code{\link{plotResVsCov}()},
+\code{\link{plotYVsX}()}
 }
 \concept{plot functions}

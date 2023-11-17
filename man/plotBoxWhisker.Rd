@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotBoxWhisker.R
 \name{plotBoxWhisker}
 \alias{plotBoxWhisker}
-\title{Title}
+\title{generate  boxWhisker plots}
 \usage{
 plotBoxWhisker(
   data,
@@ -10,7 +10,7 @@ plotBoxWhisker(
   metaData = NULL,
   plotObject = NULL,
   percentiles = getOption(x = "ospsuite.plots.Percentiles", default =
-    getDefaultggOSPOptions()[["ospsuite.plots.Percentiles"]]),
+    getDefaultOptions()[["ospsuite.plots.Percentiles"]]),
   yscale = "linear",
   yscale.args = list(),
   xscale = "auto",
@@ -19,12 +19,62 @@ plotBoxWhisker(
   outliers = FALSE,
   statFunOutlier = NULL,
   geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
-  geomPointAttributes = getDefaultGeomAttributes("Boxplot")
+  geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
+  residualScale = "log"
 )
 }
 \arguments{
-\item{plotObject}{}
+\item{data}{data.frame with data to aggregate}
+
+\item{mapping}{a list of aesthetic mappings to use for plot}
+
+\item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
+
+\item{plotObject}{An optional \code{ggplot} object on which to add the plot layers}
+
+\item{percentiles}{vector with percentiles used for the box whiskers and boxes e.g. c(0.05,0.25,0.5,0.75,0.95)
+default defined by option \code{ospsuite.plots.Percentiles}}
+
+\item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
+
+\item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
+
+\item{xscale}{either 'linear','log', discrte or 'auto' (default) auto select linear for continuous data and discrete for categorical data}
+
+\item{xscale.args}{list of arguments passed to \code{ggplot2::scale_x_continuous()}, \code{ggplot2::scale_x_log10()} or
+\code{ggplot2::scale_x_discrete()}}
+
+\item{statFun}{(default NULL) if not NULL function to calculate whiskers and box ranges, overwrites variable percentiles}
+
+\item{outliers}{Logical defining if outliers should be included in boxplot.
+outliers are flagged when outside the range from "25th" percentile - 1.5 x IQR to "75th"
+percentiles + 1.5 x IQR, as suggested by McGill and}
+
+\item{statFunOutlier}{(default NULL) if not NULL overwrites default calculation of outliers}
+
+\item{geomBoxplotAttributes}{A \code{list} with arguments which are passed on to the geom boxplot call}
+
+\item{geomPointAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
+}
+\value{
+A \code{ggplot} object
 }
 \description{
-Title
+Producing box-and-whisker plots
+For more details and examples see the vignettes:
+\itemize{
+\item \code{vignette("Box-Whisker Plots", package = "ospsuite.plots")}
+\item \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 }
+}
+\seealso{
+Other plot functions: 
+\code{\link{plotHistogram}()},
+\code{\link{plotPredVsObs}()},
+\code{\link{plotQQ}()},
+\code{\link{plotRatioVsCov}()},
+\code{\link{plotResVsCov}()},
+\code{\link{plotTimeProfile}()},
+\code{\link{plotYVsX}()}
+}
+\concept{plot functions}

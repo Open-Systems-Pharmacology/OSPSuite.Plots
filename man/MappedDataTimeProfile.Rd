@@ -18,8 +18,6 @@ Other MappedData classes:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{ylimits}}{double vector limits of primary y axis}
-
 \item{\code{y2limits}}{double vector limits of secondary y axis}
 }
 \if{html}{\out{</div>}}
@@ -47,7 +45,9 @@ adjust limits}
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
+<li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="addMetaData"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-addMetaData'><code>ospsuite.plots::MappedData$addMetaData()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="getAestheticsForGeom"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-getAestheticsForGeom'><code>ospsuite.plots::MappedData$getAestheticsForGeom()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="updateScaleArgumentsForTimeUnit"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-updateScaleArgumentsForTimeUnit'><code>ospsuite.plots::MappedData$updateScaleArgumentsForTimeUnit()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -61,11 +61,13 @@ Create a new \code{MappedDataTimeProfile} object
   data,
   mapping,
   groupAesthetics = NULL,
+  groupOrder = NULL,
   direction = "y",
-  scaleOfDirection = "linear",
   isObserved = TRUE,
-  scaleOfSecondaryAxis = "linear",
+  xlimits = NULL,
   ylimits = NULL,
+  scaleOfPrimaryAxis = "linear",
+  scaleOfSecondaryAxis = "linear",
   y2limits = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -77,18 +79,22 @@ Create a new \code{MappedDataTimeProfile} object
 
 \item{\code{mapping}}{list of aesthetic mappings}
 
-\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with group,
+\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with aesthetic 'groupby' ,
 use of group aesthetics triggers second axis after simulation layers}
+
+\item{\code{groupOrder}}{labels and order for group aesthetic}
 
 \item{\code{direction}}{direction of plot either "x" or "y"}
 
-\item{\code{scaleOfDirection}}{scale of direction, either "linear" or "log"}
-
 \item{\code{isObserved}}{Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated}
 
-\item{\code{scaleOfSecondaryAxis}}{either 'linear' or 'log'}
+\item{\code{xlimits}}{limits for x axis (may be NULL)}
 
 \item{\code{ylimits}}{limits for primary axis (may be NULL)}
+
+\item{\code{scaleOfPrimaryAxis}}{scale of direction, either "linear" or "log"}
+
+\item{\code{scaleOfSecondaryAxis}}{either 'linear' or 'log'}
 
 \item{\code{y2limits}}{limits for secondary axis (may be NULL)}
 }

@@ -25,7 +25,7 @@ R6 class container for functions and properties used in \code{plotHistogram}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{histMapping}}{generates mapping for histogram
+\item{\code{getHistMapping}}{generates mapping for histogram
 check if variable is a valid distribution
 extract bin width and bin border of ggplot object
 check if input is valid and returns function for vertical line}

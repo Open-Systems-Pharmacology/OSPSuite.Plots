@@ -4,32 +4,101 @@ theme_update(legend.position = "top")
 theme_update(legend.title = element_blank())
 
 
-test_that("plot histogram works for frequency distribution fit", {
+test_that("plot histogram works for all stacked  frequency distribution fit combinations", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-  histData <- exampleDataCovariates %>%
-    dplyr::filter(SetID == "DataSet1") %>%
-    dplyr::select(c("ID", "Sex", "Age", "AgeBin", "Ratio"))
 
-  metaData <- attr(exampleDataCovariates, "metaData")
-  metaData <- metaData[intersect(names(histData), names(metaData))]
+  set.seed(1)
+  myData <- rbind(
+    data.table(
+      Ratio = rnorm(1000),
+      Sex = "female"
+    ),
+    data.table(
+      Ratio = rnorm(1000, mean = 1),
+      Sex = "male"
+    )
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "noStack_noFrequency",
+    fig = plotHistogram(
+      data = myData,
+      mapping = aes(
+        x = Ratio, fill = Sex
+      ),
+      geomHistAttributes = utils::modifyList(
+        getDefaultGeomAttributes("Hist"),
+        list(
+          position = "dodge",
+          bins = 30
+        )
+      ),
+      distribution = "normal",
+      plotAsFrequency = FALSE
+    )
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "stack_noFrequency",
+    fig = plotHistogram(
+      data = myData,
+      mapping = aes(
+        x = Ratio, fill = Sex
+      ),
+      geomHistAttributes = utils::modifyList(
+        getDefaultGeomAttributes("Hist"),
+        list(
+          position = "stack",
+          bins = 30
+        )
+      ),
+      distribution = "normal",
+      meanFunction = "median",
+      plotAsFrequency = FALSE
+    )
+  )
 
 
   vdiffr::expect_doppelganger(
-    title = "frequencyDistribution",
+    title = "noStack_frequency",
     fig = plotHistogram(
-      data = histData,
+      data = myData,
       mapping = aes(
-        x = Ratio,
-        fill = Sex,
+        x = Ratio, fill = as.factor(Sex)
       ),
-      metaData = metaData,
       geomHistAttributes = utils::modifyList(
-        getDefaultGeomAttributes("Bar"),
-        list(position = "stack")
+        getDefaultGeomAttributes("Hist"),
+        list(
+          position = "dodge",
+          bins = 30
+        )
       ),
-      distribution = "normal"
+      distribution = "normal",
+      plotAsFrequency = TRUE
+    )
+  )
+
+
+
+  vdiffr::expect_doppelganger(
+    title = "stack_frequency",
+    fig = plotHistogram(
+      data = myData,
+      mapping = aes(
+        x = Ratio, fill = Sex
+      ),
+      geomHistAttributes = utils::modifyList(
+        getDefaultGeomAttributes("Hist"),
+        list(
+          position = "stack",
+          bins = 30
+        )
+      ),
+      distribution = "normal",
+      meanFunction = "median",
+      plotAsFrequency = TRUE
     )
   )
 })
@@ -60,7 +129,7 @@ test_that("plot histogram works for absoulte distribution fit on logscale", {
       metaData = metaData_distr,
       xscale = "log",
       distribution = "norm",
-      meanFunction = "none"
+      meanFunction = "median"
     )
   )
 })
@@ -90,3 +159,7 @@ test_that("plot histogram works for categoricalData", {
     )
   )
 })
+
+
+
+ospsuite.plots::resetDefaults(oldDefaults)

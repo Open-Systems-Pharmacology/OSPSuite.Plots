@@ -16,4 +16,6 @@ listOfAesthetics <-
     fill = TRUE
   )
 
+setDF(listOfAesthetics)
+
 usethis::use_data(listOfAesthetics, overwrite = TRUE, internal = TRUE)

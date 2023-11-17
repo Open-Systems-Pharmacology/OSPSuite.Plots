@@ -33,8 +33,80 @@ test_that("plotTimeProfile works basic", {
         y = values,
         ymin = minValues,
         ymax = maxValues,
-        group = caption
+        groupby = caption
       ),
+    )
+  )
+})
+
+
+
+test_that("plotTimeProfile works mapping observed plot", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
+
+  simData <- exampleDataTimeProfile %>%
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
+    dplyr::filter(Type == "simulated") %>%
+    dplyr::select(c("time", "values", "minValues", "maxValues", "caption"))
+
+
+  obsData <- exampleDataTimeProfile %>%
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
+    dplyr::filter(Type == "observed") %>%
+    dplyr::select(c("time", "values", "sd", "maxValues", "minValues", "caption"))
+
+  metaData <- attr(exampleDataTimeProfile, "metaData")
+
+
+  mapSimulatedAndObserved <- data.frame(
+    simulated = rev(unique(simData$caption)),
+    observed = unique(obsData$caption)
+  )
+
+
+  vdiffr::expect_doppelganger(
+    title = "mapped-observed-and-simulated",
+    fig = plotTimeProfile(
+      data = simData,
+      observedData = obsData,
+      metaData = metaData,
+      mapping <- aes(
+        x = time,
+        y = values,
+        groupby = caption
+      ),
+      mapSimulatedAndObserved = mapSimulatedAndObserved
+    )
+  )
+
+
+
+  obsData <- exampleDataTimeProfile %>%
+    dplyr::filter(SetID %in% c("DataSet1")) %>%
+    dplyr::filter(Type == "observed") %>%
+    dplyr::select(c("time", "values", "sd", "maxValues", "minValues", "caption"))
+
+
+  mapSimulatedAndObserved <- data.frame(
+    simulated = unique(simData$caption),
+    observed = c(unique(obsData$caption), "")
+  )
+
+
+  vdiffr::expect_doppelganger(
+    title = "mapped-observed-and-simulated",
+    fig = plotTimeProfile(
+      data = simData,
+      observedData = obsData,
+      metaData = metaData,
+      mapping <- aes(
+        x = time,
+        y = values,
+        groupby = caption
+      ),
+      mapSimulatedAndObserved = mapSimulatedAndObserved
     )
   )
 })
@@ -57,6 +129,9 @@ test_that("plotTimeProfile works lloq", {
     dplyr::filter(dimension == "concentration") %>%
     dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
 
+  obsData$lloq[3] <- NA
+  obsData$lloq[4] <- obsData$lloq[4] / 2
+
   metaData <- attr(exampleDataTimeProfile, "metaData")
 
   vdiffr::expect_doppelganger(
@@ -68,10 +143,11 @@ test_that("plotTimeProfile works lloq", {
       mapping = aes(
         x = time,
         y = values,
-        group = caption,
+        groupby = caption,
         error_relative = error_relative,
         lloq = lloq
       ),
+      groupAesthetics = c("color", "shape", "fill"),
       yscale = "log",
       yscale.args = list(limits = c(0.01, NA)),
       geomLineAttributes = list(color = "black")
@@ -109,8 +185,6 @@ test_that("plotTimeProfile works secondary axis", {
     dplyr::filter(SetID == "DataSet3") %>%
     dplyr::filter(Type == "observed") %>%
     dplyr::select(c("time", "values", "dimension", "caption", "lloq", "error_relative"))
-
-
 
 
   vdiffr::expect_doppelganger(

@@ -180,7 +180,7 @@ data <- data.table(
   SetID = "DataSet4",
   Type = "simulated",
   time = seq(0, 7, 0.25),
-  values = 10 * exp(-1 * seq(kill - 0, 7, 0.25)),
+  values = 10 * exp(-1 * seq(0, 7, 0.25)),
   caption = "mean model"
 )
 

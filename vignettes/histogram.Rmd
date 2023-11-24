@@ -112,7 +112,7 @@ The variable `geomHistAttributes`  is set per default to `getDefaultGeomAttribut
 which is a list with entries `bins = 10` and `position = ggplot2::position_nudge()`
 
 In the example below the variable `geomHistAttributes` is set to a list with entry `position = "dodge"`
-That changes the position, but attention, the entry `bins = 10`is now overwritten and the default ggplot number of 30 is used.
+That changes the position, but attention, the default value of `geomHistAttributes` contains the entry `bins = 10` which is now overwritten and the default {ggplot} number of 30 is used.
 
 The column "Sex" is here mapped to `groupby`. `groupby` is an additional aesthetics of {ospsuite.plots} which works together with the variable `groupAesthetics`. For the function `plotHistogram()`  `groupAesthetics` is not settable and fixed to `fill`.
 
@@ -129,6 +129,7 @@ plotHistogram(
 )
 ```
 
+
 ### 2.1.3 Basic example: change of psoition but keep number of bins
 
 To preserve the default settings, we modified the variable with `utils::modifyList(getDefaultGeomAttributes("Hist"), 
@@ -140,7 +141,10 @@ That changes the position but preserves the number of bins
 ```{r minimalExample_stack}
 plotHistogram(
   data = histData,
-  mapping = mapping,
+  mapping <- aes(
+    x = Ratio,
+    groupby = Sex
+  ),
   metaData = metaData,
   geomHistAttributes = utils::modifyList(
     getDefaultGeomAttributes("Hist"),
@@ -148,17 +152,21 @@ plotHistogram(
   )
 )
 ```
+
 ### 2.1.4 Basic example: overlay of histograms
 
 By setting the position to `identity` and setting `alpha` to a value below 1, an overlay of histograms is produced.
 
-```{r minimalExample_bins}
+```{r minimalExample_overlay}
 plotHistogram(
   data = histData,
-  mapping = mapping,
+  mapping <- aes(
+    x = Ratio,
+    groupby = Sex
+  ),
   metaData = metaData,
   geomHistAttributes = utils::modifyList(
-    getDefaultGeomAttributes("Bar"),
+    getDefaultGeomAttributes("Hist"),
     list(
       position = "identity",
       binwidth = 1,
@@ -205,10 +213,12 @@ plotHistogram(
 )
 ```
 
-### 2.1.7 Usage of bin boundaries
+### 2.1.7 Customization of binning
 
-`geom_histogram` provides many possibilities to customize the binning. Below we defined the bin boundaries 
-by adding the entry `breaks` to `geomHistAttributes`. See `?geom_histogram`
+Use the input variable `geomHistAttributes` to change the binning. The entries of this list are passed to
+`ggplot2::geom_histogram`, which provides many possibilities to customize the binning. Below we defined the bin boundaries 
+by adding the entry `breaks` to `geomHistAttributes`.  
+(See `?geom_histogram` for more details)
 
 ```{r minimalExample_binboundaries}
 plotHistogram(
@@ -226,6 +236,29 @@ plotHistogram(
 )
 ```
 
+You could also map a binning function to the aesthetic x. Below `ggplot2::cut_number` is used to create 3 bins with equal numbers of observations.
+Th data is now displayed as categorical data (see section 4)
+
+
+```{r minimalExample_binfunction}
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = cut_number(Ratio,
+                   n = 3,
+                   labels = c('low','mean','high')),
+    groupby = Sex,
+  ),
+  geomHistAttributes =
+    list(
+      position = position_nudge()
+    ),
+  metaData = metaData
+) +
+  labs(x = 'Ratio')
+
+```
+
 ## 2.2. Frequency
 
 If variable `plotAsFrequency` is set to TRUE and 
@@ -233,17 +266,16 @@ If variable `plotAsFrequency` is set to TRUE and
 - `position` is `stack`   frequency is calculated as count per bin / total (A)
 - `position` is NOT `stack`   frequency is calculated as count per bin / per group (B)
 
-both plots could also be calculated by directly setting y in the mapping
-
-- `position` is `stack`   frequency is calculated as count per bin / total (C)
-- `position` is NOT `stack`   frequency is calculated as count per bin / per group (D)
 
 
 ```{r examples-frequency}
 # A)
 plotHistogram(
   data = histData,
-  mapping = mapping,
+  mapping = aes(
+    x = Ratio,
+    groupby = Sex,
+  ),
   metaData = metaData,
   plotAsFrequency = TRUE,
   geomHistAttributes = list(bins = 10, position = "stack")
@@ -256,7 +288,10 @@ plotHistogram(
 # B)
 plotHistogram(
   data = histData,
-  mapping = mapping,
+  mapping = aes(
+    x = Ratio,
+    groupby = Sex,
+  ),
   metaData = metaData,
   plotAsFrequency = TRUE
 ) +
@@ -264,8 +299,16 @@ plotHistogram(
     tag = "B",
     caption = "frequency is calculated as count per bin / per fill"
   )
+```
 
 
+both plots could also be calculated by directly setting y in the mapping
+
+- `position` is `stack`   frequency is calculated as count per bin / total (C)
+- `position` is NOT `stack`   frequency is calculated as count per bin / per group (D)
+
+
+```{r examples-frequency_manual}
 # C)
 plotHistogram(
   data = histData,
@@ -305,15 +348,15 @@ plotHistogram(
 
 # 3. Distribution fit
 
-The optional input `distribution` aims at providing the possibility of fitting the data distribution.  
+The optional input variable `distribution` aims at providing the possibility of fitting the data distribution.  
 
 All distributions from package {stats}  are available (see `? stats::distributions`).  
 Internally `ggh4x::stat_theodensity` is used for the fit. Check the help for more details.
 
-For the most common distributons the key normal (instead of norm) and lognormal (instead of `lnorm`) are also accepted.  
+For the most common distributions the key "normal" (instead of `norm`) and "lognormal" (instead of `lnorm`) are also accepted.  
 
 
-The vertical line indicates the mean. The function to calculate the mean is determined by the variable `meanFunction`.   
+The vertical line indicates the mean. The function to calculate the mean is determined by the input variable `meanFunction`.   
 Available are  
 
 * `none`  (no line is plotted)
@@ -429,9 +472,10 @@ plotHistogram(
 
 ## 3.4 x-axis on log scale for distribution fir
 
-As fit is based on binning, and binning is depended on scale, a log scale has to be set before the distribution fit. Please use variable `xscale = 'log'`
+As fit is based on binning, and binning is depended on scale, a log scale has to be set before the distribution fit. Please use variable `xscale = 'log'` and do not add a {ggplot} like `scale_x_log10`
 
 ```{r example-logscale}
+
 plotHistogram(
   data = histData_distr,
   mapping = aes(
@@ -444,6 +488,7 @@ plotHistogram(
   meanFunction = "none"
 ) +
   labs(tag = "A")
+
 ```
 
 
@@ -457,10 +502,10 @@ It can be done also manual by setting the variable `asBarPlot` to TRUE (see plot
 
 
 ```{r example-categorical-data}
-# A Defaults
+# A  Input is factor
 plotHistogram(
   data = histData,
-  mapping = mapping <- aes(
+  mapping <- aes(
     x = AgeBin,
     fill = Sex
   ),
@@ -469,10 +514,10 @@ plotHistogram(
   labs(tag = "A")
 
 
-# A Defaults
+# B set asBarPlot = TRUE to convert input to factor
 plotHistogram(
   data = histData,
-  mapping = mapping <- aes(
+  mapping <- aes(
     x = round(histData$Age / 10) * 10,
     fill = Sex
   ),

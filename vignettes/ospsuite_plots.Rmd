@@ -187,28 +187,32 @@ ggplot() +
     fill = as.factor(seq(1, 6))
   )) +
   labs(
-    title = "up to 6 colors",
+    title = "default settings for up to 6 different colors",
     tag = "A"
   ) +
   theme(
     legend.position = "none",
     axis.title = element_blank()
   )
+```
 
+
+```{r}
 ggplot() +
   geom_tile(aes(
     x = c(rep(seq(1, 7), 7), 1, 2),
     y = c(rep(seq(1, 7), each = 7), 8, 8),
     fill = as.factor(seq(1, 51))
   )) +
-  labs(title = "> 6 colors") +
+  labs(title = "default settings for more the 6 different colors") +
   theme(
     legend.position = "none",
     axis.title = element_blank()
   )
+```
 
 
-
+```{r}
 # customize colors:
 # set to gray colors
 ospsuite.plots::setDefaultColorMapDistinct(ColorMaps[["grays"]])
@@ -227,8 +231,10 @@ ggplot() +
     title = "ColorMaps gray",
     tag = "C"
   )
+```
 
 
+```{r}
 ggplot() +
   geom_tile(aes(
     x = rep(seq(1, 3), 3),
@@ -244,7 +250,10 @@ ggplot() +
     title = "scale_fill_grey",
     tag = "D"
   )
+```
 
+
+```{r}
 # set to Color palettes inspired by plots in Lancet journals
 ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
 
@@ -262,8 +271,10 @@ ggplot() +
     title = "ggsci::pal_lancet",
     tag = "E"
   )
+```
 
 
+```{r}
 # set to Color palettes inspired by plots in Lancet journals
 ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
 
@@ -361,9 +372,12 @@ initializePlot() +
     title = "changed watermark",
     tag = "A"
   )
+```
 
 
-# disable
+disable watermark:
+
+```{r}
 options(list(ospsuite.plots.watermark_enabled = FALSE))
 
 initializePlot() +
@@ -371,9 +385,11 @@ initializePlot() +
     title = "no watermark",
     tag = "B"
   )
+```
 
+reset to default:
 
-# reste to default
+```{r}
 options(list(
   ospsuite.plots.watermark_format = NULL,
   ospsuite.plots.watermark_label = NULL,
@@ -391,6 +407,7 @@ initializePlot() +
 
 ## 2.5.2 Options to set the defaults for geom layer attributes
 
+
 ```{r, eval = FALSE}
 options(list(
   ospsuite.plots.geomLineAttributes = list(),
@@ -403,10 +420,13 @@ options(list(
     position = position_dodge(width = 1),
     color = "black"
   ),
-  ospsuite.plots.geomBarAttributes = list(
-    bins = 10,
-    position = ggplot2::position_nudge()
-  )
+    ospsuite.plots.geomHistAttributes = list(
+      bins = 10,
+      position = ggplot2::position_nudge()
+    ),
+    ospsuite.plots.geomBarAttributes = list(
+      position = ggplot2::position_nudge()
+    )
 ))
 ```
 
@@ -420,7 +440,7 @@ and options to set the filled points for values below and above lloq
 options(ospsuite.plots.Alpha = 0.7)
 
 # alpha of LLOQ values
-options(ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.618, "FALSE" = 1))
+options(ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.3, "FALSE" = 1))
 ```
 
 
@@ -454,15 +474,15 @@ see `vignette("Box-Whisker Plots", package = "ospsuite.plots")`
 
 see `vignette("Histogram Plots", package = "ospsuite.plots")`
 
-## 3.4 `plotPkRatio()`
-
-see `vignette("PK-Ratio Plots", package = "ospsuite.plots")`
-
-## 3.5 `plotPredVsObs()`
+## 3.4 `plotPredVsObs()`
 
 see `vignette("Goodness of fit", package = "ospsuite.plots")`
 
-## 3.6 `plotResVsCov()`
+## 3.5 `plotResVsCov()`
+
+see `vignette("Goodness of fit", package = "ospsuite.plots")`
+
+## 3.6 `plotRatioVsCov()`
 
 see `vignette("Goodness of fit", package = "ospsuite.plots")`
 
@@ -514,9 +534,9 @@ df <- rbind(
     functions = c(
       "plotTimeProfile()",
       "plotHistogram()",
-      "plotPkRatio()",
       "plotPredVsObs()",
       "plotResVsCov()",
+      "plotRatioVsCov()",
       "plotQQ()"
     )
   ),
@@ -531,16 +551,18 @@ df <- rbind(
     aesthetic = "`error`",
     functions = c(
       "plotTimeProfile()",
-      "plotPkRatio()",
-      "plotPredVsObs()"
+      "plotRatioVsCov()",
+      "plotPredVsObs()",
+      "plotResVsCov()"
     )
   ),
   data.frame(
     aesthetic = "`error_relative`",
     functions = c(
       "plotTimeProfile()",
-      "plotPkRatio()",
-      "plotPredVsObs()"
+      "plotRatioVsCov()",
+      "plotPredVsObs()",
+      "plotResVsCov()"
     )
   ),
   data.frame(
@@ -553,9 +575,9 @@ df <- rbind(
       "plotTimeProfile()",
       "plotBoxwhisker()",
       "plotHistogram()",
-      "plotPkRatio()",
       "plotPredVsObs()",
       "plotResVsCov()",
+      "plotRatioVsCov()",
       "plotQQ()"
     )
   ),
@@ -564,9 +586,9 @@ df <- rbind(
     functions = c(
       "plotBoxwhisker()",
       "plotHistogram()",
-      "plotPkRatio()",
       "plotPredVsObs()",
       "plotResVsCov()",
+      "plotRatioVsCov()",
       "plotQQ()"
     )
   )

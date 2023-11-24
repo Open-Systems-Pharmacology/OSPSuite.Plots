@@ -186,12 +186,12 @@ plotBoxWhisker(
 ```
 
 
-## 2.2 Examples for aggregation of numeric data 
+## 2.2 Examples for boxwhisker vs  numeric data 
 
 ### 2.2.1 Numeric data as factor
 
-In the next example we added a numeric column as mean age of the age group to the data set.
-This column is mapped as factor to `x`. The values are now displayed like categorical values equidistant:
+In the next example we added a numeric column as "mean age" of the age group to the data set.
+This column is mapped *as factor* to `x`. The values are now displayed like categorical values equidistant:
 
 
 ```{r numeric-example-factor}
@@ -234,8 +234,9 @@ plotBoxWhisker(
 
 ### 2.2.3 Map continuous column with binning 
 
-By mapping x with a function, it is also possible to aggregate data of a continuous column to bin.
-Below we use the function `cut` to aggregate the data in 4 distinct bin (see ?cut).
+By mapping x with a function, it is also possible to aggregate data of a continuous column to bin.  
+Below we use the function `cut` to aggregate the data in 4 distinct bin (see ?cut).  
+
 Attention: for `cut(Age)` no `metaData` exists. So we have to set the x label manually
 
 
@@ -252,8 +253,8 @@ plotBoxWhisker(
 ```
 
 We can use any functions which converts a continuous vector to a factor.
-Below we define our own cut function simply as a wrapper around cut, with some fixed arguments.
-This function is then mapped to `x`and `groupby`.
+Below we define our own cut function simply as a wrapper around cut, with some fixed arguments.  
+This function is then mapped to `x` and `groupby`.
 
 ```{r numeric-example-binfunction}
 myCutfun <- function(x) {
@@ -344,8 +345,11 @@ plotBoxWhisker(
 
 ## 2.3.3 Tables corresponding to plot
 
-As there already exist a lot off possibilities to aggregate data in R, this package does not provide an extra function to return the aggregated data in a tabular form.
-But the `plotBoxWhisker()` adds the aggregation function to the plot object. So the aggregation can be done easily e.g. with package {data.table}
+As there already exist a lot off possibilities to aggregate data in R, this package does not provide an extra function to return the aggregated data in a tabular form.  
+
+But the `plotBoxWhisker()` adds the aggregation function to the plot object. So the aggregation can be done easily e.g. with package {data.table} using the same function as used for the plot.
+
+To be sure to use the same data use plotObject$data, then applied data filters by aesthetic `mdv` will be accounted for.
 
 ```{r aggregationTable}
 # generate plot object
@@ -363,7 +367,7 @@ plot(plotObject)
 
 # convert data to data.table and use  statFun saved in plotObject for aggregation
 # make sure to add all relevant aesthetics to "by" columns
-dt <- pkRatioData %>%
+dt <- plotObject$data %>%
   data.table::setDT() %>%
   .[, as.list(plotObject$statFun(Age)),
     by = c("Country", "Sex")
@@ -382,7 +386,7 @@ knitr::kable(dt)
 
 
 Outliers are displayed if variable `outliers` is TRUE. 
-Default outliers are flagged when outside the range from "25th" percentile - 1.5 x IQR to "75th" percentiles + 1.5 x IQR, as suggested by McGill and implemented by the current boxplot functions from ggplot (`geom_boxplot`).
+Default outliers are flagged when outside the range from "25th" percentile - 1.5 x IQR to "75th" percentiles + 1.5 x IQR.
 
 
 ```{r example-outliers}
@@ -408,16 +412,12 @@ plotBoxWhisker(
 
 
 
-In the following example the aggregation is customized to set the whiskers to 10% and 90% and the outlier range is customized to show all points outside the whiskers.
-For that we define a function `myStatFunOutlier` which has as input the vector of the values, and as output the vector of values outside the outlier range. If no value is outside range NA is returned.
+In the following example the aggregation is customized to set the whiskers to 10% and 90% via the input variable percentiles and the outlier range is customized to show all points outside the whiskers.  
+For that we define a function `myStatFunOutlier` which has as input the vector of the values, and as output the vector of values outside the outlier range.  
+If no value is outside range NA is returned.
 
 
 ```{r example-outliers-custom}
-myStatFun <- function(y) {
-  r <- stats::quantile(y, probs = c(0.1, 0.25, 0.5, 0.75, 0.9), names = FALSE, na.rm = TRUE)
-  names(r) <- c("ymin", "lower", "middle", "upper", "ymax")
-  return(r)
-}
 
 
 myStatFunOutlier <-
@@ -448,7 +448,7 @@ plotBoxWhisker(
     fill = Country
   ),
   outliers = TRUE,
-  statFun = myStatFun,
+  percentiles = c(0.1, 0.25, 0.5, 0.75, 0.9),
   statFunOutlier = myStatFunOutlier
 ) +
   labs(
@@ -473,13 +473,13 @@ plotObject <- plotBoxWhisker(
     fill = Country
   ),
   outliers = TRUE,
-  statFun = myStatFun,
+  percentiles = c(0.1, 0.25, 0.5, 0.75, 0.9),
   statFunOutlier = myStatFunOutlier
 )
 
 # convert data to data.table and use  statFun saved in plotObject for aggregation
 # make sure to add all relevant aesthetics to "by" columns
-dt <- pkRatioData %>%
+dt <- plotObject$data %>%
   data.table::setDT() %>%
   .[, .(outliers = plotObject$statFunOutlier(Ratio)),
     by = c("Country", "Sex")
@@ -495,13 +495,13 @@ knitr::kable(dt)
 
 Below you see an example of the same plot  
 
-* A) default layout
-* B) customized layout
+* A default layout
+* B customized layout
 
-  *  the variable `geomBoxplotAttributes`  has now an entry for color 'orange', but it still keeps has the default value for position.
-  *  the variable `geomPointAttributes`  has now an entry for size = 4, and shape = 'diamond', but it still keeps has the default value for position.
-  * color was added to the mapping so the outliers points are also colored corresponding to 'Sex'
-  * with `scale_fill_manual` and `scale_color_manual` the colors for the 'Sex' are defined
+  * the variable `geomBoxplotAttributes`  has now an entry for color 'orange'.
+  * the variable `geomPointAttributes`  has now an entry for size = 4, color 'orange' and shape = 'diamond'.
+  * fill was added to the mapping so the outliers points are also colored corresponding to 'Sex'
+  * with `scale_fill_manual`  the colors for the 'Sex' are defined
        
 
 
@@ -517,7 +517,7 @@ plotBoxWhisker(
     fill = Sex
   ),
   outliers = TRUE,
-  statFun = myStatFun,
+  percentiles = c(0.1, 0.25, 0.5, 0.75, 0.9),
   statFunOutlier = myStatFunOutlier
 ) +
   labs(tag = "A")
@@ -530,11 +530,10 @@ plotBoxWhisker(
   mapping = aes(
     x = Country,
     y = Age,
-    color = Sex,
     fill = Sex
   ),
   outliers = TRUE,
-  statFun = myStatFun,
+  percentiles = c(0.1, 0.25, 0.5, 0.75, 0.9),
   statFunOutlier = myStatFunOutlier,
   geomBoxplotAttributes = list(
     color = "orange",
@@ -543,14 +542,11 @@ plotBoxWhisker(
   geomPointAttributes = list(
     position = position_dodge(width = 1),
     size = 4,
-    shape = "diamond"
+    color = "orange",
+    shape = "diamond filled"
   )
 ) +
   scale_fill_manual(values = c(
-    Female = "pink",
-    Male = "dodgerblue"
-  )) +
-  scale_color_manual(values = c(
     Female = "pink",
     Male = "dodgerblue"
   )) +

@@ -81,7 +81,10 @@ plotTimeProfile <- function(data = NULL,
   checkmate::assertDataFrame(mapSimulatedAndObserved , null.ok = TRUE)
   if (!is.null(mapSimulatedAndObserved )) {
     checkmate::assertNames(names(mapSimulatedAndObserved ),must.include  = c('simulated','observed'))
+    checkmate::assertCharacter(mapSimulatedAndObserved$simulated,unique = TRUE)
+    checkmate::assertCharacter(mapSimulatedAndObserved$observed,unique = TRUE)
     names(mapSimulatedAndObserved) = standardise_aes_names(names(mapSimulatedAndObserved))
+
   }
 
 

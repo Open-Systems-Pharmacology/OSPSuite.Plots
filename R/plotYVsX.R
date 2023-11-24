@@ -168,6 +168,7 @@ plotPredVsObs <- function(data = NULL,
     yscale = xyscale,
     observedDataDirection = "x",
     addLinesDiagnonal = TRUE,
+    asSquarePlot = TRUE,
     ...
   )
 

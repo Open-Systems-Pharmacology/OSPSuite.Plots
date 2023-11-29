@@ -27,7 +27,7 @@
 #' @export
 #' @family plot functions
 plotBoxWhisker <- function(data,
-                           mapping = NULL,
+                           mapping,
                            metaData = NULL,
                            plotObject = NULL,
                            percentiles = getOption(

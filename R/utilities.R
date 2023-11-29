@@ -22,7 +22,10 @@
 #'
 #' @examples
 #' xscale.args <- list(limits = c(0, 24))
-#' xscale.args <- updateScaleArgumentsForTimeUnit(scale.args = xscale.args, dimension = "time", unit = "h")
+#' xscale.args <-
+#'   updateScaleArgumentsForTimeUnit(scale.args = xscale.args,
+#'     dimension = "time",
+#'     unit = "h")
 #' addXscale(plotObject = ggplot(), xscale = "linear", xscale.args = xscale.args)
 updateScaleArgumentsForTimeUnit <- function(scale.args,
                                             dimension,
@@ -220,7 +223,7 @@ labelsForPercentile <- function(percentiles, suffix = " percentile") {
 #'
 #' this list is used as input for plotPKRatio, plotPredvsOvs
 #'
-#' @param vector of folds e.g. c(1.5,2) must be >1
+#' @param folds of folds e.g. c(1.5,2) must be >1
 #' @param includeIdentity Flag, if TRUE (default) line of identity is added
 #'
 #' @return named list with fold distances

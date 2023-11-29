@@ -18,15 +18,15 @@
 #' @return A `ggplot` object
 #' @export
 #' @family plot functions
-plotQQ <- function(data = NULL,
-                   mapping = NULL,
+plotQQ <- function(data,
+                   mapping,
+                   metaData = NULL,
                    xscale.args = list(),
                    residualScale = "log",
                    yscale.args = list(),
                    geomQQAttributes = list(),
                    geomQQLineAttributes = geomQQAttributes,
-                   groupAesthetics = c("colour", "fill", "shape"),
-                   addRegression = FALSE) {
+                   groupAesthetics = c("colour", "fill", "shape")) {
   # Check validity
   checkmate::assertDataFrame(data)
 

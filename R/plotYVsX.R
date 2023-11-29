@@ -98,7 +98,7 @@ plotRatioVsCov <- function(data = NULL,
       return(all(c("x", "y", "shape") %in% names(x)))
     })))
 
-    if (length(iData) == 0) error('Could not find data for counting within limits')
+    if (length(iData) == 0) stop('Could not find data for counting within limits')
     if (length(iData) > 1) iData = iData[1]
 
     if (length(iData) > 0) {
@@ -113,7 +113,7 @@ plotRatioVsCov <- function(data = NULL,
         data = pb$data[[iData]],
         xColumn = "x",
         yColumn = "y",
-        foldDistance = comparisonLineVector,
+        comparisonLineVector = comparisonLineVector,
         addGuestLimits = addGuestLimits,
         deltaGuest = deltaGuest
       )
@@ -198,7 +198,7 @@ plotPredVsObs <- function(data = NULL,
 #'             call `ggplot2::hline`  or `ggplot2::abline` to display comparison lines
 #' @param geomGuestLineAttributes A `list` with arguments which are passed on to the
 #'              call `ggplot2::geom_function` to display guest criteria
-#' @param residualscale either "linear","log" or "ratio" scale residuals,
+#' @param residualScale either "linear","log" or "ratio" scale residuals,
 #'        * linear:  residuals are calculated observed - predicted
 #'        * log: residuals are calculated log(observed) - log(predicted)
 #'        * ratio: residuals are calculated as observed/predicted
@@ -438,6 +438,9 @@ addComparisonLines <- function(plotObject,
                                addLinesDiagnonal,
                                geomLineAttributes,
                                xyscale) {
+  # initialize  to avoid warnings in check()
+  value = name = NULL
+
   # get mapping
   if (addLinesDiagnonal) {
     lineMapping <- switch(xyscale,
@@ -584,7 +587,8 @@ getGuestLimits <- function(x, deltaGuest = 1, addLinesDiagnonal = FALSE, asLower
 #' Counts entries within specific limits
 #'
 #' @inheritParams plotYVsX
-#' @param yColumn column name for values to count
+#' @param yColumn y column name for values to count
+#' @param xColumn x column name for values to count
 #' @param groups  column names to group
 #'
 #' @return data table with summary
@@ -592,19 +596,21 @@ getGuestLimits <- function(x, deltaGuest = 1, addLinesDiagnonal = FALSE, asLower
 getCountsWithin <- function(data,
                             yColumn,
                             xColumn = NULL,
-                            foldDistance = getFoldDistanceList(c(1.5, 2)),
+                            comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
                             addGuestLimits = FALSE,
                             deltaGuest = 1,
                             groups = NULL) {
-  require("data.table")
+  #require("data.table")
+  # initialize variables to avoid warning in check()
+  Description = value = NULL
 
   checkmate::assertDataFrame(data, null.ok = FALSE, min.rows = 1)
   checkmate::assertNames(names(data), disjunct.from = c("yColumn","xColumn"))
   checkmate::assertFlag(addGuestLimits,null.ok = FALSE)
   checkmate::assertCharacter(yColumn, null.ok = FALSE, len = 1)
   checkmate::assertCharacter(xColumn, null.ok = !addGuestLimits, len = 1)
-  if (is.double(foldDistance)) foldDistance <- as.list(foldDistance)
-  checkmate::assertList(foldDistance, types = "double", any.missing = FALSE, null.ok = TRUE, min.len = 1)
+  if (is.double(comparisonLineVector)) comparisonLineVector <- as.list(comparisonLineVector)
+  checkmate::assertList(comparisonLineVector, types = "double", any.missing = FALSE, null.ok = TRUE, min.len = 1)
   checkmate::assertDouble(deltaGuest, null.ok = !addGuestLimits, len = 1)
 
 
@@ -617,7 +623,7 @@ getCountsWithin <- function(data,
   data.table::setDT(data)
 
   # define auxiliary function
-  countEntriesInBetween <- function(yColumn, xColumn,foldDistance,deltaGuest,addGuestLimits) {
+  countEntriesInBetween <- function(yColumn, xColumn,comparisonLineVector,deltaGuest,addGuestLimits) {
     counts <- list()
 
     if (addGuestLimits) {
@@ -633,11 +639,11 @@ getCountsWithin <- function(data,
                                  yColumn <= pmax(guestLimits,1/guestLimits) )
     }
 
-    if (!is.null(names(foldDistance))) {
-      for (fd in names(foldDistance)) {
-        if (length(foldDistance[[fd]]) > 1) {
-          counts[[fd]] <- sum(yColumn >= min(foldDistance[[fd]]) &
-                                yColumn <= max(foldDistance[[fd]]))
+    if (!is.null(names(comparisonLineVector))) {
+      for (fd in names(comparisonLineVector)) {
+        if (length(comparisonLineVector[[fd]]) > 1) {
+          counts[[fd]] <- sum(yColumn >= min(comparisonLineVector[[fd]]) &
+                                yColumn <= max(comparisonLineVector[[fd]]))
         }
       }
     }
@@ -651,7 +657,7 @@ getCountsWithin <- function(data,
                  data[, as.list(
                    countEntriesInBetween(xColumn = get(xColumn),
                      yColumn = get(yColumn),
-                     foldDistance = foldDistance,
+                     comparisonLineVector = comparisonLineVector,
                      addGuestLimits = addGuestLimits,
                      deltaGuest = deltaGuest
                    )
@@ -661,7 +667,7 @@ getCountsWithin <- function(data,
 
     countsWithin <- tidyr::pivot_longer(
       data = tmp,
-      cols = intersect(names(tmp), c(names(foldDistance),'guest criteria')),
+      cols = intersect(names(tmp), c(names(comparisonLineVector),'guest criteria')),
       names_to = "Description", values_to = "Number"
     ) %>%
       dplyr::mutate(Fraction = Number / get("Points total")) %>%
@@ -684,7 +690,7 @@ getCountsWithin <- function(data,
         countEntriesInBetween(
           xColumn = get(xColumn),
           yColumn = get(yColumn),
-          foldDistance = foldDistance,
+          comparisonLineVector = comparisonLineVector,
           addGuestLimits = addGuestLimits,
           deltaGuest = deltaGuest
         )

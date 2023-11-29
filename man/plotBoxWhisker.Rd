@@ -6,7 +6,7 @@
 \usage{
 plotBoxWhisker(
   data,
-  mapping = NULL,
+  mapping,
   metaData = NULL,
   plotObject = NULL,
   percentiles = getOption(x = "ospsuite.plots.Percentiles", default =
@@ -55,6 +55,11 @@ percentiles + 1.5 x IQR, as suggested by McGill and}
 \item{geomBoxplotAttributes}{A \code{list} with arguments which are passed on to the geom boxplot call}
 
 \item{geomPointAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
+
+\item{residualScale}{either "linear","log" or "ratio" scale residuals,
+* linear:  residuals are calculated observed - predicted
+* log: residuals are calculated log(observed) - log(predicted)
+* ratio: residuals are calculated as observed/predicted}
 }
 \value{
 A \code{ggplot} object

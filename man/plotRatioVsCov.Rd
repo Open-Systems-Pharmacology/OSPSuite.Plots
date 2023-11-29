@@ -40,6 +40,10 @@ If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance line
 call \code{ggplot2::hline}  or \code{ggplot2::abline} to display comparison lines}
     \item{\code{geomGuestLineAttributes}}{A \code{list} with arguments which are passed on to the
 call \code{ggplot2::geom_function} to display guest criteria}
+    \item{\code{residualScale}}{either "linear","log" or "ratio" scale residuals,
+* linear:  residuals are calculated observed - predicted
+* log: residuals are calculated log(observed) - log(predicted)
+* ratio: residuals are calculated as observed/predicted}
     \item{\code{addLinesDiagnonal}}{A \code{Flag}which defines direction of comparison lines}
     \item{\code{addRegression}}{A \code{Flag} which activates insertion of regression line}
     \item{\code{asSquarePlot}}{A \code{Flag} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}

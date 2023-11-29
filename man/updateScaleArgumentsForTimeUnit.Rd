@@ -34,6 +34,9 @@ use multiples of width if 20 * width < range of time values
 }
 \examples{
 xscale.args <- list(limits = c(0, 24))
-xscale.args <- updateScaleArgumentsForTimeUnit(scale.args = xscale.args, dimension = "time", unit = "h")
+xscale.args <-
+  updateScaleArgumentsForTimeUnit(scale.args = xscale.args,
+    dimension = "time",
+    unit = "h")
 addXscale(plotObject = ggplot(), xscale = "linear", xscale.args = xscale.args)
 }

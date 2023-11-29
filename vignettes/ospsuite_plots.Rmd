@@ -162,7 +162,7 @@ Colors are set to discrete and ordinal scales for `fill` and `colour`
 
 The package provides some color palettes in the object ColorMaps (See `? ColorMaps`)
 
-The example below show a plot with  
+The example below shows plots with  
 
 * A plot with default settings for up to 6 different colors
 * B plot with default settings for more the 6 different colors
@@ -299,6 +299,13 @@ ggplot() +
 # reset to the previously saved
 ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
 ```
+
+## 2.4 Default Shapes
+
+Functions to set the ospsuite.plots default shapes only are: `oldShapeValue = setDefaultShapeDistinct(shapeValues)` and `resetDefaultShapeDistinct(oldShapeValue)`. This functions are called by `setDefaults()` and `resetDefaults()`.
+The scales are set to the option  'ospsuite.plots.shapeValues', which is then used to
+set the discrete scale of shapes for all {ospsuite.plots} functions.
+for customized functions add `scale_shape_manual(values = getOption('ospsuite.plots.shapeValues'))`
 
 
 ## 2.5 Default Options
@@ -609,7 +616,6 @@ knitr::kable(df, align = "c", caption = "Applicability of additional aesthetics 
 
 ## 5.1 Default shapes ggplot:
 
-
 ```{r, out.width = "90%", fig.asp = 0.4, fig.width = 8}
 shape_names <- c(
   "circle", paste("circle", c("open", "filled", "cross", "plus", "small")), "bullet",
@@ -634,11 +640,12 @@ ggplot(shapes, aes(x, y)) +
   theme_void()
 ```
 
+
 ## 5.2 Use unicode symbols  with {showtext}
 
 Attention 
 - use of {showtext}  has side effects   
-- a customized geom_Point function ha to be used
+- a customized geom_Point function `geomPointUnicode` has to be used
 
 ```{r,  fig.showtext=TRUE,out.width = "90%", fig.asp = 0.8, fig.width = 8}
 shapes <- data.frame(
@@ -657,6 +664,60 @@ ggplot(shapes, aes(x, y)) +
   theme_void()
 showtext::showtext_auto(enable = "off")
 ```
+
+
+## 5.3 Switch between modes
+
+
+To switch to the unicode mode call `setDefaults` with input variable `PointAsUnicode = TRUE`.
+To switch back use `setDefaults(PointAsUnicode = FALSE)` or `resetDefaults(oldDefaults)`
+But it is recommended to produce all plots of one workflow either with unicode mode or all plots without.
+Other wise the plots may have different fonts.
+
+
+```{r}
+
+oldDefaults = setDefaults(PointAsUnicode = TRUE)
+
+
+dt = data.frame(x = c(1,2,1,2),
+                y = c(1,1,2,2),
+                species = c('pig','dog','mouse','rat')
+                )
+
+
+plotObject <- plotYVsX(data = dt,
+         mapping = aes(x = x,
+                       y = y,
+                       groupby = species),
+         xscale = 'linear',
+         xscale.args = list(limits = c(0.5,2.5)),
+         yscale = 'linear',
+         yscale.args = list(limits = c(0.5,2.5))) 
+
+plot(plotObject)
+
+
+
+```
+
+
+use non default icons
+
+```{r}
+
+plot(plotObject) +
+  scale_shape_manual(values = c(
+    pig = 'pig',
+    dog = 'dog',
+    mouse = 'mouse',
+    rat = 'rat'
+  ))
+
+```
+
+
+
 
 
 ```{r cleanup,echo=FALSE}

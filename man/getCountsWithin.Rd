@@ -8,7 +8,7 @@ getCountsWithin(
   data,
   yColumn,
   xColumn = NULL,
-  foldDistance = getFoldDistanceList(c(1.5, 2)),
+  comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
   addGuestLimits = FALSE,
   deltaGuest = 1,
   groups = NULL
@@ -17,7 +17,14 @@ getCountsWithin(
 \arguments{
 \item{data}{A \code{data.frame} with data to plot}
 
-\item{yColumn}{column name for values to count}
+\item{yColumn}{y column name for values to count}
+
+\item{xColumn}{x column name for values to count}
+
+\item{comparisonLineVector}{either a double vector or a list of double values
+if add \code{addLinesDiagnonal = FALSE} lines will be added as horizontal lines with the
+intercept at values of comparisonLineVector
+If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance lines to the identity.}
 
 \item{addGuestLimits}{A \code{Flag} which activates insertion of regression line}
 

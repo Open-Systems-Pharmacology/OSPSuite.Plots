@@ -4,7 +4,6 @@
 #' with watermark
 #' and set its labels by metaData
 #'
-#' @param data data passed to ggplot object
 #' @param mappedData  MappedData object
 #' @param setMapping if TRUE (default) mapping is passed to ggplot, otherwise mapping will be used only to create labels
 #'
@@ -23,10 +22,21 @@ initializePlot <- function(mappedData = NULL,
   }
   plotObject <- ggplot(
     data = mappedData$dataForPlot,
-    mapping = mappingToSet,
-    environment = globalenv()
+    mapping = mappingToSet
+    # environment = globalenv()
   ) +
     layerWatermark()
+
+  #
+  shapeValues = getOption("ospsuite.plots.shapeValues")
+  if (!is.null(shapeValues)) {
+    # shape
+    scale_shape_discrete <- function(...) {
+      scale_shape_manual(values = shapeValues)
+    }
+    assign("scale_shape_discrete", scale_shape_discrete)
+  }
+
 
   # add labels
   plotObject <- addLabels(plotObject, mappedData)
@@ -51,10 +61,22 @@ addLayer <- function(mappedData,
                      geom,
                      plotObject,
                      layerToCall) {
+
+
   filteredMapping <- mappedData$getAestheticsForGeom(
     geom = geom,
     geomAttributes = geomAttributes
   )
+
+  # check for geomUnicodeMode
+  geomUnicodeMode =  getOption(
+    x = "ospsuite.plots.GeomPointUnicode",
+    default = getDefaultOptions()[["ospsuite.plots.GeomPointUnicode"]])
+  if (geomUnicodeMode &&
+      geom == "point") {
+    layerToCall = geomPointUnicode
+  }
+
 
   if (!is.null(filteredMapping)) {
     plotObject <- plotObject +

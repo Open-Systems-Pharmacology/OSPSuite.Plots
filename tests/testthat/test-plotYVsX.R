@@ -184,7 +184,7 @@ test_that("getCountsWithin works for Guest Criteria", {
     groups = c("Type"),
     addGuestLimits = TRUE,
     deltaGuest = 1,
-    foldDistance = NULL
+    comparisonLineVector = NULL
   )
 
   expect_equal(countsGroup$`guest criteria Fraction`, expected = c(0.6, 0.6))

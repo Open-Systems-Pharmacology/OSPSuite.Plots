@@ -63,6 +63,11 @@ If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance line
 
 \item{deltaGuest}{Numeric value parameter of Guest function}
 
+\item{residualScale}{either "linear","log" or "ratio" scale residuals,
+* linear:  residuals are calculated observed - predicted
+* log: residuals are calculated log(observed) - log(predicted)
+* ratio: residuals are calculated as observed/predicted}
+
 \item{asSquarePlot}{A \code{Flag} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
 
 \item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
@@ -77,11 +82,6 @@ If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance line
 aesthetics \code{lloq}, \code{error}end \code{error_relative}}
 
 \item{addLinesDiagnonal}{A \code{Flag}which defines direction of comparison lines}
-
-\item{residualscale}{either "linear","log" or "ratio" scale residuals,
-* linear:  residuals are calculated observed - predicted
-* log: residuals are calculated log(observed) - log(predicted)
-* ratio: residuals are calculated as observed/predicted}
 }
 \value{
 A \code{ggplot} object

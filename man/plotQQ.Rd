@@ -5,15 +5,15 @@
 \title{generates residual quantile quantile plot}
 \usage{
 plotQQ(
-  data = NULL,
-  mapping = NULL,
+  data,
+  mapping,
+  metaData = NULL,
   xscale.args = list(),
   residualScale = "log",
   yscale.args = list(),
   geomQQAttributes = list(),
   geomQQLineAttributes = geomQQAttributes,
-  groupAesthetics = c("colour", "fill", "shape"),
-  addRegression = FALSE
+  groupAesthetics = c("colour", "fill", "shape")
 )
 }
 \arguments{
@@ -22,6 +22,8 @@ plotQQ(
 \item{mapping}{a list of aesthetic mappings to use for plot,
 additional to {ggplot2} aesthetics, the aesthetics \code{groupby},\code{error},\code{error_relative},\code{lloq}, \code{mdv}, \code{y2axis} are available,
 see vignettes for more details and examples}
+
+\item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
 
 \item{xscale.args}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
 

@@ -7,7 +7,8 @@
 setDefaults(
   ColorMapList = NULL,
   shapeValues = NULL,
-  defaultOptions = getDefaultOptions()
+  defaultOptions = list(),
+  PointAsUnicode = FALSE
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ setDefaults(
 \item{shapeValues}{list of Shapes}
 
 \item{defaultOptions}{list of options}
+
+\item{PointAsUnicode}{A \code{flag} to swicth between mode for geom_point, if TRUE points will be plotted as unicode labels}
 }
 \value{
 list of old settings which can be used to reset defaults with \code{resetDefaults()}

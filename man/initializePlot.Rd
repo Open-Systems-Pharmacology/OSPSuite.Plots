@@ -10,8 +10,6 @@ initializePlot(mappedData = NULL, setMapping = TRUE)
 \item{mappedData}{MappedData object}
 
 \item{setMapping}{if TRUE (default) mapping is passed to ggplot, otherwise mapping will be used only to create labels}
-
-\item{data}{data passed to ggplot object}
 }
 \value{
 A \code{ggplot} object

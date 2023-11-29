@@ -18,6 +18,11 @@ plotResVsCov(
 
 \item{mapping}{a list of aesthetic mappings to use for plot}
 
+\item{residualScale}{either "linear","log" or "ratio" scale residuals,
+* linear:  residuals are calculated observed - predicted
+* log: residuals are calculated log(observed) - log(predicted)
+* ratio: residuals are calculated as observed/predicted}
+
 \item{comparisonLineVector}{either a double vector or a list of double values
 if add \code{addLinesDiagnonal = FALSE} lines will be added as horizontal lines with the
 intercept at values of comparisonLineVector

@@ -2,15 +2,20 @@
 % Please edit documentation in R/utilities-defaults.R
 \name{setDefaultShapeDiscrete}
 \alias{setDefaultShapeDiscrete}
-\title{set the default shapes scale for discrete values}
+\title{set the default shapes}
 \usage{
 setDefaultShapeDiscrete(shapeValues = NULL)
 }
 \arguments{
 \item{shapeValues}{vector of shapevalues}
 }
+\value{
+vector with shapeValues saved in option ospsuite.plots.shapeValues before function call
+}
 \description{
-set the default shapes scale for discrete values
+The scales are set to the option  'ospsuite.plots.shapeValues', which is the used to
+set the discrete scale of shapes for all {ospsuite.plots} function
+for customized functions add scale_shape_manual(values = getOption('ospsuite.plots.shapeValues'))
 }
 \seealso{
 Other setDefault functions: 

@@ -4,7 +4,10 @@
 \alias{resetDefaultShapeDiscrete}
 \title{resets the scale for discrete shapes to ggplot default}
 \usage{
-resetDefaultShapeDiscrete()
+resetDefaultShapeDiscrete(oldShapeValues = NULL)
+}
+\arguments{
+\item{oldShapeValues}{shape values to set}
 }
 \description{
 resets the scale for discrete shapes to ggplot default

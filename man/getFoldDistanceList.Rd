@@ -7,9 +7,9 @@
 getFoldDistanceList(folds = c(1.5, 2), includeIdentity = TRUE)
 }
 \arguments{
-\item{includeIdentity}{Flag, if TRUE (default) line of identity is added}
+\item{folds}{of folds e.g. c(1.5,2) must be >1}
 
-\item{vector}{of folds e.g. c(1.5,2) must be >1}
+\item{includeIdentity}{Flag, if TRUE (default) line of identity is added}
 }
 \value{
 named list with fold distances

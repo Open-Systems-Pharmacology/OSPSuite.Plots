@@ -49,6 +49,11 @@ accepted are also normal (instead of \code{norm}) and lognormal (instead of \cod
 
 \item{meanFunction}{function selection for display of vertical line. Available are 'none','mean','geomean','median','auto' (default)
 'auto' selects 'mean' for \code{normal} distribution, 'geomean' for \code{lognormal} distribution, 'median' for all other distributions, and 'none' for 'none' distribution}
+
+\item{residualScale}{either "linear","log" or "ratio" scale residuals,
+* linear:  residuals are calculated observed - predicted
+* log: residuals are calculated log(observed) - log(predicted)
+* ratio: residuals are calculated as observed/predicted}
 }
 \value{
 A \code{ggplot} object

@@ -41,7 +41,6 @@ We use the default settings of {ospsuite.plots} (see vignette("ospsuite.plots", 
 ```{r setup,warning=FALSE,message=FALSE}
 library(ospsuite.plots)
 library(tidyr)
->>>>>>> 8bc1d35... finalized first version of plotHistogram with Vignette
 
 # setDefaults
 oldDefaults <- ospsuite.plots::setDefaults()

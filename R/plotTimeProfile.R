@@ -18,7 +18,7 @@
 #'           per default is is set to mapping. So if both data sets have the same mapping, use only `mapping`,
 #'           if a different mapping is necessary use `mapping` and `observedMapping`
 #' @param metaData A named list of information about `data` such as the `dimension` and `unit` of its variables.
-#' @param mapSimulatedAndObserved table with columns observed and simulated which mapps simulated and observed data
+#' @param mapSimulatedAndObserved table with columns observed and simulated which maps simulated and observed data
 #'            use of `mapSimulatedAndObserved` triggers reset of aesthetic scales after simulation layers
 #' @param plotObject An optional `ggplot` object on which to add the plot layers
 #' @param geomLineAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_line`
@@ -26,7 +26,7 @@
 #' @param geomPointAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_point`
 #' @param geomErrorbarAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_errorbar`
 #' @param geomLLOQAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_hline`
-#' @param groupAesthetics vector of aesthetics, which are used for columns mapped with groupby,
+#' @param groupAesthetics vector of aesthetics, which are used for columns mapped with `groupby`,
 #' @param xscale either 'linear' then `ggplot2::scale_x_continuous()` or 'log' then `ggplot2::scale_x_log10()` is used
 #' @param xscale.args list of arguments passed to `ggplot2::scale_x_continuous()` or `ggplot2::scale_x_log10()`
 #' @param yscale either 'linear' then `ggplot2::scale_y_continuous()` or 'log' then `ggplot2::scale_y_log10()` is used
@@ -37,12 +37,12 @@
 #' @return A `ggplot` object
 #' @export
 #' @family plot functions
-plotTimeProfile <- function(data = NULL,
+plotTimeProfile <- function(data = NULL, # nolint
                             mapping = NULL,
                             observedData = NULL,
                             observedMapping = mapping,
                             metaData = NULL,
-                            mapSimulatedAndObserved  = NULL,
+                            mapSimulatedAndObserved = NULL,
                             xscale = "linear",
                             xscale.args = list(limits = c(0, NA)),
                             yscale = "linear",
@@ -78,13 +78,10 @@ plotTimeProfile <- function(data = NULL,
   checkmate::assertList(geomLLOQAttributes, null.ok = FALSE, min.len = 0)
 
   checkmate::assertCharacter(groupAesthetics, min.len = 0, all.missing = TRUE, null.ok = TRUE)
-  checkmate::assertDataFrame(mapSimulatedAndObserved , null.ok = TRUE)
-  if (!is.null(mapSimulatedAndObserved )) {
-    checkmate::assertNames(names(mapSimulatedAndObserved ),must.include  = c('simulated','observed'))
-    checkmate::assertCharacter(mapSimulatedAndObserved$simulated,unique = TRUE)
-    checkmate::assertCharacter(mapSimulatedAndObserved$observed,unique = TRUE)
-    names(mapSimulatedAndObserved) = standardise_aes_names(names(mapSimulatedAndObserved))
-
+  checkmate::assertDataFrame(mapSimulatedAndObserved, null.ok = TRUE)
+  if (!is.null(mapSimulatedAndObserved)) {
+    checkmate::assertNames(names(mapSimulatedAndObserved), must.include = c("simulated", "observed"))
+    names(mapSimulatedAndObserved) <- standardise_aes_names(names(mapSimulatedAndObserved))
   }
 
 
@@ -100,14 +97,17 @@ plotTimeProfile <- function(data = NULL,
 
 
   if (!isEmpty(data)) {
-
     simMappedData <- MappedDataTimeProfile$new(
       data = data,
       mapping = mapping,
       groupAesthetics = groupAesthetics,
       direction = "y",
       isObserved = FALSE,
-      groupOrder = if(!is.null(mapSimulatedAndObserved )){mapSimulatedAndObserved $simulated } else {NULL},
+      groupOrder = if (!is.null(mapSimulatedAndObserved)) {
+        mapSimulatedAndObserved$simulated
+      } else {
+        NULL
+      },
       scaleOfPrimaryAxis = yscale,
       scaleOfSecondaryAxis = y2scale,
       ylimits = yscale.args$limits,
@@ -122,15 +122,19 @@ plotTimeProfile <- function(data = NULL,
         y2 = simMappedData$y2limits
       )
     )
-  } else{
-    simMappedData = NULL
+  } else {
+    simMappedData <- NULL
   }
   if (!isEmpty(observedData)) {
     obsMappedData <- MappedDataTimeProfile$new(
       data = observedData,
       mapping = observedMapping %||% mapping,
       groupAesthetics = groupAesthetics,
-      groupOrder = if(!is.null(mapSimulatedAndObserved )){mapSimulatedAndObserved $observed } else {NULL},
+      groupOrder = if (!is.null(mapSimulatedAndObserved)) {
+        mapSimulatedAndObserved$observed
+      } else {
+        NULL
+      },
       isObserved = TRUE,
       direction = "y",
       scaleOfPrimaryAxis = yscale,
@@ -150,9 +154,8 @@ plotTimeProfile <- function(data = NULL,
         y2 = obsMappedData$y2limits
       )
     )
-
-  } else{
-    obsMappedData = NULL
+  } else {
+    obsMappedData <- NULL
   }
 
 
@@ -160,18 +163,20 @@ plotTimeProfile <- function(data = NULL,
   #-  create default plot ----------
   # mapping can not be set in ggplot as observed and simulated mappings may differ
   if (is.null(plotObject)) {
-    plotObject <- initializePlot(mappedData = simMappedData %||% obsMappedData,
-                                 setMapping = FALSE)
+    plotObject <- initializePlot(
+      mappedData = simMappedData %||% obsMappedData,
+      setMapping = FALSE
+    )
 
     # add y2 label to y2scale.args
     if (!is.null(plotObject$labels$y2) &
-        is.null(y2scale.args$name)) {
+      is.null(y2scale.args$name)) {
       y2scale.args$name <- plotObject$labels$y2
     }
   }
 
   # add common limits and yscale arguments
-  if (requireDualAxis){
+  if (requireDualAxis) {
     if (!isEmpty(data)) {
       simMappedData <- simMappedData$scaleDataForSecondaryAxis(
         ylimits = commonLimits$y,
@@ -199,7 +204,7 @@ plotTimeProfile <- function(data = NULL,
   # as otherwise warnings appear
 
   # check for timeUnit scaling
-  myMappedData = simMappedData %||% obsMappedData
+  myMappedData <- simMappedData %||% obsMappedData
   xscale.args <- myMappedData$updateScaleArgumentsForTimeUnit(
     scale.args = xscale.args,
     scaleDirection = "x"
@@ -239,14 +244,12 @@ plotTimeProfile <- function(data = NULL,
     )
 
 
-    if (!is.null(mapSimulatedAndObserved)){
-      for (aesthetic in intersect(groupAesthetics,names(mapSimulatedAndObserved))) {
+    if (!is.null(mapSimulatedAndObserved)) {
+      for (aesthetic in intersect(groupAesthetics, names(mapSimulatedAndObserved))) {
         plotObject <- plotObject +
           scale_discrete_manual(aesthetic, values = mapSimulatedAndObserved[[aesthetic]], breaks = waiver())
       }
     }
-
-
   }
 
 
@@ -291,13 +294,12 @@ plotTimeProfile <- function(data = NULL,
       )
     }
 
-    if (!is.null(mapSimulatedAndObserved)){
-      for (aesthetic in intersect(groupAesthetics,names(mapSimulatedAndObserved))) {
+    if (!is.null(mapSimulatedAndObserved)) {
+      for (aesthetic in intersect(groupAesthetics, names(mapSimulatedAndObserved))) {
         plotObject <- plotObject +
           scale_discrete_manual(aesthetic, values = mapSimulatedAndObserved[[aesthetic]], breaks = waiver())
       }
     }
-
   }
 
 

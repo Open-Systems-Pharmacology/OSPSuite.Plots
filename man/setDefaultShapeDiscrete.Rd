@@ -7,15 +7,15 @@
 setDefaultShapeDiscrete(shapeValues = NULL)
 }
 \arguments{
-\item{shapeValues}{vector of shapevalues}
+\item{shapeValues}{vector of shape values}
 }
 \value{
-vector with shapeValues saved in option ospsuite.plots.shapeValues before function call
+vector with \code{shapeValues} saved in option \code{ospsuite.plots.shapeValues} before function call
 }
 \description{
-The scales are set to the option  'ospsuite.plots.shapeValues', which is the used to
+The scales are set to the option  \code{ospsuite.plots.shapeValues}, which is the used to
 set the discrete scale of shapes for all {ospsuite.plots} function
-for customized functions add scale_shape_manual(values = getOption('ospsuite.plots.shapeValues'))
+for customized functions add scale_shape_manual(\code{values = getOption('ospsuite.plots.shapeValues')})
 }
 \seealso{
 Other setDefault functions: 

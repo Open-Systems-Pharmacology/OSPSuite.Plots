@@ -4,9 +4,9 @@
 #'
 #'
 #'  parameters  fixed and not settable
-#'  * observedDataDirection = 'y'
-#'  * addLinesDiagnonal = TRUE
-#'  * addGuestLimits = FALSE (use `plotRatio()` if needed)
+#'  * `observedDataDirection = 'y'`
+#'  * `addLinesDiagnonal = TRUE`
+#'  * `addGuestLimits = FALSE` (use `plotRatio()` if needed)
 #'
 #'
 #' For details and examples see the vignettes:
@@ -50,9 +50,9 @@ plotResVsCov <- function(data,
 #'
 #'
 #'  parameters below are fixed and not settable
-#'  * `residualScale` = "ratio"
-#'  * observedDataDirection = 'y'
-#'  * addLinesDiagnonal = FALSE
+#'  * `residualScale = "ratio"`
+#'  * `observedDataDirection = 'y'`
+#'  * `addLinesDiagnonal = FALSE`
 #'
 #'
 #' For details and examples see the vignettes:
@@ -70,7 +70,7 @@ plotRatioVsCov <- function(data = NULL,
                            mapping = NULL,
                            addGuestLimits = FALSE,
                            yscale = "log",
-                           xscale = ifelse(addGuestLimits,'log','linear'),
+                           xscale = ifelse(addGuestLimits, "log", "linear"),
                            comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
                            deltaGuest = 1,
                            ...) {
@@ -91,15 +91,14 @@ plotRatioVsCov <- function(data = NULL,
 
   # do quantification
   if (requireNamespace("data.table", quietly = TRUE) &
-      (addGuestLimits | !is.null(names(comparisonLineVector)))) {
-
+    (addGuestLimits | !is.null(names(comparisonLineVector)))) {
     pb <- ggplot_build(plotObject)
     iData <- which(unlist(lapply(pb$data, function(x) {
       return(all(c("x", "y", "shape") %in% names(x)))
     })))
 
-    if (length(iData) == 0) stop('Could not find data for counting within limits')
-    if (length(iData) > 1) iData = iData[1]
+    if (length(iData) == 0) stop("Could not find data for counting within limits")
+    if (length(iData) > 1) iData <- iData[1]
 
     if (length(iData) > 0) {
       if (xscale == "log") {
@@ -168,7 +167,7 @@ plotPredVsObs <- function(data = NULL,
     yscale = xyscale,
     observedDataDirection = "x",
     addLinesDiagnonal = TRUE,
-    asSquarePlot = TRUE,
+    asSquarePlot = asSquarePlot,
     ...
   )
 
@@ -204,7 +203,7 @@ plotPredVsObs <- function(data = NULL,
 #'        * ratio: residuals are calculated as observed/predicted
 #' @param comparisonLineVector either a double vector or a list of double values
 #'    if add `addLinesDiagnonal = FALSE` lines will be added as horizontal lines with the
-#'    intercept at values of comparisonLineVector
+#'    intercept at values of `comparisonLineVector`
 #'    If add `addLinesDiagnonal = TRUE` lines will be added as fold distance lines to the identity.
 #' @param addLinesDiagnonal A `Flag`which defines direction of comparison lines
 #' @param addRegression A `Flag` which activates insertion of regression line
@@ -429,7 +428,7 @@ plotYVsX <- function(data,
 #' add horizontal or diagonal comparison lines
 #' @inheritParams plotYVsX
 #' @inheritParams plotPredVsObs
-#' @param geomLineAttributes line attributes e.g. color,linetype passed to ggplot2::geom_hline or geom::abline
+#' @param geomLineAttributes line attributes e.g. color,linetype passed to `ggplot2::geom_hline` or `ggplot2::geom_abline`
 #'
 #' @keywords internal
 #' @return The updated `ggplot` object
@@ -439,7 +438,7 @@ addComparisonLines <- function(plotObject,
                                geomLineAttributes,
                                xyscale) {
   # initialize  to avoid warnings in check()
-  value = name = NULL
+  value <- name <- NULL
 
   # get mapping
   if (addLinesDiagnonal) {
@@ -600,13 +599,12 @@ getCountsWithin <- function(data,
                             addGuestLimits = FALSE,
                             deltaGuest = 1,
                             groups = NULL) {
-  #require("data.table")
   # initialize variables to avoid warning in check()
-  Description = value = NULL
+  Description <- value <- Number <- name <- NULL
 
   checkmate::assertDataFrame(data, null.ok = FALSE, min.rows = 1)
-  checkmate::assertNames(names(data), disjunct.from = c("yColumn","xColumn"))
-  checkmate::assertFlag(addGuestLimits,null.ok = FALSE)
+  checkmate::assertNames(names(data), disjunct.from = c("yColumn", "xColumn"))
+  checkmate::assertFlag(addGuestLimits, null.ok = FALSE)
   checkmate::assertCharacter(yColumn, null.ok = FALSE, len = 1)
   checkmate::assertCharacter(xColumn, null.ok = !addGuestLimits, len = 1)
   if (is.double(comparisonLineVector)) comparisonLineVector <- as.list(comparisonLineVector)
@@ -614,20 +612,15 @@ getCountsWithin <- function(data,
   checkmate::assertDouble(deltaGuest, null.ok = !addGuestLimits, len = 1)
 
 
-
-  # initialize variables used in data.table functions to avoid messages in check
-  Number <- description <- name <- NULL
-
-
   # use data.table functionality
   data.table::setDT(data)
 
   # define auxiliary function
-  countEntriesInBetween <- function(yColumn, xColumn,comparisonLineVector,deltaGuest,addGuestLimits) {
+  countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector, deltaGuest, addGuestLimits) {
     counts <- list()
 
     if (addGuestLimits) {
-      guestLimits = c(
+      guestLimits <- c(
         getGuestLimits(
           xColumn,
           deltaGuest = deltaGuest,
@@ -635,15 +628,15 @@ getCountsWithin <- function(data,
           asLower = TRUE
         )
       )
-      counts[['guest criteria']] <- sum(yColumn >= pmin(guestLimits,1/guestLimits)  &
-                                 yColumn <= pmax(guestLimits,1/guestLimits) )
+      counts[["guest criteria"]] <- sum(yColumn >= pmin(guestLimits, 1 / guestLimits) &
+        yColumn <= pmax(guestLimits, 1 / guestLimits))
     }
 
     if (!is.null(names(comparisonLineVector))) {
       for (fd in names(comparisonLineVector)) {
         if (length(comparisonLineVector[[fd]]) > 1) {
           counts[[fd]] <- sum(yColumn >= min(comparisonLineVector[[fd]]) &
-                                yColumn <= max(comparisonLineVector[[fd]]))
+            yColumn <= max(comparisonLineVector[[fd]]))
         }
       }
     }
@@ -654,20 +647,23 @@ getCountsWithin <- function(data,
   # if grouping provide one row per group
   if (!is.null(groups)) {
     tmp <- merge(data[, .("Points total" = .N), by = groups],
-                 data[, as.list(
-                   countEntriesInBetween(xColumn = get(xColumn),
-                     yColumn = get(yColumn),
-                     comparisonLineVector = comparisonLineVector,
-                     addGuestLimits = addGuestLimits,
-                     deltaGuest = deltaGuest
-                   )
-                 ),
-                 by = groups],
-                 by = groups)
+      data[, as.list(
+        countEntriesInBetween(
+          xColumn = get(xColumn),
+          yColumn = get(yColumn),
+          comparisonLineVector = comparisonLineVector,
+          addGuestLimits = addGuestLimits,
+          deltaGuest = deltaGuest
+        )
+      ),
+      by = groups
+      ],
+      by = groups
+    )
 
     countsWithin <- tidyr::pivot_longer(
       data = tmp,
-      cols = intersect(names(tmp), c(names(comparisonLineVector),'guest criteria')),
+      cols = intersect(names(tmp), c(names(comparisonLineVector), "guest criteria")),
       names_to = "Description", values_to = "Number"
     ) %>%
       dplyr::mutate(Fraction = Number / get("Points total")) %>%

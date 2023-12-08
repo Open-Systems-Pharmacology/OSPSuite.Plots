@@ -12,11 +12,6 @@
       regular = system.file("extdata", "NotoSans-Regular.ttf", package = "ospsuite.plots")
     )
 
-    # # Request usage of showtext with new font
-    #  showtext::showtext_auto()
-    #
-    #  # cowplot needs device to use fonts
-    #  cowplot::set_null_device("agg")
   }
 
   return(invisible())

@@ -49,7 +49,7 @@ deletes data where mdv is 1
 
 adds new column \code{isLLOQ.i} and updates Flag \code{LLOQMatch}
 adds new columns ymin and ymax if required
-copy aesthetics "groupby", but only if not explicit set
+copy aesthetics \code{groupby}, but only if not explicit set
 converts Integer columns, which are no factors to double
 adds new column \code{residuals.i}
 factorize column for group to factor}
@@ -93,7 +93,7 @@ Create a new \code{MappedData} object
 
 \item{\code{mapping}}{list of aesthetic mappings}
 
-\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with groupby}
+\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with \code{groupby}}
 
 \item{\code{groupOrder}}{labels and order for group aesthetic}
 
@@ -136,7 +136,7 @@ check if mandatory are available
 }
 \subsection{Returns}{
 list of accepted mappings
-adds list wit dimension, units and columnClasses
+adds list wit dimension, units and column classes
 }
 }
 \if{html}{\out{<hr>}}
@@ -155,7 +155,7 @@ adds list wit dimension, units and columnClasses
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-updatete MappedData object
+updated \code{MappedData} object
 check if unit of scale direction i s time and sets the breaks accordingly
 }
 }
@@ -177,7 +177,7 @@ check if unit of scale direction i s time and sets the breaks accordingly
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-scale.args with adjusted break function
+\code{scale.args} with adjusted break function
 }
 }
 \if{html}{\out{<hr>}}

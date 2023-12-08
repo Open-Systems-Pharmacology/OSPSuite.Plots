@@ -64,9 +64,9 @@ This vignette uses random generated example data sets provided by the package:
 
 In the example below theses data sets are used:
 
-* simData1 and obsData1 set with an 'exponential decay'  
-* simData2 and obsData2 set with a 'first order absorption with exponential decay'  
-* simData and obsData  combination of simData1 and simData2 / obsData1 and obsData2
+* `simData1` and `obsData1` set with an 'exponential decay'  
+* `simData2` and `obsData2` set with a 'first order absorption with exponential decay'  
+* `simData` and `obsData`  combination of `simData1` and `simData2` / `obsData1` and `obsData2`
 
 
 ```{r dataset1}
@@ -114,7 +114,7 @@ knitr::kable(
 ```
 
 
-* "simDataLloq" and "obsDataLloq": data set with a column which defines  lloq
+* `simDataLloq` and `obsDataLloq`: data set with a column which defines  lloq
 
 
 ```{r dataset2}
@@ -133,7 +133,7 @@ obsDataLloq <- exampleDataTimeProfile %>%
 ```
 
 
-* simData2Dimension: dataset wehre the "values" column has mixed diemnsions: concentration and fraction, 
+* `simData2Dimension`: dataset where the "values" column has mixed dimensions: "concentration" and "fraction", 
 
 ```{r dataset3}
 simData2Dimension <- exampleDataTimeProfile %>%
@@ -149,7 +149,7 @@ obsData2Dimension <- exampleDataTimeProfile %>%
   dplyr::select(c("time", "values", "dimension", "caption", "lloq", "error_relative"))
 ```
 
-* "obsDataGender": observed dataset with gender information , and simDataGender a mean model presentation
+* `obsDataGender` observed data set with gender information , and `simDataGender` a mean model presentation
 
 ```{r dataset4}
 simDataGender <- exampleDataTimeProfile %>%
@@ -164,12 +164,12 @@ obsDataGender <- exampleDataTimeProfile %>%
 ```
 
 
-### 1.2.2 Metdata
+### 1.2.2 MetaData
 
-Metadata is a list, which contains dimension and unit information for dataset columns.
+Metadata is a list, which contains dimension and unit information for dataset-columns.
 If available axis labels are set by this information.
 If for the x axis a time Unit can be identified, 
-breaks are set according to this unit. (see ? updateScaleArgumentsForTimeUnit)
+breaks are set according to this unit. (see `?updateScaleArgumentsForTimeUnit`)
 
 
 ```{r meta-data}
@@ -276,7 +276,7 @@ plotTimeProfile(
 
 The data set has also a columns with the standard deviation sd.
 If mapped to 'error' this variable will be used to create corresponding `ymin` and `ymax` values for the error bars $ymin = values - sd$, $ymax = values + sd$.  If `yscale` = 'log', `ymin` values below 0 are set to `y`.  
-Also available is error_relative where a multiplicative error is assumed: $ymin = values*error\_relative$, $ymax = \frac{values}{error\_relative}$
+Also available is error_relative where a multiplicative error is assumed: $ymin = \frac{values}{error\_relative}$, $ymax = values*error\_relative$.
 
 
 
@@ -301,7 +301,6 @@ As the comparison is done by row, multiple lloq values are possible.
 
 
 ```{r example-lloq}
-
 plotTimeProfile(
   observedData = obsDataLloq,
   metaData = metaData,
@@ -663,7 +662,7 @@ plotTimeProfile(
 ## 3.2.2  With mapping table
 
 It is possible to add columns with aesthetics to the table used to map simulated and observed data.
-The column header must correspondent to one ov the aesthetics defined in `groupgroupAesthetics`.
+The column header must correspondent to one of the aesthetics defined in `groupgroupAesthetics`.
 
 In the example below this is done for 'color' and 'fill':
 
@@ -696,7 +695,7 @@ plotTimeProfile(
 ```
 
 
-Changing the scales when using the observed simulation mapping table  can also done by adding scale manually, but it is a bit more complicated. If `mapSimulatedAndObserved` is not null, a reset of all relevant scales is done before plotting the observed data. The scales for the simulated data has to be done before this reset. You have to call plotTimeprofile two times:
+Changing the scales when using the observed simulation mapping table  can also done by adding scale manually, but it is a bit more complicated. If `mapSimulatedAndObserved` is not null, a reset of all relevant scales is done before plotting the observed data. The scales for the simulated data has to be done before this reset. You have to call `plotTimeProfile` two times:
 
 - call `plotTimeProfile()` for simulated data only
 - set scales for simulated data

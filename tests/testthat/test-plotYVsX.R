@@ -158,7 +158,7 @@ test_that("getCountsWithin works for Guest Criteria", {
   DDIdata <- exampleDataCovariates %>%
     dplyr::filter(SetID == "DataSet3") %>%
     dplyr::select(c("ID", "Obs", "Pred")) %>%
-    dplyr::mutate(Type = ifelse(ID <= 5, 'A','B'))
+    dplyr::mutate(Type = ifelse(ID <= 5, "A", "B"))
 
   plotObject <- plotRatioVsCov(
     data = DDIdata,
@@ -177,10 +177,10 @@ test_that("getCountsWithin works for Guest Criteria", {
   expect_equal(plotObject$countsWithin$Fraction, expected = c(1, 0.6))
 
   # check by group
-  countsGroup = getCountsWithin(
+  countsGroup <- getCountsWithin(
     data = plotObject$data,
-    xColumn = 'Obs',
-    yColumn = 'residuals.i',
+    xColumn = "Obs",
+    yColumn = "residuals.i",
     groups = c("Type"),
     addGuestLimits = TRUE,
     deltaGuest = 1,
@@ -188,7 +188,6 @@ test_that("getCountsWithin works for Guest Criteria", {
   )
 
   expect_equal(countsGroup$`guest criteria Fraction`, expected = c(0.6, 0.6))
-
 })
 
 

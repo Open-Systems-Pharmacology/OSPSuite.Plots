@@ -10,7 +10,7 @@ resetDefaultTheme(oldTheme)
 \item{oldTheme}{theme to set}
 }
 \description{
-wrapper for ggplot2::theme_set(oldTheme)
+wrapper for \code{ggplot2::theme_set(oldTheme)}
 }
 \seealso{
 Other setDefault functions: 

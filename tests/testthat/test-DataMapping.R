@@ -270,7 +270,7 @@ test_that("adjust secondary y axis scaling works log to lin", {
 test_that("grouping for simulation and observed works", {
   simData <- exampleDataTimeProfile %>%
     dplyr::filter(Type == "simulated") %>%
-    dplyr::filter(SetID %in%  c('DataSet1','DataSet2','DataSet3')) %>%
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2", "DataSet3")) %>%
     dplyr::select(c("time", "values", "minValues", "maxValues", "caption", "dimension"))
 
 
@@ -298,7 +298,7 @@ test_that("grouping for simulation and observed works", {
     expected = "groupBy.i"
   )
 
- # group or group by is missing
+  # group or group by is missing
   expect_error(
     simMappedData <- MappedDataTimeProfile$new(
       data = simData,

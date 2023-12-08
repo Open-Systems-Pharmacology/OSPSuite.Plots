@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotBoxWhisker.R
 \name{plotBoxWhisker}
 \alias{plotBoxWhisker}
-\title{generate  boxWhisker plots}
+\title{generate  box-whisker plots}
 \usage{
 plotBoxWhisker(
   data,
@@ -39,7 +39,7 @@ default defined by option \code{ospsuite.plots.Percentiles}}
 
 \item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{xscale}{either 'linear','log', discrte or 'auto' (default) auto select linear for continuous data and discrete for categorical data}
+\item{xscale}{either 'linear','log', discrete or 'auto' (default) auto select linear for continuous data and discrete for categorical data}
 
 \item{xscale.args}{list of arguments passed to \code{ggplot2::scale_x_continuous()}, \code{ggplot2::scale_x_log10()} or
 \code{ggplot2::scale_x_discrete()}}

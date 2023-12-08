@@ -5,20 +5,20 @@
 \title{sets the defaults for Ospsuite.plot}
 \usage{
 setDefaults(
+  defaultOptions = list(),
   ColorMapList = NULL,
   shapeValues = NULL,
-  defaultOptions = list(),
   PointAsUnicode = FALSE
 )
 }
 \arguments{
+\item{defaultOptions}{list of options}
+
 \item{ColorMapList}{list of color maps}
 
 \item{shapeValues}{list of Shapes}
 
-\item{defaultOptions}{list of options}
-
-\item{PointAsUnicode}{A \code{flag} to swicth between mode for geom_point, if TRUE points will be plotted as unicode labels}
+\item{PointAsUnicode}{A \code{flag} to switch between mode for geom_point, if TRUE points will be plotted as unicode labels}
 }
 \value{
 list of old settings which can be used to reset defaults with \code{resetDefaults()}

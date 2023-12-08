@@ -23,12 +23,11 @@ initializePlot <- function(mappedData = NULL,
   plotObject <- ggplot(
     data = mappedData$dataForPlot,
     mapping = mappingToSet
-    # environment = globalenv()
   ) +
     layerWatermark()
 
   #
-  shapeValues = getOption("ospsuite.plots.shapeValues")
+  shapeValues <- getOption("ospsuite.plots.shapeValues")
   if (!is.null(shapeValues)) {
     # shape
     scale_shape_discrete <- function(...) {
@@ -61,20 +60,19 @@ addLayer <- function(mappedData,
                      geom,
                      plotObject,
                      layerToCall) {
-
-
   filteredMapping <- mappedData$getAestheticsForGeom(
     geom = geom,
     geomAttributes = geomAttributes
   )
 
   # check for geomUnicodeMode
-  geomUnicodeMode =  getOption(
+  geomUnicodeMode <- getOption(
     x = "ospsuite.plots.GeomPointUnicode",
-    default = getDefaultOptions()[["ospsuite.plots.GeomPointUnicode"]])
+    default = getDefaultOptions()[["ospsuite.plots.GeomPointUnicode"]]
+  )
   if (geomUnicodeMode &&
-      geom == "point") {
-    layerToCall = geomPointUnicode
+    geom == "point") {
+    layerToCall <- geomPointUnicode
   }
 
 

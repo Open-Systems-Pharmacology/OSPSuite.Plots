@@ -79,7 +79,7 @@ Create a new \code{MappedDataTimeProfile} object
 
 \item{\code{mapping}}{list of aesthetic mappings}
 
-\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with aesthetic 'groupby' ,
+\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with aesthetic \code{groupby} ,
 use of group aesthetics triggers second axis after simulation layers}
 
 \item{\code{groupOrder}}{labels and order for group aesthetic}

@@ -50,11 +50,11 @@ call \code{ggplot2::hline}  or \code{ggplot2::abline} to display comparison line
 
 \item{geomLLOQAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
 
-\item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with groupby,}
+\item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with \code{groupby},}
 
 \item{comparisonLineVector}{either a double vector or a list of double values
 if add \code{addLinesDiagnonal = FALSE} lines will be added as horizontal lines with the
-intercept at values of comparisonLineVector
+intercept at values of \code{comparisonLineVector}
 If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance lines to the identity.}
 
 \item{addRegression}{A \code{Flag} which activates insertion of regression line}

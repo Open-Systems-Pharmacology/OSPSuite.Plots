@@ -93,8 +93,8 @@ Create a new \code{MappedDataBoxplot} object
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-MappedDataBoxplot class object
-use Metadata to adjust bininng xscale, and group aetsthtic
+\code{MappedDataBoxplot} class object
+use Metadata to adjust binning of x-axis, and group aesthetic
 }
 }
 \if{html}{\out{<hr>}}
@@ -114,7 +114,7 @@ use Metadata to adjust bininng xscale, and group aetsthtic
 \describe{
 \item{\code{originalmapping}}{mapping provided by user}
 
-\item{\code{xscale}}{either 'linear','log', discrte or 'auto' (default) auto select linear for continuous data and discrete for categorical data}
+\item{\code{xscale}}{either 'linear','log', discrete or 'auto' (default) auto select linear for continuous data and discrete for categorical data}
 
 \item{\code{xscale.args}}{list of arguments passed to \code{ggplot2::scale_x_continuous()}, \code{ggplot2::scale_x_log10()} or
 \code{ggplot2::scale_x_discrete()}}
@@ -122,7 +122,7 @@ use Metadata to adjust bininng xscale, and group aetsthtic
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-adjusted MappedDataBoxplot class object
+adjusted \code{MappedDataBoxplot} class object
 }
 }
 \if{html}{\out{<hr>}}

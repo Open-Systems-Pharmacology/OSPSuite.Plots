@@ -153,7 +153,7 @@ plotBoxWhisker(
 
 ### 2.1.4 Stratification by column combination
 
-Below `groupby`was mapped to a combination of the colums Sex and Country:
+Below `groupby`was mapped to a combination of the columns "Sex" and "Country":
 
 ```{r minimal-example-interaction}
 plotBoxWhisker(
@@ -186,7 +186,7 @@ plotBoxWhisker(
 ```
 
 
-## 2.2 Examples for boxwhisker vs  numeric data 
+## 2.2 Examples for box-whisker vs  numeric data 
 
 ### 2.2.1 Numeric data as factor
 
@@ -349,7 +349,7 @@ As there already exist a lot off possibilities to aggregate data in R, this pack
 
 But the `plotBoxWhisker()` adds the aggregation function to the plot object. So the aggregation can be done easily e.g. with package {data.table} using the same function as used for the plot.
 
-To be sure to use the same data use plotObject$data, then applied data filters by aesthetic `mdv` will be accounted for.
+To be sure to use the same data use `plotObject$data`, then applied data filters by aesthetic `mdv` will be accounted for.
 
 ```{r aggregationTable}
 # generate plot object
@@ -418,8 +418,6 @@ If no value is outside range NA is returned.
 
 
 ```{r example-outliers-custom}
-
-
 myStatFunOutlier <-
   function(y) {
     q <-

@@ -15,5 +15,5 @@ getFoldDistanceList(folds = c(1.5, 2), includeIdentity = TRUE)
 named list with fold distances
 }
 \description{
-this list is used as input for plotPKRatio, plotPredvsOvs
+this list is used as input for \code{plotRatioVsCov}, \code{plotPredVsObs}
 }

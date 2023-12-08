@@ -29,7 +29,6 @@ The following vignette aims at documenting and illustrating workflows for produc
 Time profile plots are very often used to compare observed and simulated data along time.
 In such plots, observed data are usually plotted as scatter points with errorbars showing population range or confidence intervals; while simulated data are usually plotted using lines with shaded ribbons showing population range or confidence intervals.
 
->>>>>>> 8bc1d35... finalized first version of plotHistogram with Vignette
 
 Basic documentation of the function can be found using: `?plotTimeProfile`.
 The output of the function is a `ggplot` object.
@@ -61,7 +60,6 @@ theme_update(legend.title = element_blank())
 ## 1.2 Example data
 
 This vignette uses random generated example data sets provided by the package:
->>>>>>> 8bc1d35... finalized first version of plotHistogram with Vignette
 
 ### 1.2.1 simulated and observed data
 
@@ -89,7 +87,6 @@ simData <- rbind(
   simData1,
   simData2
 )
-<<<<<<< HEAD
 
 obsData1 <- exampleDataTimeProfile %>%
   dplyr::filter(SetID == "DataSet1") %>%
@@ -238,7 +235,6 @@ plotTimeProfile(
 
 
 ## 2.2 Plot observed data only
->>>>>>> 8bc1d35... finalized first version of plotHistogram with Vignette
 
 ### 2.2.1  Basic example with multiple observed data sets
 
@@ -317,12 +313,10 @@ plotTimeProfile(
     lloq = lloq
   ),
   yscale = "log"
->>>>>>> 8bc1d35... finalized first version of plotHistogram with Vignette
 )
 ```
 
 
->>>>>>> 8bc1d35... finalized first version of plotHistogram with Vignette
 
 ### 2.2.5 Omit data points flagged as Missing Dependent Variable (mdv)
 
@@ -474,10 +468,7 @@ plotTimeProfile(
   theme(legend.title = element_text())
 ```
 
->>>>>>> 8bc1d35... finalized first version of plotHistogram with Vignette
 
-For changing scales which ared adressed by the the grouping, the reset of scales after the simulation layers has to be taken in account. (see [Plot simulated and observed data](#s_groupAesthtics)).
-It's a stepwise procedure
 
 ### 2.3.4 Multiple simulations and observed data sets without legends
 
@@ -495,21 +486,12 @@ plotTimeProfile(
   ), groupAesthetics = c()
 )
 ```
->>>>>>> 8bc1d35... finalized first version of plotHistogram with Vignette
 
-plotObject <- plotTimeProfile(
-  plotObject = plotObject,
-  observedData = obsData,
-  mapping = mapping
-) +
-  scale_color_manual(values = c("Observed Data 1" = "darkred", "Observed Data 2" = "darkgreen"))
 
->>>>>>> 8bc1d35... finalized first version of plotHistogram with Vignette
 
 
 ### 2.3.5 Observed data with shape as gender
 
->>>>>>> 8bc1d35... finalized first version of plotHistogram with Vignette
 
 
 In this example observed data is used as simulated and as observed data, to connect the different data points with a thin line.
@@ -531,8 +513,6 @@ plotTimeProfile(
 
 A similar plot can produces by combining caption and gender with interaction
 
-In the example we set the scale for the y-axis to log scale.
-Per default a time profile plots starts always at 0, here the defaults were overwritten and the breaks were set manually.
 
 ```{r observedData-usead-as-simulatedData-plot-B}
 plotTimeProfile(

@@ -11,7 +11,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     y2limits = NULL,
     #' @param data data.frame used for mapping
     #' @param mapping list of aesthetic mappings
-    #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with aesthetic 'groupby' ,
+    #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with aesthetic `groupby` ,
     #'            use of group aesthetics triggers second axis after simulation layers
     #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
@@ -201,7 +201,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
       }
       # get data columns to scale
       scalingRelevantMappings <-
-        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1),]$aesthetic %>%
+        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic %>%
         intersect(names(self$mapping))
 
 
@@ -279,7 +279,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     setyLimits = function() {
       # get data columns to scale
       scalingRelevantMappings <-
-        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1),]$aesthetic %>%
+        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic %>%
         intersect(names(self$mapping))
 
       # get Limits

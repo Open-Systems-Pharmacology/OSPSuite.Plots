@@ -11,8 +11,8 @@
 #'        for linear residuals are calculated observed - predicted
 #'        for log residuals are calculated log(observed) - log(predicted)
 #'        y scale is always linear
-#' @param geomQQAttributes arguments passed on to ggplot2::qq_stat
-#' @param geomQQLineAttributes arguments passed on to ggplot2::qq_stat_line
+#' @param geomQQAttributes arguments passed on to `ggplot2::qq_stat`
+#' @param geomQQLineAttributes arguments passed on to `ggplot2::qq_stat_line`
 #'
 #'
 #' @return A `ggplot` object

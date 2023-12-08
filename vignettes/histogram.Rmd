@@ -130,7 +130,7 @@ plotHistogram(
 ```
 
 
-### 2.1.3 Basic example: change of psoition but keep number of bins
+### 2.1.3 Basic example: change of position but keep number of bins
 
 To preserve the default settings, we modified the variable with `utils::modifyList(getDefaultGeomAttributes("Hist"), 
 list(position = "stack"))` 
@@ -178,7 +178,7 @@ plotHistogram(
 
 ### 2.1.5 Omit data points flagged as Missing Dependent Variable (mdv)
 
-If some of the data should be omitted, we could do this by mapping a logcial to the aesthetic `mdv`. Below we excluded data above the value of 4: 
+If some of the data should be omitted, we could do this by mapping a boolean to the aesthetic `mdv`. Below we excluded data above the value of 4: 
 
 
 ```{r minimalExample_mdv}
@@ -194,7 +194,7 @@ plotHistogram(
 ```
 
 
-### 2.1.6 Startified by a combination of columns
+### 2.1.6 Stratified by a combination of columns
 
 To stratify by a combination of columns use function `interaction` for the mapping to `groupby`:
 
@@ -245,8 +245,9 @@ plotHistogram(
   data = histData,
   mapping <- aes(
     x = cut_number(Ratio,
-                   n = 3,
-                   labels = c('low','mean','high')),
+      n = 3,
+      labels = c("low", "mean", "high")
+    ),
     groupby = Sex,
   ),
   geomHistAttributes =
@@ -255,8 +256,7 @@ plotHistogram(
     ),
   metaData = metaData
 ) +
-  labs(x = 'Ratio')
-
+  labs(x = "Ratio")
 ```
 
 ## 2.2. Frequency
@@ -297,7 +297,7 @@ plotHistogram(
 ) +
   labs(
     tag = "B",
-    caption = "frequency is calculated as count per bin / per fill"
+    caption = "frequency is calculated as count per bin / per group"
   )
 ```
 
@@ -475,7 +475,6 @@ plotHistogram(
 As fit is based on binning, and binning is depended on scale, a log scale has to be set before the distribution fit. Please use variable `xscale = 'log'` and do not add a {ggplot} like `scale_x_log10`
 
 ```{r example-logscale}
-
 plotHistogram(
   data = histData_distr,
   mapping = aes(
@@ -488,7 +487,6 @@ plotHistogram(
   meanFunction = "none"
 ) +
   labs(tag = "A")
-
 ```
 
 

@@ -1,4 +1,4 @@
-#' @title generate  boxWhisker plots
+#' @title generate  box-whisker plots
 #' @description
 #' Producing box-and-whisker plots
 #' For more details and examples see the vignettes:
@@ -19,7 +19,7 @@
 #' @param statFunOutlier (default NULL) if not NULL overwrites default calculation of outliers
 #' @param geomBoxplotAttributes A `list` with arguments which are passed on to the geom boxplot call
 #' @param geomPointAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_point`
-#' @param xscale either 'linear','log', discrte or 'auto' (default) auto select linear for continuous data and discrete for categorical data
+#' @param xscale either 'linear','log', discrete or 'auto' (default) auto select linear for continuous data and discrete for categorical data
 #' @param xscale.args list of arguments passed to `ggplot2::scale_x_continuous()`, `ggplot2::scale_x_log10()` or
 #'    `ggplot2::scale_x_discrete()`
 #'

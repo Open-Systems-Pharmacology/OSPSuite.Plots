@@ -26,7 +26,7 @@ MappedDataBoxplot <- R6::R6Class( # nolint
     #'
     #' @description Create a new `MappedDataBoxplot` object
     #'
-    #' @return MappedDataBoxplot class object
+    #' @return `MappedDataBoxplot` class object
     initialize = function(data,
                           mapping,
                           groupAesthetics = NULL,
@@ -50,14 +50,14 @@ MappedDataBoxplot <- R6::R6Class( # nolint
       # check if one dimensional in x
       self$hasXmapping <- ("x" %in% names(self$mapping))
     },
-    #' use Metadata to adjust bininng xscale, and group aetsthtic
+    #' use Metadata to adjust binning of x-axis, and group aesthetic
     #'
     #' @param originalmapping mapping provided by user
-    #' @param xscale either 'linear','log', discrte or 'auto' (default) auto select linear for continuous data and discrete for categorical data
+    #' @param xscale either 'linear','log', discrete or 'auto' (default) auto select linear for continuous data and discrete for categorical data
     #' @param xscale.args list of arguments passed to `ggplot2::scale_x_continuous()`, `ggplot2::scale_x_log10()` or
     #'    `ggplot2::scale_x_discrete()`
     #'
-    #' @return adjusted MappedDataBoxplot class object
+    #' @return adjusted `MappedDataBoxplot` class object
     doAdjustmentsWithMetaData = function(originalmapping,
                                          xscale,
                                          xscale.args) {

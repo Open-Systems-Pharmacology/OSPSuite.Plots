@@ -64,7 +64,7 @@ knitr::kable(head(testData), digits = 3)
 
 ```{r,warning=FALSE}
 # ospsuite.plots function
-plotHistogram(
+ospsuite.plots::plotHistogram(
   data = testData,
   mapping = aes(x = Age)
 ) +
@@ -85,15 +85,21 @@ ggplot(
 
 To set the default we use the same logic as used in `ggplot2::theme_set()`. Invisibly the previous settings are returned so you can easily save it, then later restore it.
 
-`setDefaults()` sets the theme, discrete color palette, shapes and various options. All objects can als be set separately as described below.
+`setDefaults()` sets the theme, discrete color palette, shapes and various options. All objects can also be set separately as described below.
 
 
 ```{r,warning=FALSE,fig.show='hold'}
 # set default layout  and save previous layout in variable old defaults
-oldDefaults <- ospsuite.plots::setDefaults()
+# inputs are set to default inputs
+oldDefaults <- ospsuite.plots::setDefaults(
+  defaultOptions = list(),
+  ColorMapList = NULL,
+  shapeValues = NULL,
+  PointAsUnicode = FALSE
+)
 
 # ospsuite.plots function
-plotHistogram(
+ospsuite.plots::plotHistogram(
   data = testData,
   mapping = aes(x = Age)
 ) +
@@ -119,7 +125,7 @@ ggplot(
 ospsuite.plots::resetDefaults(oldDefaults = oldDefaults)
 
 # ospsuite.plots function
-plotHistogram(
+ospsuite.plots::plotHistogram(
   data = testData,
   mapping = aes(x = Age)
 ) +
@@ -167,12 +173,12 @@ The example below shows plots with
 * A plot with default settings for up to 6 different colors
 * B plot with default settings for more the 6 different colors
 * C customize settings for all following plots using the `ColorMaps[["grays"]]`
-* D customize plot: set grey scale for this plot only using function `scale_fill_grey()`    
+* D customize plot: set gray scale for this plot only using function `scale_fill_grey()`    
 
 You can also use color Palettes from other packages e.g ggsci:  
 
 * E customize settings for all following plots using as colormap ggsci::pal_lancet()(9)
-* F customized plots set grey scale for this plot only using function `ggsci::scale_color_lancet()`    
+* F customized plots set gray scale for this plot only using function `ggsci::scale_color_lancet()`    
 
 
 ```{r}
@@ -303,7 +309,7 @@ ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
 ## 2.4 Default Shapes
 
 Functions to set the ospsuite.plots default shapes only are: `oldShapeValue = setDefaultShapeDistinct(shapeValues)` and `resetDefaultShapeDistinct(oldShapeValue)`. This functions are called by `setDefaults()` and `resetDefaults()`.
-The scales are set to the option  'ospsuite.plots.shapeValues', which is then used to
+The scales are set to the option  `ospsuite.plots.shapeValues`, which is then used to
 set the discrete scale of shapes for all {ospsuite.plots} functions.
 for customized functions add `scale_shape_manual(values = getOption('ospsuite.plots.shapeValues'))`
 
@@ -427,13 +433,13 @@ options(list(
     position = position_dodge(width = 1),
     color = "black"
   ),
-    ospsuite.plots.geomHistAttributes = list(
-      bins = 10,
-      position = ggplot2::position_nudge()
-    ),
-    ospsuite.plots.geomBarAttributes = list(
-      position = ggplot2::position_nudge()
-    )
+  ospsuite.plots.geomHistAttributes = list(
+    bins = 10,
+    position = ggplot2::position_nudge()
+  ),
+  ospsuite.plots.geomBarAttributes = list(
+    position = ggplot2::position_nudge()
+  )
 ))
 ```
 
@@ -506,7 +512,7 @@ For more details see the example within the vignettes for the respective functio
 
 
 * `groupby`: Short cut to use different aesthetics to group.  
-All function where this aesthtic is used have also a variable `groupAesthtics. The mapping `groupby`is copied to all aesthetics listed within this variable and to aesthetic `group`.  
+All function where this aesthetic is used have also a variable `groupAesthtics. The mapping `groupby`is copied to all aesthetics listed within this variable and to aesthetic `group`.  
 
 * `lloq`: Mapped to column with value of lower limit of quantification, adds horizontal (respectively vertical) lines
 to the plot. All observed values below the "lloq" are plotted with a lighter alpha.  
@@ -514,7 +520,7 @@ As values will be compared row by row, it is possible to have more then one lloq
 
 * `error`: Mapped to column with additive error (e.g. standard deviation) errorbars are plotted. 
 This is a short cut to map ymin and ymax directly (`ymin = y - error` and `ymax = y + error`).
-Additionally if yscale is ymin values below 0 are set to y.
+Additionally if `yscale` is ymin values below 0 are set to y.
 
 * `error_relative`: Mapped to column with relative error (e.g. geometric standard deviation) errorbars are plotted.
 This is a short cut to map ymin and ymax directly (`ymin = y/error_relative` and `ymax = y*error_relative`). 
@@ -526,15 +532,15 @@ Values where this column has entry TRUE will be displayed with a secondary axis.
 (mdv = missing data value is taken from NONMEM notation)
 
 * `observed` / `predicted`: For the function `plotPredVsObs()` `observed` is mapped to `x`and `predicted` is mapped to y. 
-For all other functions residuals ar calculated if both aesthetics are mapped. 
+For all other functions residuals are calculated if both aesthetics are mapped. 
 The variable `residualScale` defines the calculation method: 
   * `residualScale` = "log" -> $log(observed) - log(predicted)$, 
   * `residualScale` = "linear" -> $observed - predicted$, 
-  * `residualScale` = "ratio" -> $observed/predicted$
+  * `residualScale` = "ratio" -> $observed/predicted$  
 see `vignette("Goodness of fit", package = "ospsuite.plots")` for examples
 
 
-```{r additional-aesthtic-table, echo=FALSE}
+```{r additional-aesthetic-table, echo=FALSE}
 df <- rbind(
   data.frame(
     aesthetic = "`groupby`",
@@ -626,6 +632,7 @@ shape_names <- c(
   "plus", "cross", "asterisk"
 )
 
+
 shapes <- data.frame(
   shape_names = shape_names,
   x = c(1:7, 1:6, 1:3, 5, 1:3, 6, 2:3, 1:3),
@@ -639,7 +646,6 @@ ggplot(shapes, aes(x, y)) +
   scale_shape_identity() +
   theme_void()
 ```
-
 
 ## 5.2 Use unicode symbols  with {showtext}
 
@@ -676,44 +682,43 @@ Other wise the plots may have different fonts.
 
 
 ```{r}
-
-oldDefaults = setDefaults(PointAsUnicode = TRUE)
-
-
-dt = data.frame(x = c(1,2,1,2),
-                y = c(1,1,2,2),
-                species = c('pig','dog','mouse','rat')
-                )
+oldDefaults <- setDefaults(PointAsUnicode = TRUE)
 
 
-plotObject <- plotYVsX(data = dt,
-         mapping = aes(x = x,
-                       y = y,
-                       groupby = species),
-         xscale = 'linear',
-         xscale.args = list(limits = c(0.5,2.5)),
-         yscale = 'linear',
-         yscale.args = list(limits = c(0.5,2.5))) 
+dt <- data.frame(
+  x = c(1, 2, 1, 2),
+  y = c(1, 1, 2, 2),
+  species = c("pig", "dog", "mouse", "rat")
+)
+
+
+plotObject <- plotYVsX(
+  data = dt,
+  mapping = aes(
+    x = x,
+    y = y,
+    groupby = species
+  ),
+  xscale = "linear",
+  xscale.args = list(limits = c(0.5, 2.5)),
+  yscale = "linear",
+  yscale.args = list(limits = c(0.5, 2.5))
+)
 
 plot(plotObject)
-
-
-
 ```
 
 
 use non default icons
 
 ```{r}
-
-plot(plotObject) +
+plot(plotObject +
   scale_shape_manual(values = c(
-    pig = 'pig',
-    dog = 'dog',
-    mouse = 'mouse',
-    rat = 'rat'
-  ))
-
+    pig = "pig",
+    dog = "dog",
+    mouse = "mouse",
+    rat = "rat"
+  )))
 ```
 
 

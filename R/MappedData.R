@@ -26,7 +26,7 @@ MappedData <- R6::R6Class( # nolint
 
     #' @param data data.frame used for mapping
     #' @param mapping list of aesthetic mappings
-    #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with groupby
+    #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with `groupby`
     #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
     #' @param isObserved Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated
@@ -170,12 +170,12 @@ MappedData <- R6::R6Class( # nolint
         return(self$mapping[acceptedAes])
       }
     },
-    #' adds list wit dimension, units and columnClasses
+    #' adds list wit dimension, units and column classes
     #'
     #'
     #' @param metaData A named list of information about `data` such as the `dimension` and `unit` of its variables.
     #'
-    #' @return  updatete MappedData object
+    #' @return  updated `MappedData` object
     addMetaData = function(metaData) {
       for (aesthetic in names(self$mapping)) {
         tmp <- private$getDataForAesthetic(
@@ -209,7 +209,7 @@ MappedData <- R6::R6Class( # nolint
     #' @param scale.args additional arguments passed on to scale function
     #' @param scaleDirection direction of axis either 'x' or 'y'
     #'
-    #' @return scale.args with adjusted break function
+    #' @return `scale.args` with adjusted break function
     updateScaleArgumentsForTimeUnit = function(scale.args,
                                                scaleDirection = "x") {
       ## Validation
@@ -414,7 +414,7 @@ MappedData <- R6::R6Class( # nolint
 
       return(invisible(self))
     },
-    #' copy aesthetics "groupby", but only if not explicit set
+    #' copy aesthetics `groupby`, but only if not explicit set
     adjustGroupAesthetics = function() {
       if (!is.null(private$groupAesthetics)) {
         newMapping <- list()
@@ -459,7 +459,7 @@ MappedData <- R6::R6Class( # nolint
       relevantMappings[[private$direction]] <- gsub(
         "y",
         private$direction,
-        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1),]$aesthetic
+        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic
       ) %>%
         intersect(names(self$mapping))
 

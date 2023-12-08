@@ -41,7 +41,7 @@ if a different mapping is necessary use \code{mapping} and \code{observedMapping
 
 \item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
 
-\item{mapSimulatedAndObserved}{table with columns observed and simulated which mapps simulated and observed data
+\item{mapSimulatedAndObserved}{table with columns observed and simulated which maps simulated and observed data
 use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after simulation layers}
 
 \item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
@@ -68,7 +68,7 @@ use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after s
 
 \item{geomLLOQAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
 
-\item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with groupby,}
+\item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with \code{groupby},}
 }
 \value{
 A \code{ggplot} object

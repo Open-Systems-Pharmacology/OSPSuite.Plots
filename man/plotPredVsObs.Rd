@@ -22,7 +22,7 @@ plotPredVsObs(
 
 \item{comparisonLineVector}{either a double vector or a list of double values
 if add \code{addLinesDiagnonal = FALSE} lines will be added as horizontal lines with the
-intercept at values of comparisonLineVector
+intercept at values of \code{comparisonLineVector}
 If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance lines to the identity.}
 
 \item{asSquarePlot}{A \code{Flag} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
@@ -49,7 +49,7 @@ aesthetics \code{lloq}, \code{error}end \code{error_relative}}
     \item{\code{geomPointAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
     \item{\code{geomErrorbarAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
     \item{\code{geomLLOQAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
-    \item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with groupby,}
+    \item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with \code{groupby},}
     \item{\code{xscale}}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
     \item{\code{xscale.args}}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
     \item{\code{yscale}}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}

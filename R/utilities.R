@@ -23,9 +23,11 @@
 #' @examples
 #' xscale.args <- list(limits = c(0, 24))
 #' xscale.args <-
-#'   updateScaleArgumentsForTimeUnit(scale.args = xscale.args,
+#'   updateScaleArgumentsForTimeUnit(
+#'     scale.args = xscale.args,
 #'     dimension = "time",
-#'     unit = "h")
+#'     unit = "h"
+#'   )
 #' addXscale(plotObject = ggplot(), xscale = "linear", xscale.args = xscale.args)
 updateScaleArgumentsForTimeUnit <- function(scale.args,
                                             dimension,
@@ -124,14 +126,10 @@ addLabels <- function(plotObject, mappedData) {
 #' @return  list with plotLabels
 #' @keywords internal
 createDefaultPlotLabels <- function(mappedData) {
-  # initialize variables used in aes or data,table to avoid message in check
-  y2 <- scalingRelevant <- NULL
-
-
   # match mapping to axis
   matchList <- list(
     x = "x",
-    y = listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1),]$aesthetic,
+    y = listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic,
     y2 = "y2"
   )
 
@@ -193,7 +191,7 @@ metaData2DataFrame <- function(metaData) {
 #' creates labels for percentiles
 #'
 #' convert a numeric percentile to a label
-#' e.g. c(25,75)   to c("25th percentile", "75th percentile")
+#' e.g. `c(25,75)`   to `c("25th percentile", "75th percentile")`
 #'
 #' @param percentiles numeric input
 #' @param suffix common ending
@@ -221,7 +219,7 @@ labelsForPercentile <- function(percentiles, suffix = " percentile") {
 
 #' creates a list with fold Distances
 #'
-#' this list is used as input for plotPKRatio, plotPredvsOvs
+#' this list is used as input for `plotRatioVsCov`, `plotPredVsObs`
 #'
 #' @param folds of folds e.g. c(1.5,2) must be >1
 #' @param includeIdentity Flag, if TRUE (default) line of identity is added

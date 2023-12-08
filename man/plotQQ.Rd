@@ -34,11 +34,11 @@ y scale is always linear}
 
 \item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{geomQQAttributes}{arguments passed on to ggplot2::qq_stat}
+\item{geomQQAttributes}{arguments passed on to \code{ggplot2::qq_stat}}
 
-\item{geomQQLineAttributes}{arguments passed on to ggplot2::qq_stat_line}
+\item{geomQQLineAttributes}{arguments passed on to \code{ggplot2::qq_stat_line}}
 
-\item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with groupby,}
+\item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with \code{groupby},}
 }
 \value{
 A \code{ggplot} object

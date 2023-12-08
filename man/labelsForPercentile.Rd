@@ -16,5 +16,5 @@ character vector with labels
 }
 \description{
 convert a numeric percentile to a label
-e.g. c(25,75)   to c("25th percentile", "75th percentile")
+e.g. \code{c(25,75)}   to \code{c("25th percentile", "75th percentile")}
 }

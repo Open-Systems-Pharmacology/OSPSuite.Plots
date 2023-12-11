@@ -15,6 +15,7 @@ License: GPL-2 | file LICENSE
 Language: en-US
 Imports: 
     ospsuite.utils (>= 1.4.0),
+    ggh4x,
     data.table,
     ggnewscale,
     checkmate,
@@ -26,8 +27,7 @@ Imports:
     tidyr
 Depends: 
     R (>= 3.6),
-    ggplot2 (>= 3.3.0),
-    ggh4x
+    ggplot2 (>= 3.3.0)
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)

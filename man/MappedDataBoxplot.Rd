@@ -22,7 +22,7 @@ Other MappedData classes:
 
 \item{\code{xscale.args}}{arguments for scale of x axis}
 
-\item{\code{hasXmapping}}{Flag, if TRUE x is mapped}
+\item{\code{hasXmapping}}{boolean, if TRUE x is mapped}
 }
 \if{html}{\out{</div>}}
 }
@@ -80,7 +80,7 @@ Create a new \code{MappedDataBoxplot} object
 
 \item{\code{direction}}{direction of plot either "x" or "y"}
 
-\item{\code{isObserved}}{Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated}
+\item{\code{isObserved}}{A \code{boolean} if TRUE mappings mdv, lloq, error and error_relative are evaluated}
 
 \item{\code{xlimits}}{limits for x-axis (may be NULL)}
 

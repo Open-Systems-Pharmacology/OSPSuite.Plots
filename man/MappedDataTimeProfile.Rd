@@ -25,7 +25,7 @@ Other MappedData classes:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{requireDualAxis}}{Flag, If TRUE secondary axis is required}
+\item{\code{requireDualAxis}}{boolean, If TRUE secondary axis is required}
 
 \item{\code{secAxis}}{sec_axis() object}
 
@@ -86,7 +86,7 @@ use of group aesthetics triggers second axis after simulation layers}
 
 \item{\code{direction}}{direction of plot either "x" or "y"}
 
-\item{\code{isObserved}}{Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated}
+\item{\code{isObserved}}{A \code{boolean} if TRUE mappings mdv, lloq, error and error_relative are evaluated}
 
 \item{\code{xlimits}}{limits for x axis (may be NULL)}
 
@@ -130,7 +130,7 @@ scales data for secondary axis and updates filed secAxis
 }
 \subsection{Returns}{
 updated MappedDataTimeProfile
-Flag for secondary axis
+boolean for secondary axis
 }
 }
 \if{html}{\out{<hr>}}

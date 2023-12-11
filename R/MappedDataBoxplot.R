@@ -11,14 +11,14 @@ MappedDataBoxplot <- R6::R6Class( # nolint
     xscale = NULL,
     #' @field xscale.args arguments for scale of x axis
     xscale.args = NULL,
-    #' @field hasXmapping Flag, if TRUE x is mapped
+    #' @field hasXmapping boolean, if TRUE x is mapped
     hasXmapping = NULL,
     #'
     #' @param data data.frame used for mapping
     #' @param mapping list of aesthetic mappings
     #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with aesthetic `groupby`
     #' @param direction direction of plot either "x" or "y"
-    #' @param isObserved Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated
+    #' @param isObserved A `boolean` if TRUE mappings mdv, lloq, error and error_relative are evaluated
     #' @param xlimits limits for x-axis (may be NULL)
     #' @param ylimits limits for y-axis (may be NULL)
     #' @param residualScale scale of x residuals

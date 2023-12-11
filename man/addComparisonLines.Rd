@@ -18,7 +18,7 @@ if add \code{addLinesDiagnonal = FALSE} lines will be added as horizontal lines 
 intercept at values of \code{comparisonLineVector}
 If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance lines to the identity.}
 
-\item{addLinesDiagnonal}{A \code{Flag}which defines direction of comparison lines}
+\item{addLinesDiagnonal}{A \code{boolean}which defines direction of comparison lines}
 
 \item{geomLineAttributes}{line attributes e.g. color,linetype passed to \code{ggplot2::geom_hline} or \code{ggplot2::geom_abline}}
 

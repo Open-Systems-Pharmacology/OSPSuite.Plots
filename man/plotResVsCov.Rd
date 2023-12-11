@@ -37,11 +37,11 @@ If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance line
 call \code{ggplot2::hline}  or \code{ggplot2::abline} to display comparison lines}
     \item{\code{geomGuestLineAttributes}}{A \code{list} with arguments which are passed on to the
 call \code{ggplot2::geom_function} to display guest criteria}
-    \item{\code{addLinesDiagnonal}}{A \code{Flag}which defines direction of comparison lines}
-    \item{\code{addRegression}}{A \code{Flag} which activates insertion of regression line}
-    \item{\code{addGuestLimits}}{A \code{Flag} which activates insertion of regression line}
+    \item{\code{addLinesDiagnonal}}{A \code{boolean}which defines direction of comparison lines}
+    \item{\code{addRegression}}{A \code{boolean} which activates insertion of regression line}
+    \item{\code{addGuestLimits}}{A \code{boolean} which activates insertion of regression line}
     \item{\code{deltaGuest}}{Numeric value parameter of Guest function}
-    \item{\code{asSquarePlot}}{A \code{Flag} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
+    \item{\code{asSquarePlot}}{A \code{boolean} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
     \item{\code{observedDataDirection}}{either 'x' or 'y', defines direction of observed data. relevant for
 aesthetics \code{lloq}, \code{error}end \code{error_relative}}
     \item{\code{metaData}}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}

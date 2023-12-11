@@ -9,8 +9,8 @@
 #'
 #' @inheritParams plotTimeProfile
 #' @inheritParams plotYVsX
-#' @param plotAsFrequency A `Flag` defining if histogram displays a frequency in y axis
-#' @param asBarPlot A `Flag` defining if geom_histogram should be used (continuous data) or geom_bar (categorical)
+#' @param plotAsFrequency A `boolean` defining if histogram displays a frequency in y axis
+#' @param asBarPlot A `boolean` defining if geom_histogram should be used (continuous data) or geom_bar (categorical)
 #'    if TRUE variables `distribution`, `meanFunction`, `xacale` and `xscale.args` are ignored
 #' @param geomHistAttributes  A `list` with arguments which are passed on to the ggplot2::geom_histogram (geom_bar if `asBarPlot` = TRUE)
 #' @param distribution name of distribution  available are all distributions available in package stats: (see ? stats::distributions) `norm`,`lnorm`, ...
@@ -74,9 +74,6 @@ plotHistogram <- function(data,
     distribution = distribution,
     meanFunction = meanFunction
   )
-
-
-
 
   #-  initialize plot
   plotObject <- initializePlot(
@@ -175,20 +172,20 @@ plotHistogram <- function(data,
 plotHelperHistogram <- R6::R6Class( # nolint
   "plotHelperHistogram",
   public = list(
-    #' @field plotAsFrequency `Flag` to decide if data should be displayed as frequency
+    #' @field plotAsFrequency `boolean` to decide if data should be displayed as frequency
     plotAsFrequency = NULL,
     #' @field distribution `character` distribution to fit
     distribution = NULL,
     #' @field scaledMeanFun `function` to display mean
     scaledMeanFun = NULL,
-    #' @field isStacked `Flag` if True, frequency is displayed a per total, otherwise per group
+    #' @field isStacked `boolean` if True, frequency is displayed a per total, otherwise per group
     isStacked = FALSE,
-    #' @field asBarPlot `Flag` indicates plot switches to bar plot
+    #' @field asBarPlot `boolean` indicates plot switches to bar plot
     asBarPlot = FALSE,
 
     #' @param xscale scale of x -axis
-    #' @param plotAsFrequency Flag to switch display of y to frequency
-    #' @param asBarPlot Flag to switch from geom_histogram to geom_bar
+    #' @param plotAsFrequency A `boolean` to switch display of y to frequency
+    #' @param asBarPlot A `boolean` to switch from geom_histogram to geom_bar
     #' @param geomHistAttributes attribute for plotting the histogram`
     #' @param distribution  distribution to fit the data
     #' @param meanFunction  function to display mean

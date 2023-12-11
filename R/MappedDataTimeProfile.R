@@ -15,7 +15,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     #'            use of group aesthetics triggers second axis after simulation layers
     #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
-    #' @param isObserved Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated
+    #' @param isObserved A `boolean` if TRUE mappings mdv, lloq, error and error_relative are evaluated
     #' @param scaleOfPrimaryAxis  scale of direction, either "linear" or "log"
     #' @param scaleOfSecondaryAxis either 'linear' or 'log'
     #' @param xlimits limits for x axis (may be NULL)
@@ -227,7 +227,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
 
       # set scale
       y2scale.args[["trans"]] <- funScaleAxis
-      y2scale.args[["guide"]] <- "axis_minor"
+      y2scale.args[["guide"]] <- ggh4x::guide_axis_minor()
       if (private$scaleOfSecondaryAxis == "log") {
         y2scale.args[["breaks"]] <- scales::breaks_log(5, base = 10)(self$y2limits)
       } else if (private$scaleOfSecondaryAxis == "linear") {
@@ -245,9 +245,9 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
   ),
   ## active -------
   active = list(
-    #' Flag for secondary axis
+    #' boolean for secondary axis
     #'
-    #' @field requireDualAxis Flag, If TRUE secondary axis is required
+    #' @field requireDualAxis boolean, If TRUE secondary axis is required
     requireDualAxis = function() {
       private$secondaryAxisAvailable
     },

@@ -34,10 +34,40 @@ From CRAN:
 
 -   [ggplot2](https://cran.r-project.org/package=ggplot2/index.html)
 -   [ggh4x](https://cran.r-project.org/package=ggh4x/index.html)
+-   [data.table](https://cran.r-project.org/package=data.table/index.html)
+-   [ggnewscale](https://cran.r-project.org/package=ggnewscale/index.html)
+-   [checkmate](https://cran.r-project.org/package=checkmate/index.html)
+-   [dplyr](https://cran.r-project.org/package=checkmate/index.html)
+-   [tidyr](https://cran.r-project.org/package=tidyr/index.html)
+-   [fitdistrplus](https://cran.r-project.org/package=fitdistrplus/index.html)
+
 
 Must be downloaded manually:
 
 -   [ospsuite.utils](https://github.com/Open-Systems-Pharmacology/OSPSuite.RUtils/releases/download/v1.3.17/ospsuite.utils_1.3.17.zip)
+
+
+To install manually, follow these instructions:
+
+```r
+# Install `{ospsuite.utils}` from local file 
+# (`pathTo_ospsuite.utils.zip` here should be replaced with the actual path to the `.zip` file)
+install.packages(pathTo_ospsuite.utils.zip, repos = NULL)
+
+
+# Install dependencies (e.g. ggplot2) which are on CRAN
+install.packages('ggplot2')
+install.packages('ggh4x')
+install.packages('data.table')
+install.packages('ggnewscale')
+install.packages('checkmate')
+install.packages('dplyr')
+install.packages('tidyr')
+install.packages('fitdistrplus')
+
+```
+
+
 
 ## Documentation
 

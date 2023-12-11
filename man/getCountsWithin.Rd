@@ -26,7 +26,7 @@ if add \code{addLinesDiagnonal = FALSE} lines will be added as horizontal lines 
 intercept at values of \code{comparisonLineVector}
 If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance lines to the identity.}
 
-\item{addGuestLimits}{A \code{Flag} which activates insertion of regression line}
+\item{addGuestLimits}{A \code{boolean} which activates insertion of regression line}
 
 \item{deltaGuest}{Numeric value parameter of Guest function}
 

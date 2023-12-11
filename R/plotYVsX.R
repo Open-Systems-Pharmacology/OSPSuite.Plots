@@ -205,11 +205,11 @@ plotPredVsObs <- function(data = NULL,
 #'    if add `addLinesDiagnonal = FALSE` lines will be added as horizontal lines with the
 #'    intercept at values of `comparisonLineVector`
 #'    If add `addLinesDiagnonal = TRUE` lines will be added as fold distance lines to the identity.
-#' @param addLinesDiagnonal A `Flag`which defines direction of comparison lines
-#' @param addRegression A `Flag` which activates insertion of regression line
-#' @param addGuestLimits A `Flag` which activates insertion of regression line
+#' @param addLinesDiagnonal A `boolean`which defines direction of comparison lines
+#' @param addRegression A `boolean` which activates insertion of regression line
+#' @param addGuestLimits A `boolean` which activates insertion of regression line
 #' @param deltaGuest Numeric value parameter of Guest function
-#' @param asSquarePlot A `Flag` if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios
+#' @param asSquarePlot A `boolean` if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios
 #' @param observedDataDirection either 'x' or 'y', defines direction of observed data. relevant for
 #' aesthetics `lloq`, `error`end `error_relative`
 #'

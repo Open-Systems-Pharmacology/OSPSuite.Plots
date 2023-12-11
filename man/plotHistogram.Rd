@@ -29,12 +29,12 @@ see vignettes for more details and examples}
 
 \item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
 
-\item{asBarPlot}{A \code{Flag} defining if geom_histogram should be used (continuous data) or geom_bar (categorical)
+\item{asBarPlot}{A \code{boolean} defining if geom_histogram should be used (continuous data) or geom_bar (categorical)
 if TRUE variables \code{distribution}, \code{meanFunction}, \code{xacale} and \code{xscale.args} are ignored}
 
 \item{geomHistAttributes}{A \code{list} with arguments which are passed on to the ggplot2::geom_histogram (geom_bar if \code{asBarPlot} = TRUE)}
 
-\item{plotAsFrequency}{A \code{Flag} defining if histogram displays a frequency in y axis}
+\item{plotAsFrequency}{A \code{boolean} defining if histogram displays a frequency in y axis}
 
 \item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
 

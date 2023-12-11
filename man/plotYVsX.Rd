@@ -57,9 +57,9 @@ if add \code{addLinesDiagnonal = FALSE} lines will be added as horizontal lines 
 intercept at values of \code{comparisonLineVector}
 If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance lines to the identity.}
 
-\item{addRegression}{A \code{Flag} which activates insertion of regression line}
+\item{addRegression}{A \code{boolean} which activates insertion of regression line}
 
-\item{addGuestLimits}{A \code{Flag} which activates insertion of regression line}
+\item{addGuestLimits}{A \code{boolean} which activates insertion of regression line}
 
 \item{deltaGuest}{Numeric value parameter of Guest function}
 
@@ -68,7 +68,7 @@ If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance line
 * log: residuals are calculated log(observed) - log(predicted)
 * ratio: residuals are calculated as observed/predicted}
 
-\item{asSquarePlot}{A \code{Flag} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
+\item{asSquarePlot}{A \code{boolean} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
 
 \item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
 
@@ -81,7 +81,7 @@ If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance line
 \item{observedDataDirection}{either 'x' or 'y', defines direction of observed data. relevant for
 aesthetics \code{lloq}, \code{error}end \code{error_relative}}
 
-\item{addLinesDiagnonal}{A \code{Flag}which defines direction of comparison lines}
+\item{addLinesDiagnonal}{A \code{boolean}which defines direction of comparison lines}
 }
 \value{
 A \code{ggplot} object

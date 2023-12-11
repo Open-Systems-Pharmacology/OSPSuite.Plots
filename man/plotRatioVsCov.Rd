@@ -20,7 +20,7 @@ plotRatioVsCov(
 
 \item{mapping}{a list of aesthetic mappings to use for plot}
 
-\item{addGuestLimits}{A \code{Flag} which activates insertion of regression line}
+\item{addGuestLimits}{A \code{boolean} which activates insertion of regression line}
 
 \item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
@@ -44,9 +44,9 @@ call \code{ggplot2::geom_function} to display guest criteria}
 * linear:  residuals are calculated observed - predicted
 * log: residuals are calculated log(observed) - log(predicted)
 * ratio: residuals are calculated as observed/predicted}
-    \item{\code{addLinesDiagnonal}}{A \code{Flag}which defines direction of comparison lines}
-    \item{\code{addRegression}}{A \code{Flag} which activates insertion of regression line}
-    \item{\code{asSquarePlot}}{A \code{Flag} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
+    \item{\code{addLinesDiagnonal}}{A \code{boolean}which defines direction of comparison lines}
+    \item{\code{addRegression}}{A \code{boolean} which activates insertion of regression line}
+    \item{\code{asSquarePlot}}{A \code{boolean} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
     \item{\code{observedDataDirection}}{either 'x' or 'y', defines direction of observed data. relevant for
 aesthetics \code{lloq}, \code{error}end \code{error_relative}}
     \item{\code{metaData}}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}

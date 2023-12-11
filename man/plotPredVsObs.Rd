@@ -25,7 +25,7 @@ if add \code{addLinesDiagnonal = FALSE} lines will be added as horizontal lines 
 intercept at values of \code{comparisonLineVector}
 If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance lines to the identity.}
 
-\item{asSquarePlot}{A \code{Flag} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
+\item{asSquarePlot}{A \code{boolean} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
 
 \item{...}{
   Arguments passed on to \code{\link[=plotYVsX]{plotYVsX}}
@@ -38,9 +38,9 @@ call \code{ggplot2::geom_function} to display guest criteria}
 * linear:  residuals are calculated observed - predicted
 * log: residuals are calculated log(observed) - log(predicted)
 * ratio: residuals are calculated as observed/predicted}
-    \item{\code{addLinesDiagnonal}}{A \code{Flag}which defines direction of comparison lines}
-    \item{\code{addRegression}}{A \code{Flag} which activates insertion of regression line}
-    \item{\code{addGuestLimits}}{A \code{Flag} which activates insertion of regression line}
+    \item{\code{addLinesDiagnonal}}{A \code{boolean}which defines direction of comparison lines}
+    \item{\code{addRegression}}{A \code{boolean} which activates insertion of regression line}
+    \item{\code{addGuestLimits}}{A \code{boolean} which activates insertion of regression line}
     \item{\code{deltaGuest}}{Numeric value parameter of Guest function}
     \item{\code{observedDataDirection}}{either 'x' or 'y', defines direction of observed data. relevant for
 aesthetics \code{lloq}, \code{error}end \code{error_relative}}

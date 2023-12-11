@@ -10,15 +10,15 @@ R6 class container for functions and properties used in \code{plotHistogram}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{plotAsFrequency}}{\code{Flag} to decide if data should be displayed as frequency}
+\item{\code{plotAsFrequency}}{\code{boolean} to decide if data should be displayed as frequency}
 
 \item{\code{distribution}}{\code{character} distribution to fit}
 
 \item{\code{scaledMeanFun}}{\code{function} to display mean}
 
-\item{\code{isStacked}}{\code{Flag} if True, frequency is displayed a per total, otherwise per group}
+\item{\code{isStacked}}{\code{boolean} if True, frequency is displayed a per total, otherwise per group}
 
-\item{\code{asBarPlot}}{\code{Flag} indicates plot switches to bar plot}
+\item{\code{asBarPlot}}{\code{boolean} indicates plot switches to bar plot}
 }
 \if{html}{\out{</div>}}
 }
@@ -62,9 +62,9 @@ Create a new \code{MappedData} object
 \describe{
 \item{\code{xscale}}{scale of x -axis}
 
-\item{\code{plotAsFrequency}}{Flag to switch display of y to frequency}
+\item{\code{plotAsFrequency}}{A \code{boolean} to switch display of y to frequency}
 
-\item{\code{asBarPlot}}{Flag to switch from geom_histogram to geom_bar}
+\item{\code{asBarPlot}}{A \code{boolean} to switch from geom_histogram to geom_bar}
 
 \item{\code{geomHistAttributes}}{attribute for plotting the histogram`}
 

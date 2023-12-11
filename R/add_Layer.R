@@ -249,14 +249,14 @@ addXscale <- function(plotObject,
   plotObject <- plotObject +
     switch(xscale,
       "linear" = {
-        if (is.null(xscale.args$guide)) xscale.args$guide <- "axis_minor"
+        if (is.null(xscale.args$guide)) xscale.args$guide <- ggh4x::guide_axis_minor()
         do.call(
           what = scale_x_continuous,
           args = xscale.args
         )
       },
       "log" = {
-        if (is.null(xscale.args$guide)) xscale.args$guide <- "axis_logticks"
+        if (is.null(xscale.args$guide)) xscale.args$guide <- ggh4x::guide_axis_logticks()
         do.call(
           what = scale_x_log10,
           args = xscale.args
@@ -292,7 +292,7 @@ addYscale <- function(plotObject,
 
   plotObject <- plotObject +
     if (yscale == "linear") {
-      if (is.null(yscale.args$guide)) yscale.args$guide <- "axis_minor"
+      if (is.null(yscale.args$guide)) yscale.args$guide <- ggh4x::guide_axis_minor()
       do.call(
         what = scale_y_continuous,
         args = c(
@@ -301,7 +301,7 @@ addYscale <- function(plotObject,
         )
       )
     } else {
-      if (is.null(yscale.args$guide)) yscale.args$guide <- "axis_logticks"
+      if (is.null(yscale.args$guide)) yscale.args$guide <- ggh4x::guide_axis_logticks()
       do.call(
         what = scale_y_log10,
         args = c(

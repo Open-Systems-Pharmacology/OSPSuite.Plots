@@ -29,7 +29,7 @@ MappedData <- R6::R6Class( # nolint
     #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with `groupby`
     #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
-    #' @param isObserved Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated
+    #' @param isObserved A `boolean `if TRUE mappings mdv, lloq, error and error_relative are evaluated
     #' @param xlimits limits for x-axis (may be NULL)
     #' @param ylimits limits for y-axis (may be NULL)
     #' @param residualScale scale of x residuals
@@ -170,7 +170,7 @@ MappedData <- R6::R6Class( # nolint
         return(self$mapping[acceptedAes])
       }
     },
-    #' adds list wit dimension, units and column classes
+    #' adds list with dimension, units and column classes
     #'
     #'
     #' @param metaData A named list of information about `data` such as the `dimension` and `unit` of its variables.
@@ -233,7 +233,7 @@ MappedData <- R6::R6Class( # nolint
   ),
   ## active -------
   active = list(
-    #' @field hasLLOQMatch `Flag` if TRUE data has matched lloq data
+    #' @field hasLLOQMatch `boolean` if TRUE data has matched lloq data
     hasLLOQMatch = function(value) {
       if (missing(value)) {
         return(private$LLOQMatch)
@@ -308,7 +308,7 @@ MappedData <- R6::R6Class( # nolint
 
       return(invisible(self))
     },
-    #' adds new column `isLLOQ.i` and updates Flag `LLOQMatch`
+    #' adds new column `isLLOQ.i` and updates boolean `LLOQMatch`
     adjustForLLOQMatch = function() {
       if (private$aestheticExists("lloq")) {
         checkmate::assertNames(
@@ -337,7 +337,7 @@ MappedData <- R6::R6Class( # nolint
           )
         )))
 
-        # set Flag for LLOQ check
+        # set boolean for LLOQ check
         private$LLOQMatch <- TRUE
       }
 
@@ -534,7 +534,7 @@ MappedData <- R6::R6Class( # nolint
             )
           )))
 
-          # set Flag
+          # set boolean
           self$hasResidualMapping <- TRUE
 
           self$residualLabel <-

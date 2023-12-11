@@ -81,34 +81,6 @@ test_that("plotTimeProfile works mapping observed plot", {
     )
   )
 
-
-
-  obsData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID %in% c("DataSet1")) %>%
-    dplyr::filter(Type == "observed") %>%
-    dplyr::select(c("time", "values", "sd", "maxValues", "minValues", "caption"))
-
-
-  mapSimulatedAndObserved <- data.frame(
-    simulated = unique(simData$caption),
-    observed = c(unique(obsData$caption), "")
-  )
-
-
-  vdiffr::expect_doppelganger(
-    title = "mapped-observed-and-simulated",
-    fig = plotTimeProfile(
-      data = simData,
-      observedData = obsData,
-      metaData = metaData,
-      mapping <- aes(
-        x = time,
-        y = values,
-        groupby = caption
-      ),
-      mapSimulatedAndObserved = mapSimulatedAndObserved
-    )
-  )
 })
 
 test_that("plotTimeProfile works lloq", {

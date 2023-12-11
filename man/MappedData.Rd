@@ -38,7 +38,7 @@ Other MappedData classes:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{hasLLOQMatch}}{\code{Flag} if TRUE data has matched lloq data}
+\item{\code{hasLLOQMatch}}{\code{boolean} if TRUE data has matched lloq data}
 
 \item{\code{dataForPlot}}{returns data used for plotting,
 may be adjusted in child classes (e.g. 2 axis in MappedDataTimeProfile)
@@ -47,7 +47,7 @@ returns data column for aesthetic
 adds and update mapping
 deletes data where mdv is 1
 
-adds new column \code{isLLOQ.i} and updates Flag \code{LLOQMatch}
+adds new column \code{isLLOQ.i} and updates boolean \code{LLOQMatch}
 adds new columns ymin and ymax if required
 copy aesthetics \code{groupby}, but only if not explicit set
 converts Integer columns, which are no factors to double
@@ -99,7 +99,7 @@ Create a new \code{MappedData} object
 
 \item{\code{direction}}{direction of plot either "x" or "y"}
 
-\item{\code{isObserved}}{Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated}
+\item{\code{isObserved}}{A \code{boolean }if TRUE mappings mdv, lloq, error and error_relative are evaluated}
 
 \item{\code{xlimits}}{limits for x-axis (may be NULL)}
 
@@ -136,7 +136,7 @@ check if mandatory are available
 }
 \subsection{Returns}{
 list of accepted mappings
-adds list wit dimension, units and column classes
+adds list with dimension, units and column classes
 }
 }
 \if{html}{\out{<hr>}}

@@ -222,7 +222,7 @@ labelsForPercentile <- function(percentiles, suffix = " percentile") {
 #' this list is used as input for `plotRatioVsCov`, `plotPredVsObs`
 #'
 #' @param folds of folds e.g. c(1.5,2) must be >1
-#' @param includeIdentity Flag, if TRUE (default) line of identity is added
+#' @param includeIdentity A `boolean`, if TRUE (default) line of identity is added
 #'
 #' @return named list with fold distances
 #' @export

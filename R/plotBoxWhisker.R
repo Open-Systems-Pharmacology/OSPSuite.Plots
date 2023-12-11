@@ -114,7 +114,7 @@ plotBoxWhisker <- function(data,
     # add names of box whisker limits to ggplot for use in function getBoxWhiskerLimits
     statFunExport <- function(y) {
       r <- stats::quantile(y, probs = percentiles, names = FALSE, na.rm = TRUE)
-      names(r) <- labelsForPercentile(percentiles = percentiles * 100)
+      names(r) <- scales::label_ordinal()(x = percentiles * 100)
       return(r)
     }
 

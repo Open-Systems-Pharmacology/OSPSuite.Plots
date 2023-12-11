@@ -7,6 +7,7 @@
 addGuestLayer(
   plotObject,
   deltaGuest,
+  labelGuestCriteria,
   addLinesDiagnonal,
   geomGuestLineAttributes
 )
@@ -16,7 +17,7 @@ addGuestLayer(
 
 \item{deltaGuest}{Numeric value parameter of Guest function}
 
-\item{addLinesDiagnonal}{Logical value defining}
+\item{addLinesDiagnonal}{A \code{boolean}which defines direction of comparison lines}
 
 \item{geomGuestLineAttributes}{list of arguments passed to geom_fun}
 }

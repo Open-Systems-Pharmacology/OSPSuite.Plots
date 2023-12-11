@@ -11,7 +11,6 @@
       family = "NotoSans",
       regular = system.file("extdata", "NotoSans-Regular.ttf", package = "ospsuite.plots")
     )
-
   }
 
   return(invisible())

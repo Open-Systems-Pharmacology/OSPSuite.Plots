@@ -11,7 +11,7 @@ getGuestLimits(x, deltaGuest = 1, addLinesDiagnonal = FALSE, asLower = TRUE)
 
 \item{deltaGuest}{Numeric value parameter of Guest function}
 
-\item{addLinesDiagnonal}{Logical value defining}
+\item{addLinesDiagnonal}{A \code{boolean}which defines direction of comparison lines}
 
 \item{asLower}{function returns lower limit}
 }

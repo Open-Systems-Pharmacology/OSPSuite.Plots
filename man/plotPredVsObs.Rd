@@ -42,6 +42,7 @@ call \code{ggplot2::geom_function} to display guest criteria}
     \item{\code{addRegression}}{A \code{boolean} which activates insertion of regression line}
     \item{\code{addGuestLimits}}{A \code{boolean} which activates insertion of regression line}
     \item{\code{deltaGuest}}{Numeric value parameter of Guest function}
+    \item{\code{labelGuestCriteria}}{label used in legend for guest criteria (default guest criteria)}
     \item{\code{observedDataDirection}}{either 'x' or 'y', defines direction of observed data. relevant for
 aesthetics \code{lloq}, \code{error}end \code{error_relative}}
     \item{\code{metaData}}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}

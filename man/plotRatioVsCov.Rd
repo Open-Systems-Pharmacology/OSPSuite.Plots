@@ -46,6 +46,7 @@ call \code{ggplot2::geom_function} to display guest criteria}
 * ratio: residuals are calculated as observed/predicted}
     \item{\code{addLinesDiagnonal}}{A \code{boolean}which defines direction of comparison lines}
     \item{\code{addRegression}}{A \code{boolean} which activates insertion of regression line}
+    \item{\code{labelGuestCriteria}}{label used in legend for guest criteria (default guest criteria)}
     \item{\code{asSquarePlot}}{A \code{boolean} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
     \item{\code{observedDataDirection}}{either 'x' or 'y', defines direction of observed data. relevant for
 aesthetics \code{lloq}, \code{error}end \code{error_relative}}

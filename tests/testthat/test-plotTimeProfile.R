@@ -80,7 +80,6 @@ test_that("plotTimeProfile works mapping observed plot", {
       mapSimulatedAndObserved = mapSimulatedAndObserved
     )
   )
-
 })
 
 test_that("plotTimeProfile works lloq", {

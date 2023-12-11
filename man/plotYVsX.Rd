@@ -19,6 +19,7 @@ plotYVsX(
   addRegression = FALSE,
   addGuestLimits = FALSE,
   deltaGuest = 1,
+  labelGuestCriteria = "guest criteria",
   residualScale = NULL,
   asSquarePlot = FALSE,
   xscale = "linear",
@@ -62,6 +63,8 @@ If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance line
 \item{addGuestLimits}{A \code{boolean} which activates insertion of regression line}
 
 \item{deltaGuest}{Numeric value parameter of Guest function}
+
+\item{labelGuestCriteria}{label used in legend for guest criteria (default guest criteria)}
 
 \item{residualScale}{either "linear","log" or "ratio" scale residuals,
 * linear:  residuals are calculated observed - predicted

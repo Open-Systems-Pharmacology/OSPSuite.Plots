@@ -6,11 +6,14 @@ colormap
 colormaps
 ColorMaps
 DDI
+dplyr
 errorbar
 errorbars
 geomean
+fitdistrplus
 frac
 groupby
+ggnewscale
 ggplot
 ggpubr
 ggsci

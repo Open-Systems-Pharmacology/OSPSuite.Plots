@@ -209,6 +209,7 @@ plotPredVsObs <- function(data = NULL,
 #' @param addRegression A `boolean` which activates insertion of regression line
 #' @param addGuestLimits A `boolean` which activates insertion of regression line
 #' @param deltaGuest Numeric value parameter of Guest function
+#' @param labelGuestCriteria label used in legend for guest criteria (default guest criteria)
 #' @param asSquarePlot A `boolean` if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios
 #' @param observedDataDirection either 'x' or 'y', defines direction of observed data. relevant for
 #' aesthetics `lloq`, `error`end `error_relative`
@@ -230,6 +231,7 @@ plotYVsX <- function(data,
                      addRegression = FALSE,
                      addGuestLimits = FALSE,
                      deltaGuest = 1,
+                     labelGuestCriteria = "guest criteria",
                      residualScale = NULL,
                      asSquarePlot = FALSE,
                      xscale = "linear",
@@ -312,6 +314,7 @@ plotYVsX <- function(data,
     plotObject <- addGuestLayer(
       plotObject = plotObject,
       deltaGuest = deltaGuest,
+      labelGuestCriteria = labelGuestCriteria,
       addLinesDiagnonal = addLinesDiagnonal,
       geomGuestLineAttributes = geomGuestLineAttributes
     )
@@ -422,6 +425,36 @@ plotYVsX <- function(data,
   plotObject <- plotObject +
     guides(linetype = guide_legend(title = NULL, order = 1))
 
+  # fix order of linetype,
+
+  # starting always with solid, first comparsion lines, then guest criteria, then any other
+  plotObjectBuild <- ggplot_build(plotObject)
+
+  if (any(plotObjectBuild$plot$scales$find("linetype"))) {
+    linetypes <- unique(unlist(lapply(plotObjectBuild$data, getElement, "linetype")))
+    linetypes <- c("solid", setdiff(linetypes, "solid"))
+
+    iScale <- which(plotObjectBuild$plot$scales$find("linetype"))
+    linetypeLabels <- plotObjectBuild$plot$scales$scales[[iScale]]$get_labels()
+
+    lineTypeNames <- names(comparisonLineVector)
+    if (addGuestLimits) {
+      lineTypeNames <- c(lineTypeNames, labelGuestCriteria)
+    }
+    lineTypeNames <- c(
+      lineTypeNames,
+      setdiff(
+        linetypeLabels,
+        lineTypeNames
+      )
+    )
+    names(linetypes) <- lineTypeNames
+    plotObject <- plotObject +
+      scale_linetype_manual(values = linetypes, breaks = names(linetypes))
+  }
+
+
+
   return(plotObject)
 }
 
@@ -510,6 +543,7 @@ addComparisonLines <- function(plotObject,
 #' @return The updated `ggplot` object
 addGuestLayer <- function(plotObject,
                           deltaGuest,
+                          labelGuestCriteria,
                           addLinesDiagnonal,
                           geomGuestLineAttributes) {
   if ("linetype" %in% names(geomGuestLineAttributes)) {
@@ -521,7 +555,7 @@ addGuestLayer <- function(plotObject,
       what = geom_function,
       args = c(
         list(
-          mapping = aes(linetype = "guest criteria"),
+          mapping = aes(linetype = labelGuestCriteria),
           fun = getGuestLimits,
           args = list(
             deltaGuest = deltaGuest,
@@ -559,9 +593,8 @@ addGuestLayer <- function(plotObject,
 
 #' calculates limits for DDI ratio
 #'
+#' @inheritParams plotYVsX
 #' @param x Numeric values input of Guest function
-#' @param deltaGuest Numeric value parameter of Guest function
-#' @param addLinesDiagnonal Logical value defining
 #' @param asLower function returns lower limit
 #'
 #' @references

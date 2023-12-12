@@ -4,28 +4,20 @@
 \alias{updateScaleArgumentsForTimeUnit}
 \title{adjust arguments for scale if dimension of scale is time}
 \usage{
-updateScaleArgumentsForTimeUnit(
-  scale.args,
-  metaData,
-  mapping,
-  scaleDirection = "x"
-)
+updateScaleArgumentsForTimeUnit(scale.args, dimension, unit)
 }
 \arguments{
-\item{scale.args}{list of arguments for scale to be updated}
+\item{scale.args}{list of arguments for scale to be updated, passed to scale_x_continuous or scale_x_log10}
 
-\item{metaData}{A named list of information about the \code{data} such as the \code{dimension} and \code{unit} of its variables.}
+\item{dimension}{dimension of axis, if not 'time' list will not be updated}
 
-\item{mapping}{Default list of aesthetic mappings to use for plot}
-
-\item{scaleDirection}{either 'x' or 'y'}
+\item{unit}{A named list of information about the \code{data} such as the \code{dimension} and \code{unit} of its variables.}
 }
 \value{
 update list of arguments for scale
 }
 \description{
-use metadata and mapping to determine dimension of axis
-use fixed width for breaks depending on unit:
+adds break function with fixed width for breaks depending on unit:
 }
 \details{
 \itemize{
@@ -41,10 +33,12 @@ use width only if 2 * width < range of time values
 use multiples of width if 20 * width < range of time values
 }
 \examples{
-newScaleArguments <- updateScaleArgumentsForTimeUnit(
-  scale.args = list(),
-  metaData = list(time = list(dimension = "Time", unit = "h")),
-  mapping = aes(x = time)
-)
-
+xscale.args <- list(limits = c(0, 24))
+xscale.args <-
+  updateScaleArgumentsForTimeUnit(
+    scale.args = xscale.args,
+    dimension = "time",
+    unit = "h"
+  )
+addXscale(plotObject = ggplot(), xscale = "linear", xscale.args = xscale.args)
 }

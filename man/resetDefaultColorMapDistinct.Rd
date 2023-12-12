@@ -2,26 +2,29 @@
 % Please edit documentation in R/utilities-defaults.R
 \name{resetDefaultColorMapDistinct}
 \alias{resetDefaultColorMapDistinct}
-\title{reset the default colormap for discret colors}
+\title{reset the default colormap for discrete colors}
 \usage{
 resetDefaultColorMapDistinct(oldColorMaps)
 }
 \arguments{
-\item{oldColorMaps}{list of colormaps prevoisuly set}
+\item{oldColorMaps}{list of colormaps previously set}
 }
 \description{
-reset the default colormap for discret colors
+reset the default colormap for discrete colors
 }
 \seealso{
-Other setDefaultsOspsuite.plots: 
+Other setDefault functions: 
 \code{\link{ColorMaps}},
+\code{\link{Shapes}},
+\code{\link{geomPointUnicode}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
 \code{\link{resetDefaultShapeDiscrete}()},
+\code{\link{resetDefaultTheme}()},
 \code{\link{resetDefaults}()},
 \code{\link{setDefaultColorMapDistinct}()},
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},
 \code{\link{setDefaults}()}
 }
-\concept{setDefaultsOspsuite.plots}
+\concept{setDefault functions}

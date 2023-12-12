@@ -1,31 +1,52 @@
 #' @title MappedData
-#' @description  R6 class for mapping `x` and `y` variable to `data`
+#' @description  R6 class for mapping  variables to `data`
 #' @export
 #' @family MappedData classes
-MappedData <- R6::R6Class(
+MappedData <- R6::R6Class( # nolint
   "MappedData",
   public = list(
     #' @field data data.frame used for mapping
     data = NULL,
     #' @field mapping list of aesthetic mappings
     mapping = NULL,
+    #' @field dimensions list with dimensions of mapping
+    dimensions = list(),
+    #' @field units list with dimensions of mapping
+    units = list(),
+    #' @field columnClasses list with class of mapped columns
+    columnClasses = list(),
+    #' @field xlimits double vector limits of primary y axis
+    xlimits = NULL,
+    #' @field ylimits double vector limits of primary y axis
+    ylimits = NULL,
+    #' @field hasResidualMapping flag to indicate if residual mapping is used
+    hasResidualMapping = FALSE,
+    #' @field residualLabel label for residuals
+    residualLabel = NULL,
 
     #' @param data data.frame used for mapping
     #' @param mapping list of aesthetic mappings
-    #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with group,
-    #'            use of group aesthetics triggers second axis after simulation layers
+    #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with `groupby`
+    #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
-    #' @param scaleOfDirection  scale of direction, either "linear" or "log"
-    #' @param isObserved Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated
+    #' @param isObserved A `boolean `if TRUE mappings mdv, lloq, error and error_relative are evaluated
+    #' @param xlimits limits for x-axis (may be NULL)
+    #' @param ylimits limits for y-axis (may be NULL)
+    #' @param residualScale scale of x residuals
+    #' @param residualAesthetic aesthetic used for mapping residuals
     #'
     #' @description Create a new `MappedData` object
     #' @return A new `MappedData` object
     initialize = function(data,
                           mapping,
                           groupAesthetics = NULL,
+                          groupOrder = NULL,
                           direction = "y",
-                          scaleOfDirection = "linear",
-                          isObserved = TRUE) {
+                          isObserved = TRUE,
+                          xlimits = NULL,
+                          ylimits = NULL,
+                          residualScale = NULL,
+                          residualAesthetic = "y") {
       # Validation
       checkmate::assertClass(data, classes = "data.frame", null.ok = FALSE)
       checkmate::assertList(mapping,
@@ -48,9 +69,28 @@ MappedData <- R6::R6Class(
 
       private$direction <- direction
 
-      checkmate::assertChoice(scaleOfDirection, choices = c("linear", "log"))
-      private$scaleOfDirection <- scaleOfDirection
+      checkmate::assertDouble(
+        xlimits,
+        sorted = TRUE,
+        any.missing = TRUE,
+        len = 2,
+        unique = TRUE,
+        null.ok = TRUE
+      )
+      checkmate::assertDouble(
+        ylimits,
+        sorted = TRUE,
+        any.missing = TRUE,
+        len = 2,
+        unique = TRUE,
+        null.ok = TRUE
+      )
 
+      self$data <- data.frame(data) ## creates a copy
+      self$mapping <- mapping
+
+      # add group order
+      private$addGroupOrder(groupOrder)
 
       if (!is.null(groupAesthetics)) {
         checkmate::assertNames(
@@ -60,10 +100,7 @@ MappedData <- R6::R6Class(
         private$groupAesthetics <-
           standardise_aes_names(groupAesthetics)
       }
-      private$groupAesthetics <- groupAesthetics
-
-      self$data <- data.frame(data) ## creates a copy
-      self$mapping <- mapping
+      private$groupAesthetics <- unique(c(private$groupAesthetics, "group"))
 
 
       if (isObserved) {
@@ -75,27 +112,32 @@ MappedData <- R6::R6Class(
         # lloq values are matched
         private$adjustForLLOQMatch()
 
-        # add ymin ymax aesthetic error and error_relativ
+        # add ymin ymax aesthetic error and error_relative
         private$translateErrorAestethics()
       }
-
-      # delete data columns for aesthetics not used
-      private$adjustMappingToExistent()
 
       # convert non factor integers to double
       private$convertIntegerToDouble()
 
-      # transfer group to group aesthetics
+      # transfer groupby to group aesthetics
       private$adjustGroupAesthetics()
+
+      private$adjustForResidualMatch(
+        residualScale = residualScale,
+        residualAesthetic = residualAesthetic
+      )
+
+      # setLimits
+      private$setLimits()
     },
 
     #' filter possible aesthetics for a geom,
     #' check if mandatory are available
     #'
-    #' @param geom  type of geomertic object
+    #' @param geom  type of geometric object
     #' @param geomAttributes additionally arguments for geom layer, will overwrite aesthetics
     #'
-    #' @return list of axxepted mappings
+    #' @return list of accepted mappings
     getAestheticsForGeom = function(geom,
                                     geomAttributes) {
       # Validation
@@ -115,22 +157,83 @@ MappedData <- R6::R6Class(
       # filter for accepted AES, exclude the ones included in geomAttributes and
       # take only the ones mapped by user
       # listOfAesthetics is included in sysdata.rda
-      acceptedAes <- listOfAesthetics[get(paste0(geom, "_", private$direction)) >= 1]$aesthetic %>%
+      acceptedAes <-
+        listOfAesthetics[which(listOfAesthetics[[(paste0(geom, "_", private$direction))]] >= 1), ]$aesthetic %>%
         setdiff(names(geomAttributes)) %>%
         intersect(names(self$mapping))
 
       # check for mandatory
-      if (!all(listOfAesthetics[get(paste0(geom, "_", private$direction)) >= 2]$aesthetic
+      if (!all(listOfAesthetics[which(listOfAesthetics[[(paste0(geom, "_", private$direction))]] >= 2), ]$aesthetic
         %in% acceptedAes)) {
         return(NULL)
       } else {
         return(self$mapping[acceptedAes])
       }
+    },
+    #' adds list with dimension, units and column classes
+    #'
+    #'
+    #' @param metaData A named list of information about `data` such as the `dimension` and `unit` of its variables.
+    #'
+    #' @return  updated `MappedData` object
+    addMetaData = function(metaData) {
+      for (aesthetic in names(self$mapping)) {
+        tmp <- private$getDataForAesthetic(
+          aesthetic = aesthetic,
+          data = metaData2DataFrame(metaData),
+          stopIfNull = FALSE
+        )
+
+        if (!is.null(tmp) & !is.function(tmp)) {
+          self$dimensions[[aesthetic]] <- tmp[1]
+          self$units[[aesthetic]] <- tmp[2]
+        }
+
+        tmp <- private$getDataForAesthetic(
+          aesthetic = aesthetic,
+          stopIfNull = FALSE
+        )
+
+        if (!is.null(tmp)) {
+          if (is.factor(tmp)) {
+            self$columnClasses[[aesthetic]] <- "factor"
+          } else {
+            self$columnClasses[[aesthetic]] <- class(tmp)
+          }
+        }
+      }
+      return(invisible(self))
+    },
+    #' check if unit of scale direction i s time and sets the breaks accordingly
+    #'
+    #' @param scale.args additional arguments passed on to scale function
+    #' @param scaleDirection direction of axis either 'x' or 'y'
+    #'
+    #' @return `scale.args` with adjusted break function
+    updateScaleArgumentsForTimeUnit = function(scale.args,
+                                               scaleDirection = "x") {
+      ## Validation
+      checkmate::assertList(scale.args, null.ok = TRUE)
+
+      # check if anything to do
+      if (any(c("breaks", "labels") %in% names(scale.args))) {
+        return(scale.args)
+      }
+      if (length(self$dimensions) == 0) {
+        return(scale.args)
+      }
+
+
+      return(updateScaleArgumentsForTimeUnit(
+        scale.args = scale.args,
+        dimension = self$dimensions[[scaleDirection]],
+        unit = self$units[[scaleDirection]]
+      ))
     }
   ),
   ## active -------
   active = list(
-    #' @field hasLLOQMatch `Flag` if TRUE data has matched lloq data
+    #' @field hasLLOQMatch `boolean` if TRUE data has matched lloq data
     hasLLOQMatch = function(value) {
       if (missing(value)) {
         return(private$LLOQMatch)
@@ -138,10 +241,6 @@ MappedData <- R6::R6Class(
       checkmate::assertFlag(value)
       private$LLOQMatch <- value %||% private$hasLLOQMatch
       return(invisible())
-    },
-    #' @field directionIsLogscale `Flag` if TRUE scale of direction is LOG
-    directionIsLogscale = function() {
-      return(private$scaleOfDirection == "log")
     },
     #' @field dataForPlot returns data used for plotting,
     #' may be adjusted in child classes (e.g. 2 axis in MappedDataTimeProfile)
@@ -154,8 +253,7 @@ MappedData <- R6::R6Class(
     groupAesthetics = NULL,
     direction = NULL,
     LLOQMatch = FALSE,
-    scaleOfDirection = NULL,
-    #' check if aesthtic is available in data
+    #' check if aesthetic is available in data
     aestheticExists = function(aesthetic) {
       return(rlang::is_quosure(self$mapping[[aesthetic]]))
     },
@@ -163,22 +261,34 @@ MappedData <- R6::R6Class(
     getDataForAesthetic = function(aesthetic,
                                    data = self$data,
                                    stopIfNull = TRUE) {
-      dataCol <- getDataForAesthetic(
-        aesthetic = aesthetic,
-        data = data,
-        mapping = self$mapping,
-        stopIfNull = stopIfNull
+      dataCol <- tryCatch(
+        {
+          rlang::eval_tidy(
+            expr = rlang::get_expr(self$mapping[[aesthetic]]),
+            data = data,
+            env = rlang::get_env(self$mapping[[aesthetic]])
+          )
+        },
+        error = function(cond) {
+          if (stopIfNull) {
+            stop(paste("evaluation of aesthetic", aesthetic, "failed:", cond))
+          } else {
+            NULL
+          }
+        }
       )
-
 
       return(dataCol)
     },
     #' adds and update mapping
     addOverwriteAes = function(newMaps) {
-      self$mapping <- addOverwriteAes(
-        newMaps = newMaps,
-        mapping = self$mapping
-      )
+      checkmate::assertList(newMaps, names = "named")
+
+      self$mapping <-
+        self$mapping[setdiff(names(self$mapping), names(newMaps))]
+
+      self$mapping <-
+        structure(c(self$mapping, newMaps), class = "uneval")
 
       return(invisible(self))
     },
@@ -198,7 +308,7 @@ MappedData <- R6::R6Class(
 
       return(invisible(self))
     },
-    #' adds new column isLLOQ.i and updtes Flag LLOQMatch
+    #' adds new column `isLLOQ.i` and updates boolean `LLOQMatch`
     adjustForLLOQMatch = function() {
       if (private$aestheticExists("lloq")) {
         checkmate::assertNames(
@@ -227,18 +337,18 @@ MappedData <- R6::R6Class(
           )
         )))
 
-        # set Flag for LLOQ check
+        # set boolean for LLOQ check
         private$LLOQMatch <- TRUE
       }
 
       return(invisible(self))
     },
-    #' adds new columns ymin and ymax if reequired
+    #' adds new columns ymin and ymax if required
     translateErrorAestethics = function() {
       if (!private$aestheticExists(paste(private$direction, "min")) |
         !private$aestheticExists(paste(private$direction, "max"))) {
         errorType <-
-          intersect(names(self$mapping), c("error", "error_relativ"))
+          intersect(names(self$mapping), c("error", "error_relative"))
         if (length(errorType) > 1) {
           stop(paste(
             "observed data mapping contains more then one error definition:",
@@ -263,7 +373,7 @@ MappedData <- R6::R6Class(
                   !!self$mapping[[private$direction]] - !!self$mapping[[errorType]],
                   !!self$mapping[[private$direction]]
                 ))
-            } else if (private$aestheticExists("error_relativ")) {
+            } else if (private$aestheticExists("error_relative")) {
               self$data <- self$data %>%
                 dplyr::mutate("error.min" = !!self$mapping[[private$direction]] / !!self$mapping[[errorType]])
             }
@@ -281,7 +391,7 @@ MappedData <- R6::R6Class(
             if (errorType == "error") {
               self$data <- self$data %>%
                 dplyr::mutate("error.max" = !!self$mapping[[private$direction]] + !!self$mapping[[errorType]])
-            } else if (private$aestheticExists("error_relativ")) {
+            } else if (private$aestheticExists("error_relative")) {
               self$data <- self$data %>%
                 dplyr::mutate("error.max" = !!self$mapping[[private$direction]] * !!self$mapping[[errorType]])
             }
@@ -296,35 +406,36 @@ MappedData <- R6::R6Class(
               )))
           }
           private$addOverwriteAes(newMapping)
+
+          if (private$aestheticExists("error")) self$mapping$error <- NULL
+          if (private$aestheticExists("error_relative")) self$mapping$error_relative <- NULL
         }
       }
 
       return(invisible(self))
     },
-    #' copy aesthetics "group", but only if not explicit set
+    #' copy aesthetics `groupby`, but only if not explicit set
     adjustGroupAesthetics = function() {
       if (!is.null(private$groupAesthetics)) {
         newMapping <- list()
         for (aesthetic in private$groupAesthetics) {
           if (!private$aestheticExists(aesthetic)) {
-            newMapping[[aesthetic]] <- self$mapping$group
+            newMapping[[aesthetic]] <- self$mapping$groupby
+
+            tmp <- private$getDataForAesthetic(aesthetic,
+              stopIfNull = FALSE
+            )
+            if (!is.null(tmp) &&
+              !is.factor(tmp)) {
+              self$data %>%
+                dplyr::mutate(!!self$mapping[[aesthetic]] := factor(!!self$mapping[[aesthetic]]))
+            }
           }
         }
         private$addOverwriteAes(newMapping)
       }
+      self$mapping$groupby <- NULL
 
-      return(invisible(self))
-    },
-    #' deletes mappings which do not exists in data
-    adjustMappingToExistent = function() {
-      for (aesthetic in names(self$mapping)) {
-        tmp <- private$getDataForAesthetic(aesthetic,
-          stopIfNull = FALSE
-        )
-        if (is.null(tmp)) {
-          self$mapping[[aesthetic]] <- NULL
-        }
-      }
       return(invisible(self))
     },
     #' converts Integer columns, which are no factors to double
@@ -336,308 +447,38 @@ MappedData <- R6::R6Class(
         if (!is.null(tmp) &&
           !is.factor(tmp) &&
           is.integer(tmp)) {
-          self$data %>%
-            dplyr::mutate(!!self$mapping[[aesthetic]] := as.double(!!self$mapping[[aesthetic]]))
+          self$data <- self$data %>%
+            dplyr::mutate_at(vars(!!self$mapping[[aesthetic]]), as.double)
         }
       }
       return(invisible(self))
-    }
-  )
-)
-
-# TimeProfile ----------------
-#' @title MappedDataTimeProfile
-#' @description  R6 class for mapping `x` and `y` variable to `data`
-#' @export
-#' @family MappedData classes
-MappedDataTimeProfile <- R6::R6Class(
-  "MappedDataTimeProfile",
-  inherit = MappedData,
-  public = list(
-    #' @field ylimits double vector limits of primary y axis
-    ylimits = NULL,
-    #' @field y2limits double vector limits of secondary y axis
-    y2limits = NULL,
-    #' @param data data.frame used for mapping
-    #' @param mapping list of aesthetic mappings
-    #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with group,
-    #'            use of group aesthetics triggers second axis after simulation layers
-    #' @param direction direction of plot either "x" or "y"
-    #' @param scaleOfDirection  scale of direction, either "linear" or "log"
-    #' @param isObserved Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated
-    #' @param scaleOfSecondaryAxis either 'linear' or 'log'
-    #' @param ylimits limits for primary axis (may be NULL)
-    #' @param y2limits limits for secondary axis (may be NULL)
-    #'
-    #' @description Create a new `MappedDataTimeProfile` object
-    #' @return A new `MappedDataTimeProfile` object
-    initialize = function(data,
-                          mapping,
-                          groupAesthetics = NULL,
-                          direction = "y",
-                          scaleOfDirection = "linear",
-                          isObserved = TRUE,
-                          scaleOfSecondaryAxis = "linear",
-                          ylimits = NULL,
-                          y2limits = NULL) {
-      super$initialize(
-        data = data,
-        mapping = mapping,
-        groupAesthetics = groupAesthetics,
-        direction = direction,
-        isObserved = isObserved,
-        scaleOfDirection = scaleOfDirection
-      )
-      # check for secondaryAxis
-      if ("y2axis" %in% names(self$mapping)) {
-        checkmate::assertLogical(private$getDataForAesthetic(aesthetic = "y2axis"),
-          any.missing = FALSE, .var.name = "y2axis",
-        )
-
-        private$secondaryAxisAvailable <- any(private$getDataForAesthetic("y2axis"))
-      } else {
-        private$secondaryAxisAvailable <- FALSE
-      }
-
-
-      # set fields for secondary Axis
-      if (private$secondaryAxisAvailable) {
-        checkmate::assertChoice(scaleOfSecondaryAxis,
-          choices = c("linear", "log"),
-          null.ok = TRUE
-        )
-        checkmate::assertDouble(
-          ylimits,
-          sorted = TRUE,
-          any.missing = TRUE,
-          len = 2,
-          unique = TRUE,
-          null.ok = TRUE
-        )
-        checkmate::assertDouble(
-          y2limits,
-          sorted = TRUE,
-          any.missing = TRUE,
-          len = 2,
-          unique = TRUE,
-          null.ok = TRUE
-        )
-
-
-        private$scaleOfSecondaryAxis <- scaleOfSecondaryAxis
-        self$ylimits <- ylimits
-        self$y2limits <- y2limits
-
-        # setLimits
-        private$setLimits()
-
-        return(invisible(self))
-      }
     },
-    #' scales data for secondary axis and updates filed secAxis
-    #'
-    #' @param ylimits limits for primary axis
-    #' @param y2limits limits for secondary axis
-    #' @param y2scale.args arguments for secondary axis
-    #'
-    #' @return updated MappedDataTimeProfile
-    scaleDataForSecondaryAxis = function(ylimits = NULL,
-                                         y2limits = NULL,
-                                         y2scale.args = list()) {
-      if (!self$requireDualAxis) {
-        private$dataScaled <- self$data
-        return(invisible(self))
-      }
-
-      checkmate::assertDouble(
-        ylimits,
-        sorted = TRUE,
-        any.missing = TRUE,
-        len = 2,
-        unique = TRUE,
-        null.ok = TRUE
-      )
-      ylimits <- ylimits %||% self$ylimits
-      if (private$scaleOfDirection == "log") {
-        checkmate::assertDouble(log(ylimits), finite = TRUE)
-      }
-
-      checkmate::assertDouble(
-        y2limits,
-        sorted = TRUE,
-        any.missing = TRUE,
-        len = 2,
-        unique = TRUE,
-        null.ok = TRUE
-      )
-      y2limits <- y2limits %||% self$y2limits
-      if (private$scaleOfSecondaryAxis == "log") {
-        checkmate::assertDouble(log(y2limits), finite = TRUE)
-      }
-
-      # split data into two data sets
-      dataUnscaled <- self$data %>%
-        dplyr::filter(!!self$mapping[["y2axis"]] == FALSE)
-
-      dataScaled <- self$data %>%
-        dplyr::filter(!!self$mapping[["y2axis"]] == TRUE)
-
-      # get Scaling function
-      if (private$scaleOfSecondaryAxis == "linear") {
-        if (private$scaleOfDirection == "linear") {
-          offsetlin1 <- self$ylimits[1]
-          deltalin1 <- diff(self$ylimits)
-
-          offsetlin2 <- self$y2limits[1]
-          deltalin2 <- diff(self$y2limits)
-
-          funScale <- function(y2) {
-            return((y2 - offsetlin2) / deltalin2 * deltalin1 + offsetlin1)
-          }
-
-          funScaleAxis <- function(ytrans) {
-            return((ytrans - offsetlin1) / deltalin1 * deltalin2 + offsetlin2)
-          }
-        } else if (private$scaleOfDirection == "log") {
-          offsetlin <- self$y2limits[1]
-          deltalin <- diff(self$y2limits)
-
-          offsetlog <- log(self$ylimits[1])
-          deltalog <- diff(log(self$ylimits))
-
-          funScale <- function(ylin) {
-            return(exp((ylin - offsetlin) / deltalin * deltalog + offsetlog))
-          }
-
-          funScaleAxis <- function(yt) {
-            return((log(yt) - offsetlog) / deltalog * deltalin + offsetlin)
-          }
-        }
-      } else if (private$scaleOfSecondaryAxis == "log") {
-        if (private$scaleOfDirection == "linear") {
-          offsetlin <- self$ylimits[1]
-          deltalin <- diff(self$ylimits)
-
-          offsetlog <- log(self$y2limits[1])
-          deltalog <- diff(log(self$y2limits))
-
-          funScale <- function(ylog) {
-            return((log(ylog) - offsetlog) / deltalog * deltalin + offsetlin)
-          }
-
-          funScaleAxis <- function(ylin) {
-            return(exp((ylin - offsetlin) / deltalin * deltalog + offsetlog))
-          }
-        } else if (private$scaleOfDirection == "log") {
-          offsetlog1 <- log(self$ylimits[1])
-          deltalog1 <- diff(log(self$ylimits))
-
-          offsetlog2 <- log(self$y2limits[1])
-          deltalog2 <- diff(log(self$y2limits))
-
-          funScale <- function(y2) {
-            return(exp((log(y2) - offsetlog2) / deltalog2 * deltalog1 + offsetlog1))
-          }
-
-          funScaleAxis <- function(yt) {
-            return(exp((log(yt) - offsetlog1) / deltalog1 * deltalog2 + offsetlog2))
-          }
-        }
-      }
-      # get data columns to scale
-      scalingRelevantMappings <- listOfAesthetics[get("scalingRelevant") >= 1]$aesthetic %>%
-        intersect(names(self$mapping))
-
-
-      for (aesthetic in scalingRelevantMappings) {
-        dataScaled <- dataScaled %>%
-          dplyr::mutate(!!self$mapping[[aesthetic]] :=
-            funScale(!!self$mapping[[aesthetic]]))
-      }
-
-
-      # merge data
-      private$dataScaled <- rbind(
-        dataUnscaled,
-        dataScaled
-      )
-
-      # set scale
-      y2scale.args[["trans"]] <- funScaleAxis
-      y2scale.args[["guide"]] <- "axis_minor"
-      if (private$scaleOfSecondaryAxis == "log") {
-        y2scale.args[["breaks"]] <- scales::breaks_log(5, base = 10)(self$y2limits)
-      } else if (private$scaleOfSecondaryAxis == "linear") {
-        y2scale.args[["breaks"]] <- scales::breaks_extended()(self$y2limits)
-      }
-      y2scale.args$limits <- NULL
-      private$.secAxis <- do.call(
-        what = sec_axis,
-        args = y2scale.args
-      )
-
-
-      return(invisible(self))
-    }
-  ),
-  ## active -------
-  active = list(
-    #' Flag for secondary axis
-    #'
-    #' @field requireDualAxis Flag, If TRUE secondary axis is required
-    requireDualAxis = function() {
-      private$secondaryAxisAvailable
-    },
-    #' @field secAxis sec_axis() object
-    secAxis = function() {
-      if (is.null(private$.secAxis)) {
-        return(waiver())
-      } else {
-        return(private$.secAxis)
-      }
-    },
-    #' @field dataForPlot scaled data used for plotting
-    dataForPlot = function() {
-      if (private$secondaryAxisAvailable) {
-        return(private$dataScaled)
-      } else {
-        return(self$data)
-      }
-    }
-  ),
-  ## private -------
-  private = list(
-    scaleOfSecondaryAxis = "linear",
-    secondaryAxisAvailable = NULL,
-    dataScaled = NULL,
-    .secAxis = NULL,
-    #' adjust limits
     setLimits = function() {
       # get data columns to scale
-      scalingRelevantMappings <- listOfAesthetics[get("scalingRelevant") >= 1]$aesthetic %>%
+      relevantMappings <- list(x = "x", y = "y")
+      relevantMappings[[private$direction]] <- gsub(
+        "y",
+        private$direction,
+        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic
+      ) %>%
         intersect(names(self$mapping))
 
       # get Limits
-      for (ax in c("primary", "secondary")) {
+      for (ax in c(private$direction, setdiff(c("x", "y"), private$direction))) {
         oldLimits <- switch(ax,
-          "primary" = self$ylimits,
-          "secondary" = self$y2limits
+          "x" = self$xlimits,
+          "y" = self$ylimits
         )
         if (is.null(oldLimits) || any(is.na(oldLimits))) {
           ylimits <- c()
-          for (aesthetic in scalingRelevantMappings) {
-            tmpData <- switch(ax,
-              "primary" = self$data %>%
-                dplyr::filter(!!self$mapping[["y2axis"]] == FALSE),
-              "secondary" = self$data %>%
-                dplyr::filter(!!self$mapping[["y2axis"]] == TRUE)
-            )
+
+          for (aesthetic in relevantMappings[[ax]]) {
             yData <- private$getDataForAesthetic(
               aesthetic,
-              data = tmpData,
+              data = self$data,
               stopIfNull = FALSE
             )
-            if (!is.null(yData)) ylimits <- range(c(ylimits, yData), na.rm = TRUE)
+            if (!is.null(yData) && !is.function(yData)) ylimits <- range(c(ylimits, yData), na.rm = TRUE)
           }
           if (is.null(oldLimits)) {
             newLimits <- ylimits
@@ -646,12 +487,111 @@ MappedDataTimeProfile <- R6::R6Class(
             newLimits[is.na(oldLimits)] <- ylimits[is.na(oldLimits)]
           }
 
-          if (ax == "primary") {
-            self$ylimits <- newLimits
+          if (ax == "x") {
+            self$xlimits <- newLimits
           } else {
-            self$y2limits <- newLimits
+            self$ylimits <- newLimits
           }
         }
+      }
+
+      return(invisible(self))
+    },
+    #' adds new column `residuals.i`
+    adjustForResidualMatch = function(residualScale,
+                                      residualAesthetic) {
+      if (is.null(residualScale)) {
+        return(invisible(self))
+      }
+      if (private$aestheticExists("predicted") &
+        private$aestheticExists("observed")) {
+        checkmate::assertNames(
+          names(self$data),
+          disjunct.from = c("residuals.i"),
+          .var.name = "column names of observed data"
+        )
+
+        if (!residualAesthetic %in% names(self$mapping)) {
+          ## add new column
+          if (residualScale == "log") {
+            self$data <- self$data %>%
+              dplyr::mutate(residuals.i = log(!!self$mapping[["observed"]]) - log(!!self$mapping[["predicted"]]))
+          } else if (residualScale == "linear") {
+            self$data <- self$data %>%
+              dplyr::mutate(residuals.i = !!self$mapping[["observed"]] - !!self$mapping[["predicted"]])
+          } else if (residualScale == "ratio") {
+            self$data <- self$data %>%
+              dplyr::mutate(residuals.i = !!self$mapping[["observed"]] / !!self$mapping[["predicted"]])
+          }
+
+
+          # add mapping for residuals
+          private$addOverwriteAes(eval(parse(
+            text = paste0(
+              "aes(",
+              residualAesthetic,
+              "= residuals.i)"
+            )
+          )))
+
+          # set boolean
+          self$hasResidualMapping <- TRUE
+
+          self$residualLabel <-
+            switch(residualScale,
+              "linear" = "residuals\nobserved - predicted",
+              "log" = "residuals\nlog(observed) - log(predicted)",
+              "ratio" = "observed/predicted"
+            )
+        }
+      }
+
+      # clean up
+      self$mapping[["observed"]] <- NULL
+      self$mapping[["predicted"]] <- NULL
+
+
+      return(invisible(self))
+    },
+    #' factorize column for group to factor
+    addGroupOrder = function(groupOrder) {
+      if (is.null(groupOrder)) {
+        return(invisible(self))
+      }
+      if (!private$aestheticExists("group") & !private$aestheticExists("groupby")) {
+        stop('for mapping of observed to simulated aesthetic "group" or "groupby" is needed')
+      }
+
+      aesthetics <- intersect(names(self$mapping), c("group", "groupby"))
+
+      tmp <- private$getDataForAesthetic(aesthetics[1],
+        stopIfNull = FALSE
+      )
+
+      checkmate::assertNames(
+        x = as.character(unique(tmp)),
+        subset.of = groupOrder, .var.name = "Mapping vector"
+      )
+
+      # add new column as factor
+      checkmate::assertNames(
+        names(self$data),
+        disjunct.from = c("groupBy.i"),
+        .var.name = "column names of data"
+      )
+
+      self$data[["groupBy.i"]] <- factor(tmp, levels = groupOrder)
+      self$data[order(self$data$groupBy.i), ]
+
+      # adjust mapping
+      for (aesthetic in aesthetics) {
+        private$addOverwriteAes(eval(parse(
+          text = paste0(
+            "aes(",
+            aesthetic,
+            " = groupBy.i)"
+          )
+        )))
       }
 
       return(invisible(self))

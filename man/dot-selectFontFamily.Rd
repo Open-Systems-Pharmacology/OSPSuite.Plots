@@ -10,6 +10,6 @@
 \item{fontfamily}{default font family}
 }
 \description{
-Select appropriate font family based on font and \code{showtext} package availability
+Select appropriate font family based on font and {showtext} package availability
 }
 \keyword{internal}

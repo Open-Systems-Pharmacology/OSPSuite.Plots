@@ -1,0 +1,534 @@
+---
+title: "Histogram Plots"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Histogram Plots}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  dpi = 300,
+  fig.show = "hold",
+  fig.align = "center",
+  fig.width = 7,
+  out.width = "80%",
+  comment = "#>"
+)
+```
+
+
+# 1. Introduction
+
+The following vignette aims at documenting and illustrating workflows for producing histograms using the function `plotHistogram` from the `ospsuite.plots` package.
+
+
+## 1.1 Setup
+
+For this vignette we will use the libraries {ospsuite.plots} and {tidyr}.
+We use the default settings of {ospsuite.plots} (see vignette("ospsuite.plots", package = "ospsuite.plots")) but adjust the legend position
+
+```{r setup}
+library(ospsuite.plots)
+library(tidyr)
+
+# setDefaults
+oldDefaults <- ospsuite.plots::setDefaults()
+
+
+# Place default legend position above the plot for prettier time profile plots
+theme_update(legend.position = "top")
+theme_update(legend.direction = "horizontal")
+theme_update(legend.title = element_blank())
+```
+
+
+## 1.2 Example data
+
+In this vignette following Data sets are used:
+
+* Data set 1
+
+```{r load-data-1, results='asis'}
+histData <- exampleDataCovariates %>%
+  dplyr::filter(SetID == "DataSet1") %>%
+  dplyr::select(c("ID", "Sex", "Age", "AgeBin", "Ratio"))
+
+metaData <- attr(exampleDataCovariates, "metaData")
+metaData <- metaData[intersect(names(histData), names(metaData))]
+
+
+# histData
+knitr::kable(utils::head(histData), digits = 2, caption = "data")
+
+knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "list of meta data")
+```
+
+* Data Set 2
+
+
+```{r load-data-2, results='asis'}
+histData_distr <- exampleDataCovariates %>%
+  dplyr::filter(SetID == "DataSet2") %>%
+  dplyr::select(c("ID", "AgeBin", "Sex", "Obs"))
+
+metaData_distr <- attr(exampleDataCovariates, "metaData")
+metaData_distr <- metaData[intersect(names(histData), names(metaData_distr))]
+
+
+# histData
+knitr::kable(utils::head(histData_distr), digits = 2, caption = "first rows of data")
+
+knitr::kable(metaData2DataFrame(metaData_distr), digits = 2, caption = "list of meta data")
+```
+
+# Examples
+
+## 2.1 Illustration of basic histograms
+
+
+### 2.1.1 Basic example 
+
+Histogram of column "Ratio" mapped to `x` stratified by column "Sex" mapped to `fill`.
+
+```{r minimalExample_default}
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = Ratio,
+    fill = Sex
+  ),
+  metaData = metaData
+)
+```
+
+### 2.1.2 Basic example: change of defaults
+
+The variable `geomHistAttributes`  is set per default to `getDefaultGeomAttributes("Hist")`
+which is a list with entries `bins = 10` and `position = ggplot2::position_nudge()`
+
+In the example below the variable `geomHistAttributes` is set to a list with entry `position = "dodge"`
+That changes the position, but attention, the default value of `geomHistAttributes` contains the entry `bins = 10` which is now overwritten and the default {ggplot} number of 30 is used.
+
+The column "Sex" is here mapped to `groupby`. `groupby` is an additional aesthetics of {ospsuite.plots} which works together with the variable `groupAesthetics`. For the function `plotHistogram()`  `groupAesthetics` is not settable and fixed to `fill`.
+
+
+```{r minimalExample_position, warning=FALSE,message=FALSE}
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = Ratio,
+    groupby = Sex
+  ),
+  metaData = metaData,
+  geomHistAttributes = list(position = "dodge")
+)
+```
+
+
+### 2.1.3 Basic example: change of position but keep number of bins
+
+To preserve the default settings, we modified the variable with `utils::modifyList(getDefaultGeomAttributes("Hist"), 
+list(position = "stack"))` 
+
+That changes the position but preserves the number of bins
+
+
+```{r minimalExample_stack}
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = Ratio,
+    groupby = Sex
+  ),
+  metaData = metaData,
+  geomHistAttributes = utils::modifyList(
+    getDefaultGeomAttributes("Hist"),
+    list(position = "stack")
+  )
+)
+```
+
+### 2.1.4 Basic example: overlay of histograms
+
+By setting the position to `identity` and setting `alpha` to a value below 1, an overlay of histograms is produced.
+
+```{r minimalExample_overlay}
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = Ratio,
+    groupby = Sex
+  ),
+  metaData = metaData,
+  geomHistAttributes = utils::modifyList(
+    getDefaultGeomAttributes("Hist"),
+    list(
+      position = "identity",
+      binwidth = 1,
+      alpha = 0.5
+    )
+  )
+)
+```
+
+### 2.1.5 Omit data points flagged as Missing Dependent Variable (mdv)
+
+If some of the data should be omitted, we could do this by mapping a boolean to the aesthetic `mdv`. Below we excluded data above the value of 4: 
+
+
+```{r minimalExample_mdv}
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = Ratio,
+    fill = Sex,
+    mdv = Ratio > 4
+  ),
+  metaData = metaData
+)
+```
+
+
+### 2.1.6 Stratified by a combination of columns
+
+To stratify by a combination of columns use function `interaction` for the mapping to `groupby`:
+
+```{r minimalExample_interaction}
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = Ratio,
+    groupby = interaction(Sex, AgeBin, sep = "-")
+  ),
+  geomHistAttributes = utils::modifyList(
+    getDefaultGeomAttributes("Hist"),
+    list(position = "dodge")
+  ),
+  metaData = metaData
+)
+```
+
+### 2.1.7 Customization of binning
+
+Use the input variable `geomHistAttributes` to change the binning. The entries of this list are passed to
+`ggplot2::geom_histogram`, which provides many possibilities to customize the binning. Below we defined the bin boundaries 
+by adding the entry `breaks` to `geomHistAttributes`.  
+(See `?geom_histogram` for more details)
+
+```{r minimalExample_binboundaries}
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = Ratio,
+    groupby = Sex,
+  ),
+  geomHistAttributes =
+    list(
+      position = position_nudge(),
+      breaks = seq(0, 5, 0.5)
+    ),
+  metaData = metaData
+)
+```
+
+You could also map a binning function to the aesthetic x. Below `ggplot2::cut_number` is used to create 3 bins with equal numbers of observations.
+Th data is now displayed as categorical data (see section 4)
+
+
+```{r minimalExample_binfunction}
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = cut_number(Ratio,
+      n = 3,
+      labels = c("low", "mean", "high")
+    ),
+    groupby = Sex,
+  ),
+  geomHistAttributes =
+    list(
+      position = position_nudge()
+    ),
+  metaData = metaData
+) +
+  labs(x = "Ratio")
+```
+
+## 2.2. Frequency
+
+If variable `plotAsFrequency` is set to TRUE and 
+
+- `position` is `stack`   frequency is calculated as count per bin / total (A)
+- `position` is NOT `stack`   frequency is calculated as count per bin / per group (B)
+
+
+
+```{r examples-frequency}
+# A)
+plotHistogram(
+  data = histData,
+  mapping = aes(
+    x = Ratio,
+    groupby = Sex,
+  ),
+  metaData = metaData,
+  plotAsFrequency = TRUE,
+  geomHistAttributes = list(bins = 10, position = "stack")
+) +
+  labs(
+    tag = "A",
+    caption = "frequency is calculated as count per bin / total"
+  )
+
+# B)
+plotHistogram(
+  data = histData,
+  mapping = aes(
+    x = Ratio,
+    groupby = Sex,
+  ),
+  metaData = metaData,
+  plotAsFrequency = TRUE
+) +
+  labs(
+    tag = "B",
+    caption = "frequency is calculated as count per bin / per group"
+  )
+```
+
+
+both plots could also be calculated by directly setting y in the mapping
+
+- `position` is `stack`   frequency is calculated as count per bin / total (C)
+- `position` is NOT `stack`   frequency is calculated as count per bin / per group (D)
+
+
+```{r examples-frequency_manual}
+# C)
+plotHistogram(
+  data = histData,
+  mapping = aes(
+    x = Ratio,
+    fill = Sex,
+    y = after_stat(count / sum(count))
+  ),
+  metaData = metaData,
+  plotAsFrequency = FALSE,
+  geomHistAttributes = list(bins = 10, position = "stack")
+) +
+  labs(
+    tag = "c",
+    caption = "frequency is calculated as count per bin / total"
+  )
+
+
+
+# D)
+plotHistogram(
+  data = histData,
+  mapping = aes(
+    x = Ratio,
+    fill = Sex,
+    y = after_stat(density)
+  ),
+  metaData = metaData,
+  plotAsFrequency = FALSE
+) +
+  labs(
+    tag = "D",
+    caption = "frequency is calculated as count per bin / per group"
+  )
+```
+
+
+# 3. Distribution fit
+
+The optional input variable `distribution` aims at providing the possibility of fitting the data distribution.  
+
+All distributions from package {stats}  are available (see `? stats::distributions`).  
+Internally `ggh4x::stat_theodensity` is used for the fit. Check the help for more details.
+
+For the most common distributions the key "normal" (instead of `norm`) and "lognormal" (instead of `lnorm`) are also accepted.  
+
+
+The vertical line indicates the mean. The function to calculate the mean is determined by the input variable `meanFunction`.   
+Available are  
+
+* `none`  (no line is plotted)
+* `mean`  (arithmetic mean)
+* `geomean`  (geometric mean) 
+* `median`  
+* `auto`  This is the default. It selects the mean function according to the selected distribution:   
+
+   * `mean` for `normal` distribution  
+   * `geomean` for `lognormal` distribution
+   * `median` for all other distributions
+   * `none`  if the distribution is also set to `none`.  
+   
+
+Below examples are shown for 
+
+### 3.1 Fit of a `normal` distribution with `mean` as vertical line
+
+```{r example-distribution}
+# Plot normal distribution
+plotHistogram(
+  data = histData_distr,
+  mapping = aes(
+    x = Obs,
+    fill = Sex,
+  ),
+  metaData = metaData_distr,
+  distribution = "normal"
+)
+```
+
+
+### 3.2 Fit of a `chisq` distribution without vertical line
+
+
+```{r example-distribution-chisq}
+plotHistogram(
+  data = histData_distr,
+  mapping = aes(
+    x = Obs,
+    groupby = Sex,
+  ),
+  metaData = metaData_distr,
+  distribution = "chisq",
+  meanFunction = "none"
+)
+```
+
+
+## 3.3 Fit of stacked data
+
+With option `stack`, it is also possible to get the distribution of the sum only.
+
+```{r example-2-distributions-stack}
+plotHistogram(
+  data = histData,
+  mapping = aes(
+    x = Ratio,
+    fill = Sex,
+  ),
+  metaData = metaData,
+  geomHistAttributes = utils::modifyList(
+    getDefaultGeomAttributes("Hist"),
+    list(position = "stack")
+  ),
+  distribution = "normal"
+)
+```
+
+
+
+## 3.2 Fit with frequency TRUE
+
+To fit a frequency select a distribution (here "normal") and set variable `plotAsFrequency` to `TRUE` 
+
+```{r example-frequency-fit}
+plotHistogram(
+  data = histData_distr,
+  mapping = aes(
+    x = Obs,
+    fill = Sex,
+  ),
+  metaData = metaData_distr,
+  distribution = "normal",
+  plotAsFrequency = TRUE
+)
+```
+
+
+## 3.3 Fit with frequency TRUE and stacked data
+
+
+```{r example-frequency-stacked}
+plotHistogram(
+  data = histData,
+  mapping = aes(
+    x = Ratio,
+    fill = Sex,
+  ),
+  metaData = metaData,
+  geomHistAttributes = utils::modifyList(
+    getDefaultGeomAttributes("Hist"),
+    list(position = "stack")
+  ),
+  distribution = "normal",
+  plotAsFrequency = TRUE,
+)
+```
+
+
+
+
+
+## 3.4 x-axis on log scale for distribution fir
+
+As fit is based on binning, and binning is depended on scale, a log scale has to be set before the distribution fit. Please use variable `xscale = 'log'` and do not add a {ggplot} like `scale_x_log10`
+
+```{r example-logscale}
+plotHistogram(
+  data = histData_distr,
+  mapping = aes(
+    x = Obs,
+    fill = Sex,
+  ),
+  metaData = metaData_distr,
+  xscale = "log",
+  distribution = "norm",
+  meanFunction = "none"
+) +
+  labs(tag = "A")
+```
+
+
+
+# 4 histogram for categorical data
+
+The function `plotHistogram` can also be used to plot categorical data with a bar plot.
+Internally the function switches from geom_histogram to geom_bar.
+With default inputs the functions switches automatically to bar plot, if the data is a factor or non numeric. (See plot A)
+It can be done also manual by setting the variable `asBarPlot` to TRUE (see plot B)
+
+
+```{r example-categorical-data}
+# A  Input is factor
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = AgeBin,
+    fill = Sex
+  ),
+  metaData = metaData
+) +
+  labs(tag = "A")
+
+
+# B set asBarPlot = TRUE to convert input to factor
+plotHistogram(
+  data = histData,
+  mapping <- aes(
+    x = round(histData$Age / 10) * 10,
+    fill = Sex
+  ),
+  asBarPlot = TRUE,
+  metaData = metaData
+) +
+  labs(
+    x = "age rounded to 10 years",
+    tag = "B"
+  )
+```
+
+```{r cleanup,echo=FALSE}
+resetDefaults(oldDefaults)
+```
+

@@ -1,4 +1,5 @@
 library(data.table)
+library(tidyr)
 
 # Time profile -------
 
@@ -55,11 +56,11 @@ data <- data.frame(
   time = c(1, 3, 6, 12, 24),
   values = c(11.7, 8.4, 7.5, 3.6, 1.0),
   dimension = "concentration",
-  minValues = c(11, 8, 7.1, 3.2, 0.8),
-  maxValues = c(12.1, 9, 7.8, 3.9, 1.2),
-  sd = c(0.204, 0.21, 0.241, 0, 0.18),
+  sd = c(0.404, 0.41, 0.441, 0.39, 0.36),
   caption = "Observed Data 1"
-)
+) %>%
+  dplyr::mutate(minValues = values - sd) %>%
+  dplyr::mutate(maxValues = values + sd)
 
 exampleDataTimeProfile <- rbind(exampleDataTimeProfile,
   data,
@@ -74,10 +75,11 @@ data <- data.frame(
   time = c(0, 1, 3, 6, 12, 24),
   values = c(0, 6.1, 7.3, 4.4, 3.2, 1.1),
   dimension = "concentration",
-  minValues = c(0, 5.7, 7.0, 4.3, 2.5, 0.8),
-  maxValues = c(0, 7.1, 8.2, 5.8, 3.3, 1.11),
+  sd = c(0, 0.4, 0.3, 0.35, 0.25, 0.2),
   caption = "Observed Data 2"
-)
+) %>%
+  dplyr::mutate(minValues = values - sd) %>%
+  dplyr::mutate(maxValues = values + sd)
 
 exampleDataTimeProfile <- rbind(exampleDataTimeProfile,
   data,
@@ -92,7 +94,7 @@ obsData <- data.frame(
   time = rep(1:7, 2),
   values = c(10 * exp(-1:-7), 10 * exp(-1:-7)),
   dimension = "concentration",
-  error_relativ = exp(abs(rnorm(14, 0, 0.1))),
+  error_relative = exp(abs(rnorm(14, 0, 0.1))),
   caption = c(rep("group A", 7), rep("group B", 7)),
   lloq = c(rep(0.05, 14))
 )
@@ -173,6 +175,22 @@ exampleDataTimeProfile <- rbind(exampleDataTimeProfile,
   fill = TRUE
 )
 
+
+data <- data.table(
+  SetID = "DataSet4",
+  Type = "simulated",
+  time = seq(0, 7, 0.25),
+  values = 10 * exp(-1 * seq(0, 7, 0.25)),
+  caption = "mean model"
+)
+
+exampleDataTimeProfile <- rbind(exampleDataTimeProfile,
+  data,
+  fill = TRUE
+)
+
+
+
 # metaData
 
 metaData <- list(
@@ -199,50 +217,85 @@ usethis::use_data(exampleDataTimeProfile, overwrite = TRUE, internal = FALSE)
 
 # Covariates -------
 
-## Set 1  ---
+##  Set 1 ----
 
 exampleDataCovariates <- fread(file.path("data-raw", "test-data.csv")) %>%
   dplyr::mutate(SetID = "DataSet1")
 
 
-## Set 2  ---
+## Set 2  ----
 
 set.seed(1)
-data <- data.table(SetID = 'DataSet2',
-  AgeBin = c(rep("adult", 200), rep("pediatric",150)),
-  Sex = rep(c("Female","Male"), 175),
-  Obs  = c(rnorm(200, 20, 5), rnorm(150,25,10))+
-    rep(c(10,50), 175))
-data[,ID:=.I]
+data <- data.table(
+  SetID = "DataSet2",
+  Age = c(
+    sample(seq(20, 50), size = 200, replace = TRUE),
+    sample(seq(2, 12), size = 150, replace = TRUE)
+  ),
+  AgeBin = c(rep("adult", 200), rep("pediatric", 150)),
+  Sex = rep(c("Female", "Male"), 175),
+  Obs = c(rnorm(200, 20, 5), rnorm(150, 25, 10)) +
+    rep(c(10, 50), 175)
+) %>%
+  dplyr::mutate(Pred = Obs * rnorm(350, 1, .1)) %>%
+  dplyr::mutate(gsd = rnorm(350, 1, .05))
+
+data[, ID := .I]
 
 exampleDataCovariates <- rbind(exampleDataCovariates,
-                                data,
-                                fill = TRUE
+  data,
+  fill = TRUE
 )
+
+
+
+## Set 3  ----
+
+set.seed(1)
+Obs <- rnorm(n = 10, mean = 0, sd = 1)
+Pred <- jitter(Obs, amount = 0.5)
+
+data <- data.table(
+  SetID = "DataSet3",
+  Obs = exp(Obs),
+  Pred = exp(Pred)
+)
+
+data[, ID := .I]
+
+exampleDataCovariates <- rbind(exampleDataCovariates,
+  data,
+  fill = TRUE
+)
+
+
+
+
 
 
 # metaData will be used during the smart mapping
 # to label the axes as "dimension [unit]"
+# Load example
 metaData <- list(
   Age = list(
-    dimension = "Age in years",
-    unit = "year(s)"
-  ),
-  Ratio = list(
-    dimension = "Fraction",
-    unit = ""
+    dimension = "Age",
+    unit = "yrs"
   ),
   Obs = list(
-    dimension = "Concentration",
-    unit = "µg/ml"
+    dimension = "Clearance",
+    unit = "dL/h/kg"
   ),
   Pred = list(
-    dimension = "Concentration",
-    unit = "µg/ml"
+    dimension = "Clearance",
+    unit = "dL/h/kg"
   ),
   SD = list(
-    dimension = "Concentration",
-    unit = "µg/ml"
+    dimension = "Clearance",
+    unit = "dL/h/kg"
+  ),
+  Ratio = list(
+    dimension = "Ratio",
+    unit = ""
   )
 )
 

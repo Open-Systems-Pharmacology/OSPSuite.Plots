@@ -6,17 +6,45 @@ template:
 development:
   mode: devel
 
-articles:
-  - title: XXXXXX
-    navbar: XXXXXX
-    desc: XXXXXX
-    contents:
-    - vignette1_XXXXXXXXXXXXXXXXXXXXX
+navbar:
+  components:
+    articles:
+      text: "Plot Functions"
+      menu:
+      - text: "Time Profile Plots"
+        href: plot-time-profile
+      - text: "Histograms"
+        href: histogram
+
 
 reference:
-- title: "XXXXXXXXXXXXXXXXXXX"
-  desc: "XXXXXXXXXXXXXXXXXXXXXX"
+- title: "Plot Functions"
+  desc: "Functions for creating plots"
   contents:
-  - matches("XXXXX")
-  - starts_with("XXXXXX")
-  - has_concept("XXXXXXXXXX")
+  - has_concept("plot functions")
+- title: "Update/initialize plots"
+  desc: "initialize plot or add to existing plots"
+  contents:
+  - matches("initializePlot")
+  - matches("addXscale")
+  - matches("addYscale")
+  - matches("layerWatermark")
+- title: "Default settings"
+  desc: "Functions to set and reset Settings for plot layout"
+  contents:
+  - has_concept("setDefault functions")
+- title: "DataMapping Classes"
+  desc: "Classes combining data and Mapping"
+  contents:
+  - starts_with("MappedData")
+- title: "Data"
+  desc: "Data used within the vignette examples"
+  contents:
+  - starts_with("exampleData")
+- title: "auxiliary functions"
+  desc: "Classes combining data and Mapping"
+  contents:
+  - matches("checkIfColumnIsCategorical")
+  - matches("metaData2DataFrame")
+
+

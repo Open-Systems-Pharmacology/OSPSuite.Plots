@@ -1,27 +1,44 @@
-#' initializePlot
+#' initialize Plot
 #'
 #' Initialize a `ggplot` object
 #' with watermark
 #' and set its labels by metaData
 #'
-#' @param mapping  Default list of aesthetic mappings to use for plot
-#' @param metaData A named list of information about the `data` such as the `dimension` and `unit` of its variables.
+#' @param mappedData  MappedData object
+#' @param setMapping if TRUE (default) mapping is passed to ggplot, otherwise mapping will be used only to create labels
 #'
 #' @return A `ggplot` object
 #' @export
 #'
-initializePlot <- function(metaData = NULL,
-                           mapping = NULL) {
-  # Vlaidation
-  checkmate::assertList(metaData, types = "list", null.ok = TRUE)
-  checkmate::assertList(mapping, types = "quosure", null.ok = TRUE)
-  # initialize plot object
-  plotObject <- ggplot(environment = globalenv()) +
+initializePlot <- function(mappedData = NULL,
+                           setMapping = TRUE) {
+  # Validation
+  checkmate::assertClass(mappedData, classes = "MappedData", null.ok = TRUE)
+  checkmate::assertFlag(setMapping)
+
+  mappingToSet <- aes()
+  if (setMapping && !is.null(mappedData)) {
+    mappingToSet <- mappedData$mapping
+  }
+  plotObject <- ggplot(
+    data = mappedData$dataForPlot,
+    mapping = mappingToSet
+  ) +
     layerWatermark()
+
+  #
+  shapeValues <- getOption("ospsuite.plots.shapeValues")
+  if (!is.null(shapeValues)) {
+    # shape
+    scale_shape_discrete <- function(...) {
+      scale_shape_manual(values = shapeValues)
+    }
+    assign("scale_shape_discrete", scale_shape_discrete)
+  }
 
 
   # add labels
-  plotObject <- .addLabels(plotObject, metaData, mapping)
+  plotObject <- addLabels(plotObject, mappedData)
 
 
   return(plotObject)
@@ -36,6 +53,7 @@ initializePlot <- function(metaData = NULL,
 #' @param geom character used to select appropriate aesthetics
 #' @param layerToCall function ggplot2 geom layer
 #'
+#' @keywords internal
 #' @return The updated `ggplot` object
 addLayer <- function(mappedData,
                      geomAttributes,
@@ -46,6 +64,18 @@ addLayer <- function(mappedData,
     geom = geom,
     geomAttributes = geomAttributes
   )
+
+  # check for geomUnicodeMode
+  geomUnicodeMode <- getOption(
+    x = "ospsuite.plots.GeomPointUnicode",
+    default = getDefaultOptions()[["ospsuite.plots.GeomPointUnicode"]]
+  )
+  if (geomUnicodeMode &&
+    geom == "point") {
+    layerToCall <- geomPointUnicode
+  }
+
+
   if (!is.null(filteredMapping)) {
     plotObject <- plotObject +
       do.call(
@@ -76,6 +106,10 @@ addLayer <- function(mappedData,
 }
 
 
+
+
+
+
 #' Create a watermark layer for a ggplot object.
 #'
 #' @param label Passed to `buildWatermarkGrob`.
@@ -93,13 +127,13 @@ addLayer <- function(mappedData,
 #' @export
 #'
 layerWatermark <- function(label = NULL,
-                            x = NULL,
-                            y = NULL,
-                            angle = NULL,
-                            color = NULL,
-                            alpha = NULL,
-                            fontsize = NULL,
-                            show = NULL) {
+                           x = NULL,
+                           y = NULL,
+                           angle = NULL,
+                           color = NULL,
+                           alpha = NULL,
+                           fontsize = NULL,
+                           show = NULL) {
   if (is.null(show)) {
     show <- getOption("ospsuite.plots.watermark_enabled", getDefaultOptions()$ospsuite.plots.watermark_enabled)
   }
@@ -110,7 +144,7 @@ layerWatermark <- function(label = NULL,
     }
 
     formatOptions_default <- getDefaultOptions()$ospsuite.plots.watermark_format
-    formatOptions_set <- getOption("ospsuite.plots.watermark_format", formatOptions_default)
+    formatOptions_set <- getOption("ospsuite.plots.watermark_format", formatOptions_default) # nolint
 
     for (f in names(formatOptions_default)) {
       if (is.null(get(f))) {
@@ -145,8 +179,8 @@ layerWatermark <- function(label = NULL,
 #' @param alpha opacity of the text
 #' @param fontsize size of the text
 #'
+#' @keywords internal
 #' @return a `grid::textGrob` with the watermark and the additional attribute 'is_watermark' set to `TRUE`
-#' @export
 buildWatermarkGrob <- function(label, x = .5, y = .5, angle = 30,
                                color = "grey20",
                                alpha = 0.7,
@@ -167,6 +201,38 @@ buildWatermarkGrob <- function(label, x = .5, y = .5, angle = 30,
 }
 
 
+#' add X and Y-scale
+#'
+#' @param plotObject A `ggplot` object on which to add the scale
+#' @param secAxis secondary axis arguments for scale_y functions
+#' @inheritParams plotTimeProfile
+#'
+#' @return The updated `ggplot` object
+#' @export
+addXYScale <- function(plotObject,
+                       xscale = NULL,
+                       xscale.args = list(),
+                       yscale = NULL,
+                       yscale.args = list(),
+                       secAxis = waiver()) {
+  if (!is.null(xscale)) {
+    plotObject <- addXscale(plotObject,
+      xscale = xscale,
+      xscale.args = xscale.args
+    )
+  }
+
+  if (!is.null(yscale)) {
+    plotObject <- addYscale(plotObject,
+      yscale = yscale,
+      yscale.args = yscale.args,
+      secAxis = secAxis
+    )
+  }
+
+  return(plotObject)
+}
+
 
 #' add X-scale
 #'
@@ -178,22 +244,31 @@ buildWatermarkGrob <- function(label, x = .5, y = .5, angle = 30,
 addXscale <- function(plotObject,
                       xscale,
                       xscale.args = list()) {
-  checkmate::assertChoice(xscale, choices = c("linear", "log"), null.ok = TRUE)
+  checkmate::assertChoice(xscale, choices = c("linear", "log", "discrete"), null.ok = TRUE)
 
   plotObject <- plotObject +
-    if (xscale == "linear") {
-      if (is.null(xscale.args$guide)) xscale.args$guide <- "axis_minor"
-      do.call(
-        what = scale_x_continuous,
-        args = xscale.args
-      )
-    } else {
-      if (is.null(xscale.args$guide)) xscale.args$guide <- "axis_logticks"
-      do.call(
-        what = scale_x_log10,
-        args = xscale.args
-      )
-    }
+    switch(xscale,
+      "linear" = {
+        if (is.null(xscale.args$guide)) xscale.args$guide <- ggh4x::guide_axis_minor()
+        do.call(
+          what = scale_x_continuous,
+          args = xscale.args
+        )
+      },
+      "log" = {
+        if (is.null(xscale.args$guide)) xscale.args$guide <- ggh4x::guide_axis_logticks()
+        do.call(
+          what = scale_x_log10,
+          args = xscale.args
+        )
+      },
+      "discrete" = {
+        do.call(
+          what = scale_x_discrete,
+          args = xscale.args
+        )
+      }
+    )
 
   return(plotObject)
 }
@@ -202,7 +277,7 @@ addXscale <- function(plotObject,
 #' add y-scale
 #'
 #' @param plotObject A `ggplot` object on which to add the scale
-#' @param secAxis description
+#' @param secAxis secondary axis arguments for scale_y functions
 #' @inheritParams plotTimeProfile
 #'
 #' @return The updated `ggplot` object
@@ -217,7 +292,7 @@ addYscale <- function(plotObject,
 
   plotObject <- plotObject +
     if (yscale == "linear") {
-      if (is.null(yscale.args$guide)) yscale.args$guide <- "axis_minor"
+      if (is.null(yscale.args$guide)) yscale.args$guide <- ggh4x::guide_axis_minor()
       do.call(
         what = scale_y_continuous,
         args = c(
@@ -226,7 +301,7 @@ addYscale <- function(plotObject,
         )
       )
     } else {
-      if (is.null(yscale.args$guide)) yscale.args$guide <- "axis_logticks"
+      if (is.null(yscale.args$guide)) yscale.args$guide <- ggh4x::guide_axis_logticks()
       do.call(
         what = scale_y_log10,
         args = c(

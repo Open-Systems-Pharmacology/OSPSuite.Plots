@@ -4,10 +4,11 @@
 \alias{MappedData}
 \title{MappedData}
 \description{
-R6 class for mapping \code{x} and \code{y} variable to \code{data}
+R6 class for mapping  variables to \code{data}
 }
 \seealso{
 Other MappedData classes: 
+\code{\link{MappedDataBoxplot}},
 \code{\link{MappedDataTimeProfile}}
 }
 \concept{MappedData classes}
@@ -17,28 +18,41 @@ Other MappedData classes:
 \item{\code{data}}{data.frame used for mapping}
 
 \item{\code{mapping}}{list of aesthetic mappings}
+
+\item{\code{dimensions}}{list with dimensions of mapping}
+
+\item{\code{units}}{list with dimensions of mapping}
+
+\item{\code{columnClasses}}{list with class of mapped columns}
+
+\item{\code{xlimits}}{double vector limits of primary y axis}
+
+\item{\code{ylimits}}{double vector limits of primary y axis}
+
+\item{\code{hasResidualMapping}}{flag to indicate if residual mapping is used}
+
+\item{\code{residualLabel}}{label for residuals}
 }
 \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{hasLLOQMatch}}{\code{Flag} if TRUE data has matched lloq data}
-
-\item{\code{directionIsLogscale}}{\code{Flag} if TRUE scale of direction is LOG}
+\item{\code{hasLLOQMatch}}{\code{boolean} if TRUE data has matched lloq data}
 
 \item{\code{dataForPlot}}{returns data used for plotting,
 may be adjusted in child classes (e.g. 2 axis in MappedDataTimeProfile)
-check if aesthtic is available in data
+check if aesthetic is available in data
 returns data column for aesthetic
 adds and update mapping
 deletes data where mdv is 1
 
-adds new column isLLOQ.i and updtes Flag LLOQMatch
-adds new columns ymin and ymax if reequired
-copy aesthetics "group", but only if not explicit set
-deletes mappings which do not exists in data
-converts Integer columns, which are no factors to double}
+adds new column \code{isLLOQ.i} and updates boolean \code{LLOQMatch}
+adds new columns ymin and ymax if required
+copy aesthetics \code{groupby}, but only if not explicit set
+converts Integer columns, which are no factors to double
+adds new column \code{residuals.i}
+factorize column for group to factor}
 }
 \if{html}{\out{</div>}}
 }
@@ -47,6 +61,8 @@ converts Integer columns, which are no factors to double}
 \itemize{
 \item \href{#method-MappedData-new}{\code{MappedData$new()}}
 \item \href{#method-MappedData-getAestheticsForGeom}{\code{MappedData$getAestheticsForGeom()}}
+\item \href{#method-MappedData-addMetaData}{\code{MappedData$addMetaData()}}
+\item \href{#method-MappedData-updateScaleArgumentsForTimeUnit}{\code{MappedData$updateScaleArgumentsForTimeUnit()}}
 \item \href{#method-MappedData-clone}{\code{MappedData$clone()}}
 }
 }
@@ -60,9 +76,13 @@ Create a new \code{MappedData} object
   data,
   mapping,
   groupAesthetics = NULL,
+  groupOrder = NULL,
   direction = "y",
-  scaleOfDirection = "linear",
-  isObserved = TRUE
+  isObserved = TRUE,
+  xlimits = NULL,
+  ylimits = NULL,
+  residualScale = NULL,
+  residualAesthetic = "y"
 )}\if{html}{\out{</div>}}
 }
 
@@ -73,14 +93,21 @@ Create a new \code{MappedData} object
 
 \item{\code{mapping}}{list of aesthetic mappings}
 
-\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with group,
-use of group aesthetics triggers second axis after simulation layers}
+\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with \code{groupby}}
+
+\item{\code{groupOrder}}{labels and order for group aesthetic}
 
 \item{\code{direction}}{direction of plot either "x" or "y"}
 
-\item{\code{scaleOfDirection}}{scale of direction, either "linear" or "log"}
+\item{\code{isObserved}}{A \code{boolean }if TRUE mappings mdv, lloq, error and error_relative are evaluated}
 
-\item{\code{isObserved}}{Flag if TRUE mappings mdv, lloq, error and error_relative are evaluated}
+\item{\code{xlimits}}{limits for x-axis (may be NULL)}
+
+\item{\code{ylimits}}{limits for y-axis (may be NULL)}
+
+\item{\code{residualScale}}{scale of x residuals}
+
+\item{\code{residualAesthetic}}{aesthetic used for mapping residuals}
 }
 \if{html}{\out{</div>}}
 }
@@ -101,14 +128,56 @@ check if mandatory are available
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{geom}}{type of geomertic object}
+\item{\code{geom}}{type of geometric object}
 
 \item{\code{geomAttributes}}{additionally arguments for geom layer, will overwrite aesthetics}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-list of axxepted mappings
+list of accepted mappings
+adds list with dimension, units and column classes
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-MappedData-addMetaData"></a>}}
+\if{latex}{\out{\hypertarget{method-MappedData-addMetaData}{}}}
+\subsection{Method \code{addMetaData()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MappedData$addMetaData(metaData)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{metaData}}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+updated \code{MappedData} object
+check if unit of scale direction i s time and sets the breaks accordingly
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-MappedData-updateScaleArgumentsForTimeUnit"></a>}}
+\if{latex}{\out{\hypertarget{method-MappedData-updateScaleArgumentsForTimeUnit}{}}}
+\subsection{Method \code{updateScaleArgumentsForTimeUnit()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MappedData$updateScaleArgumentsForTimeUnit(scale.args, scaleDirection = "x")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{scale.args}}{additional arguments passed on to scale function}
+
+\item{\code{scaleDirection}}{direction of axis either 'x' or 'y'}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{scale.args} with adjusted break function
 }
 }
 \if{html}{\out{<hr>}}

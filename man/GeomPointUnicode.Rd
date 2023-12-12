@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities_shapes.R
 \name{geomPointUnicode}
 \alias{geomPointUnicode}
-\title{geomTLFPoint}
+\title{layer to point unicode as shapes}
 \usage{
 geomPointUnicode(
   mapping = NULL,
@@ -35,3 +35,19 @@ geomPointUnicode(
 \description{
 geom similar to \code{geom_point()} but that leverage fonts to draw its shapes
 }
+\seealso{
+Other setDefault functions: 
+\code{\link{ColorMaps}},
+\code{\link{Shapes}},
+\code{\link{getDefaultGeomAttributes}()},
+\code{\link{getDefaultOptions}()},
+\code{\link{resetDefaultColorMapDistinct}()},
+\code{\link{resetDefaultShapeDiscrete}()},
+\code{\link{resetDefaultTheme}()},
+\code{\link{resetDefaults}()},
+\code{\link{setDefaultColorMapDistinct}()},
+\code{\link{setDefaultShapeDiscrete}()},
+\code{\link{setDefaultTheme}()},
+\code{\link{setDefaults}()}
+}
+\concept{setDefault functions}

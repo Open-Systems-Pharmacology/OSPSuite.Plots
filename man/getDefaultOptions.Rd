@@ -13,15 +13,18 @@ names list with default options
 get list of default options
 }
 \seealso{
-Other setDefaultsOspsuite.plots: 
+Other setDefault functions: 
 \code{\link{ColorMaps}},
+\code{\link{Shapes}},
+\code{\link{geomPointUnicode}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{resetDefaultColorMapDistinct}()},
 \code{\link{resetDefaultShapeDiscrete}()},
+\code{\link{resetDefaultTheme}()},
 \code{\link{resetDefaults}()},
 \code{\link{setDefaultColorMapDistinct}()},
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},
 \code{\link{setDefaults}()}
 }
-\concept{setDefaultsOspsuite.plots}
+\concept{setDefault functions}

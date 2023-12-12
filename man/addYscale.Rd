@@ -9,11 +9,11 @@ addYscale(plotObject, yscale, yscale.args = list(), secAxis = waiver())
 \arguments{
 \item{plotObject}{A \code{ggplot} object on which to add the scale}
 
-\item{yscale}{either 'linear' then ggplot2::scale_y_continuous() or 'log' then ggplot2::scale_y_log10() is used}
+\item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
-\item{yscale.args}{list of arguments passed to ggplot2::scale_y_continuous() or ggplot2::scale_y_log10()}
+\item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{secAxis}{description}
+\item{secAxis}{secondary axis arguments for scale_y functions}
 }
 \value{
 The updated \code{ggplot} object

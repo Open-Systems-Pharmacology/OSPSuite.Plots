@@ -6,7 +6,7 @@
 #' @return  invisibly return the previous theme so you can easily save it, then later restore it.
 #'
 #' @export
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 setDefaultTheme <- function() {
   themeNew <-
     ggplot2::theme(
@@ -67,9 +67,23 @@ setDefaultTheme <- function() {
 }
 
 
+#' reset the default theme
+#'
+#' wrapper for `ggplot2::theme_set(oldTheme)`
+#'
+#' @param oldTheme theme to set
+#'
+#' @export
+#'
+#' @family setDefault functions
+resetDefaultTheme <- function(oldTheme) {
+  ggplot2::theme_set(oldTheme)
+}
+
+
 # Default ColorMap Discrete -------------
 
-#' @title ColorMaps
+#' @title Color maps
 #'
 #' @description
 #'
@@ -78,7 +92,7 @@ setDefaultTheme <- function() {
 #' The `ospDefault` color map is based on colors in `default_igv` qualitative
 #' color palette from `{ggsci}` package.
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @export
 ColorMaps <- list(
   default = c("#0078D7", "#D83B01", "#107C10", "#A80000", "#002050", "#B4009E"),
@@ -104,11 +118,11 @@ ColorMaps <- list(
 
 #' @param ColorMapList list of ColorMaps to be set
 #'
-#' @title set the default colormap for discret colors
+#' @title set the default colormap for discrete colors
 #'
-#' @return list wih COlormpas previously set
+#' @return list with Colormaps previously set
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @export
 #'
 setDefaultColorMapDistinct <- function(ColorMapList = NULL) {
@@ -121,9 +135,7 @@ setDefaultColorMapDistinct <- function(ColorMapList = NULL) {
 
   optionNames <- c(
     "ggplot2.discrete.colour",
-    "ggplot2.discrete.fill",
-    "ggplot2.ordinal.colour",
-    "ggplot2.ordinal.fill"
+    "ggplot2.discrete.fill"
   )
 
   oldColorOptions <- list()
@@ -145,12 +157,12 @@ setDefaultColorMapDistinct <- function(ColorMapList = NULL) {
 
 #' @param oldColorMaps
 #'
-#' @title reset the default colormap for discret colors
+#' @title reset the default colormap for discrete colors
 #'
-#' @param oldColorMaps list of colormaps prevoisuly set
+#' @param oldColorMaps list of colormaps previously set
 #'
 #' @export
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #'
 resetDefaultColorMapDistinct <- function(oldColorMaps) {
   checkmate::assertList(oldColorMaps, names = "named")
@@ -166,31 +178,49 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 
 # Default Shapes --------------
 
-#' set the default shapes scale for discrete values
+#' set the default shapes
 #'
-#' @param shapeValues vector of shapevalues
+#' The scales are set to the option  `ospsuite.plots.shapeValues`, which is the used to
+#' set the discrete scale of shapes for all {ospsuite.plots} function
+#' for customized functions add scale_shape_manual(`values = getOption('ospsuite.plots.shapeValues')`)
+#'
+#' @param shapeValues vector of shape values
 #'
 #' @export
-#' @family setDefaultsOspsuite.plots
+#' @return vector with `shapeValues` saved in option `ospsuite.plots.shapeValues` before function call
+#'
+#' @family setDefault functions
 setDefaultShapeDiscrete <- function(shapeValues = NULL) {
   if (is.null(shapeValues)) {
-    shapeValues <-
-      c("circle filled", "diamond filled", "triangle filled", "square filled")
+    shapeValues <- unlist(Shapes)
+
+    if (getOption("ospsuite.plots.GeomPointUnicode")) {
+      shapeValues <- unlist(unname(Shapes))
+    } else {
+      shapeValues <-
+        c(
+          "circle filled", "diamond filled", "triangle filled", "square filled", "triangle down filled",
+          "plus", "cross", "asterisk",
+          "circle cross", "square cross",
+          "circle plus", "square plus", "diamond plus",
+          "square triangle"
+        )
+    }
   }
-  # shape
-  scale_shape_discrete <- function(...) {
-    scale_shape_manual(values = shapeValues)
-  }
-  assign("scale_shape_discrete", scale_shape_discrete, envir = globalenv())
+  options(list(ospsuite.plots.shapeValues = shapeValues))
+
+  return(invisible(getOption("ospsuite.plots.shapeValues")))
 }
 
 
 #' resets the scale for discrete shapes to ggplot default
 #'
-#' @family setDefaultsOspsuite.plots
+#' @param oldShapeValues shape values to set
+#'
+#' @family setDefault functions
 #' @export
-resetDefaultShapeDiscrete <- function() {
-  assign("scale_shape_discrete", ggplot2::scale_shape_discrete, envir = globalenv())
+resetDefaultShapeDiscrete <- function(oldShapeValues = NULL) {
+  options(list(ospsuite.plots.shapeValues = oldShapeValues))
 }
 
 
@@ -198,7 +228,7 @@ resetDefaultShapeDiscrete <- function() {
 
 #' get list of default options
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @return names list with default options
 #' @export
 #'
@@ -221,21 +251,27 @@ getDefaultOptions <- function() {
     ospsuite.plots.geomPointAttributes = list(),
     ospsuite.plots.geomErrorbarAttributes = list(width = 0),
     ospsuite.plots.geomLLOQAttributes = list(linetype = "dotted"),
-    ospsuite.plots.geomRatioLineAttributes = list(linetype = "dashed"),
+    ospsuite.plots.geomComparisonLineAttributes = list(linetype = "dashed"),
+    ospsuite.plots.geomGuestLineAttributes = list(linetype = "dashed"),
     ospsuite.plots.geomBoxplotAttributes = list(
       position = position_dodge(width = 1),
       color = "black"
     ),
-    ospsuite.plots.geomBarAttributes = list(
+    ospsuite.plots.geomHistAttributes = list(
       bins = 10,
       position = ggplot2::position_nudge()
     ),
+    ospsuite.plots.geomBarAttributes = list(
+      position = ggplot2::position_nudge()
+    ),
     # default alpha
-    ospsuite.plots.Alpha = 0.7,
+    ospsuite.plots.Alpha = 0.5,
     # alpha of LLOQ values
-    ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.618, "FALSE" = 1),
+    ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.3, "FALSE" = 1),
     # percentiles
-    ospsuite.plots.Percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95)
+    ospsuite.plots.Percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+    # Type of geom_point
+    ospsuite.plots.GeomPointUnicode = FALSE
   )
 
   return(optionList)
@@ -244,11 +280,11 @@ getDefaultOptions <- function() {
 # Geoms ----------
 
 #' get the defaults for the geom attributes used as defaults in plot functions
-#' see \code{vignette("ospsuite.plots", package = "ospsuite.plots")} how to chnage defaults
+#' see \code{vignette("ospsuite.plots", package = "ospsuite.plots")} how to change defaults
 #'
 #' @param geom  type of geom to return attributes
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @return list with default attributes
 #' @export
 #'
@@ -277,47 +313,99 @@ getDefaultGeomAttributes <- function(geom) {
 #'
 #' should be started at the beginning at each workflow
 #'
-#' for detailde information see
+#' for detailed information see
 #' \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 #'
 #'
 #' @param ColorMapList list of color maps
 #' @param defaultOptions list of options
 #' @param shapeValues list of Shapes
+#' @param PointAsUnicode A `flag` to switch between mode for geom_point, if TRUE points will be plotted as unicode labels
 #'
-#' @return list of old settings which can be used to reset defaults with restggOPSDefaults
+#' @return list of old settings which can be used to reset defaults with `resetDefaults()`
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @export
-setDefaults <- function(ColorMapList = NULL,
+setDefaults <- function(defaultOptions = list(),
+                        ColorMapList = NULL,
                         shapeValues = NULL,
-                        defaultOptions = getDefaultOptions()) {
+                        PointAsUnicode = FALSE) {
+  checkmate::assertList(ColorMapList, null.ok = TRUE)
+  checkmate::assertList(shapeValues, null.ok = TRUE)
+  checkmate::assertList(defaultOptions, null.ok = TRUE)
+  checkmate::assertFlag(PointAsUnicode, null.ok = TRUE)
+
+  # initialize return value
   oldDefaults <- list()
 
-  # get old settings of defaults for geoms
-  nsenv <- asNamespace("ggplot2")
+  # append default options with user input
+  defaultOptions <- utils::modifyList(
+    getDefaultOptions(),
+    defaultOptions
+  )
 
-  oldDefaults[["geomBar"]] <- get("GeomBar", envir = nsenv)$default_aes
-  oldDefaults[["geoPoint"]] <- get("GeomPoint", envir = nsenv)$default_aes
-  oldDefaults[["geomBoxplot"]] <- get("GeomBoxplot", envir = nsenv)$default_aes
-  oldDefaults[["geomRibbon"]] <- get("GeomRibbon", envir = nsenv)$default_aes
-  oldDefaults[["geomLine"]] <- get("GeomLine", envir = nsenv)$default_aes
+  # switch between UniCodeMode and ggplot defaults
+  PointAsUnicode <- PointAsUnicode |
+    defaultOptions$ospsuite.plots.GeomPointUnicode
+  if (PointAsUnicode) {
+    defaultOptions <- utils::modifyList(
+      defaultOptions,
+      list(ospsuite.plots.GeomPointUnicode = TRUE)
+    )
 
-  # set them, color and shapes
+    if (!("size" %in% defaultOptions$ospsuite.plots.geomPointAttributes)) {
+      defaultOptions$ospsuite.plots.geomPointAttributes <-
+        utils::modifyList(
+          defaultOptions$ospsuite.plots.geomPointAttributes,
+          list(size = 4)
+        )
+    }
 
-  oldDefaults[["theme"]] <- setDefaultTheme()
-  oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(ColorMapList = ColorMapList)
-  setDefaultShapeDiscrete(shapeValues = shapeValues)
+    showtext::showtext_auto()
+  } else {
+    if (getOption(
+      x = "ospsuite.plots.GeomPointUnicode",
+      default = getDefaultOptions()[["ospsuite.plots.GeomPointUnicode"]]
+    )) {
+      showtext::showtext_auto(enable = "off")
+    }
+  }
+  oldDefaults$PointAsUnicode <-
+    getOption(
+      x = "ospsuite.plots.GeomPointUnicode",
+      default = getDefaultOptions()[["ospsuite.plots.GeomPointUnicode"]]
+    )
 
   # options
+  oldDefaults$options <- lapply(names(getDefaultOptions()), getOption)
+  names(oldDefaults$options) <- names(getDefaultOptions())
+
   options(defaultOptions)
 
   defaultAlpha <- getOption("ospsuite.plots.Alpha", getDefaultOptions()[["ospsuite.plots.Alpha"]])
 
+  # get old settings of defaults for geoms
+  nsenv <- asNamespace("ggplot2")
+
+  oldDefaults[["geomPoint"]] <- get("GeomPoint", envir = nsenv)$default_aes
+  oldDefaults[["geomBoxplot"]] <- get("GeomBoxplot", envir = nsenv)$default_aes
+  oldDefaults[["geomBar"]] <- get("GeomBar", envir = nsenv)$default_aes
+  oldDefaults[["geomRibbon"]] <- get("GeomRibbon", envir = nsenv)$default_aes
+  oldDefaults[["geomLine"]] <- get("GeomLine", envir = nsenv)$default_aes
+
+  # set theme, color and shapes
+
+  oldDefaults[["theme"]] <- setDefaultTheme()
+  oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(ColorMapList = ColorMapList)
+  oldDefaults[["shapeValues"]] <- setDefaultShapeDiscrete(shapeValues = shapeValues)
+  shapeValues <- getOption("ospsuite.plots.shapeValues")
+
   # set geoms
-  update_geom_defaults("point", list(
-    shape = "circle"
-  ))
+  if (!PointAsUnicode) {
+    update_geom_defaults("point", list(
+      shape = shapeValues[1]
+    ))
+  }
   update_geom_defaults("boxplot", list(
     fill = getOption("ggplot2.discrete.fill")[[1]][[1]],
     alpha = defaultAlpha
@@ -333,8 +421,7 @@ setDefaults <- function(ColorMapList = NULL,
   ))
   update_geom_defaults("line", list(
     linewidth = 1.25,
-    fill = getOption("ggplot2.discrete.fill")[[1]][[1]],
-    alpha = defaultAlpha
+    fill = getOption("ggplot2.discrete.fill")[[1]][[1]]
   ))
 
 
@@ -343,17 +430,34 @@ setDefaults <- function(ColorMapList = NULL,
 
 
 
-
-
 #' restore to previously stored settings
 #'
 #' @param oldDefaults `list`with previously stored settings
 #'
-#' @family setDefaultsOspsuite.plots
+#' @family setDefault functions
 #' @export
 #'
 resetDefaults <- function(oldDefaults) {
   ggplot2::theme_set(oldDefaults$theme)
+
+
+
+  # switch between UniCodeMode and ggplot defaults
+  currentPointAsUnicode <-
+    getOption(
+      x = "ospsuite.plots.GeomPointUnicode",
+      default = getDefaultOptions()[["ospsuite.plots.GeomPointUnicode"]]
+    )
+
+  if (oldDefaults$PointAsUnicode & !currentPointAsUnicode) {
+    showtext::showtext_auto()
+  }
+  if (!oldDefaults$PointAsUnicode & currentPointAsUnicode) {
+    showtext::showtext_auto(enable = "off")
+  }
+
+  options(oldDefaults$options)
+
 
 
   if (!is.null(oldDefaults$geomBar)) {
@@ -374,5 +478,5 @@ resetDefaults <- function(oldDefaults) {
 
   resetDefaultColorMapDistinct(oldColorMaps = oldDefaults$colorMaps)
 
-  resetDefaultShapeDiscrete()
+  resetDefaultShapeDiscrete(oldShapeValues = oldDefaults$shapeValues)
 }

@@ -3,7 +3,7 @@
 \docType{data}
 \name{ColorMaps}
 \alias{ColorMaps}
-\title{ColorMaps}
+\title{Color maps}
 \format{
 An object of class \code{list} of length 6.
 }
@@ -17,16 +17,19 @@ The \code{ospDefault} color map is based on colors in \code{default_igv} qualita
 color palette from \code{{ggsci}} package.
 }
 \seealso{
-Other setDefaultsOspsuite.plots: 
+Other setDefault functions: 
+\code{\link{Shapes}},
+\code{\link{geomPointUnicode}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
 \code{\link{resetDefaultColorMapDistinct}()},
 \code{\link{resetDefaultShapeDiscrete}()},
+\code{\link{resetDefaultTheme}()},
 \code{\link{resetDefaults}()},
 \code{\link{setDefaultColorMapDistinct}()},
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},
 \code{\link{setDefaults}()}
 }
-\concept{setDefaultsOspsuite.plots}
+\concept{setDefault functions}
 \keyword{datasets}

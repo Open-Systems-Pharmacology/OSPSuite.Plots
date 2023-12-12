@@ -427,15 +427,16 @@ plotYVsX <- function(data,
 
   # fix order of linetype,
 
-  # starting always with solid, first comparsion lines, then guest criteria, then any other
+  # first comparsion lines, then guest criteria, then any other
   plotObjectBuild <- ggplot_build(plotObject)
 
   if (any(plotObjectBuild$plot$scales$find("linetype"))) {
-    linetypes <- unique(unlist(lapply(plotObjectBuild$data, getElement, "linetype")))
-    linetypes <- c("solid", setdiff(linetypes, "solid"))
 
     iScale <- which(plotObjectBuild$plot$scales$find("linetype"))
     linetypeLabels <- plotObjectBuild$plot$scales$scales[[iScale]]$get_labels()
+
+    linetypes <- plotObjectBuild$plot$scales$scales[[iScale]]$palette(length(linetypeLabels))
+
 
     lineTypeNames <- names(comparisonLineVector)
     if (addGuestLimits) {

@@ -4,12 +4,12 @@
 \alias{.adjustLimits}
 \title{compares old and new limits}
 \usage{
-.adjustLimits(commonLimits_old, commonLimits_new)
+.adjustLimits(commonLimitsOld, commonLimitsNew)
 }
 \arguments{
-\item{commonLimits_old}{list of old limits}
+\item{commonLimitsOld}{list of old limits}
 
-\item{commonLimits_new}{list of new limits}
+\item{commonLimitsNew}{list of new limits}
 }
 \value{
 updated limits

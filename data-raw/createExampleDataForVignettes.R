@@ -252,13 +252,13 @@ exampleDataCovariates <- rbind(exampleDataCovariates,
 ## Set 3  ----
 
 set.seed(1)
-Obs <- rnorm(n = 10, mean = 0, sd = 1)
-Pred <- jitter(Obs, amount = 0.5)
+obs <- rnorm(n = 10, mean = 0, sd = 1)
+pred <- jitter(Obs, amount = 0.5)
 
 data <- data.table(
   SetID = "DataSet3",
-  Obs = exp(Obs),
-  Pred = exp(Pred)
+  Obs = exp(obs),
+  Pred = exp(pred)
 )
 
 data[, ID := .I]

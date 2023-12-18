@@ -536,7 +536,7 @@ In this example a plot is generated with concentration on the left y-axis and Fr
 For the primary y-axis the column "values" is mapped, and metaData provides for this column the dimension "Concentration". For the secondary y-axis a new entry "y2" is added.
 
 ```{r secondrayAxis_metaData}
-metaData_y2 <- list(
+metaDataY2 <- list(
   time = list(
     dimension = "Time",
     unit = "h"
@@ -569,7 +569,7 @@ plotTimeProfile(
     groupby = dimension,
     shape = caption
   ),
-  metaData = metaData_y2,
+  metaData = metaDataY2,
   yscale = "log",
   yscale.args = list(limits = c(0.01, NA)),
   y2scale = "linear",

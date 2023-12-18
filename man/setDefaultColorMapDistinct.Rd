@@ -4,10 +4,10 @@
 \alias{setDefaultColorMapDistinct}
 \title{set the default colormap for discrete colors}
 \usage{
-setDefaultColorMapDistinct(ColorMapList = NULL)
+setDefaultColorMapDistinct(colorMapList = NULL)
 }
 \arguments{
-\item{ColorMapList}{list of ColorMaps to be set}
+\item{colorMapList}{list of colorMaps to be set}
 }
 \value{
 list with Colormaps previously set
@@ -17,8 +17,8 @@ set the default colormap for discrete colors
 }
 \seealso{
 Other setDefault functions: 
-\code{\link{ColorMaps}},
 \code{\link{Shapes}},
+\code{\link{colorMaps}},
 \code{\link{geomPointUnicode}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},

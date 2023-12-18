@@ -93,9 +93,9 @@ To set the default we use the same logic as used in `ggplot2::theme_set()`. Invi
 # inputs are set to default inputs
 oldDefaults <- ospsuite.plots::setDefaults(
   defaultOptions = list(),
-  ColorMapList = NULL,
+  colorMapList = NULL,
   shapeValues = NULL,
-  PointAsUnicode = FALSE
+  pointAsUnicode = FALSE
 )
 
 # ospsuite.plots function
@@ -166,13 +166,13 @@ Functions to set the ospsuite.plots default color only are: `setDefaultColorMapD
 
 Colors are set to discrete and ordinal scales for `fill` and `colour`
 
-The package provides some color palettes in the object ColorMaps (See `? ColorMaps`)
+The package provides some color palettes in the object colorMaps (See `? colorMaps`)
 
 The example below shows plots with  
 
 * A plot with default settings for up to 6 different colors
 * B plot with default settings for more the 6 different colors
-* C customize settings for all following plots using the `ColorMaps[["grays"]]`
+* C customize settings for all following plots using the `colorMaps[["grays"]]`
 * D customize plot: set gray scale for this plot only using function `scale_fill_grey()`    
 
 You can also use color Palettes from other packages e.g ggsci:  
@@ -221,7 +221,7 @@ ggplot() +
 ```{r}
 # customize colors:
 # set to gray colors
-ospsuite.plots::setDefaultColorMapDistinct(ColorMaps[["grays"]])
+ospsuite.plots::setDefaultColorMapDistinct(colorMaps[["grays"]])
 
 ggplot() +
   geom_tile(aes(
@@ -234,7 +234,7 @@ ggplot() +
     axis.title = element_blank()
   ) +
   labs(
-    title = "ColorMaps gray",
+    title = "colorMaps gray",
     tag = "C"
   )
 ```
@@ -623,7 +623,7 @@ knitr::kable(df, align = "c", caption = "Applicability of additional aesthetics 
 ## 5.1 Default shapes ggplot:
 
 ```{r, out.width = "90%", fig.asp = 0.4, fig.width = 8}
-shape_names <- c(
+shapeNames <- c(
   "circle", paste("circle", c("open", "filled", "cross", "plus", "small")), "bullet",
   "square", paste("square", c("open", "filled", "cross", "plus", "triangle")),
   "diamond", paste("diamond", c("open", "filled", "plus")),
@@ -634,15 +634,15 @@ shape_names <- c(
 
 
 shapes <- data.frame(
-  shape_names = shape_names,
+  shapeNames = shapeNames,
   x = c(1:7, 1:6, 1:3, 5, 1:3, 6, 2:3, 1:3),
   y = -rep(1:6, c(7, 6, 4, 4, 2, 3))
 )
 
 
 ggplot(shapes, aes(x, y)) +
-  geom_point(aes(shape = shape_names), color = "blue", fill = "red", size = 5, stroke = 1) +
-  geom_text(aes(label = shape_names), nudge_y = -0.3, size = 3.5) +
+  geom_point(aes(shape = shapeNames), color = "blue", fill = "red", size = 5, stroke = 1) +
+  geom_text(aes(label = shapeNames), nudge_y = -0.3, size = 3.5) +
   scale_shape_identity() +
   theme_void()
 ```
@@ -655,7 +655,7 @@ Attention
 
 ```{r,  fig.showtext=TRUE,out.width = "90%", fig.asp = 0.8, fig.width = 8}
 shapes <- data.frame(
-  shape_names = names(Shapes),
+  shapeNames = names(Shapes),
   shape_symbols = unlist(unname(Shapes)),
   x = rep(c(1:5), 8),
   y = rep(-c(1:8), each = 5)
@@ -665,7 +665,7 @@ shapes <- data.frame(
 showtext::showtext_auto()
 ggplot(shapes, aes(x, y)) +
   geomPointUnicode(aes(shape = shape_symbols), color = "blue", fill = "red", size = 5) +
-  geom_text(aes(label = shape_names), nudge_y = -0.3, size = 3.5) +
+  geom_text(aes(label = shapeNames), nudge_y = -0.3, size = 3.5) +
   scale_shape_identity() +
   theme_void()
 showtext::showtext_auto(enable = "off")
@@ -675,14 +675,14 @@ showtext::showtext_auto(enable = "off")
 ## 5.3 Switch between modes
 
 
-To switch to the unicode mode call `setDefaults` with input variable `PointAsUnicode = TRUE`.
-To switch back use `setDefaults(PointAsUnicode = FALSE)` or `resetDefaults(oldDefaults)`
+To switch to the unicode mode call `setDefaults` with input variable `pointAsUnicode = TRUE`.
+To switch back use `setDefaults(pointAsUnicode = FALSE)` or `resetDefaults(oldDefaults)`
 But it is recommended to produce all plots of one workflow either with unicode mode or all plots without.
 Other wise the plots may have different fonts.
 
 
 ```{r}
-oldDefaults <- setDefaults(PointAsUnicode = TRUE)
+oldDefaults <- setDefaults(pointAsUnicode = TRUE)
 
 
 dt <- data.frame(

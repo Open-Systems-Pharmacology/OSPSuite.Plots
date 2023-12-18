@@ -110,23 +110,23 @@ test_that("plot histogram works for absoulte distribution fit on logscale", {
   skip_if(getRversion() < "4.1")
 
 
-  histData_distr <- exampleDataCovariates %>%
+  histDataDistr <- exampleDataCovariates %>%
     dplyr::filter(SetID == "DataSet2") %>%
     dplyr::select(c("ID", "AgeBin", "Sex", "Obs"))
 
   metaData <- attr(exampleDataCovariates, "metaData")
-  metaData_distr <- metaData[intersect(names(histData_distr), names(metaData))]
+  metaDataDistr <- metaData[intersect(names(histDataDistr), names(metaData))]
 
 
   vdiffr::expect_doppelganger(
     title = "logScaleDistribution",
     fig = plotHistogram(
-      data = histData_distr,
+      data = histDataDistr,
       mapping = aes(
         x = Obs,
         fill = Sex,
       ),
-      metaData = metaData_distr,
+      metaData = metaDataDistr,
       xscale = "log",
       distribution = "norm",
       meanFunction = "median"

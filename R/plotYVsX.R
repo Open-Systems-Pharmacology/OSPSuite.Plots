@@ -634,7 +634,7 @@ getCountsWithin <- function(data,
                             deltaGuest = 1,
                             groups = NULL) {
   # initialize variables to avoid warning in check()
-  Description <- value <- Number <- name <- NULL
+  Description <- value <- Number <- name <- NULL # nolint
 
   checkmate::assertDataFrame(data, null.ok = FALSE, min.rows = 1)
   checkmate::assertNames(names(data), disjunct.from = c("yColumn", "xColumn"))
@@ -708,7 +708,7 @@ getCountsWithin <- function(data,
   } else {
     # if provide one row per 'fold'
 
-    TotalNumber <- data[, .(
+    totalNumber <- data[, .(
       Number = sum(!is.na(get(yColumn))),
       Fraction = 1
     )] %>%
@@ -726,11 +726,11 @@ getCountsWithin <- function(data,
         )
       )]
     tmp <- tidyr::pivot_longer(data = tmp, cols = names(tmp), names_to = "Description", values_to = "Number") %>%
-      dplyr::mutate(Fraction = Number / TotalNumber$Number) %>%
+      dplyr::mutate(Fraction = Number / totalNumber$Number) %>%
       dplyr::mutate(Description = paste("Points within", Description))
 
 
-    countsWithin <- rbind(TotalNumber,
+    countsWithin <- rbind(totalNumber,
       tmp,
       fill = TRUE
     )

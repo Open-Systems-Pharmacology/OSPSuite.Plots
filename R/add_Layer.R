@@ -30,7 +30,7 @@ initializePlot <- function(mappedData = NULL,
   shapeValues <- getOption("ospsuite.plots.shapeValues")
   if (!is.null(shapeValues)) {
     # shape
-    scale_shape_discrete <- function(...) {
+    scale_shape_discrete <- function(...) {    # nolint use snake_case as it is copied from ggplot
       scale_shape_manual(values = shapeValues)
     }
     assign("scale_shape_discrete", scale_shape_discrete)
@@ -143,12 +143,12 @@ layerWatermark <- function(label = NULL,
       label <- getOption("ospsuite.plots.watermark_label", getDefaultOptions()$ospsuite.plots.watermark_label)
     }
 
-    formatOptions_default <- getDefaultOptions()$ospsuite.plots.watermark_format
-    formatOptions_set <- getOption("ospsuite.plots.watermark_format", formatOptions_default) # nolint
+     formatOptionsDefault <- getDefaultOptions()$ospsuite.plots.watermark_format
+    formatOptionsSet <- getOption("ospsuite.plots.watermark_format",  formatOptionsDefault) # nolint
 
-    for (f in names(formatOptions_default)) {
+    for (f in names(formatOptionsDefault)) {
       if (is.null(get(f))) {
-        eval(parse(text = paste0(f, ' = formatOptions_set[["', f, '"]] %||% formatOptions_default[["', f, '"]]')))
+        eval(parse(text = paste0(f, ' = formatOptionsSet[["', f, '"]] %||%  formatOptionsDefault[["', f, '"]]')))
       }
     }
 
@@ -180,7 +180,7 @@ layerWatermark <- function(label = NULL,
 #' @param fontsize size of the text
 #'
 #' @keywords internal
-#' @return a `grid::textGrob` with the watermark and the additional attribute 'is_watermark' set to `TRUE`
+#' @return a `grid::textGrob` with the watermark
 buildWatermarkGrob <- function(label, x = .5, y = .5, angle = 30,
                                color = "grey20",
                                alpha = 0.7,
@@ -196,7 +196,6 @@ buildWatermarkGrob <- function(label, x = .5, y = .5, angle = 30,
 
 
   watermarkGrob <- grid::textGrob(label = label, y = y, x = x, rot = angle, gp = gpar)
-  attr(watermarkGrob, "is_watermark") <- TRUE
   return(watermarkGrob)
 }
 

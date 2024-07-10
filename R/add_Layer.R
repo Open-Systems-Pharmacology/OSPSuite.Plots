@@ -27,10 +27,10 @@ initializePlot <- function(mappedData = NULL,
     layerWatermark()
 
   #
-  shapeValues <- getOption("ospsuite.plots.shapeValues")
+  shapeValues <- getOspsuite.plots.option(optionKey = OptionKeys$shapeValues)
   if (!is.null(shapeValues)) {
     # shape
-    scale_shape_discrete <- function(...) {    # nolint use snake_case as it is copied from ggplot
+    scale_shape_discrete <- function(...) { # nolint use snake_case as it is copied from ggplot
       scale_shape_manual(values = shapeValues)
     }
     assign("scale_shape_discrete", scale_shape_discrete)
@@ -66,10 +66,7 @@ addLayer <- function(mappedData,
   )
 
   # check for geomUnicodeMode
-  geomUnicodeMode <- getOption(
-    x = "ospsuite.plots.GeomPointUnicode",
-    default = getDefaultOptions()[["ospsuite.plots.GeomPointUnicode"]]
-  )
+  geomUnicodeMode <- getOspsuite.plots.option(optionKey = OptionKeys$GeomPointUnicode)
   if (geomUnicodeMode &&
     geom == "point") {
     layerToCall <- geomPointUnicode
@@ -94,20 +91,13 @@ addLayer <- function(mappedData,
 
   if (geom == "point" & mappedData$hasLLOQMatch) {
     plotObject <- plotObject +
-      scale_alpha_manual(values = getOption(
-        x = "ospsuite.plots.LLOQAlphaVector",
-        default = getDefaultOptions()[["ospsuite.plots.LLOQAlphaVector"]]
-      )) +
+      scale_alpha_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$LLOQAlphaVector)) +
       guides(alpha = "none")
   }
 
 
   return(plotObject)
 }
-
-
-
-
 
 
 #' Create a watermark layer for a ggplot object.
@@ -135,23 +125,19 @@ layerWatermark <- function(label = NULL,
                            fontsize = NULL,
                            show = NULL) {
   if (is.null(show)) {
-    show <- getOption("ospsuite.plots.watermark_enabled", getDefaultOptions()$ospsuite.plots.watermark_enabled)
+    show <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
   }
 
   if (show) {
     if (is.null(label)) {
-      label <- getOption("ospsuite.plots.watermark_label", getDefaultOptions()$ospsuite.plots.watermark_label)
+      label <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_label)
     }
 
-     formatOptionsDefault <- getDefaultOptions()$ospsuite.plots.watermark_format
-    formatOptionsSet <- getOption("ospsuite.plots.watermark_format",  formatOptionsDefault) # nolint
-
-    for (f in names(formatOptionsDefault)) {
-      if (is.null(get(f))) {
-        eval(parse(text = paste0(f, ' = formatOptionsSet[["', f, '"]] %||%  formatOptionsDefault[["', f, '"]]')))
-      }
-    }
-
+    formatOptionsSet <- utils::modifyList(
+      getDefaultOptions()$ospsuite.plots.watermark_format,
+      getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
+    )
+    invisible(list2env(formatOptionsSet, envir = environment()))
 
     watermarkLayer <- annotation_custom(buildWatermarkGrob(
       label = label,
@@ -163,7 +149,7 @@ layerWatermark <- function(label = NULL,
       alpha = alpha
     ))
   } else {
-    watermarkLayer <- geom_blank()
+    watermarkLayer <- NULL
   }
 
   return(watermarkLayer)
@@ -255,7 +241,7 @@ addXscale <- function(plotObject,
         )
       },
       "log" = {
-        if (is.null(xscale.args$guide)) xscale.args$guide <- ggh4x::guide_axis_logticks()
+        if (is.null(xscale.args$guide)) xscale.args$guide <- ggplot2::guide_axis_logticks()
         do.call(
           what = scale_x_log10,
           args = xscale.args
@@ -288,7 +274,6 @@ addYscale <- function(plotObject,
   checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)
 
 
-
   plotObject <- plotObject +
     if (yscale == "linear") {
       if (is.null(yscale.args$guide)) yscale.args$guide <- ggh4x::guide_axis_minor()
@@ -300,7 +285,7 @@ addYscale <- function(plotObject,
         )
       )
     } else {
-      if (is.null(yscale.args$guide)) yscale.args$guide <- ggh4x::guide_axis_logticks()
+      if (is.null(yscale.args$guide)) yscale.args$guide <- ggplot2::guide_axis_logticks()
       do.call(
         what = scale_y_log10,
         args = c(

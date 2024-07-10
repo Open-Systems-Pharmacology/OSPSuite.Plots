@@ -103,8 +103,6 @@ obsData <- rbind(
   obsData2
 )
 
-
-
 knitr::kable(
   head(simData),
   digits = 3,
@@ -142,7 +140,6 @@ simData2Dimension <- exampleDataTimeProfile %>%
   dplyr::select(c("time", "values", "dimension", "caption"))
 
 
-
 obsData2Dimension <- exampleDataTimeProfile %>%
   dplyr::filter(SetID == "DataSet3") %>%
   dplyr::filter(Type == "observed") %>%
@@ -174,8 +171,6 @@ breaks are set according to this unit. (see `?updateScaleArgumentsForTimeUnit`)
 
 ```{r meta-data}
 metaData <- attr(exampleDataTimeProfile, "metaData")
-
-
 
 knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "list of meta data")
 ```

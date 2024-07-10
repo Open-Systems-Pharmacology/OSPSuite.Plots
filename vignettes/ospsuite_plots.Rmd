@@ -300,8 +300,6 @@ ggplot() +
     tag = "F"
   )
 
-
-
 # reset to the previously saved
 ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
 ```
@@ -311,7 +309,8 @@ ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
 Functions to set the ospsuite.plots default shapes only are: `oldShapeValue = setDefaultShapeDistinct(shapeValues)` and `resetDefaultShapeDistinct(oldShapeValue)`. This functions are called by `setDefaults()` and `resetDefaults()`.
 The scales are set to the option  `ospsuite.plots.shapeValues`, which is then used to
 set the discrete scale of shapes for all {ospsuite.plots} functions.
-for customized functions add `scale_shape_manual(values = getOption('ospsuite.plots.shapeValues'))`
+for customized functions add `scale_shape_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$ospsuite.plots.shapeValues))`
+
 
 
 ## 2.5 Default Options
@@ -322,6 +321,9 @@ This Options are set by the function `setDefaults()` via the variable  `defaultO
 ```{r}
 ospsuite.plots::setDefaults(defaultOptions = ospsuite.plots::getDefaultOptions())
 ```
+
+The names of all options defined by this package start with the package name `ospsuite.plots` as prefix and a suffix. The suffixes are listed in the enumeration `OptionKeys`
+There exist two helper functions (`setOspsuite.plost.option` and `getOspsuite.plost.option`) to set and get these options 
 
 
 ## 2.5.1 Options to customize Watermark
@@ -339,25 +341,16 @@ This is done automatically by each plot function of this package
 
 There are options to 
 
-* switch watermark on and off  
-* select the label 
-* customize format
-
-
-```{r,eval = FALSE}
-options(list(
-  ospsuite.plots.watermark_enabled = TRUE,
-  ospsuite.plots.watermark_label = "preliminary analysis",
-  ospsuite.plots.watermark_format = list(
+* switch watermark on and off (option key = `watermark_enabled`, default = `TRUE`) 
+* select the label (option key = `watermark_label`, default =  "preliminary analysis") 
+* customize format (option key = `watermark_format`, default =  list(
     x = 0.5,
     y = 0.5,
     color = "grey20",
     angle = 30,
     fontsize = 12,
     alpha = 0.7
-  )
-))
-```
+  )) 
 
 
 examples to customize watermark  
@@ -368,17 +361,21 @@ examples to customize watermark
 
 ```{r}
 # change format and label of watermark
-options(list(
-  ospsuite.plots.watermark_format = list(
+setOspsuite.plots.option(
+  optionKey = OptionKeys$watermark_format,
+  value = list(
     x = 0.2,
     y = 0.9,
     color = "red",
     angle = 90,
     fontsize = 24,
     alpha = 0.2
-  ),
-  ospsuite.plots.watermark_label = "NEW"
-))
+  )
+)
+setOspsuite.plots.option(
+  optionKey = OptionKeys$watermark_label,
+  value = "NEW"
+)
 
 initializePlot() +
   labs(
@@ -387,11 +384,14 @@ initializePlot() +
   )
 ```
 
-
+ 
 disable watermark:
 
 ```{r}
-options(list(ospsuite.plots.watermark_enabled = FALSE))
+setOspsuite.plots.option(
+  optionKey = OptionKeys$watermark_enabled,
+  value = FALSE
+)
 
 initializePlot() +
   labs(
@@ -403,11 +403,18 @@ initializePlot() +
 reset to default:
 
 ```{r}
-options(list(
-  ospsuite.plots.watermark_format = NULL,
-  ospsuite.plots.watermark_label = NULL,
-  ospsuite.plots.watermark_enabled = NULL
-))
+setOspsuite.plots.option(
+  optionKey = OptionKeys$watermark_format,
+  value = NULL
+)
+setOspsuite.plots.option(
+  optionKey = OptionKeys$watermark_label,
+  value = NULL
+)
+setOspsuite.plots.option(
+  optionKey = OptionKeys$watermark_enabled,
+  value = NULL
+)
 
 initializePlot() +
   labs(
@@ -420,40 +427,102 @@ initializePlot() +
 
 ## 2.5.2 Options to set the defaults for geom layer attributes
 
+All plot functions have input variable `geom*Attribute` which are passed as variables to the corresponding ggplot layer.
+The defaults of the input variables can be set by options
 
-```{r, eval = FALSE}
-options(list(
-  ospsuite.plots.geomLineAttributes = list(),
-  ospsuite.plots.geomRibbonAttributes = list(color = NA),
-  ospsuite.plots.geomPointAttributes = list(),
-  ospsuite.plots.geomErrorbarAttributes = list(width = 0),
-  ospsuite.plots.geomLLOQAttributes = list(linetype = "dotted"),
-  ospsuite.plots.geomRatioLineAttributes = list(linetype = "dashed"),
-  ospsuite.plots.geomBoxplotAttributes = list(
-    position = position_dodge(width = 1),
-    color = "black"
+
+
+```{r options_defaultgeoms, echo=FALSE}
+df <- rbind(
+  data.frame(
+    defaultOption = "Line",
+    inputVariable = c("geomLineAttributes"),
+    functions = c("plotTimeProfile()")
   ),
-  ospsuite.plots.geomHistAttributes = list(
-    bins = 10,
-    position = ggplot2::position_nudge()
+  data.frame(
+    defaultOption = "Ribbon",
+    inputVariable = "geomRibbonAttributes",
+    functions = c("plotTimeProfile()")
   ),
-  ospsuite.plots.geomBarAttributes = list(
-    position = ggplot2::position_nudge()
+  data.frame(
+    defaultOption = "Point",
+    inputVariable = "geomPointAttributes",
+    functions = c("plotTimeProfile()", "plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")
+  ),
+  data.frame(
+    defaultOption = "Errorbar",
+    inputVariable = "geomErrorbarAttributes",
+    functions = c("plotTimeProfile()", "plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")
+  ),
+  data.frame(
+    defaultOption = "LLOQ",
+    inputVariable = "geomLLOQAttributes",
+    functions = c("plotTimeProfile()", "plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")
+  ),
+  data.frame(
+    defaultOption = "Hist",
+    inputVariable = "geomHistAttributes",
+    functions = c("plotHistogram()")
+  ),
+  data.frame(
+    defaultOption = "Boxplot",
+    inputVariable = c(
+      "geomBoxplotAttributes",
+      "geomPointAttributes"
+    ),
+    functions = c(
+      "plotBoxWhisker()",
+      "plotBoxWhisker()"
+    )
+  ),
+  data.frame(
+    defaultOption = "ComparisonLine",
+    inputVariable = c("geomComparisonLineAttributes"),
+    functions = c("plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")
+  ),
+  data.frame(
+    defaultOption = "GuestLine",
+    inputVariable = c("geomGuestLineAttributes"),
+    functions = c("plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")
   )
-))
+) %>%
+  data.table::setDT() %>%
+  .[, .(inputVariable = paste(inputVariable, collapse = ", ")), by = c("defaultOption", "functions")] %>%
+  tidyr::pivot_wider(names_from = functions, values_from = inputVariable, values_fill = " ")
+
+
+knitr::kable(df, align = "c", caption = "Usage of options for geom attributes")
 ```
+
+with default options:  
+
+* `LineAttributes = list()`  
+* `Ribbon = list(color = NA)`
+* `PointAttributes = list()`  
+* `ErrorbarAttributes = list(width = 0)`  
+* `LLOQAttributes = list(linetype = "dotted")`  
+* `ComparisonLineAttributes = list(linetype = "dashed")`  
+* `GuestLineAttributes = list(linetype = "dashed")`  
+* `BoxplotAttributes = list(position = position_dodge(width = 1),
+      color = "black")`   
+* `HistAttributes = list(
+      bins = 10,
+      position = ggplot2::position_nudge()
+    )`  
+
+
 
 ## 2.5.3 Options to set defaults for aesthetic `alpha`
 
 Options to set the face alpha of ribbons filled points   
 and options to set the filled points for values below and above lloq
 
-```{r, eval = FALSE}
-# default alpha
-options(ospsuite.plots.Alpha = 0.7)
+```{r,eval=FALSE}
+# default alpha = 0.5
+getOspsuite.plots.option(optionKey = "Alpha")
 
-# alpha of LLOQ values
-options(ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.3, "FALSE" = 1))
+# alpha of LLOQ values  c("TRUE" = 0.3, "FALSE" = 1)
+getOspsuite.plots.option(optionKey = "LLOQAlphaVector")
 ```
 
 
@@ -462,10 +531,21 @@ options(ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.3, "FALSE" = 1))
 Percentiles are used within the function `plotBoxwhisker()`
 
 ```{r, eval = FALSE}
-# percentiles for boxwhisker plots
-options(ospsuite.plots.Percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95))
+# percentiles for boxwhisker plots c(0.05, 0.25, 0.5, 0.75, 0.95)
+getOspsuite.plots.option(optionKey = "Percentiles")
 ```
 
+
+## 2.5.4 Options to define export format 
+
+There are options to define the export format using function `exportPlot` (see details below)
+
+* export.width  width of the exported file
+* export.units   units for width and height
+* export.device device for plot export
+* export.dpi plot resolution
+
+The letter options are used directly as input for `ggplot2::ggsave` so check help for available values.
 
 
 # 3. Plot-functions
@@ -613,14 +693,53 @@ df <- rbind(
 knitr::kable(df, align = "c", caption = "Applicability of additional aesthetics in functions")
 ```
 
+# 5. Plot export
 
-  
+This section demonstrates how to use the `exportPlot` function to save `ggplot` objects to files, adjusting the width and height of the exported plots as necessary. This function is part of the ospsuite.plots package and simplifies the process of exporting plots for various purposes, such as publication or presentation.
+
+## 5.1 Basic Usage
+To export a plot, you need a ggplot object. Here's a basic example:
+
+Create a simple ggplot object:
+
+```{r, eval=FALSE}
+plotObject <- ospsuite.plots::plotHistogram(
+  data = testData,
+  mapping = aes(x = Age)
+)
+```
 
 
+Exporting the Plot:
+Using the `exportPlot` function, you can easily save this plot to a file:
 
-# 5. Shapes
+Replace "path/to/save" with the actual directory path where you want to save the plot, and adjust the width and height parameters as needed.
+```{r}
+exportPlot(
+  plotObject = plotObject,
+  filepath = "path/to/save",
+  filename = "myplot.png",
+  width = 10,
+  height = 8
+)
+```
 
-## 5.1 Default shapes ggplot:
+## 5.2 Advanced Usage
+
+Adjusting Plot Dimensions Based on Content
+The `exportPlot` function can automatically adjust the plot dimensions based on its content, such as the presence of a legend or the aspect ratio.
+
+Assuming `plotObject` is your ggplot object
+`exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "adjusted_plot.png")`
+
+In this case, you don't need to specify the width and height explicitly; the function calculates them for you.
+As default width the value saved in the `ospsuite.plots` option export.width is used.
+If a aspect.ratio is defined in the theme of the plot, Height will adjusted accordingly, otherwise the function exports square figures.
+
+
+# 6. Shapes
+
+## 6.1 Default shapes ggplot:
 
 ```{r, out.width = "90%", fig.asp = 0.4, fig.width = 8}
 shapeNames <- c(
@@ -647,7 +766,7 @@ ggplot(shapes, aes(x, y)) +
   theme_void()
 ```
 
-## 5.2 Use unicode symbols  with {showtext}
+## 6.2 Use unicode symbols  with {showtext}
 
 Attention 
 - use of {showtext}  has side effects   
@@ -672,7 +791,7 @@ showtext::showtext_auto(enable = "off")
 ```
 
 
-## 5.3 Switch between modes
+## 6.3 Switch between modes
 
 
 To switch to the unicode mode call `setDefaults` with input variable `pointAsUnicode = TRUE`.

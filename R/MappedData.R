@@ -539,9 +539,9 @@ MappedData <- R6::R6Class( # nolint
 
           self$residualLabel <-
             switch(residualScale,
-              "linear" = "residuals\nobserved - predicted",
-              "log" = "residuals\nlog(observed) - log(predicted)",
-              "ratio" = "observed/predicted"
+              linear = "residuals\nobserved - predicted",
+              log = "residuals\nlog(observed) - log(predicted)",
+              ratio = "observed/predicted"
             )
         }
       }

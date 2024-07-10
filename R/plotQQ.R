@@ -93,9 +93,5 @@ plotQQ <- function(data,
     yscale.args = yscale.args
   )
 
-
-
-
-
   return(plotObject)
 }

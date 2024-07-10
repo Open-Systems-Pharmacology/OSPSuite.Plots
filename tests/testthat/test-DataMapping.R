@@ -67,8 +67,6 @@ test_that("adjustForLLOQMatch works", {
     lloq = lloq
   )
 
-
-
   obsDataMatch <- MappedData$new(
     data = obsData,
     mapping = obsAes,
@@ -79,8 +77,6 @@ test_that("adjustForLLOQMatch works", {
   expect_true("isLLOQ.i" %in% names(obsDataMatch$data))
 
   expect_true(obsDataMatch$hasLLOQMatch)
-
-
 
   lloqMapping <- obsDataMatch$getAestheticsForGeom(
     geom = "hvline",
@@ -120,14 +116,12 @@ test_that("adjustDataForMDV works", {
 })
 
 
-
 test_that("adjust secondary y axis scaling works lin to lin", {
   obsData <- data.table(
     x = c(1, 2, 3, 1, 2, 3),
     y = c(200, 300, 400, 10, 11, 12),
     y2axis = c(0, 0, 0, 1, 1, 1)
   )
-
 
   mapping <- aes(
     x = x,
@@ -148,16 +142,12 @@ test_that("adjust secondary y axis scaling works lin to lin", {
     expected = range(obsData[y2axis == 1]$y)
   )
 
-
-
   dataMatch <- dataMatch$scaleDataForSecondaryAxis()
 
   expect_equal(dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 1, ]$y,
     expected = dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 0, ]$y
   )
 })
-
-
 
 test_that("adjust secondary y axis scaling works log to log", {
   obsData <- data.table(
@@ -193,9 +183,6 @@ test_that("adjust secondary y axis scaling works log to log", {
     expected = dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 0, ]$y
   )
 })
-
-
-
 
 test_that("adjust secondary y axis scaling works lin to log", {
   obsData <- data.table(
@@ -272,8 +259,6 @@ test_that("grouping for simulation and observed works", {
     dplyr::filter(Type == "simulated") %>%
     dplyr::filter(SetID %in% c("DataSet1", "DataSet2", "DataSet3")) %>%
     dplyr::select(c("time", "values", "minValues", "maxValues", "caption", "dimension"))
-
-
 
   simMappedData <- MappedDataTimeProfile$new(
     data = simData,

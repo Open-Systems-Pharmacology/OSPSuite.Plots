@@ -114,7 +114,7 @@ use Metadata to adjust binning of x-axis, and group aesthetic
 \describe{
 \item{\code{originalmapping}}{mapping provided by user}
 
-\item{\code{xscale}}{either 'linear','log', discrete or 'auto' (default) auto select linear for continuous data and discrete for categorical data}
+\item{\code{xscale}}{either 'linear','log', 'discrete' or 'auto' (default) auto select linear for continuous data and discrete for categorical data}
 
 \item{\code{xscale.args}}{list of arguments passed to \code{ggplot2::scale_x_continuous()}, \code{ggplot2::scale_x_log10()} or
 \code{ggplot2::scale_x_discrete()}}

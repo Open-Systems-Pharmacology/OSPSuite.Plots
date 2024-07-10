@@ -27,7 +27,7 @@ Imports:
     tidyr
 Depends: 
     R (>= 3.6),
-    ggplot2 (>= 3.3.0)
+    ggplot2 (>= 3.5.0)
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)

@@ -80,8 +80,6 @@ test_that("plot histogram works for all stacked  frequency distribution fit comb
     )
   )
 
-
-
   vdiffr::expect_doppelganger(
     title = "stack_frequency",
     fig = plotHistogram(
@@ -102,8 +100,6 @@ test_that("plot histogram works for all stacked  frequency distribution fit comb
     )
   )
 })
-
-
 
 test_that("plot histogram works for absoulte distribution fit on logscale", {
   skip_if_not_installed("vdiffr")
@@ -159,7 +155,5 @@ test_that("plot histogram works for categoricalData", {
     )
   )
 })
-
-
 
 ospsuite.plots::resetDefaults(oldDefaults)

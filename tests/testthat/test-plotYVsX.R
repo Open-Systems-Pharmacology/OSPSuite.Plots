@@ -27,8 +27,6 @@ test_that("plot Residuals vs Covariate works", {
   )
 })
 
-
-
 test_that("plot Observed vs Predicted works", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
@@ -66,9 +64,6 @@ test_that("plot Observed vs Predicted works", {
     )
   )
 })
-
-
-
 
 test_that("plotRatioVsCov works", {
   skip_if_not_installed("vdiffr")
@@ -108,8 +103,6 @@ test_that("plotRatioVsCov works", {
   )
 })
 
-
-
 test_that("getCountsWithin works for Ratio", {
   pkRatioData <- exampleDataCovariates %>%
     dplyr::filter(SetID == "DataSet1") %>%
@@ -146,8 +139,6 @@ test_that("getCountsWithin works for Ratio", {
 
   expect_equal(pKRatioMeasureSex$`1.5 fold Fraction`, expected = c(0.44, 0.52))
 })
-
-
 
 test_that("getCountsWithin works for Guest Criteria", {
   skip_if_not_installed("vdiffr")
@@ -189,8 +180,5 @@ test_that("getCountsWithin works for Guest Criteria", {
 
   expect_equal(countsGroup$`guest criteria Fraction`, expected = c(0.6, 0.6))
 })
-
-
-
 
 ospsuite.plots::resetDefaults(oldDefaults)

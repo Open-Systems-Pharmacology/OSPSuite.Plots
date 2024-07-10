@@ -20,11 +20,13 @@ colormaps
 dplyr
 errorbars
 fitdistrplus
+fontsize
 frac
 geomean
 ggh
 ggnewscale
 ggplot
+grey
 ggpubr
 ggsci
 groupby

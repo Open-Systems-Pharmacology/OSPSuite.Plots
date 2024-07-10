@@ -34,6 +34,4 @@ test_that("plot Observed vs Predicted works", {
   )
 })
 
-
-
 ospsuite.plots::resetDefaults(oldDefaults)

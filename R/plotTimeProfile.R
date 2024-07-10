@@ -159,7 +159,6 @@ plotTimeProfile <- function(data = NULL, # nolint
   }
 
 
-
   #-  create default plot ----------
   # mapping can not be set in ggplot as observed and simulated mappings may differ
   if (is.null(plotObject)) {
@@ -218,8 +217,6 @@ plotTimeProfile <- function(data = NULL, # nolint
     yscale.args = yscale.args,
     secAxis = secAxis
   )
-
-
 
   ## -- addLayers --------
   #- plot simulated data
@@ -305,9 +302,6 @@ plotTimeProfile <- function(data = NULL, # nolint
 
   return(plotObject)
 }
-
-
-
 
 
 #' compares old and new limits

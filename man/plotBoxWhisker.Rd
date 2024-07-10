@@ -9,8 +9,7 @@ plotBoxWhisker(
   mapping,
   metaData = NULL,
   plotObject = NULL,
-  percentiles = getOption(x = "ospsuite.plots.Percentiles", default =
-    getDefaultOptions()[["ospsuite.plots.Percentiles"]]),
+  percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles),
   yscale = "linear",
   yscale.args = list(),
   xscale = "auto",
@@ -33,7 +32,7 @@ plotBoxWhisker(
 \item{plotObject}{An optional \code{ggplot} object on which to add the plot layers}
 
 \item{percentiles}{vector with percentiles used for the box whiskers and boxes e.g. c(0.05,0.25,0.5,0.75,0.95)
-default defined by option \code{ospsuite.plots.Percentiles}}
+default defined by ospsuite.plots option}
 
 \item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 

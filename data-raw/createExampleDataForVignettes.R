@@ -46,7 +46,6 @@ exampleDataTimeProfile <- rbind(exampleDataTimeProfile,
 )
 
 
-
 ## observed datat set 1 and 2
 
 # Observed data 1
@@ -190,7 +189,6 @@ exampleDataTimeProfile <- rbind(exampleDataTimeProfile,
 )
 
 
-
 # metaData
 
 metaData <- list(
@@ -206,7 +204,6 @@ metaData <- list(
 
 
 setattr(exampleDataTimeProfile, "metaData", metaData)
-
 
 
 # save data
@@ -248,7 +245,6 @@ exampleDataCovariates <- rbind(exampleDataCovariates,
 )
 
 
-
 ## Set 3  ----
 
 set.seed(1)
@@ -267,10 +263,6 @@ exampleDataCovariates <- rbind(exampleDataCovariates,
   data,
   fill = TRUE
 )
-
-
-
-
 
 
 # metaData will be used during the smart mapping

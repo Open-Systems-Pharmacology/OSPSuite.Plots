@@ -72,18 +72,18 @@ knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "list of meta d
 
 
 ```{r load-data-2, results='asis'}
-histData_distr <- exampleDataCovariates %>%
+histDataDistr <- exampleDataCovariates %>%
   dplyr::filter(SetID == "DataSet2") %>%
   dplyr::select(c("ID", "AgeBin", "Sex", "Obs"))
 
-metaData_distr <- attr(exampleDataCovariates, "metaData")
-metaData_distr <- metaData[intersect(names(histData), names(metaData_distr))]
+metaDataDistr <- attr(exampleDataCovariates, "metaData")
+metaDataDistr <- metaData[intersect(names(histData), names(metaDataDistr))]
 
 
 # histData
-knitr::kable(utils::head(histData_distr), digits = 2, caption = "first rows of data")
+knitr::kable(utils::head(histDataDistr), digits = 2, caption = "first rows of data")
 
-knitr::kable(metaData2DataFrame(metaData_distr), digits = 2, caption = "list of meta data")
+knitr::kable(metaData2DataFrame(metaDataDistr), digits = 2, caption = "list of meta data")
 ```
 
 # Examples
@@ -327,7 +327,6 @@ plotHistogram(
   )
 
 
-
 # D)
 plotHistogram(
   data = histData,
@@ -378,12 +377,12 @@ Below examples are shown for
 ```{r example-distribution}
 # Plot normal distribution
 plotHistogram(
-  data = histData_distr,
+  data = histDataDistr,
   mapping = aes(
     x = Obs,
     fill = Sex,
   ),
-  metaData = metaData_distr,
+  metaData = metaDataDistr,
   distribution = "normal"
 )
 ```
@@ -394,12 +393,12 @@ plotHistogram(
 
 ```{r example-distribution-chisq}
 plotHistogram(
-  data = histData_distr,
+  data = histDataDistr,
   mapping = aes(
     x = Obs,
     groupby = Sex,
   ),
-  metaData = metaData_distr,
+  metaData = metaDataDistr,
   distribution = "chisq",
   meanFunction = "none"
 )
@@ -434,12 +433,12 @@ To fit a frequency select a distribution (here "normal") and set variable `plotA
 
 ```{r example-frequency-fit}
 plotHistogram(
-  data = histData_distr,
+  data = histDataDistr,
   mapping = aes(
     x = Obs,
     fill = Sex,
   ),
-  metaData = metaData_distr,
+  metaData = metaDataDistr,
   distribution = "normal",
   plotAsFrequency = TRUE
 )
@@ -476,12 +475,12 @@ As fit is based on binning, and binning is depended on scale, a log scale has to
 
 ```{r example-logscale}
 plotHistogram(
-  data = histData_distr,
+  data = histDataDistr,
   mapping = aes(
     x = Obs,
     fill = Sex,
   ),
-  metaData = metaData_distr,
+  metaData = metaDataDistr,
   xscale = "log",
   distribution = "norm",
   meanFunction = "none"

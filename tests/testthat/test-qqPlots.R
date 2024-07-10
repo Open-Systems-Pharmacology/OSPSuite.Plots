@@ -9,10 +9,10 @@ test_that("plot Observed vs Predicted works", {
     dplyr::filter(SetID == "DataSet2") %>%
     dplyr::select(c("ID", "Obs", "gsd", "Pred", "Sex"))
 
-  LLOQ <- signif(quantile(data$Obs, probs = 0.1), 1)
+  lloqData <- signif(quantile(data$Obs, probs = 0.1), 1)
 
   data <- data %>%
-    dplyr::mutate(lloq = LLOQ) %>%
+    dplyr::mutate(lloq = lloqData) %>%
     dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
 
 
@@ -33,7 +33,5 @@ test_that("plot Observed vs Predicted works", {
     )
   )
 })
-
-
 
 ospsuite.plots::resetDefaults(oldDefaults)

@@ -14,8 +14,8 @@ restore to previously stored settings
 }
 \seealso{
 Other setDefault functions: 
-\code{\link{ColorMaps}},
 \code{\link{Shapes}},
+\code{\link{colorMaps}},
 \code{\link{geomPointUnicode}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},

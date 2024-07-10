@@ -6,19 +6,19 @@
 \usage{
 setDefaults(
   defaultOptions = list(),
-  ColorMapList = NULL,
+  colorMapList = NULL,
   shapeValues = NULL,
-  PointAsUnicode = FALSE
+  pointAsUnicode = FALSE
 )
 }
 \arguments{
 \item{defaultOptions}{list of options}
 
-\item{ColorMapList}{list of color maps}
+\item{colorMapList}{list of color maps}
 
 \item{shapeValues}{list of Shapes}
 
-\item{PointAsUnicode}{A \code{flag} to switch between mode for geom_point, if TRUE points will be plotted as unicode labels}
+\item{pointAsUnicode}{A \code{flag} to switch between mode for geom_point, if TRUE points will be plotted as unicode labels}
 }
 \value{
 list of old settings which can be used to reset defaults with \code{resetDefaults()}
@@ -32,8 +32,8 @@ for detailed information see
 }
 \seealso{
 Other setDefault functions: 
-\code{\link{ColorMaps}},
 \code{\link{Shapes}},
+\code{\link{colorMaps}},
 \code{\link{geomPointUnicode}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},

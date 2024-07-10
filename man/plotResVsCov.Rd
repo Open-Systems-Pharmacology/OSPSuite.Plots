@@ -46,7 +46,6 @@ call \code{ggplot2::geom_function} to display guest criteria}
     \item{\code{observedDataDirection}}{either 'x' or 'y', defines direction of observed data. relevant for
 aesthetics \code{lloq}, \code{error}end \code{error_relative}}
     \item{\code{metaData}}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
-    \item{\code{geomLineAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_line}}
     \item{\code{geomPointAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
     \item{\code{geomErrorbarAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
     \item{\code{geomLLOQAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}

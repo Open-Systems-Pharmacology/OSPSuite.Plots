@@ -27,8 +27,6 @@ test_that("plot Residuals vs Covariate works", {
   )
 })
 
-
-
 test_that("plot Observed vs Predicted works", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
@@ -37,10 +35,10 @@ test_that("plot Observed vs Predicted works", {
     dplyr::filter(SetID == "DataSet2") %>%
     dplyr::select(c("ID", "Obs", "gsd", "Pred", "Sex"))
 
-  LLOQ <- signif(quantile(data$Obs, probs = 0.1), 1)
+  lloqData <- signif(quantile(data$Obs, probs = 0.1), 1)
 
   data <- data %>%
-    dplyr::mutate(lloq = LLOQ) %>%
+    dplyr::mutate(lloq = lloqData) %>%
     dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
 
 
@@ -67,19 +65,16 @@ test_that("plot Observed vs Predicted works", {
   )
 })
 
-
-
-
 test_that("plotRatioVsCov works", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-  DDIdata <- exampleDataCovariates %>%
+  dDIdata <- exampleDataCovariates %>%
     dplyr::filter(SetID == "DataSet3") %>%
     dplyr::select(c("ID", "Obs", "Pred"))
 
 
-  DDImetaData <- list(
+  dDImetaData <- list(
     Obs = list(
       dimension = "DDI AUC Ratio",
       unit = ""
@@ -94,21 +89,19 @@ test_that("plotRatioVsCov works", {
   vdiffr::expect_doppelganger(
     title = "plotRatioVsCov",
     fig = plotRatioVsCov(
-      data = DDIdata,
+      data = dDIdata,
       mapping = aes(
         x = Obs,
         predicted = Pred,
         observed = Obs,
         groupby = as.character(ID)
       ),
-      metaData = DDImetaData,
+      metaData = dDImetaData,
       addGuestLimits = TRUE,
       deltaGuest = 1.2
     )
   )
 })
-
-
 
 test_that("getCountsWithin works for Ratio", {
   pkRatioData <- exampleDataCovariates %>%
@@ -138,16 +131,14 @@ test_that("getCountsWithin works for Ratio", {
 
   expect_equal(plotObject$countsWithin$Fraction[c(2, 3)], expected = c(0.48, 0.64))
 
-  PKRatioMeasure_Sex <- getCountsWithin(
+  pKRatioMeasureSex <- getCountsWithin(
     data = pkRatioData,
     yColumn = "Ratio",
     groups = c("Sex")
   )
 
-  expect_equal(PKRatioMeasure_Sex$`1.5 fold Fraction`, expected = c(0.44, 0.52))
+  expect_equal(pKRatioMeasureSex$`1.5 fold Fraction`, expected = c(0.44, 0.52))
 })
-
-
 
 test_that("getCountsWithin works for Guest Criteria", {
   skip_if_not_installed("vdiffr")
@@ -155,13 +146,13 @@ test_that("getCountsWithin works for Guest Criteria", {
 
 
   # Load example
-  DDIdata <- exampleDataCovariates %>%
+  dDIdata <- exampleDataCovariates %>%
     dplyr::filter(SetID == "DataSet3") %>%
     dplyr::select(c("ID", "Obs", "Pred")) %>%
     dplyr::mutate(Type = ifelse(ID <= 5, "A", "B"))
 
   plotObject <- plotRatioVsCov(
-    data = DDIdata,
+    data = dDIdata,
     mapping = aes(
       x = Obs,
       predicted = Pred,
@@ -189,8 +180,5 @@ test_that("getCountsWithin works for Guest Criteria", {
 
   expect_equal(countsGroup$`guest criteria Fraction`, expected = c(0.6, 0.6))
 })
-
-
-
 
 ospsuite.plots::resetDefaults(oldDefaults)

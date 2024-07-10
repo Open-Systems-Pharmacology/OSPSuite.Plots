@@ -87,16 +87,16 @@ knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "list of meta d
 
 ```{r load-data-2, results='asis'}
 # Load example
-DDIdata <- exampleDataCovariates %>%
+dDIdata <- exampleDataCovariates %>%
   dplyr::filter(SetID == "DataSet3") %>%
   dplyr::select(c("ID", "Obs", "Pred")) %>%
   dplyr::mutate(Study = paste("Study", ID))
 
-DDIdata$Study <- factor(DDIdata$Study, levels = unique(DDIdata$Study))
+dDIdata$Study <- factor(dDIdata$Study, levels = unique(dDIdata$Study))
 
-knitr::kable(head(DDIdata), digits = 2, caption = "first rows of dataset used for DDI example")
+knitr::kable(head(dDIdata), digits = 2, caption = "first rows of dataset used for DDI example")
 
-DDImetaData <- list(
+dDImetaData <- list(
   Obs = list(
     dimension = "DDI AUC Ratio",
     unit = ""
@@ -108,7 +108,7 @@ DDImetaData <- list(
 )
 
 
-knitr::kable(metaData2DataFrame(DDImetaData), digits = 2, caption = "list of meta data")
+knitr::kable(metaData2DataFrame(dDImetaData), digits = 2, caption = "list of meta data")
 ```
 
 ## 1.2.3 Dataset for Ratio comparison
@@ -220,10 +220,10 @@ Below a data set is created where the LLOQ is set to the 0.1 quantile of the obs
 By mapping lloq this data are displayed with a lighter alpha, And a horizontal line for the lloq is added
 
 ```{r basic-examples-lloq}
-LLOQ <- signif(quantile(data$Obs, probs = 0.1), 1)
+lloqData <- signif(quantile(data$Obs, probs = 0.1), 1)
 
 dataLLOQ <- data %>%
-  dplyr::mutate(lloq = LLOQ) %>%
+  dplyr::mutate(lloq = lloqData) %>%
   dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
 
 plotPredVsObs(
@@ -363,13 +363,13 @@ To compare DDI-ratios set the variable `addGuestLimits` to TRUE and set variable
 
 ```{r predVsObs_Guest,fig.width=6,fig.height=6}
 plotPredVsObs(
-  data = DDIdata,
+  data = dDIdata,
   mapping = aes(
     x = Obs,
     y = Pred,
     groupby = Study
   ),
-  metaData = DDImetaData,
+  metaData = dDImetaData,
   addGuestLimits = TRUE,
   comparisonLineVector = list(identity = 1),
   deltaGuest = 1
@@ -384,11 +384,11 @@ In the example below the Predicted values are set to 1/2 of the original values.
 There for the variable `asSquarePlot` is set to `FALSE`.
 
 ```{r example-nonsquare}
-DataNonSquare <- data %>%
+dataNonSquare <- data %>%
   dplyr::mutate(Pred = Pred / 2)
 
 plotPredVsObs(
-  data = DataNonSquare,
+  data = dataNonSquare,
   mapping = aes(
     x = Obs,
     y = Pred,
@@ -592,13 +592,13 @@ If you want to calculate the Number of Ratios  with stratification you can call 
 
 
 ```{r quaification-tables, results='asis'}
-CountsWithin_Sex <- getCountsWithin(
+countsWithinSex <- getCountsWithin(
   data = pkRatioData,
   yColumn = "Ratio",
   groups = c("Sex")
 )
 
-knitr::kable(CountsWithin_Sex, caption = "Ratios stratified by gender")
+knitr::kable(countsWithinSex, caption = "Ratios stratified by gender")
 ```
 
 
@@ -610,14 +610,14 @@ To compare DDI-ratios set the variable `addGuestLimits` to TRUE and set variable
 
 ```{r ratio-Guest}
 plotObject <- plotRatioVsCov(
-  data = DDIdata,
+  data = dDIdata,
   mapping = aes(
     x = Obs,
     predicted = Pred,
     observed = Obs,
     groupby = Study
   ),
-  metaData = DDImetaData,
+  metaData = dDImetaData,
   addGuestLimits = TRUE,
   comparisonLineVector = 1,
   deltaGuest = 1

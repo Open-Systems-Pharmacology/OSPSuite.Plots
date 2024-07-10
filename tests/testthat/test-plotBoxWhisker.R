@@ -71,7 +71,4 @@ test_that("plotWhisker works", {
   )
 })
 
-
-
-
 ospsuite.plots::resetDefaults(oldDefaults)

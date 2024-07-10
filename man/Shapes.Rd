@@ -17,7 +17,7 @@ corresponding to their appropriate shapes.
 }
 \seealso{
 Other setDefault functions: 
-\code{\link{ColorMaps}},
+\code{\link{colorMaps}},
 \code{\link{geomPointUnicode}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},

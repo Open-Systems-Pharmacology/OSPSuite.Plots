@@ -87,7 +87,6 @@ updateScaleArgumentsForTimeUnit <- function(scale.args,
 }
 
 
-
 #' adds a labels by meta data to ggplot object
 #'
 #' @param mappedData  MappedData object with information of mapped dimensions and units
@@ -187,7 +186,6 @@ metaData2DataFrame <- function(metaData) {
 
   return(metaDF)
 }
-
 
 
 #' creates a list with fold Distances

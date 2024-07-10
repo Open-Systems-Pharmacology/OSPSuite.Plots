@@ -180,9 +180,6 @@ plotPredVsObs <- function(data = NULL,
   return(plotObject)
 }
 
-
-
-
 #' @title base plot for `plotResVsCov()`,`plotRatiVsCov()` and`plotPredVsObs()`
 #' @description
 #'
@@ -222,7 +219,6 @@ plotYVsX <- function(data,
                      metaData = NULL,
                      geomPointAttributes = getDefaultGeomAttributes("Point"),
                      geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
-                     geomLineAttributes = getDefaultGeomAttributes("Line"),
                      geomGuestLineAttributes = getDefaultGeomAttributes("GuestLine"),
                      geomComparisonLineAttributes = getDefaultGeomAttributes("ComparisonLine"),
                      geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
@@ -246,7 +242,6 @@ plotYVsX <- function(data,
 
   checkmate::assertList(geomPointAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomErrorbarAttributes, null.ok = FALSE, min.len = 0)
-  checkmate::assertList(geomLineAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomGuestLineAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomComparisonLineAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomLLOQAttributes, null.ok = FALSE, min.len = 0)
@@ -350,8 +345,6 @@ plotYVsX <- function(data,
       )
   }
 
-
-
   # Scatter points
   plotObject <- addLayer(
     mappedData = mappedData,
@@ -376,10 +369,6 @@ plotYVsX <- function(data,
     )
   }
 
-
-
-
-
   # add lloq lines
   if (mappedData$hasLLOQMatch) {
     plotObject <- addLayer(
@@ -390,10 +379,6 @@ plotYVsX <- function(data,
       layerToCall = geom_vline
     )
   }
-
-
-
-
 
   if (asSquarePlot) {
     plotObject <- plotObject +
@@ -431,7 +416,6 @@ plotYVsX <- function(data,
   plotObjectBuild <- ggplot_build(plotObject)
 
   if (any(plotObjectBuild$plot$scales$find("linetype"))) {
-
     iScale <- which(plotObjectBuild$plot$scales$find("linetype"))
     linetypeLabels <- plotObjectBuild$plot$scales$scales[[iScale]]$get_labels()
 
@@ -454,8 +438,6 @@ plotYVsX <- function(data,
       scale_linetype_manual(values = linetypes, breaks = names(linetypes))
   }
 
-
-
   return(plotObject)
 }
 
@@ -476,16 +458,17 @@ addComparisonLines <- function(plotObject,
 
   # get mapping
   if (addLinesDiagnonal) {
-    lineMapping <- switch(xyscale,
-      "log" = aes(
-        intercept = log10(value),
-        slope = 1
-      ),
-      "linear" = aes(
-        intercept = 0,
-        slope = value
+    lineMapping <-
+      switch(xyscale,
+        "log" = aes(
+          intercept = log10(value),
+          slope = 1
+        ),
+        "linear" = aes(
+          intercept = 0,
+          slope = value
+        )
       )
-    )
   } else {
     lineMapping <- aes(yintercept = value)
   }
@@ -616,7 +599,6 @@ getGuestLimits <- function(x, deltaGuest = 1, addLinesDiagnonal = FALSE, asLower
 }
 
 
-
 #' Counts entries within specific limits
 #'
 #' @inheritParams plotYVsX
@@ -634,7 +616,7 @@ getCountsWithin <- function(data,
                             deltaGuest = 1,
                             groups = NULL) {
   # initialize variables to avoid warning in check()
-  Description <- value <- Number <- name <- NULL
+  Description <- value <- Number <- name <- NULL # nolint
 
   checkmate::assertDataFrame(data, null.ok = FALSE, min.rows = 1)
   checkmate::assertNames(names(data), disjunct.from = c("yColumn", "xColumn"))
@@ -708,7 +690,7 @@ getCountsWithin <- function(data,
   } else {
     # if provide one row per 'fold'
 
-    TotalNumber <- data[, .(
+    totalNumber <- data[, .(
       Number = sum(!is.na(get(yColumn))),
       Fraction = 1
     )] %>%
@@ -726,11 +708,11 @@ getCountsWithin <- function(data,
         )
       )]
     tmp <- tidyr::pivot_longer(data = tmp, cols = names(tmp), names_to = "Description", values_to = "Number") %>%
-      dplyr::mutate(Fraction = Number / TotalNumber$Number) %>%
+      dplyr::mutate(Fraction = Number / totalNumber$Number) %>%
       dplyr::mutate(Description = paste("Points within", Description))
 
 
-    countsWithin <- rbind(TotalNumber,
+    countsWithin <- rbind(totalNumber,
       tmp,
       fill = TRUE
     )

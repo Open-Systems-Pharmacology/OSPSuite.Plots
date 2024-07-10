@@ -37,8 +37,8 @@ geom similar to \code{geom_point()} but that leverage fonts to draw its shapes
 }
 \seealso{
 Other setDefault functions: 
-\code{\link{ColorMaps}},
 \code{\link{Shapes}},
+\code{\link{colorMaps}},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
 \code{\link{resetDefaultColorMapDistinct}()},

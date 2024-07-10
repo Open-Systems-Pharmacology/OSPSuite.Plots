@@ -11,7 +11,7 @@
 #' @inheritParams plotTimeProfile
 #' @inheritParams plotYVsX
 #' @param percentiles vector with percentiles used for the box whiskers and boxes e.g. c(0.05,0.25,0.5,0.75,0.95)
-#'       default defined by option `ospsuite.plots.Percentiles`
+#'       default defined by ospsuite.plots option
 #' @param statFun (default NULL) if not NULL function to calculate whiskers and box ranges, overwrites variable percentiles
 #' @param outliers Logical defining if outliers should be included in boxplot.
 #'        outliers are flagged when outside the range from "25th" percentile - 1.5 x IQR to "75th"
@@ -30,10 +30,7 @@ plotBoxWhisker <- function(data,
                            mapping,
                            metaData = NULL,
                            plotObject = NULL,
-                           percentiles = getOption(
-                             x = "ospsuite.plots.Percentiles",
-                             default = getDefaultOptions()[["ospsuite.plots.Percentiles"]]
-                           ),
+                           percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles),
                            yscale = "linear",
                            yscale.args = list(),
                            xscale = "auto",
@@ -101,7 +98,6 @@ plotBoxWhisker <- function(data,
   }
 
 
-
   # set aggregation function ---------
 
   if (is.null(statFun)) {
@@ -132,8 +128,6 @@ plotBoxWhisker <- function(data,
     yscale = yscale,
     yscale.args = yscale.args
   )
-
-
 
   plotObject <- plotObject +
     do.call(
@@ -182,9 +176,6 @@ plotBoxWhisker <- function(data,
         )
       )
   }
-
-
-
 
   return(plotObject)
 }

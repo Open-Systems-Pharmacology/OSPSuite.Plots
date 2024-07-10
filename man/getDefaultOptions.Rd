@@ -14,8 +14,8 @@ get list of default options
 }
 \seealso{
 Other setDefault functions: 
-\code{\link{ColorMaps}},
 \code{\link{Shapes}},
+\code{\link{colorMaps}},
 \code{\link{geomPointUnicode}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{resetDefaultColorMapDistinct}()},

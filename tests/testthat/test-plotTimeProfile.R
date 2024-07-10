@@ -39,8 +39,6 @@ test_that("plotTimeProfile works basic", {
   )
 })
 
-
-
 test_that("plotTimeProfile works mapping observed plot", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
@@ -85,8 +83,6 @@ test_that("plotTimeProfile works mapping observed plot", {
 test_that("plotTimeProfile works lloq", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
-
-
 
   simData <- exampleDataTimeProfile %>%
     dplyr::filter(SetID == c("DataSet3")) %>%

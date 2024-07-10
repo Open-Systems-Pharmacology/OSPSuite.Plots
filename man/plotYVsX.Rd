@@ -10,7 +10,6 @@ plotYVsX(
   metaData = NULL,
   geomPointAttributes = getDefaultGeomAttributes("Point"),
   geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
-  geomLineAttributes = getDefaultGeomAttributes("Line"),
   geomGuestLineAttributes = getDefaultGeomAttributes("GuestLine"),
   geomComparisonLineAttributes = getDefaultGeomAttributes("ComparisonLine"),
   geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
@@ -40,8 +39,6 @@ plotYVsX(
 \item{geomPointAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
 
 \item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
-
-\item{geomLineAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_line}}
 
 \item{geomGuestLineAttributes}{A \code{list} with arguments which are passed on to the
 call \code{ggplot2::geom_function} to display guest criteria}

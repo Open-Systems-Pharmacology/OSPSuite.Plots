@@ -15,12 +15,12 @@ vector with \code{shapeValues} saved in option \code{ospsuite.plots.shapeValues}
 \description{
 The scales are set to the option  \code{ospsuite.plots.shapeValues}, which is the used to
 set the discrete scale of shapes for all {ospsuite.plots} function
-for customized functions add scale_shape_manual(\code{values = getOption('ospsuite.plots.shapeValues')})
+for customized functions add scale_shape_manual(\code{values = getOspsuite.plots.option(optionKey = OptionKeys$shapeValues)})
 }
 \seealso{
 Other setDefault functions: 
-\code{\link{ColorMaps}},
 \code{\link{Shapes}},
+\code{\link{colorMaps}},
 \code{\link{geomPointUnicode}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},

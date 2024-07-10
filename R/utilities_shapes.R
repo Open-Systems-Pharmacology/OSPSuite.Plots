@@ -5,7 +5,7 @@
 #' @family setDefault functions
 #'
 #' @export
-Shapes <- list(
+Shapes <- list( # nolint: object_name_linter
   # Usual symbols
   "circle" = "\u25cf",
   "diamond" = "\u25c6",
@@ -53,7 +53,6 @@ Shapes <- list(
 )
 
 
-
 #' @title Geom to point unicode as shapes
 #' @description
 #' Define a Geom using `ggplot2::ggproto()` and based on GeomPoint.
@@ -62,7 +61,7 @@ Shapes <- list(
 #' So there should not be any issue as installing `ggplot2` should install those 2 packages.
 #' @keywords internal
 #'
-GeomPointUnicode <- ggplot2::ggproto(
+GeomPointUnicode <- ggplot2::ggproto( # nolint: object_name_linter
   "GeomPointUnicode",
   GeomPoint,
   # This will correspond to the default property displayed in legend
@@ -72,7 +71,7 @@ GeomPointUnicode <- ggplot2::ggproto(
     shape = "\u2588", colour = "black", size = 1.5, fill = NA,
     alpha = NA, stroke = 0.5
   ),
-  draw_panel = function(data, panel_params, coord) {
+  draw_panel = function(data, panel_params, coord) { # nolint: object_name_linter
     coords <- coord$transform(data, panel_params)
     # Replace grid::pointsGrob from geom_point accounting for font family
     grid::textGrob(
@@ -93,8 +92,8 @@ GeomPointUnicode <- ggplot2::ggproto(
       data$shape <- Shapes$blank
     }
     # NULL means the default stroke size, and NA means no stroke.
-    stroke_size <- data$stroke %||% 0.5
-    stroke_size[is.na(stroke_size)] <- 0
+    stroke_size <- data$stroke %||% 0.5 # nolint: object_name_linter
+    stroke_size[is.na(stroke_size)] <- 0 # nolint: object_name_linter
 
     # Replace grid::pointsGrob from geom_point accounting for font family
     grid::textGrob(

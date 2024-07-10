@@ -159,7 +159,6 @@ plotTimeProfile <- function(data = NULL, # nolint
   }
 
 
-
   #-  create default plot ----------
   # mapping can not be set in ggplot as observed and simulated mappings may differ
   if (is.null(plotObject)) {
@@ -218,8 +217,6 @@ plotTimeProfile <- function(data = NULL, # nolint
     yscale.args = yscale.args,
     secAxis = secAxis
   )
-
-
 
   ## -- addLayers --------
   #- plot simulated data
@@ -307,27 +304,24 @@ plotTimeProfile <- function(data = NULL, # nolint
 }
 
 
-
-
-
 #' compares old and new limits
 #'
-#' @param commonLimits_old  list of old limits
-#' @param commonLimits_new  list of new limits
+#' @param commonLimitsOld  list of old limits
+#' @param commonLimitsNew  list of new limits
 #'
 #' @return updated limits
 #' @keywords internal
-.adjustLimits <- function(commonLimits_old, commonLimits_new) {
-  for (aesthetic in names(commonLimits_old)) {
-    if (!is.null(commonLimits_new[[aesthetic]])) {
-      commonLimits_new[[aesthetic]][1] <-
-        min(c(commonLimits_old[[aesthetic]][1], commonLimits_new[[aesthetic]][1]), na.rm = TRUE)
-      commonLimits_new[[aesthetic]][2] <-
-        max(c(commonLimits_old[[aesthetic]][2], commonLimits_new[[aesthetic]][2]), na.rm = TRUE)
+.adjustLimits <- function(commonLimitsOld, commonLimitsNew) {
+  for (aesthetic in names(commonLimitsOld)) {
+    if (!is.null(commonLimitsNew[[aesthetic]])) {
+      commonLimitsNew[[aesthetic]][1] <-
+        min(c(commonLimitsOld[[aesthetic]][1], commonLimitsNew[[aesthetic]][1]), na.rm = TRUE)
+      commonLimitsNew[[aesthetic]][2] <-
+        max(c(commonLimitsOld[[aesthetic]][2], commonLimitsNew[[aesthetic]][2]), na.rm = TRUE)
     } else {
-      commonLimits_new[[aesthetic]] <- commonLimits_old[[aesthetic]]
+      commonLimitsNew[[aesthetic]] <- commonLimitsOld[[aesthetic]]
     }
   }
 
-  return(commonLimits_new)
+  return(commonLimitsNew)
 }

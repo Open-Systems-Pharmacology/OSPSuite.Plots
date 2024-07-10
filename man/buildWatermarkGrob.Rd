@@ -30,7 +30,7 @@ buildWatermarkGrob(
 \item{fontsize}{size of the text}
 }
 \value{
-a \code{grid::textGrob} with the watermark and the additional attribute 'is_watermark' set to \code{TRUE}
+a \code{grid::textGrob} with the watermark
 }
 \description{
 Build a \code{grid::textGrob} to be used as a watermark.

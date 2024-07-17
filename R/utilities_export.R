@@ -239,6 +239,7 @@ getPlotDimensions <- function(plotObject, exportunits, nCol, nRow, nPanel) {
 #'
 #' @param filename name of file to validate
 #'
+#' @export
 #' @return filename without special letters
 validateFilename <- function(filename) {
   # replace µ by mc

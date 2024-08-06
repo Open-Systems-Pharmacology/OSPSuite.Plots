@@ -321,13 +321,14 @@ plotYVsX <- function(data,
     plotObject <- plotObject +
       do.call(
         what = ggplot2::geom_errorbar,
-        args = c(
-          list(
-            na.rm = TRUE,
-            orientation = "y"
-          ),
-          geomErrorbarAttributes
-        )
+        args =
+          utils::modifyList(
+            x = list(
+              na.rm = TRUE,
+              orientation = "y"
+            ),
+            val = geomErrorbarAttributes
+          )
       )
   }
 
@@ -335,7 +336,7 @@ plotYVsX <- function(data,
     plotObject <- plotObject +
       do.call(
         what = ggplot2::geom_errorbar,
-        args = c(
+        args = utils::modifyList(
           list(
             na.rm = TRUE,
             orientation = "x"
@@ -503,7 +504,7 @@ addComparisonLines <- function(plotObject,
         ggplot2::geom_abline,
         ggplot2::geom_hline
       ),
-      args = c(
+      args = utils::modifyList(
         list(
           data = lineData,
           mapping = lineMapping,
@@ -537,7 +538,7 @@ addGuestLayer <- function(plotObject,
   plotObject <- plotObject +
     do.call(
       what = geom_function,
-      args = c(
+      args = utils::modifyList(
         list(
           mapping = aes(linetype = labelGuestCriteria),
           fun = getGuestLimits,
@@ -555,7 +556,7 @@ addGuestLayer <- function(plotObject,
     ) +
     do.call(
       what = geom_function,
-      args = c(
+      args = utils::modifyList(
         list(
           mapping = aes(linetype = "guest criteria"),
           fun = getGuestLimits,

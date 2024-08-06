@@ -8,8 +8,8 @@ R6 class for mapping variable to \code{data}
 }
 \seealso{
 Other MappedData classes: 
-\code{\link{MappedDataTimeProfile}},
-\code{\link{MappedData}}
+\code{\link{MappedData}},
+\code{\link{MappedDataTimeProfile}}
 }
 \concept{MappedData classes}
 \section{Super class}{

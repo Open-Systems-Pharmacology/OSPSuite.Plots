@@ -80,10 +80,10 @@ addLayer <- function(mappedData,
         args = c(
           list(
             data = mappedData$dataForPlot,
-            mapping = filteredMapping,
-            na.rm = TRUE
+            mapping = filteredMapping
           ),
-          geomAttributes
+          utils::modifyList(x = list(na.rm = TRUE),
+                            val = geomAttributes)
         )
       )
   }

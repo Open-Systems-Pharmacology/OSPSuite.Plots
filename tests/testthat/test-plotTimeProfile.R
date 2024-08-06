@@ -39,6 +39,44 @@ test_that("plotTimeProfile works basic", {
   )
 })
 
+
+test_that("plotTimeProfile works logscale", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
+  simData <- exampleDataTimeProfile %>%
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
+    dplyr::filter(Type == "simulated") %>%
+    dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
+
+  obsData <- exampleDataTimeProfile %>%
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
+    dplyr::filter(Type == "observed") %>%
+    dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
+
+  metaData <- attr(exampleDataTimeProfile, "metaData")
+
+
+  vdiffr::expect_doppelganger(
+    title = "basic_log",
+    fig = plotTimeProfile(
+      data = simData,
+      observedData = obsData,
+      metaData = metaData,
+      mapping = aes(
+        x = time,
+        y = values,
+        ymin = minValues,
+        ymax = maxValues,
+        groupby = caption
+      ),
+      yscale = 'log'
+    )
+  )
+})
+
+
+
 test_that("plotTimeProfile works mapping observed plot", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")

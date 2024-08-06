@@ -23,13 +23,12 @@ Imports:
     scales,
     dplyr,
     magrittr,
-    fitdistrplus,
     tidyr
 Depends: 
     R (>= 3.6),
     ggplot2 (>= 3.5.0)
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
 Suggests:
     spelling,

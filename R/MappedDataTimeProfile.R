@@ -261,11 +261,37 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     },
     #' @field dataForPlot scaled data used for plotting
     dataForPlot = function() {
+
       if (private$secondaryAxisAvailable) {
-        return(private$dataScaled)
+        plotData <- private$dataScaled
       } else {
-        return(self$data)
+        plotData <-self$data
       }
+
+      if (private$scaleOfPrimaryAxis == 'log'){
+        # get data columns to check for value <= 0
+        scalingRelevantMappings <-
+          listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic %>%
+          intersect(names(self$mapping))
+
+        for (aesthetic in scalingRelevantMappings) {
+          yData <- private$getDataForAesthetic(
+            aesthetic,
+            data = plotData,
+            stopIfNull = FALSE
+          )
+          if (!is.null(yData)){
+            plotData <-
+              plotData %>%
+              dplyr::mutate(!!self$mapping[[aesthetic]] :=
+                              ifelse(!!self$mapping[[aesthetic]] <= 0,NA,
+                                     !!self$mapping[[aesthetic]]))
+          }
+        }
+
+      }
+
+      return(plotData)
     }
   ),
   ## private -------

@@ -34,7 +34,9 @@ exportPlot <- function(plotObject,
     tools::file_path_sans_ext(filename),
     ".",
     getOspsuite.plots.option(optionKey = OptionKeys$export.device)
-  )
+  ) %>%
+    validateFilename()
+
 
 
   if (is.null(height)) {
@@ -126,7 +128,11 @@ calculatePlotDimensions <- function(plotObject, width) {
     legendAddsToWidth <- 0
   }
 
-  plotMargins <- grid::convertUnit(themeOfPlot$plot.margin, unitTo = exportunits, valueOnly = TRUE)
+  if (!is.null(themeOfPlot$plot.margin)){
+    plotMargins <- grid::convertUnit(themeOfPlot$plot.margin, unitTo = exportunits, valueOnly = TRUE)
+  } else {
+    plotMargins <- c(0,0,0,0)
+  }
 
   # Update width if top/bottom legend is too wide (add 5% to legend width to ensure all the entry content are displayed)
   width <- max(width, 1.05 * plotDim$legendWidth * legendAddsToHeight)

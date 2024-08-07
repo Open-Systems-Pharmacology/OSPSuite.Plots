@@ -52,6 +52,7 @@ We use the default settings of {ospsuite.plots} (see vignette("ospsuite.plots", 
 
 ```{r setup, warning=FALSE,message=FALSE}
 library(ospsuite.plots)
+library(ggplot2)
 library(tidyr)
 
 oldDefaults <- setDefaults()

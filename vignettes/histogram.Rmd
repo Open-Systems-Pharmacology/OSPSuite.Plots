@@ -34,6 +34,7 @@ We use the default settings of {ospsuite.plots} (see vignette("ospsuite.plots", 
 
 ```{r setup}
 library(ospsuite.plots)
+library(ggplot2)
 library(tidyr)
 
 # setDefaults

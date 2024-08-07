@@ -23,6 +23,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(ospsuite.plots)
+library(ggplot2)
 library(tidyr)
 ```
 
@@ -35,7 +36,7 @@ library(tidyr)
 The main purpose of the `ospsuite.plots`-library is to provide standardized plots typically used in PBPK context.
 `ospsuite.plots` supports the plot generation of the packages `OSPSuiteR`  and `OSPSuite.ReportingEngine`. 
 
-The library is based on `ggplot2` functionality. It uses also the libraries `ggnewscale` and `ggh4xs`.
+The library is based on `ggplot2` functionality. It uses also the library `ggh4x`.
 
 # 2. Default settings for Layout
 

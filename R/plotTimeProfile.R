@@ -249,14 +249,16 @@ plotTimeProfile <- function(data = NULL, # nolint
     }
   }
 
-
   #-  plot observed data
   if (!isEmpty(observedData)) {
     # add new scales for all aesthetics which occurs in simulated AND in observed data
     # to separate simulated and observed legend entries and start again with default colors
     if (!is.null(mapSimulatedAndObserved)) {
       for (aesthetic in groupAesthetics) {
-        plotObject <- plotObject + ggnewscale::new_scale(aesthetic)
+        plotObject <- plotObject +
+          ggnewscale::new_scale(new_aes = aesthetic) +
+          labs(!!sym(aesthetic) := 'Observed') +
+          labs(!!sym(paste0(aesthetic,'_ggnewscale_1')) := 'Simulated')
       }
     }
 

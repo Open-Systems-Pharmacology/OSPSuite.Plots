@@ -8,59 +8,75 @@
 #' @export
 #' @family setDefault functions
 setDefaultTheme <- function() {
-  themeNew <-
-    ggplot2::theme(
-      # rect elemnts
-      rect = element_rect(
-        fill = "white",
-        colour = "black",
-        linewidth = 0.5
-      ),
-      panel.background = element_rect(linetype = "blank"),
-      plot.background = element_rect(linetype = "blank"),
-      legend.background = element_rect(
-        colour = "white",
-        linetype = "blank"
-      ),
-      legend.key = element_rect(
-        colour = "white",
-        linetype = "blank"
-      ),
-
-      # line elements
-      line = element_line(colour = "grey20"),
-      axis.line = element_line(
-        linewidth = 0.5,
-        linetype = "solid"
-      ),
-      panel.grid.major = element_line(
-        linewidth = 0.5,
-        linetype = "blank"
-      ),
-      panel.grid.minor = element_line(
-        linewidth = 0.25,
-        linetype = "blank"
-      ),
-      # text elements
-      text = element_text(
-        family = "",
-        face = "plain",
-        colour = "grey20",
-        hjust = 0.5,
-        vjust = 0.5
-      ),
-      axis.title = element_text(size = 10),
-      axis.text = element_text(size = 10),
-      plot.title = element_text(size = 12),
-      plot.subtitle = element_text(size = 10),
-      plot.caption = element_text(size = 8),
-      legend.text = element_text(size = 10),
-      strip.text = element_text(size = 10),
-      # legend position
-      legend.position = "right",
-      legend.direction = "vertical",
-      legend.justification = 0.5
+  # themeNew <-
+  #   ggplot2::theme(
+  #     # rect elemnts
+  #     rect = element_rect(
+  #       fill = "white",
+  #       colour = "black",
+  #       linewidth = 0.5
+  #     ),
+  #     panel.background = element_rect(linetype = "blank"),
+  #     plot.background = element_rect(linetype = "blank"),
+  #     legend.background = element_rect(
+  #       colour = "white",
+  #       linetype = "blank"
+  #     ),
+  #     legend.key = element_rect(
+  #       colour = "white",
+  #       linetype = "blank"
+  #     ),
+  #
+  #     # line elements
+  #     line = element_line(colour = "grey20"),
+  #     axis.line = element_line(
+  #       linewidth = 0.5,
+  #       linetype = "solid"
+  #     ),
+  #     panel.grid.major = element_line(
+  #       linewidth = 0.5,
+  #       linetype = "blank"
+  #     ),
+  #     panel.grid.minor = element_line(
+  #       linewidth = 0.25,
+  #       linetype = "blank"
+  #     ),
+  #     # text elements
+  #     text = element_text(
+  #       family = "",
+  #       face = "plain",
+  #       colour = "grey20",
+  #       hjust = 0.5,
+  #       vjust = 0.5
+  #     ),
+  #     axis.title = element_text(size = 10),
+  #     axis.text = element_text(size = 10),
+  #     plot.title = element_text(size = 12),
+  #     plot.subtitle = element_text(size = 10),
+  #     plot.caption = element_text(size = 8),
+  #     legend.text = element_text(size = 10),
+  #     strip.text = element_text(size = 10),
+  #     # legend position
+  #     legend.position = "right",
+  #     legend.direction = "vertical",
+  #     legend.justification = 0.5
+  #   )
+  themeNew <- theme_bw() +
+    theme(legend.position = "right",
+          legend.direction = "vertical",
+          legend.justification = 0.5,
+          plot.title = element_text(
+            hjust = 0.5,
+            vjust = 0.5
+          ),
+          plot.subtitle = element_text(
+            hjust = 0.5,
+            vjust = 0.5
+          ),
+          panel.grid.minor = element_blank()
     )
+
+
   oldTheme <- ggplot2::theme_set(themeNew)
 
   return(invisible(oldTheme))
@@ -254,7 +270,7 @@ getDefaultOptions <- function() {
     ospsuite.plots.geomRibbonAttributes = list(color = NA),
     ospsuite.plots.geomPointAttributes = list(),
     ospsuite.plots.geomErrorbarAttributes = list(width = 0),
-    ospsuite.plots.geomLLOQAttributes = list(linetype = "dotted"),
+    ospsuite.plots.geomLLOQAttributes = list(),
     ospsuite.plots.geomComparisonLineAttributes = list(linetype = "dashed"),
     ospsuite.plots.geomGuestLineAttributes = list(linetype = "dashed"),
     ospsuite.plots.geomBoxplotAttributes = list(
@@ -269,6 +285,8 @@ getDefaultOptions <- function() {
     ospsuite.plots.Alpha = 0.5,
     # alpha of LLOQ values
     ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.3, "FALSE" = 1),
+    # linetype of LLOQ
+    ospsuite.plots.LLOQLineType = 'dashed',
     # percentiles
     ospsuite.plots.Percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
     # Type of geom_point

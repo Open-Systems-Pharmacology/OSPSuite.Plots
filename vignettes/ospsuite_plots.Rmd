@@ -23,7 +23,6 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(ospsuite.plots)
-library(ggplot2)
 library(tidyr)
 ```
 
@@ -501,7 +500,7 @@ with default options:
 * `Ribbon = list(color = NA)`
 * `PointAttributes = list()`  
 * `ErrorbarAttributes = list(width = 0)`  
-* `LLOQAttributes = list(linetype = "dotted")`  
+* `LLOQAttributes = list()`  
 * `ComparisonLineAttributes = list(linetype = "dashed")`  
 * `GuestLineAttributes = list(linetype = "dashed")`  
 * `BoxplotAttributes = list(position = position_dodge(width = 1),
@@ -513,7 +512,7 @@ with default options:
 
 
 
-## 2.5.3 Options to set defaults for aesthetic `alpha`
+## 2.5.3 Options to set defaults for aesthetics
 
 Options to set the face alpha of ribbons filled points   
 and options to set the filled points for values below and above lloq
@@ -524,6 +523,10 @@ getOspsuite.plots.option(optionKey = "Alpha")
 
 # alpha of LLOQ values  c("TRUE" = 0.3, "FALSE" = 1)
 getOspsuite.plots.option(optionKey = "LLOQAlphaVector")
+
+# linetype LLOQ comparison lines  'dashed'
+getOspsuite.plots.option(optionKey = "LLOQLineType")
+
 ```
 
 

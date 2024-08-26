@@ -15,7 +15,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     #'            use of group aesthetics triggers second axis after simulation layers
     #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
-    #' @param isObserved A `boolean` if TRUE mappings mdv, lloq, error and error_relative are evaluated
+    #' @param isObserved A `boolean` if TRUE mappings mdv, lloq are evaluated
     #' @param scaleOfPrimaryAxis  scale of direction, either "linear" or "log"
     #' @param scaleOfSecondaryAxis either 'linear' or 'log'
     #' @param xlimits limits for x axis (may be NULL)
@@ -62,6 +62,8 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         private$secondaryAxisAvailable <- FALSE
       }
 
+      # convert scale aesthics to
+      private$checkForCallAesthtics()
 
       # set fields for secondary Axis
       if (private$secondaryAxisAvailable) {
@@ -86,8 +88,10 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         # setLimits
         private$setyLimits()
 
-        return(invisible(self))
       }
+
+      return(invisible(self))
+
     },
     #' scales data for secondary axis and updates filed secAxis
     #'
@@ -140,11 +144,11 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
       # get Scaling function
       if (private$scaleOfSecondaryAxis == "linear") {
         if (private$scaleOfPrimaryAxis == "linear") {
-          offsetlin1 <- self$ylimits[1]
-          deltalin1 <- diff(self$ylimits)
+          offsetlin1 <- ylimits[1]
+          deltalin1 <- diff(ylimits)
 
-          offsetlin2 <- self$y2limits[1]
-          deltalin2 <- diff(self$y2limits)
+          offsetlin2 <- y2limits[1]
+          deltalin2 <- diff(y2limits)
 
           funScale <- function(y2) {
             return((y2 - offsetlin2) / deltalin2 * deltalin1 + offsetlin1)
@@ -154,11 +158,11 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
             return((ytrans - offsetlin1) / deltalin1 * deltalin2 + offsetlin2)
           }
         } else if (private$scaleOfPrimaryAxis == "log") {
-          offsetlin <- self$y2limits[1]
-          deltalin <- diff(self$y2limits)
+          offsetlin <- y2limits[1]
+          deltalin <- diff(y2limits)
 
-          offsetlog <- log(self$ylimits[1])
-          deltalog <- diff(log(self$ylimits))
+          offsetlog <- log(ylimits[1])
+          deltalog <- diff(log(ylimits))
 
           funScale <- function(ylin) {
             return(exp((ylin - offsetlin) / deltalin * deltalog + offsetlog))
@@ -170,11 +174,11 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         }
       } else if (private$scaleOfSecondaryAxis == "log") {
         if (private$scaleOfPrimaryAxis == "linear") {
-          offsetlin <- self$ylimits[1]
-          deltalin <- diff(self$ylimits)
+          offsetlin <- ylimits[1]
+          deltalin <- diff(ylimits)
 
-          offsetlog <- log(self$y2limits[1])
-          deltalog <- diff(log(self$y2limits))
+          offsetlog <- log(y2limits[1])
+          deltalog <- diff(log(y2limits))
 
           funScale <- function(ylog) {
             return((log(ylog) - offsetlog) / deltalog * deltalin + offsetlin)
@@ -184,11 +188,11 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
             return(exp((ylin - offsetlin) / deltalin * deltalog + offsetlog))
           }
         } else if (private$scaleOfPrimaryAxis == "log") {
-          offsetlog1 <- log(self$ylimits[1])
-          deltalog1 <- diff(log(self$ylimits))
+          offsetlog1 <- log(ylimits[1])
+          deltalog1 <- diff(log(ylimits))
 
-          offsetlog2 <- log(self$y2limits[1])
-          deltalog2 <- diff(log(self$y2limits))
+          offsetlog2 <- log(y2limits[1])
+          deltalog2 <- diff(log(y2limits))
 
           funScale <- function(y2) {
             return(exp((log(y2) - offsetlog2) / deltalog2 * deltalog1 + offsetlog1))
@@ -212,6 +216,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         )
 
         if (!is.null(tmp) && is.numeric(tmp)) {
+
           dataScaled <- dataScaled %>%
             dplyr::mutate(!!self$mapping[[aesthetic]] :=
               funScale(!!self$mapping[[aesthetic]]))
@@ -280,13 +285,20 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
             data = plotData,
             stopIfNull = FALSE
           )
-          if (!is.null(yData)){
-            plotData <-
-              plotData %>%
-              dplyr::mutate(!!self$mapping[[aesthetic]] :=
-                              ifelse(!!self$mapping[[aesthetic]] <= 0,NA,
-                                     !!self$mapping[[aesthetic]]))
-          }
+          if (!is.null(yData))
+            tryCatch({
+              plotData <-
+                plotData %>%
+                dplyr::mutate(!!self$mapping[[aesthetic]] :=
+                                ifelse(!!self$mapping[[aesthetic]] <= 0,NA,
+                                       !!self$mapping[[aesthetic]]))
+            }, # nolint
+            error = function(cond) {
+              # it my not work for calls like aesthetic = y/dose
+              # then ggplot will produce warnings if Values values are less then 0
+            }
+            )
+
         }
 
       }
@@ -301,6 +313,39 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     secondaryAxisAvailable = NULL,
     dataScaled = NULL,
     .secAxis = NULL,
+    # check for scalingRelevantMappings aesthtics which are calls. The have to be transferred to make scaleble
+    checkForCallAesthtics = function(){
+      scalingRelevantMappings <-
+        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic %>%
+        intersect(names(self$mapping))
+
+      for (aesthetic in scalingRelevantMappings){
+          if (class(rlang::get_expr(self$mapping[[aesthetic]])) == 'call'){
+            aestheticCol = paste0(aesthetic,'.i')
+            checkmate::assertNames(
+              names(self$data),
+              disjunct.from = c("isLLOQ.i"),
+              .var.name = "column names of observed data"
+            )
+
+            self$data[[aestheticCol]] <- private$getDataForAesthetic(aesthetic,
+                                                             data = self$data,
+                                                             stopIfNull = TRUE)
+
+            private$addOverwriteAes(eval(parse(
+              text = paste0(
+                "aes(",
+                aesthetic,
+                " = ",
+                aestheticCol,
+                ")"
+              )
+            )))
+
+          }
+      }
+
+    },
     #' adjust limits
     setyLimits = function() {
       # get data columns to scale
@@ -313,6 +358,10 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         oldLimits <- switch(ax,
           "primary" = self$ylimits,
           "secondary" = self$y2limits
+        )
+        yScale <- switch(ax,
+                            "primary" = private$scaleOfPrimaryAxis,
+                            "secondary" = private$scaleOfSecondaryAxis
         )
         if (is.null(oldLimits) || any(is.na(oldLimits))) {
           ylimits <- c()
@@ -328,7 +377,13 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
               data = tmpData,
               stopIfNull = FALSE
             )
-            if (!is.null(yData)) ylimits <- range(c(ylimits, yData), na.rm = TRUE)
+            if (!is.null(yData)) {
+              if (yScale == 'log'){
+                ylimits <- range(c(ylimits, yData[yData > 0]), na.rm = TRUE)
+              } else{
+                ylimits <- range(c(ylimits, yData), na.rm = TRUE)
+              }
+            }
           }
           if (is.null(oldLimits)) {
             newLimits <- ylimits

@@ -23,10 +23,10 @@ Imports:
     scales,
     dplyr,
     magrittr,
-    tidyr,
-    ggplot2 (>= 3.5.0)
+    tidyr
 Depends: 
     R (>= 3.6),
+    ggplot2 (>= 3.5.0)
 Encoding: UTF-8
 RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
@@ -42,5 +42,11 @@ Suggests:
     testthat (>= 3.0.3),
     vdiffr (>= 1.0.0)
 VignetteBuilder: knitr
+Vignette:
+  inst/doc/ospsuite_plots.Rmd
+  inst/doc/plot-time-profile.Rmd
+  inst/doc/histogram.Rmd
+  inst/doc/box-whisker-vignette.Rmd
+  inst/doc/Goodness_of_fit.Rmd
 Config/testthat/edition: 3
 LazyData: true

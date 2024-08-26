@@ -13,17 +13,19 @@ test_that("plot Residuals vs Covariate works", {
   metaData <- metaData[intersect(names(data), names(metaData))]
 
 
+  fig = plotResVsCov(
+    data = data, mapping = aes(
+      x = Age,
+      predicted = Pred,
+      observed = Obs,
+      groupby = Sex
+    ),
+    addRegression = TRUE
+  )
+
   vdiffr::expect_doppelganger(
     title = "plotResVsCov",
-    fig = plotResVsCov(
-      data = data, mapping = aes(
-        x = Age,
-        predicted = Pred,
-        observed = Obs,
-        groupby = Sex
-      ),
-      addRegression = TRUE
-    )
+    fig = fig
   )
 })
 
@@ -45,23 +47,24 @@ test_that("plot Observed vs Predicted works", {
   metaData <- attr(exampleDataCovariates, "metaData")
   metaData <- metaData[intersect(names(data), names(metaData))]
 
+  fig = plotPredVsObs(
+    data = data,
+    mapping = aes(
+      x = Obs,
+      y = Pred,
+      lloq = lloq,
+      groupby = Sex,
+      error_relative = gsd,
+      ymin = Pred / 1.1,
+      ymax = Pred * 1.1
+    ),
+    metaData = metaData,
+    addRegression = TRUE
+  )
 
   vdiffr::expect_doppelganger(
     title = "res",
-    fig = plotPredVsObs(
-      data = data,
-      mapping = aes(
-        x = Obs,
-        y = Pred,
-        lloq = lloq,
-        groupby = Sex,
-        error_relative = gsd,
-        ymin = Pred / 1.1,
-        ymax = Pred * 1.1
-      ),
-      metaData = metaData,
-      addRegression = TRUE
-    )
+    fig = fig
   )
 })
 
@@ -85,21 +88,22 @@ test_that("plotRatioVsCov works", {
     )
   )
 
+  fig = plotRatioVsCov(
+    data = dDIdata,
+    mapping = aes(
+      x = Obs,
+      predicted = Pred,
+      observed = Obs,
+      groupby = as.character(ID)
+    ),
+    metaData = dDImetaData,
+    addGuestLimits = TRUE,
+    deltaGuest = 1.2
+  )
 
   vdiffr::expect_doppelganger(
     title = "plotRatioVsCov",
-    fig = plotRatioVsCov(
-      data = dDIdata,
-      mapping = aes(
-        x = Obs,
-        predicted = Pred,
-        observed = Obs,
-        groupby = as.character(ID)
-      ),
-      metaData = dDImetaData,
-      addGuestLimits = TRUE,
-      deltaGuest = 1.2
-    )
+    fig = fig
   )
 })
 

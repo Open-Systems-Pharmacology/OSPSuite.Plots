@@ -29,7 +29,7 @@ MappedData <- R6::R6Class( # nolint
     #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with `groupby`
     #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
-    #' @param isObserved A `boolean `if TRUE mappings mdv, lloq, error and error_relative are evaluated
+    #' @param isObserved A `boolean `if TRUE mappings mdv, lloq
     #' @param xlimits limits for x-axis (may be NULL)
     #' @param ylimits limits for y-axis (may be NULL)
     #' @param residualScale scale of x residuals
@@ -112,9 +112,9 @@ MappedData <- R6::R6Class( # nolint
         # lloq values are matched
         private$adjustForLLOQMatch()
 
-        # add ymin ymax aesthetic error and error_relative
-        private$translateErrorAestethics()
       }
+      # add ymin ymax aesthetic error and error_relative
+      private$translateErrorAestethics()
 
       # convert non factor integers to double
       private$convertIntegerToDouble()
@@ -356,7 +356,9 @@ MappedData <- R6::R6Class( # nolint
           ))
         }
 
-        if (length(errorType) == 1) {
+        if (length(errorType) == 1 &&
+            !is.null(private$getDataForAesthetic(errorType,
+                                                 stopIfNull = FALSE))) {
           newMapping <- list()
 
           checkmate::assertNames(

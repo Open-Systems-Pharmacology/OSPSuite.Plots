@@ -68,7 +68,7 @@ addLayer <- function(mappedData,
   # check for geomUnicodeMode
   geomUnicodeMode <- getOspsuite.plots.option(optionKey = OptionKeys$GeomPointUnicode)
   if (geomUnicodeMode &&
-    geom == "point") {
+      geom == "point") {
     layerToCall <- geomPointUnicode
   }
 
@@ -98,6 +98,69 @@ addLayer <- function(mappedData,
 
   return(plotObject)
 }
+
+
+#' add LLOQ Layer with lloq lines
+#'
+#'
+#' @param mappedData object of class 'MappedData', with lloq data
+#' @param useLinetypeAsAttribute boolean, if TRUE lientype is set as attribute, no legend is created
+#' @param geomLLOQAttributes additional attributes
+#' @param plotObject A `ggplot` object on which to add the plot layer
+#' @param layerToCall function ggplot2 geom layer
+#'
+#' @return updated plotObject
+#' @export
+addLLOQLayer <-
+  function(plotObject,
+           mappedData,
+           layerToCall,
+           useLinetypeAsAttribute,
+           geomLLOQAttributes) {
+    if (!mappedData$hasLLOQMatch) return(plotObject)
+
+    if (useLinetypeAsAttribute)
+      geomLLOQAttributes = utils::modifyList(
+        list(linetype = getOspsuite.plots.option(optionKey = OptionKeys$LLOQLineType)),
+        geomLLOQAttributes)
+
+
+    filteredMapping <- mappedData$getAestheticsForGeom(
+      geom = "hvline",
+      geomAttributes = geomLLOQAttributes
+    )
+
+    if (!useLinetypeAsAttribute)
+      filteredMapping <-
+      structure(utils::modifyList(filteredMapping,
+                                  aes(linetype = 'LLOQ')),
+                class = "uneval")
+
+
+    plotObject <- plotObject +
+      do.call(
+        what = layerToCall,
+        args = c(
+          list(
+            data = mappedData$dataForPlot,
+            mapping = filteredMapping
+          ),
+          utils::modifyList(x = list(na.rm = TRUE),
+                            val = geomLLOQAttributes)
+        )
+      )
+
+    if (!useLinetypeAsAttribute)
+      plotObject <- plotObject +
+      scale_linetype_manual(values = c(LLOQ  = getOspsuite.plots.option(optionKey = OptionKeys$LLOQLineType)),
+                            guide = guide_legend(
+                              title = NULL,
+                              order = 10,
+                            ))
+
+    return(plotObject)
+  }
+
 
 
 #' Create a watermark layer for a ggplot object.
@@ -202,16 +265,16 @@ addXYScale <- function(plotObject,
                        secAxis = waiver()) {
   if (!is.null(xscale)) {
     plotObject <- addXscale(plotObject,
-      xscale = xscale,
-      xscale.args = xscale.args
+                            xscale = xscale,
+                            xscale.args = xscale.args
     )
   }
 
   if (!is.null(yscale)) {
     plotObject <- addYscale(plotObject,
-      yscale = yscale,
-      yscale.args = yscale.args,
-      secAxis = secAxis
+                            yscale = yscale,
+                            yscale.args = yscale.args,
+                            secAxis = secAxis
     )
   }
 
@@ -233,26 +296,26 @@ addXscale <- function(plotObject,
 
   plotObject <- plotObject +
     switch(xscale,
-      "linear" = {
-        if (is.null(xscale.args$guide)) xscale.args$guide <- ggh4x::guide_axis_minor()
-        do.call(
-          what = scale_x_continuous,
-          args = xscale.args
-        )
-      },
-      "log" = {
-        if (is.null(xscale.args$guide)) xscale.args$guide <- ggplot2::guide_axis_logticks()
-        do.call(
-          what = scale_x_log10,
-          args = xscale.args
-        )
-      },
-      "discrete" = {
-        do.call(
-          what = scale_x_discrete,
-          args = xscale.args
-        )
-      }
+           "linear" = {
+             if (is.null(xscale.args$guide)) xscale.args$guide <- ggh4x::guide_axis_minor()
+             do.call(
+               what = scale_x_continuous,
+               args = xscale.args
+             )
+           },
+           "log" = {
+             if (is.null(xscale.args$guide)) xscale.args$guide <- ggplot2::guide_axis_logticks()
+             do.call(
+               what = scale_x_log10,
+               args = xscale.args
+             )
+           },
+           "discrete" = {
+             do.call(
+               what = scale_x_discrete,
+               args = xscale.args
+             )
+           }
     )
 
   return(plotObject)

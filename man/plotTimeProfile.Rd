@@ -23,7 +23,7 @@ plotTimeProfile(
   geomPointAttributes = getDefaultGeomAttributes("Point"),
   geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
   geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
-  groupAesthetics = c("colour", "fill", "linetype", "shape")
+  groupAesthetics = c("colour", "fill", "shape")
 )
 }
 \arguments{

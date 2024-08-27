@@ -99,7 +99,7 @@ Create a new \code{MappedData} object
 
 \item{\code{direction}}{direction of plot either "x" or "y"}
 
-\item{\code{isObserved}}{A \code{boolean }if TRUE mappings mdv, lloq, error and error_relative are evaluated}
+\item{\code{isObserved}}{A \code{boolean }if TRUE mappings mdv, lloq}
 
 \item{\code{xlimits}}{limits for x-axis (may be NULL)}
 

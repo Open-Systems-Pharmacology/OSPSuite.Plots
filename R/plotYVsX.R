@@ -381,7 +381,7 @@ plotYVsX <- function(data,
   }
 
 
-  # set scales ----
+  # set scales
 
   xscale.args <- mappedData$updateScaleArgumentsForTimeUnit(
     scale.args = xscale.args,
@@ -426,7 +426,8 @@ plotYVsX <- function(data,
     )
     names(linetypes) <- lineTypeNames
     plotObject <- plotObject +
-      scale_linetype_manual(values = linetypes, breaks = names(linetypes))
+      scale_linetype_manual(values = linetypes, breaks = names(linetypes),
+                            guide = guide_legend(order = 10,title = NULL))
   }
 
   return(plotObject)

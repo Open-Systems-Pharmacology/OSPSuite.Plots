@@ -19,6 +19,8 @@ MappedDataBoxplot <- R6::R6Class( # nolint
     #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with aesthetic `groupby`
     #' @param direction direction of plot either "x" or "y"
     #' @param isObserved A `boolean` if TRUE mappings mdv, lloq, error and error_relative are evaluated
+    #' @param xscale scale of x-axis either 'linear' or 'log'
+    #' @param yscale scale of y-axis either 'linear' or 'log'
     #' @param xlimits limits for x-axis (may be NULL)
     #' @param ylimits limits for y-axis (may be NULL)
     #' @param residualScale scale of x residuals
@@ -34,6 +36,8 @@ MappedDataBoxplot <- R6::R6Class( # nolint
                           isObserved = TRUE,
                           xlimits = NULL,
                           ylimits = NULL,
+                          xscale = 'linear',
+                          yscale = 'linear',
                           residualScale = NULL,
                           residualAesthetic = "y") {
       super$initialize(
@@ -44,6 +48,8 @@ MappedDataBoxplot <- R6::R6Class( # nolint
         isObserved = isObserved,
         xlimits = xlimits,
         ylimits = ylimits,
+        xscale = xscale,
+        yscale = yscale,
         residualScale = residualScale,
         residualAesthetic = residualAesthetic
       )

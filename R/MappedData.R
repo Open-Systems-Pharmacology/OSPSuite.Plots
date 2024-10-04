@@ -26,6 +26,8 @@ MappedData <- R6::R6Class( # nolint
 
     #' @param data data.frame used for mapping
     #' @param mapping list of aesthetic mappings
+    #' @param xscale scale of x-axis either 'linear' or 'log'
+    #' @param yscale scale of y-axis either 'linear' or 'log'
     #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with `groupby`
     #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
@@ -39,6 +41,8 @@ MappedData <- R6::R6Class( # nolint
     #' @return A new `MappedData` object
     initialize = function(data,
                           mapping,
+                          xscale,
+                          yscale,
                           groupAesthetics = NULL,
                           groupOrder = NULL,
                           direction = "y",
@@ -50,7 +54,6 @@ MappedData <- R6::R6Class( # nolint
       # Validation
       checkmate::assertClass(data, classes = "data.frame", null.ok = FALSE)
       checkmate::assertList(mapping,
-        types = "quosure",
         names = "named",
         any.missing = FALSE
       )
@@ -128,7 +131,7 @@ MappedData <- R6::R6Class( # nolint
       )
 
       # setLimits
-      private$setLimits()
+      private$setLimits(xscale,yscale)
     },
 
     #' filter possible aesthetics for a geom,
@@ -455,7 +458,7 @@ MappedData <- R6::R6Class( # nolint
       }
       return(invisible(self))
     },
-    setLimits = function() {
+    setLimits = function(xscale,yscale) {
       # get data columns to scale
       relevantMappings <- list(x = "x", y = "y")
       relevantMappings[[private$direction]] <- gsub(
@@ -471,6 +474,10 @@ MappedData <- R6::R6Class( # nolint
           "x" = self$xlimits,
           "y" = self$ylimits
         )
+        axisScale <- switch(ax,
+                            "x" = xscale,
+                            "y" = yscale
+        )
         if (is.null(oldLimits) || any(is.na(oldLimits))) {
           ylimits <- c()
 
@@ -480,7 +487,11 @@ MappedData <- R6::R6Class( # nolint
               data = self$data,
               stopIfNull = FALSE
             )
-            if (!is.null(yData) && !is.function(yData)) ylimits <- range(c(ylimits, yData), na.rm = TRUE)
+
+            if (!is.null(yData) && !is.function(yData)) {
+              if (axisScale == 'log') yData <- yData[yData>0]
+              ylimits <- range(c(ylimits, yData), na.rm = TRUE)
+            }
           }
           if (is.null(oldLimits)) {
             newLimits <- ylimits
@@ -496,6 +507,12 @@ MappedData <- R6::R6Class( # nolint
           }
         }
       }
+
+
+
+
+
+
 
       return(invisible(self))
     },

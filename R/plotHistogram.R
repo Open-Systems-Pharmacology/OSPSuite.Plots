@@ -56,6 +56,8 @@ plotHistogram <- function(data,
     data = data,
     mapping = mapping,
     groupAesthetics = "fill",
+    xscale = xscale,
+    yscale = yscale,
     residualScale = residualScale,
     residualAesthetic = "x"
   )

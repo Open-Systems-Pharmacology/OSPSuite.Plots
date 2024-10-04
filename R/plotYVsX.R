@@ -268,7 +268,9 @@ plotYVsX <- function(data,
     isObserved = TRUE,
     groupAesthetics = groupAesthetics,
     residualScale = residualScale,
-    residualAesthetic = "y"
+    residualAesthetic = "y",
+    xscale = xscale,
+    yscale = yscale
   )
   mappedData$addMetaData(metaData = metaData)
 

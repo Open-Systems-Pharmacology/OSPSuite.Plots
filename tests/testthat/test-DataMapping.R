@@ -13,6 +13,8 @@ test_that("adjustGroupAesthetics works", {
 
   simDataMatch <- MappedData$new(
     data = simData1,
+    xscale = 'linear',
+    yscale = 'linear',
     mapping = mapping,
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
@@ -38,6 +40,8 @@ test_that("getAestheticsForGeom works", {
   lineMapping <- MappedData$new(
     data = simData1,
     mapping = simAes,
+    xscale = 'linear',
+    yscale = 'linear',
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )$getAestheticsForGeom(
     geom = "line",
@@ -70,6 +74,8 @@ test_that("adjustForLLOQMatch works", {
   obsDataMatch <- MappedData$new(
     data = obsData,
     mapping = obsAes,
+    xscale = 'linear',
+    yscale = 'linear',
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
 
@@ -109,6 +115,8 @@ test_that("adjustDataForMDV works", {
   obsDataMatch <- MappedData$new(
     data = obsData,
     mapping = obsAes,
+    xscale = 'linear',
+    yscale = 'linear',
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
 
@@ -132,7 +140,9 @@ test_that("adjust secondary y axis scaling works lin to lin", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, scaleOfPrimaryAxis = "linear", scaleOfSecondaryAxis = "linear"
+    data = obsData,
+    xscale = 'linear',
+    scaleOfPrimaryAxis = "linear", scaleOfSecondaryAxis = "linear"
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -166,7 +176,7 @@ test_that("adjust secondary y axis scaling works log to log", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, scaleOfPrimaryAxis = "log", scaleOfSecondaryAxis = "log"
+    data = obsData, xscale = 'linear',scaleOfPrimaryAxis = "log", scaleOfSecondaryAxis = "log"
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -201,6 +211,7 @@ test_that("adjust secondary y axis scaling works lin to log", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
+    xscale = 'linear',
     data = obsData, scaleOfPrimaryAxis = "log", scaleOfSecondaryAxis = "linear"
   )
   expect_true(dataMatch$requireDualAxis)
@@ -236,7 +247,7 @@ test_that("adjust secondary y axis scaling works log to lin", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, scaleOfPrimaryAxis = "linear", scaleOfSecondaryAxis = "log"
+    data = obsData, xscale = 'linear',scaleOfPrimaryAxis = "linear", scaleOfSecondaryAxis = "log"
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -271,6 +282,7 @@ test_that("grouping for simulation and observed works", {
     direction = "y",
     isObserved = FALSE,
     groupOrder = c("Simulated Data 2", "Simulated Data 1", "simulated"),
+    xscale = 'linear',
     scaleOfPrimaryAxis = "linear",
     scaleOfSecondaryAxis = "linear",
     ylimits = list(),
@@ -295,6 +307,7 @@ test_that("grouping for simulation and observed works", {
       direction = "y",
       isObserved = FALSE,
       groupOrder = c("Simulated Data 2", "Simulated Data 1", "simulated"),
+      xscale = 'linear',
       scaleOfPrimaryAxis = "linear",
       scaleOfSecondaryAxis = "linear",
       ylimits = list(),

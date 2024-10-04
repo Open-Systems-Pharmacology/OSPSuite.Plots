@@ -16,6 +16,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
     #' @param isObserved A `boolean` if TRUE mappings mdv, lloq are evaluated
+    #' @param xscale = scale of xaxis
     #' @param scaleOfPrimaryAxis  scale of direction, either "linear" or "log"
     #' @param scaleOfSecondaryAxis either 'linear' or 'log'
     #' @param xlimits limits for x axis (may be NULL)
@@ -32,6 +33,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
                           isObserved = TRUE,
                           xlimits = NULL,
                           ylimits = NULL,
+                          xscale = 'linear',
                           scaleOfPrimaryAxis = "linear",
                           scaleOfSecondaryAxis = "linear",
                           y2limits = NULL) {
@@ -43,7 +45,9 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         direction = direction,
         isObserved = isObserved,
         xlimits = NULL,
-        ylimits = NULL
+        ylimits = NULL,
+        xscale = xscale,
+        yscale = scaleOfPrimaryAxis
       )
 
       checkmate::assertChoice(scaleOfPrimaryAxis, choices = c("linear", "log"))

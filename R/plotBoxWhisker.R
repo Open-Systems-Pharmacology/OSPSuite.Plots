@@ -70,6 +70,8 @@ plotBoxWhisker <- function(data,
   mappedData <- MappedDataBoxplot$new(
     data = data,
     mapping = mapping,
+    xscale = xscale,
+    yscale = yscale,
     groupAesthetics = "fill",
     isObserved = TRUE,
     residualScale = residualScale,

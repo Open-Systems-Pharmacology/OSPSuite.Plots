@@ -85,6 +85,7 @@ plotTimeProfile <- function(data = NULL, # nolint
       observedData = observedData,
       observedMapping = observedMapping,
       metaData = metaData,
+      xscale = xscale,
       yscale = yscale,
       yscale.args = yscale.args,
       y2scale = y2scale,
@@ -204,6 +205,7 @@ plotTimeProfile <- function(data = NULL, # nolint
                                           observedData,
                                           observedMapping,
                                           metaData,
+                                          xscale,
                                           yscale,
                                           yscale.args,
                                           y2scale,
@@ -235,6 +237,7 @@ plotTimeProfile <- function(data = NULL, # nolint
       } else {
         NULL
       },
+      xscale = xscale,
       scaleOfPrimaryAxis = yscale,
       scaleOfSecondaryAxis = y2scale,
       ylimits = yscale.args$limits,
@@ -267,6 +270,7 @@ plotTimeProfile <- function(data = NULL, # nolint
       },
       isObserved = TRUE,
       direction = "y",
+      xscale = xscale,
       scaleOfPrimaryAxis = yscale,
       scaleOfSecondaryAxis = y2scale,
       ylimits = yscale.args$limits,

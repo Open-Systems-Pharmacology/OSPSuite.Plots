@@ -43,6 +43,8 @@ plotQQ <- function(data,
   mappedData <- MappedData$new(
     data = data,
     mapping = mapping,
+    xscale = xscale,
+    yscale = yscale,
     xlimits = xscale.args$limits,
     ylimits = yscale.args$limits,
     isObserved = TRUE,

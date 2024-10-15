@@ -235,7 +235,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
       )
 
       # set scale
-      y2scale.args[["trans"]] <- funScaleAxis
+      y2scale.args[["transform"]] <- funScaleAxis
       y2scale.args[["guide"]] <- ggh4x::guide_axis_minor()
       if (private$scaleOfSecondaryAxis == "log") {
         y2scale.args[["breaks"]] <- scales::breaks_log(5, base = 10)(self$y2limits)

@@ -10,6 +10,7 @@
   observedData,
   observedMapping,
   metaData,
+  xscale,
   yscale,
   yscale.args,
   y2scale,
@@ -32,6 +33,8 @@ per default is is set to mapping. So if both data sets have the same mapping, us
 if a different mapping is necessary use \code{mapping} and \code{observedMapping}}
 
 \item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
+
+\item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
 
 \item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 

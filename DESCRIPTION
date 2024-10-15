@@ -1,7 +1,7 @@
 Package: ospsuite.plots
 Type: Package
 Title: Library for standardized graphs
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     c(person(given = "Open-Systems-Pharmacology Community",
              role = "cph"),
@@ -28,7 +28,7 @@ Depends:
     R (>= 3.6),
     ggplot2 (>= 3.5.0)
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 Suggests:
     spelling,

@@ -64,6 +64,8 @@ Create a new \code{MappedDataBoxplot} object
   isObserved = TRUE,
   xlimits = NULL,
   ylimits = NULL,
+  xscale = "linear",
+  yscale = "linear",
   residualScale = NULL,
   residualAesthetic = "y"
 )}\if{html}{\out{</div>}}
@@ -85,6 +87,10 @@ Create a new \code{MappedDataBoxplot} object
 \item{\code{xlimits}}{limits for x-axis (may be NULL)}
 
 \item{\code{ylimits}}{limits for y-axis (may be NULL)}
+
+\item{\code{xscale}}{scale of x-axis either 'linear' or 'log'}
+
+\item{\code{yscale}}{scale of y-axis either 'linear' or 'log'}
 
 \item{\code{residualScale}}{scale of x residuals}
 

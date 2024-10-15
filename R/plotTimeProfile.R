@@ -102,7 +102,7 @@ plotTimeProfile <- function(data = NULL, # nolint
       xscale.args = xscale.args,
       yscale = yscale,
       yscale.args = listMappedData$yscale.args, # for y2scaling, limits are updated
-      y2scale.args = y2scale.args,
+      y2scale.args = listMappedData$y2scale.args,
       secAxis = listMappedData$secAxis)
 
   ## -- addLayers
@@ -297,13 +297,6 @@ plotTimeProfile <- function(data = NULL, # nolint
     obsMappedData <- NULL
   }
 
-  # add y2 label
-  if (requireDualAxis & !is.null(metaData)){
-    y2scale.args = utils::modifyList(list(name = metaData$y2$dimension),
-                                     y2scale.args)
-  }
-
-
   listMappedData <-
     .addCommonLimitsAndYscaleArguments(
       simMappedData = simMappedData,
@@ -425,7 +418,7 @@ plotTimeProfile <- function(data = NULL, # nolint
     # add y2 label to y2scale.args
     if (!is.null(plotObject$labels$y2) &
         is.null(y2scale.args$name)) {
-      y2scale.args$name <- plotObject$labels$y2
+      secAxis$name <- plotObject$labels$y2
     }
   }
 

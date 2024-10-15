@@ -60,14 +60,13 @@ updateScaleArgumentsForTimeUnit <- function(scale.args,
       if (2 * width > diff(range(x))) {
         return(scales::breaks_extended(n = 5)(x))
       } else {
-        while (20 * width < diff(range(x))) {
+        while (10 * width < diff(range(x))) {
           width <- width * 2
         }
         return(x <- scales::fullseq(x, width))
       }
     }
   }
-
 
   scale.args$breaks <- switch(tolower(unit),
     "s" = timeBreaks(15),

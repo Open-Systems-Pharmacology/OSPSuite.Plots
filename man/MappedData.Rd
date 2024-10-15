@@ -75,6 +75,8 @@ Create a new \code{MappedData} object
 \if{html}{\out{<div class="r">}}\preformatted{MappedData$new(
   data,
   mapping,
+  xscale,
+  yscale,
   groupAesthetics = NULL,
   groupOrder = NULL,
   direction = "y",
@@ -92,6 +94,10 @@ Create a new \code{MappedData} object
 \item{\code{data}}{data.frame used for mapping}
 
 \item{\code{mapping}}{list of aesthetic mappings}
+
+\item{\code{xscale}}{scale of x-axis either 'linear' or 'log'}
+
+\item{\code{yscale}}{scale of y-axis either 'linear' or 'log'}
 
 \item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with \code{groupby}}
 

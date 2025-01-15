@@ -296,7 +296,6 @@ addXscale <- function(plotObject,
   plotObject <- plotObject +
     switch(xscale,
            "linear" = {
-             #if (is.null(xscale.args$guide)) xscale.args$guide <- ggh4x::guide_axis_minor()
              do.call(
                what = scale_x_continuous,
                args = xscale.args
@@ -338,7 +337,6 @@ addYscale <- function(plotObject,
 
   plotObject <- plotObject +
     if (yscale == "linear") {
-      if (is.null(yscale.args$guide)) yscale.args$guide <- ggh4x::guide_axis_minor()
       do.call(
         what = scale_y_continuous,
         args = c(

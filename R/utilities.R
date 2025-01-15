@@ -94,6 +94,7 @@ updateScaleArgumentsForTimeUnit <- function(scale.args,
 #' @keywords internal
 #' @return  updated `ggplot` object
 addLabels <- function(plotObject, mappedData) {
+
   plotLabels <- plotObject$labels
   if (!is.null(mappedData)) {
     plotLabelsByMetData <- createDefaultPlotLabels(
@@ -102,16 +103,7 @@ addLabels <- function(plotObject, mappedData) {
     plotLabels <- utils::modifyList(plotLabels, plotLabelsByMetData)
   }
   # set labels
-  plotObject <- plotObject +
-    eval(parse(text = paste0(
-      "labs(",
-      paste(
-        lapply(names(plotLabels), function(i) paste0(i, " = '", plotLabels[[i]], "'")),
-        collapse = ","
-      ),
-      ")"
-    )))
-
+  plotObject <- plotObject + do.call(labs, plotLabels)
 
   return(plotObject)
 }
@@ -145,7 +137,7 @@ createDefaultPlotLabels <- function(mappedData) {
 
       if (!is.null(dimension) & !is.null(unit)) {
         if (trimws(unit) != "") {
-          plotLabels[[labelEntry]] <- paste0(trimws(dimension), " [", trimws(unit), "]")
+          plotLabels[[labelEntry]] <-  paste0(trimws(dimension), " [", trimws(unit), "]")
         } else {
           plotLabels[[labelEntry]] <- trimws(dimension)
         }
@@ -198,7 +190,7 @@ metaData2DataFrame <- function(metaData) {
 #' @export
 getFoldDistanceList <- function(folds = c(1.5, 2),
                                 includeIdentity = TRUE) {
-  checkmate::assertDouble(folds, lower = 1)
+  checkmate::assertDouble(folds, lower = 1,null.ok = TRUE)
 
   foldDistance <- list()
 

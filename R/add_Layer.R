@@ -40,7 +40,6 @@ initializePlot <- function(mappedData = NULL,
   # add labels
   plotObject <- addLabels(plotObject, mappedData)
 
-
   return(plotObject)
 }
 
@@ -297,7 +296,7 @@ addXscale <- function(plotObject,
   plotObject <- plotObject +
     switch(xscale,
            "linear" = {
-             if (is.null(xscale.args$guide)) xscale.args$guide <- ggh4x::guide_axis_minor()
+             #if (is.null(xscale.args$guide)) xscale.args$guide <- ggh4x::guide_axis_minor()
              do.call(
                what = scale_x_continuous,
                args = xscale.args

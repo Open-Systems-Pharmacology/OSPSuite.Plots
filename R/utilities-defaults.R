@@ -73,7 +73,8 @@ setDefaultTheme <- function() {
             hjust = 0.5,
             vjust = 0.5
           ),
-          panel.grid.minor = element_blank()
+          panel.grid.minor = element_blank(),
+          strip.background = element_rect(color = NA,fill = NA)
     )
 
 

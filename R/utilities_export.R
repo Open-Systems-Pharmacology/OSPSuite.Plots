@@ -22,6 +22,8 @@ exportPlot <- function(plotObject,
                        width = getOspsuite.plots.option(optionKey = OptionKeys$export.width),
                        height = NULL,
                        ...) {
+  if (class(plotObject) == 'CombinedPlot') plotObject <- plotObject$combined()
+
   validateInputsExportPlot(plotObject,
     filepath,
     filename,

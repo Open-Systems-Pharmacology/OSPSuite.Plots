@@ -111,8 +111,20 @@ plotBoxWhisker <- function(data,
 
     # add names of box whisker limits to ggplot for use in function getBoxWhiskerLimits
     statFunExport <- function(y) {
-      r <- stats::quantile(y, probs = percentiles, names = FALSE, na.rm = TRUE)
-      names(r) <- scales::label_ordinal()(x = percentiles * 100)
+      y <- y[!is.na(y)]
+      rQuantiles <- stats::quantile(y, probs = percentiles, names = FALSE, na.rm = TRUE)
+      names(rQuantiles) <- paste(scales::label_ordinal()(x = percentiles * 100),'percentile')
+
+      r <- c(N = length(y),
+             rQuantiles,
+             "arith mean" = mean(y),
+             "arith standard deviation" = sd(y),
+             "arith CV" = sd(y)/mean(y),
+             "geo mean"	= exp(mean(log(y))),
+             "geo standard deviation"	= exp(sd(log(y))),
+             "geo CV" = sqrt(exp((log(sd(y)))^2)-1)
+      )
+
       return(r)
     }
 
@@ -120,7 +132,6 @@ plotBoxWhisker <- function(data,
   } else {
     plotObject$statFun <- statFun
   }
-
 
   # add x and y scale
   plotObject <- addXYScale(

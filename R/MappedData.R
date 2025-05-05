@@ -114,7 +114,6 @@ MappedData <- R6::R6Class( # nolint
 
         # lloq values are matched
         private$adjustForLLOQMatch()
-
       }
       # add ymin ymax aesthetic error and error_relative
       private$translateErrorAestethics()
@@ -131,7 +130,7 @@ MappedData <- R6::R6Class( # nolint
       )
 
       # setLimits
-      private$setLimits(xscale,yscale)
+      private$setLimits(xscale, yscale)
     },
 
     #' filter possible aesthetics for a geom,
@@ -155,7 +154,6 @@ MappedData <- R6::R6Class( # nolint
           c("aesthetic", "source", "scalingRelevant")
         )
       )
-
 
       # filter for accepted AES, exclude the ones included in geomAttributes and
       # take only the ones mapped by user
@@ -346,7 +344,7 @@ MappedData <- R6::R6Class( # nolint
 
       return(invisible(self))
     },
-    #' adds new columns ymin and ymax if required
+    #' adds new columns `ymin` and `ymax` if required
     translateErrorAestethics = function() {
       if (!private$aestheticExists(paste(private$direction, "min")) |
         !private$aestheticExists(paste(private$direction, "max"))) {
@@ -360,8 +358,9 @@ MappedData <- R6::R6Class( # nolint
         }
 
         if (length(errorType) == 1 &&
-            !is.null(private$getDataForAesthetic(errorType,
-                                                 stopIfNull = FALSE))) {
+          !is.null(private$getDataForAesthetic(errorType,
+            stopIfNull = FALSE
+          ))) {
           newMapping <- list()
 
           checkmate::assertNames(
@@ -458,7 +457,7 @@ MappedData <- R6::R6Class( # nolint
       }
       return(invisible(self))
     },
-    setLimits = function(xscale,yscale) {
+    setLimits = function(xscale, yscale) {
       # get data columns to scale
       relevantMappings <- list(x = "x", y = "y")
       relevantMappings[[private$direction]] <- gsub(
@@ -475,8 +474,8 @@ MappedData <- R6::R6Class( # nolint
           "y" = self$ylimits
         )
         axisScale <- switch(ax,
-                            "x" = xscale,
-                            "y" = yscale
+          "x" = xscale,
+          "y" = yscale
         )
         if (is.null(oldLimits) || any(is.na(oldLimits))) {
           ylimits <- c()
@@ -489,7 +488,7 @@ MappedData <- R6::R6Class( # nolint
             )
 
             if (!is.null(yData) && !is.function(yData)) {
-              if (axisScale == 'log') yData <- yData[yData>0]
+              if (axisScale == "log") yData <- yData[yData > 0]
               ylimits <- range(c(ylimits, yData), na.rm = TRUE)
             }
           }

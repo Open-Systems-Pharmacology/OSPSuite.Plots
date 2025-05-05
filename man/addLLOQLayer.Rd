@@ -19,12 +19,12 @@ addLLOQLayer(
 
 \item{layerToCall}{function ggplot2 geom layer}
 
-\item{useLinetypeAsAttribute}{boolean, if TRUE lientype is set as attribute, no legend is created}
+\item{useLinetypeAsAttribute}{boolean, if TRUE line type is set as attribute, no legend is created}
 
 \item{geomLLOQAttributes}{additional attributes}
 }
 \value{
-updated plotObject
+updated plot object
 }
 \description{
 add LLOQ Layer with lloq lines

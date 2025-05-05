@@ -23,10 +23,10 @@
 \item{data}{data.frame with simulated data will be displayed as lines with ribbons}
 
 \item{mapping}{a list of aesthetic mappings to use for plot,
-additional to {ggplot2} aesthetics, the aesthetics \code{groupby},\code{error},\code{error_relative},\code{lloq}, \code{mdv}, \code{y2axis} are available,
+additional to \code{{ggplot2}} aesthetics, the aesthetics \code{groupby},\code{error},\code{error_relative},\code{lloq}, \code{mdv}, \code{y2axis} are available,
 see vignettes for more details and examples}
 
-\item{observedData}{data.frame with observed data  will be displayed as points with errorbars}
+\item{observedData}{data.frame with observed data  will be displayed as points with error-bars}
 
 \item{observedMapping}{a list of aesthetic mappings to use for observed data,
 per default is is set to mapping. So if both data sets have the same mapping, use only \code{mapping},
@@ -50,7 +50,7 @@ if a different mapping is necessary use \code{mapping} and \code{observedMapping
 use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after simulation layers}
 }
 \value{
-list with entries simMappedData and obsMappedData
+list with entries \code{simMappedData} and \code{obsMappedData}
 }
 \description{
 prepares mapped Data object for plotting

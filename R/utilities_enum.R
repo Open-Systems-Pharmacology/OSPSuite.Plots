@@ -1,6 +1,6 @@
-#' @title enumeration keys for ospsuite.plots options
+#' @title enumeration keys for OSPSuite.plots options
 #' @export
-OptionKeys <- enum(c(   # nolint
+OptionKeys <- enum(c( # nolint
   gsub("ospsuite.plots.", "", names(getDefaultOptions())),
   "shapeValues"
 ))

@@ -94,7 +94,6 @@ updateScaleArgumentsForTimeUnit <- function(scale.args,
 #' @keywords internal
 #' @return  updated `ggplot` object
 addLabels <- function(plotObject, mappedData) {
-
   plotLabels <- plotObject$labels
   if (!is.null(mappedData)) {
     plotLabelsByMetData <- createDefaultPlotLabels(
@@ -109,11 +108,11 @@ addLabels <- function(plotObject, mappedData) {
 }
 
 
-#' create Default labels with unit for plot
+#' create default labels with unit for plot
 #'
-#' @param mappedData  MappedData object with information of mapped dimensions and units
+#' @param mappedData  `MappedData` object with information of mapped dimensions and units
 #'
-#' @return  list with plotLabels
+#' @return  list with plot labels
 #' @keywords internal
 createDefaultPlotLabels <- function(mappedData) {
   # match mapping to axis
@@ -134,20 +133,42 @@ createDefaultPlotLabels <- function(mappedData) {
     for (aesthetic in mapEntry) {
       dimension <- mappedData$dimensions[[aesthetic]]
       unit <- mappedData$units[[aesthetic]]
-
-      if (!is.null(dimension) & !is.null(unit)) {
-        if (trimws(unit) != "") {
-          plotLabels[[labelEntry]] <-  paste0(trimws(dimension), " [", trimws(unit), "]")
-        } else {
-          plotLabels[[labelEntry]] <- trimws(dimension)
-        }
+      if (!is.null(dimension)) {
+        plotLabels[[labelEntry]] <- constructLabelWithUnit(label = dimension, unit = unit)
       }
     }
   }
 
   return(plotLabels)
 }
-
+#' Construct a Label with Unit
+#'
+#' This function constructs a label by appending a unit in square brackets
+#' if both the label and unit are provided. If the unit is empty or NULL,
+#' only the label is returned.
+#'
+#' @param label A character string representing the label. It should not be NULL.
+#' @param unit A character string representing the unit. It can be NULL or an empty string.
+#'
+#' @return A character string that combines the label and the unit, formatted as
+#'         "label [unit]", or just the label if the unit is empty or NULL.
+#'
+#' @examples
+#' constructLabelWithUnit("Temperature", "Celsius") # Returns "Temperature [Celsius]"
+#' constructLabelWithUnit("Length", "") # Returns "Length"
+#' constructLabelWithUnit(NULL, "kg") # Returns NULL
+#'
+#' @export
+constructLabelWithUnit <- function(label, unit) {
+  if (!is.null(label) & !is.null(unit)) {
+    if (trimws(unit) != "") {
+      label <- paste0(trimws(label), " [", trimws(unit), "]")
+    } else {
+      label <- trimws(label)
+    }
+  }
+  return(label)
+}
 
 #' converts metaData List to a data frame
 #' row names specify properties
@@ -190,7 +211,7 @@ metaData2DataFrame <- function(metaData) {
 #' @export
 getFoldDistanceList <- function(folds = c(1.5, 2),
                                 includeIdentity = TRUE) {
-  checkmate::assertDouble(folds, lower = 1,null.ok = TRUE)
+  checkmate::assertDouble(folds, lower = 1, null.ok = TRUE)
 
   foldDistance <- list()
 

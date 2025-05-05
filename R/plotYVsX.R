@@ -91,7 +91,7 @@ plotRatioVsCov <- function(data = NULL,
 
   # do quantification
   if (requireNamespace("data.table", quietly = TRUE) &
-      (addGuestLimits | !is.null(names(comparisonLineVector)))) {
+    (addGuestLimits | !is.null(names(comparisonLineVector)))) {
     pb <- ggplot_build(plotObject)
     iData <- which(unlist(lapply(pb$data, function(x) {
       return(all(c("x", "y", "shape") %in% names(x)))
@@ -368,7 +368,7 @@ plotYVsX <- function(data,
     plotObject = plotObject,
     mappedData = mappedData,
     layerToCall = geom_vline,
-    useLinetypeAsAttribute = 'lloq' %in% names(mappedData$mapping),
+    useLinetypeAsAttribute = "lloq" %in% names(mappedData$mapping),
     geomLLOQAttributes = geomLLOQAttributes
   )
 
@@ -428,8 +428,10 @@ plotYVsX <- function(data,
     )
     names(linetypes) <- lineTypeNames
     plotObject <- plotObject +
-      scale_linetype_manual(values = linetypes, breaks = names(linetypes),
-                            guide = guide_legend(order = 10,title = NULL))
+      scale_linetype_manual(
+        values = linetypes, breaks = names(linetypes),
+        guide = guide_legend(order = 10, title = NULL)
+      )
   }
 
   return(plotObject)
@@ -438,7 +440,7 @@ plotYVsX <- function(data,
 #' add horizontal or diagonal comparison lines
 #' @inheritParams plotYVsX
 #' @inheritParams plotPredVsObs
-#' @param geomLineAttributes line attributes e.g. color,linetype passed to `ggplot2::geom_hline` or `ggplot2::geom_abline`
+#' @param geomLineAttributes line attributes e.g. `color`,`linetype` passed to `ggplot2::geom_hline` or `ggplot2::geom_abline`
 #'
 #' @keywords internal
 #' @return The updated `ggplot` object
@@ -454,14 +456,14 @@ addComparisonLines <- function(plotObject,
   if (addLinesDiagnonal) {
     lineMapping <-
       switch(xyscale,
-             "log" = aes(
-               intercept = log10(value),
-               slope = 1
-             ),
-             "linear" = aes(
-               intercept = 0,
-               slope = value
-             )
+        "log" = aes(
+          intercept = log10(value),
+          slope = 1
+        ),
+        "linear" = aes(
+          intercept = 0,
+          slope = value
+        )
       )
   } else {
     lineMapping <- aes(yintercept = value)
@@ -494,8 +496,8 @@ addComparisonLines <- function(plotObject,
   plotObject <- plotObject +
     do.call(
       what = ifelse(addLinesDiagnonal,
-                    ggplot2::geom_abline,
-                    ggplot2::geom_hline
+        ggplot2::geom_abline,
+        ggplot2::geom_hline
       ),
       args = utils::modifyList(
         list(
@@ -540,7 +542,7 @@ addGuestLayer <- function(plotObject,
             addLinesDiagnonal = addLinesDiagnonal,
             asLower = TRUE
           ),
-          data = data.table(x=NA,y=NA), # dummy data to avoid messages
+          data = data.table(x = NA, y = NA), # dummy data to avoid messages
           inherit.aes = FALSE,
           key_glyph = "path",
           na.rm = TRUE
@@ -559,7 +561,7 @@ addGuestLayer <- function(plotObject,
             addLinesDiagnonal = addLinesDiagnonal,
             asLower = FALSE
           ),
-          data = data.table(x=NA,y=NA), # dummy data to avoid messages
+          data = data.table(x = NA, y = NA), # dummy data to avoid messages
           inherit.aes = FALSE,
           key_glyph = "path",
           na.rm = TRUE
@@ -641,14 +643,14 @@ getCountsWithin <- function(data,
         )
       )
       counts[["guest criteria"]] <- sum(yColumn >= pmin(guestLimits, 1 / guestLimits) &
-                                          yColumn <= pmax(guestLimits, 1 / guestLimits))
+        yColumn <= pmax(guestLimits, 1 / guestLimits))
     }
 
     if (!is.null(names(comparisonLineVector))) {
       for (fd in names(comparisonLineVector)) {
         if (length(comparisonLineVector[[fd]]) > 1) {
           counts[[fd]] <- sum(yColumn >= min(comparisonLineVector[[fd]]) &
-                                yColumn <= max(comparisonLineVector[[fd]]))
+            yColumn <= max(comparisonLineVector[[fd]]))
         }
       }
     }
@@ -659,18 +661,18 @@ getCountsWithin <- function(data,
   # if grouping provide one row per group
   if (!is.null(groups)) {
     tmp <- merge(data[, .("Points total" = .N), by = groups],
-                 data[, as.list(
-                   countEntriesInBetween(
-                     xColumn = get(xColumn),
-                     yColumn = get(yColumn),
-                     comparisonLineVector = comparisonLineVector,
-                     addGuestLimits = addGuestLimits,
-                     deltaGuest = deltaGuest
-                   )
-                 ),
-                 by = groups
-                 ],
-                 by = groups
+      data[, as.list(
+        countEntriesInBetween(
+          xColumn = get(xColumn),
+          yColumn = get(yColumn),
+          comparisonLineVector = comparisonLineVector,
+          addGuestLimits = addGuestLimits,
+          deltaGuest = deltaGuest
+        )
+      ),
+      by = groups
+      ],
+      by = groups
     )
 
     countsWithin <- tidyr::pivot_longer(
@@ -709,8 +711,8 @@ getCountsWithin <- function(data,
 
 
     countsWithin <- rbind(totalNumber,
-                          tmp,
-                          fill = TRUE
+      tmp,
+      fill = TRUE
     )
   }
 
@@ -741,8 +743,7 @@ getCountsWithin <- function(data,
     xscale.args,
     yscale,
     yscale.args,
-    observedDataDirection
-){
+    observedDataDirection) {
   checkmate::assertDataFrame(data)
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
 
@@ -772,5 +773,4 @@ getCountsWithin <- function(data,
   checkmate::assertChoice(observedDataDirection, choices = c("x", "y"), null.ok = TRUE)
 
   return(invisible())
-
 }

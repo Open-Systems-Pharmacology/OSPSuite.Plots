@@ -2,17 +2,17 @@
 % Please edit documentation in R/utilities.R
 \name{createDefaultPlotLabels}
 \alias{createDefaultPlotLabels}
-\title{create Default labels with unit for plot}
+\title{create default labels with unit for plot}
 \usage{
 createDefaultPlotLabels(mappedData)
 }
 \arguments{
-\item{mappedData}{MappedData object with information of mapped dimensions and units}
+\item{mappedData}{\code{MappedData} object with information of mapped dimensions and units}
 }
 \value{
-list with plotLabels
+list with plot labels
 }
 \description{
-create Default labels with unit for plot
+create default labels with unit for plot
 }
 \keyword{internal}

@@ -26,7 +26,7 @@
 
 \item{geomLLOQAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
 
-\item{useLLOQLinetypeAsAttribute}{boolean if TRUE linetyp for LLOQ is set as attribute}
+\item{useLLOQLinetypeAsAttribute}{boolean if TRUE line type for LLOQ is set as attribute}
 
 \item{mapSimulatedAndObserved}{table with columns observed and simulated which maps simulated and observed data
 use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after simulation layers}

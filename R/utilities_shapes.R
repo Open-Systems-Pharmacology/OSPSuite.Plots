@@ -137,9 +137,9 @@ geomPointUnicode <- function(mapping = NULL, data = NULL, stat = "identity",
   )
 }
 
-#' @title .selectFontFamily
+#' @title select font family
 #' @description
-#' Select appropriate font family based on font and {showtext} package availability
+#' Select appropriate font family based on font and `{showtext}` package availability
 #' @param fontfamily default font family
 #' @keywords internal
 #'
@@ -167,7 +167,7 @@ geomPointUnicode <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @param shapes  shape may be valid shape or name entry of list Shapes
 #' @keywords internal
 #'
-#' @return  shapevalue
+#' @return  shape value
 .asPlotShape <- function(shapes) {
   ggplotShapes <- NULL
   for (shape in shapes) {

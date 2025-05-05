@@ -2,18 +2,18 @@
 % Please edit documentation in R/utilities-defaults.R
 \name{setDefaultColorMapDistinct}
 \alias{setDefaultColorMapDistinct}
-\title{set the default colormap for discrete colors}
+\title{set the default color-map for discrete colors}
 \usage{
 setDefaultColorMapDistinct(colorMapList = NULL)
 }
 \arguments{
-\item{colorMapList}{list of colorMaps to be set}
+\item{colorMapList}{list of color-maps to be set}
 }
 \value{
-list with Colormaps previously set
+list with color-maps previously set
 }
 \description{
-set the default colormap for discrete colors
+set the default color-map for discrete colors
 }
 \seealso{
 Other setDefault functions: 

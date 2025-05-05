@@ -89,11 +89,11 @@ use of group aesthetics triggers second axis after simulation layers}
 
 \item{\code{isObserved}}{A \code{boolean} if TRUE mappings mdv, lloq are evaluated}
 
-\item{\code{xlimits}}{limits for x axis (may be NULL)}
+\item{\code{xlimits}}{limits for x-axis (may be NULL)}
 
 \item{\code{ylimits}}{limits for primary axis (may be NULL)}
 
-\item{\code{xscale}}{= scale of xaxis}
+\item{\code{xscale}}{= scale of x-axis}
 
 \item{\code{scaleOfPrimaryAxis}}{scale of direction, either "linear" or "log"}
 
@@ -105,7 +105,7 @@ use of group aesthetics triggers second axis after simulation layers}
 }
 \subsection{Returns}{
 A new \code{MappedDataTimeProfile} object
-scales data for secondary axis and updates filed secAxis
+scales data for secondary axis and updates \code{secAxis}
 }
 }
 \if{html}{\out{<hr>}}

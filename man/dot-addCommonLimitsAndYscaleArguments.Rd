@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotTimeProfile.R
 \name{.addCommonLimitsAndYscaleArguments}
 \alias{.addCommonLimitsAndYscaleArguments}
-\title{set the commonLimits to Mapped data and update y2ScaleARguments}
+\title{set the common axis limits to \code{MappedData} object and update y2-scale arguments}
 \usage{
 .addCommonLimitsAndYscaleArguments(
   simMappedData,
@@ -20,20 +20,20 @@
 
 \item{commonLimits}{common limits for simulated and observed data}
 
-\item{requireDualAxis}{boolena if TRUE secondary axis is needed}
+\item{requireDualAxis}{boolean if TRUE secondary axis is needed}
 
 \item{yscale.args}{list with y2scale arguments}
 
-\item{y2scale.args}{list with arguments for secondary axisx}
+\item{y2scale.args}{list with arguments for secondary y-axis}
 }
 \value{
 list with
-simMappedData adjusted object of class \code{MappedDataTimeprofile} for simulated data
-obsMappedData adjusted object of class \code{MappedDataTimeprofile} for observed data
-yscale.args adjusted yscale.args with common limits for primary and secondayr axisx
-secAxis  secondary axis object
+\code{simMappedData} adjusted object of class \code{MappedDataTimeprofile} for simulated data
+\code{obsMappedData} adjusted object of class \code{MappedDataTimeprofile} for observed data
+\code{yscale.args} adjusted \code{yscale.args} with common limits for primary and secondary y-axis
+\code{secAxis}  secondary axis object
 }
 \description{
-set the commonLimits to Mapped data and update y2ScaleARguments
+set the common axis limits to \code{MappedData} object and update y2-scale arguments
 }
 \keyword{internal}

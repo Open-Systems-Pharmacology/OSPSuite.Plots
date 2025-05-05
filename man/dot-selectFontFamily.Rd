@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities_shapes.R
 \name{.selectFontFamily}
 \alias{.selectFontFamily}
-\title{.selectFontFamily}
+\title{select font family}
 \usage{
 .selectFontFamily(fontfamily = "sans")
 }
@@ -10,6 +10,6 @@
 \item{fontfamily}{default font family}
 }
 \description{
-Select appropriate font family based on font and {showtext} package availability
+Select appropriate font family based on font and \code{{showtext}} package availability
 }
 \keyword{internal}

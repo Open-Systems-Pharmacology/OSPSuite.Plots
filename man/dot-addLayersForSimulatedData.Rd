@@ -28,7 +28,7 @@ use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after s
 \item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with \code{groupby},}
 }
 \value{
-plotObject wit newly added layers
+plot object wit newly added layers
 }
 \description{
 set line and ribbon layer fro simulated data

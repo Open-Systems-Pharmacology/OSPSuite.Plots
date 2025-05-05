@@ -1,5 +1,5 @@
 #' @title generate time profile plots
-#' @description Produces timeprofiles for simulated and observed data.
+#' @description Produces time profiles for simulated and observed data.
 #'
 #' For the simulated data a `geom_line` and a `geom_ribbon` layer are added
 #' For the observed data a `geom_point` and a `geom_errorbar` layer are added
@@ -10,9 +10,9 @@
 #'
 #'
 #' @param data  data.frame with simulated data will be displayed as lines with ribbons
-#' @param observedData data.frame with observed data  will be displayed as points with errorbars
+#' @param observedData data.frame with observed data  will be displayed as points with error-bars
 #' @param mapping  a list of aesthetic mappings to use for plot,
-#'           additional to {ggplot2} aesthetics, the aesthetics `groupby`,`error`,`error_relative`,`lloq`, `mdv`, `y2axis` are available,
+#'           additional to `{ggplot2}` aesthetics, the aesthetics `groupby`,`error`,`error_relative`,`lloq`, `mdv`, `y2axis` are available,
 #'           see vignettes for more details and examples
 #' @param observedMapping a list of aesthetic mappings to use for observed data,
 #'           per default is is set to mapping. So if both data sets have the same mapping, use only `mapping`,
@@ -55,7 +55,7 @@ plotTimeProfile <- function(data = NULL, # nolint
                             geomPointAttributes = getDefaultGeomAttributes("Point"),
                             geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
                             geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
-                            groupAesthetics = c("colour", "fill",  "shape")) {
+                            groupAesthetics = c("colour", "fill", "shape")) {
   groupAesthetics <- ggplot2::standardise_aes_names(groupAesthetics)
   .validatePlotTimeProfileInputs(
     data = data,
@@ -90,8 +90,9 @@ plotTimeProfile <- function(data = NULL, # nolint
       yscale.args = yscale.args,
       y2scale = y2scale,
       y2scale.args = y2scale.args,
-      groupAesthetics  = groupAesthetics,
-      mapSimulatedAndObserved = mapSimulatedAndObserved)
+      groupAesthetics = groupAesthetics,
+      mapSimulatedAndObserved = mapSimulatedAndObserved
+    )
 
   plotObject <-
     .initialplotObjectForTimeProfile(
@@ -103,7 +104,8 @@ plotTimeProfile <- function(data = NULL, # nolint
       yscale = yscale,
       yscale.args = listMappedData$yscale.args, # for y2scaling, limits are updated
       y2scale.args = listMappedData$y2scale.args,
-      secAxis = listMappedData$secAxis)
+      secAxis = listMappedData$secAxis
+    )
 
   ## -- addLayers
   plotObject <-
@@ -113,7 +115,8 @@ plotTimeProfile <- function(data = NULL, # nolint
       geomRibbonAttributes = geomRibbonAttributes,
       geomLineAttributes = geomLineAttributes,
       mapSimulatedAndObserved = listMappedData$mapSimulatedAndObserved,
-      groupAesthetics = groupAesthetics)
+      groupAesthetics = groupAesthetics
+    )
 
   plotObject <-
     .addLayersForObserveddData(
@@ -124,10 +127,11 @@ plotTimeProfile <- function(data = NULL, # nolint
       geomLLOQAttributes = geomLLOQAttributes,
       useLLOQLinetypeAsAttribute = listMappedData$useLLOQLinetypeAsAttribute,
       mapSimulatedAndObserved = listMappedData$mapSimulatedAndObserved,
-      groupAesthetics = groupAesthetics)
+      groupAesthetics = groupAesthetics
+    )
 
   # set legend of group aesthetic first
-  guidesList <- setNames(
+  guidesList <- stats::setNames(
     lapply(groupAesthetics, function(aesthetic) {
       guide_legend(order = 1)
     }),
@@ -141,7 +145,7 @@ plotTimeProfile <- function(data = NULL, # nolint
 
 
 
-#' Validates input fro plotTimeProfile function
+#' Validates input for `plotTimeProfile` function
 #'
 #' @inheritParams plotTimeProfile
 #'
@@ -197,7 +201,7 @@ plotTimeProfile <- function(data = NULL, # nolint
 #'
 #' @inheritParams plotTimeProfile
 #'
-#' @return list with entries simMappedData and obsMappedData
+#' @return list with entries `simMappedData` and `obsMappedData`
 #'
 #' @keywords internal
 .getMappedDataForTimeProfiles <- function(data,
@@ -211,17 +215,19 @@ plotTimeProfile <- function(data = NULL, # nolint
                                           y2scale,
                                           y2scale.args,
                                           groupAesthetics,
-                                          mapSimulatedAndObserved){
+                                          mapSimulatedAndObserved) {
   requireDualAxis <- FALSE
   commonLimits <- list(
     y = yscale.args$limits,
     y2 = y2scale.args$limits
   )
 
-  if (!is.null(mapSimulatedAndObserved))
+  if (!is.null(mapSimulatedAndObserved)) {
     mapSimulatedAndObserved <- data.table::setnames(data.table::setDT(mapSimulatedAndObserved),
-                                        old = names(mapSimulatedAndObserved),
-                                        new = ggplot2::standardise_aes_names(names(mapSimulatedAndObserved)))
+      old = names(mapSimulatedAndObserved),
+      new = ggplot2::standardise_aes_names(names(mapSimulatedAndObserved))
+    )
+  }
 
   useLLOQLinetypeAsAttribute <- FALSE
 
@@ -253,8 +259,7 @@ plotTimeProfile <- function(data = NULL, # nolint
       )
     )
     useLLOQLinetypeAsAttribute <-
-      'linetype' %in% names(simMappedData$mapping)
-
+      "linetype" %in% names(simMappedData$mapping)
   } else {
     simMappedData <- NULL
   }
@@ -290,9 +295,8 @@ plotTimeProfile <- function(data = NULL, # nolint
     )
 
     useLLOQLinetypeAsAttribute <-
-      'linetype' %in% names(simMappedData$mapping) |
-      useLLOQLinetypeAsAttribute
-
+      "linetype" %in% names(simMappedData$mapping) |
+        useLLOQLinetypeAsAttribute
   } else {
     obsMappedData <- NULL
   }
@@ -304,31 +308,34 @@ plotTimeProfile <- function(data = NULL, # nolint
       commonLimits = commonLimits,
       requireDualAxis = requireDualAxis,
       yscale.args = yscale.args,
-      y2scale.args = y2scale.args)
+      y2scale.args = y2scale.args
+    )
 
 
-  return(list(simMappedData = listMappedData$simMappedData,
-              obsMappedData = listMappedData$obsMappedData,
-              yscale.args = listMappedData$yscale.args,
-              secAxis = listMappedData$secAxis,
-              mapSimulatedAndObserved = mapSimulatedAndObserved,
-              useLLOQLinetypeAsAttribute = useLLOQLinetypeAsAttribute))
+  return(list(
+    simMappedData = listMappedData$simMappedData,
+    obsMappedData = listMappedData$obsMappedData,
+    yscale.args = listMappedData$yscale.args,
+    secAxis = listMappedData$secAxis,
+    mapSimulatedAndObserved = mapSimulatedAndObserved,
+    useLLOQLinetypeAsAttribute = useLLOQLinetypeAsAttribute
+  ))
 }
 
-#' set the commonLimits to Mapped data and update y2ScaleARguments
+#' set the common axis limits to `MappedData` object and update y2-scale arguments
 #'
 #' @param simMappedData object of class `MappedDataTimeprofile` for simulated data
 #' @param obsMappedData object of class `MappedDataTimeprofile` for observed data
 #' @param commonLimits common limits for simulated and observed data
-#' @param y2scale.args list with arguments for secondary axisx
-#' @param requireDualAxis boolena if TRUE secondary axis is needed
+#' @param y2scale.args list with arguments for secondary y-axis
+#' @param requireDualAxis boolean if TRUE secondary axis is needed
 #' @param yscale.args list with y2scale arguments
 #'
 #' @return list with
-#'  simMappedData adjusted object of class `MappedDataTimeprofile` for simulated data
-#'  obsMappedData adjusted object of class `MappedDataTimeprofile` for observed data
-#'  yscale.args adjusted yscale.args with common limits for primary and secondayr axisx
-#'  secAxis  secondary axis object
+#'  `simMappedData` adjusted object of class `MappedDataTimeprofile` for simulated data
+#'  `obsMappedData` adjusted object of class `MappedDataTimeprofile` for observed data
+#'  `yscale.args` adjusted `yscale.args` with common limits for primary and secondary y-axis
+#'  `secAxis`  secondary axis object
 #'
 #' @keywords internal
 .addCommonLimitsAndYscaleArguments <- function(simMappedData,
@@ -336,7 +343,7 @@ plotTimeProfile <- function(data = NULL, # nolint
                                                commonLimits,
                                                requireDualAxis,
                                                yscale.args,
-                                               y2scale.args){
+                                               y2scale.args) {
   secAxis <- waiver()
   if (requireDualAxis) {
     if (!is.null(simMappedData)) {
@@ -362,10 +369,12 @@ plotTimeProfile <- function(data = NULL, # nolint
     yscale.args$limits <- commonLimits$y
   }
 
-  return(list(simMappedData = simMappedData,
-              obsMappedData = obsMappedData,
-              yscale.args = yscale.args,
-              secAxis = secAxis))
+  return(list(
+    simMappedData = simMappedData,
+    obsMappedData = obsMappedData,
+    yscale.args = yscale.args,
+    secAxis = secAxis
+  ))
 }
 
 #' compares old and new limits
@@ -397,7 +406,7 @@ plotTimeProfile <- function(data = NULL, # nolint
 #' @param obsMappedData object of class `MappedDataTimeprofile` for observed data
 #' @inheritParams plotTimeProfile
 #'
-#' @return plotObject
+#' @return plot object
 #' @keywords internal
 .initialplotObjectForTimeProfile <- function(simMappedData,
                                              obsMappedData,
@@ -407,7 +416,7 @@ plotTimeProfile <- function(data = NULL, # nolint
                                              yscale,
                                              yscale.args,
                                              y2scale.args,
-                                             secAxis){
+                                             secAxis) {
   # mapping can not be set in ggplot as observed and simulated mappings may differ
   if (is.null(plotObject)) {
     plotObject <- initializePlot(
@@ -417,7 +426,7 @@ plotTimeProfile <- function(data = NULL, # nolint
 
     # add y2 label to y2scale.args
     if (!is.null(plotObject$labels$y2) &
-        is.null(y2scale.args$name)) {
+      is.null(y2scale.args$name)) {
       secAxis$name <- plotObject$labels$y2
     }
   }
@@ -450,15 +459,17 @@ plotTimeProfile <- function(data = NULL, # nolint
 #' @param simMappedData object of class `MappedDataTimeprofile` for simulated data
 #' @inheritParams plotTimeProfile
 #'
-#' @return plotObject wit newly added layers
+#' @return plot object wit newly added layers
 #' @keywords internal
 .addLayersForSimulatedData <- function(plotObject,
                                        simMappedData,
                                        geomRibbonAttributes,
                                        geomLineAttributes,
                                        mapSimulatedAndObserved,
-                                       groupAesthetics){
-  if (is.null(simMappedData)) return(plotObject)
+                                       groupAesthetics) {
+  if (is.null(simMappedData)) {
+    return(plotObject)
+  }
   # If available, add ribbons for population time profiles
   plotObject <- addLayer(
     mappedData = simMappedData,
@@ -483,8 +494,9 @@ plotTimeProfile <- function(data = NULL, # nolint
     for (aesthetic in intersect(groupAesthetics, names(mapSimulatedAndObserved))) {
       plotObject <- plotObject +
         scale_discrete_manual(aesthetic,
-                              values = mapSimulatedAndObserved[[aesthetic]],
-                              guide = guide_legend(order = 1))
+          values = mapSimulatedAndObserved[[aesthetic]],
+          guide = guide_legend(order = 1)
+        )
     }
   }
 
@@ -496,7 +508,7 @@ plotTimeProfile <- function(data = NULL, # nolint
 #'
 #' @inheritParams plotTimeProfile
 #' @param obsMappedData object of class `MappedDataTimeprofile` for observed data
-#' @param useLLOQLinetypeAsAttribute boolean if TRUE linetyp for LLOQ is set as attribute
+#' @param useLLOQLinetypeAsAttribute boolean if TRUE line type for LLOQ is set as attribute
 #'
 #' @keywords internal
 .addLayersForObserveddData <- function(plotObject,
@@ -506,8 +518,10 @@ plotTimeProfile <- function(data = NULL, # nolint
                                        geomLLOQAttributes,
                                        useLLOQLinetypeAsAttribute,
                                        mapSimulatedAndObserved,
-                                       groupAesthetics){
-  if (is.null(obsMappedData)) return(plotObject)
+                                       groupAesthetics) {
+  if (is.null(obsMappedData)) {
+    return(plotObject)
+  }
 
   # add new scales for all aesthetics which occurs in simulated AND in observed data
   # to separate simulated and observed legend entries and start again with default colors
@@ -516,8 +530,8 @@ plotTimeProfile <- function(data = NULL, # nolint
       plotObject <- plotObject +
         guides(aesthetic = guide_legend(oder = 1)) +
         ggnewscale::new_scale(new_aes = aesthetic) +
-        labs(!!sym(aesthetic) := 'Observed') +
-        labs(!!sym(paste0(aesthetic,'_ggnewscale_1')) := 'Simulated')
+        labs(!!sym(aesthetic) := "Observed") +
+        labs(!!sym(paste0(aesthetic, "_ggnewscale_1")) := "Simulated")
     }
   }
 
@@ -559,4 +573,3 @@ plotTimeProfile <- function(data = NULL, # nolint
 
   return(plotObject)
 }
-

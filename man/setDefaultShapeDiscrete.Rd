@@ -14,7 +14,7 @@ vector with \code{shapeValues} saved in option \code{ospsuite.plots.shapeValues}
 }
 \description{
 The scales are set to the option  \code{ospsuite.plots.shapeValues}, which is the used to
-set the discrete scale of shapes for all {ospsuite.plots} function
+set the discrete scale of shapes for all \code{ospsuite.plots} function
 for customized functions add scale_shape_manual(\code{values = getOspsuite.plots.option(optionKey = OptionKeys$shapeValues)})
 }
 \seealso{

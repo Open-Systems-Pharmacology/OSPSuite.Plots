@@ -1,8 +1,5 @@
 # setDefaults
 oldDefaults <- ospsuite.plots::setDefaults()
-theme_update(legend.position = "top")
-theme_update(legend.title = element_blank())
-
 
 test_that("plotTimeProfile works basic", {
   skip_if_not_installed("vdiffr")
@@ -32,7 +29,9 @@ test_that("plotTimeProfile works basic", {
       ymax = maxValues,
       groupby = caption
     ),
-  )
+  ) +
+    theme(legend.position = "top",
+          legend.title = element_blank())
 
   vdiffr::expect_doppelganger(
     title = "basic",
@@ -57,7 +56,7 @@ test_that("plotTimeProfile works logscale", {
 
   metaData <- attr(exampleDataTimeProfile, "metaData")
 
-  fig = plotTimeProfile(
+  fig <- plotTimeProfile(
     data = simData,
     observedData = obsData,
     metaData = metaData,
@@ -68,8 +67,10 @@ test_that("plotTimeProfile works logscale", {
       ymax = maxValues,
       groupby = caption
     ),
-    yscale = 'log'
-  )
+    yscale = "log"
+  ) +
+    theme(legend.position = "top",
+          legend.title = element_blank())
 
   vdiffr::expect_doppelganger(
     title = "basic_log",
@@ -103,7 +104,7 @@ test_that("plotTimeProfile works mapping observed plot", {
     observed = unique(obsData$caption)
   )
 
-  fig = plotTimeProfile(
+  fig <- plotTimeProfile(
     data = simData,
     observedData = obsData,
     metaData = metaData,
@@ -113,7 +114,9 @@ test_that("plotTimeProfile works mapping observed plot", {
       groupby = caption
     ),
     mapSimulatedAndObserved = mapSimulatedAndObserved
-  )
+  ) +
+    theme(legend.position = "top",
+          legend.title = element_blank())
 
   vdiffr::expect_doppelganger(
     title = "mapped-observed-and-simulated",
@@ -142,7 +145,7 @@ test_that("plotTimeProfile works lloq", {
 
   metaData <- attr(exampleDataTimeProfile, "metaData")
 
-  fig = plotTimeProfile(
+  fig <- plotTimeProfile(
     data = simData,
     observedData = obsData,
     metaData = metaData,
@@ -156,7 +159,9 @@ test_that("plotTimeProfile works lloq", {
     yscale = "log",
     yscale.args = list(limits = c(0.01, NA)),
     geomLineAttributes = list(color = "black")
-  )
+  ) +
+    theme(legend.position = "top",
+          legend.title = element_blank())
 
   vdiffr::expect_doppelganger(
     title = "with lloq",
@@ -164,7 +169,7 @@ test_that("plotTimeProfile works lloq", {
   )
 
 
-  fig = plotTimeProfile(
+  fig <- plotTimeProfile(
     data = simData,
     observedData = obsData,
     metaData = metaData,
@@ -175,18 +180,19 @@ test_that("plotTimeProfile works lloq", {
       groupby = caption,
       lloq = lloq
     ),
-    groupAesthetics = c("color", "shape", "fill",'linetype'),
+    groupAesthetics = c("color", "shape", "fill", "linetype"),
     yscale = "log",
     yscale.args = list(limits = c(0.01, NA)),
     geomLineAttributes = list(color = "black")
-  )
+  ) +
+    theme(legend.position = "top",
+          legend.title = element_blank())
+
 
   vdiffr::expect_doppelganger(
     title = "with lloq and dashed lines",
     fig
   )
-
-
 })
 
 test_that("plotTimeProfile works secondary axis", {
@@ -220,7 +226,7 @@ test_that("plotTimeProfile works secondary axis", {
     dplyr::select(c("time", "values", "dimension", "caption", "lloq", "error_relative"))
 
 
-  fig = plotTimeProfile(
+  fig <- plotTimeProfile(
     data = simData,
     observedData = obsData,
     mapping <- aes(
@@ -237,9 +243,11 @@ test_that("plotTimeProfile works secondary axis", {
     yscale.args = list(limits = c(0.01, NA)),
     y2scale = "linear",
     y2scale.args = list(limits = c(0, 1)),
-    groupAesthetics = c('color','fill')
+    groupAesthetics = c("color", "fill")
   ) +
-    theme(axis.title.y.right = element_text(angle = 90)) +
+    theme(axis.title.y.right = element_text(angle = 90),
+          legend.position = "top",
+          legend.title = element_blank()) +
     guides(shape = guide_legend(order = 2))
 
   vdiffr::expect_doppelganger(
@@ -263,7 +271,7 @@ test_that("plotTimeProfile works secondary axis", {
     )
   )
 
-  fig = plotTimeProfile(
+  fig <- plotTimeProfile(
     data = simData,
     observedData = obsData,
     mapping = mapping <- aes(
@@ -282,7 +290,10 @@ test_that("plotTimeProfile works secondary axis", {
     yscale = "linear",
     yscale.args = list(limits = c(0, 1)),
   ) +
-    theme(axis.title.y.right = element_text(angle = 90))
+    theme(axis.title.y.right = element_text(angle = 90),
+          legend.position = "top",
+          legend.title = element_blank())
+
 
   vdiffr::expect_doppelganger(
     title = "secAxis logLin",
@@ -292,12 +303,13 @@ test_that("plotTimeProfile works secondary axis", {
 
 
 test_that("plotTimeProfile works with formula as aesthic", {
+  obsData <- data.table(
+    x = rep(seq(1, 10), 2),
+    y = c(rnorm(10, mean = 1), rnorm(10, mean = 2)),
+    dose = rep(c(1, 2), each = 10)
+  )
 
-  obsData <- data.table(x = rep(seq(1,10),2),
-                        y = c(rnorm(10,mean = 1),rnorm(10,mean = 2)),
-                        dose = rep(c(1,2),each = 10))
-
-  mapping = aes(
+  mapping <- aes(
     x = x,
     y = y / dose,
     color = as.factor(dose)
@@ -310,11 +322,10 @@ test_that("plotTimeProfile works with formula as aesthic", {
     mapping = aes(
       x = x,
       y = y / dose,
-      y2axis = dose ==1,
+      y2axis = dose == 1,
       color = as.factor(dose)
     ),
-    yscale = 'log'
+    yscale = "log"
   ))
-
 })
 ospsuite.plots::resetDefaults(oldDefaults)

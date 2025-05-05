@@ -4,14 +4,7 @@
 \alias{exportPlot}
 \title{export plot object}
 \usage{
-exportPlot(
-  plotObject,
-  filepath,
-  filename,
-  width = getOspsuite.plots.option(optionKey = OptionKeys$export.width),
-  height = NULL,
-  ...
-)
+exportPlot(plotObject, filepath, filename, width = NULL, height = NULL, ...)
 }
 \arguments{
 \item{plotObject}{ggplot object}

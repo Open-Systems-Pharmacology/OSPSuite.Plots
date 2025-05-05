@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities-defaults.R
 \name{getOspsuite.plots.option}
 \alias{getOspsuite.plots.option}
-\title{returns an option value for a option defined by the package ospsuite.plots}
+\title{returns an option value for a option defined by the package OSPSuite.plots}
 \usage{
 getOspsuite.plots.option(optionKey)
 }
@@ -13,7 +13,7 @@ getOspsuite.plots.option(optionKey)
 option value
 }
 \description{
-returns an option value for a option defined by the package ospsuite.plots
+returns an option value for a option defined by the package OSPSuite.plots
 }
 \examples{
 getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)

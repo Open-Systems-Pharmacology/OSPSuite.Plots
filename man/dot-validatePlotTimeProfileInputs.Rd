@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotTimeProfile.R
 \name{.validatePlotTimeProfileInputs}
 \alias{.validatePlotTimeProfileInputs}
-\title{Validates input fro plotTimeProfile function}
+\title{Validates input for \code{plotTimeProfile} function}
 \usage{
 .validatePlotTimeProfileInputs(
   data,
@@ -27,7 +27,7 @@
 \arguments{
 \item{data}{data.frame with simulated data will be displayed as lines with ribbons}
 
-\item{observedData}{data.frame with observed data  will be displayed as points with errorbars}
+\item{observedData}{data.frame with observed data  will be displayed as points with error-bars}
 
 \item{plotObject}{An optional \code{ggplot} object on which to add the plot layers}
 
@@ -61,6 +61,6 @@
 use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after simulation layers}
 }
 \description{
-Validates input fro plotTimeProfile function
+Validates input for \code{plotTimeProfile} function
 }
 \keyword{internal}

@@ -48,7 +48,7 @@ adds and update mapping
 deletes data where mdv is 1
 
 adds new column \code{isLLOQ.i} and updates boolean \code{LLOQMatch}
-adds new columns ymin and ymax if required
+adds new columns \code{ymin} and \code{ymax} if required
 copy aesthetics \code{groupby}, but only if not explicit set
 converts Integer columns, which are no factors to double
 adds new column \code{residuals.i}

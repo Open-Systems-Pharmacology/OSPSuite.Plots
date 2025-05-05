@@ -13,7 +13,7 @@ test_that("plot Residuals vs Covariate works", {
   metaData <- metaData[intersect(names(data), names(metaData))]
 
 
-  fig = plotResVsCov(
+  fig <- plotResVsCov(
     data = data, mapping = aes(
       x = Age,
       predicted = Pred,
@@ -47,7 +47,7 @@ test_that("plot Observed vs Predicted works", {
   metaData <- attr(exampleDataCovariates, "metaData")
   metaData <- metaData[intersect(names(data), names(metaData))]
 
-  fig = plotPredVsObs(
+  fig <- plotPredVsObs(
     data = data,
     mapping = aes(
       x = Obs,
@@ -88,7 +88,7 @@ test_that("plotRatioVsCov works", {
     )
   )
 
-  fig = plotRatioVsCov(
+  fig <- plotRatioVsCov(
     data = dDIdata,
     mapping = aes(
       x = Obs,

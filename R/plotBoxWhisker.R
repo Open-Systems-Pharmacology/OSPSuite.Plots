@@ -113,16 +113,17 @@ plotBoxWhisker <- function(data,
     statFunExport <- function(y) {
       y <- y[!is.na(y)]
       rQuantiles <- stats::quantile(y, probs = percentiles, names = FALSE, na.rm = TRUE)
-      names(rQuantiles) <- paste(scales::label_ordinal()(x = percentiles * 100),'percentile')
+      names(rQuantiles) <- paste(scales::label_ordinal()(x = percentiles * 100), "percentile")
 
-      r <- c(N = length(y),
-             rQuantiles,
-             "arith mean" = mean(y),
-             "arith standard deviation" = sd(y),
-             "arith CV" = sd(y)/mean(y),
-             "geo mean"	= exp(mean(log(y))),
-             "geo standard deviation"	= exp(sd(log(y))),
-             "geo CV" = sqrt(exp((log(sd(y)))^2)-1)
+      r <- c(
+        N = length(y),
+        rQuantiles,
+        "arith mean" = mean(y),
+        "arith standard deviation" = stats::sd(y),
+        "arith CV" = stats::sd(y) / mean(y),
+        "geo mean" = exp(mean(log(y))),
+        "geo standard deviation" = exp(stats::sd(log(y))),
+        "geo CV" = sqrt(exp((log(stats::sd(y)))^2) - 1)
       )
 
       return(r)

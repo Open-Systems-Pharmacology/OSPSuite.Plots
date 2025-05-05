@@ -34,7 +34,7 @@
 \item{y2scale.args}{list of arguments passed to \code{ggplot2::sec_axis()}, trans, break are set by code}
 }
 \value{
-plotObject
+plot object
 }
 \description{
 initializes plot object and set scaling

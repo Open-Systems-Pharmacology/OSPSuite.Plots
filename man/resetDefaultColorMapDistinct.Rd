@@ -2,15 +2,15 @@
 % Please edit documentation in R/utilities-defaults.R
 \name{resetDefaultColorMapDistinct}
 \alias{resetDefaultColorMapDistinct}
-\title{reset the default colormap for discrete colors}
+\title{reset the default color map for discrete colors}
 \usage{
 resetDefaultColorMapDistinct(oldColorMaps)
 }
 \arguments{
-\item{oldColorMaps}{list of colormaps previously set}
+\item{oldColorMaps}{list of color maps previously set}
 }
 \description{
-reset the default colormap for discrete colors
+reset the default color map for discrete colors
 }
 \seealso{
 Other setDefault functions: 

@@ -3,7 +3,7 @@
 \docType{data}
 \name{OptionKeys}
 \alias{OptionKeys}
-\title{enumeration keys for ospsuite.plots options}
+\title{enumeration keys for OSPSuite.plots options}
 \format{
 An object of class \code{list} of length 22.
 }
@@ -11,6 +11,6 @@ An object of class \code{list} of length 22.
 OptionKeys
 }
 \description{
-enumeration keys for ospsuite.plots options
+enumeration keys for OSPSuite.plots options
 }
 \keyword{datasets}

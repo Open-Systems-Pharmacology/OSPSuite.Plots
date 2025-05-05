@@ -24,7 +24,7 @@ plotHistogram(
 \item{data}{data.frame with simulated data will be displayed as lines with ribbons}
 
 \item{mapping}{a list of aesthetic mappings to use for plot,
-additional to {ggplot2} aesthetics, the aesthetics \code{groupby},\code{error},\code{error_relative},\code{lloq}, \code{mdv}, \code{y2axis} are available,
+additional to \code{{ggplot2}} aesthetics, the aesthetics \code{groupby},\code{error},\code{error_relative},\code{lloq}, \code{mdv}, \code{y2axis} are available,
 see vignettes for more details and examples}
 
 \item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}

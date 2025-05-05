@@ -36,8 +36,8 @@ MappedDataBoxplot <- R6::R6Class( # nolint
                           isObserved = TRUE,
                           xlimits = NULL,
                           ylimits = NULL,
-                          xscale = 'linear',
-                          yscale = 'linear',
+                          xscale = "linear",
+                          yscale = "linear",
                           residualScale = NULL,
                           residualAesthetic = "y") {
       super$initialize(

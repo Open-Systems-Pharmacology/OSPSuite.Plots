@@ -39,8 +39,8 @@ plotQQ <- function(data,
 
   checkmate::assertCharacter(groupAesthetics, min.len = 0, all.missing = TRUE, null.ok = TRUE)
 
-  xscale = "linear"
-  yscale = "linear"
+  xscale <- "linear"
+  yscale <- "linear"
 
   # data match --------------
   mappedData <- MappedData$new(

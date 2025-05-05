@@ -26,742 +26,409 @@ library(ospsuite.plots)
 library(tidyr)
 ```
 
-
 # 1. Introduction
 
-## 1.1. Objectives of ospsuite.plots
+## 1.1 Objectives of ospsuite.plots
 
+The main purpose of the `ospsuite.plots` library is to provide standardized plots typically used in the context of PBPK modeling. The library supports plot generation for the packages `OSPSuiteR` and `OSPSuite.ReportingEngine`.
 
-The main purpose of the `ospsuite.plots`-library is to provide standardized plots typically used in PBPK context.
-`ospsuite.plots` supports the plot generation of the packages `OSPSuiteR`  and `OSPSuite.ReportingEngine`. 
+The library is based on `ggplot2` functionality and also utilizes the `ggh4x` package.
 
-The library is based on `ggplot2` functionality. It uses also the library `ggh4x`.
+# 2. Default Settings for Layout
 
-# 2. Default settings for Layout
+`ospsuite.plots` provides default settings for the layout, including theme, geometric aesthetics, colors, and shapes for distinct scales.
 
-`ospsuite.plots` provides default settings for the layout including theme, geometric aesthetics, color and shapes for distinct scales.
+Examples within this vignette are plotted using the following test data:
 
-Examples within this vignette are plotted with following test data:
-
-```{r get-test-data,  results='asis'}
+```{r get-test-data, results='asis'}
 testData <- exampleDataCovariates %>%
   dplyr::filter(SetID == "DataSet1") %>%
   dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex"))
 
-
 knitr::kable(head(testData), digits = 3)
 ```
 
+## 2.1 Plots with and without Default Layout
 
+### 2.1.1 Default ggplot Layout
 
+- A plot created using the `ospsuite.plots` function
+- B customized plot
 
-## 2.1 Plots with and without default layout
-
-## 2.1.1 Default ggplot layout
-
-* A plot by ospsuite.plots function
-* B customized plot
-
-```{r,warning=FALSE}
+```{r, warning=FALSE}
 # ospsuite.plots function
-ospsuite.plots::plotHistogram(
-  data = testData,
-  mapping = aes(x = Age)
-) +
-  labs(tag = "A")
+ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
 
-# customized plot
-
-ggplot(
-  data = testData,
-  mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)
-) +
+# Customized plot
+ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)) +
   geom_point() +
   theme(legend.position = "top") +
   labs(tag = "B")
 ```
 
-## 2.1.2 set ospsuite.plots layout
+### 2.1.2 Set ospsuite.plots Layout
 
-To set the default we use the same logic as used in `ggplot2::theme_set()`. Invisibly the previous settings are returned so you can easily save it, then later restore it.
+To set the default layout, we use the same logic as in `ggplot2::theme_set()`. The previous settings are returned invisibly, so you can easily save them and restore them later.
 
-`setDefaults()` sets the theme, discrete color palette, shapes and various options. All objects can also be set separately as described below.
+`setDefaults()` sets the theme, discrete color palette, shapes, and various options. All objects can also be set separately as described below.
 
-
-```{r,warning=FALSE,fig.show='hold'}
-# set default layout  and save previous layout in variable old defaults
-# inputs are set to default inputs
-oldDefaults <- ospsuite.plots::setDefaults(
-  defaultOptions = list(),
-  colorMapList = NULL,
-  shapeValues = NULL,
-  pointAsUnicode = FALSE
-)
+```{r, warning=FALSE, fig.show='hold'}
+# Set default layout and save previous layout in variable oldDefaults
+oldDefaults <- ospsuite.plots::setDefaults(defaultOptions = list(), colorMapList = NULL, shapeValues = NULL, pointAsUnicode = FALSE)
 
 # ospsuite.plots function
-ospsuite.plots::plotHistogram(
-  data = testData,
-  mapping = aes(x = Age)
-) +
-  labs(tag = "A")
+ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
 
-# customized plot
-
-ggplot(
-  data = testData,
-  mapping = aes(x = Obs, y = Pred, color = Sex, fill = Sex, shape = Sex)
-) +
+# Customized plot
+ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, fill = Sex, shape = Sex)) +
   geom_point() +
   theme(legend.position = "top") +
   labs(tag = "B")
 ```
 
+### 2.1.3 Reset to Previously Saved Layout
 
-## 2.1.3 reset to previously save layout
-
-
-```{r,warning=FALSE,fig.show='hold'}
-# reset to previously saved layout options
+```{r, warning=FALSE, fig.show='hold'}
+# Reset to previously saved layout options
 ospsuite.plots::resetDefaults(oldDefaults = oldDefaults)
 
 # ospsuite.plots function
-ospsuite.plots::plotHistogram(
-  data = testData,
-  mapping = aes(x = Age)
-) +
-  labs(tag = "A")
+ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
 
-# customized plot
-
-ggplot(
-  data = testData,
-  mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)
-) +
+# Customized plot
+ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)) +
   geom_point() +
   theme(legend.position = "top") +
   labs(tag = "B")
 ```
 
-
-
 ## 2.2 Default Theme
 
-Functions to set the ospsuite.plots default theme only are: `setDefaultTheme()` and `resetDefaultTheme()`. This functions are called by `setDefaults()` and `resetDefaults()`.
+Functions to set the `ospsuite.plots` default theme only are `setDefaultTheme()` and `resetDefaultTheme()`. These functions are called by `setDefaults()` and `resetDefaults()`.
 
 ```{r}
-# set ospsuite.plots Default theme
+# Set ospsuite.plots Default Theme
 oldTheme <- ospsuite.plots::setDefaultTheme()
 
-# customize theme using ggplot functionalities
+# Customize theme using ggplot functionalities
 theme_update(legend.position = "top")
 theme_update(legend.title = element_blank())
 
-# reset to the previously saved
-resetDefaultTheme(oldTheme)
+# Reset to the previously saved theme
+ospsuite.plots::resetDefaultTheme(oldTheme)
 ```
 
 ## 2.3 Default Color
 
-Functions to set the ospsuite.plots default color only are: `setDefaultColorMapDistinct()` and `resetDefaultColorMapDistinct()`. This functions are called by `setDefaults()` and `resetDefaults()`.
+Functions to set the `ospsuite.plots` default color only are `setDefaultColorMapDistinct()` and `resetDefaultColorMapDistinct()`. These functions are called by `setDefaults()` and `resetDefaults()`.
 
-Colors are set to discrete and ordinal scales for `fill` and `colour`
+Colors are set to discrete and ordinal scales for `fill` and `colour`.
 
-The package provides some color palettes in the object colorMaps (See `? colorMaps`)
+The package provides some color palettes in the object `colorMaps` (see `?colorMaps`).
 
-The example below shows plots with  
+The example below shows plots with:
 
-* A plot with default settings for up to 6 different colors
-* B plot with default settings for more the 6 different colors
-* C customize settings for all following plots using the `colorMaps[["grays"]]`
-* D customize plot: set gray scale for this plot only using function `scale_fill_grey()`    
-
-You can also use color Palettes from other packages e.g ggsci:  
-
-* E customize settings for all following plots using as colormap ggsci::pal_lancet()(9)
-* F customized plots set gray scale for this plot only using function `ggsci::scale_color_lancet()`    
-
+- A plot with default settings for up to 6 different colors
+- B plot with default settings for more than 6 different colors
+- C customized settings for all following plots using the `colorMaps[["grays"]]`
+- D customized plot: set gray scale for this plot only using function `scale_fill_grey()`
+- E customized settings for all following plots using `ggsci::pal_lancet()(9)`
+- F customized plots: set gray scale for this plot only using function `ggsci::scale_color_lancet()`
 
 ```{r}
-# set ospsuite.plots Default Color
+# Set ospsuite.plots Default Color
 oldColors <- ospsuite.plots::setDefaultColorMapDistinct()
 
-
 ggplot() +
-  geom_tile(aes(
-    x = rep(seq(1, 3), 2),
-    y = rep(seq(1, 2), each = 3),
-    fill = as.factor(seq(1, 6))
-  )) +
-  labs(
-    title = "default settings for up to 6 different colors",
-    tag = "A"
-  ) +
-  theme(
-    legend.position = "none",
-    axis.title = element_blank()
-  )
+  geom_tile(aes(x = rep(seq(1, 3), 2), y = rep(seq(1, 2), each = 3), fill = as.factor(seq(1, 6)))) +
+  labs(title = "Default settings for up to 6 different colors", tag = "A") +
+  theme(legend.position = "none", axis.title = element_blank())
 ```
-
 
 ```{r}
 ggplot() +
-  geom_tile(aes(
-    x = c(rep(seq(1, 7), 7), 1, 2),
-    y = c(rep(seq(1, 7), each = 7), 8, 8),
-    fill = as.factor(seq(1, 51))
-  )) +
-  labs(title = "default settings for more the 6 different colors") +
-  theme(
-    legend.position = "none",
-    axis.title = element_blank()
-  )
+  geom_tile(aes(x = c(rep(seq(1, 7), 7), 1, 2), y = c(rep(seq(1, 7), each = 7), 8, 8), fill = as.factor(seq(1, 51)))) +
+  labs(title = "Default settings for more than 6 different colors") +
+  theme(legend.position = "none", axis.title = element_blank())
 ```
 
-
 ```{r}
-# customize colors:
-# set to gray colors
+# Customize colors: set to gray colors
 ospsuite.plots::setDefaultColorMapDistinct(colorMaps[["grays"]])
 
 ggplot() +
-  geom_tile(aes(
-    x = rep(seq(1, 3), 3),
-    y = rep(seq(1, 3), each = 3),
-    fill = as.factor(seq(1, 9))
-  )) +
-  theme(
-    legend.position = "none",
-    axis.title = element_blank()
-  ) +
-  labs(
-    title = "colorMaps gray",
-    tag = "C"
-  )
+  geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
+  theme(legend.position = "none", axis.title = element_blank()) +
+  labs(title = "colorMaps gray", tag = "C")
 ```
-
 
 ```{r}
 ggplot() +
-  geom_tile(aes(
-    x = rep(seq(1, 3), 3),
-    y = rep(seq(1, 3), each = 3),
-    fill = as.factor(seq(1, 9))
-  )) +
-  theme(
-    legend.position = "none",
-    axis.title = element_blank()
-  ) +
+  geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
+  theme(legend.position = "none", axis.title = element_blank()) +
   scale_fill_grey() +
-  labs(
-    title = "scale_fill_grey",
-    tag = "D"
-  )
+  labs(title = "scale_fill_grey", tag = "D")
 ```
 
-
 ```{r}
-# set to Color palettes inspired by plots in Lancet journals
+# Set to color palettes inspired by plots in Lancet journals
 ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
 
 ggplot() +
-  geom_tile(aes(
-    x = rep(seq(1, 3), 3),
-    y = rep(seq(1, 3), each = 3),
-    fill = as.factor(seq(1, 9))
-  )) +
-  theme(
-    legend.position = "none",
-    axis.title = element_blank()
-  ) +
-  labs(
-    title = "ggsci::pal_lancet",
-    tag = "E"
-  )
+  geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
+  theme(legend.position = "none", axis.title = element_blank()) +
+  labs(title = "ggsci::pal_lancet", tag = "E")
 ```
 
-
 ```{r}
-# set to Color palettes inspired by plots in Lancet journals
+# Set to color palettes inspired by plots in Lancet journals
 ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
 
 ggplot() +
-  geom_tile(aes(
-    x = rep(seq(1, 3), 3),
-    y = rep(seq(1, 3), each = 3),
-    fill = as.factor(seq(1, 9))
-  )) +
-  theme(
-    legend.position = "none",
-    axis.title = element_blank()
-  ) +
+  geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
+  theme(legend.position = "none", axis.title = element_blank()) +
   ggsci::scale_color_lancet() +
-  labs(
-    title = "ggsci::scale_color_lancet",
-    tag = "F"
-  )
+  labs(title = "ggsci::scale_color_lancet", tag = "F")
+```
 
-# reset to the previously saved
+### Reset to Previously Saved Color Map
+
+```{r}
+# Reset to the previously saved color map
 ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
 ```
 
 ## 2.4 Default Shapes
 
-Functions to set the ospsuite.plots default shapes only are: `oldShapeValue = setDefaultShapeDistinct(shapeValues)` and `resetDefaultShapeDistinct(oldShapeValue)`. This functions are called by `setDefaults()` and `resetDefaults()`.
-The scales are set to the option  `ospsuite.plots.shapeValues`, which is then used to
-set the discrete scale of shapes for all {ospsuite.plots} functions.
-for customized functions add `scale_shape_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$ospsuite.plots.shapeValues))`
-
-
+Functions to set the `ospsuite.plots` default shapes only are `setDefaultShapeDistinct(shapeValues)` and `resetDefaultShapeDistinct(oldShapeValue)`. These functions are called by `setDefaults()` and `resetDefaults()`. The scales are set to the option `ospsuite.plots.shapeValues`, which is then used to set the discrete scale of shapes for all `ospsuite.plots` functions. For customized functions, add `scale_shape_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$ospsuite.plots.shapeValues))`.
 
 ## 2.5 Default Options
 
-`getDefaultOptions()` returns a list of options which are used in this package.
-This Options are set by the function `setDefaults()` via the variable  `defaultOptions`.
+`getDefaultOptions()` returns a list of options used in this package. These options are set by the function `setDefaults()` via the variable `defaultOptions`.
 
-```{r}
+```{r, eval=FALSE}
 ospsuite.plots::setDefaults(defaultOptions = ospsuite.plots::getDefaultOptions())
 ```
 
-The names of all options defined by this package start with the package name `ospsuite.plots` as prefix and a suffix. The suffixes are listed in the enumeration `OptionKeys`
-There exist two helper functions (`setOspsuite.plost.option` and `getOspsuite.plost.option`) to set and get these options 
+The names of all options defined by this package start with the package name `ospsuite.plots` as a prefix and a suffix. The suffixes are listed in the enumeration `OptionKeys`. There are two helper functions (`setOspsuite.plots.option` and `getOspsuite.plots.option`) to set and get these options.
 
+## 2.5.1 Options to Customize Watermark
 
-## 2.5.1 Options to customize Watermark
+By default, a watermark is displayed in all plots. The watermark is added with the function `layerWatermark()`. This is done automatically by each plot function of this package.
 
-Per default a watermark is displayed in all plots
+There are options to:
 
-The watermark is added with function 
-```{r}
-plotObject <- ggplot() +
-  layerWatermark()
-```
+- Switch the watermark on and off (option key = `watermark_enabled`, default = `TRUE`)
+- Select the label (option key = `watermark_label`, default = "preliminary analysis")
+- Customize format (option key = `watermark_format`, default = `list(x = 0.5, y = 0.5, color = "grey20", angle = 30, fontsize = 12, alpha = 0.7)`)
 
-This is done automatically by each plot function of this package
+### Examples to Customize Watermark
 
-
-There are options to 
-
-* switch watermark on and off (option key = `watermark_enabled`, default = `TRUE`) 
-* select the label (option key = `watermark_label`, default =  "preliminary analysis") 
-* customize format (option key = `watermark_format`, default =  list(
-    x = 0.5,
-    y = 0.5,
-    color = "grey20",
-    angle = 30,
-    fontsize = 12,
-    alpha = 0.7
-  )) 
-
-
-examples to customize watermark  
-
-* A change format of watermark
-* B disabled watermark
-* C reset to default
+- A: Change format of watermark
+- B: Disable watermark
+- C: Reset to default
 
 ```{r}
-# change format and label of watermark
-setOspsuite.plots.option(
-  optionKey = OptionKeys$watermark_format,
-  value = list(
-    x = 0.2,
-    y = 0.9,
-    color = "red",
-    angle = 90,
-    fontsize = 24,
-    alpha = 0.2
-  )
-)
-setOspsuite.plots.option(
-  optionKey = OptionKeys$watermark_label,
-  value = "NEW"
-)
+# Change format and label of watermark
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = list(x = 0.2, y = 0.9, color = "red", angle = 90, fontsize = 24, alpha = 0.2))
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "NEW")
 
-initializePlot() +
-  labs(
-    title = "changed watermark",
-    tag = "A"
-  )
+# Initialize plot
+initializePlot() + labs(title = "Changed Watermark", tag = "A")
 ```
-
- 
-disable watermark:
 
 ```{r}
-setOspsuite.plots.option(
-  optionKey = OptionKeys$watermark_enabled,
-  value = FALSE
-)
+# Disable watermark
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = FALSE)
 
-initializePlot() +
-  labs(
-    title = "no watermark",
-    tag = "B"
-  )
+# Initialize plot
+initializePlot() + labs(title = "No Watermark", tag = "B")
 ```
-
-reset to default:
 
 ```{r}
-setOspsuite.plots.option(
-  optionKey = OptionKeys$watermark_format,
-  value = NULL
-)
-setOspsuite.plots.option(
-  optionKey = OptionKeys$watermark_label,
-  value = NULL
-)
-setOspsuite.plots.option(
-  optionKey = OptionKeys$watermark_enabled,
-  value = NULL
-)
+# Reset to default
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = NULL)
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = NULL)
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = NULL)
 
-initializePlot() +
-  labs(
-    title = "default watermark",
-    tag = "C"
-  )
+# Initialize plot
+initializePlot() + labs(title = "Default Watermark", tag = "C")
 ```
 
+## 2.5.2 Options to Set the Defaults for Geom Layer Attributes
 
-
-## 2.5.2 Options to set the defaults for geom layer attributes
-
-All plot functions have input variable `geom*Attribute` which are passed as variables to the corresponding ggplot layer.
-The defaults of the input variables can be set by options
-
-
+All plot functions have input variables `geom*Attributes` which are passed as variables to the corresponding ggplot layer. The defaults of the input variables can be set by options.
 
 ```{r options_defaultgeoms, echo=FALSE}
 df <- rbind(
-  data.frame(
-    defaultOption = "Line",
-    inputVariable = c("geomLineAttributes"),
-    functions = c("plotTimeProfile()")
-  ),
-  data.frame(
-    defaultOption = "Ribbon",
-    inputVariable = "geomRibbonAttributes",
-    functions = c("plotTimeProfile()")
-  ),
-  data.frame(
-    defaultOption = "Point",
-    inputVariable = "geomPointAttributes",
-    functions = c("plotTimeProfile()", "plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")
-  ),
-  data.frame(
-    defaultOption = "Errorbar",
-    inputVariable = "geomErrorbarAttributes",
-    functions = c("plotTimeProfile()", "plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")
-  ),
-  data.frame(
-    defaultOption = "LLOQ",
-    inputVariable = "geomLLOQAttributes",
-    functions = c("plotTimeProfile()", "plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")
-  ),
-  data.frame(
-    defaultOption = "Hist",
-    inputVariable = "geomHistAttributes",
-    functions = c("plotHistogram()")
-  ),
-  data.frame(
-    defaultOption = "Boxplot",
-    inputVariable = c(
-      "geomBoxplotAttributes",
-      "geomPointAttributes"
-    ),
-    functions = c(
-      "plotBoxWhisker()",
-      "plotBoxWhisker()"
-    )
-  ),
-  data.frame(
-    defaultOption = "ComparisonLine",
-    inputVariable = c("geomComparisonLineAttributes"),
-    functions = c("plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")
-  ),
-  data.frame(
-    defaultOption = "GuestLine",
-    inputVariable = c("geomGuestLineAttributes"),
-    functions = c("plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")
-  )
+  data.frame(defaultOption = "Line", inputVariable = c("geomLineAttributes"), functions = c("plotTimeProfile()")),
+  data.frame(defaultOption = "Ribbon", inputVariable = "geomRibbonAttributes", functions = c("plotTimeProfile()")),
+  data.frame(defaultOption = "Point", inputVariable = "geomPointAttributes", functions = c("plotTimeProfile()", "plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")),
+  data.frame(defaultOption = "Errorbar", inputVariable = "geomErrorbarAttributes", functions = c("plotTimeProfile()", "plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")),
+  data.frame(defaultOption = "LLOQ", inputVariable = "geomLLOQAttributes", functions = c("plotTimeProfile()", "plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")),
+  data.frame(defaultOption = "Hist", inputVariable = "geomHistAttributes", functions = c("plotHistogram()")),
+  data.frame(defaultOption = "Boxplot", inputVariable = c("geomBoxplotAttributes", "geomPointAttributes"), functions = c("plotBoxWhisker()", "plotBoxWhisker()")),
+  data.frame(defaultOption = "ComparisonLine", inputVariable = c("geomComparisonLineAttributes"), functions = c("plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")),
+  data.frame(defaultOption = "GuestLine", inputVariable = c("geomGuestLineAttributes"), functions = c("plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()"))
 ) %>%
   data.table::setDT() %>%
   .[, .(inputVariable = paste(inputVariable, collapse = ", ")), by = c("defaultOption", "functions")] %>%
-  tidyr::pivot_wider(names_from = functions, values_from = inputVariable, values_fill = " ")
-
+  tidyr::pivot_wider(names_from = defaultOption, values_from = inputVariable, values_fill = " ")
 
 knitr::kable(df, align = "c", caption = "Usage of options for geom attributes")
 ```
 
-with default options:  
+With default options:
 
-* `LineAttributes = list()`  
-* `Ribbon = list(color = NA)`
-* `PointAttributes = list()`  
-* `ErrorbarAttributes = list(width = 0)`  
-* `LLOQAttributes = list()`  
-* `ComparisonLineAttributes = list(linetype = "dashed")`  
-* `GuestLineAttributes = list(linetype = "dashed")`  
-* `BoxplotAttributes = list(position = position_dodge(width = 1),
-      color = "black")`   
-* `HistAttributes = list(
-      bins = 10,
-      position = ggplot2::position_nudge()
-    )`  
+- `LineAttributes = list()`
+- `Ribbon = list(color = NA)`
+- `PointAttributes = list()`
+- `ErrorbarAttributes = list(width = 0)`
+- `LLOQAttributes = list()`
+- `ComparisonLineAttributes = list(linetype = "dashed")`
+- `GuestLineAttributes = list(linetype = "dashed")`
+- `BoxplotAttributes = list(position = position_dodge(width = 1), color = "black")`
+- `HistAttributes = list(bins = 10, position = ggplot2::position_nudge())`
 
+## 2.5.3 Options to Set Defaults for Aesthetics
 
+Options to set the face alpha of ribbons filled points and options to set the filled points for values below and above LLOQ.
 
-## 2.5.3 Options to set defaults for aesthetics
-
-Options to set the face alpha of ribbons filled points   
-and options to set the filled points for values below and above lloq
-
-```{r,eval=FALSE}
-# default alpha = 0.5
+```{r, eval=FALSE}
+# Default alpha = 0.5
 getOspsuite.plots.option(optionKey = "Alpha")
 
-# alpha of LLOQ values  c("TRUE" = 0.3, "FALSE" = 1)
+# Alpha of LLOQ values
+c("TRUE" = 0.3, "FALSE" = 1)
 getOspsuite.plots.option(optionKey = "LLOQAlphaVector")
 
-# linetype LLOQ comparison lines  'dashed'
+# Linetype LLOQ comparison lines
+"dashed"
 getOspsuite.plots.option(optionKey = "LLOQLineType")
-
 ```
 
+## 2.5.4 Options to Define Export Format
 
-## 2.5.3 Percentiles
+There are options to define the export format using the function `exportPlot` (see details below):
 
-Percentiles are used within the function `plotBoxwhisker()`
+- `export.width`: Width of the exported file
+- `export.units`: Units for width and height
+- `export.device`: Device for plot export
+- `export.dpi`: Plot resolution
 
-```{r, eval = FALSE}
-# percentiles for boxwhisker plots c(0.05, 0.25, 0.5, 0.75, 0.95)
-getOspsuite.plots.option(optionKey = "Percentiles")
-```
+The latter options are used directly as input for `ggplot2::ggsave`, so check the help for available values.
 
+# 3. Plot Functions
 
-## 2.5.4 Options to define export format 
-
-There are options to define the export format using function `exportPlot` (see details below)
-
-* export.width  width of the exported file
-* export.units   units for width and height
-* export.device device for plot export
-* export.dpi plot resolution
-
-The letter options are used directly as input for `ggplot2::ggsave` so check help for available values.
-
-
-# 3. Plot-functions
-
-All plot functions listed below call  internally the function  `initializePlot`. 
-This function constructs labels from the metadata, and adds a watermark layer.
-It can also be used to create a customized ggplot
-
+All plot functions listed below call internally the function `initializePlot()`. This function constructs labels from the metadata and adds a watermark layer. It can also be used to create a customized ggplot.
 
 ## 3.1 `plotTimeProfile()`
 
-see `vignette("Time Profile Plots", package = "ospsuite.plots")`
+See `vignette("Time Profile Plots", package = "ospsuite.plots")`.
 
-## 3.2 `plotBoxwhisker()`
+## 3.2 `plotBoxWhisker()`
 
-see `vignette("Box-Whisker Plots", package = "ospsuite.plots")`
+See `vignette("Box Whisker Plots", package = "ospsuite.plots")`.
 
-## 3.3 `plotHistogram`
+## 3.3 `plotHistogram()`
 
-see `vignette("Histogram Plots", package = "ospsuite.plots")`
+See `vignette("Histogram Plots", package = "ospsuite.plots")`.
 
 ## 3.4 `plotPredVsObs()`
 
-see `vignette("Goodness of fit", package = "ospsuite.plots")`
+See `vignette("Goodness of Fit", package = "ospsuite.plots")`.
 
 ## 3.5 `plotResVsCov()`
 
-see `vignette("Goodness of fit", package = "ospsuite.plots")`
+See `vignette("Goodness of Fit", package = "ospsuite.plots")`.
 
 ## 3.6 `plotRatioVsCov()`
 
-see `vignette("Goodness of fit", package = "ospsuite.plots")`
+See `vignette("Goodness of Fit", package = "ospsuite.plots")`.
 
 ## 3.7 `plotQQ()`
 
-see `vignette("Goodness of fit", package = "ospsuite.plots")`
+See `vignette("Goodness of Fit", package = "ospsuite.plots")`.
 
+# 4. Additional Aesthetics
 
-# 4. Additional aesthetics
+This package provides some additional aesthetics.
 
-This package provide some additional aesthetics.   
+For more details, see the examples within the vignettes for the respective functions.
 
-For more details see the example within the vignettes for the respective functions.
+- `groupby`: Shortcut to use different aesthetics to group. All functions where this aesthetic is used have also a variable `groupAesthetics`. The mapping `groupby` is copied to all aesthetics listed within this variable and to the aesthetic `group`.
+- `lloq`: Mapped to a column with values indicating the lower limit of quantification, adds horizontal (or vertical) lines to the plot. All observed values below the "lloq" are plotted with a lighter alpha. As values are compared row by row, it is possible to have more than one LLOQ.
+- `error`: Mapped to a column with additive error (e.g., standard deviation); error bars are plotted. This is a shortcut to map `ymin` and `ymax` directly (`ymin = y - error` and `ymax = y + error`). Additionally, if `yscale` is set, `ymin` values below 0 are set to `y`.
+- `error_relative`: Mapped to a column with relative error (e.g., geometric standard deviation); error bars are plotted. This is a shortcut to map `ymin` and `ymax` directly (`ymin = y / error_relative` and `ymax = y * error_relative`).
+- `y2axis`: Creates a plot with 2 y axes. It is used to map to a column with a logical value. Values where this column has a TRUE entry will be displayed with a secondary axis.
+- `mdv`: Mapped to a logical column. Rows where this column has entries set to TRUE are not plotted (MDV = missing data value, taken from NONMEM notation).
+- `observed` / `predicted`: For the function `plotPredVsObs()`, `observed` is mapped to `x` and `predicted` is mapped to `y`. For all other functions, residuals are calculated if both aesthetics are mapped. The variable `residualScale` defines the calculation method:
+  - `residualScale = "log"`: $log(observed) - log(predicted)$,
+  - `residualScale = "linear"`: $observed - predicted$,
+  - `residualScale = "ratio"`: $observed / predicted$.
 
-
-* `groupby`: Short cut to use different aesthetics to group.  
-All function where this aesthetic is used have also a variable `groupAesthtics. The mapping `groupby`is copied to all aesthetics listed within this variable and to aesthetic `group`.  
-
-* `lloq`: Mapped to column with value of lower limit of quantification, adds horizontal (respectively vertical) lines
-to the plot. All observed values below the "lloq" are plotted with a lighter alpha.  
-As values will be compared row by row, it is possible to have more then one lloq.   
-
-* `error`: Mapped to column with additive error (e.g. standard deviation) errorbars are plotted. 
-This is a short cut to map ymin and ymax directly (`ymin = y - error` and `ymax = y + error`).
-Additionally if `yscale` is ymin values below 0 are set to y.
-
-* `error_relative`: Mapped to column with relative error (e.g. geometric standard deviation) errorbars are plotted.
-This is a short cut to map ymin and ymax directly (`ymin = y/error_relative` and `ymax = y*error_relative`). 
-
-* `y2axis`: Creates a plot with 2 y axis. It is used to map to column with a logical.
-Values where this column has entry TRUE will be displayed with a secondary axis.
-
-* `mdv`: Mapped to a logical column. rows where this column entries are TRUE, are not plotted.
-(mdv = missing data value is taken from NONMEM notation)
-
-* `observed` / `predicted`: For the function `plotPredVsObs()` `observed` is mapped to `x`and `predicted` is mapped to y. 
-For all other functions residuals are calculated if both aesthetics are mapped. 
-The variable `residualScale` defines the calculation method: 
-  * `residualScale` = "log" -> $log(observed) - log(predicted)$, 
-  * `residualScale` = "linear" -> $observed - predicted$, 
-  * `residualScale` = "ratio" -> $observed/predicted$  
-see `vignette("Goodness of fit", package = "ospsuite.plots")` for examples
-
+See `vignette("Goodness of Fit", package = "ospsuite.plots")` for examples.
 
 ```{r additional-aesthetic-table, echo=FALSE}
 df <- rbind(
-  data.frame(
-    aesthetic = "`groupby`",
-    functions = c(
-      "plotTimeProfile()",
-      "plotHistogram()",
-      "plotPredVsObs()",
-      "plotResVsCov()",
-      "plotRatioVsCov()",
-      "plotQQ()"
-    )
-  ),
-  data.frame(
-    aesthetic = "`lloq`",
-    functions = c(
-      "plotTimeProfile()",
-      "plotPredVsObs()"
-    )
-  ),
-  data.frame(
-    aesthetic = "`error`",
-    functions = c(
-      "plotTimeProfile()",
-      "plotRatioVsCov()",
-      "plotPredVsObs()",
-      "plotResVsCov()"
-    )
-  ),
-  data.frame(
-    aesthetic = "`error_relative`",
-    functions = c(
-      "plotTimeProfile()",
-      "plotRatioVsCov()",
-      "plotPredVsObs()",
-      "plotResVsCov()"
-    )
-  ),
-  data.frame(
-    aesthetic = "`y2axis`",
-    functions = "plotTimeProfile()"
-  ),
-  data.frame(
-    aesthetic = "`mdv`",
-    functions = c(
-      "plotTimeProfile()",
-      "plotBoxwhisker()",
-      "plotHistogram()",
-      "plotPredVsObs()",
-      "plotResVsCov()",
-      "plotRatioVsCov()",
-      "plotQQ()"
-    )
-  ),
-  data.frame(
-    aesthetic = "`observed` / `predicted`",
-    functions = c(
-      "plotBoxwhisker()",
-      "plotHistogram()",
-      "plotPredVsObs()",
-      "plotResVsCov()",
-      "plotRatioVsCov()",
-      "plotQQ()"
-    )
-  )
+  data.frame(aesthetic = "`groupby`", functions = c("plotTimeProfile()", "plotHistogram()", "plotPredVsObs()", "plotResVsCov()", "plotRatioVsCov()", "plotQQ()")),
+  data.frame(aesthetic = "`lloq`", functions = c("plotTimeProfile()", "plotPredVsObs()")),
+  data.frame(aesthetic = "`error`", functions = c("plotTimeProfile()", "plotRatioVsCov()", "plotPredVsObs()", "plotResVsCov()")),
+  data.frame(aesthetic = "`error_relative`", functions = c("plotTimeProfile()", "plotRatioVsCov()", "plotPredVsObs()", "plotResVsCov()")),
+  data.frame(aesthetic = "`y2axis`", functions = "plotTimeProfile()"),
+  data.frame(aesthetic = "`mdv`", functions = c("plotTimeProfile()", "plotBoxWhisker()", "plotHistogram()", "plotPredVsObs()", "plotResVsCov()", "plotRatioVsCov()", "plotQQ()")),
+  data.frame(aesthetic = "`observed` / `predicted`", functions = c("plotBoxWhisker()", "plotHistogram()", "plotPredVsObs()", "plotResVsCov()", "plotRatioVsCov()", "plotQQ()"))
 ) %>%
   dplyr::mutate(used = "X") %>%
   tidyr::pivot_wider(names_from = aesthetic, values_from = used, values_fill = " ")
 
-
 knitr::kable(df, align = "c", caption = "Applicability of additional aesthetics in functions")
 ```
 
-# 5. Plot export
+# 5. Plot Export
 
-This section demonstrates how to use the `exportPlot` function to save `ggplot` objects to files, adjusting the width and height of the exported plots as necessary. This function is part of the ospsuite.plots package and simplifies the process of exporting plots for various purposes, such as publication or presentation.
+This section demonstrates how to use the `exportPlot` function to save `ggplot` objects to files, adjusting the width and height of the exported plots as necessary. This function is part of the `ospsuite.plots` package and simplifies the process of exporting plots for various purposes, such as publication or presentation.
 
 ## 5.1 Basic Usage
+
 To export a plot, you need a ggplot object. Here's a basic example:
 
 Create a simple ggplot object:
 
 ```{r, eval=FALSE}
-plotObject <- ospsuite.plots::plotHistogram(
-  data = testData,
-  mapping = aes(x = Age)
-)
+plotObject <- ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age))
 ```
 
-
-Exporting the Plot:
-Using the `exportPlot` function, you can easily save this plot to a file:
+Exporting the Plot: Using the `exportPlot` function, you can easily save this plot to a file:
 
 Replace "path/to/save" with the actual directory path where you want to save the plot, and adjust the width and height parameters as needed.
-```{r}
-exportPlot(
-  plotObject = plotObject,
-  filepath = "path/to/save",
-  filename = "myplot.png",
-  width = 10,
-  height = 8
-)
+
+```{r, eval=FALSE}
+exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "myplot.png", width = 10, height = 8)
 ```
 
 ## 5.2 Advanced Usage
 
-Adjusting Plot Dimensions Based on Content
+### Adjusting Plot Dimensions Based on Content
+
 The `exportPlot` function can automatically adjust the plot dimensions based on its content, such as the presence of a legend or the aspect ratio.
 
-Assuming `plotObject` is your ggplot object
-`exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "adjusted_plot.png")`
+Assuming `plotObject` is your ggplot object:
 
-In this case, you don't need to specify the width and height explicitly; the function calculates them for you.
-As default width the value saved in the `ospsuite.plots` option export.width is used.
-If a aspect.ratio is defined in the theme of the plot, Height will adjusted accordingly, otherwise the function exports square figures.
+```{r, eval=FALSE}
+exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "adjusted_plot.png")
+```
 
+In this case, you don't need to specify the width and height explicitly; the function calculates them for you. The default width value saved in the `ospsuite.plots` option `export.width` is used. If an aspect ratio is defined in the theme of the plot, height will be adjusted accordingly; otherwise, the function exports square figures.
 
 # 6. Shapes
 
-## 6.1 Default shapes ggplot:
+## 6.1 Default Shapes
 
 ```{r, out.width = "90%", fig.asp = 0.4, fig.width = 8}
-shapeNames <- c(
-  "circle", paste("circle", c("open", "filled", "cross", "plus", "small")), "bullet",
-  "square", paste("square", c("open", "filled", "cross", "plus", "triangle")),
-  "diamond", paste("diamond", c("open", "filled", "plus")),
-  "triangle", paste("triangle", c("open", "filled", "square")),
-  paste("triangle down", c("open", "filled")),
-  "plus", "cross", "asterisk"
-)
+shapeNames <- c("circle", paste("circle", c("open", "filled", "cross", "plus", "small")), "bullet", "square", paste("square", c("open", "filled", "cross", "plus", "triangle")), "diamond", paste("diamond", c("open", "filled", "plus")), "triangle", paste("triangle", c("open", "filled", "square")), paste("triangle down", c("open", "filled")), "plus", "cross", "asterisk")
 
-
-shapes <- data.frame(
-  shapeNames = shapeNames,
-  x = c(1:7, 1:6, 1:3, 5, 1:3, 6, 2:3, 1:3),
-  y = -rep(1:6, c(7, 6, 4, 4, 2, 3))
-)
-
+shapes <- data.frame(shapeNames = shapeNames, x = c(1:7, 1:6, 1:3, 5, 1:3, 6, 2:3, 1:3), y = -rep(1:6, c(7, 6, 4, 4, 2, 3)))
 
 ggplot(shapes, aes(x, y)) +
   geom_point(aes(shape = shapeNames), color = "blue", fill = "red", size = 5, stroke = 1) +
@@ -770,20 +437,12 @@ ggplot(shapes, aes(x, y)) +
   theme_void()
 ```
 
-## 6.2 Use unicode symbols  with {showtext}
+## 6.2 Use Unicode Symbols with `{showtext}`
 
-Attention 
-- use of {showtext}  has side effects   
-- a customized geom_Point function `geomPointUnicode` has to be used
+Attention: The use of `{showtext}` has side effects - a customized `geom_Point` function `geomPointUnicode` has to be used.
 
-```{r,  fig.showtext=TRUE,out.width = "90%", fig.asp = 0.8, fig.width = 8}
-shapes <- data.frame(
-  shapeNames = names(Shapes),
-  shape_symbols = unlist(unname(Shapes)),
-  x = rep(c(1:5), 8),
-  y = rep(-c(1:8), each = 5)
-)
-
+```{r, fig.showtext=TRUE, out.width = "90%", fig.asp = 0.8, fig.width = 8}
+shapes <- data.frame(shapeNames = names(Shapes), shape_symbols = unlist(unname(Shapes)), x = rep(c(1:5), 8), y = rep(-c(1:8), each = 5))
 
 showtext::showtext_auto()
 ggplot(shapes, aes(x, y)) +
@@ -794,62 +453,31 @@ ggplot(shapes, aes(x, y)) +
 showtext::showtext_auto(enable = "off")
 ```
 
+## 6.3 Switch Between Modes
 
-## 6.3 Switch between modes
-
-
-To switch to the unicode mode call `setDefaults` with input variable `pointAsUnicode = TRUE`.
-To switch back use `setDefaults(pointAsUnicode = FALSE)` or `resetDefaults(oldDefaults)`
-But it is recommended to produce all plots of one workflow either with unicode mode or all plots without.
-Other wise the plots may have different fonts.
-
+To switch to the Unicode mode, call `setDefaults` with the input variable `pointAsUnicode = TRUE`. To switch back, use `setDefaults(pointAsUnicode = FALSE)` or `resetDefaults(oldDefaults)`. However, it is recommended to produce all plots of one workflow either with Unicode mode or without. Otherwise, the plots may have different fonts.
 
 ```{r}
-oldDefaults <- setDefaults(pointAsUnicode = TRUE)
+oldDefaults <- ospsuite.plots::setDefaults(pointAsUnicode = TRUE)
 
+dt <- data.frame(x = c(1, 2, 1, 2), y = c(1, 1, 2, 2), species = c("pig", "dog", "mouse", "rat"))
 
-dt <- data.frame(
-  x = c(1, 2, 1, 2),
-  y = c(1, 1, 2, 2),
-  species = c("pig", "dog", "mouse", "rat")
-)
-
-
-plotObject <- plotYVsX(
-  data = dt,
-  mapping = aes(
-    x = x,
-    y = y,
-    groupby = species
-  ),
-  xscale = "linear",
-  xscale.args = list(limits = c(0.5, 2.5)),
-  yscale = "linear",
-  yscale.args = list(limits = c(0.5, 2.5))
-)
+plotObject <- plotYVsX(data = dt, mapping = aes(x = x, y = y, groupby = species), xscale = "linear", xscale.args = list(limits = c(0.5, 2.5)), yscale = "linear", yscale.args = list(limits = c(0.5, 2.5)))
 
 plot(plotObject)
 ```
 
-
-use non default icons
+### Use Non-Default Icons
 
 ```{r}
 plot(plotObject +
-  scale_shape_manual(values = c(
-    pig = "pig",
-    dog = "dog",
-    mouse = "mouse",
-    rat = "rat"
-  )))
+  scale_shape_manual(values = c(pig = "pig", dog = "dog", mouse = "mouse", rat = "rat")))
 ```
 
-
-
-
-
-```{r cleanup,echo=FALSE}
+```{r cleanup, echo=FALSE}
 resetDefaults(oldDefaults)
+```
+
 ```
 
 

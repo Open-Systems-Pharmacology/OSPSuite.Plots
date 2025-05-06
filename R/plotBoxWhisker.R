@@ -31,7 +31,7 @@ plotBoxWhisker <- function(data,
                            metaData = NULL,
                            plotObject = NULL,
                            percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles),
-                           yscale = "linear",
+                           yscale = AxisScales$linear,
                            yscale.args = list(),
                            xscale = "auto",
                            xscale.args = list(),
@@ -40,7 +40,7 @@ plotBoxWhisker <- function(data,
                            statFunOutlier = NULL,
                            geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
                            geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
-                           residualScale = "log") {
+                           residualScale = ResidualScales$log) {
   ## Validation -----------
   checkmate::assertClass(plotObject, classes = "ggplot", null.ok = TRUE)
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
@@ -55,9 +55,9 @@ plotBoxWhisker <- function(data,
     null.ok = !is.null(statFun)
   )
 
-  checkmate::assertChoice(xscale, choices = c("auto", "discrete", "linear", "log"), null.ok = FALSE)
+  checkmate::assertChoice(xscale, choices = c("auto", AxisScales$discrete, AxisScales$linear, AxisScales$log), null.ok = FALSE)
   checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)
+  checkmate::assertChoice(yscale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
   checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
 
   checkmate::assertFunction(statFun, null.ok = !is.null(percentiles))

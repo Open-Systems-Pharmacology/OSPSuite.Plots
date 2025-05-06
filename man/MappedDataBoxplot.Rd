@@ -64,8 +64,8 @@ Create a new \code{MappedDataBoxplot} object
   isObserved = TRUE,
   xlimits = NULL,
   ylimits = NULL,
-  xscale = "linear",
-  yscale = "linear",
+  xscale = AxisScales$linear,
+  yscale = AxisScales$linear,
   residualScale = NULL,
   residualAesthetic = "y"
 )}\if{html}{\out{</div>}}

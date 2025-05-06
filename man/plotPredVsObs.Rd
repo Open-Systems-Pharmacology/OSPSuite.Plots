@@ -7,7 +7,7 @@
 plotPredVsObs(
   data = NULL,
   mapping = NULL,
-  xyscale = "log",
+  xyscale = AxisScales$log,
   comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
   asSquarePlot = TRUE,
   ...

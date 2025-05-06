@@ -43,11 +43,11 @@ plotTimeProfile <- function(data = NULL, # nolint
                             observedMapping = mapping,
                             metaData = NULL,
                             mapSimulatedAndObserved = NULL,
-                            xscale = "linear",
+                            xscale = AxisScales$linear,
                             xscale.args = list(limits = c(0, NA)),
-                            yscale = "linear",
+                            yscale = AxisScales$linear,
                             yscale.args = list(),
-                            y2scale = "linear",
+                            y2scale = AxisScales$linear,
                             y2scale.args = list(),
                             plotObject = NULL,
                             geomLineAttributes = getDefaultGeomAttributes("Line"),
@@ -173,11 +173,11 @@ plotTimeProfile <- function(data = NULL, # nolint
     checkmate::assertClass(plotObject, classes = "ggplot", null.ok = TRUE)
     checkmate::assertList(metaData, types = "list", null.ok = TRUE)
 
-    checkmate::assertChoice(xscale, choices = c("linear", "log"), null.ok = TRUE)
+    checkmate::assertChoice(xscale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
     checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
-    checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)
+    checkmate::assertChoice(yscale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
     checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
-    checkmate::assertChoice(y2scale, choices = c("linear", "log"), null.ok = TRUE)
+    checkmate::assertChoice(y2scale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
     checkmate::assertList(y2scale.args, null.ok = FALSE, min.len = 0)
 
     checkmate::assertList(geomLineAttributes, null.ok = FALSE, min.len = 0)

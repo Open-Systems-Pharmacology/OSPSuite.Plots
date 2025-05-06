@@ -29,7 +29,7 @@ test_that("plot Observed vs Predicted works", {
         observed = Obs,
         groupby = Sex
       ),
-      residualScale = "linear"
+      residualScale = AxisScales$linear
     )
   )
 })

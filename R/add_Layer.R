@@ -307,29 +307,22 @@ addXYScale <- function(plotObject,
 addXscale <- function(plotObject,
                       xscale,
                       xscale.args = list()) {
-  checkmate::assertChoice(xscale, choices = c("linear", "log", "discrete"), null.ok = TRUE)
+  scaleFunctions <- list()
+  scaleFunctions[[AxisScales$linear]] <- scale_x_continuous
+  scaleFunctions[[AxisScales$log]] <- scale_x_log10
+  scaleFunctions[[AxisScales$discrete]] <- scale_x_discrete
+
+  checkmate::assertChoice(xscale, choices = names(scaleFunctions), null.ok = TRUE)
+
+  if (xscale == AxisScales$log &&
+    is.null(xscale.args$guide)) {
+    xscale.args$guide <- ggplot2::guide_axis_logticks()
+  }
 
   plotObject <- plotObject +
-    switch(xscale,
-      "linear" = {
-        do.call(
-          what = scale_x_continuous,
-          args = xscale.args
-        )
-      },
-      "log" = {
-        if (is.null(xscale.args$guide)) xscale.args$guide <- ggplot2::guide_axis_logticks()
-        do.call(
-          what = scale_x_log10,
-          args = xscale.args
-        )
-      },
-      "discrete" = {
-        do.call(
-          what = scale_x_discrete,
-          args = xscale.args
-        )
-      }
+    do.call(
+      what = scaleFunctions[[xscale]],
+      args = xscale.args
     )
 
   return(plotObject)
@@ -348,28 +341,25 @@ addYscale <- function(plotObject,
                       yscale,
                       yscale.args = list(),
                       secAxis = waiver()) {
-  checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)
+  scaleFunctions <- list()
+  scaleFunctions[[AxisScales$linear]] <- scale_y_continuous
+  scaleFunctions[[AxisScales$log]] <- scale_y_log10
 
+  checkmate::assertChoice(yscale, choices = names(scaleFunctions), null.ok = TRUE)
+
+  if (yscale == AxisScales$log &&
+    is.null(yscale.args$guide)) {
+    yscale.args$guide <- ggplot2::guide_axis_logticks()
+  }
 
   plotObject <- plotObject +
-    if (yscale == "linear") {
-      do.call(
-        what = scale_y_continuous,
-        args = c(
-          yscale.args,
-          list(sec.axis = secAxis)
-        )
+    do.call(
+      what = scaleFunctions[[yscale]],
+      args = c(
+        yscale.args,
+        list(sec.axis = secAxis)
       )
-    } else {
-      if (is.null(yscale.args$guide)) yscale.args$guide <- ggplot2::guide_axis_logticks()
-      do.call(
-        what = scale_y_log10,
-        args = c(
-          yscale.args,
-          list(sec.axis = secAxis)
-        )
-      )
-    }
+    )
 
   return(plotObject)
 }

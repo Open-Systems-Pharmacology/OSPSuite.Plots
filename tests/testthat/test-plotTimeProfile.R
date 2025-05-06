@@ -30,8 +30,10 @@ test_that("plotTimeProfile works basic", {
       groupby = caption
     ),
   ) +
-    theme(legend.position = "top",
-          legend.title = element_blank())
+    theme(
+      legend.position = "top",
+      legend.title = element_blank()
+    )
 
   vdiffr::expect_doppelganger(
     title = "basic",
@@ -67,10 +69,12 @@ test_that("plotTimeProfile works logscale", {
       ymax = maxValues,
       groupby = caption
     ),
-    yscale = "log"
+    yscale = AxisScales$log
   ) +
-    theme(legend.position = "top",
-          legend.title = element_blank())
+    theme(
+      legend.position = "top",
+      legend.title = element_blank()
+    )
 
   vdiffr::expect_doppelganger(
     title = "basic_log",
@@ -113,8 +117,10 @@ test_that("plotTimeProfile works mapping observed plot", {
     ),
     mapSimulatedAndObserved = mapSimulatedAndObserved
   ) +
-    theme(legend.position = "top",
-          legend.title = element_blank())
+    theme(
+      legend.position = "top",
+      legend.title = element_blank()
+    )
 
   vdiffr::expect_doppelganger(
     title = "mapped-observed-and-simulated",
@@ -154,12 +160,14 @@ test_that("plotTimeProfile works lloq", {
       groupby = caption,
       lloq = lloq
     ),
-    yscale = "log",
+    yscale = AxisScales$log,
     yscale.args = list(limits = c(0.01, NA)),
     geomLineAttributes = list(color = "black")
   ) +
-    theme(legend.position = "top",
-          legend.title = element_blank())
+    theme(
+      legend.position = "top",
+      legend.title = element_blank()
+    )
 
   vdiffr::expect_doppelganger(
     title = "with lloq",
@@ -179,12 +187,14 @@ test_that("plotTimeProfile works lloq", {
       lloq = lloq
     ),
     groupAesthetics = c("color", "shape", "fill", "linetype"),
-    yscale = "log",
+    yscale = AxisScales$log,
     yscale.args = list(limits = c(0.01, NA)),
     geomLineAttributes = list(color = "black")
   ) +
-    theme(legend.position = "top",
-          legend.title = element_blank())
+    theme(
+      legend.position = "top",
+      legend.title = element_blank()
+    )
 
 
   vdiffr::expect_doppelganger(
@@ -237,15 +247,17 @@ test_that("plotTimeProfile works secondary axis", {
       groupby = dimension
     ),
     metaData = metaData,
-    yscale = "log",
+    yscale = AxisScales$log,
     yscale.args = list(limits = c(0.01, NA)),
-    y2scale = "linear",
+    y2scale = AxisScales$linear,
     y2scale.args = list(limits = c(0, 1)),
     groupAesthetics = c("color", "fill")
   ) +
-    theme(axis.title.y.right = element_text(angle = 90),
-          legend.position = "top",
-          legend.title = element_blank()) +
+    theme(
+      axis.title.y.right = element_text(angle = 90),
+      legend.position = "top",
+      legend.title = element_blank()
+    ) +
     guides(shape = guide_legend(order = 2))
 
   vdiffr::expect_doppelganger(
@@ -283,14 +295,16 @@ test_that("plotTimeProfile works secondary axis", {
       linetype = dimension
     ),
     metaData = metaData,
-    y2scale = "log",
+    y2scale = AxisScales$log,
     y2scale.args = list(limits = c(0.01, NA)),
-    yscale = "linear",
+    yscale = AxisScales$linear,
     yscale.args = list(limits = c(0, 1)),
   ) +
-    theme(axis.title.y.right = element_text(angle = 90),
-          legend.position = "top",
-          legend.title = element_blank())
+    theme(
+      axis.title.y.right = element_text(angle = 90),
+      legend.position = "top",
+      legend.title = element_blank()
+    )
 
 
   vdiffr::expect_doppelganger(
@@ -323,7 +337,7 @@ test_that("plotTimeProfile works with formula as aesthic", {
       y2axis = dose == 1,
       color = as.factor(dose)
     ),
-    yscale = "log"
+    yscale = AxisScales$log
   ))
 })
 ospsuite.plots::resetDefaults(oldDefaults)

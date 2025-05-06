@@ -22,7 +22,7 @@ plotQQ <- function(data,
                    mapping,
                    metaData = NULL,
                    xscale.args = list(),
-                   residualScale = "log",
+                   residualScale = ResidualScales$log,
                    yscale.args = list(),
                    geomQQAttributes = list(),
                    geomQQLineAttributes = geomQQAttributes,
@@ -30,7 +30,7 @@ plotQQ <- function(data,
   # Check validity
   checkmate::assertDataFrame(data)
 
-  checkmate::assertChoice(residualScale, choices = c("linear", "log"), null.ok = TRUE)
+  checkmate::assertChoice(residualScale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
   checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
   checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
 
@@ -39,8 +39,8 @@ plotQQ <- function(data,
 
   checkmate::assertCharacter(groupAesthetics, min.len = 0, all.missing = TRUE, null.ok = TRUE)
 
-  xscale <- "linear"
-  yscale <- "linear"
+  xscale <- AxisScales$linear
+  yscale <- AxisScales$linear
 
   # data match --------------
   mappedData <- MappedData$new(

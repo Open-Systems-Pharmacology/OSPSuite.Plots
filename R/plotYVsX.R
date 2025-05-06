@@ -23,9 +23,9 @@
 #' @family plot functions
 plotResVsCov <- function(data,
                          mapping,
-                         residualScale = "log",
+                         residualScale = ResidualScales$log,
                          comparisonLineVector = 0,
-                         yscale = "linear",
+                         yscale = AxisScales$linear,
                          ...) {
   # Validation
 
@@ -69,8 +69,8 @@ plotResVsCov <- function(data,
 plotRatioVsCov <- function(data = NULL,
                            mapping = NULL,
                            addGuestLimits = FALSE,
-                           yscale = "log",
-                           xscale = ifelse(addGuestLimits, "log", "linear"),
+                           yscale = AxisScales$log,
+                           xscale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
                            comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
                            deltaGuest = 1,
                            ...) {
@@ -84,7 +84,7 @@ plotRatioVsCov <- function(data = NULL,
     deltaGuest = deltaGuest,
     observedDataDirection = "y",
     addLinesDiagnonal = FALSE,
-    residualScale = "ratio",
+    residualScale = ResidualScales$ratio,
     ...
   )
 
@@ -101,10 +101,10 @@ plotRatioVsCov <- function(data = NULL,
     if (length(iData) > 1) iData <- iData[1]
 
     if (length(iData) > 0) {
-      if (xscale == "log") {
+      if (xscale == AxisScales$log) {
         pb$data[[iData]]$x <- 10^(pb$data[[iData]]$x)
       }
-      if (yscale == "log") {
+      if (yscale == AxisScales$log) {
         pb$data[[iData]]$y <- 10^(pb$data[[iData]]$y)
       }
 
@@ -147,7 +147,7 @@ plotRatioVsCov <- function(data = NULL,
 #' @family plot functions
 plotPredVsObs <- function(data = NULL,
                           mapping = NULL,
-                          xyscale = "log",
+                          xyscale = AxisScales$log,
                           comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
                           asSquarePlot = TRUE,
                           ...) {
@@ -230,9 +230,9 @@ plotYVsX <- function(data,
                      labelGuestCriteria = "guest criteria",
                      residualScale = NULL,
                      asSquarePlot = FALSE,
-                     xscale = "linear",
+                     xscale = AxisScales$linear,
                      xscale.args = list(),
-                     yscale = "log",
+                     yscale = AxisScales$log,
                      yscale.args = list(),
                      observedDataDirection = "y",
                      addLinesDiagnonal = TRUE) {
@@ -454,17 +454,17 @@ addComparisonLines <- function(plotObject,
 
   # get mapping
   if (addLinesDiagnonal) {
-    lineMapping <-
-      switch(xyscale,
-        "log" = aes(
-          intercept = log10(value),
-          slope = 1
-        ),
-        "linear" = aes(
-          intercept = 0,
-          slope = value
-        )
+    if (xyscale == AxisScales$log) {
+      lineMapping <- aes(
+        intercept = log10(value),
+        slope = 1
       )
+    } else if (xyscale == AxisScales$linear) {
+      lineMapping <- aes(
+        intercept = 0,
+        slope = value
+      )
+    }
   } else {
     lineMapping <- aes(yintercept = value)
   }
@@ -762,12 +762,15 @@ getCountsWithin <- function(data,
   checkmate::assertFlag(addGuestLimits)
   checkmate::assertDouble(deltaGuest, lower = 1, len = 1, null.ok = !addGuestLimits)
 
-  checkmate::assertChoice(residualScale, choices = c("linear", "log", "ratio"), null.ok = TRUE)
+  checkmate::assertChoice(residualScale, choices = c(
+    ResidualScales$linear,
+    ResidualScales$log, ResidualScales$ratio
+  ), null.ok = TRUE)
 
   checkmate::assertFlag(asSquarePlot)
-  checkmate::assertChoice(xscale, choices = c("linear", "log"), null.ok = TRUE)
+  checkmate::assertChoice(xscale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
   checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)
+  checkmate::assertChoice(yscale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
   checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
 
   checkmate::assertChoice(observedDataDirection, choices = c("x", "y"), null.ok = TRUE)

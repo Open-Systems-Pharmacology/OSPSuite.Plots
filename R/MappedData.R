@@ -488,7 +488,7 @@ MappedData <- R6::R6Class( # nolint
             )
 
             if (!is.null(yData) && !is.function(yData)) {
-              if (axisScale == "log") yData <- yData[yData > 0]
+              if (axisScale == AxisScales$log) yData <- yData[yData > 0]
               ylimits <- range(c(ylimits, yData), na.rm = TRUE)
             }
           }
@@ -525,13 +525,13 @@ MappedData <- R6::R6Class( # nolint
 
         if (!residualAesthetic %in% names(self$mapping)) {
           ## add new column
-          if (residualScale == "log") {
+          if (residualScale == ResidualScales$log) {
             self$data <- self$data %>%
               dplyr::mutate(residuals.i = log(!!self$mapping[["observed"]]) - log(!!self$mapping[["predicted"]]))
-          } else if (residualScale == "linear") {
+          } else if (residualScale == ResidualScales$linear) {
             self$data <- self$data %>%
               dplyr::mutate(residuals.i = !!self$mapping[["observed"]] - !!self$mapping[["predicted"]])
-          } else if (residualScale == "ratio") {
+          } else if (residualScale == ResidualScales$ratio) {
             self$data <- self$data %>%
               dplyr::mutate(residuals.i = !!self$mapping[["observed"]] / !!self$mapping[["predicted"]])
           }

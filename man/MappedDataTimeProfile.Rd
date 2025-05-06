@@ -66,9 +66,9 @@ Create a new \code{MappedDataTimeProfile} object
   isObserved = TRUE,
   xlimits = NULL,
   ylimits = NULL,
-  xscale = "linear",
-  scaleOfPrimaryAxis = "linear",
-  scaleOfSecondaryAxis = "linear",
+  xscale = AxisScales$linear,
+  scaleOfPrimaryAxis = AxisScales$linear,
+  scaleOfSecondaryAxis = AxisScales$linear,
   y2limits = NULL
 )}\if{html}{\out{</div>}}
 }

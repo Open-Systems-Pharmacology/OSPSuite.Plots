@@ -13,8 +13,8 @@ test_that("adjustGroupAesthetics works", {
 
   simDataMatch <- MappedData$new(
     data = simData1,
-    xscale = "linear",
-    yscale = "linear",
+    xscale = AxisScales$linear,
+    yscale = AxisScales$linear,
     mapping = mapping,
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
@@ -40,8 +40,8 @@ test_that("getAestheticsForGeom works", {
   lineMapping <- MappedData$new(
     data = simData1,
     mapping = simAes,
-    xscale = "linear",
-    yscale = "linear",
+    xscale = AxisScales$linear,
+    yscale = AxisScales$linear,
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )$getAestheticsForGeom(
     geom = "line",
@@ -74,8 +74,8 @@ test_that("adjustForLLOQMatch works", {
   obsDataMatch <- MappedData$new(
     data = obsData,
     mapping = obsAes,
-    xscale = "linear",
-    yscale = "linear",
+    xscale = AxisScales$linear,
+    yscale = AxisScales$linear,
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
 
@@ -115,8 +115,8 @@ test_that("adjustDataForMDV works", {
   obsDataMatch <- MappedData$new(
     data = obsData,
     mapping = obsAes,
-    xscale = "linear",
-    yscale = "linear",
+    xscale = AxisScales$linear,
+    yscale = AxisScales$linear,
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
 
@@ -141,8 +141,8 @@ test_that("adjust secondary y axis scaling works lin to lin", {
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
     data = obsData,
-    xscale = "linear",
-    scaleOfPrimaryAxis = "linear", scaleOfSecondaryAxis = "linear"
+    xscale = AxisScales$linear,
+    scaleOfPrimaryAxis = AxisScales$linear, scaleOfSecondaryAxis = AxisScales$linear
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -176,7 +176,7 @@ test_that("adjust secondary y axis scaling works log to log", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, xscale = "linear", scaleOfPrimaryAxis = "log", scaleOfSecondaryAxis = "log"
+    data = obsData, xscale = AxisScales$linear, scaleOfPrimaryAxis = AxisScales$log, scaleOfSecondaryAxis = AxisScales$log
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -211,8 +211,8 @@ test_that("adjust secondary y axis scaling works lin to log", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    xscale = "linear",
-    data = obsData, scaleOfPrimaryAxis = "log", scaleOfSecondaryAxis = "linear"
+    xscale = AxisScales$linear,
+    data = obsData, scaleOfPrimaryAxis = AxisScales$log, scaleOfSecondaryAxis = AxisScales$linear
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -247,7 +247,7 @@ test_that("adjust secondary y axis scaling works log to lin", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, xscale = "linear", scaleOfPrimaryAxis = "linear", scaleOfSecondaryAxis = "log"
+    data = obsData, xscale = AxisScales$linear, scaleOfPrimaryAxis = AxisScales$linear, scaleOfSecondaryAxis = AxisScales$log
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -282,9 +282,9 @@ test_that("grouping for simulation and observed works", {
     direction = "y",
     isObserved = FALSE,
     groupOrder = c("Simulated Data 2", "Simulated Data 1", "simulated"),
-    xscale = "linear",
-    scaleOfPrimaryAxis = "linear",
-    scaleOfSecondaryAxis = "linear",
+    xscale = AxisScales$linear,
+    scaleOfPrimaryAxis = AxisScales$linear,
+    scaleOfSecondaryAxis = AxisScales$linear,
     ylimits = list(),
     y2limits = list()
   )
@@ -307,9 +307,9 @@ test_that("grouping for simulation and observed works", {
       direction = "y",
       isObserved = FALSE,
       groupOrder = c("Simulated Data 2", "Simulated Data 1", "simulated"),
-      xscale = "linear",
-      scaleOfPrimaryAxis = "linear",
-      scaleOfSecondaryAxis = "linear",
+      xscale = AxisScales$linear,
+      scaleOfPrimaryAxis = AxisScales$linear,
+      scaleOfSecondaryAxis = AxisScales$linear,
       ylimits = list(),
       y2limits = list()
     )
@@ -327,8 +327,8 @@ test_that("grouping for simulation and observed works", {
     direction = "y",
     isObserved = FALSE,
     groupOrder = c("Simulated Data 2.concentration", "Simulated Data 1.concentration", "simulated.concentration", "simulated.fraction"),
-    scaleOfPrimaryAxis = "linear",
-    scaleOfSecondaryAxis = "linear",
+    scaleOfPrimaryAxis = AxisScales$linear,
+    scaleOfSecondaryAxis = AxisScales$linear,
     ylimits = list(),
     y2limits = list()
   )

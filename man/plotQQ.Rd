@@ -9,7 +9,7 @@ plotQQ(
   mapping,
   metaData = NULL,
   xscale.args = list(),
-  residualScale = "log",
+  residualScale = ResidualScales$log,
   yscale.args = list(),
   geomQQAttributes = list(),
   geomQQLineAttributes = geomQQAttributes,

@@ -11,13 +11,13 @@ plotHistogram(
   asBarPlot = NULL,
   geomHistAttributes = getDefaultGeomAttributes("Hist"),
   plotAsFrequency = FALSE,
-  xscale = "linear",
+  xscale = AxisScales$linear,
   xscale.args = list(),
-  yscale = "linear",
+  yscale = AxisScales$linear,
   yscale.args = list(),
   distribution = "none",
   meanFunction = "auto",
-  residualScale = "log"
+  residualScale = ResidualScales$log
 )
 }
 \arguments{

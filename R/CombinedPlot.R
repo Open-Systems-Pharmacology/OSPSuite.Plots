@@ -15,7 +15,7 @@
 #' combinedPlotInstance
 #' }
 #' @export
-CombinedPlot <- R6::R6Class( #nolint
+CombinedPlot <- R6::R6Class( # nolint
   "CombinedPlot",
   cloneable = TRUE,
   public = list(

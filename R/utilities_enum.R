@@ -13,7 +13,7 @@ AxisScales <- enum(c( # nolint
   discrete = "discrete"
 ))
 
-#' @title enumeration keys for OSPSuite.plots scaling options for residual caluclations
+#' @title enumeration keys for OSPSuite.plots scaling options for residual calculations
 #' @export
 ResidualScales <- enum(c( # nolint
   linear = "linear",

@@ -3,7 +3,7 @@
 \docType{data}
 \name{ResidualScales}
 \alias{ResidualScales}
-\title{enumeration keys for OSPSuite.plots scaling options for residual caluclations}
+\title{enumeration keys for OSPSuite.plots scaling options for residual calculations}
 \format{
 An object of class \code{list} of length 3.
 }
@@ -11,6 +11,6 @@ An object of class \code{list} of length 3.
 ResidualScales
 }
 \description{
-enumeration keys for OSPSuite.plots scaling options for residual caluclations
+enumeration keys for OSPSuite.plots scaling options for residual calculations
 }
 \keyword{datasets}

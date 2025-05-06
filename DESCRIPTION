@@ -26,9 +26,7 @@ Imports:
     tidyr
 Depends: 
     R (>= 3.6),
-    ggplot2 (>= 3.5.0),
-    lintr,
-    rex
+    ggplot2 (>= 3.5.0)
 Encoding: UTF-8
 RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
@@ -42,7 +40,9 @@ Suggests:
     cowplot,
     ggpubr,
     testthat (>= 3.0.3),
-    vdiffr (>= 1.0.0)
+    vdiffr (>= 1.0.0),
+    lintr,
+    rex
 VignetteBuilder: knitr
 Vignette:
   inst/doc/ospsuite_plots.Rmd

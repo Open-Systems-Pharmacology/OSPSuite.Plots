@@ -2,17 +2,17 @@
 % Please edit documentation in R/customLinter.R
 \name{adjacentEmptyLines_linter}
 \alias{adjacentEmptyLines_linter}
-\title{Linter for Adjacent Empty Lines}
+\title{\code{Linter}  for Adjacent Empty Lines}
 \usage{
 adjacentEmptyLines_linter(maxNEmptyLines = 2)
 }
 \arguments{
-\item{maxNEmptyLines}{maximla allowed number of empty lines}
+\item{maxNEmptyLines}{maximal allowed number of empty lines}
 }
 \value{
 A list of linting messages for any lines that contain three or more consecutive blank lines.
 }
 \description{
-This linter checks for  consecutive blank lines in R source code.
+This \code{linter} checks for  consecutive blank lines in R source code.
 If found, it generates a lint warning indicating that the blank lines are superfluous.
 }

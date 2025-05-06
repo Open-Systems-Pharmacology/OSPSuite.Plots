@@ -1,9 +1,9 @@
-#' Linter for Adjacent Empty Lines
+#' `Linter`  for Adjacent Empty Lines
 #'
-#' This linter checks for  consecutive blank lines in R source code.
+#' This `linter` checks for  consecutive blank lines in R source code.
 #' If found, it generates a lint warning indicating that the blank lines are superfluous.
 #'
-#' @param maxNEmptyLines maximla allowed number of empty lines
+#' @param maxNEmptyLines maximal allowed number of empty lines
 #'
 #' @return A list of linting messages for any lines that contain three or more consecutive blank lines.
 #' @export

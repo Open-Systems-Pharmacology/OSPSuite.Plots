@@ -21,9 +21,9 @@ plotYVsX(
   labelGuestCriteria = "guest criteria",
   residualScale = NULL,
   asSquarePlot = FALSE,
-  xscale = "linear",
+  xscale = AxisScales$linear,
   xscale.args = list(),
-  yscale = "log",
+  yscale = AxisScales$log,
   yscale.args = list(),
   observedDataDirection = "y",
   addLinesDiagnonal = TRUE

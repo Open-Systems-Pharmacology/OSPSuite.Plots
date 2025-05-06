@@ -19,6 +19,8 @@ MappedDataBoxplot <- R6::R6Class( # nolint
     #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with aesthetic `groupby`
     #' @param direction direction of plot either "x" or "y"
     #' @param isObserved A `boolean` if TRUE mappings mdv, lloq, error and error_relative are evaluated
+    #' @param xscale scale of x-axis either 'linear' or 'log'
+    #' @param yscale scale of y-axis either 'linear' or 'log'
     #' @param xlimits limits for x-axis (may be NULL)
     #' @param ylimits limits for y-axis (may be NULL)
     #' @param residualScale scale of x residuals
@@ -34,6 +36,8 @@ MappedDataBoxplot <- R6::R6Class( # nolint
                           isObserved = TRUE,
                           xlimits = NULL,
                           ylimits = NULL,
+                          xscale = AxisScales$linear,
+                          yscale = AxisScales$linear,
                           residualScale = NULL,
                           residualAesthetic = "y") {
       super$initialize(
@@ -44,6 +48,8 @@ MappedDataBoxplot <- R6::R6Class( # nolint
         isObserved = isObserved,
         xlimits = xlimits,
         ylimits = ylimits,
+        xscale = xscale,
+        yscale = yscale,
         residualScale = residualScale,
         residualAesthetic = residualAesthetic
       )
@@ -83,29 +89,28 @@ MappedDataBoxplot <- R6::R6Class( # nolint
   private = list(
     checkXscale = function(xscale, xscale.args) {
       if (self$hasXmapping) {
-        # set breaks explicitly for usage in function getBoxWhiskerLimits
         if (self$columnClasses[["x"]] == "factor") {
-          if (xscale %in% c("linear", "log")) {
-            stop('constinuous x scale is not possible for factors, please select "discrete"')
+          if (xscale %in% c(AxisScales$linear, AxisScales$log)) {
+            stop(paste0('continuous x scale is not possible for factors, please select "', AxisScales$discrete, '"'))
           }
-          xscale <- "discrete"
+          xscale <- AxisScales$discrete
         } else {
           if (self$columnClasses[["x"]] == "numeric") {
-            if (xscale == "discrete") {
+            if (xscale == AxisScales$discrete) {
               stop(paste0(
                 'discrete x scale is not possible for continuous data. Select "',
-                "linear", '" or "', "log", '" or convert data to factor'
+                AxisScales$linear, '" or "', AxisScales$log, '" or convert data to factor'
               ))
             }
             if (xscale == "auto") {
-              xscale <- "linear"
+              xscale <- AxisScales$linear
             }
           } else {
-            xscale <- "discrete"
+            xscale <- AxisScales$discrete
           }
         }
       } else {
-        xscale <- "discrete"
+        xscale <- AxisScales$discrete
       }
 
       self$xscale <- xscale

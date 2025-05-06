@@ -1,3 +1,4 @@
+
 # ospsuite.plots: Graphics and tables for graphics for OSP
 
 <!-- badges: start -->
@@ -66,8 +67,6 @@ install.packages('tidyr')
 install.packages('fitdistrplus')
 
 ```
-
-
 
 ## Documentation
 

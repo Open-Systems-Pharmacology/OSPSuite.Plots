@@ -7,9 +7,9 @@
 plotResVsCov(
   data,
   mapping,
-  residualScale = "log",
+  residualScale = ResidualScales$log,
   comparisonLineVector = 0,
-  yscale = "linear",
+  yscale = AxisScales$linear,
   ...
 )
 }

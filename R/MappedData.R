@@ -26,10 +26,12 @@ MappedData <- R6::R6Class( # nolint
 
     #' @param data data.frame used for mapping
     #' @param mapping list of aesthetic mappings
+    #' @param xscale scale of x-axis either 'linear' or 'log'
+    #' @param yscale scale of y-axis either 'linear' or 'log'
     #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with `groupby`
     #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
-    #' @param isObserved A `boolean `if TRUE mappings mdv, lloq, error and error_relative are evaluated
+    #' @param isObserved A `boolean `if TRUE mappings mdv, lloq
     #' @param xlimits limits for x-axis (may be NULL)
     #' @param ylimits limits for y-axis (may be NULL)
     #' @param residualScale scale of x residuals
@@ -39,6 +41,8 @@ MappedData <- R6::R6Class( # nolint
     #' @return A new `MappedData` object
     initialize = function(data,
                           mapping,
+                          xscale,
+                          yscale,
                           groupAesthetics = NULL,
                           groupOrder = NULL,
                           direction = "y",
@@ -50,7 +54,6 @@ MappedData <- R6::R6Class( # nolint
       # Validation
       checkmate::assertClass(data, classes = "data.frame", null.ok = FALSE)
       checkmate::assertList(mapping,
-        types = "quosure",
         names = "named",
         any.missing = FALSE
       )
@@ -111,10 +114,9 @@ MappedData <- R6::R6Class( # nolint
 
         # lloq values are matched
         private$adjustForLLOQMatch()
-
-        # add ymin ymax aesthetic error and error_relative
-        private$translateErrorAestethics()
       }
+      # add ymin ymax aesthetic error and error_relative
+      private$translateErrorAestethics()
 
       # convert non factor integers to double
       private$convertIntegerToDouble()
@@ -128,7 +130,7 @@ MappedData <- R6::R6Class( # nolint
       )
 
       # setLimits
-      private$setLimits()
+      private$setLimits(xscale, yscale)
     },
 
     #' filter possible aesthetics for a geom,
@@ -152,7 +154,6 @@ MappedData <- R6::R6Class( # nolint
           c("aesthetic", "source", "scalingRelevant")
         )
       )
-
 
       # filter for accepted AES, exclude the ones included in geomAttributes and
       # take only the ones mapped by user
@@ -343,7 +344,7 @@ MappedData <- R6::R6Class( # nolint
 
       return(invisible(self))
     },
-    #' adds new columns ymin and ymax if required
+    #' adds new columns `ymin` and `ymax` if required
     translateErrorAestethics = function() {
       if (!private$aestheticExists(paste(private$direction, "min")) |
         !private$aestheticExists(paste(private$direction, "max"))) {
@@ -356,7 +357,10 @@ MappedData <- R6::R6Class( # nolint
           ))
         }
 
-        if (length(errorType) == 1) {
+        if (length(errorType) == 1 &&
+          !is.null(private$getDataForAesthetic(errorType,
+            stopIfNull = FALSE
+          ))) {
           newMapping <- list()
 
           checkmate::assertNames(
@@ -453,7 +457,7 @@ MappedData <- R6::R6Class( # nolint
       }
       return(invisible(self))
     },
-    setLimits = function() {
+    setLimits = function(xscale, yscale) {
       # get data columns to scale
       relevantMappings <- list(x = "x", y = "y")
       relevantMappings[[private$direction]] <- gsub(
@@ -469,6 +473,10 @@ MappedData <- R6::R6Class( # nolint
           "x" = self$xlimits,
           "y" = self$ylimits
         )
+        axisScale <- switch(ax,
+          "x" = xscale,
+          "y" = yscale
+        )
         if (is.null(oldLimits) || any(is.na(oldLimits))) {
           ylimits <- c()
 
@@ -478,7 +486,11 @@ MappedData <- R6::R6Class( # nolint
               data = self$data,
               stopIfNull = FALSE
             )
-            if (!is.null(yData) && !is.function(yData)) ylimits <- range(c(ylimits, yData), na.rm = TRUE)
+
+            if (!is.null(yData) && !is.function(yData)) {
+              if (axisScale == AxisScales$log) yData <- yData[yData > 0]
+              ylimits <- range(c(ylimits, yData), na.rm = TRUE)
+            }
           }
           if (is.null(oldLimits)) {
             newLimits <- ylimits
@@ -513,13 +525,13 @@ MappedData <- R6::R6Class( # nolint
 
         if (!residualAesthetic %in% names(self$mapping)) {
           ## add new column
-          if (residualScale == "log") {
+          if (residualScale == ResidualScales$log) {
             self$data <- self$data %>%
               dplyr::mutate(residuals.i = log(!!self$mapping[["observed"]]) - log(!!self$mapping[["predicted"]]))
-          } else if (residualScale == "linear") {
+          } else if (residualScale == ResidualScales$linear) {
             self$data <- self$data %>%
               dplyr::mutate(residuals.i = !!self$mapping[["observed"]] - !!self$mapping[["predicted"]])
-          } else if (residualScale == "ratio") {
+          } else if (residualScale == ResidualScales$ratio) {
             self$data <- self$data %>%
               dplyr::mutate(residuals.i = !!self$mapping[["observed"]] / !!self$mapping[["predicted"]])
           }

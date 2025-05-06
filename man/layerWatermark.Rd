@@ -34,8 +34,8 @@ TRUE/FALSE for explicit control, otherwise use option watermark_enabled}
 \item{show}{Determines whether the watermark will be created. Set to}
 }
 \value{
-a ggplot2 layer with the watermark (if show is \code{TRUE} or (\code{NULL} and
-option 'ospsuite.plots.watermark_enabled' is \code{TRUE})), otherwise an empty layer
+a ggplot2 layer with the watermark (if \code{show} is \code{TRUE} or (\code{NULL} and
+option \code{ospsuite.plots.watermark_enabled} is \code{TRUE})), otherwise an empty layer
 }
 \description{
 Create a watermark layer for a ggplot object.

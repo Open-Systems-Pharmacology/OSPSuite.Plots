@@ -8,59 +8,23 @@
 #' @export
 #' @family setDefault functions
 setDefaultTheme <- function() {
-  themeNew <-
-    ggplot2::theme(
-      # rect elemnts
-      rect = element_rect(
-        fill = "white",
-        colour = "black",
-        linewidth = 0.5
-      ),
-      panel.background = element_rect(linetype = "blank"),
-      plot.background = element_rect(linetype = "blank"),
-      legend.background = element_rect(
-        colour = "white",
-        linetype = "blank"
-      ),
-      legend.key = element_rect(
-        colour = "white",
-        linetype = "blank"
-      ),
-
-      # line elements
-      line = element_line(colour = "grey20"),
-      axis.line = element_line(
-        linewidth = 0.5,
-        linetype = "solid"
-      ),
-      panel.grid.major = element_line(
-        linewidth = 0.5,
-        linetype = "blank"
-      ),
-      panel.grid.minor = element_line(
-        linewidth = 0.25,
-        linetype = "blank"
-      ),
-      # text elements
-      text = element_text(
-        family = "",
-        face = "plain",
-        colour = "grey20",
+  themeNew <- theme_bw() +
+    theme(
+      legend.position = "right",
+      legend.direction = "vertical",
+      legend.justification = 0.5,
+      plot.title = element_text(
         hjust = 0.5,
         vjust = 0.5
       ),
-      axis.title = element_text(size = 10),
-      axis.text = element_text(size = 10),
-      plot.title = element_text(size = 12),
-      plot.subtitle = element_text(size = 10),
-      plot.caption = element_text(size = 8),
-      legend.text = element_text(size = 10),
-      strip.text = element_text(size = 10),
-      # legend position
-      legend.position = "right",
-      legend.direction = "vertical",
-      legend.justification = 0.5
+      plot.subtitle = element_text(
+        hjust = 0.5,
+        vjust = 0.5
+      ),
+      panel.grid.minor = element_blank(),
+      strip.background = element_rect(color = NA, fill = NA)
     )
+
   oldTheme <- ggplot2::theme_set(themeNew)
 
   return(invisible(oldTheme))
@@ -116,11 +80,11 @@ colorMaps <- list( # nolint: object_name_linter
 )
 
 
-#' @param colorMapList list of colorMaps to be set
+#' @param colorMapList list of color-maps to be set
 #'
-#' @title set the default colormap for discrete colors
+#' @title set the default color-map for discrete colors
 #'
-#' @return list with Colormaps previously set
+#' @return list with color-maps previously set
 #'
 #' @family setDefault functions
 #' @export
@@ -155,9 +119,9 @@ setDefaultColorMapDistinct <- function(colorMapList = NULL) {
 
 #' @param oldColorMaps
 #'
-#' @title reset the default colormap for discrete colors
+#' @title reset the default color map for discrete colors
 #'
-#' @param oldColorMaps list of colormaps previously set
+#' @param oldColorMaps list of color maps previously set
 #'
 #' @export
 #' @family setDefault functions
@@ -179,7 +143,7 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 #' set the default shapes
 #'
 #' The scales are set to the option  `ospsuite.plots.shapeValues`, which is the used to
-#' set the discrete scale of shapes for all {ospsuite.plots} function
+#' set the discrete scale of shapes for all `ospsuite.plots` function
 #' for customized functions add scale_shape_manual(`values = getOspsuite.plots.option(optionKey = OptionKeys$shapeValues)`)
 #'
 #' @param shapeValues vector of shape values
@@ -254,7 +218,7 @@ getDefaultOptions <- function() {
     ospsuite.plots.geomRibbonAttributes = list(color = NA),
     ospsuite.plots.geomPointAttributes = list(),
     ospsuite.plots.geomErrorbarAttributes = list(width = 0),
-    ospsuite.plots.geomLLOQAttributes = list(linetype = "dotted"),
+    ospsuite.plots.geomLLOQAttributes = list(),
     ospsuite.plots.geomComparisonLineAttributes = list(linetype = "dashed"),
     ospsuite.plots.geomGuestLineAttributes = list(linetype = "dashed"),
     ospsuite.plots.geomBoxplotAttributes = list(
@@ -269,6 +233,8 @@ getDefaultOptions <- function() {
     ospsuite.plots.Alpha = 0.5,
     # alpha of LLOQ values
     ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.3, "FALSE" = 1),
+    # linetype of LLOQ
+    ospsuite.plots.LLOQLineType = "dashed",
     # percentiles
     ospsuite.plots.Percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
     # Type of geom_point
@@ -312,7 +278,7 @@ getDefaultGeomAttributes <- function(geom) {
   return(defaults)
 }
 
-#' returns an option value for a option defined by the package ospsuite.plots
+#' returns an option value for a option defined by the package OSPSuite.plots
 #'
 #'
 #' @param optionKey identifier of option
@@ -321,7 +287,7 @@ getDefaultGeomAttributes <- function(geom) {
 #' @export
 #'
 #' @examples getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
-getOspsuite.plots.option <- function(optionKey) {  # nolint
+getOspsuite.plots.option <- function(optionKey) { # nolint
   checkmate::assert_choice(optionKey,
     choices = names(OptionKeys)
   )
@@ -344,7 +310,7 @@ getOspsuite.plots.option <- function(optionKey) {  # nolint
 #' @examples \dontrun{
 #' setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
 #' }
-setOspsuite.plots.option <- function(optionKey, value) {  # nolint
+setOspsuite.plots.option <- function(optionKey, value) { # nolint
   checkmate::assert_choice(optionKey,
     choices = names(OptionKeys)
   )
@@ -370,7 +336,7 @@ setOspsuite.plots.option <- function(optionKey, value) {  # nolint
 
 # Wrapper for all defaults  ----------------------
 
-#' sets the defaults for Ospsuite.plot
+#' sets the defaults for the OSPSuite.plots package
 #'
 #' should be started at the beginning at each workflow
 #'

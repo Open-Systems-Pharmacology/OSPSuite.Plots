@@ -19,14 +19,15 @@
 exportPlot <- function(plotObject,
                        filepath,
                        filename,
-                       width = getOspsuite.plots.option(optionKey = OptionKeys$export.width),
+                       width = NULL,
                        height = NULL,
                        ...) {
+  if ("CombinedPlot" %in% class(plotObject)) plotObject <- plotObject$combined()
   validateInputsExportPlot(plotObject,
     filepath,
     filename,
-    width = getOspsuite.plots.option(optionKey = OptionKeys$export.width),
-    height = NULL
+    width = width,
+    height = height
   )
 
   # set extension of default device
@@ -34,15 +35,16 @@ exportPlot <- function(plotObject,
     tools::file_path_sans_ext(filename),
     ".",
     getOspsuite.plots.option(optionKey = OptionKeys$export.device)
-  )
+  ) %>%
+    validateFilename()
 
+  if (is.null(width)) width <- getOspsuite.plots.option(optionKey = OptionKeys$export.width)
 
   if (is.null(height)) {
     dimensions <- calculatePlotDimensions(plotObject, width)
     width <- dimensions$width
     height <- dimensions$height
   }
-
   ggsave(
     filename = file.path(filepath, filename),
     plot = plotObject,
@@ -67,7 +69,7 @@ validateInputsExportPlot <- function(plotObject,
   checkmate::assertClass(plotObject, "ggplot")
   checkmate::assertCharacter(filename)
   checkmate::assertCharacter(filepath)
-  checkmate::assertDouble(width, null.ok = FALSE)
+  checkmate::assertDouble(width, null.ok = TRUE)
   checkmate::assertDouble(height, null.ok = TRUE)
 
   if (!dir.exists(filepath)) {
@@ -126,24 +128,31 @@ calculatePlotDimensions <- function(plotObject, width) {
     legendAddsToWidth <- 0
   }
 
-  plotMargins <- grid::convertUnit(themeOfPlot$plot.margin, unitTo = exportunits, valueOnly = TRUE)
+  if (!is.null(themeOfPlot$plot.margin)) {
+    plotMargins <- grid::convertUnit(themeOfPlot$plot.margin, unitTo = exportunits, valueOnly = TRUE)
+  } else {
+    plotMargins <- c(0, 0, 0, 0)
+  }
 
   # Update width if top/bottom legend is too wide (add 5% to legend width to ensure all the entry content are displayed)
   width <- max(width, 1.05 * plotDim$legendWidth * legendAddsToHeight)
 
-  # scale height with aspect ratio taking into account axis width and heights are ta
-  height <- nRow / nCol * (width -
-    plotDim$axisWidth -
-    sum(plotMargins[c(2, 4)]) -
-    plotDim$legendWidth * legendAddsToWidth) * aspect.ratio +
-    plotDim$axisHeight +
+  # scale height with aspect ratio taking into account axis width and heights
+  heightOffset <- plotDim$axisHeight +
     plotDim$legendHeight * legendAddsToHeight +
     sum(plotMargins[c(1, 3)])
+  widthOffset <- plotDim$axisWidth -
+    sum(plotMargins[c(2, 4)]) -
+    plotDim$legendWidth * legendAddsToWidth
+
+  height <- nRow / nCol * (width - widthOffset) * aspect.ratio + heightOffset
 
 
   return(list(
     width = width,
-    height = height
+    height = height,
+    heightOffset = heightOffset,
+    widthOffset = widthOffset
   ))
 }
 
@@ -239,10 +248,11 @@ getPlotDimensions <- function(plotObject, exportunits, nCol, nRow, nPanel) {
 #'
 #' @param filename name of file to validate
 #'
+#' @export
 #' @return filename without special letters
 validateFilename <- function(filename) {
   # replace µ by mc
-  filename <- iconv(filename, from = "UTF-8",to = "UTF-8")
+  filename <- iconv(filename, from = "UTF-8", to = "UTF-8")
   filename <- gsub("\u00B5", "mc", filename, fixed = TRUE)
 
   # Replace forbidden characters with the replacement character

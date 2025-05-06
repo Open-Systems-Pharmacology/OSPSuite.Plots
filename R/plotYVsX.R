@@ -23,9 +23,9 @@
 #' @family plot functions
 plotResVsCov <- function(data,
                          mapping,
-                         residualScale = "log",
+                         residualScale = ResidualScales$log,
                          comparisonLineVector = 0,
-                         yscale = "linear",
+                         yscale = AxisScales$linear,
                          ...) {
   # Validation
 
@@ -69,8 +69,8 @@ plotResVsCov <- function(data,
 plotRatioVsCov <- function(data = NULL,
                            mapping = NULL,
                            addGuestLimits = FALSE,
-                           yscale = "log",
-                           xscale = ifelse(addGuestLimits, "log", "linear"),
+                           yscale = AxisScales$log,
+                           xscale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
                            comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
                            deltaGuest = 1,
                            ...) {
@@ -84,7 +84,7 @@ plotRatioVsCov <- function(data = NULL,
     deltaGuest = deltaGuest,
     observedDataDirection = "y",
     addLinesDiagnonal = FALSE,
-    residualScale = "ratio",
+    residualScale = ResidualScales$ratio,
     ...
   )
 
@@ -101,10 +101,10 @@ plotRatioVsCov <- function(data = NULL,
     if (length(iData) > 1) iData <- iData[1]
 
     if (length(iData) > 0) {
-      if (xscale == "log") {
+      if (xscale == AxisScales$log) {
         pb$data[[iData]]$x <- 10^(pb$data[[iData]]$x)
       }
-      if (yscale == "log") {
+      if (yscale == AxisScales$log) {
         pb$data[[iData]]$y <- 10^(pb$data[[iData]]$y)
       }
 
@@ -147,7 +147,7 @@ plotRatioVsCov <- function(data = NULL,
 #' @family plot functions
 plotPredVsObs <- function(data = NULL,
                           mapping = NULL,
-                          xyscale = "log",
+                          xyscale = AxisScales$log,
                           comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
                           asSquarePlot = TRUE,
                           ...) {
@@ -230,44 +230,35 @@ plotYVsX <- function(data,
                      labelGuestCriteria = "guest criteria",
                      residualScale = NULL,
                      asSquarePlot = FALSE,
-                     xscale = "linear",
+                     xscale = AxisScales$linear,
                      xscale.args = list(),
-                     yscale = "log",
+                     yscale = AxisScales$log,
                      yscale.args = list(),
                      observedDataDirection = "y",
                      addLinesDiagnonal = TRUE) {
-  # Check validity
-  checkmate::assertDataFrame(data)
-  checkmate::assertList(metaData, types = "list", null.ok = TRUE)
-
-  checkmate::assertList(geomPointAttributes, null.ok = FALSE, min.len = 0)
-  checkmate::assertList(geomErrorbarAttributes, null.ok = FALSE, min.len = 0)
-  checkmate::assertList(geomGuestLineAttributes, null.ok = FALSE, min.len = 0)
-  checkmate::assertList(geomComparisonLineAttributes, null.ok = FALSE, min.len = 0)
-  checkmate::assertList(geomLLOQAttributes, null.ok = FALSE, min.len = 0)
-
-  checkmate::assertCharacter(groupAesthetics, min.len = 0, all.missing = TRUE, null.ok = TRUE)
-
   if (is.double(comparisonLineVector)) comparisonLineVector <- as.list(comparisonLineVector)
-  checkmate::assertList(comparisonLineVector, types = "double", any.missing = FALSE, null.ok = TRUE, min.len = 1)
+  .validatePlotYXsXInputs(
+    data = data,
+    metaData = metaData,
+    geomPointAttributes = geomPointAttributes,
+    geomErrorbarAttributes = geomErrorbarAttributes,
+    geomGuestLineAttributes = geomGuestLineAttributes,
+    geomComparisonLineAttributes = geomComparisonLineAttributes,
+    geomLLOQAttributes = geomLLOQAttributes,
+    groupAesthetics = groupAesthetics,
+    comparisonLineVector = comparisonLineVector,
+    addRegression = addRegression,
+    addGuestLimits = addGuestLimits,
+    deltaGuest = deltaGuest,
+    residualScale = residualScale,
+    asSquarePlot = asSquarePlot,
+    xscale = xscale,
+    xscale.args = xscale.args,
+    yscale = yscale,
+    yscale.args = yscale.args,
+    observedDataDirection = observedDataDirection
+  )
 
-  checkmate::assertFlag(addRegression)
-
-  checkmate::assertFlag(addGuestLimits)
-  checkmate::assertDouble(deltaGuest, lower = 1, len = 1, null.ok = !addGuestLimits)
-
-  checkmate::assertChoice(residualScale, choices = c("linear", "log", "ratio"), null.ok = TRUE)
-
-  checkmate::assertFlag(asSquarePlot)
-  checkmate::assertChoice(xscale, choices = c("linear", "log"), null.ok = TRUE)
-  checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)
-  checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
-
-  checkmate::assertChoice(observedDataDirection, choices = c("x", "y"), null.ok = TRUE)
-
-
-  # data match --------------
   mappedData <- MappedData$new(
     data = data,
     mapping = mapping,
@@ -277,7 +268,9 @@ plotYVsX <- function(data,
     isObserved = TRUE,
     groupAesthetics = groupAesthetics,
     residualScale = residualScale,
-    residualAesthetic = "y"
+    residualAesthetic = "y",
+    xscale = xscale,
+    yscale = yscale
   )
   mappedData$addMetaData(metaData = metaData)
 
@@ -288,7 +281,7 @@ plotYVsX <- function(data,
       labs(y = mappedData$residualLabel)
   }
 
-  #----- Build layers -----
+  #----- Build layers
   # Each new layer is added on top of previous
   # Thus, scatter points are added as last layer to prevent them being hidden by lines or errorbars
   # 1- Horizontal lines
@@ -321,13 +314,14 @@ plotYVsX <- function(data,
     plotObject <- plotObject +
       do.call(
         what = ggplot2::geom_errorbar,
-        args = c(
-          list(
-            na.rm = TRUE,
-            orientation = "y"
-          ),
-          geomErrorbarAttributes
-        )
+        args =
+          utils::modifyList(
+            x = list(
+              na.rm = TRUE,
+              orientation = "y"
+            ),
+            val = geomErrorbarAttributes
+          )
       )
   }
 
@@ -335,7 +329,7 @@ plotYVsX <- function(data,
     plotObject <- plotObject +
       do.call(
         what = ggplot2::geom_errorbar,
-        args = c(
+        args = utils::modifyList(
           list(
             na.rm = TRUE,
             orientation = "x"
@@ -370,15 +364,14 @@ plotYVsX <- function(data,
   }
 
   # add lloq lines
-  if (mappedData$hasLLOQMatch) {
-    plotObject <- addLayer(
-      mappedData = mappedData,
-      geom = "hvline",
-      geomAttributes = geomLLOQAttributes,
-      plotObject = plotObject,
-      layerToCall = geom_vline
-    )
-  }
+  plotObject <- addLLOQLayer(
+    plotObject = plotObject,
+    mappedData = mappedData,
+    layerToCall = geom_vline,
+    useLinetypeAsAttribute = "lloq" %in% names(mappedData$mapping),
+    geomLLOQAttributes = geomLLOQAttributes
+  )
+
 
   if (asSquarePlot) {
     plotObject <- plotObject +
@@ -390,7 +383,7 @@ plotYVsX <- function(data,
   }
 
 
-  # set scales ----
+  # set scales
 
   xscale.args <- mappedData$updateScaleArgumentsForTimeUnit(
     scale.args = xscale.args,
@@ -435,7 +428,10 @@ plotYVsX <- function(data,
     )
     names(linetypes) <- lineTypeNames
     plotObject <- plotObject +
-      scale_linetype_manual(values = linetypes, breaks = names(linetypes))
+      scale_linetype_manual(
+        values = linetypes, breaks = names(linetypes),
+        guide = guide_legend(order = 10, title = NULL)
+      )
   }
 
   return(plotObject)
@@ -444,7 +440,7 @@ plotYVsX <- function(data,
 #' add horizontal or diagonal comparison lines
 #' @inheritParams plotYVsX
 #' @inheritParams plotPredVsObs
-#' @param geomLineAttributes line attributes e.g. color,linetype passed to `ggplot2::geom_hline` or `ggplot2::geom_abline`
+#' @param geomLineAttributes line attributes e.g. `color`,`linetype` passed to `ggplot2::geom_hline` or `ggplot2::geom_abline`
 #'
 #' @keywords internal
 #' @return The updated `ggplot` object
@@ -458,17 +454,17 @@ addComparisonLines <- function(plotObject,
 
   # get mapping
   if (addLinesDiagnonal) {
-    lineMapping <-
-      switch(xyscale,
-        "log" = aes(
-          intercept = log10(value),
-          slope = 1
-        ),
-        "linear" = aes(
-          intercept = 0,
-          slope = value
-        )
+    if (xyscale == AxisScales$log) {
+      lineMapping <- aes(
+        intercept = log10(value),
+        slope = 1
       )
+    } else if (xyscale == AxisScales$linear) {
+      lineMapping <- aes(
+        intercept = 0,
+        slope = value
+      )
+    }
   } else {
     lineMapping <- aes(yintercept = value)
   }
@@ -503,7 +499,7 @@ addComparisonLines <- function(plotObject,
         ggplot2::geom_abline,
         ggplot2::geom_hline
       ),
-      args = c(
+      args = utils::modifyList(
         list(
           data = lineData,
           mapping = lineMapping,
@@ -537,7 +533,7 @@ addGuestLayer <- function(plotObject,
   plotObject <- plotObject +
     do.call(
       what = geom_function,
-      args = c(
+      args = utils::modifyList(
         list(
           mapping = aes(linetype = labelGuestCriteria),
           fun = getGuestLimits,
@@ -546,6 +542,7 @@ addGuestLayer <- function(plotObject,
             addLinesDiagnonal = addLinesDiagnonal,
             asLower = TRUE
           ),
+          data = data.table(x = NA, y = NA), # dummy data to avoid messages
           inherit.aes = FALSE,
           key_glyph = "path",
           na.rm = TRUE
@@ -555,7 +552,7 @@ addGuestLayer <- function(plotObject,
     ) +
     do.call(
       what = geom_function,
-      args = c(
+      args = utils::modifyList(
         list(
           mapping = aes(linetype = "guest criteria"),
           fun = getGuestLimits,
@@ -564,6 +561,7 @@ addGuestLayer <- function(plotObject,
             addLinesDiagnonal = addLinesDiagnonal,
             asLower = FALSE
           ),
+          data = data.table(x = NA, y = NA), # dummy data to avoid messages
           inherit.aes = FALSE,
           key_glyph = "path",
           na.rm = TRUE
@@ -719,4 +717,63 @@ getCountsWithin <- function(data,
   }
 
   return(countsWithin)
+}
+
+#' Title
+#'
+#' @inheritParams plotYVsX
+#'
+#' @keywords internal
+.validatePlotYXsXInputs <- function(
+    data,
+    metaData,
+    geomPointAttributes,
+    geomErrorbarAttributes,
+    geomGuestLineAttributes,
+    geomComparisonLineAttributes,
+    geomLLOQAttributes,
+    groupAesthetics,
+    comparisonLineVector,
+    addRegression,
+    addGuestLimits,
+    deltaGuest,
+    residualScale,
+    asSquarePlot,
+    xscale,
+    xscale.args,
+    yscale,
+    yscale.args,
+    observedDataDirection) {
+  checkmate::assertDataFrame(data)
+  checkmate::assertList(metaData, types = "list", null.ok = TRUE)
+
+  checkmate::assertList(geomPointAttributes, null.ok = FALSE, min.len = 0)
+  checkmate::assertList(geomErrorbarAttributes, null.ok = FALSE, min.len = 0)
+  checkmate::assertList(geomGuestLineAttributes, null.ok = FALSE, min.len = 0)
+  checkmate::assertList(geomComparisonLineAttributes, null.ok = FALSE, min.len = 0)
+  checkmate::assertList(geomLLOQAttributes, null.ok = FALSE, min.len = 0)
+
+  checkmate::assertCharacter(groupAesthetics, min.len = 0, all.missing = TRUE, null.ok = TRUE)
+
+  checkmate::assertList(comparisonLineVector, types = "double", any.missing = FALSE, null.ok = TRUE, min.len = 1)
+
+  checkmate::assertFlag(addRegression)
+
+  checkmate::assertFlag(addGuestLimits)
+  checkmate::assertDouble(deltaGuest, lower = 1, len = 1, null.ok = !addGuestLimits)
+
+  checkmate::assertChoice(residualScale, choices = c(
+    ResidualScales$linear,
+    ResidualScales$log, ResidualScales$ratio
+  ), null.ok = TRUE)
+
+  checkmate::assertFlag(asSquarePlot)
+  checkmate::assertChoice(xscale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
+  checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
+  checkmate::assertChoice(yscale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
+  checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
+
+  checkmate::assertChoice(observedDataDirection, choices = c("x", "y"), null.ok = TRUE)
+
+  return(invisible())
 }

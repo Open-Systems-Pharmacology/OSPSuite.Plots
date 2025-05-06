@@ -10,7 +10,7 @@ plotBoxWhisker(
   metaData = NULL,
   plotObject = NULL,
   percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles),
-  yscale = "linear",
+  yscale = AxisScales$linear,
   yscale.args = list(),
   xscale = "auto",
   xscale.args = list(),
@@ -19,7 +19,7 @@ plotBoxWhisker(
   statFunOutlier = NULL,
   geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
   geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
-  residualScale = "log"
+  residualScale = ResidualScales$log
 )
 }
 \arguments{

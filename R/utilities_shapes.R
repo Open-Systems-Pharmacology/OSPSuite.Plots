@@ -61,8 +61,8 @@ Shapes <- list( # nolint: object_name_linter
 #' So there should not be any issue as installing `ggplot2` should install those 2 packages.
 #' @keywords internal
 #'
-GeomPointUnicode <- ggplot2::ggproto( # nolint: object_name_linter
-  "GeomPointUnicode",
+GeomPointUnicodeProto <- ggplot2::ggproto( # nolint: object_name_linter
+  "GeomPointUnicodeProto",
   GeomPoint,
   # This will correspond to the default property displayed in legend
   # if property not used in data mapping
@@ -131,15 +131,15 @@ geomPointUnicode <- function(mapping = NULL, data = NULL, stat = "identity",
                              position = "identity", na.rm = FALSE, show.legend = NA,
                              inherit.aes = TRUE, ...) {
   ggplot2::layer(
-    geom = GeomPointUnicode, mapping = mapping, data = data, stat = stat,
+    geom = GeomPointUnicodeProto, mapping = mapping, data = data, stat = stat,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
   )
 }
 
-#' @title .selectFontFamily
+#' @title select font family
 #' @description
-#' Select appropriate font family based on font and {showtext} package availability
+#' Select appropriate font family based on font and `{showtext}` package availability
 #' @param fontfamily default font family
 #' @keywords internal
 #'
@@ -167,7 +167,7 @@ geomPointUnicode <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @param shapes  shape may be valid shape or name entry of list Shapes
 #' @keywords internal
 #'
-#' @return  shapevalue
+#' @return  shape value
 .asPlotShape <- function(shapes) {
   ggplotShapes <- NULL
   for (shape in shapes) {

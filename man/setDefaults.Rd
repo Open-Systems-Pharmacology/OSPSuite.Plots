@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities-defaults.R
 \name{setDefaults}
 \alias{setDefaults}
-\title{sets the defaults for Ospsuite.plot}
+\title{sets the defaults for the OSPSuite.plots package}
 \usage{
 setDefaults(
   defaultOptions = list(),

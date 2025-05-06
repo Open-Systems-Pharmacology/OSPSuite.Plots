@@ -20,7 +20,9 @@ testthat::test_that("calculatePlotDimensions returns expected dimensions", {
 
   # width should not change, and plot should be square
   expect_equal(dimensions$width, expected = 10)
-  expect_equal(round(dimensions$height), expected = 10)
+  expect_equal(dimensions$height,
+    expected = dimensions$width - dimensions$widthOffset + dimensions$heightOffset
+  )
 
 
   p <- ggplot(mtcars, aes(x = wt, y = mpg)) +

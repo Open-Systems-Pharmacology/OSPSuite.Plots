@@ -28,13 +28,13 @@ plotHistogram <- function(data,
                           geomHistAttributes =
                             getDefaultGeomAttributes("Hist"),
                           plotAsFrequency = FALSE,
-                          xscale = "linear",
+                          xscale = AxisScales$linear,
                           xscale.args = list(),
-                          yscale = "linear",
+                          yscale = AxisScales$linear,
                           yscale.args = list(),
                           distribution = "none",
                           meanFunction = "auto",
-                          residualScale = "log") {
+                          residualScale = ResidualScales$log) {
   #----- Validation and formatting of input arguments
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
 
@@ -44,11 +44,11 @@ plotHistogram <- function(data,
 
   checkmate::assertList(geomHistAttributes, null.ok = FALSE, min.len = 0)
 
-  checkmate::assertChoice(xscale, choices = c("linear", "log"), null.ok = TRUE)
+  checkmate::assertChoice(xscale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
   checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)
+  checkmate::assertChoice(yscale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
   checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(residualScale, choices = c("linear", "log", "ratio"), null.ok = TRUE)
+  checkmate::assertChoice(residualScale, choices = c(ResidualScales$linear, ResidualScales$log, ResidualScales$ratio), null.ok = TRUE)
 
 
   #-  map Data
@@ -56,6 +56,8 @@ plotHistogram <- function(data,
     data = data,
     mapping = mapping,
     groupAesthetics = "fill",
+    xscale = xscale,
+    yscale = yscale,
     residualScale = residualScale,
     residualAesthetic = "x"
   )

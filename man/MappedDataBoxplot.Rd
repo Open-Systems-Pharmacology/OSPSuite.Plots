@@ -8,8 +8,8 @@ R6 class for mapping variable to \code{data}
 }
 \seealso{
 Other MappedData classes: 
-\code{\link{MappedDataTimeProfile}},
-\code{\link{MappedData}}
+\code{\link{MappedData}},
+\code{\link{MappedDataTimeProfile}}
 }
 \concept{MappedData classes}
 \section{Super class}{
@@ -64,6 +64,8 @@ Create a new \code{MappedDataBoxplot} object
   isObserved = TRUE,
   xlimits = NULL,
   ylimits = NULL,
+  xscale = AxisScales$linear,
+  yscale = AxisScales$linear,
   residualScale = NULL,
   residualAesthetic = "y"
 )}\if{html}{\out{</div>}}
@@ -85,6 +87,10 @@ Create a new \code{MappedDataBoxplot} object
 \item{\code{xlimits}}{limits for x-axis (may be NULL)}
 
 \item{\code{ylimits}}{limits for y-axis (may be NULL)}
+
+\item{\code{xscale}}{scale of x-axis either 'linear' or 'log'}
+
+\item{\code{yscale}}{scale of y-axis either 'linear' or 'log'}
 
 \item{\code{residualScale}}{scale of x residuals}
 

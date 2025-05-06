@@ -11,11 +11,11 @@ plotTimeProfile(
   observedMapping = mapping,
   metaData = NULL,
   mapSimulatedAndObserved = NULL,
-  xscale = "linear",
+  xscale = AxisScales$linear,
   xscale.args = list(limits = c(0, NA)),
-  yscale = "linear",
+  yscale = AxisScales$linear,
   yscale.args = list(),
-  y2scale = "linear",
+  y2scale = AxisScales$linear,
   y2scale.args = list(),
   plotObject = NULL,
   geomLineAttributes = getDefaultGeomAttributes("Line"),
@@ -23,17 +23,17 @@ plotTimeProfile(
   geomPointAttributes = getDefaultGeomAttributes("Point"),
   geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
   geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
-  groupAesthetics = c("colour", "fill", "linetype", "shape")
+  groupAesthetics = c("colour", "fill", "shape")
 )
 }
 \arguments{
 \item{data}{data.frame with simulated data will be displayed as lines with ribbons}
 
 \item{mapping}{a list of aesthetic mappings to use for plot,
-additional to {ggplot2} aesthetics, the aesthetics \code{groupby},\code{error},\code{error_relative},\code{lloq}, \code{mdv}, \code{y2axis} are available,
+additional to \code{{ggplot2}} aesthetics, the aesthetics \code{groupby},\code{error},\code{error_relative},\code{lloq}, \code{mdv}, \code{y2axis} are available,
 see vignettes for more details and examples}
 
-\item{observedData}{data.frame with observed data  will be displayed as points with errorbars}
+\item{observedData}{data.frame with observed data  will be displayed as points with error-bars}
 
 \item{observedMapping}{a list of aesthetic mappings to use for observed data,
 per default is is set to mapping. So if both data sets have the same mapping, use only \code{mapping},
@@ -74,7 +74,7 @@ use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after s
 A \code{ggplot} object
 }
 \description{
-Produces timeprofiles for simulated and observed data.
+Produces time profiles for simulated and observed data.
 
 For the simulated data a \code{geom_line} and a \code{geom_ribbon} layer are added
 For the observed data a \code{geom_point} and a \code{geom_errorbar} layer are added

@@ -29,8 +29,16 @@ adds break function with fixed width for breaks depending on unit:
 \item month(s): width = 6
 }
 
-use width only if 2 * width < range of time values
-use multiples of width if 20 * width < range of time values
+The function uses the following logic to determine the breaks:
+\itemize{
+\item If the range of time values is relatively small (i.e., less than twice the width of the breaks),
+it will use a default set of extended breaks.
+\item If the range of time values is larger, the function will check if it is appropriate to use
+wider breaks. Specifically, it will continue to double the width until it finds a width
+that is suitable, ensuring that 10 times the width is still less than the total range of time values.
+This means that the breaks will be spaced far enough apart to be meaningful without overcrowding
+the axis, providing clarity in the visualization.
+}
 }
 \examples{
 xscale.args <- list(limits = c(0, 24))

@@ -48,7 +48,7 @@ adds and update mapping
 deletes data where mdv is 1
 
 adds new column \code{isLLOQ.i} and updates boolean \code{LLOQMatch}
-adds new columns ymin and ymax if required
+adds new columns \code{ymin} and \code{ymax} if required
 copy aesthetics \code{groupby}, but only if not explicit set
 converts Integer columns, which are no factors to double
 adds new column \code{residuals.i}
@@ -75,6 +75,8 @@ Create a new \code{MappedData} object
 \if{html}{\out{<div class="r">}}\preformatted{MappedData$new(
   data,
   mapping,
+  xscale,
+  yscale,
   groupAesthetics = NULL,
   groupOrder = NULL,
   direction = "y",
@@ -93,13 +95,17 @@ Create a new \code{MappedData} object
 
 \item{\code{mapping}}{list of aesthetic mappings}
 
+\item{\code{xscale}}{scale of x-axis either 'linear' or 'log'}
+
+\item{\code{yscale}}{scale of y-axis either 'linear' or 'log'}
+
 \item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with \code{groupby}}
 
 \item{\code{groupOrder}}{labels and order for group aesthetic}
 
 \item{\code{direction}}{direction of plot either "x" or "y"}
 
-\item{\code{isObserved}}{A \code{boolean }if TRUE mappings mdv, lloq, error and error_relative are evaluated}
+\item{\code{isObserved}}{A \code{boolean }if TRUE mappings mdv, lloq}
 
 \item{\code{xlimits}}{limits for x-axis (may be NULL)}
 

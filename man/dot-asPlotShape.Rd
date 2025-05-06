@@ -10,7 +10,7 @@
 \item{shapes}{shape may be valid shape or name entry of list Shapes}
 }
 \value{
-shapevalue
+shape value
 }
 \description{
 converts shape name to value

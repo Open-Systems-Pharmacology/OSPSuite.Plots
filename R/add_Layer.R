@@ -36,10 +36,8 @@ initializePlot <- function(mappedData = NULL,
     assign("scale_shape_discrete", scale_shape_discrete)
   }
 
-
   # add labels
   plotObject <- addLabels(plotObject, mappedData)
-
 
   return(plotObject)
 }
@@ -80,10 +78,12 @@ addLayer <- function(mappedData,
         args = c(
           list(
             data = mappedData$dataForPlot,
-            mapping = filteredMapping,
-            na.rm = TRUE
+            mapping = filteredMapping
           ),
-          geomAttributes
+          utils::modifyList(
+            x = list(na.rm = TRUE),
+            val = geomAttributes
+          )
         )
       )
   }
@@ -100,6 +100,81 @@ addLayer <- function(mappedData,
 }
 
 
+#' add LLOQ Layer with lloq lines
+#'
+#'
+#' @param mappedData object of class 'MappedData', with lloq data
+#' @param useLinetypeAsAttribute boolean, if TRUE line type is set as attribute, no legend is created
+#' @param geomLLOQAttributes additional attributes
+#' @param plotObject A `ggplot` object on which to add the plot layer
+#' @param layerToCall function ggplot2 geom layer
+#'
+#' @return updated plot object
+#' @export
+addLLOQLayer <-
+  function(plotObject,
+           mappedData,
+           layerToCall,
+           useLinetypeAsAttribute,
+           geomLLOQAttributes) {
+    if (!mappedData$hasLLOQMatch) {
+      return(plotObject)
+    }
+
+    if (useLinetypeAsAttribute) {
+      geomLLOQAttributes <- utils::modifyList(
+        list(linetype = getOspsuite.plots.option(optionKey = OptionKeys$LLOQLineType)),
+        geomLLOQAttributes
+      )
+    }
+
+
+    filteredMapping <- mappedData$getAestheticsForGeom(
+      geom = "hvline",
+      geomAttributes = geomLLOQAttributes
+    )
+
+    if (!useLinetypeAsAttribute) {
+      filteredMapping <-
+        structure(
+          utils::modifyList(
+            filteredMapping,
+            aes(linetype = "LLOQ")
+          ),
+          class = "uneval"
+        )
+    }
+
+
+    plotObject <- plotObject +
+      do.call(
+        what = layerToCall,
+        args = c(
+          list(
+            data = mappedData$dataForPlot,
+            mapping = filteredMapping
+          ),
+          utils::modifyList(
+            x = list(na.rm = TRUE),
+            val = geomLLOQAttributes
+          )
+        )
+      )
+
+    if (!useLinetypeAsAttribute) {
+      plotObject <- plotObject +
+        scale_linetype_manual(
+          values = c(LLOQ = getOspsuite.plots.option(optionKey = OptionKeys$LLOQLineType)),
+          guide = guide_legend(
+            title = NULL,
+            order = 10,
+          )
+        )
+    }
+
+    return(plotObject)
+  }
+
 #' Create a watermark layer for a ggplot object.
 #'
 #' @param label Passed to `buildWatermarkGrob`.
@@ -112,8 +187,8 @@ addLayer <- function(mappedData,
 #' @param fontsize Passed to `buildWatermarkGrob`.
 #' @param show Determines whether the watermark will be created. Set to
 #'
-#' @return a ggplot2 layer with the watermark (if show is `TRUE` or (`NULL` and
-#'   option 'ospsuite.plots.watermark_enabled' is `TRUE`)), otherwise an empty layer
+#' @return a ggplot2 layer with the watermark (if `show` is `TRUE` or (`NULL` and
+#'   option `ospsuite.plots.watermark_enabled` is `TRUE`)), otherwise an empty layer
 #' @export
 #'
 layerWatermark <- function(label = NULL,
@@ -127,17 +202,20 @@ layerWatermark <- function(label = NULL,
   if (is.null(show)) {
     show <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
   }
-
   if (show) {
     if (is.null(label)) {
       label <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_label)
     }
 
-    formatOptionsSet <- utils::modifyList(
-      getDefaultOptions()$ospsuite.plots.watermark_format,
+    formatOptionsSet <-
       getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
-    )
-    invisible(list2env(formatOptionsSet, envir = environment()))
+
+    # Use inputs before  formatOptionsSet
+    for (param in names(formatOptionsSet)) {
+      if (is.null(get(param))) {
+        assign(param, formatOptionsSet[[param]], envir = environment())
+      }
+    }
 
     watermarkLayer <- annotation_custom(buildWatermarkGrob(
       label = label,
@@ -229,30 +307,22 @@ addXYScale <- function(plotObject,
 addXscale <- function(plotObject,
                       xscale,
                       xscale.args = list()) {
-  checkmate::assertChoice(xscale, choices = c("linear", "log", "discrete"), null.ok = TRUE)
+  scaleFunctions <- list()
+  scaleFunctions[[AxisScales$linear]] <- scale_x_continuous
+  scaleFunctions[[AxisScales$log]] <- scale_x_log10
+  scaleFunctions[[AxisScales$discrete]] <- scale_x_discrete
+
+  checkmate::assertChoice(xscale, choices = names(scaleFunctions), null.ok = TRUE)
+
+  if (xscale == AxisScales$log &&
+    is.null(xscale.args$guide)) {
+    xscale.args$guide <- ggplot2::guide_axis_logticks()
+  }
 
   plotObject <- plotObject +
-    switch(xscale,
-      "linear" = {
-        if (is.null(xscale.args$guide)) xscale.args$guide <- ggh4x::guide_axis_minor()
-        do.call(
-          what = scale_x_continuous,
-          args = xscale.args
-        )
-      },
-      "log" = {
-        if (is.null(xscale.args$guide)) xscale.args$guide <- ggplot2::guide_axis_logticks()
-        do.call(
-          what = scale_x_log10,
-          args = xscale.args
-        )
-      },
-      "discrete" = {
-        do.call(
-          what = scale_x_discrete,
-          args = xscale.args
-        )
-      }
+    do.call(
+      what = scaleFunctions[[xscale]],
+      args = xscale.args
     )
 
   return(plotObject)
@@ -271,29 +341,25 @@ addYscale <- function(plotObject,
                       yscale,
                       yscale.args = list(),
                       secAxis = waiver()) {
-  checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)
+  scaleFunctions <- list()
+  scaleFunctions[[AxisScales$linear]] <- scale_y_continuous
+  scaleFunctions[[AxisScales$log]] <- scale_y_log10
 
+  checkmate::assertChoice(yscale, choices = names(scaleFunctions), null.ok = TRUE)
+
+  if (yscale == AxisScales$log &&
+    is.null(yscale.args$guide)) {
+    yscale.args$guide <- ggplot2::guide_axis_logticks()
+  }
 
   plotObject <- plotObject +
-    if (yscale == "linear") {
-      if (is.null(yscale.args$guide)) yscale.args$guide <- ggh4x::guide_axis_minor()
-      do.call(
-        what = scale_y_continuous,
-        args = c(
-          yscale.args,
-          list(sec.axis = secAxis)
-        )
+    do.call(
+      what = scaleFunctions[[yscale]],
+      args = c(
+        yscale.args,
+        list(sec.axis = secAxis)
       )
-    } else {
-      if (is.null(yscale.args$guide)) yscale.args$guide <- ggplot2::guide_axis_logticks()
-      do.call(
-        what = scale_y_log10,
-        args = c(
-          yscale.args,
-          list(sec.axis = secAxis)
-        )
-      )
-    }
+    )
 
   return(plotObject)
 }

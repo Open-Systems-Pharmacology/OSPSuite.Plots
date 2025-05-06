@@ -21,53 +21,43 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 # 1. Introduction
 
-The following vignette aims at documenting and illustrating workflows for producing Time Profile plots using the `ospsuite.plots`-library.
+This vignette documents and illustrates workflows for producing Time Profile plots using the `ospsuite.plots` library.
 
-Time profile plots are very often used to compare observed and simulated data along time.
-In such plots, observed data are usually plotted as scatter points with errorbars showing population range or confidence intervals; while simulated data are usually plotted using lines with shaded ribbons showing population range or confidence intervals.
+Time profile plots are commonly used to compare observed and simulated data over time. In these plots, observed data are typically represented as scatter points with error bars indicating population range or confidence intervals, while simulated data are displayed using lines with shaded ribbons representing population range or confidence intervals.
 
-
-Basic documentation of the function can be found using: `?plotTimeProfile`.
-The output of the function is a `ggplot` object.
+Basic documentation of the function can be found using: `?plotTimeProfile`. The output of the function is a `ggplot` object.
 
 ## 1.1 Setup
 
-For this vignette we will use the libraries {ospsuite.plots} and {tidyr}.
-We use the default settings of {ospsuite.plots} (see vignette("ospsuite.plots", package = "ospsuite.plots")) but adjust the legend position
+This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. We will use the default settings of `{ospsuite.plots}` (see vignette("ospsuite.plots", package = "ospsuite.plots")) but will adjust the legend position.
 
-```{r setup,warning=FALSE,message=FALSE}
+```{r setup, warning=FALSE, message=FALSE}
 library(ospsuite.plots)
 library(tidyr)
 
-# setDefaults
+# Set Defaults
 oldDefaults <- ospsuite.plots::setDefaults()
 
-
-# Place default legend position above the plot for prettier time profile plots
+# Adjust legend position for better aesthetics
 theme_update(legend.position = "top")
 theme_update(legend.direction = "vertical")
 theme_update(legend.box = "horizontal")
 theme_update(legend.title = element_blank())
 ```
 
+## 1.2 Example Data
 
+This vignette uses randomly generated example datasets provided by the package:
 
+### 1.2.1 Simulated and Observed Data
 
-## 1.2 Example data
+The following datasets are used in the example:
 
-This vignette uses random generated example data sets provided by the package:
-
-### 1.2.1 simulated and observed data
-
-In the example below theses data sets are used:
-
-* `simData1` and `obsData1` set with an 'exponential decay'  
-* `simData2` and `obsData2` set with a 'first order absorption with exponential decay'  
-* `simData` and `obsData`  combination of `simData1` and `simData2` / `obsData1` and `obsData2`
-
+- `simData1` and `obsData1`: 'exponential decay'
+- `simData2` and `obsData2`: 'first order absorption with exponential decay'
+- `simData` and `obsData`: combination of `simData1` and `simData2` / `obsData1` and `obsData2`
 
 ```{r dataset1}
 simData1 <- exampleDataTimeProfile %>%
@@ -75,53 +65,35 @@ simData1 <- exampleDataTimeProfile %>%
   dplyr::filter(Type == "simulated") %>%
   dplyr::select(c("time", "values", "minValues", "maxValues", "caption"))
 
-
 simData2 <- exampleDataTimeProfile %>%
   dplyr::filter(SetID == "DataSet2") %>%
   dplyr::filter(Type == "simulated") %>%
   dplyr::select(c("time", "values", "minValues", "maxValues", "caption"))
 
-
-simData <- rbind(
-  simData1,
-  simData2
-)
+simData <- rbind(simData1, simData2)
 
 obsData1 <- exampleDataTimeProfile %>%
   dplyr::filter(SetID == "DataSet1") %>%
   dplyr::filter(Type == "observed") %>%
   dplyr::select(c("time", "values", "sd", "maxValues", "minValues", "caption"))
 
-
 obsData2 <- exampleDataTimeProfile %>%
   dplyr::filter(SetID == "DataSet2") %>%
   dplyr::filter(Type == "observed") %>%
   dplyr::select(c("time", "values", "sd", "maxValues", "minValues", "caption"))
 
-obsData <- rbind(
-  obsData1,
-  obsData2
-)
+obsData <- rbind(obsData1, obsData2)
 
-knitr::kable(
-  head(simData),
-  digits = 3,
-  caption =
-    "first rows of example data simData"
-)
+knitr::kable(head(simData), digits = 3, caption = "First rows of example data simData")
 ```
 
-
-* `simDataLloq` and `obsDataLloq`: data set with a column which defines  lloq
-
-
+- `simDataLloq` and `obsDataLloq`: dataset with a column defining LLOQ.
 ```{r dataset2}
 simDataLloq <- exampleDataTimeProfile %>%
   dplyr::filter(SetID == c("DataSet3")) %>%
   dplyr::filter(Type == "simulated") %>%
   dplyr::filter(dimension == "concentration") %>%
   dplyr::select(c("time", "values", "caption"))
-
 
 obsDataLloq <- exampleDataTimeProfile %>%
   dplyr::filter(SetID == "DataSet3") %>%
@@ -130,15 +102,12 @@ obsDataLloq <- exampleDataTimeProfile %>%
   dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
 ```
 
-
-* `simData2Dimension`: dataset where the "values" column has mixed dimensions: "concentration" and "fraction", 
-
+- `simData2Dimension`: dataset where the "values" column has mixed dimensions: "concentration" and "fraction".
 ```{r dataset3}
 simData2Dimension <- exampleDataTimeProfile %>%
   dplyr::filter(SetID == "DataSet3") %>%
   dplyr::filter(Type == "simulated") %>%
   dplyr::select(c("time", "values", "dimension", "caption"))
-
 
 obsData2Dimension <- exampleDataTimeProfile %>%
   dplyr::filter(SetID == "DataSet3") %>%
@@ -146,8 +115,7 @@ obsData2Dimension <- exampleDataTimeProfile %>%
   dplyr::select(c("time", "values", "dimension", "caption", "lloq", "error_relative"))
 ```
 
-* `obsDataGender` observed data set with gender information , and `simDataGender` a mean model presentation
-
+- `obsDataGender`: observed dataset with gender information, and `simDataGender`: a mean model presentation.
 ```{r dataset4}
 simDataGender <- exampleDataTimeProfile %>%
   dplyr::filter(SetID == "DataSet4") %>%
@@ -160,42 +128,26 @@ obsDataGender <- exampleDataTimeProfile %>%
   dplyr::select(c("time", "values", "caption", "gender"))
 ```
 
-
 ### 1.2.2 MetaData
 
-Metadata is a list, which contains dimension and unit information for dataset-columns.
-If available axis labels are set by this information.
-If for the x axis a time Unit can be identified, 
-breaks are set according to this unit. (see `?updateScaleArgumentsForTimeUnit`)
+Metadata is a list that contains dimension and unit information for dataset columns. If available, axis labels are set by this information. If a time unit can be identified for the x-axis, breaks are set according to this unit (see `?updateScaleArgumentsForTimeUnit`).
 
-
-```{r meta-data}
+```{r metaData}
 metaData <- attr(exampleDataTimeProfile, "metaData")
-
-knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "list of meta data")
+knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "List of meta data")
 ```
-
-
-
-
 
 # 2 Examples
 
-The following sections show *how to plot a Time Profile* for specific scenarios
+The following sections demonstrate *how to plot a Time Profile* for specific scenarios.
 
-## 2.1 Plot simulated data only
+## 2.1 Plot Simulated Data Only
 
+### 2.1.1 Basic Example with Multiple Simulations
 
-### 2.1.1 Basic example with multiple simulations
-
-Data sets mapped to data are displayed as lines:
-
-The aesthetic `groupby` which is mapped in the example to the columns caption groups profiles by column `caption`. That means `caption` is internally mapped to all  aesthetics defined in the variable `groupAesthetics`. 
-By default this are `color`, `linetype`, `shape` (only relevant for observed data) and `fill`.
+Datasets mapped to data are displayed as lines. The aesthetic `groupby`, mapped in the example to the column caption, groups profiles by the `caption` column. This means `caption` is internally mapped to all aesthetics defined in the variable `groupAesthetics`. By default, these are `color`, `linetype`, `shape` (only relevant for observed data), and `fill`.
 
 ```{r examples-single-mappingsimulation-plot-A}
-#  A Multiple simulations
-
 plotTimeProfile(
   data = simData,
   metaData = metaData,
@@ -207,10 +159,9 @@ plotTimeProfile(
 )
 ```
 
+### 2.1.2 Multiple Simulations with Confidence Interval
 
-### 2.1.2  Multiple simulations with confidence interval
-
-Mapping `ymin` and `ymax` will add a ribbon to the time profile which may indicate a prediction confidence interval or a population variance. 
+Mapping `ymin` and `ymax` will add a ribbon to the time profile, indicating a prediction confidence interval or population variance.
 
 ```{r examples-single-mappingsimulation-plot-B}
 plotTimeProfile(
@@ -226,14 +177,11 @@ plotTimeProfile(
 )
 ```
 
+## 2.2 Plot Observed Data Only
 
+### 2.2.1 Basic Example with Multiple Observed Data Sets
 
-## 2.2 Plot observed data only
-
-### 2.2.1  Basic example with multiple observed data sets
-
-A data set mapped to observed data is displayed as points.
-
+A dataset mapped to observed data is displayed as points.
 
 ```{r examples-single-observation-A}
 plotTimeProfile(
@@ -247,11 +195,9 @@ plotTimeProfile(
 )
 ```
 
+### 2.2.2 Observed Data Sets with Confidence Interval
 
-### 2.2.2 Observed data sets with confidence interval
-
-mapping of `ymin` and `ymax`  adds errorbars
-
+Mapping `ymin` and `ymax` adds error bars.
 
 ```{r examples-single-observation-B}
 plotTimeProfile(
@@ -267,13 +213,9 @@ plotTimeProfile(
 )
 ```
 
-### 2.2.3 Usage of aesthetic "error"
+### 2.2.3 Usage of Aesthetic "Error"
 
-The data set has also a columns with the standard deviation sd.
-If mapped to 'error' this variable will be used to create corresponding `ymin` and `ymax` values for the error bars $ymin = values - sd$, $ymax = values + sd$.  If `yscale` = 'log', `ymin` values below 0 are set to `y`.  
-Also available is error_relative where a multiplicative error is assumed: $ymin = \frac{values}{error\_relative}$, $ymax = values*error\_relative$.
-
-
+The dataset includes a column with the standard deviation `sd`. If mapped to 'error', this variable will be used to create corresponding `ymin` and `ymax` values for the error bars  `ymin = values - sd`  and  `ymax = values + sd`. If `yscale = 'log'`, `ymin` values below 0 are set to `y`. Additionally, `error_relative` can be used where a multiplicative error is assumed: `ymin = values / error_relative` and `ymax = values * error_relative`.
 
 ```{r examples-single-observation-C}
 plotTimeProfile(
@@ -288,12 +230,9 @@ plotTimeProfile(
 )
 ```
 
+### 2.2.4 Observed Data with LLOQ
 
-### 2.2.4 Observed data with LLOQ
-
-If `lloq` is mapped to a column with values indicating the lower limit of quantification , a horizontal line for the `lloq` values are displayed, and all values below `lloq` are plotted with decreased alpha.
-As the comparison is done by row, multiple lloq values are possible.
-
+If `lloq` is mapped to a column indicating the lower limit of quantification, a horizontal line for the `lloq` values is displayed, and all values below `lloq` are plotted with decreased alpha. As the comparison is done by row, multiple `lloq` values are possible.
 
 ```{r example-lloq}
 plotTimeProfile(
@@ -304,21 +243,16 @@ plotTimeProfile(
     y = values,
     groupby = caption,
     error_relative = error_relative,
-    lloq = lloq
-  ),
-  yscale = "log"
+    groupby = caption
+  )
 )
 ```
 
+### 2.2.5 Omit Data Points Flagged as Missing Dependent Variable (MDV)
 
+The following code adds a new column where all values higher than 10 are flagged as `mdv`. This leads to a plot without any observed data points higher than 10 (removing the first observation).
 
-### 2.2.5 Omit data points flagged as Missing Dependent Variable (mdv)
-
-The following code adds a new column where all values higher than `10` are flagged as `mdv`. This leads to a plot without any observed data points higher than `10` (removing the first observation)
-
-
-```{r examples mdv}
-# Use common variable before usinf rbind.data.frame
+```{r examples-mdv}
 mdvData <- obsData
 mdvData$mdv <- mdvData$values > 10
 
@@ -330,32 +264,26 @@ plotTimeProfile(
     y = values,
     ymin = minValues,
     ymax = maxValues,
-    groupby = caption,
-    mdv = mdv
+    groupby = caption
   )
 )
 ```
 
+## 2.3 Plot Simulated and Observed Data
 
-## 2.3 Plot simulated and observed data
+By plotting simulated and observed data together, you can often find pairs of corresponding datasets. This can be done using a common legend entry (see section 2.3.1) or by defining a mapping table, where each observed dataset is mapped to one simulated dataset (see section 2.3.2). There may also be examples with independent datasets (see section 2.3.3).
 
-By plotting simulated and observed data together in most cases you have pairs of corresponding simulated and observed data sets. This can either be done by using a common legend entry (see section 2.3.1) or by defining a mapping table, where each observed data sets is mapped to one simulated data set (see section 2.3.2).  
-There may be some example with independent data sets (see section 2.3.3)
+### 2.3.1 Corresponding Simulated and Observed Datasets with Common Legend Entry
 
-
-### 2.3.1 Corresponding simulated and observed datasets with common legend entry
-
-In this example we create as first step in each data set a column with a common caption for simulated and observed data.
-The new column is then mapped to aesthetic `groupby`. That leads to one common legend for observed and simulated data.
+In this example, we create a new column with a common caption for simulated and observed data. This column is then mapped to the aesthetic `groupby`, leading to a single common legend for both observed and simulated data.
 
 ```{r combine-simulated-and-observed-sharing-legend}
-# create datasets with common caption
+# Create datasets with common caption
 simData <- data.frame(simData) %>%
   dplyr::mutate(captionCommon = gsub("Simulated ", "", caption))
 
 obsData <- data.frame(obsData) %>%
   dplyr::mutate(captionCommon = gsub("Observed ", "", caption))
-
 
 plotTimeProfile(
   data = simData,
@@ -371,15 +299,11 @@ plotTimeProfile(
 )
 ```
 
+### 2.3.2 Corresponding Simulated and Observed Datasets with Separate Legend Entries and Mapping Table
 
+In this example, we create a mapping table with one column for `observed` and one column for `simulated`. This table is passed to the function as the input variable `mapSimulatedAndObserved`.
 
-### 2.3.2 Corresponding simulated and observed datasets with separate legend entries and mapping table
-
-In this example we create as first step a mapping table, with one column `observed` and one column `simulated`.
-This new table is passed to the function as input variable `mapSimulatedAndObserved`. 
-
-
-```{r combine-simulated-and-separate-sharing-legend}
+```{r combine-simulated-and-observed-separate-legend}
 mapSimulatedAndObserved <- data.frame(
   simulated = unique(simData$caption),
   observed = unique(obsData$caption)
@@ -387,12 +311,11 @@ mapSimulatedAndObserved <- data.frame(
 
 knitr::kable(mapSimulatedAndObserved)
 
-
 plotTimeProfile(
   data = simData,
   observedData = obsData,
   metaData = metaData,
-  mapping <- aes(
+  mapping = aes(
     x = time,
     y = values,
     ymin = minValues,
@@ -403,9 +326,7 @@ plotTimeProfile(
 )
 ```
 
-
-If not for all simulated data sets exists observed data sets (or vice versa), it is possible to fill the mapping table with empty strings for the missing data sets. The empty strings have to be at the end of the table.
-
+If not all simulated datasets have corresponding observed datasets (or vice versa), it is possible to fill the mapping table with empty strings for the missing datasets. The empty strings should be at the end of the table.
 
 ```{r combine-simulated-and-observed-separate-legend-2}
 mapSimulatedAndObserved <- data.frame(
@@ -413,14 +334,13 @@ mapSimulatedAndObserved <- data.frame(
   observed = c(unique(obsData1$caption), "")
 )
 
-
 knitr::kable(mapSimulatedAndObserved)
 
 plotTimeProfile(
   data = simData,
   observedData = obsData1,
   metaData = metaData,
-  mapping <- aes(
+  mapping = aes(
     x = time,
     y = values,
     ymin = minValues,
@@ -431,21 +351,16 @@ plotTimeProfile(
 )
 ```
 
+### 2.3.3 Independent Simulated and Observed Datasets
 
-
-
-### 2.3.3 Independent simulated and observed datasets
-
-The example below shows individual observed data compared to one simulation. Here a mapping between observed and simulated doesn't make sense. 
-`groupby` is used to group the observed data by color, fill and shape.
-As we do not want to have an extra color for the simulated line, the line color is set by `geomLineAttributes` as attribute and not as aesthetic. The simulated line inherits the aesthetic `linetype` from `groupby`and therefore a `linetype` legend is added which contains the simulated data.
+The example below shows individual observed data compared to one simulation. Here, a mapping between observed and simulated data doesn't make sense. The `groupby` aesthetic is used to group the observed data by color, fill, and shape. To avoid an extra color for the simulated line, the line color is set by `geomLineAttributes` as an attribute and not as an aesthetic. The simulated line inherits the `linetype` aesthetic from the `groupby` aesthetic, adding a `linetype` legend for the simulated data.
 
 ```{r combine-multiple-simulated-and-observed}
 plotTimeProfile(
   data = simDataGender,
   observedData = obsDataGender,
   metaData = metaData,
-  mapping <- aes(
+  mapping = aes(
     x = time,
     y = values,
     groupby = caption
@@ -454,17 +369,15 @@ plotTimeProfile(
 ) +
   theme(legend.position = "right") +
   labs(
-    color = "observed data",
-    shape = "observed data",
-    fill = "observed data",
-    linetype = "simulation"
+    color = "Observed Data",
+    shape = "Observed Data",
+    fill = "Observed Data",
+    linetype = "Simulation"
   ) +
   theme(legend.title = element_text())
 ```
 
-
-
-### 2.3.4 Multiple simulations and observed data sets without legends
+### 2.3.4 Multiple Simulations and Observed Data Sets without Legends
 
 To map `groupby` with an empty variable `groupAesthetics` leads to a plot without legends.
 
@@ -476,21 +389,17 @@ plotTimeProfile(
   mapping = aes(
     x = time,
     y = values,
-    groupby = caption,
-  ), groupAesthetics = c()
+    groupby = caption
+  ),
+  groupAesthetics = c()
 )
 ```
 
+### 2.3.5 Observed Data with Shape as Gender
 
+In this example, observed data is used as both simulated and observed data, connecting the different data points with a thin line.
 
-
-### 2.3.5 Observed data with shape as gender
-
-
-
-In this example observed data is used as simulated and as observed data, to connect the different data points with a thin line.
-
-```{r observedData-usead-as-simulatedData-plot}
+```{r observedData-used-as-simulatedData-plot}
 plotTimeProfile(
   data = obsDataGender,
   observedData = obsDataGender,
@@ -502,13 +411,13 @@ plotTimeProfile(
     shape = gender
   ),
   geomLineAttributes = list(linetype = "solid", linewidth = 0.5)
-) + theme(legend.position = "right")
+) +
+  theme(legend.position = "right")
 ```
 
-A similar plot can produces by combining caption and gender with interaction
+A similar plot can be produced by combining `caption` and `gender` with interaction.
 
-
-```{r observedData-usead-as-simulatedData-plot-B}
+```{r observedData-used-as-simulatedData-plot-B}
 plotTimeProfile(
   data = obsDataGender,
   observedData = obsDataGender,
@@ -519,39 +428,25 @@ plotTimeProfile(
     groupby = interaction(caption, gender)
   ),
   geomLineAttributes = list(linetype = "solid", linewidth = 0.5)
-) + theme(legend.position = "right")
+) +
+  theme(legend.position = "right")
 ```
 
+### 2.3.6 Data with Secondary Axis
 
+In this example, a plot is generated with concentration on the left y-axis and fraction on the right y-axis. First, the `metaData` variable has to be adjusted. For the primary y-axis, the column "values" is mapped, and `metaData` provides the dimension "Concentration" for this column. A new entry "y2" is added for the secondary y-axis.
 
-### 2.3.6 Data with Secondary axis
-
-
-In this example a plot is generated with concentration on the left y-axis and Fraction on the right y-axis. As first step the variable `metaData` has to be adjusted.
-For the primary y-axis the column "values" is mapped, and metaData provides for this column the dimension "Concentration". For the secondary y-axis a new entry "y2" is added.
-
-```{r secondrayAxis_metaData}
+```{r secondaryAxis_metaData}
 metaDataY2 <- list(
-  time = list(
-    dimension = "Time",
-    unit = "h"
-  ),
-  values = list(
-    dimension = "Concentration",
-    unit = "mg/l"
-  ),
-  y2 = list(
-    dimension = "Fraction",
-    unit = ""
-  )
+  time = list(dimension = "Time", unit = "h"),
+  values = list(dimension = "Concentration", unit = "mg/l"),
+  y2 = list(dimension = "Fraction", unit = "")
 )
 ```
 
+The mapping `y2axis` must be logical. In this example, it is `(dimension == "fraction")`. For the primary y-axis (concentration), a log scale is displayed, and for the secondary (fraction), a linear scale is used. The limits of the secondary axis are set to [0, 1].
 
-The mapping `y2axis` has to be logical. In this example it is `(dimension == "fraction")`.
-For the primary y-axis (concentration) a log scale is displayed and for the secondary (Fraction) a linear scale. Limits of the secondary-axis are set to [0,1]
-
-```{r secondrayAxis_plot}
+```{r secondaryAxis_plot}
 plotTimeProfile(
   data = simData2Dimension,
   observedData = obsData2Dimension,
@@ -568,7 +463,7 @@ plotTimeProfile(
   yscale = "log",
   yscale.args = list(limits = c(0.01, NA)),
   y2scale = "linear",
-  y2scale.args = list(limits = c(0, 1)),
+  y2scale.args = list(limits = c(0, 1))
 ) +
   theme(
     axis.title.y.right = element_text(angle = 90),
@@ -577,26 +472,22 @@ plotTimeProfile(
   )
 ```
 
-
 # 3. Plot Configuration
 
+## 3.1 Example for Changing Geom Attributes
 
-## 3.1 Example for changing geom attributes
+The plot from section 2.3.2 was adjusted using geom attributes:
 
-The plot from section 2.3.2  was adjusted using geom Attributes:
-
-- `geomLineAttributes = list(linetype = 'solid')` The lines used for the simulated data are set in both datasets to solid. Attention the line type for the errorbars and ribbon edges was not changed.
-- `geomErrorbarAttributes = list()` The default settings for `geomErrorbarAttributes`, width = 0, was deleted. The bar caps are now visible
-- `geomRibbonAttributes = list(alpha = 0.1)` the shade of the ribbons was decreased by setting the alpha to 0.1, the default values for color = NA, was omitted, so that the edges are now visible
-- `geomPointAttributes = list(size = 7)` The size of the symbols are increased
-
+- `geomLineAttributes = list(linetype = 'solid')`: The lines used for the simulated data are set to solid in both datasets. Note that the line type for the error bars and ribbon edges remains unchanged.
+- `geomErrorbarAttributes = list()`: The default settings for `geomErrorbarAttributes`, width = 0, were removed so that the bar caps are now visible.
+- `geomRibbonAttributes = list(alpha = 0.1)`: The shade of the ribbons was decreased by setting the alpha to 0.1; the default value for color = NA was omitted, making the edges visible.
+- `geomPointAttributes = list(size = 7)`: The size of the symbols was increased.
 
 ```{r changing_geom_attributes}
 mapSimulatedAndObserved <- data.frame(
   simulated = unique(simData$caption),
   observed = rev(unique(obsData$caption))
 )
-
 
 plotTimeProfile(
   data = simData,
@@ -617,26 +508,21 @@ plotTimeProfile(
 )
 ```
 
+## 3.2 Example for Changing Color Scales
 
+### 3.2.1 Without Mapping Table
 
-## 3.2 Example for changing color scales
+For plots showing only simulated or observed data, or plots with a common legend (see section 2.3.1), the colors are changed using `{ggplot2}` functions like `scale_color_manual`.
 
-
-## 3.2.1  Without mapping table
-
-For plots showing only simulated or only observed or plots with a common legend (see section 2.3.1) the colors are changed using {ggplot2} functions like `scale_color_manual`
-
-
-Below the plot from section 2.3.1 is repeated and 
+Below, the plot from section 2.3.1 is repeated.
 
 ```{r colorscaling}
-# create datasets with common caption
+# Create datasets with common caption
 simData <- data.frame(simData) %>%
   dplyr::mutate(captionCommon = gsub("Simulated ", "", caption))
 
 obsData <- data.frame(obsData) %>%
   dplyr::mutate(captionCommon = gsub("Observed ", "", caption))
-
 
 plotTimeProfile(
   data = simData,
@@ -654,16 +540,14 @@ plotTimeProfile(
   scale_fill_manual(values = c("Data 1" = "red", "Data 2" = "green"))
 ```
 
-## 3.2.2  With mapping table
+### 3.2.2 With Mapping Table
 
-It is possible to add columns with aesthetics to the table used to map simulated and observed data.
-The column header must correspondent to one of the aesthetics defined in `groupgroupAesthetics`.
+It is possible to add columns with aesthetics to the table used to map simulated and observed data. The column headers must correspond to one of the aesthetics defined in `groupAesthetics`.
 
-In the example below this is done for 'color' and 'fill':
+In the example below, this is done for 'color' and 'fill':
 
 ```{r colorscaling-with-mappingtable}
 # Define Data Mappings
-
 mapSimulatedAndObserved <- data.frame(
   simulated = unique(simData$caption),
   observed = unique(obsData$caption),
@@ -672,7 +556,6 @@ mapSimulatedAndObserved <- data.frame(
 )
 
 knitr::kable(mapSimulatedAndObserved)
-
 
 plotTimeProfile(
   data = simData,
@@ -689,15 +572,12 @@ plotTimeProfile(
 )
 ```
 
+Changing the scales when using the observed simulation mapping table can also be done by adding scales manually, but it is a bit more complicated. If `mapSimulatedAndObserved` is not null, a reset of all relevant scales is done before plotting the observed data. The scales for the simulated data must be set before this reset. You have to call `plotTimeProfile` two times:
 
-Changing the scales when using the observed simulation mapping table  can also done by adding scale manually, but it is a bit more complicated. If `mapSimulatedAndObserved` is not null, a reset of all relevant scales is done before plotting the observed data. The scales for the simulated data has to be done before this reset. You have to call `plotTimeProfile` two times:
-
-- call `plotTimeProfile()` for simulated data only
-- set scales for simulated data
-- call `plotTimeProfile()` for observed data only with the simulated plot as input  `plotObject`
-- set scales for observed data
-
-
+1. Call `plotTimeProfile()` for simulated data only.
+2. Set scales for simulated data.
+3. Call `plotTimeProfile()` for observed data only with the simulated plot as input `plotObject`.
+4. Set scales for observed data.
 
 ```{r example_changing_colorscales}
 mapSimulatedAndObserved <- data.frame(
@@ -713,7 +593,6 @@ mapping <- aes(
   ymax = maxValues,
   groupby = caption
 )
-
 
 plotObject <- plotTimeProfile(
   data = simData,
@@ -735,19 +614,13 @@ plotObject <- plotTimeProfile(
 plot(plotObject)
 ```
 
+## 3.3 Example for Adjusting X and Y Scale
 
+In the example, we set the scale for the y-axis to log scale. By default, a time profile plot starts at 0; here, the defaults were overwritten, and the breaks were set manually.
 
-
-
-## 3.3 Example for adjusting x and y scale
-
-In the example we set the scale for the y-axis to log scale.
-Per default a time profile plots starts always at 0, here the defaults were overwritten and the breaks were set manually.
-
-```{r example_adjsuting_xy_scale}
+```{r example_adjusting_xy_scale}
 plotTimeProfile(
-  data = simData %>%
-    dplyr::filter(values > 0),
+  data = simData %>% dplyr::filter(values > 0),
   metaData = metaData,
   mapping = aes(
     x = time + 24,
@@ -755,27 +628,21 @@ plotTimeProfile(
     groupby = caption
   ),
   yscale = "log",
-  xscale.args = list(
-    limits = c(24, 48),
-    breaks = seq(24, 48, 3)
-  )
+  xscale.args = list(limits = c(24, 48), breaks = seq(24, 48, 3))
 )
 ```
 
+## 3.4 Adjust Time Unit
 
+The breaks of the time axis are set according to the units provided by the variable `metaData`.
 
-## 3.4 Adjust Time unit
+Below, we show the same plot with four different time units:
 
-The breaks of time axis are set according to the units provided by the variable `metaData`.
-
-Below we show the same plot with 4 different time units:
-
-```{r example_timeUnit,fig.height=7}
+```{r example_timeUnit, fig.height=7}
 plotlist <- list()
 
 for (unit in c("h", "day(s)", "weeks(s)", "month(s)")) {
   metaData$time$unit <- unit
-
   plotlist[[unit]] <- plotTimeProfile(
     data = simData,
     metaData = metaData,
@@ -784,17 +651,12 @@ for (unit in c("h", "day(s)", "weeks(s)", "month(s)")) {
       y = values,
       groupby = caption
     )
-  ) +
-    labs(
-      title = paste("Time unit:", unit)
-    ) +
-    theme(legend.position = "none")
+  ) + labs(title = paste("Time unit:", unit)) + theme(legend.position = "none")
 }
 
 cowplot::plot_grid(plotlist = plotlist, labels = "AUTO")
 ```
 
-```{r cleanup,echo=FALSE}
+```{r cleanup, echo=FALSE}
 resetDefaults(oldDefaults)
 ```
-

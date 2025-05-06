@@ -20,7 +20,7 @@ If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance line
 
 \item{addLinesDiagnonal}{A \code{boolean}which defines direction of comparison lines}
 
-\item{geomLineAttributes}{line attributes e.g. color,linetype passed to \code{ggplot2::geom_hline} or \code{ggplot2::geom_abline}}
+\item{geomLineAttributes}{line attributes e.g. \code{color},\code{linetype} passed to \code{ggplot2::geom_hline} or \code{ggplot2::geom_abline}}
 
 \item{xyscale}{either "linear" or "log" scale of x and y axis}
 }

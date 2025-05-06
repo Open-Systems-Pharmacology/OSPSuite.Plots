@@ -9,8 +9,14 @@
 #' * week(s): width = 4
 #' * month(s): width = 6
 #'
-#' use width only if 2 * width < range of time values
-#' use multiples of width if 20 * width < range of time values
+#' The function uses the following logic to determine the breaks:
+#' - If the range of time values is relatively small (i.e., less than twice the width of the breaks),
+#'   it will use a default set of extended breaks.
+#' - If the range of time values is larger, the function will check if it is appropriate to use
+#'   wider breaks. Specifically, it will continue to double the width until it finds a width
+#'   that is suitable, ensuring that 10 times the width is still less than the total range of time values.
+#'   This means that the breaks will be spaced far enough apart to be meaningful without overcrowding
+#'   the axis, providing clarity in the visualization.
 #'
 #' @param scale.args list of arguments for scale to be updated, passed to scale_x_continuous or scale_x_log10
 #' @param dimension  dimension of axis, if not 'time' list will not be updated
@@ -60,14 +66,13 @@ updateScaleArgumentsForTimeUnit <- function(scale.args,
       if (2 * width > diff(range(x))) {
         return(scales::breaks_extended(n = 5)(x))
       } else {
-        while (20 * width < diff(range(x))) {
+        while (10 * width < diff(range(x))) {
           width <- width * 2
         }
         return(x <- scales::fullseq(x, width))
       }
     }
   }
-
 
   scale.args$breaks <- switch(tolower(unit),
     "s" = timeBreaks(15),
@@ -103,26 +108,17 @@ addLabels <- function(plotObject, mappedData) {
     plotLabels <- utils::modifyList(plotLabels, plotLabelsByMetData)
   }
   # set labels
-  plotObject <- plotObject +
-    eval(parse(text = paste0(
-      "labs(",
-      paste(
-        lapply(names(plotLabels), function(i) paste0(i, " = '", plotLabels[[i]], "'")),
-        collapse = ","
-      ),
-      ")"
-    )))
-
+  plotObject <- plotObject + do.call(labs, plotLabels)
 
   return(plotObject)
 }
 
 
-#' create Default labels with unit for plot
+#' create default labels with unit for plot
 #'
-#' @param mappedData  MappedData object with information of mapped dimensions and units
+#' @param mappedData  `MappedData` object with information of mapped dimensions and units
 #'
-#' @return  list with plotLabels
+#' @return  list with plot labels
 #' @keywords internal
 createDefaultPlotLabels <- function(mappedData) {
   # match mapping to axis
@@ -143,20 +139,42 @@ createDefaultPlotLabels <- function(mappedData) {
     for (aesthetic in mapEntry) {
       dimension <- mappedData$dimensions[[aesthetic]]
       unit <- mappedData$units[[aesthetic]]
-
-      if (!is.null(dimension) & !is.null(unit)) {
-        if (trimws(unit) != "") {
-          plotLabels[[labelEntry]] <- paste0(trimws(dimension), " [", trimws(unit), "]")
-        } else {
-          plotLabels[[labelEntry]] <- trimws(dimension)
-        }
+      if (!is.null(dimension)) {
+        plotLabels[[labelEntry]] <- constructLabelWithUnit(label = dimension, unit = unit)
       }
     }
   }
 
   return(plotLabels)
 }
-
+#' Construct a Label with Unit
+#'
+#' This function constructs a label by appending a unit in square brackets
+#' if both the label and unit are provided. If the unit is empty or NULL,
+#' only the label is returned.
+#'
+#' @param label A character string representing the label. It should not be NULL.
+#' @param unit A character string representing the unit. It can be NULL or an empty string.
+#'
+#' @return A character string that combines the label and the unit, formatted as
+#'         "label [unit]", or just the label if the unit is empty or NULL.
+#'
+#' @examples
+#' constructLabelWithUnit("Temperature", "Celsius") # Returns "Temperature [Celsius]"
+#' constructLabelWithUnit("Length", "") # Returns "Length"
+#' constructLabelWithUnit(NULL, "kg") # Returns NULL
+#'
+#' @export
+constructLabelWithUnit <- function(label, unit) {
+  if (!is.null(label) & !is.null(unit)) {
+    if (trimws(unit) != "") {
+      label <- paste0(trimws(label), " [", trimws(unit), "]")
+    } else {
+      label <- trimws(label)
+    }
+  }
+  return(label)
+}
 
 #' converts metaData List to a data frame
 #' row names specify properties
@@ -199,7 +217,7 @@ metaData2DataFrame <- function(metaData) {
 #' @export
 getFoldDistanceList <- function(folds = c(1.5, 2),
                                 includeIdentity = TRUE) {
-  checkmate::assertDouble(folds, lower = 1)
+  checkmate::assertDouble(folds, lower = 1, null.ok = TRUE)
 
   foldDistance <- list()
 

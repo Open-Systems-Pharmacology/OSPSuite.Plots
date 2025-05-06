@@ -8,8 +8,8 @@ plotRatioVsCov(
   data = NULL,
   mapping = NULL,
   addGuestLimits = FALSE,
-  yscale = "log",
-  xscale = ifelse(addGuestLimits, "log", "linear"),
+  yscale = AxisScales$log,
+  xscale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
   comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
   deltaGuest = 1,
   ...

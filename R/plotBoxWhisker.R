@@ -31,7 +31,7 @@ plotBoxWhisker <- function(data,
                            metaData = NULL,
                            plotObject = NULL,
                            percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles),
-                           yscale = "linear",
+                           yscale = AxisScales$linear,
                            yscale.args = list(),
                            xscale = "auto",
                            xscale.args = list(),
@@ -40,7 +40,7 @@ plotBoxWhisker <- function(data,
                            statFunOutlier = NULL,
                            geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
                            geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
-                           residualScale = "log") {
+                           residualScale = ResidualScales$log) {
   ## Validation -----------
   checkmate::assertClass(plotObject, classes = "ggplot", null.ok = TRUE)
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
@@ -55,9 +55,9 @@ plotBoxWhisker <- function(data,
     null.ok = !is.null(statFun)
   )
 
-  checkmate::assertChoice(xscale, choices = c("auto", "discrete", "linear", "log"), null.ok = FALSE)
+  checkmate::assertChoice(xscale, choices = c("auto", AxisScales$discrete, AxisScales$linear, AxisScales$log), null.ok = FALSE)
   checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)
+  checkmate::assertChoice(yscale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
   checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
 
   checkmate::assertFunction(statFun, null.ok = !is.null(percentiles))
@@ -70,6 +70,8 @@ plotBoxWhisker <- function(data,
   mappedData <- MappedDataBoxplot$new(
     data = data,
     mapping = mapping,
+    xscale = xscale,
+    yscale = yscale,
     groupAesthetics = "fill",
     isObserved = TRUE,
     residualScale = residualScale,
@@ -109,8 +111,21 @@ plotBoxWhisker <- function(data,
 
     # add names of box whisker limits to ggplot for use in function getBoxWhiskerLimits
     statFunExport <- function(y) {
-      r <- stats::quantile(y, probs = percentiles, names = FALSE, na.rm = TRUE)
-      names(r) <- scales::label_ordinal()(x = percentiles * 100)
+      y <- y[!is.na(y)]
+      rQuantiles <- stats::quantile(y, probs = percentiles, names = FALSE, na.rm = TRUE)
+      names(rQuantiles) <- paste(scales::label_ordinal()(x = percentiles * 100), "percentile")
+
+      r <- c(
+        N = length(y),
+        rQuantiles,
+        "arith mean" = mean(y),
+        "arith standard deviation" = stats::sd(y),
+        "arith CV" = stats::sd(y) / mean(y),
+        "geo mean" = exp(mean(log(y))),
+        "geo standard deviation" = exp(stats::sd(log(y))),
+        "geo CV" = sqrt(exp((log(stats::sd(y)))^2) - 1)
+      )
+
       return(r)
     }
 
@@ -118,7 +133,6 @@ plotBoxWhisker <- function(data,
   } else {
     plotObject$statFun <- statFun
   }
-
 
   # add x and y scale
   plotObject <- addXYScale(

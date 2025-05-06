@@ -320,7 +320,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         intersect(names(self$mapping))
 
       for (aesthetic in scalingRelevantMappings) {
-        if (inherits(x = rlang::get_expr(self$mapping[[aesthetic]]),'call')) {
+        if (inherits(x = rlang::get_expr(self$mapping[[aesthetic]]), "call")) {
           aestheticCol <- paste0(aesthetic, ".i")
           checkmate::assertNames(
             names(self$data),

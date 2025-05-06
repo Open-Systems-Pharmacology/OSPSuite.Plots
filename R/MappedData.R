@@ -507,12 +507,6 @@ MappedData <- R6::R6Class( # nolint
         }
       }
 
-
-
-
-
-
-
       return(invisible(self))
     },
     #' adds new column `residuals.i`

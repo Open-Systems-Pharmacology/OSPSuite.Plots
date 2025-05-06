@@ -78,8 +78,6 @@ test_that("plotTimeProfile works logscale", {
   )
 })
 
-
-
 test_that("plotTimeProfile works mapping observed plot", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")

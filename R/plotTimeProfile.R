@@ -143,8 +143,6 @@ plotTimeProfile <- function(data = NULL, # nolint
   return(plotObject)
 }
 
-
-
 #' Validates input for `plotTimeProfile` function
 #'
 #' @inheritParams plotTimeProfile

@@ -175,8 +175,6 @@ addLLOQLayer <-
     return(plotObject)
   }
 
-
-
 #' Create a watermark layer for a ggplot object.
 #'
 #' @param label Passed to `buildWatermarkGrob`.

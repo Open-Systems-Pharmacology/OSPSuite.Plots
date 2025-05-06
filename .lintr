@@ -10,7 +10,10 @@ linters: linters = linters_with_defaults(
     infix_spaces_linter = NULL,
     vector_logic_linter = NULL,
     indentation_linter = NULL,
-    object_name_linter(styles = c("camelCase", "symbols","dotted.case")))  # allow dotted case as it i very common in ggplot2
+    adjacent_empty_lines = adjacentEmptyLines_linter(),
+    unreachable_code_linter = unreachable_code_linter(),
+    object_name_linter(styles = c("camelCase", "symbols","dotted.case"))  # allow dotted case as it i very common in ggplot2
+  )
 exclusions: list(
   "inst/doc")
 encoding: "UTF-8"

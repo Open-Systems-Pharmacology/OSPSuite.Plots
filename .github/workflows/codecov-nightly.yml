@@ -39,7 +39,7 @@ jobs:
         shell: cmd
       - name: Upload test results in case of failure
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-test-failures
           path: ${{ runner.temp }}/package

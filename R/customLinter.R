@@ -35,7 +35,7 @@ adjacentEmptyLines_linter <- function(maxNEmptyLines = 2) { # nolint: object_nam
             line_number = i + 2,
             column_number = 1L,
             type = "style",
-            message = "To many consecutive blank lines are superfluous.",
+            message = "Too many consecutive blank lines are superfluous.",
             line = sourceExpression$file_lines[[i + 2]]
           )
         }

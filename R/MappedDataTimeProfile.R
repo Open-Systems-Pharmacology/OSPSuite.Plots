@@ -67,7 +67,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
       }
 
       # convert scale aesthics to
-      private$checkForCallAesthtics()
+      private$checkForCallAesthetics()
 
       # set fields for secondary Axis
       if (private$secondaryAxisAvailable) {
@@ -314,7 +314,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     dataScaled = NULL,
     .secAxis = NULL,
     # check for scalingRelevantMappings aesthtics which are calls. The have to be transferred to make scaleble
-    checkForCallAesthtics = function() {
+    checkForCallAesthetics = function() {
       scalingRelevantMappings <-
         listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic %>%
         intersect(names(self$mapping))

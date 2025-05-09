@@ -93,6 +93,12 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         private$setyLimits()
       }
 
+      # save list of groups for legend adjustment
+      groupAesthetic <- head(intersect(groupAesthetics,names(self$mapping)),1)
+      if (length(groupAesthetic) > 0){
+        private$.listOfGroups <- unique(private$getDataForAesthetic(groupAesthetic))
+      }
+
       return(invisible(self))
     },
     #' scales data for secondary axis and updates `secAxis`
@@ -256,6 +262,10 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     requireDualAxis = function() {
       private$secondaryAxisAvailable
     },
+    #' @field listOfGroups character vector of groupings
+    listOfGroups = function() {
+      return(private$.listOfGroups)
+    },
     #' @field secAxis sec_axis() object
     secAxis = function() {
       if (is.null(private$.secAxis)) {
@@ -312,8 +322,9 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     scaleOfSecondaryAxis = AxisScales$linear,
     secondaryAxisAvailable = NULL,
     dataScaled = NULL,
+    .listOfGroups = NULL,
     .secAxis = NULL,
-    # check for scalingRelevantMappings aesthtics which are calls. The have to be transferred to make scaleble
+    # check for scalingRelevantMappings aesthetics which are calls. The have to be transferred to allow scaling
     checkForCallAesthetics = function() {
       scalingRelevantMappings <-
         listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic %>%
@@ -324,7 +335,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
           aestheticCol <- paste0(aesthetic, ".i")
           checkmate::assertNames(
             names(self$data),
-            disjunct.from = c("isLLOQ.i"),
+            disjunct.from = aestheticCol,
             .var.name = "column names of observed data"
           )
 

@@ -137,6 +137,19 @@ plotTimeProfile <- function(data = NULL, # nolint
     }),
     groupAesthetics
   )
+  # merge shape legend into colour for unmapped data
+  if (!(any(is.null(listMappedData$simMappedData) | is.null(listMappedData$obsMappedData))) &&
+      is.null(listMappedData$mapSimulatedAndObserved) &&
+      all(c('colour','shape') %in% groupAesthetics)){
+    nGroups <- length(unique(c(listMappedData$simMappedData$listOfGroups,
+                             listMappedData$obsMappedData$listOfGroups)))
+    override.shape <- getOspsuite.plots.option(optionKey = OptionKeys$shapeValues)[seq(1,nGroups)]
+    guidesList[['colour']] <- guide_legend(order = 1,
+                                           override.aes = list(shape = override.shape))
+    guidesList[['shape']] = NULL
+    plotObject <- plotObject + scale_shape(guide = 'none')
+  }
+
   plotObject <- plotObject + guides(!!!guidesList)
 
 

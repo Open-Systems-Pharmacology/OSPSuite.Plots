@@ -1,0 +1,73 @@
+Package: ospsuite.plots
+Type: Package
+Title: Library for standardized graphs
+Version: 1.0.0
+Authors@R: 
+    c(person(given = "Open-Systems-Pharmacology Community",
+             role = "cph"),
+      person(given = "Katrin",
+             family = "Coboeken",
+             role = c("aut", "cre"),
+             email = "katrin.coboeken@bayer.com"))
+Description: This library provides a standardized approach to creating graphs and tables in the ospsuite context.
+    It is based on ggplot2.
+License: GPL-2 | file LICENSE
+Language: en-US
+Imports: 
+    ospsuite.utils (>= 1.4.0),
+    ggh4x,
+    ggnewscale,
+    data.table,
+    checkmate,
+    rlang,
+    scales,
+    dplyr,
+    magrittr,
+    tidyr
+Depends: 
+    R (>= 3.6),
+    ggplot2 (>= 3.5.0)
+Encoding: UTF-8
+RoxygenNote: 7.3.1
+Roxygen: list(markdown = TRUE)
+Suggests:
+    spelling,
+    knitr,
+    rmarkdown,
+    showtext,
+    sysfonts,
+    ggsci,
+    cowplot,
+    ggpubr,
+    testthat (>= 3.0.3),
+    vdiffr (>= 1.0.0),
+    lintr,
+    rex
+VignetteBuilder: knitr
+Vignette:
+  inst/doc/ospsuite_plots.Rmd
+  inst/doc/plot-time-profile.Rmd
+  inst/doc/histogram.Rmd
+  inst/doc/box-whisker-vignette.Rmd
+  inst/doc/Goodness_of_fit.Rmd
+Config/testthat/edition: 3
+Collate: 'utilities-defaults.R'
+         'utilities_enum.R'
+         'add_Layer.R'
+         'CombinedPlot.R'
+         'customLinter.R'
+         'data.R'
+         'MappedData.R'
+         'MappedDataBoxplot.R'
+         'MappedDataTimeProfile.R'
+         'ospsuite.plots-package.R'
+         'plotBoxWhisker.R'
+         'plotHistogram.R'
+         'plotQQ.R'
+         'plotTimeProfile.R'
+         'plotYVsX.R'
+         'utilities.R'
+         'utilities_export.R'
+         'utilities_shapes.R'
+         'zzz.R'
+LazyData: true

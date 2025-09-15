@@ -4,7 +4,7 @@ template:
   bootstrap: 5
 
 development:
-  mode: devel
+  mode: auto
 
 navbar:
   components:
@@ -46,5 +46,21 @@ reference:
   contents:
   - matches("checkIfColumnIsCategorical")
   - matches("metaData2DataFrame")
-
-
+  - matches("addLLOQLayer")
+  - matches("addXYScale")
+  - matches("adjacentEmptyLines_linter")
+  - matches("AxisScales")
+  - matches("calculatePlotDimensions")
+  - matches("CombinedPlot")
+  - matches("constructLabelWithUnit")
+  - matches("exportPlot")
+  - matches("getCountsWithin")
+  - matches("getFoldDistanceList")
+  - matches("getOspsuite.plots.option")
+  - matches("getPlotDimensions")
+  - matches("OptionKeys")
+  - matches("ResidualScales")
+  - matches("setOspsuite.plots.option")
+  - matches("updateScaleArgumentsForTimeUnit")
+  - matches("validateFilename")
+  - matches("validateInputsExportPlot")

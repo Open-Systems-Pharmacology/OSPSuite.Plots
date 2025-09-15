@@ -71,3 +71,5 @@ Collate: 'utilities-defaults.R'
          'utilities_shapes.R'
          'zzz.R'
 LazyData: true
+Remotes:
+    ospsuite.utils=Open-Systems-Pharmacology/OSPSuite.RUtils

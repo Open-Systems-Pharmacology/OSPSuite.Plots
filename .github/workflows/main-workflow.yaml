@@ -6,8 +6,7 @@ on:
   pull_request:
   workflow_dispatch:
 
-permissions: 
-  contents: write
+permissions: write-all
 
 jobs:
   bump-dev-version: # only do that when actually merging in main/develop branch

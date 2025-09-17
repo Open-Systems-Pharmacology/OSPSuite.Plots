@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_Layer.R
 \name{addLLOQLayer}
 \alias{addLLOQLayer}
-\title{add LLOQ Layer with lloq lines}
+\title{Add LLOQ Layer with LLOQ Lines}
 \usage{
 addLLOQLayer(
   plotObject,
@@ -13,19 +13,20 @@ addLLOQLayer(
 )
 }
 \arguments{
-\item{plotObject}{A \code{ggplot} object on which to add the plot layer}
+\item{plotObject}{A \code{ggplot} object on which to add the plot layer.}
 
-\item{mappedData}{object of class 'MappedData', with lloq data}
+\item{mappedData}{A \code{MappedData} object with LLOQ data.}
 
-\item{layerToCall}{function ggplot2 geom layer}
+\item{layerToCall}{A function representing the ggplot2 geom layer.}
 
-\item{useLinetypeAsAttribute}{boolean, if TRUE line type is set as attribute, no legend is created}
+\item{useLinetypeAsAttribute}{A boolean indicating whether to set the line type
+as an attribute (TRUE) or not (FALSE); if TRUE, no legend is created.}
 
-\item{geomLLOQAttributes}{additional attributes}
+\item{geomLLOQAttributes}{Additional attributes for the LLOQ layer.}
 }
 \value{
-updated plot object
+The updated \code{ggplot} object.
 }
 \description{
-add LLOQ Layer with lloq lines
+Add a layer for LLOQ lines to a \code{ggplot} object.
 }

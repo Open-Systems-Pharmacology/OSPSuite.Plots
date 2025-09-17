@@ -7,17 +7,14 @@ theme_update(legend.title = element_blank())
 test_that("plot histogram works for all stacked  frequency distribution fit combinations", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
-  skip_if(TRUE)
 
-
-  set.seed(1)
   myData <- rbind(
     data.table(
-      Ratio = rnorm(1000),
+      Ratio = qnorm(p = seq(0.01,0.99,length.out = 1000)),
       Sex = "female"
     ),
     data.table(
-      Ratio = rnorm(1000, mean = 1),
+      Ratio = qnorm(p = seq(0.01,0.99,length.out = 1000), mean = 1),
       Sex = "male"
     )
   )
@@ -102,10 +99,9 @@ test_that("plot histogram works for all stacked  frequency distribution fit comb
   )
 })
 
-test_that("plot histogram works for absoulte distribution fit on logscale", {
+test_that("plot histogram works for absolute distribution fit on logscale", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
-  skip_if(TRUE)
 
   histDataDistr <- exampleDataCovariates %>%
     dplyr::filter(SetID == "DataSet2") %>%
@@ -135,7 +131,6 @@ test_that("plot histogram works for absoulte distribution fit on logscale", {
 test_that("plot histogram works for categoricalData", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
-  skip_if(TRUE)
 
   histData <- exampleDataCovariates %>%
     dplyr::filter(SetID == "DataSet1") %>%

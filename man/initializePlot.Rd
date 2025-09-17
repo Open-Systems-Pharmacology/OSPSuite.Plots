@@ -2,20 +2,18 @@
 % Please edit documentation in R/add_Layer.R
 \name{initializePlot}
 \alias{initializePlot}
-\title{initialize Plot}
+\title{Initialize Plot}
 \usage{
 initializePlot(mappedData = NULL, setMapping = TRUE)
 }
 \arguments{
-\item{mappedData}{MappedData object}
+\item{mappedData}{A \code{MappedData} object.}
 
-\item{setMapping}{if TRUE (default) mapping is passed to ggplot, otherwise mapping will be used only to create labels}
+\item{setMapping}{A boolean indicating if TRUE (default) mapping is passed to ggplot; otherwise, mapping will be used only to create labels.}
 }
 \value{
-A \code{ggplot} object
+A \code{ggplot} object.
 }
 \description{
-Initialize a \code{ggplot} object
-with watermark
-and set its labels by metaData
+Initialize a \code{ggplot} object with a watermark and set its labels by metaData.
 }

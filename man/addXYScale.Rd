@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_Layer.R
 \name{addXYScale}
 \alias{addXYScale}
-\title{add X and Y-scale}
+\title{Add X and Y Scale}
 \usage{
 addXYScale(
   plotObject,
@@ -14,21 +14,21 @@ addXYScale(
 )
 }
 \arguments{
-\item{plotObject}{A \code{ggplot} object on which to add the scale}
+\item{plotObject}{A \code{ggplot} object on which to add the scale.}
 
-\item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
+\item{xscale}{The x-axis scale type. Available is 'linear', 'log', 'discrete'}
 
-\item{xscale.args}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
+\item{xscale.args}{A list of arguments for the x-axis scale.}
 
-\item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
+\item{yscale}{The y-axis scale type. Available is 'linear', 'log'}
 
-\item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
+\item{yscale.args}{A list of arguments for the y-axis scale.}
 
-\item{secAxis}{secondary axis arguments for scale_y functions}
+\item{secAxis}{Secondary axis arguments for scale_y functions.}
 }
 \value{
-The updated \code{ggplot} object
+The updated \code{ggplot} object.
 }
 \description{
-add X and Y-scale
+Add X and Y scales to a \code{ggplot} object.
 }

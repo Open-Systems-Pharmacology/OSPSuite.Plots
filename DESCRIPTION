@@ -55,6 +55,7 @@ Config/testthat/edition: 3
 Collate: 'utilities-defaults.R'
          'utilities_enum.R'
          'add_Layer.R'
+         'ggplotWithWatermark.R'
          'CombinedPlot.R'
          'customLinter.R'
          'data.R'

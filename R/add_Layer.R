@@ -1,15 +1,12 @@
-#' initialize Plot
+#' Initialize Plot
 #'
-#' Initialize a `ggplot` object
-#' with watermark
-#' and set its labels by metaData
+#' Initialize a `ggplot` object with a watermark and set its labels by metaData.
 #'
-#' @param mappedData  MappedData object
-#' @param setMapping if TRUE (default) mapping is passed to ggplot, otherwise mapping will be used only to create labels
+#' @param mappedData A `MappedData` object.
+#' @param setMapping A boolean indicating if TRUE (default) mapping is passed to ggplot; otherwise, mapping will be used only to create labels.
 #'
-#' @return A `ggplot` object
+#' @return A `ggplot` object.
 #' @export
-#'
 initializePlot <- function(mappedData = NULL,
                            setMapping = TRUE) {
   # Validation
@@ -38,18 +35,18 @@ initializePlot <- function(mappedData = NULL,
 
   return(plotObject)
 }
-
-
-#' Add layer
+#' Add Layer
 #'
-#' @param mappedData A `MappedData object`
-#' @param plotObject A `ggplot` object on which to add the plot layer
-#' @param geomAttributes arguments passed on to the ggplot2 geom layer
-#' @param geom character used to select appropriate aesthetics
-#' @param layerToCall function ggplot2 geom layer
+#' Add a layer to a `ggplot` object.
 #'
+#' @param mappedData A `MappedData` object.
+#' @param plotObject A `ggplot` object on which to add the plot layer.
+#' @param geomAttributes Arguments passed on to the ggplot2 geom layer.
+#' @param geom A character string used to select appropriate aesthetics.
+#' @param layerToCall A function representing the ggplot2 geom layer.
+#'
+#' @return The updated `ggplot` object.
 #' @keywords internal
-#' @return The updated `ggplot` object
 addLayer <- function(mappedData,
                      geomAttributes,
                      geom,
@@ -66,7 +63,6 @@ addLayer <- function(mappedData,
       geom == "point") {
     layerToCall <- geomPointUnicode
   }
-
 
   if (!is.null(filteredMapping)) {
     plotObject <- plotObject +
@@ -85,28 +81,26 @@ addLayer <- function(mappedData,
       )
   }
 
-
   if (geom == "point" & mappedData$hasLLOQMatch) {
     plotObject <- plotObject +
       scale_alpha_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$LLOQAlphaVector)) +
       guides(alpha = "none")
   }
 
-
   return(plotObject)
 }
-
-
-#' add LLOQ Layer with lloq lines
+#' Add LLOQ Layer with LLOQ Lines
 #'
+#' Add a layer for LLOQ lines to a `ggplot` object.
 #'
-#' @param mappedData object of class 'MappedData', with lloq data
-#' @param useLinetypeAsAttribute boolean, if TRUE line type is set as attribute, no legend is created
-#' @param geomLLOQAttributes additional attributes
-#' @param plotObject A `ggplot` object on which to add the plot layer
-#' @param layerToCall function ggplot2 geom layer
+#' @param plotObject A `ggplot` object on which to add the plot layer.
+#' @param mappedData A `MappedData` object with LLOQ data.
+#' @param layerToCall A function representing the ggplot2 geom layer.
+#' @param useLinetypeAsAttribute A boolean indicating whether to set the line type
+#' as an attribute (TRUE) or not (FALSE); if TRUE, no legend is created.
+#' @param geomLLOQAttributes Additional attributes for the LLOQ layer.
 #'
-#' @return updated plot object
+#' @return The updated `ggplot` object.
 #' @export
 addLLOQLayer <-
   function(plotObject,
@@ -125,7 +119,6 @@ addLLOQLayer <-
       )
     }
 
-
     filteredMapping <- mappedData$getAestheticsForGeom(
       geom = "hvline",
       geomAttributes = geomLLOQAttributes
@@ -141,7 +134,6 @@ addLLOQLayer <-
           class = "uneval"
         )
     }
-
 
     plotObject <- plotObject +
       do.call(
@@ -171,14 +163,18 @@ addLLOQLayer <-
 
     return(plotObject)
   }
-
-#' add X and Y-scale
+#' Add X and Y Scale
 #'
-#' @param plotObject A `ggplot` object on which to add the scale
-#' @param secAxis secondary axis arguments for scale_y functions
-#' @inheritParams plotTimeProfile
+#' Add X and Y scales to a `ggplot` object.
 #'
-#' @return The updated `ggplot` object
+#' @param plotObject A `ggplot` object on which to add the scale.
+#' @param xscale The x-axis scale type. Available is 'linear', 'log', 'discrete'
+#' @param xscale.args A list of arguments for the x-axis scale.
+#' @param yscale The y-axis scale type. Available is 'linear', 'log'
+#' @param yscale.args A list of arguments for the y-axis scale.
+#' @param secAxis Secondary axis arguments for scale_y functions.
+#'
+#' @return The updated `ggplot` object.
 #' @export
 addXYScale <- function(plotObject,
                        xscale = NULL,
@@ -203,45 +199,41 @@ addXYScale <- function(plotObject,
 
   return(plotObject)
 }
-
-
 #' add X-scale
 #'
-#' @param plotObject A `ggplot` object on which to add the scale
-#' @inheritParams plotTimeProfile
+#' @inheritParams addXYScale
 #'
 #' @return The updated `ggplot` object
 #' @export
 addXscale <- function(plotObject,
                       xscale,
                       xscale.args = list()) {
-  scaleFunctions <- list()
-  scaleFunctions[[AxisScales$linear]] <- scale_x_continuous
-  scaleFunctions[[AxisScales$log]] <- scale_x_log10
-  scaleFunctions[[AxisScales$discrete]] <- scale_x_discrete
+  checkmate::assertChoice(xscale, choices = unlist(AxisScales), null.ok = TRUE)
 
-  checkmate::assertChoice(xscale, choices = names(scaleFunctions), null.ok = TRUE)
+  if (xscale == AxisScales$discrete){
+    scaleFunction <- scale_x_discrete
+  }else {
+    scaleFunction <- scale_x_continuous
+  }
 
-  if (xscale == AxisScales$log &&
-      is.null(xscale.args$guide)) {
-    xscale.args$guide <- ggplot2::guide_axis_logticks()
+  if (xscale == AxisScales$log){
+    xscale.args[['transform']] <- 'log10'
+    if(is.null(xscale.args$guide)) {
+      xscale.args[['guide']] <- "axis_logticks"
+    }
   }
 
   plotObject <- plotObject +
     do.call(
-      what = scaleFunctions[[xscale]],
+      what = scaleFunction,
       args = xscale.args
     )
 
   return(plotObject)
 }
-
-
 #' add y-scale
 #'
-#' @param plotObject A `ggplot` object on which to add the scale
-#' @param secAxis secondary axis arguments for scale_y functions
-#' @inheritParams plotTimeProfile
+#' @inheritParams addXYScale
 #'
 #' @return The updated `ggplot` object
 #' @export
@@ -249,20 +241,19 @@ addYscale <- function(plotObject,
                       yscale,
                       yscale.args = list(),
                       secAxis = waiver()) {
-  scaleFunctions <- list()
-  scaleFunctions[[AxisScales$linear]] <- scale_y_continuous
-  scaleFunctions[[AxisScales$log]] <- scale_y_log10
 
-  checkmate::assertChoice(yscale, choices = names(scaleFunctions), null.ok = TRUE)
+  checkmate::assertChoice(yscale, choices = unlist(AxisScales[c('linear','log')]), null.ok = TRUE)
 
-  if (yscale == AxisScales$log &&
-      is.null(yscale.args$guide)) {
-    yscale.args$guide <- ggplot2::guide_axis_logticks()
+  if (yscale == AxisScales$log){
+    yscale.args[['transform']] <- 'log10'
+    if(is.null(yscale.args$guide)) {
+      yscale.args[['guide']] <- "axis_logticks"
+    }
   }
 
   plotObject <- plotObject +
     do.call(
-      what = scaleFunctions[[yscale]],
+      what = scale_y_continuous,
       args = c(
         yscale.args,
         list(sec.axis = secAxis)

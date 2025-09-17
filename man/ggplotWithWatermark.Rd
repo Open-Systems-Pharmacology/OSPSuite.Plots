@@ -19,12 +19,47 @@ The watermark can be customized with various options such as position, angle, fo
 \details{
 If the watermark feature is enabled, the resulting ggplot object will include a watermark overlay when printed.
 The watermark's properties are determined by options set in the Ospsuite plotting configuration.
+
+The following options can be used to customize the watermark:
+\itemize{
+\item \code{watermark_label}: Text to be displayed as the watermark.
+\item \code{watermark_format}: A list with the following entries:
+\itemize{
+\item \code{x}: The x-coordinate for the watermark's position on the plot.
+\item \code{y}: The y-coordinate for the watermark's position on the plot.
+\item \code{angle}: The angle at which the watermark text is displayed (in degrees).
+\item \code{fontsize}: The size of the font for the watermark text.
+\item \code{color}: The color of the watermark text, specified in a valid color format (e.g., "red", "#FF0000").
+\item \code{alpha}: The transparency level of the watermark text, ranging from 0 (completely transparent) to 1 (completely opaque).
+}
+}
 }
 \examples{
 # Example usage with watermark enabled
-plot_with_watermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
+plotWithWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
   geom_point()
-print(plot_with_watermark)
+print(plotWithWatermark)
 
+# Example usage with watermark disabled
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = FALSE)
+plotWithoutWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
+  geom_point()
+print(plotWithoutWatermark)
+# Reset options
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
+
+# Example usage with customized watermark
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = 'Custom Label')
+watermark_format <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
+watermark_format$color <- 'red'
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = watermark_format)
+plotWithCustomizedWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
+  geom_point()
+print(plotWithCustomizedWatermark)
+# Reset options
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_format,
+  value = getDefaultOptions()[[OptionKeys$watermark_format]])
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_label,
+  value = getDefaultOptions()[[OptionKeys$watermark_label]])
 
 }

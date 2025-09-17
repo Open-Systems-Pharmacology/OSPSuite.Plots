@@ -1,29 +1,32 @@
-#' @title generate  box-whisker plots
-#' @description
-#' Producing box-and-whisker plots
-#' For more details and examples see the vignettes:
+#' @title Generate Box-Whisker Plots
+#' @description Produces box-and-whisker plots for visualizing the distribution of data.
+#' For more details and examples, see the vignettes:
 #' * \code{vignette("Box-Whisker Plots", package = "ospsuite.plots")}
 #' * \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 #'
-#'
-#' @param data  data.frame with data to aggregate
-#' @param mapping  a list of aesthetic mappings to use for plot
+#' @param data A `data.frame` containing the data to aggregate.
+#' @param mapping A list of aesthetic mappings to use for the plot.
 #' @inheritParams plotTimeProfile
 #' @inheritParams plotYVsX
-#' @param percentiles vector with percentiles used for the box whiskers and boxes e.g. c(0.05,0.25,0.5,0.75,0.95)
-#'       default defined by ospsuite.plots option
-#' @param statFun (default NULL) if not NULL function to calculate whiskers and box ranges, overwrites variable percentiles
-#' @param outliers Logical defining if outliers should be included in boxplot.
-#'        outliers are flagged when outside the range from "25th" percentile - 1.5 x IQR to "75th"
-#'        percentiles + 1.5 x IQR, as suggested by McGill and
-#' @param statFunOutlier (default NULL) if not NULL overwrites default calculation of outliers
-#' @param geomBoxplotAttributes A `list` with arguments which are passed on to the geom boxplot call
-#' @param geomPointAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_point`
-#' @param xscale either 'linear','log', discrete or 'auto' (default) auto select linear for continuous data and discrete for categorical data
-#' @param xscale.args list of arguments passed to `ggplot2::scale_x_continuous()`, `ggplot2::scale_x_log10()` or
-#'    `ggplot2::scale_x_discrete()`
+#' @param percentiles A numeric vector with percentiles used for the box whiskers and boxes,
+#' e.g., c(0.05, 0.25, 0.5, 0.75, 0.95). Default defined by `ospsuite.plots` option.
+#' @param statFun (default NULL) A function to calculate whiskers and box ranges,
+#' which overwrites the `percentiles` variable if provided.
+#' @param outliers Logical indicating whether outliers should be included in the boxplot.
+#' Outliers are flagged when outside the range from the "25th" percentile - 1.5 x IQR to
+#' the "75th" percentile + 1.5 x IQR, as suggested by McGill et al.
+#' @param statFunOutlier (default NULL) A function to calculate outliers,
+#' which overwrites the default calculation if provided.
+#' @param geomBoxplotAttributes A `list` of arguments passed to the `geom_boxplot` call.
+#' @param geomPointAttributes A `list` of arguments passed to the `ggplot2::geom_point` call.
+#' @param xscale Either 'linear', 'log', 'discrete', or 'auto' (default).
+#' Auto selects linear for continuous data and discrete for categorical data.
+#' @param xscale.args A list of arguments passed to `ggplot2::scale_x_continuous()`,
+#' `ggplot2::scale_x_log10()`, or `ggplot2::scale_x_discrete()`.
 #'
-#' @return A `ggplot` object
+#' @return A `ggplot` object representing the box-whisker plot.
+#' @references McGill, R., Tukey, J. W., & Larsen, W. A. (1978). Variations of box plots.
+#' The American Statistician, 32(1), 12-16.
 #' @export
 #' @family plot functions
 plotBoxWhisker <- function(data,

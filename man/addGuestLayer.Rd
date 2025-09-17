@@ -8,16 +8,15 @@ addGuestLayer(
   plotObject,
   deltaGuest,
   labelGuestCriteria,
-  addLinesDiagnonal,
+  yDisplayAsAbsolute,
   geomGuestLineAttributes
 )
 }
 \arguments{
 \item{plotObject}{object to be updated}
 
-\item{deltaGuest}{Numeric value parameter of Guest function}
-
-\item{addLinesDiagnonal}{A \code{boolean}which defines direction of comparison lines}
+\item{yDisplayAsAbsolute}{A logical value if FALSE the limits are calculated for the ratio predicted/observed
+if TRUE limits are calculated for observed}
 
 \item{geomGuestLineAttributes}{list of arguments passed to geom_fun}
 }

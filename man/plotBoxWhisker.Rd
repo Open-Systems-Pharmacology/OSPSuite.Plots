@@ -58,10 +58,7 @@ which overwrites the default calculation if provided.}
 
 \item{geomPointAttributes}{A \code{list} of arguments passed to the \code{ggplot2::geom_point} call.}
 
-\item{residualScale}{either "linear","log" or "ratio" scale residuals,
-* linear:  residuals are calculated observed - predicted
-* log: residuals are calculated log(observed) - log(predicted)
-* ratio: residuals are calculated as observed/predicted}
+\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
 }
 \value{
 A \code{ggplot} object representing the box-whisker plot.

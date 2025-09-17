@@ -2,39 +2,40 @@
 % Please edit documentation in R/plotYVsX.R
 \name{getCountsWithin}
 \alias{getCountsWithin}
-\title{Counts entries within specific limits}
+\title{Count Entries Within Specific Limits}
 \usage{
 getCountsWithin(
   data,
-  yColumn,
-  xColumn = NULL,
+  mapping,
   comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
   addGuestLimits = FALSE,
   deltaGuest = 1,
-  groups = NULL
+  groups = NULL,
+  yDisplayAsAbsolute
 )
 }
 \arguments{
-\item{data}{A \code{data.frame} with data to plot}
+\item{data}{A \code{data.frame} containing the data to plot.}
 
-\item{yColumn}{y column name for values to count}
+\item{mapping}{A list of aesthetic mappings to use for the plot.}
 
-\item{xColumn}{x column name for values to count}
+\item{comparisonLineVector}{A vector defining the comparison lines.}
 
-\item{comparisonLineVector}{either a double vector or a list of double values
-if add \code{addLinesDiagnonal = FALSE} lines will be added as horizontal lines with the
-intercept at values of \code{comparisonLineVector}
-If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance lines to the identity.}
+\item{addGuestLimits}{A boolean that activates the insertion of guest limits.}
 
-\item{addGuestLimits}{A \code{boolean} which activates insertion of regression line}
+\item{deltaGuest}{Numeric value parameter for the Guest function.}
 
-\item{deltaGuest}{Numeric value parameter of Guest function}
+\item{groups}{Column names for grouping the counts.}
 
-\item{groups}{column names to group}
+\item{yDisplayAsAbsolute}{A boolean that defines the direction of comparison lines.}
+
+\item{yColumn}{The name of the Y column for values to count.}
+
+\item{xColumn}{The name of the X column for values to count.}
 }
 \value{
-data table with summary
+A data table summarizing the counts within the specified limits.
 }
 \description{
-Counts entries within specific limits
+This function counts entries within specific limits defined by the comparison lines and guest limits.
 }

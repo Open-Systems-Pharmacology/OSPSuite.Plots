@@ -20,16 +20,6 @@ initializePlot <- function(mappedData = NULL,
   plotObject <- ggplotWithWatermark(data = mappedData$dataForPlot,
                       mapping = mappingToSet)
 
-  #
-  shapeValues <- getOspsuite.plots.option(optionKey = OptionKeys$shapeValues)
-  if (!is.null(shapeValues)) {
-    # shape
-    scale_shape_discrete <- function(...) { # nolint use snake_case as it is copied from ggplot
-      scale_shape_manual(values = shapeValues)
-    }
-    assign("scale_shape_discrete", scale_shape_discrete)
-  }
-
   # add labels
   plotObject <- addLabels(plotObject, mappedData)
 

@@ -50,10 +50,7 @@ Accepted are also \code{normal} (instead of \code{norm}) and \code{lognormal} (i
 \item{meanFunction}{Function selection for the display of a vertical line. Available options are: 'none', 'mean', 'geomean', 'median', 'auto' (default).
 'auto' selects 'mean' for \code{normal} distribution, 'geomean' for \code{lognormal}, 'median' for all other distributions, and 'none' for for 'none' distribution.}
 
-\item{residualScale}{either "linear","log" or "ratio" scale residuals,
-* linear:  residuals are calculated observed - predicted
-* log: residuals are calculated log(observed) - log(predicted)
-* ratio: residuals are calculated as observed/predicted}
+\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
 }
 \value{
 A \code{ggplot} object.

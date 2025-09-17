@@ -154,8 +154,6 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 #' @family setDefault functions
 setDefaultShapeDiscrete <- function(shapeValues = NULL) {
   if (is.null(shapeValues)) {
-    shapeValues <- unlist(Shapes)
-
     if (getOspsuite.plots.option(optionKey = OptionKeys$GeomPointUnicode)) {
       shapeValues <- unlist(unname(Shapes))
     } else {
@@ -173,6 +171,7 @@ setDefaultShapeDiscrete <- function(shapeValues = NULL) {
     optionKey = OptionKeys$shapeValues,
     value = shapeValues
   )
+  update_theme(palette.shape.discrete = shapeValues)
 
   return(invisible(getOspsuite.plots.option(optionKey = OptionKeys$shapeValues)))
 }
@@ -424,8 +423,10 @@ setDefaults <- function(defaultOptions = list(),
 
   oldDefaults[["theme"]] <- setDefaultTheme()
   oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(colorMapList = colorMapList)
+
   oldDefaults[["shapeValues"]] <- setDefaultShapeDiscrete(shapeValues = shapeValues)
   shapeValues <- getOption("ospsuite.plots.shapeValues")
+
 
   # set geoms
   if (!pointAsUnicode) {

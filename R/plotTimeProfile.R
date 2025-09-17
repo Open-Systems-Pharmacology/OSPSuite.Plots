@@ -76,7 +76,6 @@ plotTimeProfile <- function(data = NULL, # nolint
     groupAesthetics = groupAesthetics,
     mapSimulatedAndObserved = mapSimulatedAndObserved
   )
-
   ## - create MappedDataTimeprofile and get common ylimits
   listMappedData <-
     .getMappedDataForTimeProfiles(
@@ -118,6 +117,20 @@ plotTimeProfile <- function(data = NULL, # nolint
       groupAesthetics = groupAesthetics
     )
 
+  # set legend properties for simulated legend
+  if (!is.null(listMappedData$mapSimulatedAndObserved)) {
+    guidesList <- stats::setNames(
+      lapply(groupAesthetics, function(aesthetic) {
+        guide_legend(
+          order = 2,
+          title = "Simulated"
+        )
+      }),
+      groupAesthetics
+    )
+    plotObject <- plotObject + guides(!!!guidesList)
+  }
+
   plotObject <-
     .addLayersForObserveddData(
       plotObject = plotObject,
@@ -130,28 +143,28 @@ plotTimeProfile <- function(data = NULL, # nolint
       groupAesthetics = groupAesthetics
     )
 
-  # set legend of group aesthetic first
-  guidesList <- stats::setNames(
-    lapply(groupAesthetics, function(aesthetic) {
-      guide_legend(order = 1)
-    }),
-    groupAesthetics
-  )
-  # merge shape legend into colour for unmapped data
-  if (!(any(is.null(listMappedData$simMappedData) | is.null(listMappedData$obsMappedData))) &&
-      is.null(listMappedData$mapSimulatedAndObserved) &&
-      all(c('colour','shape') %in% groupAesthetics)){
-    nGroups <- length(unique(c(listMappedData$simMappedData$listOfGroups,
-                             listMappedData$obsMappedData$listOfGroups)))
-    override.shape <- getOspsuite.plots.option(optionKey = OptionKeys$shapeValues)[seq(1,nGroups)]
-    guidesList[['colour']] <- guide_legend(order = 1,
-                                           override.aes = list(shape = override.shape))
-    guidesList[['shape']] = NULL
-    plotObject <- plotObject + scale_shape(guide = 'none')
+  # set legend properties for observed legend
+  if (!is.null(listMappedData$mapSimulatedAndObserved)) {
+    guidesList <- stats::setNames(
+      lapply(groupAesthetics, function(aesthetic) {
+        guide_legend(
+          order = 1,
+          title = "Observed"
+        )
+      }),
+      groupAesthetics
+    )
+    plotObject <- plotObject + guides(!!!guidesList)
   }
 
-  plotObject <- plotObject + guides(!!!guidesList)
-
+  # merge shape legend into colour for unmapped data
+  if (!(any(is.null(listMappedData$simMappedData) |
+    is.null(listMappedData$obsMappedData))) &&
+    is.null(listMappedData$mapSimulatedAndObserved) &&
+    all(c("colour", "shape") %in% groupAesthetics)) {
+    plotObject <- plotObject +
+      scale_shape(guide = "none")
+  }
 
   return(plotObject)
 }
@@ -436,9 +449,10 @@ plotTimeProfile <- function(data = NULL, # nolint
     )
 
     # add y2 label to y2scale.args
-    if (!is.null(plotObject$labels$y2) &
+    if (!is.null(plotObject@labels$y2) &
       is.null(y2scale.args$name)) {
-      secAxis$name <- plotObject$labels$y2
+      secAxis$name <- plotObject@labels$y2
+      plotObject@labels$y2 <- NULL
     }
   }
 
@@ -500,13 +514,12 @@ plotTimeProfile <- function(data = NULL, # nolint
     layerToCall = geom_line
   )
 
-
   if (!is.null(mapSimulatedAndObserved)) {
     for (aesthetic in intersect(groupAesthetics, names(mapSimulatedAndObserved))) {
       plotObject <- plotObject +
         scale_discrete_manual(aesthetic,
           values = mapSimulatedAndObserved[[aesthetic]],
-          guide = guide_legend(order = 1)
+          guide = guide_legend(order = 1, title = "Simulated")
         )
     }
   }
@@ -539,10 +552,10 @@ plotTimeProfile <- function(data = NULL, # nolint
   if (!is.null(mapSimulatedAndObserved)) {
     for (aesthetic in groupAesthetics) {
       plotObject <- plotObject +
-        guides(aesthetic = guide_legend(oder = 1)) +
-        ggnewscale::new_scale(new_aes = aesthetic) +
-        labs(!!sym(aesthetic) := "Observed") +
-        labs(!!sym(paste0(aesthetic, "_ggnewscale_1")) := "Simulated")
+        guides(aesthetic = guide_legend(title = "observed", order = 1)) +
+        ggnewscale::new_scale(new_aes = aesthetic)
+      # labs(!!sym(aesthetic) := "Observed")
+      # labs(!!sym(paste0(aesthetic, "_ggnewscale_1")) := "Simulated")
     }
   }
 

@@ -27,6 +27,8 @@ Other MappedData classes:
 \describe{
 \item{\code{requireDualAxis}}{boolean, If TRUE secondary axis is required}
 
+\item{\code{listOfGroups}}{character vector of groupings}
+
 \item{\code{secAxis}}{sec_axis() object}
 
 \item{\code{dataForPlot}}{scaled data used for plotting

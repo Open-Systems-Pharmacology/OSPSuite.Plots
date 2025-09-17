@@ -2,23 +2,19 @@
 % Please edit documentation in R/utilities_export.R
 \name{calculatePlotDimensions}
 \alias{calculatePlotDimensions}
-\title{Logic to calculate height and possibly
-adjust width based on plot dimensions,
-aspect ratio, legend positioning, etc.}
+\title{Calculate plot dimensions based on the plot object and specified width}
 \usage{
 calculatePlotDimensions(plotObject, width)
 }
 \arguments{
-\item{plotObject}{ggplot object}
+\item{plotObject}{A ggplot object.}
 
-\item{width}{\code{double} width of exported file, defaults is \code{getOption('ospsuite.plots.export.width',default = 16)}
-unit \code{getOption('ospsuite.plots.export.units',  default = "cm")}}
+\item{width}{A numeric value specifying the width of the plot.}
 }
 \value{
-a list or vector with the calculated width and height
+A list containing the calculated width, height, heightOffset, and widthOffset of the plot.
 }
 \description{
-Logic to calculate height and possibly
-adjust width based on plot dimensions,
-aspect ratio, legend positioning, etc.
+Calculate plot dimensions based on the plot object and specified width
 }
+\keyword{internal}

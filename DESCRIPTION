@@ -37,6 +37,7 @@ Suggests:
     showtext,
     sysfonts,
     ggsci,
+    png,
     cowplot,
     ggpubr,
     testthat (>= 3.0.3),

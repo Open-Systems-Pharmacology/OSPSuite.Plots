@@ -5,7 +5,6 @@ test_that("plotTimeProfile works basic", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-
   simData <- exampleDataTimeProfile %>%
     dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
     dplyr::filter(Type == "simulated") %>%
@@ -31,8 +30,7 @@ test_that("plotTimeProfile works basic", {
     ),
   ) +
     theme(
-      legend.position = "top",
-      legend.title = element_blank()
+      legend.position = "top"
     )
 
   vdiffr::expect_doppelganger(
@@ -59,7 +57,7 @@ test_that("plotTimeProfile works logscale", {
   metaData <- attr(exampleDataTimeProfile, "metaData")
 
   fig <- plotTimeProfile(
-    data = simData,
+    data = simData[simData$time > 0,],
     observedData = obsData,
     metaData = metaData,
     mapping = aes(
@@ -86,12 +84,10 @@ test_that("plotTimeProfile works mapping observed plot", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-
   simData <- exampleDataTimeProfile %>%
     dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
     dplyr::filter(Type == "simulated") %>%
     dplyr::select(c("time", "values", "minValues", "maxValues", "caption"))
-
 
   obsData <- exampleDataTimeProfile %>%
     dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
@@ -100,7 +96,7 @@ test_that("plotTimeProfile works mapping observed plot", {
 
   metaData <- attr(exampleDataTimeProfile, "metaData")
 
-
+  #map with reverse order to make sure
   mapSimulatedAndObserved <- data.frame(
     simulated = rev(unique(simData$caption)),
     observed = unique(obsData$caption)
@@ -118,8 +114,7 @@ test_that("plotTimeProfile works mapping observed plot", {
     mapSimulatedAndObserved = mapSimulatedAndObserved
   ) +
     theme(
-      legend.position = "top",
-      legend.title = element_blank()
+      legend.position = "top"
     )
 
   vdiffr::expect_doppelganger(
@@ -182,11 +177,15 @@ test_that("plotTimeProfile works lloq", {
     mapping = aes(
       x = time,
       y = values,
+      linetype = 'Simulated'),
+    observedMapping = aes(
+      x = time,
+      y = values,
       error_relative = error_relative,
       groupby = caption,
       lloq = lloq
     ),
-    groupAesthetics = c("color", "shape", "fill", "linetype"),
+    groupAesthetics = c("color", "shape", "fill"),
     yscale = AxisScales$log,
     yscale.args = list(limits = c(0.01, NA)),
     geomLineAttributes = list(color = "black")
@@ -255,8 +254,7 @@ test_that("plotTimeProfile works secondary axis", {
   ) +
     theme(
       axis.title.y.right = element_text(angle = 90),
-      legend.position = "top",
-      legend.title = element_blank()
+      legend.position = "top"
     ) +
     guides(shape = guide_legend(order = 2))
 

@@ -1,19 +1,32 @@
-#' @title export plot object
-#' @description saves plot object to file
+#' Export a ggplot object to a file
+#'
+#' This function exports a ggplot object to a specified file with customizable options.
+#'
+#' @details
+#' The height of the plot is calculated if it is not provided by the user. The calculation takes into account:
+#' - The aspect ratio of the plot, which is derived from the theme settings.
+#' - The number of rows and columns in the plot layout.
+#' - The dimensions of plot components such as axes, legends, and margins.
+#' The function ensures that the height is adjusted to maintain the correct aspect ratio based on the specified width.
+#'
+#' Options available for plot export with default values:
+#' - `ospsuite.plots.export.width`: Width of the exported plot (default = 16).
+#' - `ospsuite.plots.export.units`: Units of the exported plot (default = "cm").
+#' - `ospsuite.plots.export.device`: File format of the exported plot (default = "png").
+#' - `ospsuite.plots.export.dpi`: Resolution of the exported plot (default = 300).
 #'
 #' For more details and examples see the vignettes:
 #' * \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 #'
-#' @param plotObject ggplot object
-#' @param filename name of file to save.
-#'   extension is added or switched to default device
-#'   `getOspsuite.plots.option(optionKey = OptionKeys$export.device)`
-#' @param filepath name of export directory
-#' @param width `double` width of exported file, defaults is `getOption('ospsuite.plots.export.width',default = 16)`
-#'        unit `getOption('ospsuite.plots.export.units',  default = "cm")`
-#' @param height `double` height of exported plot, if NULL the aspect ratio of plot is used,
-#'            or if no aspect ratio is defined, a square plot is exported
-#' @param ... Other arguments passed on to the ggsave
+#' @param plotObject A ggplot object to be exported.
+#' @param filepath A character string specifying the directory to save the plot.
+#' @param filename A character string specifying the name of the file (without path).
+#' @param width A numeric value specifying the width of the plot. If NULL, the default option is used.
+#' @param height A numeric value specifying the height of the plot. If NULL, it is calculated based on the plot dimensions.
+#' @param device Export device, if NULL (default) the device set by ospsuite.plots.export.device is used.
+#' @param ... Additional arguments passed to `ggsave`.
+#'
+#' @return NULL, the function saves the plot to the specified file.
 #'
 #' @export
 exportPlot <- function(plotObject,
@@ -21,22 +34,17 @@ exportPlot <- function(plotObject,
                        filename,
                        width = NULL,
                        height = NULL,
+                       device = NULL,
                        ...) {
   if ("CombinedPlot" %in% class(plotObject)) plotObject <- plotObject$combined()
   validateInputsExportPlot(plotObject,
     filepath,
     filename,
     width = width,
-    height = height
+    height = height,
+    device = device
   )
-
-  # set extension of default device
-  filename <- paste0(
-    tools::file_path_sans_ext(filename),
-    ".",
-    getOspsuite.plots.option(optionKey = OptionKeys$export.device)
-  ) %>%
-    validateFilename()
+  filename <- validateFilename(filename = filename,device = device)
 
   if (is.null(width)) width <- getOspsuite.plots.option(optionKey = OptionKeys$export.width)
 
@@ -48,7 +56,6 @@ exportPlot <- function(plotObject,
   ggsave(
     filename = file.path(filepath, filename),
     plot = plotObject,
-    device = getOspsuite.plots.option(optionKey = OptionKeys$export.device),
     width = width,
     height = height,
     dpi = getOspsuite.plots.option(optionKey = OptionKeys$export.dpi),
@@ -58,38 +65,48 @@ exportPlot <- function(plotObject,
 }
 
 
-#' Validates the inputs for the plot export
+#' Validate inputs for exporting a plot
 #'
-#' @inheritParams exportPlot
+#' @param plotObject A ggplot object to be exported.
+#' @param filepath A character string specifying the directory to save the plot.
+#' @param filename A character string specifying the name of the file (without path).
+#' @param width A numeric value specifying the width of the plot.
+#' @param height A numeric value specifying the height of the plot.
+#' @param device A character with the device to use
+#'
+#' @keywords internal
 validateInputsExportPlot <- function(plotObject,
                                      filepath,
                                      filename,
                                      width,
-                                     height) {
-  checkmate::assertClass(plotObject, "ggplot")
-  checkmate::assertCharacter(filename)
-  checkmate::assertCharacter(filepath)
+                                     height,
+                                     device) {
+  checkmate::assertClass(plotObject, "ggplot",null.ok = FALSE)
+  checkmate::assertCharacter(filename,null.ok = FALSE)
+  checkmate::assertCharacter(filepath,null.ok = FALSE)
+  checkmate::assertCharacter(device,null.ok = TRUE)
   checkmate::assertDouble(width, null.ok = TRUE)
   checkmate::assertDouble(height, null.ok = TRUE)
-
-  if (!dir.exists(filepath)) {
-    dir.create(filepath, recursive = TRUE)
-  }
 
   if (filename != basename(filename)) {
     stop("filename should not contain a path, use input variable filepath")
   }
 
+  if (!dir.exists(filepath)) {
+    dir.create(filepath, recursive = TRUE)
+  }
+
   return(invisible())
 }
+#' Calculate plot dimensions based on the plot object and specified width
+#'
+#' @param plotObject A ggplot object.
+#' @param width A numeric value specifying the width of the plot.
+#'
+#' @return A list containing the calculated width, height, heightOffset, and widthOffset of the plot.
+#'
+#' @keywords internal
 
-#' Logic to calculate height and possibly
-#' adjust width based on plot dimensions,
-#' aspect ratio, legend positioning, etc.
-#'
-#' @inheritParams exportPlot
-#'
-#' @return a list or vector with the calculated width and height
 calculatePlotDimensions <- function(plotObject, width) {
   themeOfPlot <- utils::modifyList(theme_get(), plotObject$theme)
   exportunits <- getOspsuite.plots.option(optionKey = OptionKeys$export.units)
@@ -112,7 +129,7 @@ calculatePlotDimensions <- function(plotObject, width) {
 
 
   # check if legend adds to height or to width,
-  # if legend is numeric it i assumed legend is within panel
+  # if legend is numeric it is assumed legend is within panel
   if (plotDim$legendHeight > 0) {
     legendPosition <- themeOfPlot$legend.position
     legendAddsToHeight <- as.numeric(any(
@@ -134,38 +151,40 @@ calculatePlotDimensions <- function(plotObject, width) {
     plotMargins <- c(0, 0, 0, 0)
   }
 
-  # Update width if top/bottom legend is too wide (add 5% to legend width to ensure all the entry content are displayed)
-  width <- max(width, 1.05 * plotDim$legendWidth * legendAddsToHeight)
-
   # scale height with aspect ratio taking into account axis width and heights
   heightOffset <- plotDim$axisHeight +
     plotDim$legendHeight * legendAddsToHeight +
     sum(plotMargins[c(1, 3)])
-  widthOffset <- plotDim$axisWidth -
-    sum(plotMargins[c(2, 4)]) -
+  widthOffset <- plotDim$axisWidth +
+    sum(plotMargins[c(2, 4)]) +
     plotDim$legendWidth * legendAddsToWidth
 
-  height <- nRow / nCol * (width - widthOffset) * aspect.ratio + heightOffset
+  backgroundWidth <- plotDim$background
 
+  height <- nRow / nCol * (backgroundWidth - widthOffset) * aspect.ratio + heightOffset
+
+  # get scale factor
+  scf <- width/backgroundWidth
+
+  # Update width if top/bottom legend is too wide (add 5% to legend width to ensure all the entry content are displayed)
+  scf <- max(1, (1.05 * plotDim$legendWidth * legendAddsToHeight)/width) * scf
 
   return(list(
-    width = width,
-    height = height,
-    heightOffset = heightOffset,
-    widthOffset = widthOffset
+    width = backgroundWidth*scf,
+    height = height*scf,
+    heightOffset = heightOffset*scf,
+    widthOffset = widthOffset*scf
   ))
 }
-
-
-#' gets dimension of plots
+#' Get dimensions of plot components
 #'
-#' @param plotObject  ggplot object
-#' @param exportunits units of exported figure
-#' @param nCol for panel plots number of cols
-#' @param nRow  for panel plots number of cols
-#' @param nPanel for panel plots number of panels
+#' @param plotObject A ggplot object.
+#' @param exportunits Units of the exported figure.
+#' @param nCol Number of columns for panel plots.
+#' @param nRow Number of rows for panel plots.
+#' @param nPanel Number of panels for panel plots.
 #'
-#' @return list with dimension o plot components
+#' @return A list with dimensions of plot components.
 getPlotDimensions <- function(plotObject, exportunits, nCol, nRow, nPanel) {
   plot <- cowplot::as_gtable(plotObject)
   grobNames <- cowplot::plot_component_names(plot)
@@ -240,20 +259,28 @@ getPlotDimensions <- function(plotObject, exportunits, nCol, nRow, nPanel) {
     legendHeight = .getGrobDimForPattern(
       patterns = c("guide-box"),
       selectedDim = "heights"
+    ),
+    background = .getGrobDimForPattern(
+      patterns = c("background"),
+      selectedDim = "width"
     )
   ))
 }
-
-#' replace of special letters
+#' Replace special letters in file names
 #'
-#' @param filename name of file to validate
+#' @param filename Name of the file to validate.
 #'
 #' @export
-#' @return filename without special letters
-validateFilename <- function(filename) {
-  # replace µ by mc
+#' @return File name without special letters.
+validateFilename <- function(filename,device) {
+  # if  option is set overwrite file extension.
+  if (is.null(device))
+    device <- getOspsuite.plots.option(optionKey = OptionKeys$export.device)
+  filename <- fs::path_ext_set(filename,device)
+
+  # replace µ by u
   filename <- iconv(filename, from = "UTF-8", to = "UTF-8")
-  filename <- gsub("\u00B5", "mc", filename, fixed = TRUE)
+  filename <- gsub("\u00B5", "u", filename, fixed = TRUE)
 
   # Replace forbidden characters with the replacement character
   forbiddenChars <- c(":", "*", "?", "<", ">", "|", "\\", "/")

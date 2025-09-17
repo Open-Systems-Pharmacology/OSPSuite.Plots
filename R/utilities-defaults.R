@@ -208,7 +208,7 @@ getDefaultOptions <- function() {
     ospsuite.plots.watermark_format = list(
       x = 0.5,
       y = 0.5,
-      color = "grey20",
+      color = "lightgrey",
       angle = 30,
       fontsize = 12,
       alpha = 0.7

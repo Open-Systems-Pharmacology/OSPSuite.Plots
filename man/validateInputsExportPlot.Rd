@@ -2,25 +2,24 @@
 % Please edit documentation in R/utilities_export.R
 \name{validateInputsExportPlot}
 \alias{validateInputsExportPlot}
-\title{Validates the inputs for the plot export}
+\title{Validate inputs for exporting a plot}
 \usage{
-validateInputsExportPlot(plotObject, filepath, filename, width, height)
+validateInputsExportPlot(plotObject, filepath, filename, width, height, device)
 }
 \arguments{
-\item{plotObject}{ggplot object}
+\item{plotObject}{A ggplot object to be exported.}
 
-\item{filepath}{name of export directory}
+\item{filepath}{A character string specifying the directory to save the plot.}
 
-\item{filename}{name of file to save.
-extension is added or switched to default device
-\code{getOspsuite.plots.option(optionKey = OptionKeys$export.device)}}
+\item{filename}{A character string specifying the name of the file (without path).}
 
-\item{width}{\code{double} width of exported file, defaults is \code{getOption('ospsuite.plots.export.width',default = 16)}
-unit \code{getOption('ospsuite.plots.export.units',  default = "cm")}}
+\item{width}{A numeric value specifying the width of the plot.}
 
-\item{height}{\code{double} height of exported plot, if NULL the aspect ratio of plot is used,
-or if no aspect ratio is defined, a square plot is exported}
+\item{height}{A numeric value specifying the height of the plot.}
+
+\item{device}{A character with the device to use}
 }
 \description{
-Validates the inputs for the plot export
+Validate inputs for exporting a plot
 }
+\keyword{internal}

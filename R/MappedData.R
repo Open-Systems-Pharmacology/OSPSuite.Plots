@@ -89,6 +89,10 @@ MappedData <- R6::R6Class( # nolint
         null.ok = TRUE
       )
 
+      # delete columns with NA
+      data <- data %>%
+        dplyr::select(names(data)[sapply(data, function(x) !all(is.na(x)))])
+
       self$data <- data.frame(data) ## creates a copy
       self$mapping <- mapping
 
@@ -168,7 +172,7 @@ MappedData <- R6::R6Class( # nolint
         %in% acceptedAes)) {
         return(NULL)
       } else {
-        return(self$mapping[acceptedAes])
+        return(structure(self$mapping[acceptedAes], class = "uneval"))
       }
     },
     #' adds list with dimension, units and column classes

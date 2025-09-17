@@ -642,15 +642,16 @@ getCountsWithin <- function(data,
           asLower = TRUE
         )
       )
-      counts[["guest criteria"]] <- sum(yColumn >= pmin(guestLimits, 1 / guestLimits) &
-        yColumn <= pmax(guestLimits, 1 / guestLimits))
+      ratio = yColumn/xColumn
+      counts[["guest criteria"]] <- sum(ratio >= pmin(guestLimits, 1 / guestLimits) &
+                                          ratio <= pmax(guestLimits, 1 / guestLimits))
     }
 
     if (!is.null(names(comparisonLineVector))) {
       for (fd in names(comparisonLineVector)) {
         if (length(comparisonLineVector[[fd]]) > 1) {
-          counts[[fd]] <- sum(yColumn >= min(comparisonLineVector[[fd]]) &
-            yColumn <= max(comparisonLineVector[[fd]]))
+          counts[[fd]] <- sum(ratio >= min(comparisonLineVector[[fd]]) &
+                                ratio <= max(comparisonLineVector[[fd]]))
         }
       }
     }

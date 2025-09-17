@@ -20,11 +20,8 @@ initializePlot <- function(mappedData = NULL,
   if (setMapping && !is.null(mappedData)) {
     mappingToSet <- mappedData$mapping
   }
-  plotObject <- ggplot(
-    data = mappedData$dataForPlot,
-    mapping = mappingToSet
-  ) +
-    layerWatermark()
+  plotObject <- ggplotWithWatermark(data = mappedData$dataForPlot,
+                      mapping = mappingToSet)
 
   #
   shapeValues <- getOspsuite.plots.option(optionKey = OptionKeys$shapeValues)
@@ -66,7 +63,7 @@ addLayer <- function(mappedData,
   # check for geomUnicodeMode
   geomUnicodeMode <- getOspsuite.plots.option(optionKey = OptionKeys$GeomPointUnicode)
   if (geomUnicodeMode &&
-    geom == "point") {
+      geom == "point") {
     layerToCall <- geomPointUnicode
   }
 
@@ -175,95 +172,6 @@ addLLOQLayer <-
     return(plotObject)
   }
 
-#' Create a watermark layer for a ggplot object.
-#'
-#' @param label Passed to `buildWatermarkGrob`.
-#' @param x Passed to `buildWatermarkGrob`.
-#' @param y Passed to `buildWatermarkGrob`.
-#' @param angle Passed to `buildWatermarkGrob`.
-#'   TRUE/FALSE for explicit control, otherwise use option watermark_enabled
-#' @param color Passed to `buildWatermarkGrob`.
-#' @param alpha Passed to `buildWatermarkGrob`.
-#' @param fontsize Passed to `buildWatermarkGrob`.
-#' @param show Determines whether the watermark will be created. Set to
-#'
-#' @return a ggplot2 layer with the watermark (if `show` is `TRUE` or (`NULL` and
-#'   option `ospsuite.plots.watermark_enabled` is `TRUE`)), otherwise an empty layer
-#' @export
-#'
-layerWatermark <- function(label = NULL,
-                           x = NULL,
-                           y = NULL,
-                           angle = NULL,
-                           color = NULL,
-                           alpha = NULL,
-                           fontsize = NULL,
-                           show = NULL) {
-  if (is.null(show)) {
-    show <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
-  }
-  if (show) {
-    if (is.null(label)) {
-      label <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_label)
-    }
-
-    formatOptionsSet <-
-      getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
-
-    # Use inputs before  formatOptionsSet
-    for (param in names(formatOptionsSet)) {
-      if (is.null(get(param))) {
-        assign(param, formatOptionsSet[[param]], envir = environment())
-      }
-    }
-
-    watermarkLayer <- annotation_custom(buildWatermarkGrob(
-      label = label,
-      x = x,
-      y = y,
-      angle = angle,
-      color = color,
-      fontsize = fontsize,
-      alpha = alpha
-    ))
-  } else {
-    watermarkLayer <- NULL
-  }
-
-  return(watermarkLayer)
-}
-
-#' Build a `grid::textGrob` to be used as a watermark.
-#'
-#' @param label The text of the watermark - leave NULL to use the option watermark_label
-#' @param x Horizontal location, in 0..1 coordinates
-#' @param y Vertical location, in 0..1  coordinates
-#' @param angle Angle of the text
-#' @param color Color of the test
-#' @param alpha opacity of the text
-#' @param fontsize size of the text
-#'
-#' @keywords internal
-#' @return a `grid::textGrob` with the watermark
-buildWatermarkGrob <- function(label, x = .5, y = .5, angle = 30,
-                               color = "grey20",
-                               alpha = 0.7,
-                               fontsize = 12) {
-  # enable additional settings
-  extraParameters <- list()
-  extraParameters$col <- color
-  extraParameters$alpha <- alpha
-  extraParameters$fontsize <- fontsize
-
-  gpar <- grid::get.gpar()
-  gpar <- utils::modifyList(gpar, extraParameters)
-
-
-  watermarkGrob <- grid::textGrob(label = label, y = y, x = x, rot = angle, gp = gpar)
-  return(watermarkGrob)
-}
-
-
 #' add X and Y-scale
 #'
 #' @param plotObject A `ggplot` object on which to add the scale
@@ -280,16 +188,16 @@ addXYScale <- function(plotObject,
                        secAxis = waiver()) {
   if (!is.null(xscale)) {
     plotObject <- addXscale(plotObject,
-      xscale = xscale,
-      xscale.args = xscale.args
+                            xscale = xscale,
+                            xscale.args = xscale.args
     )
   }
 
   if (!is.null(yscale)) {
     plotObject <- addYscale(plotObject,
-      yscale = yscale,
-      yscale.args = yscale.args,
-      secAxis = secAxis
+                            yscale = yscale,
+                            yscale.args = yscale.args,
+                            secAxis = secAxis
     )
   }
 
@@ -315,7 +223,7 @@ addXscale <- function(plotObject,
   checkmate::assertChoice(xscale, choices = names(scaleFunctions), null.ok = TRUE)
 
   if (xscale == AxisScales$log &&
-    is.null(xscale.args$guide)) {
+      is.null(xscale.args$guide)) {
     xscale.args$guide <- ggplot2::guide_axis_logticks()
   }
 
@@ -348,7 +256,7 @@ addYscale <- function(plotObject,
   checkmate::assertChoice(yscale, choices = names(scaleFunctions), null.ok = TRUE)
 
   if (yscale == AxisScales$log &&
-    is.null(yscale.args$guide)) {
+      is.null(yscale.args$guide)) {
     yscale.args$guide <- ggplot2::guide_axis_logticks()
   }
 

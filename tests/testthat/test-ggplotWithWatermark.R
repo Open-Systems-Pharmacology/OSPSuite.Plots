@@ -50,4 +50,30 @@ test_that("Change watermark", {
     title = "watermarkReset",
     fig = initializePlot()
   )
+
+  vdiffr::expect_doppelganger(
+    title = "watermark_log",
+    fig = initializePlot() +
+      scale_y_log10() +
+      scale_x_log10()
+  )
+})
+
+
+test_that("ggplotWithWatermark saves plot with watermark in SVG", {
+  fig =  ggplotWithWatermark(mtcars, aes(mpg, wt)) + geom_point()
+  # Create a temporary file for saving the SVG
+  temp_svg <- tempfile(fileext = ".svg")
+
+  # Save the plot as SVG
+  ggsave(temp_svg, plot = fig, device = "svg")
+
+  # Read the SVG file as text
+  svg_content <- readLines(temp_svg)
+
+  watermarkLabel <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_label)
+
+  # Check if the watermark label is present in the SVG content
+  expect_true(any(grepl(watermarkLabel, svg_content)),
+              info = "Watermark label should be present in the SVG content")
 })

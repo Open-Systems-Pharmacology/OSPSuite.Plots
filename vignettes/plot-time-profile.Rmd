@@ -516,7 +516,7 @@ For plots showing only simulated or observed data, or plots with a common legend
 
 Below, the plot from section 2.3.1 is repeated.
 
-```{r colorscaling}
+```{r colorscaling, fig.alt="Time profile plot demonstrating custom color scaling with manual color assignment. Shows simulated lines with ribbons and observed points using custom color palettes (darkred/red for Data 1, darkgreen/green for Data 2) applied via scale_color_manual and scale_fill_manual functions."}
 # Create datasets with common caption
 simData <- data.frame(simData) %>%
   dplyr::mutate(captionCommon = gsub("Simulated ", "", caption))

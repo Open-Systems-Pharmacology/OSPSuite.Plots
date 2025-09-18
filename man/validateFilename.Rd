@@ -8,6 +8,8 @@ validateFilename(filename, device)
 }
 \arguments{
 \item{filename}{Name of the file to validate.}
+
+\item{device}{A character with the device to use}
 }
 \value{
 File name without special letters.

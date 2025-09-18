@@ -36,26 +36,26 @@
 #' setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
 #'
 #' # Example usage with customized watermark
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = 'Custom Label')
+#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "Custom Label")
 #' watermark_format <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
-#' watermark_format$color <- 'red'
+#' watermark_format$color <- "red"
 #' setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = watermark_format)
 #' plotWithCustomizedWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
 #'   geom_point()
 #' print(plotWithCustomizedWatermark)
 #' # Reset options
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_format,
-#'   value = getDefaultOptions()[[OptionKeys$watermark_format]])
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_label,
-#'   value = getDefaultOptions()[[OptionKeys$watermark_label]])
+#' setOspsuite.plots.option(
+#'   optionKey = OptionKeys$watermark_format,
+#'   value = getDefaultOptions()[[OptionKeys$watermark_format]]
+#' )
+#' setOspsuite.plots.option(
+#'   optionKey = OptionKeys$watermark_label,
+#'   value = getDefaultOptions()[[OptionKeys$watermark_label]]
+#' )
 #'
 #' @export
 ggplotWithWatermark <- function(...) {
   plotObject <- ggplot(...)
-
-  # Return original ggplot if watermark is not enabled
-  if (!getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled))
-    return(plotObject)
 
   # Set new class to overwrite the print method for the ggplot object
   class(plotObject) <- c("ggWatermark", class(plotObject))
@@ -73,24 +73,78 @@ ggplotWithWatermark <- function(...) {
 #'
 #' @export
 print.ggWatermark <- function(x, ...) {
+  if (getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)) {
+    print(addWatermark(x))
+  } else {
+    # if watermark is not enabled it is still necessary to call ggdraw, this will set the class
+    # back to ggplot2, otherwise we would have an infinite loop
+    print(cowplot::ggdraw(x))
+  }
+}
+#' Add a watermark to a ggplot object
+#'
+#' This function adds a customizable watermark to a ggplot object. The watermark can be configured with various options such as position, angle, font size, color, and transparency.
+#'
+#' @param plotObject A ggplot object to which the watermark will be added.
+#'
+#' @return A ggplot object with a watermark drawn on it. The watermark is displayed according to the specified options.
+#'
+#' @examples
+#' # Example usage
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+#'   geom_point()
+#' p_with_watermark <- addWatermark(p)
+#' print(p_with_watermark)
+#'
+#' # Example of customizing the watermark
+#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "Custom Watermark")
+#' watermark_format <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
+#' watermark_format$x <- 0.5 # Centered horizontally
+#' watermark_format$y <- 0.5 # Centered vertically
+#' watermark_format$angle <- 45 # Rotated 45 degrees
+#' watermark_format$fontsize <- 6 # Font size 6
+#' watermark_format$color <- "blue" # Blue color
+#' watermark_format$alpha <- 0.5 # 50% transparency
+#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = watermark_format)
+#'
+#' # Create plot with customized watermark
+#' p_custom <- addWatermark(p)
+#' print(p_custom)
+#'
+#' @export
+#'
+#' @export
+addWatermark <- function(plotObject) {
+  # initialize varaibales to avoid check messages
+  x <- y <- label <- NULL
+
+  checkmate::assert_class(plotObject,classes = "gg")
+  # if watermark is not enabled return unchanged object
+  if (!getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)) {
+    return(plotObject)
+  }
+
   watermarkLabel <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_label)
   watermarkOptions <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
 
-  print(cowplot::ggdraw(x) +
-          geom_text(
-            data = data.frame(x = watermarkOptions$x,
-                              y = watermarkOptions$y,
-                              label = watermarkLabel),
-            aes(x, y, label = label),
-            hjust = 0.5,
-            vjust = 0.5,
-            angle = watermarkOptions$angle,
-            size = watermarkOptions$fontsize,
-            color = watermarkOptions$color,
-            alpha = watermarkOptions$alpha,
-            inherit.aes = FALSE
-          ))
+  cowplot::ggdraw(plotObject) +
+    geom_text(
+      data = data.frame(
+        x = watermarkOptions$x,
+        y = watermarkOptions$y,
+        label = watermarkLabel
+      ),
+      aes(x, y, label = label),
+      hjust = 0.5,
+      vjust = 0.5,
+      angle = watermarkOptions$angle,
+      size = watermarkOptions$fontsize,
+      color = watermarkOptions$color,
+      alpha = watermarkOptions$alpha,
+      inherit.aes = FALSE
+    )
 }
+
 
 #' Create plot function for ggWatermark.
 #'
@@ -101,5 +155,5 @@ print.ggWatermark <- function(x, ...) {
 #'
 #' @export
 plot.ggWatermark <- function(x, ...) {
-  print(x,...)
+  print(x, ...)
 }

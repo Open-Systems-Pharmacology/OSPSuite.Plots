@@ -23,10 +23,11 @@ Imports:
     scales,
     dplyr,
     magrittr,
-    tidyr
+    tidyr,
+    fs
 Depends: 
     R (>= 3.6),
-    ggplot2 (>= 3.5.0)
+    ggplot2 (>= 4.0)
 Encoding: UTF-8
 RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
@@ -57,7 +58,6 @@ Collate: 'utilities-defaults.R'
          'add_Layer.R'
          'ggplotWithWatermark.R'
          'CombinedPlot.R'
-         'customLinter.R'
          'data.R'
          'MappedData.R'
          'MappedDataBoxplot.R'

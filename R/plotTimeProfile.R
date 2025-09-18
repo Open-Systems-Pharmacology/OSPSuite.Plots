@@ -554,8 +554,6 @@ plotTimeProfile <- function(data = NULL, # nolint
       plotObject <- plotObject +
         guides(aesthetic = guide_legend(title = "observed", order = 1)) +
         ggnewscale::new_scale(new_aes = aesthetic)
-      # labs(!!sym(aesthetic) := "Observed")
-      # labs(!!sym(paste0(aesthetic, "_ggnewscale_1")) := "Simulated")
     }
   }
 

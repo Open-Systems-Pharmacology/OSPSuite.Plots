@@ -130,9 +130,9 @@ test_that("getCountsWithin works for Ratio", {
     fig = plotObject
   )
 
-  expect_equal(as.vector(unlist(plotObject$countsWithin[1,c(4,6)])), expected = c(0.48, 0.64))
+  expect_equal(as.vector(unlist(plotObject$countsWithin[1, c(4, 6)])), expected = c(0.48, 0.64))
 
-  expect_equal(plotObject$countsWithin$`1.5 fold Fraction`, expected = c(0.48,0.44, 0.52))
+  expect_equal(plotObject$countsWithin$`1.5 fold Fraction`, expected = c(0.48, 0.44, 0.52))
 })
 
 test_that("getCountsWithin works for Guest Criteria", {
@@ -169,27 +169,63 @@ test_that("getCountsWithin works for Guest Criteria", {
     deltaGuest = 1
   )
 
-  expect_equal(plotObject$countsWithin$`guest criteria Fraction`, expected = c(0.6, 0.6,0.6))
+  expect_equal(plotObject$countsWithin$`guest criteria Fraction`, expected = c(0.6, 0.6, 0.6))
 
-  plotObjectDiag <- createDDIInteractionPlot(data = dDIdata,
-                                         metaData = dDImetaData,
-                                         mapping = aes(
-                                           predicted = Pred,
-                                           observed = Obs,
-                                           groupby = Type
-                                         ))
+  plotObjectDiag <- plotPredVsObs(
+    data = dDIdata,
+    metaData = dDImetaData,
+    mapping = aes(
+      predicted = Pred,
+      observed = Obs,
+      groupby = Type
+    ),
+    addGuestLimits = TRUE,
+    comparisonLineVector = getFoldDistanceList(2)
+  )
 
-  expect_equal(plotObject$countsWithin,plotObjectDiag$countsWithin)
+  expect_equal(plotObject$countsWithin, plotObjectDiag$countsWithin)
 
-  plotObjectUngrouped <- createDDIInteractionPlot(data = dDIdata,
-                                             metaData = dDImetaData,
-                                             mapping = aes(
-                                               predicted = Pred,
-                                               observed = Obs
-                                             ))
+  plotObjectUngrouped <- plotPredVsObs(
+    data = dDIdata,
+    metaData = dDImetaData,
+    mapping = aes(
+      predicted = Pred,
+      observed = Obs
+    ),
+    addGuestLimits = TRUE,
+    comparisonLineVector = getFoldDistanceList(2)
+  )
 
-  expect_equal(plotObjectUngrouped$countsWithin$Fraction,c(1,0.6,1))
+  expect_equal(plotObjectUngrouped$countsWithin$Fraction, c(1, 0.6, 1))
+})
+test_that("adjust lines works withot error", {
+  data <- exampleDataCovariates %>%
+    dplyr::filter(SetID == "DataSet2") %>%
+    dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex"))
 
+  # case with lines which are no interval
+  expect_no_error(plotResVsCov(
+    data = data,
+    mapping = aes(
+      x = Age,
+      predicted = Pred,
+      observed = Obs,
+      groupby = Sex
+    ),
+    comparisonLineVector = list(zero = 0, "lower limit" = -0.25, "upper limit" = 0.25)
+  ))
+
+  # case with unnamed intervals
+  expect_no_error(plotPredVsObs(
+    data = data,
+    mapping = aes(
+      x = Obs,
+      y = Pred,
+      groupby = Sex
+    ),
+    comparisonLineVector = unname(getFoldDistanceList(c(1.2, 1.5))),
+    geomComparisonLineAttributes = list(linetype = "dotted")
+  ))
 })
 
 ospsuite.plots::resetDefaults(oldDefaults)

@@ -32,7 +32,7 @@ test_that("plotWhisker works", {
       }
     }
 
-  plotObject = plotBoxWhisker(
+  plotObject <- plotBoxWhisker(
     data = pkRatioData,
     metaData = pkRatioMetaData,
     mapping = aes(
@@ -56,7 +56,7 @@ test_that("plotWhisker works", {
     data.table::setDT() %>%
     .[, as.list(plotObject$statFun(Age)), by = c("Country", "Sex")]
   expect_true(nrow(dt) == 4)
-  expect_equal(dt$N, c(19,6,15,10))
+  expect_equal(dt$N, c(19, 6, 15, 10))
 
   vdiffr::expect_doppelganger(
     title = "with outlier and custom functions",

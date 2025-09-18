@@ -367,7 +367,6 @@ test_that("addMetaData works", {
   expect_equal(simDataMatch$units$x, "hours")
   expect_equal(simDataMatch$dimensions$y, "concentration")
   expect_equal(simDataMatch$units$y, "mg/L")
-
 })
 
 test_that("updateScaleArgumentsForTimeUnit works", {

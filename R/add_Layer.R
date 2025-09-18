@@ -17,8 +17,10 @@ initializePlot <- function(mappedData = NULL,
   if (setMapping && !is.null(mappedData)) {
     mappingToSet <- mappedData$mapping
   }
-  plotObject <- ggplotWithWatermark(data = mappedData$dataForPlot,
-                      mapping = mappingToSet)
+  plotObject <- ggplotWithWatermark(
+    data = mappedData$dataForPlot,
+    mapping = mappingToSet
+  )
 
   # add labels
   plotObject <- addLabels(plotObject, mappedData)
@@ -50,7 +52,7 @@ addLayer <- function(mappedData,
   # check for geomUnicodeMode
   geomUnicodeMode <- getOspsuite.plots.option(optionKey = OptionKeys$GeomPointUnicode)
   if (geomUnicodeMode &&
-      geom == "point") {
+    geom == "point") {
     layerToCall <- geomPointUnicode
   }
 
@@ -174,16 +176,16 @@ addXYScale <- function(plotObject,
                        secAxis = waiver()) {
   if (!is.null(xscale)) {
     plotObject <- addXscale(plotObject,
-                            xscale = xscale,
-                            xscale.args = xscale.args
+      xscale = xscale,
+      xscale.args = xscale.args
     )
   }
 
   if (!is.null(yscale)) {
     plotObject <- addYscale(plotObject,
-                            yscale = yscale,
-                            yscale.args = yscale.args,
-                            secAxis = secAxis
+      yscale = yscale,
+      yscale.args = yscale.args,
+      secAxis = secAxis
     )
   }
 
@@ -200,16 +202,16 @@ addXscale <- function(plotObject,
                       xscale.args = list()) {
   checkmate::assertChoice(xscale, choices = unlist(AxisScales), null.ok = TRUE)
 
-  if (xscale == AxisScales$discrete){
+  if (xscale == AxisScales$discrete) {
     scaleFunction <- scale_x_discrete
-  }else {
+  } else {
     scaleFunction <- scale_x_continuous
   }
 
-  if (xscale == AxisScales$log){
-    xscale.args[['transform']] <- 'log10'
-    if(is.null(xscale.args$guide)) {
-      xscale.args[['guide']] <- "axis_logticks"
+  if (xscale == AxisScales$log) {
+    xscale.args[["transform"]] <- "log10"
+    if (is.null(xscale.args$guide)) {
+      xscale.args[["guide"]] <- "axis_logticks"
     }
   }
 
@@ -231,13 +233,12 @@ addYscale <- function(plotObject,
                       yscale,
                       yscale.args = list(),
                       secAxis = waiver()) {
+  checkmate::assertChoice(yscale, choices = unlist(AxisScales[c("linear", "log")]), null.ok = TRUE)
 
-  checkmate::assertChoice(yscale, choices = unlist(AxisScales[c('linear','log')]), null.ok = TRUE)
-
-  if (yscale == AxisScales$log){
-    yscale.args[['transform']] <- 'log10'
-    if(is.null(yscale.args$guide)) {
-      yscale.args[['guide']] <- "axis_logticks"
+  if (yscale == AxisScales$log) {
+    yscale.args[["transform"]] <- "log10"
+    if (is.null(yscale.args$guide)) {
+      yscale.args[["guide"]] <- "axis_logticks"
     }
   }
 

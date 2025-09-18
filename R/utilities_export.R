@@ -44,7 +44,7 @@ exportPlot <- function(plotObject,
     height = height,
     device = device
   )
-  filename <- validateFilename(filename = filename,device = device)
+  filename <- validateFilename(filename = filename, device = device)
 
   if (is.null(width)) width <- getOspsuite.plots.option(optionKey = OptionKeys$export.width)
 
@@ -81,10 +81,10 @@ validateInputsExportPlot <- function(plotObject,
                                      width,
                                      height,
                                      device) {
-  checkmate::assertClass(plotObject, "ggplot",null.ok = FALSE)
-  checkmate::assertCharacter(filename,null.ok = FALSE)
-  checkmate::assertCharacter(filepath,null.ok = FALSE)
-  checkmate::assertCharacter(device,null.ok = TRUE)
+  checkmate::assertClass(plotObject, "ggplot", null.ok = FALSE)
+  checkmate::assertCharacter(filename, null.ok = FALSE)
+  checkmate::assertCharacter(filepath, null.ok = FALSE)
+  checkmate::assertCharacter(device, null.ok = TRUE)
   checkmate::assertDouble(width, null.ok = TRUE)
   checkmate::assertDouble(height, null.ok = TRUE)
 
@@ -164,16 +164,16 @@ calculatePlotDimensions <- function(plotObject, width) {
   height <- nRow / nCol * (backgroundWidth - widthOffset) * aspect.ratio + heightOffset
 
   # get scale factor
-  scf <- width/backgroundWidth
+  scf <- width / backgroundWidth
 
   # Update width if top/bottom legend is too wide (add 5% to legend width to ensure all the entry content are displayed)
-  scf <- max(1, (1.05 * plotDim$legendWidth * legendAddsToHeight)/width) * scf
+  scf <- max(1, (1.05 * plotDim$legendWidth * legendAddsToHeight) / width) * scf
 
   return(list(
-    width = backgroundWidth*scf,
-    height = height*scf,
-    heightOffset = heightOffset*scf,
-    widthOffset = widthOffset*scf
+    width = backgroundWidth * scf,
+    height = height * scf,
+    heightOffset = heightOffset * scf,
+    widthOffset = widthOffset * scf
   ))
 }
 #' Get dimensions of plot components
@@ -269,14 +269,16 @@ getPlotDimensions <- function(plotObject, exportunits, nCol, nRow, nPanel) {
 #' Replace special letters in file names
 #'
 #' @param filename Name of the file to validate.
+#' @param device A character with the device to use
 #'
 #' @export
 #' @return File name without special letters.
-validateFilename <- function(filename,device) {
+validateFilename <- function(filename, device) {
   # if  option is set overwrite file extension.
-  if (is.null(device))
+  if (is.null(device)) {
     device <- getOspsuite.plots.option(optionKey = OptionKeys$export.device)
-  filename <- fs::path_ext_set(filename,device)
+  }
+  filename <- fs::path_ext_set(filename, device)
 
   # replace µ by u
   filename <- iconv(filename, from = "UTF-8", to = "UTF-8")

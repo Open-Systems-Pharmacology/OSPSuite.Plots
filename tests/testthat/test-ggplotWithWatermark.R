@@ -1,3 +1,5 @@
+oldDefaults <- ospsuite.plots::setDefaults()
+
 test_that("Change watermark", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
@@ -60,20 +62,43 @@ test_that("Change watermark", {
 })
 
 
-test_that("ggplotWithWatermark saves plot with watermark in SVG", {
-  fig =  ggplotWithWatermark(mtcars, aes(mpg, wt)) + geom_point()
+test_that("saves plot with watermark in SVG", {
+  fig <- ggplotWithWatermark(mtcars, aes(mpg, wt)) + geom_point()
   # Create a temporary file for saving the SVG
-  temp_svg <- tempfile(fileext = ".svg")
+  tempSvg <- tempfile(fileext = ".svg")
 
   # Save the plot as SVG
-  ggsave(temp_svg, plot = fig, device = "svg")
+  suppressMessages(ggsave(tempSvg, plot = fig, device = "svg"))
 
   # Read the SVG file as text
-  svg_content <- readLines(temp_svg)
+  svgContent <- readLines(tempSvg)
 
   watermarkLabel <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_label)
 
   # Check if the watermark label is present in the SVG content
-  expect_true(any(grepl(watermarkLabel, svg_content)),
-              info = "Watermark label should be present in the SVG content")
+  expect_true(any(grepl(watermarkLabel, svgContent)),
+    info = "Watermark label should be present in the SVG content"
+  )
 })
+
+# Test for plot_list with cowplot
+test_that("cowplot::plot_list works correctly", {
+  # Create multiple ggplot objects
+  p1 <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+    geom_point()
+  p2 <- ggplot(mtcars, aes(x = hp, y = mpg)) +
+    geom_point()
+
+  # Combine plots using cowplot
+  combiPlot <- cowplot::plot_grid(p1, p2) %>%
+    addWatermark()
+
+  # Check that the combined plot is a ggplot object
+  vdiffr::expect_doppelganger(
+    title = "watermark_cowplotCombi",
+    fig = combiPlot
+  )
+})
+
+
+ospsuite.plots::resetDefaults(oldDefaults)

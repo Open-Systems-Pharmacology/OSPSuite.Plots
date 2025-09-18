@@ -49,17 +49,21 @@ print(plotWithoutWatermark)
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
 
 # Example usage with customized watermark
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = 'Custom Label')
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "Custom Label")
 watermark_format <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
-watermark_format$color <- 'red'
+watermark_format$color <- "red"
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = watermark_format)
 plotWithCustomizedWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
   geom_point()
 print(plotWithCustomizedWatermark)
 # Reset options
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_format,
-  value = getDefaultOptions()[[OptionKeys$watermark_format]])
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_label,
-  value = getDefaultOptions()[[OptionKeys$watermark_label]])
+setOspsuite.plots.option(
+  optionKey = OptionKeys$watermark_format,
+  value = getDefaultOptions()[[OptionKeys$watermark_format]]
+)
+setOspsuite.plots.option(
+  optionKey = OptionKeys$watermark_label,
+  value = getDefaultOptions()[[OptionKeys$watermark_label]]
+)
 
 }

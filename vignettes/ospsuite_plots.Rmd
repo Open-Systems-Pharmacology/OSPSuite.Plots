@@ -214,9 +214,11 @@ The names of all options defined by this package start with the package name `os
 
 ## 2.5.1 Options to Customize Watermark
 
-By default, a watermark is displayed in all plots. The watermark is added with the function `layerWatermark()`. This is done automatically by each plot function of this package.
+All plots in this packages are created with the function `ggplotWithWatermark()` instead of `ggplot()`. This function creates a normal `ggplot` object only if printed, a watermark is added. 
 
-There are options to:
+Attention! If you combine plots e.g. with `cowplot:plot_grid` the default print function without watermark is called. In this case you have to add the watermark with the function `addwatermark(plotObject)` before the print.
+
+The watermark can by customized by this options:
 
 - Switch the watermark on and off (option key = `watermark_enabled`, default = `TRUE`)
 - Select the label (option key = `watermark_label`, default = "preliminary analysis")
@@ -230,11 +232,11 @@ There are options to:
 
 ```{r}
 # Change format and label of watermark
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = list(x = 0.2, y = 0.9, color = "red", angle = 90, fontsize = 24, alpha = 0.2))
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = list(x = 0.2, y = 0.6, color = "red", angle = 90, fontsize = 24, alpha = 0.2))
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "NEW")
 
 # Initialize plot
-initializePlot() + labs(title = "Changed Watermark", tag = "A")
+ggplotWithWatermark() + labs(title = "Changed Watermark", tag = "A")
 ```
 
 ```{r}
@@ -242,7 +244,7 @@ initializePlot() + labs(title = "Changed Watermark", tag = "A")
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = FALSE)
 
 # Initialize plot
-initializePlot() + labs(title = "No Watermark", tag = "B")
+ggplotWithWatermark() + labs(title = "No Watermark", tag = "B")
 ```
 
 ```{r}
@@ -252,7 +254,7 @@ setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = NULL)
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = NULL)
 
 # Initialize plot
-initializePlot() + labs(title = "Default Watermark", tag = "C")
+ggplotWithWatermark() + labs(title = "Default Watermark", tag = "C")
 ```
 
 ## 2.5.2 Options to Set the Defaults for Geom Layer Attributes
@@ -404,7 +406,7 @@ Exporting the Plot: Using the `exportPlot` function, you can easily save this pl
 Replace "path/to/save" with the actual directory path where you want to save the plot, and adjust the width and height parameters as needed.
 
 ```{r, eval=FALSE}
-exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "myplot.png", width = 10, height = 8)
+exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "myplot", width = 10, height = 8)
 ```
 
 ## 5.2 Advanced Usage

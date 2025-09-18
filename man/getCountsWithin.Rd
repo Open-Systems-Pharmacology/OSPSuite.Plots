@@ -10,7 +10,6 @@ getCountsWithin(
   comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
   addGuestLimits = FALSE,
   deltaGuest = 1,
-  groups = NULL,
   yDisplayAsAbsolute
 )
 }
@@ -25,13 +24,7 @@ getCountsWithin(
 
 \item{deltaGuest}{Numeric value parameter for the Guest function.}
 
-\item{groups}{Column names for grouping the counts.}
-
 \item{yDisplayAsAbsolute}{A boolean that defines the direction of comparison lines.}
-
-\item{yColumn}{The name of the Y column for values to count.}
-
-\item{xColumn}{The name of the X column for values to count.}
 }
 \value{
 A data table summarizing the counts within the specified limits.

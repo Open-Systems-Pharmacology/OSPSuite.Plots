@@ -67,7 +67,7 @@ plotRatioVsCov <- function(data = NULL,
                            comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
                            deltaGuest = 1,
                            ...) {
-  yDisplayAsAbsolute = FALSE
+  yDisplayAsAbsolute <- FALSE
 
   plotObject <- plotYVsX(
     data = data,
@@ -137,47 +137,7 @@ plotPredVsObs <- function(data = NULL,
 
   return(plotObject)
 }
-#' @title Create Drug-Drug Interaction (DDI) Interaction Plot
-#' @description
-#' This function generates a ggplot object to visualize drug-drug interaction (DDI) data.
-#' It plots predicted versus observed values on a log-log scale and helps interpret the data by adding
-#' goodness of prediction lines, including the line of identity, guest criteria,
-#' and two-fold lines to the plot.
-#'
-#' @param data A data frame containing the data to be plotted, which should include
-#'              the variables referenced in the mapping. The data frame must contain
-#'              at least one row of data for the plot to be generated.
-#' @param mapping A mapping of aesthetics to variables in the data. This should be a list
-#'                containing ggplot2 aesthetic mappings such as `x` and `y`, linking them to
-#'                the respective columns in `plotData`.
-#' @param xyscale Either "linear" or "log" scale for the X and Y axes.
-#' @param comparisonLineVector A vector defining the comparison lines.
-#' @param deltaGuest A numeric value parameter for the Guest function.
-#' @param asSquarePlot A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.
-#' @param ... Additional arguments that can be passed to the underlying plotting functions.
-#'
-#' @return A `ggplot` object representing the DDI interaction plot, which can be further
-#'         customized or saved using standard ggplot2 functions.
-#' @export
-#' @family plot functions
-createDDIInteractionPlot <- function(data = NULL,
-                                     mapping = NULL,
-                                     xyscale = AxisScales$log,
-                                     comparisonLineVector = getFoldDistanceList(c( 2)),
-                                     deltaGuest = 1,
-                                     asSquarePlot = TRUE,
-                                     ...){
-  plotObject <- plotPredVsObs(data = data,
-                              mapping = mapping,
-                              xyscale = xyscale,
-                              comparisonLineVector = comparisonLineVector,
-                              asSquarePlot = asSquarePlot,
-                              addGuestLimits = TRUE,
-                              deltaGuest = deltaGuest,
-                              ...)
 
-  return(plotObject)
-}
 #' @title Base Plot for Residuals and Predictions vs Covariates
 #' @description
 #' This function creates a base plot for `plotResVsCov()`, `plotRatioVsCov()`, and `plotPredVsObs()`.
@@ -341,9 +301,9 @@ plotYVsX <- function(data,
   # regression
   if (addRegression) {
     mappedDataAboveLLOQ <- mappedData$clone()
-    if (mappedDataAboveLLOQ$hasLLOQMatch){
+    if (mappedDataAboveLLOQ$hasLLOQMatch) {
       mappedDataAboveLLOQ$data <-
-        mappedDataAboveLLOQ$data[mappedDataAboveLLOQ$data$isLLOQ.i == FALSE,]
+        mappedDataAboveLLOQ$data[mappedDataAboveLLOQ$data$isLLOQ.i == FALSE, ]
     }
     plotObject <- addLayer(
       mappedData = mappedDataAboveLLOQ,
@@ -505,8 +465,8 @@ addComparisonLines <- function(plotObject,
   plotObject <- plotObject +
     do.call(
       what = ifelse(yDisplayAsAbsolute,
-                    ggplot2::geom_abline,
-                    ggplot2::geom_hline
+        ggplot2::geom_abline,
+        ggplot2::geom_hline
       ),
       args = utils::modifyList(
         list(
@@ -587,6 +547,7 @@ addGuestLayer <- function(plotObject,
 #' for the DDI ratio based on the provided parameters.
 #'
 #' @param x A numeric vector representing the observed values.
+#' @param deltaGuest Numeric value parameter for the Guest function.
 #' @param asLower A logical value indicating whether to calculate lower limits (default is TRUE).
 #' @param yDisplayAsAbsolute A logical value if FALSE the limits are calculated for the ratio predicted/observed
 #'  if TRUE limits are calculated for observed
@@ -611,9 +572,6 @@ getGuestLimits <- function(x, deltaGuest = 1, yDisplayAsAbsolute = FALSE, asLowe
 #' This function counts entries within specific limits defined by the comparison lines and guest limits.
 #'
 #' @inheritParams plotYVsX
-#' @param yColumn The name of the Y column for values to count.
-#' @param xColumn The name of the X column for values to count.
-#' @param groups Column names for grouping the counts.
 #'
 #' @return A data table summarizing the counts within the specified limits.
 #' @export
@@ -622,15 +580,15 @@ getCountsWithin <- function(data,
                             comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
                             addGuestLimits = FALSE,
                             deltaGuest = 1,
-                            groups = NULL,
                             yDisplayAsAbsolute) {
   # initialize variables to avoid warning in check()
-  Description <- value <- Number <- name <- NULL # nolint
+  Description <- value <- Number <- name <- x <- y <- NULL # nolint
 
   # Check for limit lines
   if (!addGuestLimits &&
-      (is.null(comparisonLineVector) ||
-       length(setdiff(names(comparisonLineVector),'identity')) == 0)) return(NULL)
+    is.null(comparisonLineVector)) {
+    return(NULL)
+  }
 
   checkmate::assertDataFrame(data, null.ok = FALSE, min.rows = 1)
   checkmate::assertNames(names(mapping), must.include = c("y", "x"))
@@ -639,52 +597,67 @@ getCountsWithin <- function(data,
   checkmate::assertList(comparisonLineVector, types = "double", any.missing = FALSE, null.ok = TRUE, min.len = 1)
   checkmate::assertDouble(deltaGuest, null.ok = !addGuestLimits, len = 1)
 
+  lineVectorFiltered <- comparisonLineVector[lapply(comparisonLineVector, length) == 2]
+  if (length(lineVectorFiltered) == 0 && !addGuestLimits) {
+    return(NULL)
+  }
+  if (is.null(names(lineVectorFiltered))) {
+    names(lineVectorFiltered) <- sapply(lineVectorFiltered, function(x) {
+      paste(x, collapse = " - ")
+    })
+  }
+
   # use data.table functionality
   data.table::setDT(data)
 
-  fixedData = list()
-  for (aesthetic in intersect(c("x", "y","group"),names(mapping)) ){
+  fixedData <- list()
+  for (aesthetic in intersect(c("x", "y", "group"), names(mapping))) {
     fixedData[[aesthetic]] <-
-      tryCatch({
-        rlang::eval_tidy(
-          expr = rlang::get_expr(mapping[[aesthetic]]),
-          data = data,
-          env = rlang::get_env(mapping[[aesthetic]])
-        )
-      },
-      error = function(cond) {
-        warning('It was not possible to derive the data wit the mapping')
-        return(NULL)
-      }
+      tryCatch(
+        {
+          rlang::eval_tidy(
+            expr = rlang::get_expr(mapping[[aesthetic]]),
+            data = data,
+            env = rlang::get_env(mapping[[aesthetic]])
+          )
+        },
+        error = function(cond) {
+          warning("It was not possible to derive the data wit the mapping")
+          return(NULL)
+        }
       )
   }
   fixedData <- data.table::as.data.table(fixedData)
 
   # if grouping provide one row per group
-  if ('group' %in% names(fixedData)) {
-    tmp <- merge(fixedData[, .("Points total" = .N), by = 'group'],
-                 fixedData[, as.list(
-                   countEntriesInBetween(
-                     xColumn = x,
-                     yColumn = y,
-                     comparisonLineVector = comparisonLineVector,
-                     addGuestLimits = addGuestLimits,
-                     deltaGuest = deltaGuest,
-                     yDisplayAsAbsolute = yDisplayAsAbsolute
-                   )
-                 ),
-                 by = 'group'
-                 ],
-                 by = 'group'
+  if ("group" %in% names(fixedData)) {
+    tmp <- merge(fixedData[, .("Points total" = .N), by = "group"],
+      fixedData[, as.list(
+        countEntriesInBetween(
+          xColumn = x,
+          yColumn = y,
+          comparisonLineVector = lineVectorFiltered,
+          addGuestLimits = addGuestLimits,
+          deltaGuest = deltaGuest,
+          yDisplayAsAbsolute = yDisplayAsAbsolute
+        )
+      ),
+      by = "group"
+      ],
+      by = "group"
     )
 
-    tmp <- rbind(data.table(group = "all Groups",
-                            tmp[, lapply(.SD, sum), .SDcols = setdiff(names(tmp), "group")]),
-                 tmp)
+    tmp <- rbind(
+      data.table(
+        group = "all Groups",
+        tmp[, lapply(.SD, sum), .SDcols = setdiff(names(tmp), "group")]
+      ),
+      tmp
+    )
 
     countsWithin <- tidyr::pivot_longer(
       data = tmp,
-      cols = intersect(names(tmp), c(names(comparisonLineVector), "guest criteria")),
+      cols = intersect(names(tmp), c(names(lineVectorFiltered), "guest criteria")),
       names_to = "Description", values_to = "Number"
     ) %>%
       dplyr::mutate(Fraction = Number / get("Points total")) %>%
@@ -707,7 +680,7 @@ getCountsWithin <- function(data,
         countEntriesInBetween(
           xColumn = x,
           yColumn = y,
-          comparisonLineVector = comparisonLineVector,
+          comparisonLineVector = lineVectorFiltered,
           addGuestLimits = addGuestLimits,
           deltaGuest = deltaGuest,
           yDisplayAsAbsolute = yDisplayAsAbsolute
@@ -719,8 +692,8 @@ getCountsWithin <- function(data,
 
 
     countsWithin <- rbind(totalNumber,
-                          tmp,
-                          fill = TRUE
+      tmp,
+      fill = TRUE
     )
   }
 
@@ -741,7 +714,7 @@ getCountsWithin <- function(data,
 #' @return A list containing counts of entries that fall within the specified limits, including guest criteria if applicable.
 #' @keywords internal
 countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector,
-                                  deltaGuest, addGuestLimits,yDisplayAsAbsolute) {
+                                  deltaGuest, addGuestLimits, yDisplayAsAbsolute) {
   counts <- list()
   if (addGuestLimits) {
     lower <-
@@ -759,19 +732,19 @@ countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector,
         asLower = FALSE
       )
     counts[["guest criteria"]] <- sum(yColumn >= lower &
-                                        yColumn <= upper)
+      yColumn <= upper)
   }
 
   if (!is.null(names(comparisonLineVector))) {
-    if (yDisplayAsAbsolute){
-      ratio <- yColumn/xColumn
+    if (yDisplayAsAbsolute) {
+      ratio <- yColumn / xColumn
     } else {
       ratio <- yColumn
     }
     for (fd in names(comparisonLineVector)) {
       if (length(comparisonLineVector[[fd]]) > 1) {
         counts[[fd]] <- sum(ratio >= min(comparisonLineVector[[fd]]) &
-                              ratio <= max(comparisonLineVector[[fd]]))
+          ratio <= max(comparisonLineVector[[fd]]))
       }
     }
   }

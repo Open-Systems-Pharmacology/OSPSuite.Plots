@@ -10,11 +10,11 @@ test_that("plot histogram works for all stacked  frequency distribution fit comb
 
   myData <- rbind(
     data.table(
-      Ratio = qnorm(p = seq(0.01,0.99,length.out = 1000)),
+      Ratio = qnorm(p = seq(0.01, 0.99, length.out = 1000)),
       Sex = "female"
     ),
     data.table(
-      Ratio = qnorm(p = seq(0.01,0.99,length.out = 1000), mean = 1),
+      Ratio = qnorm(p = seq(0.01, 0.99, length.out = 1000), mean = 1),
       Sex = "male"
     )
   )

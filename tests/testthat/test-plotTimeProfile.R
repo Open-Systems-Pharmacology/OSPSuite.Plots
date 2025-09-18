@@ -57,7 +57,7 @@ test_that("plotTimeProfile works logscale", {
   metaData <- attr(exampleDataTimeProfile, "metaData")
 
   fig <- plotTimeProfile(
-    data = simData[simData$time > 0,],
+    data = simData[simData$time > 0, ],
     observedData = obsData,
     metaData = metaData,
     mapping = aes(
@@ -96,7 +96,7 @@ test_that("plotTimeProfile works mapping observed plot", {
 
   metaData <- attr(exampleDataTimeProfile, "metaData")
 
-  #map with reverse order to make sure
+  # map with reverse order to make sure
   mapSimulatedAndObserved <- data.frame(
     simulated = rev(unique(simData$caption)),
     observed = unique(obsData$caption)
@@ -177,7 +177,8 @@ test_that("plotTimeProfile works lloq", {
     mapping = aes(
       x = time,
       y = values,
-      linetype = 'Simulated'),
+      linetype = "Simulated"
+    ),
     observedMapping = aes(
       x = time,
       y = values,

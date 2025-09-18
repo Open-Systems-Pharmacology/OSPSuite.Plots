@@ -9,6 +9,8 @@ getGuestLimits(x, deltaGuest = 1, yDisplayAsAbsolute = FALSE, asLower = TRUE)
 \arguments{
 \item{x}{A numeric vector representing the observed values.}
 
+\item{deltaGuest}{Numeric value parameter for the Guest function.}
+
 \item{yDisplayAsAbsolute}{A logical value if FALSE the limits are calculated for the ratio predicted/observed
 if TRUE limits are calculated for observed}
 

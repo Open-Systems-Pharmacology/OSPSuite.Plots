@@ -94,8 +94,8 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
       }
 
       # save list of groups for legend adjustment
-      groupAesthetic <- head(intersect(groupAesthetics,names(self$mapping)),1)
-      if (length(groupAesthetic) > 0){
+      groupAesthetic <- head(intersect(groupAesthetics, names(self$mapping)), 1)
+      if (length(groupAesthetic) > 0) {
         private$.listOfGroups <- unique(private$getDataForAesthetic(groupAesthetic))
       }
 

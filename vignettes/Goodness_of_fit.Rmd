@@ -492,20 +492,9 @@ plotObject <- plotRatioVsCov(
 
 plot(plotObject)
 
-knitr::kable(plotObject$countsWithin, caption = "Ratios not stratified")
+knitr::kable(plotObject$countsWithin, caption = "Counts and fraction within ranges")
 ```
 
-To calculate this, the function `getCountsWithin` is called internally without stratification (variable `groups = NULL`). If you want to calculate the number of ratios with stratification, you can call `getCountsWithin` and define the stratification with the variable `groups`.
-
-```{r qualification-tables, results='asis'}
-countsWithinSex <- getCountsWithin(
-  data = pkRatioData,
-  yColumn = "Ratio",
-  groups = c("Sex")
-)
-
-knitr::kable(countsWithinSex, caption = "Ratios stratified by gender")
-```
 
 ## 4.3 Add Guest Criteria Lines
 
@@ -524,7 +513,24 @@ plotObject <- plotRatioVsCov(
   addGuestLimits = TRUE,
   comparisonLineVector = 1
 )
-plot(plotObject)
+
+print(plotObject)
+knitr::kable(plotObject$countsWithin)
+
+plotObject <- plotPredVsObs(
+  data = dDIdata,
+  mapping = aes(
+    x = Obs,
+    predicted = Pred,
+    observed = Obs,
+    groupby = Study
+  ),
+  comparisonLineVector = getFoldDistanceList(c(2)),
+  addGuestLimits = TRUE
+)
+
+print(plotObject)
+knitr::kable(plotObject$countsWithin)
 ```
 
 # 5. Quantile Plot (`plotQQ()`)

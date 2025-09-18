@@ -15,6 +15,8 @@ addGuestLayer(
 \arguments{
 \item{plotObject}{object to be updated}
 
+\item{deltaGuest}{Numeric value parameter for the Guest function.}
+
 \item{yDisplayAsAbsolute}{A logical value if FALSE the limits are calculated for the ratio predicted/observed
 if TRUE limits are calculated for observed}
 

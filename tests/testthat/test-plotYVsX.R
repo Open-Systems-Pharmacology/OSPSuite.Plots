@@ -12,7 +12,6 @@ test_that("plot Residuals vs Covariate works", {
   metaData <- attr(exampleDataCovariates, "metaData")
   metaData <- metaData[intersect(names(data), names(metaData))]
 
-
   fig <- plotResVsCov(
     data = data, mapping = aes(
       x = Age,
@@ -112,10 +111,8 @@ test_that("getCountsWithin works for Ratio", {
     dplyr::filter(SetID == "DataSet1") %>%
     dplyr::select(-c("SetID"))
 
-
   metaData <- attr(exampleDataCovariates, "metaData")
   metaData <- metaData[intersect(names(pkRatioData), names(metaData))]
-
 
   plotObject <- plotRatioVsCov(
     data = pkRatioData,
@@ -133,27 +130,31 @@ test_that("getCountsWithin works for Ratio", {
     fig = plotObject
   )
 
-  expect_equal(plotObject$countsWithin$Fraction[c(2, 3)], expected = c(0.48, 0.64))
+  expect_equal(as.vector(unlist(plotObject$countsWithin[1, c(4, 6)])), expected = c(0.48, 0.64))
 
-  pKRatioMeasureSex <- getCountsWithin(
-    data = pkRatioData,
-    yColumn = "Ratio",
-    groups = c("Sex")
-  )
-
-  expect_equal(pKRatioMeasureSex$`1.5 fold Fraction`, expected = c(0.44, 0.52))
+  expect_equal(plotObject$countsWithin$`1.5 fold Fraction`, expected = c(0.48, 0.44, 0.52))
 })
 
 test_that("getCountsWithin works for Guest Criteria", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-
   # Load example
   dDIdata <- exampleDataCovariates %>%
     dplyr::filter(SetID == "DataSet3") %>%
     dplyr::select(c("ID", "Obs", "Pred")) %>%
     dplyr::mutate(Type = ifelse(ID <= 5, "A", "B"))
+
+  dDImetaData <- list(
+    Obs = list(
+      dimension = "DDI AUC Ratio",
+      unit = ""
+    ),
+    Pred = list(
+      dimension = "DDI AUC Ratio",
+      unit = ""
+    )
+  )
 
   plotObject <- plotRatioVsCov(
     data = dDIdata,
@@ -164,25 +165,67 @@ test_that("getCountsWithin works for Guest Criteria", {
       groupby = Type
     ),
     addGuestLimits = TRUE,
-    comparisonLineVector = NULL,
+    comparisonLineVector = getFoldDistanceList(2),
     deltaGuest = 1
   )
 
-  # check overall
-  expect_equal(plotObject$countsWithin$Fraction, expected = c(1, 0.6))
+  expect_equal(plotObject$countsWithin$`guest criteria Fraction`, expected = c(0.6, 0.6, 0.6))
 
-  # check by group
-  countsGroup <- getCountsWithin(
-    data = plotObject$data,
-    xColumn = "Obs",
-    yColumn = "residuals.i",
-    groups = c("Type"),
+  plotObjectDiag <- plotPredVsObs(
+    data = dDIdata,
+    metaData = dDImetaData,
+    mapping = aes(
+      predicted = Pred,
+      observed = Obs,
+      groupby = Type
+    ),
     addGuestLimits = TRUE,
-    deltaGuest = 1,
-    comparisonLineVector = NULL
+    comparisonLineVector = getFoldDistanceList(2)
   )
 
-  expect_equal(countsGroup$`guest criteria Fraction`, expected = c(0.6, 0.6))
+  expect_equal(plotObject$countsWithin, plotObjectDiag$countsWithin)
+
+  plotObjectUngrouped <- plotPredVsObs(
+    data = dDIdata,
+    metaData = dDImetaData,
+    mapping = aes(
+      predicted = Pred,
+      observed = Obs
+    ),
+    addGuestLimits = TRUE,
+    comparisonLineVector = getFoldDistanceList(2)
+  )
+
+  expect_equal(plotObjectUngrouped$countsWithin$Fraction, c(1, 0.6, 1))
+})
+test_that("adjust lines works withot error", {
+  data <- exampleDataCovariates %>%
+    dplyr::filter(SetID == "DataSet2") %>%
+    dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex"))
+
+  # case with lines which are no interval
+  expect_no_error(plotResVsCov(
+    data = data,
+    mapping = aes(
+      x = Age,
+      predicted = Pred,
+      observed = Obs,
+      groupby = Sex
+    ),
+    comparisonLineVector = list(zero = 0, "lower limit" = -0.25, "upper limit" = 0.25)
+  ))
+
+  # case with unnamed intervals
+  expect_no_error(plotPredVsObs(
+    data = data,
+    mapping = aes(
+      x = Obs,
+      y = Pred,
+      groupby = Sex
+    ),
+    comparisonLineVector = unname(getFoldDistanceList(c(1.2, 1.5))),
+    geomComparisonLineAttributes = list(linetype = "dotted")
+  ))
 })
 
 ospsuite.plots::resetDefaults(oldDefaults)

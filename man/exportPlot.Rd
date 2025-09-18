@@ -2,29 +2,55 @@
 % Please edit documentation in R/utilities_export.R
 \name{exportPlot}
 \alias{exportPlot}
-\title{export plot object}
+\title{Export a ggplot object to a file}
 \usage{
-exportPlot(plotObject, filepath, filename, width = NULL, height = NULL, ...)
+exportPlot(
+  plotObject,
+  filepath,
+  filename,
+  width = NULL,
+  height = NULL,
+  device = NULL,
+  ...
+)
 }
 \arguments{
-\item{plotObject}{ggplot object}
+\item{plotObject}{A ggplot object to be exported.}
 
-\item{filepath}{name of export directory}
+\item{filepath}{A character string specifying the directory to save the plot.}
 
-\item{filename}{name of file to save.
-extension is added or switched to default device
-\code{getOspsuite.plots.option(optionKey = OptionKeys$export.device)}}
+\item{filename}{A character string specifying the name of the file (without path).}
 
-\item{width}{\code{double} width of exported file, defaults is \code{getOption('ospsuite.plots.export.width',default = 16)}
-unit \code{getOption('ospsuite.plots.export.units',  default = "cm")}}
+\item{width}{A numeric value specifying the width of the plot. If NULL, the default option is used.}
 
-\item{height}{\code{double} height of exported plot, if NULL the aspect ratio of plot is used,
-or if no aspect ratio is defined, a square plot is exported}
+\item{height}{A numeric value specifying the height of the plot. If NULL, it is calculated based on the plot dimensions.}
 
-\item{...}{Other arguments passed on to the ggsave}
+\item{device}{Export device, if NULL (default) the device set by ospsuite.plots.export.device is used.}
+
+\item{...}{Additional arguments passed to \code{ggsave}.}
+}
+\value{
+NULL, the function saves the plot to the specified file.
 }
 \description{
-saves plot object to file
+This function exports a ggplot object to a specified file with customizable options.
+}
+\details{
+The height of the plot is calculated if it is not provided by the user. The calculation takes into account:
+\itemize{
+\item The aspect ratio of the plot, which is derived from the theme settings.
+\item The number of rows and columns in the plot layout.
+\item The dimensions of plot components such as axes, legends, and margins.
+The function ensures that the height is adjusted to maintain the correct aspect ratio based on the specified width.
+}
+
+Options available for plot export with default values:
+\itemize{
+\item \code{ospsuite.plots.export.width}: Width of the exported plot (default = 16).
+\item \code{ospsuite.plots.export.units}: Units of the exported plot (default = "cm").
+\item \code{ospsuite.plots.export.device}: File format of the exported plot (default = "png").
+\item \code{ospsuite.plots.export.dpi}: Resolution of the exported plot (default = 300).
+}
 
 For more details and examples see the vignettes:
 \itemize{

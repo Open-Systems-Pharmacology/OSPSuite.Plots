@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotYVsX.R
 \name{.validatePlotYXsXInputs}
 \alias{.validatePlotYXsXInputs}
-\title{Title}
+\title{Validate Plot Inputs}
 \usage{
 .validatePlotYXsXInputs(
   data,
@@ -27,7 +27,7 @@
 )
 }
 \arguments{
-\item{data}{A \code{data.frame} with data to plot}
+\item{data}{A \code{data.frame} containing the data to plot.}
 
 \item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
 
@@ -35,33 +35,25 @@
 
 \item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
 
-\item{geomGuestLineAttributes}{A \code{list} with arguments which are passed on to the
-call \code{ggplot2::geom_function} to display guest criteria}
+\item{geomGuestLineAttributes}{A \code{list} of arguments passed to \code{ggplot2::geom_function} to display guest criteria.}
 
-\item{geomComparisonLineAttributes}{A \code{list} with arguments which are passed on to the
-call \code{ggplot2::hline}  or \code{ggplot2::abline} to display comparison lines}
+\item{geomComparisonLineAttributes}{A \code{list} of arguments passed to \code{ggplot2::hline} or \code{ggplot2::abline} to display comparison lines.}
 
 \item{geomLLOQAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
 
 \item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with \code{groupby},}
 
-\item{comparisonLineVector}{either a double vector or a list of double values
-if add \code{addLinesDiagnonal = FALSE} lines will be added as horizontal lines with the
-intercept at values of \code{comparisonLineVector}
-If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance lines to the identity.}
+\item{comparisonLineVector}{A vector defining the comparison lines.}
 
-\item{addRegression}{A \code{boolean} which activates insertion of regression line}
+\item{addRegression}{A boolean that activates the insertion of a regression line.}
 
-\item{addGuestLimits}{A \code{boolean} which activates insertion of regression line}
+\item{addGuestLimits}{A boolean that activates the insertion of guest limits.}
 
-\item{deltaGuest}{Numeric value parameter of Guest function}
+\item{deltaGuest}{Numeric value parameter for the Guest function.}
 
-\item{residualScale}{either "linear","log" or "ratio" scale residuals,
-* linear:  residuals are calculated observed - predicted
-* log: residuals are calculated log(observed) - log(predicted)
-* ratio: residuals are calculated as observed/predicted}
+\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
 
-\item{asSquarePlot}{A \code{boolean} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
+\item{asSquarePlot}{A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.}
 
 \item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
 
@@ -71,10 +63,12 @@ If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance line
 
 \item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{observedDataDirection}{either 'x' or 'y', defines direction of observed data. relevant for
-aesthetics \code{lloq}, \code{error}end \code{error_relative}}
+\item{observedDataDirection}{Either 'x' or 'y', defining the direction of observed data.}
+}
+\value{
+Invisible NULL if validation is successful; otherwise, an error is raised.
 }
 \description{
-Title
+This internal function validates the inputs for plotting functions to ensure proper data format and parameter values.
 }
 \keyword{internal}

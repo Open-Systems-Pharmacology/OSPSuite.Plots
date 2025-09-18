@@ -15,10 +15,8 @@ test_that("plot Observed vs Predicted works", {
     dplyr::mutate(lloq = lloqData) %>%
     dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
 
-
   metaData <- attr(exampleDataCovariates, "metaData")
   metaData <- metaData[intersect(names(data), names(metaData))]
-
 
   vdiffr::expect_doppelganger(
     title = "plotQQ",

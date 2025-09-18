@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotHistogram.R
 \name{plotHistogram}
 \alias{plotHistogram}
-\title{generates histograms}
+\title{Generates Histograms}
 \usage{
 plotHistogram(
   data,
@@ -29,12 +29,12 @@ see vignettes for more details and examples}
 
 \item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
 
-\item{asBarPlot}{A \code{boolean} defining if geom_histogram should be used (continuous data) or geom_bar (categorical)
-if TRUE variables \code{distribution}, \code{meanFunction}, \code{xacale} and \code{xscale.args} are ignored}
+\item{asBarPlot}{A \code{logical} indicating if \code{geom_histogram} should be used (for continuous data) or \code{geom_bar} (for categorical data).
+If TRUE, the variables \code{distribution}, \code{meanFunction}, \code{xscale}, and \code{xscale.args} are ignored.}
 
-\item{geomHistAttributes}{A \code{list} with arguments which are passed on to the ggplot2::geom_histogram (geom_bar if \code{asBarPlot} = TRUE)}
+\item{geomHistAttributes}{A \code{list} of arguments passed to \code{ggplot2::geom_histogram} (or \code{geom_bar} if \code{asBarPlot} = TRUE).}
 
-\item{plotAsFrequency}{A \code{boolean} defining if histogram displays a frequency in y axis}
+\item{plotAsFrequency}{A \code{logical} indicating if the histogram displays frequency on the y-axis.}
 
 \item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
 
@@ -44,22 +44,19 @@ if TRUE variables \code{distribution}, \code{meanFunction}, \code{xacale} and \c
 
 \item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{distribution}{name of distribution  available are all distributions available in package stats: (see ? stats::distributions) \code{norm},\code{lnorm}, ...
-accepted are also normal (instead of \code{norm}) and lognormal (instead of \code{lnorm})}
+\item{distribution}{Name of the distribution to fit. Available distributions are those in the \code{stats} package (see ? stats::distributions): \code{norm}, \code{lnorm}, etc.
+Accepted are also \code{normal} (instead of \code{norm}) and \code{lognormal} (instead of \code{lnorm}).}
 
-\item{meanFunction}{function selection for display of vertical line. Available are 'none','mean','geomean','median','auto' (default)
-'auto' selects 'mean' for \code{normal} distribution, 'geomean' for \code{lognormal} distribution, 'median' for all other distributions, and 'none' for 'none' distribution}
+\item{meanFunction}{Function selection for the display of a vertical line. Available options are: 'none', 'mean', 'geomean', 'median', 'auto' (default).
+'auto' selects 'mean' for \code{normal} distribution, 'geomean' for \code{lognormal}, 'median' for all other distributions, and 'none' for for 'none' distribution.}
 
-\item{residualScale}{either "linear","log" or "ratio" scale residuals,
-* linear:  residuals are calculated observed - predicted
-* log: residuals are calculated log(observed) - log(predicted)
-* ratio: residuals are calculated as observed/predicted}
+\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
 }
 \value{
-A \code{ggplot} object
+A \code{ggplot} object.
 }
 \description{
-Produces histograms with optional distribution fit
+Produces histograms with optional distribution fit.
 
 For more details and examples see the vignettes:
 \itemize{

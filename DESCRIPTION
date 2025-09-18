@@ -23,10 +23,12 @@ Imports:
     scales,
     dplyr,
     magrittr,
-    tidyr
+    fitdistrplus,
+    tidyr,
+    fs
 Depends: 
     R (>= 3.6),
-    ggplot2 (>= 3.5.0)
+    ggplot2 (>= 4.0)
 Encoding: UTF-8
 RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
@@ -37,11 +39,14 @@ Suggests:
     showtext,
     sysfonts,
     ggsci,
+    png,
     cowplot,
     ggpubr,
+    svglite,
     testthat (>= 3.0.3),
     vdiffr (>= 1.0.0),
     lintr,
+    devtools (>= 2.4.5),
     rex
 VignetteBuilder: knitr
 Vignette:
@@ -54,8 +59,8 @@ Config/testthat/edition: 3
 Collate: 'utilities-defaults.R'
          'utilities_enum.R'
          'add_Layer.R'
+         'ggplotWithWatermark.R'
          'CombinedPlot.R'
-         'customLinter.R'
          'data.R'
          'MappedData.R'
          'MappedDataBoxplot.R'

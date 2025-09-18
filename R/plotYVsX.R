@@ -1,24 +1,21 @@
-#' @title generates residual plots vs covariate
+#' @title Generate Residual Plots vs Covariate
 #' @description
-#' This functions is a wrapper  for `plotYVsX` with adjusted input parameter:
+#' This function is a wrapper for `plotYVsX` with adjusted input parameters.
 #'
+#' The following parameters are fixed and cannot be set:
+#' * `observedDataDirection = 'y'`
+#' * `yDisplayAsAbsolute = TRUE`
+#' * `addGuestLimits = FALSE` (use `plotRatio()` if needed)
 #'
-#'  parameters  fixed and not settable
-#'  * `observedDataDirection = 'y'`
-#'  * `addLinesDiagnonal = TRUE`
-#'  * `addGuestLimits = FALSE` (use `plotRatio()` if needed)
-#'
-#'
-#' For details and examples see the vignettes:
+#' For details and examples, see the vignettes:
 #' * \code{vignette("Goodness of fit", package = "ospsuite.plots")}
 #' * \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 #'
-#' @param ...  passed on to plotYVsX
+#' @param ... Additional arguments passed to `plotYVsX`.
 #' @inheritParams plotYVsX
 #' @inheritDotParams plotYVsX
 #'
-#'
-#' @return A `ggplot` object
+#' @return A `ggplot` object representing the residual plots.
 #' @export
 #' @family plot functions
 plotResVsCov <- function(data,
@@ -37,33 +34,29 @@ plotResVsCov <- function(data,
     yscale = yscale,
     comparisonLineVector = comparisonLineVector,
     observedDataDirection = "y",
-    addLinesDiagnonal = FALSE,
+    yDisplayAsAbsolute = FALSE,
     ...
   )
 
   return(plotObject)
 }
-
-#' @title generates plots of ratios vs covariate
+#' @title Generate Plots of Ratios vs Covariate
 #' @description
-#'  This functions is a wrapper  for `plotYVsX` with adjusted input parameter:
+#' This function is a wrapper for `plotYVsX` with adjusted input parameters.
 #'
+#' The following parameters are fixed and cannot be set:
+#' * `residualScale = "ratio"`
+#' * `observedDataDirection = 'y'`
+#' * `yDisplayAsAbsolute = FALSE`
 #'
-#'  parameters below are fixed and not settable
-#'  * `residualScale = "ratio"`
-#'  * `observedDataDirection = 'y'`
-#'  * `addLinesDiagnonal = FALSE`
-#'
-#'
-#' For details and examples see the vignettes:
+#' For details and examples, see the vignettes:
 #' * \code{vignette("Goodness of fit", package = "ospsuite.plots")}
 #' * \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 #'
 #' @inheritParams plotYVsX
 #' @inheritDotParams plotYVsX
 #'
-#'
-#' @return A `ggplot` object
+#' @return A `ggplot` object representing the ratio plots.
 #' @export
 #' @family plot functions
 plotRatioVsCov <- function(data = NULL,
@@ -74,6 +67,8 @@ plotRatioVsCov <- function(data = NULL,
                            comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
                            deltaGuest = 1,
                            ...) {
+  yDisplayAsAbsolute <- FALSE
+
   plotObject <- plotYVsX(
     data = data,
     mapping = mapping,
@@ -83,66 +78,30 @@ plotRatioVsCov <- function(data = NULL,
     addGuestLimits = addGuestLimits,
     deltaGuest = deltaGuest,
     observedDataDirection = "y",
-    addLinesDiagnonal = FALSE,
+    yDisplayAsAbsolute = yDisplayAsAbsolute,
     residualScale = ResidualScales$ratio,
     ...
   )
 
-
-  # do quantification
-  if (requireNamespace("data.table", quietly = TRUE) &
-    (addGuestLimits | !is.null(names(comparisonLineVector)))) {
-    pb <- ggplot_build(plotObject)
-    iData <- which(unlist(lapply(pb$data, function(x) {
-      return(all(c("x", "y", "shape") %in% names(x)))
-    })))
-
-    if (length(iData) == 0) stop("Could not find data for counting within limits")
-    if (length(iData) > 1) iData <- iData[1]
-
-    if (length(iData) > 0) {
-      if (xscale == AxisScales$log) {
-        pb$data[[iData]]$x <- 10^(pb$data[[iData]]$x)
-      }
-      if (yscale == AxisScales$log) {
-        pb$data[[iData]]$y <- 10^(pb$data[[iData]]$y)
-      }
-
-      plotObject$countsWithin <- getCountsWithin(
-        data = pb$data[[iData]],
-        xColumn = "x",
-        yColumn = "y",
-        comparisonLineVector = comparisonLineVector,
-        addGuestLimits = addGuestLimits,
-        deltaGuest = deltaGuest
-      )
-    } else {
-      warning("no datapoints available for quantification")
-    }
-  }
-
-
   return(plotObject)
 }
-
-
-#' @title generates predicted vs observed plots
+#' @title Generate Predicted vs Observed Plots
 #' @description
-#'  This functions is a wrapper for function `plotYVsX` with adjusted input parameter.
+#' This function is a wrapper for `plotYVsX` with adjusted input parameters.
 #'
-#'  * `residualScale` is fixed to NULL,
-#'  * `observedDataDirection` is fixed to 'x'
+#' The following parameters are fixed:
+#' * `residualScale` is fixed to NULL,
+#' * `observedDataDirection` is fixed to 'x'
 #'
-#' For details and examples see the vignettes:
+#' For details and examples, see the vignettes:
 #' * \code{vignette("Goodness of fit", package = "ospsuite.plots")}
 #' * \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 #'
-#' @param xyscale  either "linear" or "log" scale of x and y axis
+#' @param xyscale Either "linear" or "log" scale for the X and Y axes.
 #' @inheritParams plotYVsX
 #' @inheritDotParams plotYVsX
 #'
-#'
-#' @return A `ggplot` object
+#' @return A `ggplot` object representing the predicted vs observed plots.
 #' @export
 #' @family plot functions
 plotPredVsObs <- function(data = NULL,
@@ -166,7 +125,7 @@ plotPredVsObs <- function(data = NULL,
     xscale = xyscale,
     yscale = xyscale,
     observedDataDirection = "x",
-    addLinesDiagnonal = TRUE,
+    yDisplayAsAbsolute = TRUE,
     asSquarePlot = asSquarePlot,
     ...
   )
@@ -176,42 +135,33 @@ plotPredVsObs <- function(data = NULL,
   plotObject$labels$y <-
     paste(c(plotObject$labels$y, "predicted"), collapse = "\n")
 
-
   return(plotObject)
 }
 
-#' @title base plot for `plotResVsCov()`,`plotRatiVsCov()` and`plotPredVsObs()`
+#' @title Base Plot for Residuals and Predictions vs Covariates
 #' @description
+#' This function creates a base plot for `plotResVsCov()`, `plotRatioVsCov()`, and `plotPredVsObs()`.
 #'
-#' For details and examples see the vignettes:
-#' \code{vignette("Goodness of fit", package = "ospsuite.plots")}
-#' \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
+#' For details and examples, see the vignettes:
+#' * \code{vignette("Goodness of fit", package = "ospsuite.plots")}
+#' * \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 #'
 #' @inheritParams plotTimeProfile
-#' @param data  A `data.frame` with data to plot
-#' @param mapping  a list of aesthetic mappings to use for plot
-#' @param geomComparisonLineAttributes A `list` with arguments which are passed on to the
-#'             call `ggplot2::hline`  or `ggplot2::abline` to display comparison lines
-#' @param geomGuestLineAttributes A `list` with arguments which are passed on to the
-#'              call `ggplot2::geom_function` to display guest criteria
-#' @param residualScale either "linear","log" or "ratio" scale residuals,
-#'        * linear:  residuals are calculated observed - predicted
-#'        * log: residuals are calculated log(observed) - log(predicted)
-#'        * ratio: residuals are calculated as observed/predicted
-#' @param comparisonLineVector either a double vector or a list of double values
-#'    if add `addLinesDiagnonal = FALSE` lines will be added as horizontal lines with the
-#'    intercept at values of `comparisonLineVector`
-#'    If add `addLinesDiagnonal = TRUE` lines will be added as fold distance lines to the identity.
-#' @param addLinesDiagnonal A `boolean`which defines direction of comparison lines
-#' @param addRegression A `boolean` which activates insertion of regression line
-#' @param addGuestLimits A `boolean` which activates insertion of regression line
-#' @param deltaGuest Numeric value parameter of Guest function
-#' @param labelGuestCriteria label used in legend for guest criteria (default guest criteria)
-#' @param asSquarePlot A `boolean` if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios
-#' @param observedDataDirection either 'x' or 'y', defines direction of observed data. relevant for
-#' aesthetics `lloq`, `error`end `error_relative`
+#' @param data A `data.frame` containing the data to plot.
+#' @param mapping A list of aesthetic mappings to use for the plot.
+#' @param geomComparisonLineAttributes A `list` of arguments passed to `ggplot2::hline` or `ggplot2::abline` to display comparison lines.
+#' @param geomGuestLineAttributes A `list` of arguments passed to `ggplot2::geom_function` to display guest criteria.
+#' @param residualScale Either "linear", "log", or "ratio" scale for residuals.
+#' @param comparisonLineVector A vector defining the comparison lines.
+#' @param yDisplayAsAbsolute A boolean that defines the direction of comparison lines.
+#' @param addRegression A boolean that activates the insertion of a regression line.
+#' @param addGuestLimits A boolean that activates the insertion of guest limits.
+#' @param deltaGuest Numeric value parameter for the Guest function.
+#' @param labelGuestCriteria Label used in the legend for guest criteria (default: "guest criteria").
+#' @param asSquarePlot A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.
+#' @param observedDataDirection Either 'x' or 'y', defining the direction of observed data.
 #'
-#' @return A `ggplot` object
+#' @return A `ggplot` object representing the plotted data.
 #' @export
 #' @family plot functions
 plotYVsX <- function(data,
@@ -235,7 +185,7 @@ plotYVsX <- function(data,
                      yscale = AxisScales$log,
                      yscale.args = list(),
                      observedDataDirection = "y",
-                     addLinesDiagnonal = TRUE) {
+                     yDisplayAsAbsolute = TRUE) {
   if (is.double(comparisonLineVector)) comparisonLineVector <- as.list(comparisonLineVector)
   .validatePlotYXsXInputs(
     data = data,
@@ -291,7 +241,7 @@ plotYVsX <- function(data,
     plotObject <- addComparisonLines(
       plotObject = plotObject,
       comparisonLineVector = comparisonLineVector,
-      addLinesDiagnonal = addLinesDiagnonal,
+      yDisplayAsAbsolute = yDisplayAsAbsolute,
       geomLineAttributes = geomComparisonLineAttributes,
       xyscale = xscale
     )
@@ -303,7 +253,7 @@ plotYVsX <- function(data,
       plotObject = plotObject,
       deltaGuest = deltaGuest,
       labelGuestCriteria = labelGuestCriteria,
-      addLinesDiagnonal = addLinesDiagnonal,
+      yDisplayAsAbsolute = yDisplayAsAbsolute,
       geomGuestLineAttributes = geomGuestLineAttributes
     )
   }
@@ -350,8 +300,13 @@ plotYVsX <- function(data,
 
   # regression
   if (addRegression) {
+    mappedDataAboveLLOQ <- mappedData$clone()
+    if (mappedDataAboveLLOQ$hasLLOQMatch) {
+      mappedDataAboveLLOQ$data <-
+        mappedDataAboveLLOQ$data[mappedDataAboveLLOQ$data$isLLOQ.i == FALSE, ]
+    }
     plotObject <- addLayer(
-      mappedData = mappedData,
+      mappedData = mappedDataAboveLLOQ,
       geom = "smooth",
       geomAttributes = list(
         inherit.aes = FALSE,
@@ -434,26 +389,40 @@ plotYVsX <- function(data,
       )
   }
 
+  # do quantification
+  if (requireNamespace("data.table", quietly = TRUE)) {
+    plotObject$countsWithin <- getCountsWithin(
+      data = mappedData$dataForPlot,
+      mapping = mappedData$mapping,
+      comparisonLineVector = comparisonLineVector,
+      addGuestLimits = addGuestLimits,
+      deltaGuest = deltaGuest,
+      yDisplayAsAbsolute = yDisplayAsAbsolute
+    )
+  }
+
   return(plotObject)
 }
-
-#' add horizontal or diagonal comparison lines
+#' @title Add Comparison Lines to Plot
+#' @description
+#' This function adds horizontal or diagonal comparison lines to the given ggplot object.
+#'
 #' @inheritParams plotYVsX
 #' @inheritParams plotPredVsObs
-#' @param geomLineAttributes line attributes e.g. `color`,`linetype` passed to `ggplot2::geom_hline` or `ggplot2::geom_abline`
+#' @param geomLineAttributes Line attributes, e.g., `color`, `linetype`, passed to `ggplot2::geom_hline` or `ggplot2::geom_abline`.
 #'
+#' @return The updated `ggplot` object with comparison lines added.
 #' @keywords internal
-#' @return The updated `ggplot` object
 addComparisonLines <- function(plotObject,
                                comparisonLineVector,
-                               addLinesDiagnonal,
+                               yDisplayAsAbsolute,
                                geomLineAttributes,
                                xyscale) {
   # initialize  to avoid warnings in check()
   value <- name <- NULL
 
   # get mapping
-  if (addLinesDiagnonal) {
+  if (yDisplayAsAbsolute) {
     if (xyscale == AxisScales$log) {
       lineMapping <- aes(
         intercept = log10(value),
@@ -495,7 +464,7 @@ addComparisonLines <- function(plotObject,
 
   plotObject <- plotObject +
     do.call(
-      what = ifelse(addLinesDiagnonal,
+      what = ifelse(yDisplayAsAbsolute,
         ggplot2::geom_abline,
         ggplot2::geom_hline
       ),
@@ -524,7 +493,7 @@ addComparisonLines <- function(plotObject,
 addGuestLayer <- function(plotObject,
                           deltaGuest,
                           labelGuestCriteria,
-                          addLinesDiagnonal,
+                          yDisplayAsAbsolute,
                           geomGuestLineAttributes) {
   if ("linetype" %in% names(geomGuestLineAttributes)) {
     geomGuestLineAttributes$linetype <- NULL
@@ -539,7 +508,7 @@ addGuestLayer <- function(plotObject,
           fun = getGuestLimits,
           args = list(
             deltaGuest = deltaGuest,
-            addLinesDiagnonal = addLinesDiagnonal,
+            yDisplayAsAbsolute = yDisplayAsAbsolute,
             asLower = TRUE
           ),
           data = data.table(x = NA, y = NA), # dummy data to avoid messages
@@ -558,7 +527,7 @@ addGuestLayer <- function(plotObject,
           fun = getGuestLimits,
           args = list(
             deltaGuest = deltaGuest,
-            addLinesDiagnonal = addLinesDiagnonal,
+            yDisplayAsAbsolute = yDisplayAsAbsolute,
             asLower = FALSE
           ),
           data = data.table(x = NA, y = NA), # dummy data to avoid messages
@@ -572,112 +541,123 @@ addGuestLayer <- function(plotObject,
 
   return(plotObject)
 }
-
-#' calculates limits for DDI ratio
+#' Calculate Limits for DDI Ratio according to Guest et al.
 #'
-#' @inheritParams plotYVsX
-#' @param x Numeric values input of Guest function
-#' @param asLower function returns lower limit
+#' This function calculates the limits according to Guest et al.
+#' for the DDI ratio based on the provided parameters.
+#'
+#' @param x A numeric vector representing the observed values.
+#' @param deltaGuest Numeric value parameter for the Guest function.
+#' @param asLower A logical value indicating whether to calculate lower limits (default is TRUE).
+#' @param yDisplayAsAbsolute A logical value if FALSE the limits are calculated for the ratio predicted/observed
+#'  if TRUE limits are calculated for observed
 #'
 #' @references
-#' <https://dmd.aspetjournals.org/content/39/2/170>
+#' <https://pubmed.ncbi.nlm.nih.gov/21036951>
 #'
-#' @return limit of guest function for x
+#' @return A numeric vector representing the calculated limits for the DDI ratio.
 #' @keywords internal
-#'
-getGuestLimits <- function(x, deltaGuest = 1, addLinesDiagnonal = FALSE, asLower = TRUE) {
+getGuestLimits <- function(x, deltaGuest = 1, yDisplayAsAbsolute = FALSE, asLower = TRUE) {
   xSym <- x
   xSym[x < 1] <- 1 / x[x < 1]
   limit <- (deltaGuest + 2 * (xSym - 1)) / xSym
   if (asLower) limit <- 1 / limit
 
-  if (addLinesDiagnonal) limit <- limit * x
+  if (yDisplayAsAbsolute) limit <- limit * x
 
   return(limit)
 }
-
-
-#' Counts entries within specific limits
+#' @title Count Entries Within Specific Limits
+#' @description
+#' This function counts entries within specific limits defined by the comparison lines and guest limits.
 #'
 #' @inheritParams plotYVsX
-#' @param yColumn y column name for values to count
-#' @param xColumn x column name for values to count
-#' @param groups  column names to group
 #'
-#' @return data table with summary
+#' @return A data table summarizing the counts within the specified limits.
 #' @export
 getCountsWithin <- function(data,
-                            yColumn,
-                            xColumn = NULL,
+                            mapping,
                             comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
                             addGuestLimits = FALSE,
                             deltaGuest = 1,
-                            groups = NULL) {
+                            yDisplayAsAbsolute) {
   # initialize variables to avoid warning in check()
-  Description <- value <- Number <- name <- NULL # nolint
+  Description <- value <- Number <- name <- x <- y <- NULL # nolint
+
+  # Check for limit lines
+  if (!addGuestLimits &&
+    is.null(comparisonLineVector)) {
+    return(NULL)
+  }
 
   checkmate::assertDataFrame(data, null.ok = FALSE, min.rows = 1)
-  checkmate::assertNames(names(data), disjunct.from = c("yColumn", "xColumn"))
+  checkmate::assertNames(names(mapping), must.include = c("y", "x"))
   checkmate::assertFlag(addGuestLimits, null.ok = FALSE)
-  checkmate::assertCharacter(yColumn, null.ok = FALSE, len = 1)
-  checkmate::assertCharacter(xColumn, null.ok = !addGuestLimits, len = 1)
   if (is.double(comparisonLineVector)) comparisonLineVector <- as.list(comparisonLineVector)
   checkmate::assertList(comparisonLineVector, types = "double", any.missing = FALSE, null.ok = TRUE, min.len = 1)
   checkmate::assertDouble(deltaGuest, null.ok = !addGuestLimits, len = 1)
 
+  lineVectorFiltered <- comparisonLineVector[lapply(comparisonLineVector, length) == 2]
+  if (length(lineVectorFiltered) == 0 && !addGuestLimits) {
+    return(NULL)
+  }
+  if (is.null(names(lineVectorFiltered))) {
+    names(lineVectorFiltered) <- sapply(lineVectorFiltered, function(x) {
+      paste(x, collapse = " - ")
+    })
+  }
 
   # use data.table functionality
   data.table::setDT(data)
 
-  # define auxiliary function
-  countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector, deltaGuest, addGuestLimits) {
-    counts <- list()
-
-    if (addGuestLimits) {
-      guestLimits <- c(
-        getGuestLimits(
-          xColumn,
-          deltaGuest = deltaGuest,
-          addLinesDiagnonal = FALSE,
-          asLower = TRUE
-        )
-      )
-      counts[["guest criteria"]] <- sum(yColumn >= pmin(guestLimits, 1 / guestLimits) &
-        yColumn <= pmax(guestLimits, 1 / guestLimits))
-    }
-
-    if (!is.null(names(comparisonLineVector))) {
-      for (fd in names(comparisonLineVector)) {
-        if (length(comparisonLineVector[[fd]]) > 1) {
-          counts[[fd]] <- sum(yColumn >= min(comparisonLineVector[[fd]]) &
-            yColumn <= max(comparisonLineVector[[fd]]))
+  fixedData <- list()
+  for (aesthetic in intersect(c("x", "y", "group"), names(mapping))) {
+    fixedData[[aesthetic]] <-
+      tryCatch(
+        {
+          rlang::eval_tidy(
+            expr = rlang::get_expr(mapping[[aesthetic]]),
+            data = data,
+            env = rlang::get_env(mapping[[aesthetic]])
+          )
+        },
+        error = function(cond) {
+          warning("It was not possible to derive the data with the mapping")
+          return(NULL)
         }
-      }
-    }
-    return(counts)
+      )
   }
-
+  fixedData <- data.table::as.data.table(fixedData)
 
   # if grouping provide one row per group
-  if (!is.null(groups)) {
-    tmp <- merge(data[, .("Points total" = .N), by = groups],
-      data[, as.list(
+  if ("group" %in% names(fixedData)) {
+    tmp <- merge(fixedData[, .("Points total" = .N), by = "group"],
+      fixedData[, as.list(
         countEntriesInBetween(
-          xColumn = get(xColumn),
-          yColumn = get(yColumn),
-          comparisonLineVector = comparisonLineVector,
+          xColumn = x,
+          yColumn = y,
+          comparisonLineVector = lineVectorFiltered,
           addGuestLimits = addGuestLimits,
-          deltaGuest = deltaGuest
+          deltaGuest = deltaGuest,
+          yDisplayAsAbsolute = yDisplayAsAbsolute
         )
       ),
-      by = groups
+      by = "group"
       ],
-      by = groups
+      by = "group"
+    )
+
+    tmp <- rbind(
+      data.table(
+        group = "all Groups",
+        tmp[, lapply(.SD, sum), .SDcols = setdiff(names(tmp), "group")]
+      ),
+      tmp
     )
 
     countsWithin <- tidyr::pivot_longer(
       data = tmp,
-      cols = intersect(names(tmp), c(names(comparisonLineVector), "guest criteria")),
+      cols = intersect(names(tmp), c(names(lineVectorFiltered), "guest criteria")),
       names_to = "Description", values_to = "Number"
     ) %>%
       dplyr::mutate(Fraction = Number / get("Points total")) %>%
@@ -688,21 +668,22 @@ getCountsWithin <- function(data,
   } else {
     # if provide one row per 'fold'
 
-    totalNumber <- data[, .(
-      Number = sum(!is.na(get(yColumn))),
+    totalNumber <- fixedData[, .(
+      Number = sum(!is.na(y)),
       Fraction = 1
     )] %>%
       dplyr::mutate(Description = "Points total") %>%
       data.table::setcolorder("Description")
 
     tmp <-
-      data[, as.list(
+      fixedData[, as.list(
         countEntriesInBetween(
-          xColumn = get(xColumn),
-          yColumn = get(yColumn),
-          comparisonLineVector = comparisonLineVector,
+          xColumn = x,
+          yColumn = y,
+          comparisonLineVector = lineVectorFiltered,
           addGuestLimits = addGuestLimits,
-          deltaGuest = deltaGuest
+          deltaGuest = deltaGuest,
+          yDisplayAsAbsolute = yDisplayAsAbsolute
         )
       )]
     tmp <- tidyr::pivot_longer(data = tmp, cols = names(tmp), names_to = "Description", values_to = "Number") %>%
@@ -718,11 +699,64 @@ getCountsWithin <- function(data,
 
   return(countsWithin)
 }
+#' @title Count Entries Between Specified Limits
+#' @description
+#' This function counts the number of entries within specified limits for the given X and Y columns.
+#' It calculates the counts based on the comparison line vector and guest limits, if applicable.
+#'
+#' @param yColumn A numeric vector containing the Y values to count.
+#' @param xColumn A numeric vector containing the X values to count.
+#' @param comparisonLineVector A list of numeric values defining the comparison limits.
+#' @param deltaGuest A numeric value parameter for the Guest function.
+#' @param addGuestLimits A boolean indicating whether to include guest limits in the counting.
+#' @param yDisplayAsAbsolute A boolean indicating whether to consider absolute values for Y.
+#'
+#' @return A list containing counts of entries that fall within the specified limits, including guest criteria if applicable.
+#' @keywords internal
+countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector,
+                                  deltaGuest, addGuestLimits, yDisplayAsAbsolute) {
+  counts <- list()
+  if (addGuestLimits) {
+    lower <-
+      getGuestLimits(
+        xColumn,
+        deltaGuest = deltaGuest,
+        yDisplayAsAbsolute = yDisplayAsAbsolute,
+        asLower = TRUE
+      )
+    upper <-
+      getGuestLimits(
+        xColumn,
+        deltaGuest = deltaGuest,
+        yDisplayAsAbsolute = yDisplayAsAbsolute,
+        asLower = FALSE
+      )
+    counts[["guest criteria"]] <- sum(yColumn >= lower &
+      yColumn <= upper)
+  }
 
-#' Title
+  if (!is.null(names(comparisonLineVector))) {
+    if (yDisplayAsAbsolute) {
+      ratio <- yColumn / xColumn
+    } else {
+      ratio <- yColumn
+    }
+    for (fd in names(comparisonLineVector)) {
+      if (length(comparisonLineVector[[fd]]) > 1) {
+        counts[[fd]] <- sum(ratio >= min(comparisonLineVector[[fd]]) &
+          ratio <= max(comparisonLineVector[[fd]]))
+      }
+    }
+  }
+  return(counts)
+}
+#' @title Validate Plot Inputs
+#' @description
+#' This internal function validates the inputs for plotting functions to ensure proper data format and parameter values.
 #'
 #' @inheritParams plotYVsX
 #'
+#' @return Invisible NULL if validation is successful; otherwise, an error is raised.
 #' @keywords internal
 .validatePlotYXsXInputs <- function(
     data,

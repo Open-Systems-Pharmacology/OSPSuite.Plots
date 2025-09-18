@@ -7,11 +7,11 @@
 addXscale(plotObject, xscale, xscale.args = list())
 }
 \arguments{
-\item{plotObject}{A \code{ggplot} object on which to add the scale}
+\item{plotObject}{A \code{ggplot} object on which to add the scale.}
 
-\item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
+\item{xscale}{The x-axis scale type. Available is 'linear', 'log', 'discrete'}
 
-\item{xscale.args}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
+\item{xscale.args}{A list of arguments for the x-axis scale.}
 }
 \value{
 The updated \code{ggplot} object

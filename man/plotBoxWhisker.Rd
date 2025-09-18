@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotBoxWhisker.R
 \name{plotBoxWhisker}
 \alias{plotBoxWhisker}
-\title{generate  box-whisker plots}
+\title{Generate Box-Whisker Plots}
 \usage{
 plotBoxWhisker(
   data,
@@ -23,53 +23,57 @@ plotBoxWhisker(
 )
 }
 \arguments{
-\item{data}{data.frame with data to aggregate}
+\item{data}{A \code{data.frame} containing the data to aggregate.}
 
-\item{mapping}{a list of aesthetic mappings to use for plot}
+\item{mapping}{A list of aesthetic mappings to use for the plot.}
 
 \item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
 
 \item{plotObject}{An optional \code{ggplot} object on which to add the plot layers}
 
-\item{percentiles}{vector with percentiles used for the box whiskers and boxes e.g. c(0.05,0.25,0.5,0.75,0.95)
-default defined by ospsuite.plots option}
+\item{percentiles}{A numeric vector with percentiles used for the box whiskers and boxes,
+e.g., c(0.05, 0.25, 0.5, 0.75, 0.95). Default defined by \code{ospsuite.plots} option.}
 
 \item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
 \item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{xscale}{either 'linear','log', discrete or 'auto' (default) auto select linear for continuous data and discrete for categorical data}
+\item{xscale}{Either 'linear', 'log', 'discrete', or 'auto' (default).
+Auto selects linear for continuous data and discrete for categorical data.}
 
-\item{xscale.args}{list of arguments passed to \code{ggplot2::scale_x_continuous()}, \code{ggplot2::scale_x_log10()} or
-\code{ggplot2::scale_x_discrete()}}
+\item{xscale.args}{A list of arguments passed to \code{ggplot2::scale_x_continuous()},
+\code{ggplot2::scale_x_log10()}, or \code{ggplot2::scale_x_discrete()}.}
 
-\item{statFun}{(default NULL) if not NULL function to calculate whiskers and box ranges, overwrites variable percentiles}
+\item{statFun}{(default NULL) A function to calculate whiskers and box ranges,
+which overwrites the \code{percentiles} variable if provided.}
 
-\item{outliers}{Logical defining if outliers should be included in boxplot.
-outliers are flagged when outside the range from "25th" percentile - 1.5 x IQR to "75th"
-percentiles + 1.5 x IQR, as suggested by McGill and}
+\item{outliers}{Logical indicating whether outliers should be included in the boxplot.
+Outliers are flagged when outside the range from the "25th" percentile - 1.5 x IQR to
+the "75th" percentile + 1.5 x IQR, as suggested by McGill et al.}
 
-\item{statFunOutlier}{(default NULL) if not NULL overwrites default calculation of outliers}
+\item{statFunOutlier}{(default NULL) A function to calculate outliers,
+which overwrites the default calculation if provided.}
 
-\item{geomBoxplotAttributes}{A \code{list} with arguments which are passed on to the geom boxplot call}
+\item{geomBoxplotAttributes}{A \code{list} of arguments passed to the \code{geom_boxplot} call.}
 
-\item{geomPointAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
+\item{geomPointAttributes}{A \code{list} of arguments passed to the \code{ggplot2::geom_point} call.}
 
-\item{residualScale}{either "linear","log" or "ratio" scale residuals,
-* linear:  residuals are calculated observed - predicted
-* log: residuals are calculated log(observed) - log(predicted)
-* ratio: residuals are calculated as observed/predicted}
+\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
 }
 \value{
-A \code{ggplot} object
+A \code{ggplot} object representing the box-whisker plot.
 }
 \description{
-Producing box-and-whisker plots
-For more details and examples see the vignettes:
+Produces box-and-whisker plots for visualizing the distribution of data.
+For more details and examples, see the vignettes:
 \itemize{
 \item \code{vignette("Box-Whisker Plots", package = "ospsuite.plots")}
 \item \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 }
+}
+\references{
+McGill, R., Tukey, J. W., & Larsen, W. A. (1978). Variations of box plots.
+The American Statistician, 32(1), 12-16.
 }
 \seealso{
 Other plot functions: 

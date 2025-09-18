@@ -335,3 +335,101 @@ test_that("grouping for simulation and observed works", {
 
   expect_true(is.factor(simMappedData$dataForPlot$groupBy.i))
 })
+
+
+test_that("addMetaData works", {
+  simData1 <- exampleDataTimeProfile %>%
+    dplyr::filter(SetID == "DataSet1") %>%
+    dplyr::filter(Type == "simulated") %>%
+    dplyr::select(c("time", "values", "caption"))
+
+  mapping <- aes(
+    x = time,
+    y = values,
+    groupby = caption
+  )
+
+  simDataMatch <- MappedData$new(
+    data = simData1,
+    xscale = AxisScales$linear,
+    yscale = AxisScales$linear,
+    mapping = mapping
+  )
+
+  metaData <- list(
+    time = list(dimension = "time", unit = "hours"),
+    values = list(dimension = "concentration", unit = "mg/L")
+  )
+
+  simDataMatch$addMetaData(metaData)
+
+  expect_equal(simDataMatch$dimensions$x, "time")
+  expect_equal(simDataMatch$units$x, "hours")
+  expect_equal(simDataMatch$dimensions$y, "concentration")
+  expect_equal(simDataMatch$units$y, "mg/L")
+})
+
+test_that("updateScaleArgumentsForTimeUnit works", {
+  simData1 <- exampleDataTimeProfile %>%
+    dplyr::filter(SetID == "DataSet1") %>%
+    dplyr::filter(Type == "simulated") %>%
+    dplyr::select(c("time", "values", "caption"))
+
+  mapping <- aes(
+    x = time,
+    y = values,
+    groupby = caption
+  )
+
+  simDataMatch <- MappedData$new(
+    data = simData1,
+    xscale = AxisScales$linear,
+    yscale = AxisScales$linear,
+    mapping = mapping
+  )
+
+  # Add a time dimension to test with
+  simDataMatch$dimensions$x <- "time"
+  simDataMatch$units$x <- "h"
+
+  updatedScaleArgs <- simDataMatch$updateScaleArgumentsForTimeUnit(scale.args = list(), "x")
+
+  expect_true("breaks" %in% names(updatedScaleArgs))
+})
+
+test_that("adjustForResidualMatch works", {
+  obsData <- exampleDataTimeProfile %>%
+    dplyr::filter(SetID == "DataSet3") %>%
+    dplyr::filter(Type == "observed") %>%
+    dplyr::filter(dimension == "concentration")
+  obsAes <- aes(
+    x = time,
+    observed = values,
+    groupby = caption,
+    predicted = values
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xscale = AxisScales$linear,
+    yscale = AxisScales$linear,
+    groupAesthetics = c("colour", "fill", "linetype", "shape")
+  )
+
+  # Adjust for residual match without specifying scale
+  expect_false(obsDataMatch$hasResidualMapping)
+
+  # Now with a specified scale
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xscale = AxisScales$linear,
+    yscale = AxisScales$linear,
+    groupAesthetics = c("colour", "fill", "linetype", "shape"),
+    residualScale = ResidualScales$ratio
+  )
+
+  expect_true(obsDataMatch$hasResidualMapping)
+  expect_true("residuals.i" %in% names(obsDataMatch$data))
+})

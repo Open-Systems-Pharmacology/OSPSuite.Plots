@@ -1,6 +1,6 @@
-#' @title generates histograms
+#' @title Generates Histograms
 #' @description
-#' Produces histograms with optional distribution fit
+#' Produces histograms with optional distribution fit.
 #'
 #' For more details and examples see the vignettes:
 #' * \code{vignette("Histogram Plots", package = "ospsuite.plots")}
@@ -9,16 +9,16 @@
 #'
 #' @inheritParams plotTimeProfile
 #' @inheritParams plotYVsX
-#' @param plotAsFrequency A `boolean` defining if histogram displays a frequency in y axis
-#' @param asBarPlot A `boolean` defining if geom_histogram should be used (continuous data) or geom_bar (categorical)
-#'    if TRUE variables `distribution`, `meanFunction`, `xacale` and `xscale.args` are ignored
-#' @param geomHistAttributes  A `list` with arguments which are passed on to the ggplot2::geom_histogram (geom_bar if `asBarPlot` = TRUE)
-#' @param distribution name of distribution  available are all distributions available in package stats: (see ? stats::distributions) `norm`,`lnorm`, ...
-#'          accepted are also normal (instead of `norm`) and lognormal (instead of `lnorm`)
-#' @param meanFunction function selection for display of vertical line. Available are 'none','mean','geomean','median','auto' (default)
-#'          'auto' selects 'mean' for `normal` distribution, 'geomean' for `lognormal` distribution, 'median' for all other distributions, and 'none' for 'none' distribution
+#' @param plotAsFrequency A `logical` indicating if the histogram displays frequency on the y-axis.
+#' @param asBarPlot A `logical` indicating if `geom_histogram` should be used (for continuous data) or `geom_bar` (for categorical data).
+#'    If TRUE, the variables `distribution`, `meanFunction`, `xscale`, and `xscale.args` are ignored.
+#' @param geomHistAttributes A `list` of arguments passed to `ggplot2::geom_histogram` (or `geom_bar` if `asBarPlot` = TRUE).
+#' @param distribution Name of the distribution to fit. Available distributions are those in the `stats` package (see ? stats::distributions): `norm`, `lnorm`, etc.
+#'          Accepted are also `normal` (instead of `norm`) and `lognormal` (instead of `lnorm`).
+#' @param meanFunction Function selection for the display of a vertical line. Available options are: 'none', 'mean', 'geomean', 'median', 'auto' (default).
+#'          'auto' selects 'mean' for `normal` distribution, 'geomean' for `lognormal`, 'median' for all other distributions, and 'none' for for 'none' distribution.
 #'
-#' @return A `ggplot` object
+#' @return A `ggplot` object.
 #' @export
 #' @family plot functions
 plotHistogram <- function(data,

@@ -21,16 +21,16 @@
 <rect x='0.00' y='0.00' width='720.00' height='576.00' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
 </g>
 <defs>
-  <clipPath id='cpNS40OHw3MTQuNTJ8MjIuNzh8NTcwLjUy'>
-    <rect x='5.48' y='22.78' width='709.04' height='547.74' />
+  <clipPath id='cpNS40OHw3MTQuNTJ8MjIuOTB8NTcwLjUy'>
+    <rect x='5.48' y='22.90' width='709.04' height='547.62' />
   </clipPath>
 </defs>
-<g clip-path='url(#cpNS40OHw3MTQuNTJ8MjIuNzh8NTcwLjUy)'>
-<rect x='5.48' y='22.78' width='709.04' height='547.74' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
-<text transform='translate(362.06,300.23) rotate(-30)' text-anchor='middle' style='font-size: 12.00px; fill: #333333; fill-opacity: 0.70; font-family: sans;' textLength='105.39px' lengthAdjust='spacingAndGlyphs'>preliminary analysis</text>
-<rect x='5.48' y='22.78' width='709.04' height='547.74' style='stroke-width: 1.07; stroke: #333333;' />
+<g clip-path='url(#cpNS40OHw3MTQuNTJ8MjIuOTB8NTcwLjUy)'>
+<rect x='5.48' y='22.90' width='709.04' height='547.62' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<rect x='5.48' y='22.90' width='709.04' height='547.62' style='stroke-width: 1.07; stroke: #333333;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<text x='5.48' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='96.12px' lengthAdjust='spacingAndGlyphs'>watermarkReset</text>
+<text x='5.48' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='107.87px' lengthAdjust='spacingAndGlyphs'>watermarkChange</text>
+<text transform='translate(167.50,57.60) rotate(-90)' text-anchor='middle' style='font-size: 68.29px; fill: #FF0000; fill-opacity: 0.20; font-family: sans;' textLength='159.34px' lengthAdjust='spacingAndGlyphs'>NEW</text>
 </g>
 </svg>

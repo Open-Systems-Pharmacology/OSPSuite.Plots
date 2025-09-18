@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotYVsX.R
 \name{plotResVsCov}
 \alias{plotResVsCov}
-\title{generates residual plots vs covariate}
+\title{Generate Residual Plots vs Covariate}
 \usage{
 plotResVsCov(
   data,
@@ -14,37 +14,28 @@ plotResVsCov(
 )
 }
 \arguments{
-\item{data}{A \code{data.frame} with data to plot}
+\item{data}{A \code{data.frame} containing the data to plot.}
 
-\item{mapping}{a list of aesthetic mappings to use for plot}
+\item{mapping}{A list of aesthetic mappings to use for the plot.}
 
-\item{residualScale}{either "linear","log" or "ratio" scale residuals,
-* linear:  residuals are calculated observed - predicted
-* log: residuals are calculated log(observed) - log(predicted)
-* ratio: residuals are calculated as observed/predicted}
+\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
 
-\item{comparisonLineVector}{either a double vector or a list of double values
-if add \code{addLinesDiagnonal = FALSE} lines will be added as horizontal lines with the
-intercept at values of \code{comparisonLineVector}
-If add \code{addLinesDiagnonal = TRUE} lines will be added as fold distance lines to the identity.}
+\item{comparisonLineVector}{A vector defining the comparison lines.}
 
 \item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
 \item{...}{
   Arguments passed on to \code{\link[=plotYVsX]{plotYVsX}}
   \describe{
-    \item{\code{geomComparisonLineAttributes}}{A \code{list} with arguments which are passed on to the
-call \code{ggplot2::hline}  or \code{ggplot2::abline} to display comparison lines}
-    \item{\code{geomGuestLineAttributes}}{A \code{list} with arguments which are passed on to the
-call \code{ggplot2::geom_function} to display guest criteria}
-    \item{\code{addLinesDiagnonal}}{A \code{boolean}which defines direction of comparison lines}
-    \item{\code{addRegression}}{A \code{boolean} which activates insertion of regression line}
-    \item{\code{addGuestLimits}}{A \code{boolean} which activates insertion of regression line}
-    \item{\code{deltaGuest}}{Numeric value parameter of Guest function}
-    \item{\code{labelGuestCriteria}}{label used in legend for guest criteria (default guest criteria)}
-    \item{\code{asSquarePlot}}{A \code{boolean} if true plot is returned as square plot with aspect.ratio = 1 and fixed ratios}
-    \item{\code{observedDataDirection}}{either 'x' or 'y', defines direction of observed data. relevant for
-aesthetics \code{lloq}, \code{error}end \code{error_relative}}
+    \item{\code{geomComparisonLineAttributes}}{A \code{list} of arguments passed to \code{ggplot2::hline} or \code{ggplot2::abline} to display comparison lines.}
+    \item{\code{geomGuestLineAttributes}}{A \code{list} of arguments passed to \code{ggplot2::geom_function} to display guest criteria.}
+    \item{\code{yDisplayAsAbsolute}}{A boolean that defines the direction of comparison lines.}
+    \item{\code{addRegression}}{A boolean that activates the insertion of a regression line.}
+    \item{\code{addGuestLimits}}{A boolean that activates the insertion of guest limits.}
+    \item{\code{deltaGuest}}{Numeric value parameter for the Guest function.}
+    \item{\code{labelGuestCriteria}}{Label used in the legend for guest criteria (default: "guest criteria").}
+    \item{\code{asSquarePlot}}{A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.}
+    \item{\code{observedDataDirection}}{Either 'x' or 'y', defining the direction of observed data.}
     \item{\code{metaData}}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
     \item{\code{geomPointAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
     \item{\code{geomErrorbarAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
@@ -56,19 +47,19 @@ aesthetics \code{lloq}, \code{error}end \code{error_relative}}
   }}
 }
 \value{
-A \code{ggplot} object
+A \code{ggplot} object representing the residual plots.
 }
 \description{
-This functions is a wrapper  for \code{plotYVsX} with adjusted input parameter:
+This function is a wrapper for \code{plotYVsX} with adjusted input parameters.
 
-parameters  fixed and not settable
+The following parameters are fixed and cannot be set:
 \itemize{
 \item \code{observedDataDirection = 'y'}
-\item \code{addLinesDiagnonal = TRUE}
+\item \code{yDisplayAsAbsolute = TRUE}
 \item \code{addGuestLimits = FALSE} (use \code{plotRatio()} if needed)
 }
 
-For details and examples see the vignettes:
+For details and examples, see the vignettes:
 \itemize{
 \item \code{vignette("Goodness of fit", package = "ospsuite.plots")}
 \item \code{vignette("ospsuite.plots", package = "ospsuite.plots")}

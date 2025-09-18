@@ -2,24 +2,24 @@
 % Please edit documentation in R/utilities_export.R
 \name{getPlotDimensions}
 \alias{getPlotDimensions}
-\title{gets dimension of plots}
+\title{Get dimensions of plot components}
 \usage{
 getPlotDimensions(plotObject, exportunits, nCol, nRow, nPanel)
 }
 \arguments{
-\item{plotObject}{ggplot object}
+\item{plotObject}{A ggplot object.}
 
-\item{exportunits}{units of exported figure}
+\item{exportunits}{Units of the exported figure.}
 
-\item{nCol}{for panel plots number of cols}
+\item{nCol}{Number of columns for panel plots.}
 
-\item{nRow}{for panel plots number of cols}
+\item{nRow}{Number of rows for panel plots.}
 
-\item{nPanel}{for panel plots number of panels}
+\item{nPanel}{Number of panels for panel plots.}
 }
 \value{
-list with dimension o plot components
+A list with dimensions of plot components.
 }
 \description{
-gets dimension of plots
+Get dimensions of plot components
 }

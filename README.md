@@ -42,8 +42,10 @@ From CRAN:
 -   [ggnewscale](https://cran.r-project.org/package=ggnewscale/index.html)
 -   [checkmate](https://cran.r-project.org/package=checkmate/index.html)
 -   [dplyr](https://cran.r-project.org/package=checkmate/index.html)
+-   [magrittr](https://cran.r-project.org/package=magrittr/index.html)
+-   [fitdistrplus](https://cran.r-project.org/package=magrittr/index.html)
 -   [tidyr](https://cran.r-project.org/package=tidyr/index.html)
--   [fitdistrplus](https://cran.r-project.org/package=fitdistrplus/index.html)
+-   [fs](https://cran.r-project.org/package=fs/index.html)
 
 
 Must be downloaded manually:
@@ -66,8 +68,10 @@ install.packages('data.table')
 install.packages('ggnewscale')
 install.packages('checkmate')
 install.packages('dplyr')
-install.packages('tidyr')
+install.packages('magrittr')
 install.packages('fitdistrplus')
+install.packages('tidyr')
+install.packages('fs')
 
 ```
 
@@ -79,10 +83,10 @@ website](https://www.open-systems-pharmacology.org/OSPSuite.Plots/).
 
 ## Code of conduct
 
-Everyone interacting in the Open Systems Pharmacology community
-(codebases, issue trackers, chat rooms, mailing lists etc.) is expected
-to follow the Open Systems Pharmacology [code of
-conduct](https://github.com/Open-Systems-Pharmacology/Suite/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Open Systems Pharmacology community (codebases,
+issue trackers, chat rooms, mailing lists etc.) is expected to follow the Open
+Systems Pharmacology [code of
+conduct](https://dev.open-systems-pharmacology.org/r-development-resources/coding_standards_r).
 
 ## Contribution
 

@@ -2,26 +2,28 @@
 % Please edit documentation in R/plotYVsX.R
 \name{getGuestLimits}
 \alias{getGuestLimits}
-\title{calculates limits for DDI ratio}
+\title{Calculate Limits for DDI Ratio according to Guest et al.}
 \usage{
-getGuestLimits(x, deltaGuest = 1, addLinesDiagnonal = FALSE, asLower = TRUE)
+getGuestLimits(x, deltaGuest = 1, yDisplayAsAbsolute = FALSE, asLower = TRUE)
 }
 \arguments{
-\item{x}{Numeric values input of Guest function}
+\item{x}{A numeric vector representing the observed values.}
 
-\item{deltaGuest}{Numeric value parameter of Guest function}
+\item{deltaGuest}{Numeric value parameter for the Guest function.}
 
-\item{addLinesDiagnonal}{A \code{boolean}which defines direction of comparison lines}
+\item{yDisplayAsAbsolute}{A logical value if FALSE the limits are calculated for the ratio predicted/observed
+if TRUE limits are calculated for observed}
 
-\item{asLower}{function returns lower limit}
+\item{asLower}{A logical value indicating whether to calculate lower limits (default is TRUE).}
 }
 \value{
-limit of guest function for x
+A numeric vector representing the calculated limits for the DDI ratio.
 }
 \description{
-calculates limits for DDI ratio
+This function calculates the limits according to Guest et al.
+for the DDI ratio based on the provided parameters.
 }
 \references{
-\url{https://dmd.aspetjournals.org/content/39/2/170}
+\url{https://pubmed.ncbi.nlm.nih.gov/21036951}
 }
 \keyword{internal}

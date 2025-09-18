@@ -2,16 +2,18 @@
 % Please edit documentation in R/utilities_export.R
 \name{validateFilename}
 \alias{validateFilename}
-\title{replace of special letters}
+\title{Replace special letters in file names}
 \usage{
-validateFilename(filename)
+validateFilename(filename, device)
 }
 \arguments{
-\item{filename}{name of file to validate}
+\item{filename}{Name of the file to validate.}
+
+\item{device}{A character with the device to use}
 }
 \value{
-filename without special letters
+File name without special letters.
 }
 \description{
-replace of special letters
+Replace special letters in file names
 }

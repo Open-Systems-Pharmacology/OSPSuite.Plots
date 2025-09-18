@@ -32,9 +32,34 @@ test_that("plotWhisker works", {
       }
     }
 
-
+  plotObject <- plotBoxWhisker(
+    data = pkRatioData,
+    metaData = pkRatioMetaData,
+    mapping = aes(
+      x = Sex,
+      y = Ratio,
+      fill = Country
+    ),
+    outliers = TRUE
+  ) +
+    labs(
+      tag = "B",
+      caption = "Whisker indicate 90% range (5th - 95th percentile)
+       and outlier are flagged with default function"
+    )
   vdiffr::expect_doppelganger(
     title = "with outlier",
+    fig = plotObject
+  )
+
+  dt <- plotObject$data %>%
+    data.table::setDT() %>%
+    .[, as.list(plotObject$statFun(Age)), by = c("Country", "Sex")]
+  expect_true(nrow(dt) == 4)
+  expect_equal(dt$N, c(19, 6, 15, 10))
+
+  vdiffr::expect_doppelganger(
+    title = "with outlier and custom functions",
     fig = plotBoxWhisker(
       data = pkRatioData,
       metaData = pkRatioMetaData,

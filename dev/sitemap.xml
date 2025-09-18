@@ -1,5 +1,4 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/COPILOT_INSTRUCTIONS.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/LICENSE-text.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/Goodness_of_fit.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/box-whisker-vignette.html</loc></url>
@@ -8,6 +7,7 @@
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/ospsuite_plots.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/plot-time-profile.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/authors.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/copilot-instructions.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/index.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/news/index.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/AxisScales.html</loc></url>

@@ -622,7 +622,7 @@ getCountsWithin <- function(data,
           )
         },
         error = function(cond) {
-          warning("It was not possible to derive the data wit the mapping")
+          warning("It was not possible to derive the data with the mapping")
           return(NULL)
         }
       )

@@ -556,7 +556,7 @@ addGuestLayer <- function(plotObject,
 #' <https://pubmed.ncbi.nlm.nih.gov/21036951>
 #'
 #' @return A numeric vector representing the calculated limits for the DDI ratio.
-#' @export
+#' @keywords internal
 getGuestLimits <- function(x, deltaGuest = 1, yDisplayAsAbsolute = FALSE, asLower = TRUE) {
   xSym <- x
   xSym[x < 1] <- 1 / x[x < 1]

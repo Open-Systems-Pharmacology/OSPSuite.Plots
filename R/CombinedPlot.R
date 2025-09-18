@@ -29,20 +29,18 @@ CombinedPlot <- R6::R6Class( # nolint
     #' Combine the combined plot and table
     #'
     #' This method combines the plot and table into a single output and displays it.
-    #' @return The combined plot
+    #' @return A ggplot object representing the combined plot and table
     combined = function() {
+      # Validate that plot object exists
+      stopifnot("plotObject must be provided" = !is.null(private$.plotObject))
+      
       if (is.null(private$.tableObject)) {
         return(self$plotObject)
       }
 
-      # Check the current legend position
-      if ((is.null(private$.plotObject$theme$legend.position) &&
-        theme_get()$legend.position == "right") |
-        (!is.null(private$.plotObject$theme$legend.position) &&
-          private$.plotObject$theme$legend.position == "right")) {
-        # Change legend position to top if table is included
-        private$.plotObject <- private$.plotObject + theme(legend.position = "top")
-      }
+      # Adjust legend position when table is present to optimize layout
+      private$adjustLegendPosition()
+      
       return(cowplot::plot_grid(
         self$plotObject,
         self$tableObject,
@@ -55,9 +53,11 @@ CombinedPlot <- R6::R6Class( # nolint
     #' Print the combined plot and table
     #'
     #' This method overrides the default print function to display the combined output.
-    #' @return The combined plot
+    #' @return Invisibly returns the combined ggplot object
     print = function() {
-      print(self$combined())
+      combined_plot <- self$combined()
+      print(combined_plot)
+      invisible(combined_plot)
     }
   ),
   active = list(
@@ -92,6 +92,20 @@ CombinedPlot <- R6::R6Class( # nolint
   private = list(
     .plotObject = NULL,
     .tableObject = NULL,
-    .relWidths = NULL
+    .relWidths = NULL,
+    
+    # Helper function to adjust legend position for better layout when table is present
+    adjustLegendPosition = function() {
+      # Get current legend position from plot theme or global theme
+      currentLegendPos <- private$.plotObject$theme$legend.position
+      if (is.null(currentLegendPos)) {
+        currentLegendPos <- theme_get()$legend.position
+      }
+      
+      # Move legend to top if currently on right side to accommodate table
+      if (identical(currentLegendPos, "right")) {
+        private$.plotObject <- private$.plotObject + theme(legend.position = "top")
+      }
+    }
   )
 )

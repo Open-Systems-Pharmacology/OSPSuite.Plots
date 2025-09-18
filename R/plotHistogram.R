@@ -13,10 +13,11 @@
 #' @param asBarPlot A `logical` indicating if `geom_histogram` should be used (for continuous data) or `geom_bar` (for categorical data).
 #'    If TRUE, the variables `distribution`, `meanFunction`, `xscale`, and `xscale.args` are ignored.
 #' @param geomHistAttributes A `list` of arguments passed to `ggplot2::geom_histogram` (or `geom_bar` if `asBarPlot` = TRUE).
-#' @param distribution Name of the distribution to fit. Available distributions are those in the `stats` package (see ? stats::distributions): `norm`, `lnorm`, etc.
-#'          Accepted are also `normal` (instead of `norm`) and `lognormal` (instead of `lnorm`).
-#' @param meanFunction Function selection for the display of a vertical line. Available options are: 'none', 'mean', 'geomean', 'median', 'auto' (default).
-#'          'auto' selects 'mean' for `normal` distribution, 'geomean' for `lognormal`, 'median' for all other distributions, and 'none' for for 'none' distribution.
+#' @param distribution Name of the distribution to fit. Available distributions are those in the `stats` package (see ?stats::distributions): 
+#'   `norm`, `lnorm`, `weibull`, `gamma`, etc. Use `"none"` for no fit (default).
+#'   Shortcuts: `"normal"` (same as `"norm"`), `"lognormal"` (same as `"lnorm"`).
+#' @param meanFunction Function selection for the display of a vertical line. Options: `'none'`, `'mean'`, `'geomean'`, `'median'`, `'auto'` (default).
+#'   `'auto'` selects `'mean'` for normal distribution, `'geomean'` for lognormal, `'median'` for other distributions, and `'none'` when no distribution fit.
 #'
 #' @return A `ggplot` object.
 #' @export

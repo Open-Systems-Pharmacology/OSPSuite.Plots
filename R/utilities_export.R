@@ -129,7 +129,7 @@ calculatePlotDimensions <- function(plotObject, width) {
 
 
   # check if legend adds to height or to width,
-  # if legend is numeric it is assumed legend is within panel
+  # if legend is numeric, it is assumed the legend is within the panel
   if (plotDim$legendHeight > 0) {
     legendPosition <- themeOfPlot$legend.position
     legendAddsToHeight <- as.numeric(any(

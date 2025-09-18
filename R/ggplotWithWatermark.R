@@ -115,7 +115,7 @@ print.ggWatermark <- function(x, ...) {
 #'
 #' @export
 addWatermark <- function(plotObject) {
-  # initialize varaibales to avoid check messages
+  # initialize variables to avoid check messages
   x <- y <- label <- NULL
 
   checkmate::assert_class(plotObject,classes = "gg")

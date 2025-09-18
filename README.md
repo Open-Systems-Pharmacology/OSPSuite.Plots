@@ -43,6 +43,7 @@ From CRAN:
 -   [checkmate](https://cran.r-project.org/package=checkmate/index.html)
 -   [dplyr](https://cran.r-project.org/package=checkmate/index.html)
 -   [magrittr](https://cran.r-project.org/package=magrittr/index.html)
+-   [fitdistrplus](https://cran.r-project.org/package=magrittr/index.html)
 -   [tidyr](https://cran.r-project.org/package=tidyr/index.html)
 -   [fs](https://cran.r-project.org/package=fs/index.html)
 
@@ -68,6 +69,7 @@ install.packages('ggnewscale')
 install.packages('checkmate')
 install.packages('dplyr')
 install.packages('magrittr')
+install.packages('fitdistrplus')
 install.packages('tidyr')
 install.packages('fs')
 

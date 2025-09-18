@@ -23,6 +23,7 @@ Imports:
     scales,
     dplyr,
     magrittr,
+    fitdistrplus,
     tidyr,
     fs
 Depends: 

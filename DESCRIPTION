@@ -42,6 +42,7 @@ Suggests:
     png,
     cowplot,
     ggpubr,
+    svglite,
     testthat (>= 3.0.3),
     vdiffr (>= 1.0.0),
     lintr,

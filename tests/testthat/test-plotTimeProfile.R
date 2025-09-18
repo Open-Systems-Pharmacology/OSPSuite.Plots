@@ -250,7 +250,7 @@ test_that("plotTimeProfile works secondary axis", {
     yscale = AxisScales$log,
     yscale.args = list(limits = c(0.01, NA)),
     y2scale = AxisScales$linear,
-    y2scale.args = list(limits = c(0, 1)),
+    y2scale.args = list(limits = c(0, 1.1)),
     groupAesthetics = c("color", "fill")
   ) +
     theme(

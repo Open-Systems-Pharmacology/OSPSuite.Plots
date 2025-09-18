@@ -3,9 +3,12 @@
 
 <!-- badges: start -->
 
-  [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/Open-Systems-Pharmacology/OSPSuite.Plots?branch=develop&svg=true)](https://ci.appveyor.com/project/open-systems-pharmacology-ci/OSPSuite-Plots/branch/develop)
-  [![codecov](https://codecov.io/gh/Open-Systems-Pharmacology/OSPSuite.Plots/branch/develop/graph/badge.svg)](https://codecov.io/gh/Open-Systems-Pharmacology/OSPSuite.Plots)
+  [![](https://img.shields.io/github/downloads/Open-Systems-Pharmacology/OSPSuite.Plots/latest/total?label=%E2%AD%B3%20Downloads%20latest%20release)](https://github.com/Open-Systems-Pharmacology/OSPSuite.Plots/releases/latest)
+  [![](https://img.shields.io/github/downloads/Open-Systems-Pharmacology/OSPSuite.Plots/total?label=%E2%AD%B3%20Downloads%20total)](https://github.com/Open-Systems-Pharmacology/OSPSuite.Plots/releases)
 
+  [![build](https://img.shields.io/github/actions/workflow/status/Open-Systems-Pharmacology/OSPSuite.Plots/main-workflow.yaml?logo=github&logoColor=white&label=Build)](https://github.com/Open-Systems-Pharmacology/OSPSuite.Plots/actions/workflows/main-workflow.yaml)
+  [![codecov](https://codecov.io/gh/Open-Systems-Pharmacology/OSPSuite.Plots/branch/main/graph/badge.svg)](https://codecov.io/gh/Open-Systems-Pharmacology/OSPSuite.Plots)
+  [![Lint Test](https://img.shields.io/github/actions/workflow/status/Open-Systems-Pharmacology/OSPSuite.Plots/lint.yaml?logo=githubactions&logoColor=white&label=lint)](https://github.com/Open-Systems-Pharmacology/OSPSuite.Plots/actions/workflows/lint.yaml)
 
 <!-- badges: end -->
 

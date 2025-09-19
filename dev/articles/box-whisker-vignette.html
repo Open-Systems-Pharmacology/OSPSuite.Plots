@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -237,7 +237,7 @@ information.</p>
 <p>Age (mapped to y) is aggregated.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxWhisker.html">plotBoxWhisker</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">pkRatioData</span>, mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">Age</span><span class="op">)</span>, metaData <span class="op">=</span> <span class="va">metaData</span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/minimal-example-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/minimal-example-1.png" alt="Box plot showing age distribution aggregated across all data. The plot displays quartiles with median line, showing the overall age range distribution." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="stratification-on-x-axis">2.1.2 Stratification on X-axis<a class="anchor" aria-label="anchor" href="#stratification-on-x-axis"></a>
@@ -253,7 +253,7 @@ x).</p>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/example-x-stratification-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/example-x-stratification-1.png" alt="Box plots showing age distribution stratified by country. Separate box plots are displayed for each country on the x-axis, allowing comparison of age distributions between countries." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="stratification-by-color">2.1.3 Stratification by Color<a class="anchor" aria-label="anchor" href="#stratification-by-color"></a>
@@ -269,7 +269,7 @@ fill).</p>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/minimal-example-color-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/minimal-example-color-1.png" alt="Box plot showing age distribution stratified by country using color coding. Different countries are represented by different fill colors in a single grouped box plot." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="stratification-by-color-and-on-x-axis">2.1.4 Stratification by Color and on X-axis<a class="anchor" aria-label="anchor" href="#stratification-by-color-and-on-x-axis"></a>
@@ -291,7 +291,7 @@ settable and is fixed to <code>fill</code>.</p>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/minimal-example-color-x-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/minimal-example-color-x-1.png" alt="Box plots showing age distribution stratified by both country (x-axis) and sex (color/grouping). The plot displays separate box plots for each country, with different colors representing sex within each country." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="stratification-by-column-combination">2.1.5 Stratification by Column Combination<a class="anchor" aria-label="anchor" href="#stratification-by-column-combination"></a>
@@ -307,7 +307,7 @@ settable and is fixed to <code>fill</code>.</p>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/minimal-example-interaction-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/minimal-example-interaction-1.png" alt="Box plot showing age distribution grouped by the interaction of country and sex. Each combination of country and sex is represented as a separate group with distinct colors in the legend." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="omit-data-points-flagged-as-missing-dependent-variable-mdv">2.1.6 Omit Data Points Flagged as Missing Dependent Variable
@@ -327,7 +327,7 @@ from Germany:</p>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/minimal-example-mdv-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/minimal-example-mdv-1.png" alt="Box plots showing age distribution by country and sex, with data from Germany excluded using the missing dependent variable (MDV) flag. The plot demonstrates how to omit specific data points from the analysis." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level3">
@@ -357,7 +357,7 @@ equidistant:</p>
 <span>  <span class="op">)</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/numeric-example-factor-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/numeric-example-factor-1.png" alt="Box plots showing ratio distribution by mean age treated as categorical factors. Each mean age value is positioned equidistantly on the x-axis, with different age groups represented by different fill colors." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="numeric-data-as-distinct-numeric-values">2.2.2 Numeric Data as Distinct Numeric Values<a class="anchor" aria-label="anchor" href="#numeric-data-as-distinct-numeric-values"></a>
@@ -374,7 +374,7 @@ the x-position of the boxes corresponds to the numeric value:</p>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/numeric-example-distinct-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/numeric-example-distinct-1.png" alt="Box plots showing ratio distribution by mean age as continuous numeric values. The x-position of each box plot corresponds to its actual numeric mean age value, with different age groups represented by different fill colors." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="map-continuous-column-with-binning">2.2.3 Map Continuous Column with Binning<a class="anchor" aria-label="anchor" href="#map-continuous-column-with-binning"></a>
@@ -394,7 +394,7 @@ exists. So we have to set the x label manually.</p>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Age range [years]"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/numeric-example-bin4-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/numeric-example-bin4-1.png" alt="Box plots showing ratio distribution across four automatically generated age ranges. The continuous age variable is binned into four equal intervals, with each bin represented as a separate box plot on the x-axis." width="80%" style="display: block; margin: auto;"></p>
 <p>We can use any function that converts a continuous vector to a
 factor. Below, we define our own cut function simply as a wrapper around
 <code>cut</code>, with some fixed arguments. This function is then
@@ -415,7 +415,7 @@ mapped to <code>x</code> and <code>groupby</code>.</p>
 <span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/numeric-example-binfunction-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/numeric-example-binfunction-1.png" alt="Box plots showing ratio distribution across predefined age groups using a custom binning function. Ages are categorized into infants, school children, adolescents, and adults, with each group shown as a separate box plot." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level3">
@@ -450,7 +450,7 @@ percentiles to box percentiles.</p>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span>,</span>
 <span>  percentiles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.75</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/customized-percentiles-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/customized-percentiles-1.png" alt="Box plots showing age distribution by country with customized percentiles. The whiskers are removed by setting both whisker percentiles equal to the box percentiles, showing only the interquartile range." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="example-for-customized-aggregation-function">2.3.2 Example for Customized Aggregation Function<a class="anchor" aria-label="anchor" href="#example-for-customized-aggregation-function"></a>
@@ -482,7 +482,7 @@ standard deviation to aggregate:</p>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span>,</span>
 <span>  statFun <span class="op">=</span> <span class="va">myStatFun</span></span>
 <span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Mean for the middle line, mean +/- standard deviation for the box edges, and mean +/- 1.96 standard deviation for the whiskers."</span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/aggregation-functions-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/aggregation-functions-1.png" alt="Box plots showing age distribution by country using a custom aggregation function based on mean and standard deviation. The middle line represents the mean, box edges show mean ± SD, and whiskers extend to mean ± 1.96 SD." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level3">
@@ -616,7 +616,7 @@ as used for the plot.</p>
 </tr>
 </tbody>
 </table>
-<p><img src="box-whisker-vignette_files/figure-html/aggregationTable-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/aggregationTable-1.png" alt="Box plots showing age distribution by country and sex. This plot demonstrates how the aggregation function can be extracted from the plot object for creating corresponding data tables." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="show-outliers">2.4 Show Outliers<a class="anchor" aria-label="anchor" href="#show-outliers"></a>
@@ -638,7 +638,7 @@ percentile - 1.5 x IQR to the “75th” percentile + 1.5 x IQR.</p>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span>,</span>
 <span>  outliers <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>tag <span class="op">=</span> <span class="st">"A"</span>, caption <span class="op">=</span> <span class="st">"Default settings: Whiskers indicate 90% range (5th - 95th percentile) and outliers indicate all measurements outside 25th percentiles - 1.5 x IQR to 75th percentiles + 1.5 x IQR."</span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/example-outliers-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/example-outliers-1.png" alt="Box plots showing ratio distribution by sex and country with outliers displayed. Outliers are shown as individual points outside the whiskers, which indicate the 90% range (5th-95th percentile). Default outlier detection uses 1.5 × IQR beyond the quartiles." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="outliers-with-customized-settings">2.4.2 Outliers with Customized Settings<a class="anchor" aria-label="anchor" href="#outliers-with-customized-settings"></a>
@@ -673,7 +673,7 @@ values outside the outlier range.</p>
 <span>  percentiles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>  statFunOutlier <span class="op">=</span> <span class="va">myStatFunOutlier</span></span>
 <span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Whiskers indicate 80% range (10th - 90th percentile) and outliers indicate all measurements outside whiskers."</span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/example-outliers-custom-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/example-outliers-custom-1.png" alt="Box plots showing ratio distribution by sex and country with custom outlier detection. The whiskers indicate the 80% range (10th-90th percentile), and outliers show all measurements outside the whisker range." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="retrieve-outliers-as-table">2.4.3 Retrieve Outliers as Table<a class="anchor" aria-label="anchor" href="#retrieve-outliers-as-table"></a>
@@ -821,7 +821,7 @@ defined.</li>
 <span>  geomBoxplotAttributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"orange"</span>, position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_dodge.html" class="external-link">position_dodge</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  geomPointAttributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_dodge.html" class="external-link">position_dodge</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">4</span>, color <span class="op">=</span> <span class="st">"orange"</span>, shape <span class="op">=</span> <span class="st">"diamond"</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Female <span class="op">=</span> <span class="st">"pink"</span>, Male <span class="op">=</span> <span class="st">"dodgerblue"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>tag <span class="op">=</span> <span class="st">"B"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="box-whisker-vignette_files/figure-html/boxplot-update-configuration-1.png" width="80%" style="display: block; margin: auto;"><img src="box-whisker-vignette_files/figure-html/boxplot-update-configuration-2.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="box-whisker-vignette_files/figure-html/boxplot-update-configuration-1.png" alt="Two side-by-side box plots (A and B) showing age distribution by country and sex. Plot A shows default styling, while Plot B demonstrates custom styling with orange colors for boxes and diamond-shaped outlier points, plus custom fill colors for sex groups." width="80%" style="display: block; margin: auto;"><img src="box-whisker-vignette_files/figure-html/boxplot-update-configuration-2.png" alt="Two side-by-side box plots (A and B) showing age distribution by country and sex. Plot A shows default styling, while Plot B demonstrates custom styling with orange colors for boxes and diamond-shaped outlier points, plus custom fill colors for sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

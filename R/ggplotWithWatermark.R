@@ -116,7 +116,6 @@ print.ggWatermark <- function(x, ...) {
 #' @export
 #'
 #' @family watermark
-#' @export
 addWatermark <- function(plotObject) {
   # initialize variables to avoid check messages
   x <- y <- label <- NULL

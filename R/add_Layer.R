@@ -44,6 +44,13 @@ addLayer <- function(mappedData,
                      geom,
                      plotObject,
                      layerToCall) {
+  # Validate input attributes
+  checkmate::assertClass(mappedData, "MappedData")
+  checkmate::assertClass(plotObject, "gg")
+  checkmate::assertList(geomAttributes, null.ok = TRUE)
+  checkmate::assertCharacter(geom, len = 1)
+  checkmate::assertFunction(layerToCall)
+  
   filteredMapping <- mappedData$getAestheticsForGeom(
     geom = geom,
     geomAttributes = geomAttributes
@@ -100,11 +107,14 @@ addLLOQLayer <-
            layerToCall,
            useLinetypeAsAttribute,
            geomLLOQAttributes) {
+    # Early return if no LLOQ data is present
     if (!mappedData$hasLLOQMatch) {
       return(plotObject)
     }
 
+    # Configure LLOQ line appearance based on legend preference
     if (useLinetypeAsAttribute) {
+      # When using linetype as attribute: no legend entry, direct styling
       geomLLOQAttributes <- utils::modifyList(
         list(linetype = getOspsuite.plots.option(optionKey = OptionKeys$LLOQLineType)),
         geomLLOQAttributes
@@ -117,11 +127,12 @@ addLLOQLayer <-
     )
 
     if (!useLinetypeAsAttribute) {
+      # When not using linetype as attribute: create legend entry with "LLOQ" label
       filteredMapping <-
         structure(
           utils::modifyList(
             filteredMapping,
-            aes(linetype = "LLOQ")
+            aes(linetype = "LLOQ")  # Maps to legend with "LLOQ" label
           ),
           class = "uneval"
         )
@@ -143,6 +154,7 @@ addLLOQLayer <-
       )
 
     if (!useLinetypeAsAttribute) {
+      # Add manual scale for legend: maps "LLOQ" label to specified line type
       plotObject <- plotObject +
         scale_linetype_manual(
           values = c(LLOQ = getOspsuite.plots.option(optionKey = OptionKeys$LLOQLineType)),

@@ -7,12 +7,13 @@
 #'
 #' @inheritParams plotTimeProfile
 #' @param data  ´data.frame` with data to plot
-#' @param residualScale  either "linear" or "log" scale residuals,
-#'        for linear residuals are calculated observed - predicted
-#'        for log residuals are calculated log(observed) - log(predicted)
-#'        y scale is always linear
-#' @param geomQQAttributes arguments passed on to `ggplot2::qq_stat`
-#' @param geomQQLineAttributes arguments passed on to `ggplot2::qq_stat_line`
+#' @param residualScale Either `"linear"` or `"log"` for scaling residuals. 
+#'   For linear: residuals = observed - predicted. For log: residuals = log(observed) - log(predicted).
+#'   The y-axis scale remains linear in both cases.
+#' @param geomQQAttributes A list of arguments passed to `ggplot2::stat_qq()`.
+#' @param geomQQLineAttributes A list of arguments passed to `ggplot2::stat_qq_line()`.
+#' @param groupAesthetics A character vector of aesthetic names used for grouping data points in the Q-Q plot.
+#'   Common options include `"colour"`, `"fill"`, `"shape"`, `"linetype"`, and `"size"`.
 #'
 #'
 #' @return A `ggplot` object
@@ -36,8 +37,7 @@ plotQQ <- function(data,
 
   checkmate::assertList(geomQQAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomQQLineAttributes, null.ok = FALSE, min.len = 0)
-
-  checkmate::assertCharacter(groupAesthetics, min.len = 0, all.missing = TRUE, null.ok = TRUE)
+  checkmate::assertCharacter(groupAesthetics, null.ok = TRUE, min.len = 1)
 
   xscale <- AxisScales$linear
   yscale <- AxisScales$linear

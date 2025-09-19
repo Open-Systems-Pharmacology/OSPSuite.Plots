@@ -1,6 +1,31 @@
 # TimeProfile ----------------
 #' @title MappedDataTimeProfile
-#' @description  R6 class for mapping variable to `data`
+#' @description R6 class for mapping variable to data for time profile visualizations.
+#' This class extends MappedData to provide specialized functionality for time-series plots,
+#' including support for secondary y-axes, dual scaling, and time-specific axis handling.
+#' 
+#' @details This class is specifically designed for pharmacokinetic time profile plots
+#' where data may need to be displayed on dual y-axes with different scales (linear/log).
+#' It handles complex scenarios like mapping simulated and observed data with different
+#' scaling requirements.
+#' 
+#' @examples
+#' \dontrun{
+#' # Create time profile mapping with secondary axis
+#' timeData <- MappedDataTimeProfile$new(
+#'   data = myDataFrame,
+#'   mapping = aes(x = time, y = concentration, y2axis = fraction_unbound),
+#'   scaleOfPrimaryAxis = "linear",
+#'   scaleOfSecondaryAxis = "log"
+#' )
+#' 
+#' # Time profile with grouping aesthetics
+#' timeData <- MappedDataTimeProfile$new(
+#'   data = myDataFrame,
+#'   mapping = aes(x = time, y = concentration, color = compound),
+#'   groupAesthetics = c("color", "linetype")
+#' )
+#' }
 #' @export
 #' @family MappedData classes
 MappedDataTimeProfile <- R6::R6Class( # nolint
@@ -101,16 +126,21 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
 
       return(invisible(self))
     },
-    #' scales data for secondary axis and updates `secAxis`
+    #' Scale data for secondary axis and update secAxis transformation
     #'
-    #' @param ylimits limits for primary axis
-    #' @param y2limits limits for secondary axis
+    #' This method handles the complex logic of scaling data between primary and secondary axes
+    #' with different scale types (linear/log combinations).
+    #' @param ylimits limits for primary axis (may be NULL)
+    #' @param y2limits limits for secondary axis (may be NULL) 
     #' @param y2scale.args arguments for secondary axis
     #'
     #' @return updated MappedDataTimeProfile
     scaleDataForSecondaryAxis = function(ylimits = NULL,
                                          y2limits = NULL,
                                          y2scale.args = list()) {
+      # Validate input parameters
+      checkmate::assertList(y2scale.args, null.ok = TRUE)
+      
       if (!self$requireDualAxis) {
         private$dataScaled <- self$data
         return(invisible(self))
@@ -142,16 +172,18 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         checkmate::assertDouble(log(y2limits), finite = TRUE)
       }
 
-      # split data into two data sets
+      # Split data based on y2axis mapping: FALSE = primary axis, TRUE = secondary axis
       dataUnscaled <- self$data %>%
         dplyr::filter(!!self$mapping[["y2axis"]] == FALSE)
 
       dataScaled <- self$data %>%
         dplyr::filter(!!self$mapping[["y2axis"]] == TRUE)
 
-      # get Scaling function
+      # Create scaling functions based on axis scale combinations
+      # Four possible combinations: linear-linear, linear-log, log-linear, log-log
       if (private$scaleOfSecondaryAxis == AxisScales$linear) {
         if (private$scaleOfPrimaryAxis == AxisScales$linear) {
+          # Linear secondary to linear primary: simple linear transformation
           offsetlin1 <- ylimits[1]
           deltalin1 <- diff(ylimits)
 

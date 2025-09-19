@@ -1,6 +1,24 @@
 # Boxplots ----------------
-#' @title object to map data for boxplots
-#' @description  R6 class for mapping variable to `data`
+#' @title MappedDataBoxplot
+#' @description R6 class for mapping variable to data for boxplot visualizations.
+#' This class extends MappedData to provide specialized mapping functionality for box-and-whisker plots,
+#' including handling of discrete and continuous x-axis scales and automatic grouping logic.
+#' @examples
+#' \dontrun{
+#' # Create boxplot mapping with continuous x variable
+#' boxplotData <- MappedDataBoxplot$new(
+#'   data = myDataFrame,
+#'   mapping = aes(x = dose, y = concentration),
+#'   xscale = "linear"
+#' )
+#' 
+#' # Create boxplot mapping with categorical x variable
+#' boxplotData <- MappedDataBoxplot$new(
+#'   data = myDataFrame,
+#'   mapping = aes(x = treatment_group, y = response),
+#'   xscale = "discrete"
+#' )
+#' }
 #' @export
 #' @family MappedData classes
 MappedDataBoxplot <- R6::R6Class( # nolint
@@ -67,9 +85,14 @@ MappedDataBoxplot <- R6::R6Class( # nolint
     doAdjustmentsWithMetaData = function(originalmapping,
                                          xscale,
                                          xscale.args) {
-      # check if aesthetic group is needed
+      # Validate input mapping structure
+      checkmate::assertList(originalmapping, null.ok = FALSE)
+      checkmate::assertCharacter(xscale, len = 1, null.ok = FALSE)
+      checkmate::assertList(xscale.args, null.ok = TRUE)
+      
+      # Adjust group aesthetic based on x variable type and mapping requirements
       private$adjustGroupMapping(originalmapping = originalmapping)
-      # check scale of x axis
+      # Determine and validate appropriate x-axis scale based on data type
       private$checkXscale(xscale = xscale, xscale.args)
 
       return(invisible(self))
@@ -79,9 +102,12 @@ MappedDataBoxplot <- R6::R6Class( # nolint
   #' @field boxwhiskerMapping mapping for box whisker plot
   active = list(
     boxwhiskerMapping = function() {
+      # Return different mapping based on whether x variable is mapped
       if (self$hasXmapping) {
+        # When x is mapped, use existing aesthetics (x variable drives grouping)
         return(aes())
       } else {
+        # When no x mapping, create a single category for all data points
         return(aes(x = " "))
       }
     }

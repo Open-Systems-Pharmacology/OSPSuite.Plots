@@ -160,6 +160,9 @@ plotPredVsObs <- function(data = NULL,
 #' @param labelGuestCriteria Label used in the legend for guest criteria (default: "guest criteria").
 #' @param asSquarePlot A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.
 #' @param observedDataDirection Either 'x' or 'y', defining the direction of observed data.
+#' @param groupAesthetics A character vector of aesthetic names used for grouping data points when calculating
+#'   comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
+#'   and proportions within comparison lines. Common grouping aesthetics include `"colour"`, `"fill"`, `"shape"`.
 #'
 #' @return A `ggplot` object representing the plotted data.
 #' @export

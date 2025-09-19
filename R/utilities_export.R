@@ -28,6 +28,33 @@
 #'
 #' @return NULL, the function saves the plot to the specified file.
 #'
+#' @examples
+#' \dontrun{
+#' # Basic usage
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+#' exportPlot(
+#'   plotObject = p,
+#'   filepath = tempdir(),
+#'   filename = "my_plot.png"
+#' )
+#'
+#' # Export with custom dimensions and device
+#' exportPlot(
+#'   plotObject = p,
+#'   filepath = "./output",
+#'   filename = "scatter_plot",
+#'   width = 12,
+#'   height = 8,
+#'   device = "pdf"
+#' )
+#'
+#' # Export with special characters in filename (will be cleaned)
+#' exportPlot(
+#'   plotObject = p,
+#'   filepath = tempdir(),
+#'   filename = "concentration in µg/L: results"
+#' )
+#' }
 #' @export
 exportPlot <- function(plotObject,
                        filepath,
@@ -274,10 +301,21 @@ getPlotDimensions <- function(plotObject, exportunits, nCol, nRow, nPanel) {
 #' @export
 #' @return File name without special letters.
 validateFilename <- function(filename, device) {
+  # Validate input parameters
+  checkmate::assertCharacter(filename, len = 1, null.ok = FALSE)
+  checkmate::assertCharacter(device, len = 1, null.ok = TRUE)
+  
   # if  option is set overwrite file extension.
   if (is.null(device)) {
     device <- getOspsuite.plots.option(optionKey = OptionKeys$export.device)
   }
+  
+  # Validate that device is a supported format
+  supportedDevices <- c("png", "pdf", "jpeg", "jpg", "tiff", "svg", "eps")
+  if (!device %in% supportedDevices) {
+    warning("Device '", device, "' may not be supported by ggsave")
+  }
+  
   filename <- fs::path_ext_set(filename, device)
 
   # replace µ by u
@@ -290,7 +328,6 @@ validateFilename <- function(filename, device) {
   for (char in forbiddenChars) {
     filename <- gsub(char, replacementChar, filename, fixed = TRUE)
   }
-
 
   return(filename)
 }

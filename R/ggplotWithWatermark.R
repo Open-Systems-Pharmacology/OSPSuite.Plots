@@ -52,7 +52,7 @@
 #'   optionKey = OptionKeys$watermark_label,
 #'   value = getDefaultOptions()[[OptionKeys$watermark_label]]
 #' )
-#'
+#' @family watermark
 #' @export
 ggplotWithWatermark <- function(...) {
   plotObject <- ggplot(...)
@@ -71,6 +71,7 @@ ggplotWithWatermark <- function(...) {
 #' @param ... Additional arguments to be passed to the print method, allowing for further customization of the output.
 #' @return A ggplot object with a watermark drawn on it. The watermark is displayed according to the specified options.
 #'
+#' @family watermark
 #' @export
 print.ggWatermark <- function(x, ...) {
   if (getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)) {
@@ -113,6 +114,7 @@ print.ggWatermark <- function(x, ...) {
 #'
 #' @export
 #'
+#' @family watermark
 #' @export
 addWatermark <- function(plotObject) {
   # initialize variables to avoid check messages
@@ -153,6 +155,7 @@ addWatermark <- function(plotObject) {
 #' @param x A ggWatermark object to be printed.
 #' @param ... Additional arguments to be passed to the print method.
 #'
+#' @family watermark
 #' @export
 plot.ggWatermark <- function(x, ...) {
   print(x, ...)

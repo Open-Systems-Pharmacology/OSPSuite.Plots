@@ -1,5 +1,5 @@
 ---
-title: "ospsuite.plots"
+title: "Overview"
 output:
   rmarkdown::html_vignette:
     toc: true
@@ -21,9 +21,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, echo=FALSE}
 library(ospsuite.plots)
 library(tidyr)
+options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 # 1. Introduction
@@ -106,7 +107,7 @@ ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, shape = Se
 
 Functions to set the `ospsuite.plots` default theme only are `setDefaultTheme()` and `resetDefaultTheme()`. These functions are called by `setDefaults()` and `resetDefaults()`.
 
-```{r}
+```{r defaultTheme}
 # Set ospsuite.plots Default Theme
 oldTheme <- ospsuite.plots::setDefaultTheme()
 
@@ -193,7 +194,7 @@ ggplot() +
 
 ### Reset to Previously Saved Color Map
 
-```{r}
+```{r resetColorMap}
 # Reset to the previously saved color map
 ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
 ```
@@ -296,7 +297,7 @@ With default options:
 
 Options to set the face alpha of ribbons filled points and options to set the filled points for values below and above LLOQ.
 
-```{r, eval=FALSE}
+```{r default-aesthetics, eval=FALSE}
 # Default alpha = 0.5
 getOspsuite.plots.option(optionKey = "Alpha")
 
@@ -326,31 +327,31 @@ All plot functions listed below call internally the function `initializePlot()`.
 
 ## 3.1 `plotTimeProfile()`
 
-See `vignette("Time Profile Plots", package = "ospsuite.plots")`.
+[Time Profile Plots](plot-time-profile.html)
 
 ## 3.2 `plotBoxWhisker()`
 
-See `vignette("Box Whisker Plots", package = "ospsuite.plots")`.
+[Box Whisker Plots](box-whisker-vignette.html)
 
 ## 3.3 `plotHistogram()`
 
-See `vignette("Histogram Plots", package = "ospsuite.plots")`.
+[Histogram Plots](histogram.html)
 
 ## 3.4 `plotPredVsObs()`
 
-See `vignette("Goodness of Fit", package = "ospsuite.plots")`.
+[Goodness of Fit](Goodness_of_fit.html)
 
 ## 3.5 `plotResVsCov()`
 
-See `vignette("Goodness of Fit", package = "ospsuite.plots")`.
+[Goodness of Fit](Goodness_of_fit.html)
 
 ## 3.6 `plotRatioVsCov()`
 
-See `vignette("Goodness of Fit", package = "ospsuite.plots")`.
+[Goodness of Fit](Goodness_of_fit.html)
 
 ## 3.7 `plotQQ()`
 
-See `vignette("Goodness of Fit", package = "ospsuite.plots")`.
+[Goodness of Fit](Goodness_of_fit.html)
 
 # 4. Additional Aesthetics
 
@@ -397,7 +398,7 @@ To export a plot, you need a ggplot object. Here's a basic example:
 
 Create a simple ggplot object:
 
-```{r, eval=FALSE}
+```{r export-object, eval=FALSE}
 plotObject <- ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age))
 ```
 
@@ -405,7 +406,7 @@ Exporting the Plot: Using the `exportPlot` function, you can easily save this pl
 
 Replace "path/to/save" with the actual directory path where you want to save the plot, and adjust the width and height parameters as needed.
 
-```{r, eval=FALSE}
+```{r export-basic, eval=FALSE}
 exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "myplot", width = 10, height = 8)
 ```
 
@@ -417,7 +418,7 @@ The `exportPlot` function can automatically adjust the plot dimensions based on 
 
 Assuming `plotObject` is your ggplot object:
 
-```{r, eval=FALSE}
+```{r export-advanced, eval=FALSE}
 exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "adjusted_plot.png")
 ```
 
@@ -471,7 +472,7 @@ plot(plotObject)
 
 ### Use Non-Default Icons
 
-```{r}
+```{r export-non-default-icons}
 plot(plotObject +
   scale_shape_manual(values = c(pig = "pig", dog = "dog", mouse = "mouse", rat = "rat")))
 ```

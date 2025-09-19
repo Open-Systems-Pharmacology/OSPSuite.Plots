@@ -23,3 +23,4 @@ A list with dimensions of plot components.
 \description{
 Get dimensions of plot components
 }
+\keyword{internal}

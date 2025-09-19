@@ -574,7 +574,7 @@ getGuestLimits <- function(x, deltaGuest = 1, yDisplayAsAbsolute = FALSE, asLowe
 #' @inheritParams plotYVsX
 #'
 #' @return A data table summarizing the counts within the specified limits.
-#' @export
+#' @keywords internal
 getCountsWithin <- function(data,
                             mapping,
                             comparisonLineVector = getFoldDistanceList(c(1.5, 2)),

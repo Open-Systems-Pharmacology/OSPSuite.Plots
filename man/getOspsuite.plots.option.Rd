@@ -18,3 +18,21 @@ returns an option value for a option defined by the package OSPSuite.plots
 \examples{
 getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
 }
+\seealso{
+Other setDefault functions: 
+\code{\link{Shapes}},
+\code{\link{colorMaps}},
+\code{\link{geomPointUnicode}()},
+\code{\link{getDefaultGeomAttributes}()},
+\code{\link{getDefaultOptions}()},
+\code{\link{resetDefaultColorMapDistinct}()},
+\code{\link{resetDefaultShapeDiscrete}()},
+\code{\link{resetDefaultTheme}()},
+\code{\link{resetDefaults}()},
+\code{\link{setDefaultColorMapDistinct}()},
+\code{\link{setDefaultShapeDiscrete}()},
+\code{\link{setDefaultTheme}()},
+\code{\link{setDefaults}()},
+\code{\link{setOspsuite.plots.option}()}
+}
+\concept{setDefault functions}

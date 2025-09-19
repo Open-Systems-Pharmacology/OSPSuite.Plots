@@ -32,3 +32,4 @@ A data table summarizing the counts within the specified limits.
 \description{
 This function counts entries within specific limits defined by the comparison lines and guest limits.
 }
+\keyword{internal}

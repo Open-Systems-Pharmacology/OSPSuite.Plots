@@ -14,3 +14,10 @@
 \description{
 This method allows for the ggWatermark object to be plotted using the standard print method.
 }
+\seealso{
+Other watermark: 
+\code{\link{addWatermark}()},
+\code{\link{ggplotWithWatermark}()},
+\code{\link{print.ggWatermark}()}
+}
+\concept{watermark}

@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-```{r, include = FALSE}
+```{r Setup Options, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   dpi = 300,
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r Library Imports, echo=TRUE}
 library(ospsuite.plots)
 library(tidyr)
 ```
@@ -40,7 +40,7 @@ The library is based on `ggplot2` functionality and also utilizes the `ggh4x` pa
 
 Examples within this vignette are plotted using the following test data:
 
-```{r get-test-data, results='asis'}
+```{r Test-Data-Extraction, results='asis'}
 testData <- exampleDataCovariates %>%
   dplyr::filter(SetID == "DataSet1") %>%
   dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex"))
@@ -55,7 +55,7 @@ knitr::kable(head(testData), digits = 3)
 - A plot created using the `ospsuite.plots` function
 - B customized plot
 
-```{r, warning=FALSE}
+```{r Default-ggplot-Layout, warning=FALSE}
 # ospsuite.plots function
 ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
 
@@ -72,7 +72,7 @@ To set the default layout, we use the same logic as in `ggplot2::theme_set()`. T
 
 `setDefaults()` sets the theme, discrete color palette, shapes, and various options. All objects can also be set separately as described below.
 
-```{r, warning=FALSE, fig.show='hold'}
+```{r Set-ospsuite.plots-Layout, warning=FALSE, fig.show='hold'}
 # Set default layout and save previous layout in variable oldDefaults
 oldDefaults <- ospsuite.plots::setDefaults(defaultOptions = list(), colorMapList = NULL, shapeValues = NULL, pointAsUnicode = FALSE)
 
@@ -88,7 +88,7 @@ ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, fill = Sex
 
 ### 2.1.3 Reset to Previously Saved Layout
 
-```{r, warning=FALSE, fig.show='hold'}
+```{r Reset-to-Previously-Saved-Layout, warning=FALSE, fig.show='hold'}
 # Reset to previously saved layout options
 ospsuite.plots::resetDefaults(oldDefaults = oldDefaults)
 
@@ -106,7 +106,7 @@ ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, shape = Se
 
 Functions to set the `ospsuite.plots` default theme only are `setDefaultTheme()` and `resetDefaultTheme()`. These functions are called by `setDefaults()` and `resetDefaults()`.
 
-```{r}
+```{r Default-Theme}
 # Set ospsuite.plots Default Theme
 oldTheme <- ospsuite.plots::setDefaultTheme()
 
@@ -135,7 +135,7 @@ The example below shows plots with:
 - E customized settings for all following plots using `ggsci::pal_lancet()(9)`
 - F customized plots: set gray scale for this plot only using function `ggsci::scale_color_lancet()`
 
-```{r}
+```{r Default-Color}
 # Set ospsuite.plots Default Color
 oldColors <- ospsuite.plots::setDefaultColorMapDistinct()
 
@@ -145,16 +145,16 @@ ggplot() +
   theme(legend.position = "none", axis.title = element_blank())
 ```
 
-```{r}
+```{r Default-Color-n51}
 ggplot() +
   geom_tile(aes(x = c(rep(seq(1, 7), 7), 1, 2), y = c(rep(seq(1, 7), each = 7), 8, 8), fill = as.factor(seq(1, 51)))) +
   labs(title = "Default settings for more than 6 different colors") +
   theme(legend.position = "none", axis.title = element_blank())
 ```
 
-```{r}
+```{r Customize-colors: set to gray colors}
 # Customize colors: set to gray colors
-ospsuite.plots::setDefaultColorMapDistinct(colorMaps[["grays"]])
+ospsuite.plots::setDefaultColorMapDistinct(colorMaps["grays"])
 
 ggplot() +
   geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
@@ -162,7 +162,7 @@ ggplot() +
   labs(title = "colorMaps gray", tag = "C")
 ```
 
-```{r}
+```{r scale_fill_grey}
 ggplot() +
   geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
   theme(legend.position = "none", axis.title = element_blank()) +
@@ -170,7 +170,7 @@ ggplot() +
   labs(title = "scale_fill_grey", tag = "D")
 ```
 
-```{r}
+```{r Set-to-color-palettes}
 # Set to color palettes inspired by plots in Lancet journals
 ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
 
@@ -180,7 +180,7 @@ ggplot() +
   labs(title = "ggsci::pal_lancet", tag = "E")
 ```
 
-```{r}
+```{r scale-color-lancet}
 # Set to color palettes inspired by plots in Lancet journals
 ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
 
@@ -193,7 +193,7 @@ ggplot() +
 
 ### Reset to Previously Saved Color Map
 
-```{r}
+```{r Reset-to-Previously-Saved-Color-Map}
 # Reset to the previously saved color map
 ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
 ```
@@ -206,7 +206,7 @@ Functions to set the `ospsuite.plots` default shapes only are `setDefaultShapeDi
 
 `getDefaultOptions()` returns a list of options used in this package. These options are set by the function `setDefaults()` via the variable `defaultOptions`.
 
-```{r, eval=FALSE}
+```{r Default-Options, eval=FALSE}
 ospsuite.plots::setDefaults(defaultOptions = ospsuite.plots::getDefaultOptions())
 ```
 
@@ -230,7 +230,7 @@ The watermark can by customized by this options:
 - B: Disable watermark
 - C: Reset to default
 
-```{r}
+```{r Change-format-and-label-of-watermark}
 # Change format and label of watermark
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = list(x = 0.2, y = 0.6, color = "red", angle = 90, fontsize = 24, alpha = 0.2))
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "NEW")
@@ -239,7 +239,7 @@ setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "NEW")
 ggplotWithWatermark() + labs(title = "Changed Watermark", tag = "A")
 ```
 
-```{r}
+```{r Disable-watermark}
 # Disable watermark
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = FALSE)
 
@@ -247,7 +247,7 @@ setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = FALSE
 ggplotWithWatermark() + labs(title = "No Watermark", tag = "B")
 ```
 
-```{r}
+```{r Reset-to-default}
 # Reset to default
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = NULL)
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = NULL)
@@ -296,7 +296,7 @@ With default options:
 
 Options to set the face alpha of ribbons filled points and options to set the filled points for values below and above LLOQ.
 
-```{r, eval=FALSE}
+```{r Defaults-for-Aesthetics, eval=FALSE}
 # Default alpha = 0.5
 getOspsuite.plots.option(optionKey = "Alpha")
 
@@ -365,8 +365,8 @@ For more details, see the examples within the vignettes for the respective funct
 - `y2axis`: Creates a plot with 2 y axes. It is used to map to a column with a logical value. Values where this column has a TRUE entry will be displayed with a secondary axis.
 - `mdv`: Mapped to a logical column. Rows where this column has entries set to TRUE are not plotted (MDV = missing data value, taken from NONMEM notation).
 - `observed` / `predicted`: For the function `plotPredVsObs()`, `observed` is mapped to `x` and `predicted` is mapped to `y`. For all other functions, residuals are calculated if both aesthetics are mapped. The variable `residualScale` defines the calculation method:
-  - `residualScale = "log"`: $log(observed) - log(predicted)$,
-  - `residualScale = "linear"`: $observed - predicted$,
+  - `residualScale = "log"`: $log(observed) - log(predicted)$
+  - `residualScale = "linear"`: $observed - predicted$
   - `residualScale = "ratio"`: $observed / predicted$.
 
 See `vignette("Goodness of Fit", package = "ospsuite.plots")` for examples.
@@ -397,7 +397,7 @@ To export a plot, you need a ggplot object. Here's a basic example:
 
 Create a simple ggplot object:
 
-```{r, eval=FALSE}
+```{r Basic Usage, eval=FALSE}
 plotObject <- ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age))
 ```
 
@@ -405,7 +405,7 @@ Exporting the Plot: Using the `exportPlot` function, you can easily save this pl
 
 Replace "path/to/save" with the actual directory path where you want to save the plot, and adjust the width and height parameters as needed.
 
-```{r, eval=FALSE}
+```{r exportPlot}
 exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "myplot", width = 10, height = 8)
 ```
 
@@ -417,7 +417,7 @@ The `exportPlot` function can automatically adjust the plot dimensions based on 
 
 Assuming `plotObject` is your ggplot object:
 
-```{r, eval=FALSE}
+```{r Advanced-Usage-exportPlot, eval=FALSE}
 exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "adjusted_plot.png")
 ```
 
@@ -427,7 +427,7 @@ In this case, you don't need to specify the width and height explicitly; the fun
 
 ## 6.1 Default Shapes
 
-```{r, out.width = "90%", fig.asp = 0.4, fig.width = 8}
+```{r Default-Shapes, out.width = "90%", fig.asp = 0.4, fig.width = 8}
 shapeNames <- c("circle", paste("circle", c("open", "filled", "cross", "plus", "small")), "bullet", "square", paste("square", c("open", "filled", "cross", "plus", "triangle")), "diamond", paste("diamond", c("open", "filled", "plus")), "triangle", paste("triangle", c("open", "filled", "square")), paste("triangle down", c("open", "filled")), "plus", "cross", "asterisk")
 
 shapes <- data.frame(shapeNames = shapeNames, x = c(1:7, 1:6, 1:3, 5, 1:3, 6, 2:3, 1:3), y = -rep(1:6, c(7, 6, 4, 4, 2, 3)))
@@ -443,7 +443,7 @@ ggplot(shapes, aes(x, y)) +
 
 Attention: The use of `{showtext}` has side effects - a customized `geom_Point` function `geomPointUnicode` has to be used.
 
-```{r, fig.showtext=TRUE, out.width = "90%", fig.asp = 0.8, fig.width = 8}
+```{r Use-Unicode-Symbols, fig.showtext=TRUE, out.width = "90%", fig.asp = 0.8, fig.width = 8}
 shapes <- data.frame(shapeNames = names(Shapes), shape_symbols = unlist(unname(Shapes)), x = rep(c(1:5), 8), y = rep(-c(1:8), each = 5))
 
 showtext::showtext_auto()
@@ -459,7 +459,7 @@ showtext::showtext_auto(enable = "off")
 
 To switch to the Unicode mode, call `setDefaults` with the input variable `pointAsUnicode = TRUE`. To switch back, use `setDefaults(pointAsUnicode = FALSE)` or `resetDefaults(oldDefaults)`. However, it is recommended to produce all plots of one workflow either with Unicode mode or without. Otherwise, the plots may have different fonts.
 
-```{r}
+```{r Switch-Between-Modes}
 oldDefaults <- ospsuite.plots::setDefaults(pointAsUnicode = TRUE)
 
 dt <- data.frame(x = c(1, 2, 1, 2), y = c(1, 1, 2, 2), species = c("pig", "dog", "mouse", "rat"))
@@ -471,7 +471,7 @@ plot(plotObject)
 
 ### Use Non-Default Icons
 
-```{r}
+```{r Use-Non-Default-Icons}
 plot(plotObject +
   scale_shape_manual(values = c(pig = "pig", dog = "dog", mouse = "mouse", rat = "rat")))
 ```
@@ -479,7 +479,3 @@ plot(plotObject +
 ```{r cleanup, echo=FALSE}
 resetDefaults(oldDefaults)
 ```
-
-```
-
-

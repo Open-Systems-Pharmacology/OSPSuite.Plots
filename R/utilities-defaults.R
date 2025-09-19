@@ -9,11 +9,11 @@
 #' \dontrun{
 #' # Save current theme and set OSPSuite default
 #' oldTheme <- setDefaultTheme()
-#' 
+#'
 #' # Create a plot with the new theme
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
 #' print(p)
-#' 
+#'
 #' # Restore previous theme
 #' resetDefaultTheme(oldTheme)
 #' }
@@ -108,10 +108,10 @@ colorMaps <- list( # nolint: object_name_linter
 #'   c("red", "green", "blue")           # Named colors
 #' )
 #' oldColors <- setDefaultColorMapDistinct(customColors)
-#' 
+#'
 #' # Use default OSP color maps
 #' setDefaultColorMapDistinct()
-#' 
+#'
 #' # Reset to previous colors
 #' resetDefaultColorMapDistinct(oldColors)
 #' }
@@ -120,16 +120,29 @@ colorMaps <- list( # nolint: object_name_linter
 #' @export
 #'
 setDefaultColorMapDistinct <- function(colorMapList = NULL) {
+  # Convert character vector to a list if it's not NULL
+  if (!is.null(colorMapList) && is.character(colorMapList)) {
+    colorMapList <- list(colorMapList)
+  }
   # Validate colorMapList structure
+  validateColors <- function(colorVector, varName) {
+    for (color in colorVector) {
+      if (any(is.na(grDevices::col2rgb(color, alpha = FALSE)))) {
+        stop(paste("Invalid color:", color, "in", varName))
+      }
+    }
+  }
   if (!is.null(colorMapList)) {
     checkmate::assertList(colorMapList, min.len = 1)
     # Validate that each element is a character vector of colors
     for (i in seq_along(colorMapList)) {
-      checkmate::assertCharacter(colorMapList[[i]], min.len = 1, 
-                                  .var.name = paste0("colorMapList[[", i, "]]"))
+      checkmate::assertCharacter(colorMapList[[i]], min.len = 1,
+                                 .var.name = paste0("colorMapList[[", i, "]]"))
+      # Validate colors using the helper function
+      validateColors(colorMapList[[i]], paste0("colorMapList[[", i, "]]"))
     }
   }
-  
+
   if (is.null(colorMapList)) {
     colorMapList <- list(
       colorMaps[["default"]],

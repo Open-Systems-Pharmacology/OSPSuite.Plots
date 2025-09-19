@@ -22,6 +22,9 @@ CombinedPlot <- R6::R6Class( # nolint
     #' @param tableObject A ggplot object for the table.
     #' @param plotObject A ggplot object for the main plot.
     initialize = function(plotObject = ggplot(), tableObject = NULL) {
+      checkmate::assertClass(plotObject,"gg")
+      checkmate::assertDataFrame(tableObject,null.ok = TRUE)
+
       self$plotObject <- plotObject
       self$tableObject <- tableObject
       self$relWidths <- c(4, 1)
@@ -31,16 +34,13 @@ CombinedPlot <- R6::R6Class( # nolint
     #' This method combines the plot and table into a single output and displays it.
     #' @return A ggplot object representing the combined plot and table
     combined = function() {
-      # Validate that plot object exists
-      stopifnot("plotObject must be provided" = !is.null(private$.plotObject))
-      
       if (is.null(private$.tableObject)) {
         return(self$plotObject)
       }
 
       # Adjust legend position when table is present to optimize layout
       private$adjustLegendPosition()
-      
+
       return(cowplot::plot_grid(
         self$plotObject,
         self$tableObject,
@@ -55,9 +55,14 @@ CombinedPlot <- R6::R6Class( # nolint
     #' This method overrides the default print function to display the combined output.
     #' @return Invisibly returns the combined ggplot object
     print = function() {
-      combined_plot <- self$combined()
-      print(combined_plot)
-      invisible(combined_plot)
+      combinedPlot <- self$combined()
+      if (is.null(private$.tableObject)){
+        print(combinedPlot)
+      } else {
+        # the combined plot has lost its watermarkClass
+        print(addWatermark(combinedPlot))
+      }
+      invisible(combinedPlot)
     }
   ),
   active = list(
@@ -93,7 +98,7 @@ CombinedPlot <- R6::R6Class( # nolint
     .plotObject = NULL,
     .tableObject = NULL,
     .relWidths = NULL,
-    
+
     # Helper function to adjust legend position for better layout when table is present
     adjustLegendPosition = function() {
       # Get current legend position from plot theme or global theme
@@ -101,7 +106,7 @@ CombinedPlot <- R6::R6Class( # nolint
       if (is.null(currentLegendPos)) {
         currentLegendPos <- theme_get()$legend.position
       }
-      
+
       # Move legend to top if currently on right side to accommodate table
       if (identical(currentLegendPos, "right")) {
         private$.plotObject <- private$.plotObject + theme(legend.position = "top")

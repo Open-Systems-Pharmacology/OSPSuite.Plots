@@ -500,7 +500,7 @@ knitr::kable(plotObject$countsWithin, caption = "Counts and fraction within rang
 
 To compare DDI ratios, set the variable `addGuestLimits` to TRUE and set the variable `deltaGuest`.
 
-```{r ratio-Guest, fig.alt="Two plots showing DDI ratio analysis with Guest criteria. First plot shows ratio versus observed values with Guest limit lines for different studies. Second plot shows predicted versus observed values with Guest criteria lines and 2-fold comparison lines. Both plots include statistical summary tables showing the fraction of data within acceptance criteria."}
+```{r ratio-Guest, fig.alt="Scatter plot showing predicted versus observed DDI ratios with Guest criteria lines indicating acceptable ranges for drug-drug interaction assessment. Different studies are represented in different colors, and the plot effectively visualizes the prediction accuracy against the Guest criteria."}
 plotObject <- plotRatioVsCov(
   data = dDIdata,
   mapping = aes(
@@ -517,20 +517,6 @@ plotObject <- plotRatioVsCov(
 print(plotObject)
 knitr::kable(plotObject$countsWithin)
 
-plotObject <- plotPredVsObs(
-  data = dDIdata,
-  mapping = aes(
-    x = Obs,
-    predicted = Pred,
-    observed = Obs,
-    groupby = Study
-  ),
-  comparisonLineVector = getFoldDistanceList(c(2)),
-  addGuestLimits = TRUE
-)
-
-print(plotObject)
-knitr::kable(plotObject$countsWithin)
 ```
 
 # 5. Quantile Plot (`plotQQ()`)

@@ -472,7 +472,7 @@ plot(plotObject)
 
 ### Use Non-Default Icons
 
-```{r export-non-default-icons}
+```{r export-non-default-icons,fig.alt="Scatter plot demonstrating the use of non-default icons in ospsuite.plots. The plot displays four data points representing different species (pig, dog, mouse, rat) using custom shapes for each species instead of standard ggplot shapes, showcasing the ability to personalize plot aesthetics with unique icons."}
 plot(plotObject +
   scale_shape_manual(values = c(pig = "pig", dog = "dog", mouse = "mouse", rat = "rat")))
 ```

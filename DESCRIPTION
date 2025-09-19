@@ -11,6 +11,7 @@ Authors@R:
              email = "katrin.coboeken@bayer.com"))
 Description: This library provides a standardized approach to creating graphs and tables in the ospsuite context.
     It is based on ggplot2.
+URL: https://www.open-systems-pharmacology.org/OSPSuite.Plots/
 License: GPL-2 | file LICENSE
 Language: en-US
 Imports: 

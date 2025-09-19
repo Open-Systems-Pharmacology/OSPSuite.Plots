@@ -405,7 +405,7 @@ Exporting the Plot: Using the `exportPlot` function, you can easily save this pl
 
 Replace "path/to/save" with the actual directory path where you want to save the plot, and adjust the width and height parameters as needed.
 
-```{r exportPlot}
+```{r exportPlot, eval=FALSE}
 exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "myplot", width = 10, height = 8)
 ```
 

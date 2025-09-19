@@ -35,6 +35,28 @@
 #' @param y2scale.args list of arguments passed to `ggplot2::sec_axis()`, trans, break are set by code
 #'
 #' @return A `ggplot` object
+#' @examples
+#' \dontrun{
+#' # Basic time profile plot with simulated data
+#' plotTimeProfile(
+#'   data = simulationData,
+#'   mapping = aes(x = time, y = concentration, color = compound)
+#' )
+#'
+#' # Time profile with both simulated and observed data
+#' plotTimeProfile(
+#'   data = simulationData,
+#'   observedData = observedData,
+#'   mapping = aes(x = time, y = concentration, color = treatment),
+#'   observedMapping = aes(x = time, y = concentration, color = treatment)
+#' )
+#'
+#' # Time profile with secondary y-axis
+#' plotTimeProfile(
+#'   data = myData,
+#'   mapping = aes(x = time, y = concentration, y2axis = fraction_unbound)
+#' )
+#' }
 #' @export
 #' @family plot functions
 plotTimeProfile <- function(data = NULL, # nolint

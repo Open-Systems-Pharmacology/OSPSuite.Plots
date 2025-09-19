@@ -75,10 +75,11 @@ ggplotWithWatermark <- function(...) {
 #' @export
 print.ggWatermark <- function(x, ...) {
   if (getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)) {
+    # Add watermark overlay when watermark is enabled
     print(addWatermark(x))
   } else {
-    # if watermark is not enabled it is still necessary to call ggdraw, this will set the class
-    # back to ggplot2, otherwise we would have an infinite loop
+    # When watermark is disabled, use ggdraw to reset class back to ggplot2
+    # This prevents infinite recursion in print method calls
     print(cowplot::ggdraw(x))
   }
 }
@@ -120,7 +121,7 @@ addWatermark <- function(plotObject) {
   # initialize variables to avoid check messages
   x <- y <- label <- NULL
 
-  checkmate::assert_class(plotObject,classes = "gg")
+  checkmate::assert_class(plotObject, classes = "gg")
   # if watermark is not enabled return unchanged object
   if (!getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)) {
     return(plotObject)
@@ -128,6 +129,16 @@ addWatermark <- function(plotObject) {
 
   watermarkLabel <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_label)
   watermarkOptions <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
+  
+  # Validate watermark options
+  checkmate::assertCharacter(watermarkLabel, len = 1, null.ok = FALSE)
+  checkmate::assertList(watermarkOptions, null.ok = FALSE)
+  checkmate::assertNumber(watermarkOptions$x, lower = 0, upper = 1)
+  checkmate::assertNumber(watermarkOptions$y, lower = 0, upper = 1)
+  checkmate::assertNumber(watermarkOptions$angle, lower = 0, upper = 360)
+  checkmate::assertNumber(watermarkOptions$fontsize, lower = 0)
+  checkmate::assertCharacter(watermarkOptions$color, len = 1)
+  checkmate::assertNumber(watermarkOptions$alpha, lower = 0, upper = 1)
 
   cowplot::ggdraw(plotObject) +
     geom_text(

@@ -27,6 +27,32 @@
 #' @return A `ggplot` object representing the box-whisker plot.
 #' @references McGill, R., Tukey, J. W., & Larsen, W. A. (1978). Variations of box plots.
 #' The American Statistician, 32(1), 12-16.
+#' @examples
+#' \dontrun{
+#' # Basic box-whisker plot
+#' plotBoxWhisker(
+#'   data = myData,
+#'   mapping = aes(x = group, y = value)
+#' )
+#'
+#' # Box-whisker plot with custom percentiles
+#' plotBoxWhisker(
+#'   data = myData,
+#'   mapping = aes(x = treatment, y = response),
+#'   percentiles = c(0.1, 0.25, 0.5, 0.75, 0.9)
+#' )
+#'
+#' # Box-whisker plot with custom stat function
+#' customStatFun <- function(x) {
+#'   return(quantile(x, probs = c(0.05, 0.25, 0.5, 0.75, 0.95), na.rm = TRUE))
+#' }
+#' plotBoxWhisker(
+#'   data = myData,
+#'   mapping = aes(x = dose_group, y = concentration),
+#'   statFun = customStatFun,
+#'   outliers = TRUE
+#' )
+#' }
 #' @export
 #' @family plot functions
 plotBoxWhisker <- function(data,

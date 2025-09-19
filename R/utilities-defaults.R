@@ -1,9 +1,22 @@
 # Default Theme -------------
 
 #' @title set the default theme
-#' @description set properties of the default theme
+#' @description set properties of the default theme for OSPSuite plots.
+#'   This function applies a custom theme based on theme_bw() with OSPSuite-specific styling.
 #'
-#' @return  invisibly return the previous theme so you can easily save it, then later restore it.
+#' @return invisibly return the previous theme so you can easily save it, then later restore it.
+#' @examples
+#' \dontrun{
+#' # Save current theme and set OSPSuite default
+#' oldTheme <- setDefaultTheme()
+#'
+#' # Create a plot with the new theme
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+#' print(p)
+#'
+#' # Restore previous theme
+#' resetDefaultTheme(oldTheme)
+#' }
 #'
 #' @export
 #' @family setDefault functions
@@ -83,13 +96,53 @@ colorMaps <- list( # nolint: object_name_linter
 #' @param colorMapList list of color-maps to be set
 #'
 #' @title set the default color-map for discrete colors
+#' @description Sets default color mappings for discrete color and fill aesthetics in ggplot2.
+#'   Each color map should be a vector of valid color values (hex codes, color names, etc.).
 #'
 #' @return list with color-maps previously set
+#' @examples
+#' \dontrun{
+#' # Set custom color maps
+#' customColors <- list(
+#'   c("#FF0000", "#00FF00", "#0000FF"),  # RGB colors
+#'   c("red", "green", "blue")           # Named colors
+#' )
+#' oldColors <- setDefaultColorMapDistinct(customColors)
+#'
+#' # Use default OSP color maps
+#' setDefaultColorMapDistinct()
+#'
+#' # Reset to previous colors
+#' resetDefaultColorMapDistinct(oldColors)
+#' }
 #'
 #' @family setDefault functions
 #' @export
 #'
 setDefaultColorMapDistinct <- function(colorMapList = NULL) {
+  # Convert character vector to a list if it's not NULL
+  if (!is.null(colorMapList) && is.character(colorMapList)) {
+    colorMapList <- list(colorMapList)
+  }
+  # Validate colorMapList structure
+  validateColors <- function(colorVector, varName) {
+    for (color in colorVector) {
+      if (any(is.na(grDevices::col2rgb(color, alpha = FALSE)))) {
+        stop(paste("Invalid color:", color, "in", varName))
+      }
+    }
+  }
+  if (!is.null(colorMapList)) {
+    checkmate::assertList(colorMapList, min.len = 1)
+    # Validate that each element is a character vector of colors
+    for (i in seq_along(colorMapList)) {
+      checkmate::assertCharacter(colorMapList[[i]], min.len = 1,
+                                 .var.name = paste0("colorMapList[[", i, "]]"))
+      # Validate colors using the helper function
+      validateColors(colorMapList[[i]], paste0("colorMapList[[", i, "]]"))
+    }
+  }
+
   if (is.null(colorMapList)) {
     colorMapList <- list(
       colorMaps[["default"]],

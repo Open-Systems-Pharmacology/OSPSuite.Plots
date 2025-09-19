@@ -189,7 +189,7 @@ MappedData <- R6::R6Class( # nolint
           stopIfNull = FALSE
         )
 
-        if (!is.null(tmp) & !is.function(tmp)) {
+        if (!is.null(tmp) & !is.function(tmp) & length(tmp)==2) {
           self$dimensions[[aesthetic]] <- tmp[1]
           self$units[[aesthetic]] <- tmp[2]
         }

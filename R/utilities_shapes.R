@@ -57,6 +57,26 @@ Shapes <- list( # nolint: object_name_linter
 #' @description
 #' Define a Geom using `ggplot2::ggproto()` and based on GeomPoint.
 #' The Geom internally uses `textGrob` instead of `pointsGrob` so that fonts leverage for drawing shapes.
+#' Custom ggproto for Unicode Point Shapes
+#' 
+#' @description A custom ggproto object that extends GeomPoint to use Unicode characters
+#' as plot symbols instead of standard R plotting symbols. This allows for more diverse
+#' and visually appealing point shapes in ggplot2 graphics.
+#' 
+#' @details This geom uses Unicode characters to render points, providing access to
+#' a wider variety of shapes than standard R plotting symbols. The shapes are rendered
+#' as text using grid::textGrob, which allows for better scaling and appearance.
+#' 
+#' Key features:
+#' - Uses Unicode characters for point rendering
+#' - Supports color, fill, size, and alpha aesthetics
+#' - Default shape is a filled square (\\u2588)
+#' - Compatible with all standard ggplot2 aesthetics and scales
+#' 
+#' @section Shape Validation:
+#' Shape codes are validated to ensure they are valid Unicode points. Invalid
+#' codes will fall back to default shapes or generate warnings.
+#' 
 #' The `grid` and `scales` packages are supposed to be required by `ggplot2`.
 #' So there should not be any issue as installing `ggplot2` should install those 2 packages.
 #' @keywords internal
@@ -169,11 +189,20 @@ geomPointUnicode <- function(mapping = NULL, data = NULL, stat = "identity",
 #'
 #' @return  shape value
 .asPlotShape <- function(shapes) {
+  # Validate input shapes
+  checkmate::assertCharacter(shapes, min.len = 1, null.ok = FALSE)
+  
   ggplotShapes <- NULL
   for (shape in shapes) {
     ggplotShape <- as.character(shape)
+    # Convert named shapes to Unicode characters
     if (isIncluded(ggplotShape, names(Shapes))) {
       ggplotShape <- Shapes[[shape]]
+    }
+    # Validate that the shape is a valid Unicode character
+    if (!is.character(ggplotShape) || nchar(ggplotShape) == 0) {
+      warning("Invalid shape code: ", shape, ". Using default square.")
+      ggplotShape <- Shapes[["square"]]
     }
     ggplotShapes <- c(ggplotShapes, ggplotShape)
   }

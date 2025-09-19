@@ -166,6 +166,13 @@ createDefaultPlotLabels <- function(mappedData) {
 #'
 #' @export
 constructLabelWithUnit <- function(label, unit) {
+  # Validate input arguments
+  if(is.factor(label)) label <- as.character(label)
+  if(is.double(label)) label <- as.character(label)
+  checkmate::assertCharacter(label, len = 1, null.ok = TRUE)
+  if(is.factor(unit)) unit <- as.character(unit)
+  checkmate::assertCharacter(unit, len = 1, null.ok = TRUE)
+
   if (!is.null(label) & !is.null(unit)) {
     if (trimws(unit) != "") {
       label <- paste0(trimws(label), " [", trimws(unit), "]")

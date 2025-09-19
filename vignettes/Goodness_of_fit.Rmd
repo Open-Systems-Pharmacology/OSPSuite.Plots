@@ -441,7 +441,7 @@ plotRatioVsCov(
 
 ### 4.1.2 Compare Residuals as Ratio
 
-Within the function `plotRatioVsCov()`, the variable `residualScale` is fixed to "ratio", and the ratio of the residuals is calculated as #$# observed / predicted #$#. Below, the comparison line is set to a 1.2 fold distance.
+Within the function `plotRatioVsCov()`, the variable `residualScale` is fixed to "ratio", and the ratio of the residuals is calculated as $ observed / predicted $. Below, the comparison line is set to a 1.2 fold distance.
 
 ```{r ratio-residuals, fig.alt="Scatter plot showing residual ratios (observed/predicted) versus age with 1.2-fold comparison lines. The plot demonstrates ratio-based residual analysis, where ratios above or below the comparison lines indicate systematic over- or under-prediction. Points are colored by sex groups."}
 plotRatioVsCov(
@@ -479,7 +479,7 @@ plotRatioVsCov(
 
 If the `{data.table}` package is installed and the variable `comparisonLineVector` is a named list, the `{ggplot}` object returned by `plotRatioVsCov` has an additional entry `countsWithin`, which contains a `data.frame` with the fractions within the specific ranges given by the variable `comparisonLineVector`.
 
-```{r qualification, plot, results='asis', fig.alt="Scatter plot showing ratio values versus age with qualification analysis. The plot generates both the visualization and a statistical summary table showing the fraction of data points within specified comparison ranges. Points are colored by sex groups."}
+```{r qualification-plot, results='asis', fig.alt="Scatter plot showing ratio values versus age with qualification analysis. The plot generates both the visualization and a statistical summary table showing the fraction of data points within specified comparison ranges. Points are colored by sex groups."}
 plotObject <- plotRatioVsCov(
   data = pkRatioData,
   mapping = aes(

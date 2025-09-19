@@ -6,65 +6,82 @@ template:
 development:
   mode: auto
 
-navbar:
-  components:
-    articles:
-      text: "Plot Functions"
-      menu:
-      - text: "Time Profile Plots"
-        href: plot-time-profile
-      - text: "Histograms"
-        href: histogram
+authors:
+  Open-Systems-Pharmacology Community:
+    href: https://www.open-systems-pharmacology.org/
+    html: <img src='https://avatars.githubusercontent.com/u/25098323?s=33' alt="Open System Pharmacology Logo">Open Systems Pharmacology
+  Katrin Coboeken:
+    href: https://github.com/KatrinCoboeken
 
+articles:
+  - title: Overview
+    navbar: Overview
+    desc: Overview
+    contents:
+      - ospsuite_plots
+  - title: Plotting functions
+    navbar: Plotting functions
+    desc: Details about primary functions
+    contents:
+      - plot-time-profile
+      - box-whisker-vignette
+      - histogram
+      - Goodness_of_fit
+
+figures:
+  dev: ragg::agg_png
+  fig.ext: png
+  dev.args: []
+  fig.width: 10
+  fig.asp: 0.618
+  fig.retina: 1
+  bg: NA
+  other.parameters: []
 
 reference:
-- title: "Plot Functions"
-  desc: "Functions for creating plots"
-  contents:
-  - has_concept("plot functions")
-- title: "Update/initialize plots"
-  desc: "initialize plot or add to existing plots"
-  contents:
-  - matches("initializePlot")
-  - matches("addXscale")
-  - matches("addYscale")
-  - matches("layerWatermark")
-- title: "Default settings"
-  desc: "Functions to set and reset Settings for plot layout"
-  contents:
-  - has_concept("setDefault functions")
-- title: "DataMapping Classes"
-  desc: "Classes combining data and Mapping"
-  contents:
-  - starts_with("MappedData")
-- title: "Data"
-  desc: "Data used within the vignette examples"
-  contents:
-  - starts_with("exampleData")
-- title: "auxiliary functions"
-  desc: "Classes combining data and Mapping"
-  contents:
-  - matches("checkIfColumnIsCategorical")
-  - matches("metaData2DataFrame")
-  - matches("addLLOQLayer")
-  - matches("addXYScale")
-  - matches("adjacentEmptyLines_linter")
-  - matches("AxisScales")
-  - matches("calculatePlotDimensions")
-  - matches("CombinedPlot")
-  - matches("constructLabelWithUnit")
-  - matches("exportPlot")
-  - matches("getCountsWithin")
-  - matches("getFoldDistanceList")
-  - matches("getOspsuite.plots.option")
-  - matches("getPlotDimensions")
-  - matches("OptionKeys")
-  - matches("ResidualScales")
-  - matches("setOspsuite.plots.option")
-  - matches("updateScaleArgumentsForTimeUnit")
-  - matches("validateFilename")
-  - matches("validateInputsExportPlot")
-  - matches("addWatermark")
-  - matches("ggplotWithWatermark")
-  - matches("plot.ggWatermark")
-  - matches("print.ggWatermark")
+  - title: "Plot Functions"
+    desc: "Functions for creating plots"
+    contents:
+      - has_concept("plot functions")
+  - title: "Update/initialize plots"
+    desc: "initialize plot or add to existing plots"
+    contents:
+      - matches("initializePlot")
+      - matches("addXscale")
+      - matches("addYscale")
+      - matches("addLLOQLayer")
+      - matches("addXYScale")
+  - title: "Watermark"
+    desc: "Functions to set watermark"
+    contents:
+      - has_concept("watermark")
+  - title: "Plot export"
+    desc: "Functions to export plot"
+    contents:
+      - matches("exportPlot")
+  - title: "Default settings"
+    desc: "Functions to set and reset Settings for plot layout"
+    contents:
+      - has_concept("setDefault functions")
+  - title: "DataMapping Classes"
+    desc: "Classes combining data and Mapping"
+    contents:
+      - starts_with("MappedData")
+  - title: "Constants"
+    desc: "Enumeration constants for OSPSuite.plots options and scaling."
+    contents:
+      - matches("AxisScales")
+      - matches("OptionKeys")
+      - matches("ResidualScales")
+  - title: "Data"
+    desc: "Data used within the vignette examples"
+    contents:
+      - starts_with("exampleData")
+  - title: "auxiliary functions"
+    desc: "Classes combining data and Mapping"
+    contents:
+      - matches("metaData2DataFrame")
+      - matches("CombinedPlot")
+      - matches("constructLabelWithUnit")
+      - matches("getFoldDistanceList")
+      - matches("updateScaleArgumentsForTimeUnit")

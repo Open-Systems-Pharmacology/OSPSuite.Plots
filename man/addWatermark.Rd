@@ -38,3 +38,10 @@ p_custom <- addWatermark(p)
 print(p_custom)
 
 }
+\seealso{
+Other watermark: 
+\code{\link{ggplotWithWatermark}()},
+\code{\link{plot.ggWatermark}()},
+\code{\link{print.ggWatermark}()}
+}
+\concept{watermark}

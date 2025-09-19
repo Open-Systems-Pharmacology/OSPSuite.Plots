@@ -1,5 +1,5 @@
 ---
-title: "ospsuite.plots"
+title: "Overview"
 output:
   rmarkdown::html_vignette:
     toc: true
@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-```{r Setup Options, include = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   dpi = 300,
@@ -21,9 +21,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r Library Imports, echo=TRUE}
+```{r setup, echo=FALSE}
 library(ospsuite.plots)
 library(tidyr)
+options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 # 1. Introduction
@@ -40,7 +41,7 @@ The library is based on `ggplot2` functionality and also utilizes the `ggh4x` pa
 
 Examples within this vignette are plotted using the following test data:
 
-```{r Test-Data-Extraction, results='asis'}
+```{r get-test-data, results='asis'}
 testData <- exampleDataCovariates %>%
   dplyr::filter(SetID == "DataSet1") %>%
   dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex"))
@@ -106,7 +107,7 @@ ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, shape = Se
 
 Functions to set the `ospsuite.plots` default theme only are `setDefaultTheme()` and `resetDefaultTheme()`. These functions are called by `setDefaults()` and `resetDefaults()`.
 
-```{r Default-Theme}
+```{r defaultTheme}
 # Set ospsuite.plots Default Theme
 oldTheme <- ospsuite.plots::setDefaultTheme()
 
@@ -154,7 +155,7 @@ ggplot() +
 
 ```{r customize-colors-gray, fig.alt="Tile plot demonstrating customized gray color palette. The plot shows a 3x3 grid of tiles using grayscale colors from the ospsuite.plots colorMaps gray palette, illustrating how to apply monochromatic color schemes for accessibility or publication requirements."}
 # Customize colors: set to gray colors
-ospsuite.plots::setDefaultColorMapDistinct(colorMaps["grays"])
+ospsuite.plots::setDefaultColorMapDistinct(colorMaps[["grays"]])
 
 ggplot() +
   geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
@@ -193,7 +194,7 @@ ggplot() +
 
 ### Reset to Previously Saved Color Map
 
-```{r Reset-to-Previously-Saved-Color-Map}
+```{r resetColorMap}
 # Reset to the previously saved color map
 ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
 ```
@@ -206,7 +207,7 @@ Functions to set the `ospsuite.plots` default shapes only are `setDefaultShapeDi
 
 `getDefaultOptions()` returns a list of options used in this package. These options are set by the function `setDefaults()` via the variable `defaultOptions`.
 
-```{r Default-Options, eval=FALSE}
+```{r, eval=FALSE}
 ospsuite.plots::setDefaults(defaultOptions = ospsuite.plots::getDefaultOptions())
 ```
 
@@ -296,7 +297,7 @@ With default options:
 
 Options to set the face alpha of ribbons filled points and options to set the filled points for values below and above LLOQ.
 
-```{r Defaults-for-Aesthetics, eval=FALSE}
+```{r default-aesthetics, eval=FALSE}
 # Default alpha = 0.5
 getOspsuite.plots.option(optionKey = "Alpha")
 
@@ -326,31 +327,31 @@ All plot functions listed below call internally the function `initializePlot()`.
 
 ## 3.1 `plotTimeProfile()`
 
-See `vignette("Time Profile Plots", package = "ospsuite.plots")`.
+[Time Profile Plots](plot-time-profile.html)
 
 ## 3.2 `plotBoxWhisker()`
 
-See `vignette("Box Whisker Plots", package = "ospsuite.plots")`.
+[Box Whisker Plots](box-whisker-vignette.html)
 
 ## 3.3 `plotHistogram()`
 
-See `vignette("Histogram Plots", package = "ospsuite.plots")`.
+[Histogram Plots](histogram.html)
 
 ## 3.4 `plotPredVsObs()`
 
-See `vignette("Goodness of Fit", package = "ospsuite.plots")`.
+[Goodness of Fit](Goodness_of_fit.html)
 
 ## 3.5 `plotResVsCov()`
 
-See `vignette("Goodness of Fit", package = "ospsuite.plots")`.
+[Goodness of Fit](Goodness_of_fit.html)
 
 ## 3.6 `plotRatioVsCov()`
 
-See `vignette("Goodness of Fit", package = "ospsuite.plots")`.
+[Goodness of Fit](Goodness_of_fit.html)
 
 ## 3.7 `plotQQ()`
 
-See `vignette("Goodness of Fit", package = "ospsuite.plots")`.
+[Goodness of Fit](Goodness_of_fit.html)
 
 # 4. Additional Aesthetics
 
@@ -365,8 +366,8 @@ For more details, see the examples within the vignettes for the respective funct
 - `y2axis`: Creates a plot with 2 y axes. It is used to map to a column with a logical value. Values where this column has a TRUE entry will be displayed with a secondary axis.
 - `mdv`: Mapped to a logical column. Rows where this column has entries set to TRUE are not plotted (MDV = missing data value, taken from NONMEM notation).
 - `observed` / `predicted`: For the function `plotPredVsObs()`, `observed` is mapped to `x` and `predicted` is mapped to `y`. For all other functions, residuals are calculated if both aesthetics are mapped. The variable `residualScale` defines the calculation method:
-  - `residualScale = "log"`: $log(observed) - log(predicted)$
-  - `residualScale = "linear"`: $observed - predicted$
+  - `residualScale = "log"`: $log(observed) - log(predicted)$,
+  - `residualScale = "linear"`: $observed - predicted$,
   - `residualScale = "ratio"`: $observed / predicted$.
 
 See `vignette("Goodness of Fit", package = "ospsuite.plots")` for examples.
@@ -397,7 +398,7 @@ To export a plot, you need a ggplot object. Here's a basic example:
 
 Create a simple ggplot object:
 
-```{r Basic Usage, eval=FALSE}
+```{r export-object, eval=FALSE}
 plotObject <- ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age))
 ```
 
@@ -405,7 +406,7 @@ Exporting the Plot: Using the `exportPlot` function, you can easily save this pl
 
 Replace "path/to/save" with the actual directory path where you want to save the plot, and adjust the width and height parameters as needed.
 
-```{r exportPlot, eval=FALSE}
+```{r export-basic, eval=FALSE}
 exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "myplot", width = 10, height = 8)
 ```
 
@@ -417,7 +418,7 @@ The `exportPlot` function can automatically adjust the plot dimensions based on 
 
 Assuming `plotObject` is your ggplot object:
 
-```{r Advanced-Usage-exportPlot, eval=FALSE}
+```{r export-advanced, eval=FALSE}
 exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "adjusted_plot.png")
 ```
 
@@ -471,7 +472,7 @@ plot(plotObject)
 
 ### Use Non-Default Icons
 
-```{r Use-Non-Default-Icons}
+```{r export-non-default-icons,fig.alt="Scatter plot demonstrating the use of non-default icons in ospsuite.plots. The plot displays four data points representing different species (pig, dog, mouse, rat) using custom shapes for each species instead of standard ggplot shapes, showcasing the ability to personalize plot aesthetics with unique icons."}
 plot(plotObject +
   scale_shape_manual(values = c(pig = "pig", dog = "dog", mouse = "mouse", rat = "rat")))
 ```
@@ -479,3 +480,7 @@ plot(plotObject +
 ```{r cleanup, echo=FALSE}
 resetDefaults(oldDefaults)
 ```
+
+```
+
+

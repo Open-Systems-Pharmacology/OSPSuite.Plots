@@ -546,7 +546,7 @@ It is possible to add columns with aesthetics to the table used to map simulated
 
 In the example below, this is done for 'color' and 'fill':
 
-```{r colorscaling-with-mappingtable}
+```{r colorscaling-with-mappingtable,fig.alt="Time profile plot demonstrating custom color scaling using a mapping table for aesthetics. The plot combines simulated and observed data, with simulated data represented as colored lines and ribbons, and observed data as points with corresponding colors. Custom colors are assigned to each dataset via the mapping table, enhancing the visual differentiation between the datasets."}
 # Define Data Mappings
 mapSimulatedAndObserved <- data.frame(
   simulated = unique(simData$caption),
@@ -579,7 +579,7 @@ Changing the scales when using the observed simulation mapping table can also be
 3. Call `plotTimeProfile()` for observed data only with the simulated plot as input `plotObject`.
 4. Set scales for observed data.
 
-```{r example_changing_colorscales}
+```{r example_changing_colorscales, fig.alt = "Time profile plot demonstrating custom color scaling with manual color assignment. Shows simulated lines with ribbons and observed points using custom color palettes (darkred/red for Data 1, darkgreen/green for Data 2) applied via scale_color_manual and scale_fill_manual functions."}
 mapSimulatedAndObserved <- data.frame(
   simulated = unique(simData$caption),
   observed = rev(unique(obsData$caption))
@@ -618,7 +618,7 @@ plot(plotObject)
 
 In the example, we set the scale for the y-axis to log scale. By default, a time profile plot starts at 0; here, the defaults were overwritten, and the breaks were set manually.
 
-```{r example_adjusting_xy_scale}
+```{r example_adjusting_xy_scale,fig.alt = "Time profile plot showing adjusted y-axis scale to log scale, with customized x-axis limits and breaks. The plot visualizes simulated data filtered to values greater than zero, illustrating how to manipulate axis scales effectively."}
 plotTimeProfile(
   data = simData %>% dplyr::filter(values > 0),
   metaData = metaData,
@@ -638,7 +638,7 @@ The breaks of the time axis are set according to the units provided by the varia
 
 Below, we show the same plot with four different time units:
 
-```{r example_timeUnit, fig.height=7}
+```{r example_timeUnit, fig.height=7,fig.alt = "Grid of time profile plots demonstrating the effect of different time units on the x-axis. Each plot is labeled according to the time unit used, illustrating how time unit adjustments can influence the visualization of time profile data."}
 plotlist <- list()
 
 for (unit in c("h", "day(s)", "weeks(s)", "month(s)")) {

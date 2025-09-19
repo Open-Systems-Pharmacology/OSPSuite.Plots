@@ -337,6 +337,7 @@ getDefaultGeomAttributes <- function(geom) {
 #'
 #' @return option value
 #' @export
+#' @family setDefault functions
 #'
 #' @examples getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
 getOspsuite.plots.option <- function(optionKey) { # nolint
@@ -358,6 +359,7 @@ getOspsuite.plots.option <- function(optionKey) { # nolint
 #'
 #' @return NULL
 #' @export
+#' @family setDefault functions
 #'
 #' @examples \dontrun{
 #' setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)

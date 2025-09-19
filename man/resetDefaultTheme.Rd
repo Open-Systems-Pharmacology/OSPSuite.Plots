@@ -19,12 +19,14 @@ Other setDefault functions:
 \code{\link{geomPointUnicode}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
+\code{\link{getOspsuite.plots.option}()},
 \code{\link{resetDefaultColorMapDistinct}()},
 \code{\link{resetDefaultShapeDiscrete}()},
 \code{\link{resetDefaults}()},
 \code{\link{setDefaultColorMapDistinct}()},
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},
-\code{\link{setDefaults}()}
+\code{\link{setDefaults}()},
+\code{\link{setOspsuite.plots.option}()}
 }
 \concept{setDefault functions}

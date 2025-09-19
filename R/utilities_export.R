@@ -133,7 +133,6 @@ validateInputsExportPlot <- function(plotObject,
 #' @return A list containing the calculated width, height, heightOffset, and widthOffset of the plot.
 #'
 #' @keywords internal
-
 calculatePlotDimensions <- function(plotObject, width) {
   themeOfPlot <- utils::modifyList(theme_get(), plotObject$theme)
   exportunits <- getOspsuite.plots.option(optionKey = OptionKeys$export.units)
@@ -212,6 +211,7 @@ calculatePlotDimensions <- function(plotObject, width) {
 #' @param nPanel Number of panels for panel plots.
 #'
 #' @return A list with dimensions of plot components.
+#' @keywords internal
 getPlotDimensions <- function(plotObject, exportunits, nCol, nRow, nPanel) {
   plot <- cowplot::as_gtable(plotObject)
   grobNames <- cowplot::plot_component_names(plot)
@@ -298,7 +298,7 @@ getPlotDimensions <- function(plotObject, exportunits, nCol, nRow, nPanel) {
 #' @param filename Name of the file to validate.
 #' @param device A character with the device to use
 #'
-#' @export
+#' @keywords internal
 #' @return File name without special letters.
 validateFilename <- function(filename, device) {
   # Validate input parameters

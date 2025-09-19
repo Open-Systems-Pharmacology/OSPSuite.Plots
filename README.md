@@ -75,12 +75,6 @@ install.packages('fs')
 
 ```
 
-## Documentation
-
-A detailed account of existing functions and articles on how to use them
-can be found on the [dedicated
-website](https://www.open-systems-pharmacology.org/OSPSuite.Plots/).
-
 ## Code of conduct
 
 Everyone interacting in the Open Systems Pharmacology community (codebases,

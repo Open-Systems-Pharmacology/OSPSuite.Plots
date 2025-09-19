@@ -65,5 +65,11 @@ setOspsuite.plots.option(
   optionKey = OptionKeys$watermark_label,
   value = getDefaultOptions()[[OptionKeys$watermark_label]]
 )
-
 }
+\seealso{
+Other watermark: 
+\code{\link{addWatermark}()},
+\code{\link{plot.ggWatermark}()},
+\code{\link{print.ggWatermark}()}
+}
+\concept{watermark}

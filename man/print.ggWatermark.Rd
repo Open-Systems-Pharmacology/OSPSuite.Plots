@@ -17,3 +17,10 @@ A ggplot object with a watermark drawn on it. The watermark is displayed accordi
 \description{
 This function customizes the printing of ggplot objects with the class "ggWatermark" by adding a watermark.
 }
+\seealso{
+Other watermark: 
+\code{\link{addWatermark}()},
+\code{\link{ggplotWithWatermark}()},
+\code{\link{plot.ggWatermark}()}
+}
+\concept{watermark}

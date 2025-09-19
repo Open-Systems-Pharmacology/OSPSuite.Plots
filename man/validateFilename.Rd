@@ -17,3 +17,4 @@ File name without special letters.
 \description{
 Replace special letters in file names
 }
+\keyword{internal}

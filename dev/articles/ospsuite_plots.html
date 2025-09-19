@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>ospsuite.plots • ospsuite.plots</title>
+<title>Overview • ospsuite.plots</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="ospsuite.plots">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Overview">
 <meta name="robots" content="noindex">
 </head>
 <body>
@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,11 +31,18 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-plot-functions" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Plot Functions</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-plot-functions">
-<li><a class="dropdown-item" href="../plot-time-profile">Time Profile Plots</a></li>
-    <li><a class="dropdown-item" href="../histogram">Histograms</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Overview</h6></li>
+    <li><a class="dropdown-item" href="../articles/ospsuite_plots.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Plotting functions</h6></li>
+    <li><a class="dropdown-item" href="../articles/plot-time-profile.html">Time Profile Plots</a></li>
+    <li><a class="dropdown-item" href="../articles/box-whisker-vignette.html">Box-Whisker Plots</a></li>
+    <li><a class="dropdown-item" href="../articles/histogram.html">Histogram Plots</a></li>
+    <li><a class="dropdown-item" href="../articles/Goodness_of_fit.html">Goodness of fit</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -57,7 +64,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>ospsuite.plots</h1>
+      <h1>Overview</h1>
             
       
 
@@ -66,10 +73,7 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">ospsuite.plots</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; Loading required package: ggplot2</span></span></code></pre>
 <div class="section level2">
 <h2 id="introduction">1. Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -276,7 +280,7 @@ and <code>colour</code>.</p>
 <p><img src="ospsuite_plots_files/figure-html/default-color-settings-many-colors-1.png" alt="Tile plot demonstrating default color settings for more than 6 different colors. The plot shows a 7x7 grid plus 2 additional tiles (51 total), illustrating how ospsuite.plots handles large categorical datasets by cycling through and extending the color palette." width="80%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Customize colors: set to gray colors</span></span>
-<span><span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/setDefaultColorMapDistinct.html">setDefaultColorMapDistinct</a></span><span class="op">(</span><span class="va">colorMaps</span><span class="op">[</span><span class="st">"grays"</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/setDefaultColorMapDistinct.html">setDefaultColorMapDistinct</a></span><span class="op">(</span><span class="va">colorMaps</span><span class="op">[[</span><span class="st">"grays"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -567,44 +571,37 @@ customized ggplot.</p>
 <div class="section level3">
 <h3 id="plottimeprofile">3.1 <code>plotTimeProfile()</code><a class="anchor" aria-label="anchor" href="#plottimeprofile"></a>
 </h3>
-<p>See
-<code>vignette("Time Profile Plots", package = "ospsuite.plots")</code>.</p>
+<p><a href="plot-time-profile.html">Time Profile Plots</a></p>
 </div>
 <div class="section level3">
 <h3 id="plotboxwhisker">3.2 <code>plotBoxWhisker()</code><a class="anchor" aria-label="anchor" href="#plotboxwhisker"></a>
 </h3>
-<p>See
-<code>vignette("Box Whisker Plots", package = "ospsuite.plots")</code>.</p>
+<p><a href="box-whisker-vignette.html">Box Whisker Plots</a></p>
 </div>
 <div class="section level3">
 <h3 id="plothistogram">3.3 <code>plotHistogram()</code><a class="anchor" aria-label="anchor" href="#plothistogram"></a>
 </h3>
-<p>See
-<code>vignette("Histogram Plots", package = "ospsuite.plots")</code>.</p>
+<p><a href="histogram.html">Histogram Plots</a></p>
 </div>
 <div class="section level3">
 <h3 id="plotpredvsobs">3.4 <code>plotPredVsObs()</code><a class="anchor" aria-label="anchor" href="#plotpredvsobs"></a>
 </h3>
-<p>See
-<code>vignette("Goodness of Fit", package = "ospsuite.plots")</code>.</p>
+<p><a href="Goodness_of_fit.html">Goodness of Fit</a></p>
 </div>
 <div class="section level3">
 <h3 id="plotresvscov">3.5 <code>plotResVsCov()</code><a class="anchor" aria-label="anchor" href="#plotresvscov"></a>
 </h3>
-<p>See
-<code>vignette("Goodness of Fit", package = "ospsuite.plots")</code>.</p>
+<p><a href="Goodness_of_fit.html">Goodness of Fit</a></p>
 </div>
 <div class="section level3">
 <h3 id="plotratiovscov">3.6 <code>plotRatioVsCov()</code><a class="anchor" aria-label="anchor" href="#plotratiovscov"></a>
 </h3>
-<p>See
-<code>vignette("Goodness of Fit", package = "ospsuite.plots")</code>.</p>
+<p><a href="Goodness_of_fit.html">Goodness of Fit</a></p>
 </div>
 <div class="section level3">
 <h3 id="plotqq">3.7 <code>plotQQ()</code><a class="anchor" aria-label="anchor" href="#plotqq"></a>
 </h3>
-<p>See
-<code>vignette("Goodness of Fit", package = "ospsuite.plots")</code>.</p>
+<p><a href="Goodness_of_fit.html">Goodness of Fit</a></p>
 </div>
 </div>
 <div class="section level2">
@@ -657,12 +654,10 @@ method:
 <ul>
 <li>
 <code>residualScale = "log"</code>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">log(observed) - log(predicted)</annotation></semantics></math>
-</li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">log(observed) - log(predicted)</annotation></semantics></math>,</li>
 <li>
 <code>residualScale = "linear"</code>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi><mo>−</mo><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">observed - predicted</annotation></semantics></math>
-</li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi><mo>−</mo><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">observed - predicted</annotation></semantics></math>,</li>
 <li>
 <code>residualScale = "ratio"</code>:
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi><mi>/</mi><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">observed / predicted</annotation></semantics></math>.</li>
@@ -876,7 +871,8 @@ Otherwise, the plots may have different fonts.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">plotObject</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_shape_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>pig <span class="op">=</span> <span class="st">"pig"</span>, dog <span class="op">=</span> <span class="st">"dog"</span>, mouse <span class="op">=</span> <span class="st">"mouse"</span>, rat <span class="op">=</span> <span class="st">"rat"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite_plots_files/figure-html/Use-Non-Default-Icons-1.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite_plots_files/figure-html/export-non-default-icons-1.png" alt="Scatter plot demonstrating the use of non-default icons in ospsuite.plots. The plot displays four data points representing different species (pig, dog, mouse, rat) using custom shapes for each species instead of standard ggplot shapes, showcasing the ability to personalize plot aesthetics with unique icons." width="80%" style="display: block; margin: auto;"></p>
+<p>```</p>
 </div>
 </div>
 </div>
@@ -887,7 +883,7 @@ Otherwise, the plots may have different fonts.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Katrin Coboeken.</p>
+  <p>Developed by <a href="https://github.com/KatrinCoboeken" class="external-link">Katrin Coboeken</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

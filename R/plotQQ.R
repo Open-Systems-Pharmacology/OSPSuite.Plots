@@ -39,8 +39,6 @@ plotQQ <- function(data,
   checkmate::assertList(geomQQLineAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertCharacter(groupAesthetics, null.ok = TRUE, min.len = 1)
 
-  checkmate::assertCharacter(groupAesthetics, min.len = 0, all.missing = TRUE, null.ok = TRUE)
-
   xscale <- AxisScales$linear
   yscale <- AxisScales$linear
 

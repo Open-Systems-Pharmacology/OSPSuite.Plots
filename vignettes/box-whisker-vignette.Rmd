@@ -72,7 +72,7 @@ knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "List of meta d
 
 Age (mapped to y) is aggregated.
 
-```{r minimal-example}
+```{r minimal-example, fig.alt="Box plot showing age distribution aggregated across all data. The plot displays quartiles with median line, showing the overall age range distribution."}
 plotBoxWhisker(data = pkRatioData, mapping = aes(y = Age), metaData = metaData)
 ```
 
@@ -80,7 +80,7 @@ plotBoxWhisker(data = pkRatioData, mapping = aes(y = Age), metaData = metaData)
 
 Age (mapped to y) is aggregated for different countries (mapped to x).
 
-```{r example-x-stratification}
+```{r example-x-stratification, fig.alt="Box plots showing age distribution stratified by country. Separate box plots are displayed for each country on the x-axis, allowing comparison of age distributions between countries."}
 plotBoxWhisker(
   mapping = aes(
     x = Country,
@@ -95,7 +95,7 @@ plotBoxWhisker(
 
 Age (mapped to y) is aggregated for different countries (mapped to fill).
 
-```{r minimal-example-color}
+```{r minimal-example-color, fig.alt="Box plot showing age distribution stratified by country using color coding. Different countries are represented by different fill colors in a single grouped box plot."}
 plotBoxWhisker(
   mapping = aes(
     fill = Country,
@@ -110,7 +110,7 @@ plotBoxWhisker(
 
 Age (mapped to `y`) is aggregated for different countries (mapped to `x`) and Sex (mapped to `groupby`). `groupby` is an additional aesthetic of `{ospsuite.plots}` that works together with the variable `groupAesthetics`. For the function `plotBoxWhisker()`, `groupAesthetics` is not settable and is fixed to `fill`.
 
-```{r minimal-example-color-x}
+```{r minimal-example-color-x, fig.alt="Box plots showing age distribution stratified by both country (x-axis) and sex (color/grouping). The plot displays separate box plots for each country, with different colors representing sex within each country."}
 plotBoxWhisker(
   mapping = aes(
     x = Country,
@@ -126,7 +126,7 @@ plotBoxWhisker(
 
 Below, `groupby` is mapped to a combination of the columns "Sex" and "Country":
 
-```{r minimal-example-interaction}
+```{r minimal-example-interaction, fig.alt="Box plot showing age distribution grouped by the interaction of country and sex. Each combination of country and sex is represented as a separate group with distinct colors in the legend."}
 plotBoxWhisker(
   mapping = aes(
     y = Age,
@@ -141,7 +141,7 @@ plotBoxWhisker(
 
 If some of the data should be omitted, we can do this by mapping a logical column to the aesthetic `mdv`. Below, we exclude data from Germany:
 
-```{r minimal-example-mdv}
+```{r minimal-example-mdv, fig.alt="Box plots showing age distribution by country and sex, with data from Germany excluded using the missing dependent variable (MDV) flag. The plot demonstrates how to omit specific data points from the analysis."}
 plotBoxWhisker(
   mapping = aes(
     x = Country,
@@ -160,7 +160,7 @@ plotBoxWhisker(
 
 In the next example, we added a numeric column as "mean age" of the age group to the dataset. This column is mapped *as factor* to `x`. The values are now displayed as categorical values equidistant:
 
-```{r numeric-example-factor}
+```{r numeric-example-factor, fig.alt="Box plots showing ratio distribution by mean age treated as categorical factors. Each mean age value is positioned equidistantly on the x-axis, with different age groups represented by different fill colors."}
 pkRatioData <- pkRatioData %>%
   dplyr::group_by(Agegroup) %>%
   dplyr::mutate(meanAge = round(mean(Age), 2))
@@ -183,7 +183,7 @@ plotBoxWhisker(
 
 If the column mapped to `x` is numeric and not a factor, the x-position of the boxes corresponds to the numeric value:
 
-```{r numeric-example-distinct}
+```{r numeric-example-distinct, fig.alt="Box plots showing ratio distribution by mean age as continuous numeric values. The x-position of each box plot corresponds to its actual numeric mean age value, with different age groups represented by different fill colors."}
 plotBoxWhisker(
   mapping = aes(
     x = meanAge,
@@ -201,7 +201,7 @@ By mapping `x` with a function, it is possible to aggregate data of a continuous
 
 Attention: for `cut(Age)`, no `metaData` exists. So we have to set the x label manually.
 
-```{r numeric-example-bin4}
+```{r numeric-example-bin4, fig.alt="Box plots showing ratio distribution across four automatically generated age ranges. The continuous age variable is binned into four equal intervals, with each bin represented as a separate box plot on the x-axis."}
 plotBoxWhisker(
   mapping = aes(
     x = cut(Age, 4),
@@ -214,7 +214,7 @@ plotBoxWhisker(
 
 We can use any function that converts a continuous vector to a factor. Below, we define our own cut function simply as a wrapper around `cut`, with some fixed arguments. This function is then mapped to `x` and `groupby`.
 
-```{r numeric-example-binfunction}
+```{r numeric-example-binfunction, fig.alt="Box plots showing ratio distribution across predefined age groups using a custom binning function. Ages are categorized into infants, school children, adolescents, and adults, with each group shown as a separate box plot."}
 myCutfun <- function(x) {
   cut(x = x, breaks = c(0, 6, 12, 18, 60), include.lowest = TRUE, labels = c("infants", "school children", "adolescents", "adults"))
 }
@@ -244,7 +244,7 @@ It is also possible to use a customized function via the input variable `statFun
 
 In the example below, we do not show the whiskers by setting whisker percentiles to box percentiles.
 
-```{r customized-percentiles}
+```{r customized-percentiles, fig.alt="Box plots showing age distribution by country with customized percentiles. The whiskers are removed by setting both whisker percentiles equal to the box percentiles, showing only the interquartile range."}
 # B No whiskers
 plotBoxWhisker(
   mapping = aes(
@@ -261,7 +261,7 @@ plotBoxWhisker(
 
 To customize the aggregation, provide a function that has as input the vector to aggregate and as output a named list with entries `ymin`, `lower`, `middle`, `upper`, and `ymax`. In the example below, the function `myStatFun` is provided, which uses mean and standard deviation to aggregate:
 
-```{r aggregation-functions}
+```{r aggregation-functions, fig.alt="Box plots showing age distribution by country using a custom aggregation function based on mean and standard deviation. The middle line represents the mean, box edges show mean ± SD, and whiskers extend to mean ± 1.96 SD."}
 myStatFun <- function(y) {
   r <- list(
     ymin = mean(y) - 1.96 * stats::sd(y),
@@ -290,7 +290,7 @@ As there already exist many possibilities to aggregate data in R, this package d
 
 However, the `plotBoxWhisker()` adds the aggregation function to the plot object. So the aggregation can be easily done, e.g., with the `{data.table}` package using the same function as used for the plot.
 
-```{r aggregationTable}
+```{r aggregationTable, fig.alt="Box plots showing age distribution by country and sex. This plot demonstrates how the aggregation function can be extracted from the plot object for creating corresponding data tables."}
 # Generate plot object
 plotObject <- plotBoxWhisker(
   mapping = aes(
@@ -319,7 +319,7 @@ knitr::kable(dt)
 
 Outliers are displayed if the variable `outliers` is TRUE. Default outliers are flagged when outside the range from the "25th" percentile - 1.5 x IQR to the "75th" percentile + 1.5 x IQR.
 
-```{r example-outliers}
+```{r example-outliers, fig.alt="Box plots showing ratio distribution by sex and country with outliers displayed. Outliers are shown as individual points outside the whiskers, which indicate the 90% range (5th-95th percentile). Default outlier detection uses 1.5 × IQR beyond the quartiles."}
 plotBoxWhisker(
   mapping = aes(
     x = Sex,
@@ -336,7 +336,7 @@ plotBoxWhisker(
 
 In the following example, the aggregation is customized to set the whiskers to 10% and 90% via the input variable `percentiles`, and the outlier range is customized to show all points outside the whiskers. For that, we define a function `myStatFunOutlier`, which has as input the vector of the values and as output the vector of values outside the outlier range.
 
-```{r example-outliers-custom}
+```{r example-outliers-custom, fig.alt="Box plots showing ratio distribution by sex and country with custom outlier detection. The whiskers indicate the 80% range (10th-90th percentile), and outliers show all measurements outside the whisker range."}
 myStatFunOutlier <- function(y) {
   q <- stats::quantile(y, probs = c(0.1, 0.9), names = FALSE, na.rm = TRUE)
   yOutsideRange <- subset(y, y < q[1] | y > q[2])
@@ -401,7 +401,7 @@ Below you see an example of the same plot:
 - Fill is added to the mapping, so the outlier points are also colored according to 'Sex'.
 - With `scale_fill_manual`, the colors for 'Sex' are defined.
 
-```{r boxplot-update-configuration}
+```{r boxplot-update-configuration, fig.alt="Two side-by-side box plots (A and B) showing age distribution by country and sex. Plot A shows default styling, while Plot B demonstrates custom styling with orange colors for boxes and diamond-shaped outlier points, plus custom fill colors for sex groups."}
 # A default layout
 plotBoxWhisker(
   data = pkRatioData,

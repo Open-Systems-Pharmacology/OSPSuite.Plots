@@ -147,7 +147,7 @@ The following sections demonstrate *how to plot a Time Profile* for specific sce
 
 Datasets mapped to data are displayed as lines. The aesthetic `groupby`, mapped in the example to the column caption, groups profiles by the `caption` column. This means `caption` is internally mapped to all aesthetics defined in the variable `groupAesthetics`. By default, these are `color`, `linetype`, `shape` (only relevant for observed data), and `fill`.
 
-```{r examples-single-mappingsimulation-plot-A}
+```{r examples-single-mappingsimulation-plot-A, fig.alt="Time profile plot showing multiple simulated concentration curves over time. Different simulation profiles are displayed as colored lines, with each line representing a different simulation scenario grouped by caption. The plot demonstrates basic time profile visualization for simulated data only."}
 plotTimeProfile(
   data = simData,
   metaData = metaData,
@@ -163,7 +163,7 @@ plotTimeProfile(
 
 Mapping `ymin` and `ymax` will add a ribbon to the time profile, indicating a prediction confidence interval or population variance.
 
-```{r examples-single-mappingsimulation-plot-B}
+```{r examples-single-mappingsimulation-plot-B, fig.alt="Time profile plot showing simulated concentration curves with confidence intervals. Multiple simulation profiles are displayed as colored lines with shaded ribbon areas representing confidence intervals (ymin to ymax). This demonstrates how to visualize uncertainty or population variance in simulated time profile data."}
 plotTimeProfile(
   data = simData,
   metaData = metaData,
@@ -183,7 +183,7 @@ plotTimeProfile(
 
 A dataset mapped to observed data is displayed as points.
 
-```{r examples-single-observation-A}
+```{r examples-single-observation-A, fig.alt="Time profile plot showing observed data points over time. Multiple observed datasets are displayed as colored scatter points, with each dataset grouped by caption. The plot demonstrates basic time profile visualization for observed data without error bars or confidence intervals."}
 plotTimeProfile(
   observedData = obsData,
   metaData = metaData,
@@ -199,7 +199,7 @@ plotTimeProfile(
 
 Mapping `ymin` and `ymax` adds error bars.
 
-```{r examples-single-observation-B}
+```{r examples-single-observation-B, fig.alt="Time profile plot showing observed data points with confidence intervals. Multiple observed datasets are displayed as colored scatter points with vertical error bars representing confidence intervals (ymin to ymax). This demonstrates how to visualize measurement uncertainty in observed time profile data."}
 plotTimeProfile(
   observedData = obsData,
   metaData = metaData,
@@ -217,7 +217,7 @@ plotTimeProfile(
 
 The dataset includes a column with the standard deviation `sd`. If mapped to 'error', this variable will be used to create corresponding `ymin` and `ymax` values for the error bars  `ymin = values - sd`  and  `ymax = values + sd`. If `yscale = 'log'`, `ymin` values below 0 are set to `y`. Additionally, `error_relative` can be used where a multiplicative error is assumed: `ymin = values / error_relative` and `ymax = values * error_relative`.
 
-```{r examples-single-observation-C}
+```{r examples-single-observation-C, fig.alt="Time profile plot showing observed data points with error bars calculated from standard deviation. The plot displays colored scatter points with vertical error bars where ymin = values - sd and ymax = values + sd, demonstrating the use of the 'error' aesthetic for automatic error bar calculation."}
 plotTimeProfile(
   observedData = obsData,
   metaData = metaData,
@@ -234,7 +234,7 @@ plotTimeProfile(
 
 If `lloq` is mapped to a column indicating the lower limit of quantification, a horizontal line for the `lloq` values is displayed, and all values below `lloq` are plotted with decreased alpha. As the comparison is done by row, multiple `lloq` values are possible.
 
-```{r example-lloq}
+```{r example-lloq, fig.alt="Time profile plot showing observed data with lower limit of quantification (LLOQ) handling. The plot displays scatter points with a horizontal LLOQ line, where data points below the LLOQ threshold are shown with reduced transparency and relative error bars are included."}
 plotTimeProfile(
   observedData = obsDataLloq,
   metaData = metaData,
@@ -252,7 +252,7 @@ plotTimeProfile(
 
 The following code adds a new column where all values higher than 10 are flagged as `mdv`. This leads to a plot without any observed data points higher than 10 (removing the first observation).
 
-```{r examples-mdv}
+```{r examples-mdv, fig.alt="Time profile plot demonstrating missing dependent variable (MDV) exclusion. Observed data points are plotted with confidence intervals, but data points with values greater than 10 are excluded from the visualization, showing how the MDV flag can be used to filter out specific data points."}
 mdvData <- obsData
 mdvData$mdv <- mdvData$values > 10
 
@@ -277,7 +277,7 @@ By plotting simulated and observed data together, you can often find pairs of co
 
 In this example, we create a new column with a common caption for simulated and observed data. This column is then mapped to the aesthetic `groupby`, leading to a single common legend for both observed and simulated data.
 
-```{r combine-simulated-and-observed-sharing-legend}
+```{r combine-simulated-and-observed-sharing-legend, fig.alt="Time profile plot combining simulated and observed data with shared legend entries. Simulated data appear as colored lines with ribbon confidence intervals, while observed data appear as matching colored points with error bars. Both datasets share common legend entries by having matching caption names."}
 # Create datasets with common caption
 simData <- data.frame(simData) %>%
   dplyr::mutate(captionCommon = gsub("Simulated ", "", caption))
@@ -303,7 +303,7 @@ plotTimeProfile(
 
 In this example, we create a mapping table with one column for `observed` and one column for `simulated`. This table is passed to the function as the input variable `mapSimulatedAndObserved`.
 
-```{r combine-simulated-and-observed-separate-legend}
+```{r combine-simulated-and-observed-separate-legend, fig.alt="Time profile plot combining simulated and observed data with separate legend entries using mapping table. Simulated data appear as colored lines with ribbons, observed data as points with error bars. The mapping table pairs specific simulated datasets with corresponding observed datasets, creating separate legend entries for each."}
 mapSimulatedAndObserved <- data.frame(
   simulated = unique(simData$caption),
   observed = unique(obsData$caption)
@@ -328,7 +328,7 @@ plotTimeProfile(
 
 If not all simulated datasets have corresponding observed datasets (or vice versa), it is possible to fill the mapping table with empty strings for the missing datasets. The empty strings should be at the end of the table.
 
-```{r combine-simulated-and-observed-separate-legend-2}
+```{r combine-simulated-and-observed-separate-legend-2, fig.alt="Time profile plot demonstrating partial mapping between simulated and observed datasets. Shows how to handle cases where not all simulated datasets have corresponding observed datasets, using empty strings in the mapping table for missing pairings."}
 mapSimulatedAndObserved <- data.frame(
   simulated = unique(simData$caption),
   observed = c(unique(obsData1$caption), "")
@@ -355,7 +355,7 @@ plotTimeProfile(
 
 The example below shows individual observed data compared to one simulation. Here, a mapping between observed and simulated data doesn't make sense. The `groupby` aesthetic is used to group the observed data by color, fill, and shape. To avoid an extra color for the simulated line, the line color is set by `geomLineAttributes` as an attribute and not as an aesthetic. The simulated line inherits the `linetype` aesthetic from the `groupby` aesthetic, adding a `linetype` legend for the simulated data.
 
-```{r combine-multiple-simulated-and-observed}
+```{r combine-multiple-simulated-and-observed, fig.alt="Time profile plot combining multiple simulated and observed datasets with customized legend formatting. Shows simulated data as black lines and observed data as colored points, with separate legends for simulation and observed data components, and custom legend positioning and titles."}
 plotTimeProfile(
   data = simDataGender,
   observedData = obsDataGender,
@@ -381,7 +381,7 @@ plotTimeProfile(
 
 To map `groupby` with an empty variable `groupAesthetics` leads to a plot without legends.
 
-```{r examples-multiple-simulations-no-caption}
+```{r examples-multiple-simulations-no-caption, fig.alt="Time profile plot showing multiple simulations and observed data without legend. By setting groupAesthetics to empty, both simulated and observed data are displayed without color grouping or legend entries, creating a simplified visualization focusing on the data patterns."}
 plotTimeProfile(
   data = simData,
   observedData = obsData,
@@ -399,7 +399,7 @@ plotTimeProfile(
 
 In this example, observed data is used as both simulated and observed data, connecting the different data points with a thin line.
 
-```{r observedData-used-as-simulatedData-plot}
+```{r observedData-used-as-simulatedData-plot, fig.alt="Time profile plot using observed data as both simulated and observed data layers. Shows how observed data points can be connected with thin lines and differentiated by shapes representing gender, creating a hybrid visualization with both line connections and scatter points."}
 plotTimeProfile(
   data = obsDataGender,
   observedData = obsDataGender,
@@ -417,7 +417,7 @@ plotTimeProfile(
 
 A similar plot can be produced by combining `caption` and `gender` with interaction.
 
-```{r observedData-used-as-simulatedData-plot-B}
+```{r observedData-used-as-simulatedData-plot-B, fig.alt="Time profile plot using interaction of caption and gender for grouping. Similar to previous plot but combines caption and gender into single interaction groups, creating distinct line and point combinations for each unique caption-gender combination with unified legend entries."}
 plotTimeProfile(
   data = obsDataGender,
   observedData = obsDataGender,
@@ -446,7 +446,7 @@ metaDataY2 <- list(
 
 The mapping `y2axis` must be logical. In this example, it is `(dimension == "fraction")`. For the primary y-axis (concentration), a log scale is displayed, and for the secondary (fraction), a linear scale is used. The limits of the secondary axis are set to [0, 1].
 
-```{r secondaryAxis_plot}
+```{r secondaryAxis_plot, fig.alt="Time profile plot with dual y-axes showing concentration and fraction data. The left y-axis displays concentration values on log scale, while the right y-axis shows fraction values on linear scale. Data includes both simulated lines and observed points with error bars and LLOQ handling."}
 plotTimeProfile(
   data = simData2Dimension,
   observedData = obsData2Dimension,
@@ -483,7 +483,7 @@ The plot from section 2.3.2 was adjusted using geom attributes:
 - `geomRibbonAttributes = list(alpha = 0.1)`: The shade of the ribbons was decreased by setting the alpha to 0.1; the default value for color = NA was omitted, making the edges visible.
 - `geomPointAttributes = list(size = 7)`: The size of the symbols was increased.
 
-```{r changing_geom_attributes}
+```{r changing_geom_attributes, fig.alt="Time profile plot demonstrating customized geometric attributes. Shows modified line types (solid), larger error bar width, reduced ribbon transparency (alpha=0.1), and increased point size (size=7), illustrating how to customize the visual appearance of plot elements."}
 mapSimulatedAndObserved <- data.frame(
   simulated = unique(simData$caption),
   observed = rev(unique(obsData$caption))
@@ -516,7 +516,7 @@ For plots showing only simulated or observed data, or plots with a common legend
 
 Below, the plot from section 2.3.1 is repeated.
 
-```{r colorscaling}
+```{r colorscaling, fig.alt="Time profile plot demonstrating custom color scaling with manual color assignment. Shows simulated lines with ribbons and observed points using custom color palettes (darkred/red for Data 1, darkgreen/green for Data 2) applied via scale_color_manual and scale_fill_manual functions."}
 # Create datasets with common caption
 simData <- data.frame(simData) %>%
   dplyr::mutate(captionCommon = gsub("Simulated ", "", caption))

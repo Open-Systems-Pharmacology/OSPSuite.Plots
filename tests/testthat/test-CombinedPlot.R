@@ -6,7 +6,7 @@ test_that("CombinedPlot initialization works correctly", {
 
   # Create test plot object
   testPlot <- ggplot2::ggplot() + ggplot2::geom_blank()
-  testTable <- data.frame(Parameter = c("A", "B"), Value = c(1, 2))
+  testTable <- ggplot2::ggplot() + ggplot2::geom_blank()
 
   # Test basic initialization
   combined <- CombinedPlot$new(plotObject = testPlot)
@@ -30,7 +30,7 @@ test_that("CombinedPlot active bindings work correctly", {
 
   testPlot <- ggplot2::ggplot() + ggplot2::geom_blank()
   testPlot2 <- ggplot2::ggplot() + ggplot2::geom_point(data = data.frame(x = 1, y = 1), aes(x = x, y = y))
-  testTable <- data.frame(Parameter = c("A", "B"), Value = c(1, 2))
+  testTable <- ggplot2::ggplot() + ggplot2::geom_blank()
 
   combined <- CombinedPlot$new(plotObject = testPlot)
 
@@ -70,7 +70,7 @@ test_that("CombinedPlot combined method works correctly", {
   expect_equal(result, testPlot)
 
   # Test with table returns cowplot grid
-  testTable <- data.frame(Parameter = c("A", "B"), Value = c(1, 2))
+  testTable <- ggplot2::ggplot() + ggplot2::geom_blank()
   combined$tableObject <- testTable
   result <- combined$combined()
   expect_s3_class(result, "ggplot")
@@ -88,7 +88,7 @@ test_that("CombinedPlot print method works", {
   expect_no_error(capture.output(combined$print()))
 
   # Test with table
-  testTable <- data.frame(Parameter = c("A", "B"), Value = c(1, 2))
+  testTable <- ggplot2::ggplot() + ggplot2::geom_blank()
   combined$tableObject <- testTable
   expect_no_error(combined$print())
 
@@ -107,7 +107,7 @@ test_that("CombinedPlot legend adjustment works", {
     ggplot2::theme(legend.position = "right")
 
   combined <- CombinedPlot$new(plotObject = testPlot)
-  testTable <- data.frame(Parameter = c("A", "B"), Value = c(1, 2))
+  testTable <- ggplot2::ggplot() + ggplot2::geom_blank()
   combined$tableObject <- testTable
 
   # When combined with table, legend should be moved to top
@@ -123,7 +123,7 @@ test_that("CombinedPlot cloning works", {
   skip_if_not_installed("ggplot2")
 
   testPlot <- ggplot2::ggplot() + ggplot2::geom_blank()
-  testTable <- data.frame(Parameter = c("A", "B"), Value = c(1, 2))
+  testTable <- ggplot2::ggplot() + ggplot2::geom_blank()
 
   original <- CombinedPlot$new(plotObject = testPlot, tableObject = testTable)
   cloned <- original$clone()

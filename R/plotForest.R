@@ -22,6 +22,7 @@
 #'
 #' @return A combined plot object containing the forest plot and the table (if applicable).
 #' @export
+#' @family plot functions
 plotForest <- function(plotData,
                        mapping = aes(
                          y = y, # nolint

@@ -13,7 +13,25 @@ setDefaultColorMapDistinct(colorMapList = NULL)
 list with color-maps previously set
 }
 \description{
-set the default color-map for discrete colors
+Sets default color mappings for discrete color and fill aesthetics in ggplot2.
+Each color map should be a vector of valid color values (hex codes, color names, etc.).
+}
+\examples{
+\dontrun{
+# Set custom color maps
+customColors <- list(
+  c("#FF0000", "#00FF00", "#0000FF"),  # RGB colors
+  c("red", "green", "blue")           # Named colors
+)
+oldColors <- setDefaultColorMapDistinct(customColors)
+
+# Use default OSP color maps
+setDefaultColorMapDistinct()
+
+# Reset to previous colors
+resetDefaultColorMapDistinct(oldColors)
+}
+
 }
 \seealso{
 Other setDefault functions: 

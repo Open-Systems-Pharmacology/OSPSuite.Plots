@@ -70,7 +70,7 @@ This method combines the plot and table into a single output and displays it.}
 }
 
 \subsection{Returns}{
-The combined plot
+A ggplot object representing the combined plot and table
 Print the combined plot and table
 
 This method overrides the default print function to display the combined output.
@@ -85,7 +85,7 @@ This method overrides the default print function to display the combined output.
 }
 
 \subsection{Returns}{
-The combined plot
+Invisibly returns the combined ggplot object
 }
 }
 \if{html}{\out{<hr>}}

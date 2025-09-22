@@ -1,7 +1,7 @@
 # Test utilities-defaults.R functions
 
 # Store original options to restore later
-  oldDefaults <- ospsuite.plots::setDefaults()
+oldDefaults <- ospsuite.plots::setDefaults()
 
 test_that("getDefaultGeomAttributes works correctly", {
   # Test with valid geom types

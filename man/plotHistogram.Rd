@@ -44,11 +44,12 @@ If TRUE, the variables \code{distribution}, \code{meanFunction}, \code{xscale}, 
 
 \item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{distribution}{Name of the distribution to fit. Available distributions are those in the \code{stats} package (see ? stats::distributions): \code{norm}, \code{lnorm}, etc.
-Accepted are also \code{normal} (instead of \code{norm}) and \code{lognormal} (instead of \code{lnorm}).}
+\item{distribution}{Name of the distribution to fit. Available distributions are those in the \code{stats} package (see ?stats::distributions):
+\code{norm}, \code{lnorm}, \code{weibull}, \code{gamma}, etc. Use \code{"none"} for no fit (default).
+Shortcuts: \code{"normal"} (same as \code{"norm"}), \code{"lognormal"} (same as \code{"lnorm"}).}
 
-\item{meanFunction}{Function selection for the display of a vertical line. Available options are: 'none', 'mean', 'geomean', 'median', 'auto' (default).
-'auto' selects 'mean' for \code{normal} distribution, 'geomean' for \code{lognormal}, 'median' for all other distributions, and 'none' for for 'none' distribution.}
+\item{meanFunction}{Function selection for the display of a vertical line. Options: \code{'none'}, \code{'mean'}, \code{'geomean'}, \code{'median'}, \code{'auto'} (default).
+\code{'auto'} selects \code{'mean'} for normal distribution, \code{'geomean'} for lognormal, \code{'median'} for other distributions, and \code{'none'} when no distribution fit.}
 
 \item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
 }
@@ -68,6 +69,7 @@ For more details and examples see the vignettes:
 \seealso{
 Other plot functions: 
 \code{\link{plotBoxWhisker}()},
+\code{\link{plotForest}()},
 \code{\link{plotPredVsObs}()},
 \code{\link{plotQQ}()},
 \code{\link{plotRatioVsCov}()},

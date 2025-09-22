@@ -3,16 +3,22 @@
 \docType{data}
 \name{exampleDataTimeProfile}
 \alias{exampleDataTimeProfile}
-\title{data frame which includes example data used in the vignette
-\code{vignette("Time Profile Plots", package = "ospsuite.plots")}}
+\title{Example Time Profile Data}
 \format{
-An object of class \code{data.frame} with 802 rows and 13 columns.
+A data frame with time-series pharmacokinetic data containing variables
+typically used for concentration-time profiles in PBPK modeling.
+}
+\source{
+Generated for package demonstration purposes.
 }
 \usage{
-exampleDataTimeProfile
+data(exampleDataTimeProfile)
 }
 \description{
-data frame which includes example data used in the vignette
+A data frame containing example pharmacokinetic time profile data
+used in the vignette for demonstrating time profile plotting functionality.
+}
+\references{
 \code{vignette("Time Profile Plots", package = "ospsuite.plots")}
 }
 \keyword{datasets}

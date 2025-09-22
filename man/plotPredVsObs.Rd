@@ -36,11 +36,13 @@ plotPredVsObs(
     \item{\code{deltaGuest}}{Numeric value parameter for the Guest function.}
     \item{\code{labelGuestCriteria}}{Label used in the legend for guest criteria (default: "guest criteria").}
     \item{\code{observedDataDirection}}{Either 'x' or 'y', defining the direction of observed data.}
+    \item{\code{groupAesthetics}}{A character vector of aesthetic names used for grouping data points when calculating
+comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
+and proportions within comparison lines. Common grouping aesthetics include \code{"colour"}, \code{"fill"}, \code{"shape"}.}
     \item{\code{metaData}}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
     \item{\code{geomPointAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
     \item{\code{geomErrorbarAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
     \item{\code{geomLLOQAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
-    \item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with \code{groupby},}
     \item{\code{xscale}}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
     \item{\code{xscale.args}}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
     \item{\code{yscale}}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
@@ -68,6 +70,7 @@ For details and examples, see the vignettes:
 \seealso{
 Other plot functions: 
 \code{\link{plotBoxWhisker}()},
+\code{\link{plotForest}()},
 \code{\link{plotHistogram}()},
 \code{\link{plotQQ}()},
 \code{\link{plotRatioVsCov}()},

@@ -105,7 +105,7 @@ test_that("saves plot with watermark in SVG", {
   )
 
   # Create a CombinedPlot instance with both plot and table
-  combined <- CombinedPlot$new(plotObject = testPlotW, tableObject = testTable)
+  combined <- CombinedPlot$new(plotObject = testPlotW, tableObject = testPlotW)
 
   # Save the combined plot as SVG
   suppressMessages(ggsave(tempSvg, plot = fig, device = "svg"))

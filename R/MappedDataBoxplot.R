@@ -11,7 +11,7 @@
 #'   mapping = aes(x = dose, y = concentration),
 #'   xscale = "linear"
 #' )
-#' 
+#'
 #' # Create boxplot mapping with categorical x variable
 #' boxplotData <- MappedDataBoxplot$new(
 #'   data = myDataFrame,
@@ -85,11 +85,15 @@ MappedDataBoxplot <- R6::R6Class( # nolint
     doAdjustmentsWithMetaData = function(originalmapping,
                                          xscale,
                                          xscale.args) {
+      if (is.null(self$columnClasses[['x']])){
+        warning('No metaData available for x-axis')
+        return(invisible(self))
+      }
       # Validate input mapping structure
       checkmate::assertList(originalmapping, null.ok = FALSE)
       checkmate::assertCharacter(xscale, len = 1, null.ok = FALSE)
       checkmate::assertList(xscale.args, null.ok = TRUE)
-      
+
       # Adjust group aesthetic based on x variable type and mapping requirements
       private$adjustGroupMapping(originalmapping = originalmapping)
       # Determine and validate appropriate x-axis scale based on data type

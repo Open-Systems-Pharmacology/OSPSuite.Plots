@@ -43,7 +43,7 @@ CombinedPlot <- R6::R6Class( # nolint
 
       return(cowplot::plot_grid(
         self$plotObject,
-        self$tableObject,
+        gridExtra::tableGrob(self$tableObject),
         nrow = 1,
         axis = "tb",
         align = "h",
@@ -58,7 +58,7 @@ CombinedPlot <- R6::R6Class( # nolint
       combinedPlot <- self$combined()
       if (is.null(private$.tableObject)){
         print(combinedPlot)
-      } else {
+      } else if ("ggWatermark"%in% class(self$plotObject)) {
         # the combined plot has lost its watermarkClass
         print(addWatermark(combinedPlot))
       }
@@ -80,7 +80,7 @@ CombinedPlot <- R6::R6Class( # nolint
       if (missing(value)) {
         return(private$.tableObject) # Get the tableObject
       } else {
-        checkmate::assertClass(value, "gg", null.ok = TRUE)
+        checkmate::assertClass(value, "data.frame", null.ok = TRUE)
         private$.tableObject <- value # Set the tableObject
       }
     },

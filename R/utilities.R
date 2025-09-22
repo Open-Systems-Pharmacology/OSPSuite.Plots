@@ -192,7 +192,10 @@ constructLabelWithUnit <- function(label, unit) {
 #' @return metaData as `data.frame`
 #'
 metaData2DataFrame <- function(metaData) {
+  checkmate::assertList(metaData,null.ok = TRUE)
   metaDF <- data.frame()
+
+  if (length(metaData) == 0) return(metaDF)
 
   for (element in c("dimension", "unit")) {
     tmp <- lapply(metaData, getElement, element) %>%

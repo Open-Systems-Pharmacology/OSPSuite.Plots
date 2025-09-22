@@ -1,7 +1,7 @@
 Package: ospsuite.plots
 Type: Package
 Title: Library for standardized graphs
-Version: 1.0.0.9005
+Version: 1.0.0.9006
 Authors@R: 
     c(person(given = "Open-Systems-Pharmacology Community",
              role = "cph"),

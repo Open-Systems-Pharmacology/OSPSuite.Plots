@@ -19,7 +19,7 @@ test_that("Shapes list contains expected shapes", {
   # All shapes should be character strings (Unicode)
   expect_true(all(sapply(Shapes, is.character)))
 
-  # All shapes should be single characters (even if multi-byte Unicode)
+  # All shapes should be Unicode strings of 1 or 2 characters (to allow for surrogate pairs or combining glyphs)
   expect_true(all(sapply(Shapes, function(x) nchar(x, type = "chars") == 1 | nchar(x, type = "chars") == 2)))
 
   # Test specific known shapes

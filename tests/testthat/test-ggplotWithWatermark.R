@@ -63,22 +63,61 @@ test_that("Change watermark", {
 
 
 test_that("saves plot with watermark in SVG", {
+  # Create a ggplot object with a watermark using the mtcars dataset
   fig <- ggplotWithWatermark(mtcars, aes(mpg, wt)) + geom_point()
-  # Create a temporary file for saving the SVG
+
+  # Create a temporary file for saving the SVG output
   tempSvg <- tempfile(fileext = ".svg")
 
-  # Save the plot as SVG
+  # Save the plot as an SVG file
   suppressMessages(ggsave(tempSvg, plot = fig, device = "svg"))
 
-  # Read the SVG file as text
+  # Read the SVG file content as text
   svgContent <- readLines(tempSvg)
 
+  # Retrieve the watermark label from the plotting options
   watermarkLabel <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_label)
 
   # Check if the watermark label is present in the SVG content
   expect_true(any(grepl(watermarkLabel, svgContent)),
-    info = "Watermark label should be present in the SVG content"
+              info = "Watermark label should be present in the SVG content"
   )
+
+  # Test with a combined plot object
+  # Create a blank ggplot with a watermark
+  testPlotW <- ggplotWithWatermark() + ggplot2::geom_blank()
+
+  # Create a sample data frame for the table
+  testTable <- data.frame(Parameter = c("A", "B"), Value = c(1, 2))
+
+  # Create a CombinedPlot instance with the watermark plot
+  combined <- CombinedPlot$new(plotObject = testPlotW)
+
+  # Save the combined plot as SVG
+  suppressMessages(ggsave(tempSvg, plot = fig, device = "svg"))
+
+  # Read the SVG file content again
+  svgContent <- readLines(tempSvg)
+
+  # Check if the watermark label is present in the SVG content
+  expect_true(any(grepl(watermarkLabel, svgContent)),
+              info = "Watermark label should be present in the SVG content"
+  )
+
+  # Create a CombinedPlot instance with both plot and table
+  combined <- CombinedPlot$new(plotObject = testPlotW, tableObject = testTable)
+
+  # Save the combined plot as SVG
+  suppressMessages(ggsave(tempSvg, plot = fig, device = "svg"))
+
+  # Read the SVG file content once more
+  svgContent <- readLines(tempSvg)
+
+  # Check if the watermark label is present in the SVG content
+  expect_true(any(grepl(watermarkLabel, svgContent)),
+              info = "Watermark label should be present in the SVG content"
+  )
+
 })
 
 # Test for plot_list with cowplot

@@ -51,13 +51,13 @@ Suggests:
     rex
 VignetteBuilder: knitr
 Vignette:
-  inst/doc/ospsuite_plots.Rmd
+  inst/doc/ospsuite-plots.Rmd
   inst/doc/plot-time-profile.Rmd
   inst/doc/histogram.Rmd
-  inst/doc/box-whisker-vignette.Rmd
-  inst/doc/Goodness_of_fit.Rmd
-  inst/doc/Forestplots.Rmd
-  inst/doc/Range_Plot_Visualization.Rmd
+  inst/doc/box-whisker-plots.Rmd
+  inst/doc/goodness-of-fit.Rmd
+  inst/doc/forest-plots.Rmd
+  inst/doc/range-plot-visualization.Rmd
 Config/testthat/edition: 3
 Collate: 'utilities-defaults.R'
          'utilities_enum.R'

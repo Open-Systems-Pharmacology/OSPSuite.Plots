@@ -102,16 +102,16 @@ test_that("CombinedPlot print method works", {
   expect_no_error(combined$print())
 
   # Print method should return the combined plot invisibly
-  result <- capture.output(returned_value <- combined$print())
-  expect_s3_class(returned_value, "ggplot")
+  result <- capture.output(returnedValue <- combined$print())
+  expect_s3_class(returnedValue, "ggplot")
 })
 
 test_that("CombinedPlot legend adjustment works", {
   skip_if_not_installed("ggplot2")
 
   # Create plot with legend on right
-  test_data <- data.frame(x = 1:3, y = 1:3, color = factor(c("A", "B", "A")))
-  testPlot <- ggplot2::ggplot(test_data, ggplot2::aes(x = x, y = y, color = color)) +
+  testData <- data.frame(x = 1:3, y = 1:3, color = factor(c("A", "B", "A")))
+  testPlot <- ggplot2::ggplot(testData, ggplot2::aes(x = x, y = y, color = color)) +
     ggplot2::geom_point() +
     ggplot2::theme(legend.position = "right")
 

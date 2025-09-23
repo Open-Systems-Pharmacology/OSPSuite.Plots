@@ -33,7 +33,7 @@ test_that("plotForest function generates correct plots", {
   vdiffr::expect_doppelganger("basic_forest_plot", plotObject)
 
   # Plot without table
-  plotObject_no_table <- plotForest(
+  plotObjectNoTable <- plotForest(
     plotData = plotData,
     mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
     xLabel = "Mean",
@@ -44,10 +44,10 @@ test_that("plotForest function generates correct plots", {
   )
 
   # Visual test using vdiffr
-  vdiffr::expect_doppelganger("forest_plot_no_table", plotObject_no_table)
+  vdiffr::expect_doppelganger("forest_plot_no_table", plotObjectNoTable)
 
   # Faceting by DataType
-  plotObject_facet_data_type <- plotForest(
+  plotObjectFacetDataType <- plotForest(
     plotData = plotData,
     mapping = aes(x = Mean, error = SD, y = AgeBin),
     xLabel = "Mean",
@@ -59,10 +59,10 @@ test_that("plotForest function generates correct plots", {
   )
 
   # Visual test using vdiffr
-  vdiffr::expect_doppelganger("facet_forest_plot", plotObject_facet_data_type)
+  vdiffr::expect_doppelganger("facet_forest_plot", plotObjectFacetDataType)
 
   # Test for valid output when xFacetColumn is provided
-  plotObject_with_facet <- plotForest(
+  plotObjectWithFacet <- plotForest(
     plotData = plotData,
     mapping = aes(x = Mean, error = SD, y = AgeBin),
     xLabel = "Mean",
@@ -73,13 +73,13 @@ test_that("plotForest function generates correct plots", {
   )
 
   # Visual test using vdiffr
-  vdiffr::expect_doppelganger("facet_forest_plot_with_data_type", plotObject_with_facet)
+  vdiffr::expect_doppelganger("facet_forest_plot_with_data_type", plotObjectWithFacet)
 })
 
 # Additional test cases
 test_that("plotForest handles edge cases and invalid inputs", {
   # Test for missing required columns in plotData
-  invalid_data <- data.table(
+  invalidData <- data.table(
     Country = c("USA", "Canada"),
     AgeBin = c("18-25", "26-35"),
     Mean = c(5, 10)
@@ -87,7 +87,7 @@ test_that("plotForest handles edge cases and invalid inputs", {
 
   expect_error(
     plotForest(
-      plotData = invalid_data,
+      plotData = invalidData,
       mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
       xLabel = "Mean",
       yFacetColumns = "Country",
@@ -123,10 +123,10 @@ test_that("plotForest handles edge cases and invalid inputs", {
   )
 
   # Test for empty plotData
-  empty_data <- data.table()
+  emptyData <- data.table()
   expect_error(
     plotForest(
-      plotData = empty_data,
+      plotData = emptyData,
       mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
       xLabel = "Mean",
       yFacetColumns = "Country",

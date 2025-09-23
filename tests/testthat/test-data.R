@@ -10,9 +10,9 @@ test_that("exampleDataTimeProfile exists and has correct structure", {
   expect_true(ncol(exampleDataTimeProfile) > 0)
 
   # Test for common time profile columns (if they exist)
-  column_names <- names(exampleDataTimeProfile)
-  expect_type(column_names, "character")
-  expect_true(length(column_names) > 0)
+  columnNames <- names(exampleDataTimeProfile)
+  expect_type(columnNames, "character")
+  expect_true(length(columnNames) > 0)
 })
 
 test_that("exampleDataCovariates exists and has correct structure", {
@@ -31,9 +31,9 @@ test_that("exampleDataCovariates exists and has correct structure", {
   }
 
   # Test column names exist
-  column_names <- names(exampleDataCovariates)
-  expect_type(column_names, "character")
-  expect_true(length(column_names) > 0)
+  columnNames <- names(exampleDataCovariates)
+  expect_type(columnNames, "character")
+  expect_true(length(columnNames) > 0)
 })
 
 test_that("Example datasets can be used for basic operations", {
@@ -62,13 +62,13 @@ test_that("Example datasets have appropriate data types", {
   # Test that datasets don't have completely invalid data types
 
   # For time profile data, we expect at least some numeric columns
-  time_profile_types <- sapply(exampleDataTimeProfile, class)
-  expect_true(any(sapply(time_profile_types, function(x) any(x %in% c("numeric", "integer", "double")))))
+  timeProfileTypes <- sapply(exampleDataTimeProfile, class)
+  expect_true(any(sapply(timeProfileTypes, function(x) any(x %in% c("numeric", "integer", "double")))))
 
   # For covariate data, we expect mixed data types
-  covariate_types <- sapply(exampleDataCovariates, class)
-  expect_true(length(covariate_types) > 0)
+  covariateTypes <- sapply(exampleDataCovariates, class)
+  expect_true(length(covariateTypes) > 0)
 
   # Should not have any completely invalid column types
-  expect_false(any(sapply(covariate_types, function(x) any(x %in% c("NULL", "logical") & length(x) == 1))))
+  expect_false(any(sapply(covariateTypes, function(x) any(x %in% c("NULL", "logical") & length(x) == 1))))
 })

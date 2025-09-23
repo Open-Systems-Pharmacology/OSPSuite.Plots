@@ -5,16 +5,16 @@ test_that("Shapes list contains expected shapes", {
   expect_true(length(Shapes) > 0)
 
   # Test presence of basic shapes
-  expected_shapes <- c("circle", "diamond", "triangle", "square", "cross", "plus", "star")
-  expect_true(all(expected_shapes %in% names(Shapes)))
+  expectedShapes <- c("circle", "diamond", "triangle", "square", "cross", "plus", "star")
+  expect_true(all(expectedShapes %in% names(Shapes)))
 
   # Test presence of open shapes
-  open_shapes <- c("circleOpen", "diamondOpen", "triangleOpen", "squareOpen")
-  expect_true(all(open_shapes %in% names(Shapes)))
+  openShapes <- c("circleOpen", "diamondOpen", "triangleOpen", "squareOpen")
+  expect_true(all(openShapes %in% names(Shapes)))
 
   # Test presence of some emojis/special shapes
-  special_shapes <- c("male", "female", "blank")
-  expect_true(all(special_shapes %in% names(Shapes)))
+  specialShapes <- c("male", "female", "blank")
+  expect_true(all(specialShapes %in% names(Shapes)))
 
   # All shapes should be character strings (Unicode)
   expect_true(all(sapply(Shapes, is.character)))
@@ -41,9 +41,9 @@ test_that(".asPlotShape converts shapes correctly", {
   expect_equal(result, c(Shapes$circle, Shapes$square))
 
   # Test with unicode characters directly
-  unicode_char <- "\u25cf"
-  result <- .asPlotShape(unicode_char)
-  expect_equal(result, unicode_char)
+  unicodeChar <- "\u25cf"
+  result <- .asPlotShape(unicodeChar)
+  expect_equal(result, unicodeChar)
 
   # Test with invalid shape name (should return as-is if not in Shapes)
   result <- .asPlotShape("nonexistent")
@@ -79,9 +79,9 @@ test_that("geomPointUnicode creates layer correctly", {
   expect_s3_class(layer, "ggproto")
 
   # Test with custom parameters
-  layer_custom <- geomPointUnicode(na.rm = TRUE, show.legend = FALSE)
-  expect_s3_class(layer_custom, "LayerInstance")
-  expect_false(layer_custom$show.legend)
+  layerCustom <- geomPointUnicode(na.rm = TRUE, show.legend = FALSE)
+  expect_s3_class(layerCustom, "LayerInstance")
+  expect_false(layerCustom$show.legend)
 })
 
 test_that("GeomPointUnicodeProto has correct structure", {
@@ -92,13 +92,13 @@ test_that("GeomPointUnicodeProto has correct structure", {
   expect_true("draw_key" %in% names(GeomPointUnicodeProto))
 
   # Test default aesthetics
-  default_aes <- GeomPointUnicodeProto$default_aes
-  expect_true("shape" %in% names(default_aes))
-  expect_true("colour" %in% names(default_aes))
-  expect_true("size" %in% names(default_aes))
+  defaultAes <- GeomPointUnicodeProto$default_aes
+  expect_true("shape" %in% names(defaultAes))
+  expect_true("colour" %in% names(defaultAes))
+  expect_true("size" %in% names(defaultAes))
 
   # Default shape should be a Unicode character
-  expect_equal(default_aes$shape, "\u2588")
+  expect_equal(defaultAes$shape, "\u2588")
 })
 
 # Integration test with actual plotting (if ggplot2 is available)
@@ -106,16 +106,16 @@ test_that("geomPointUnicode integrates with ggplot2", {
   skip_if_not_installed("ggplot2")
 
   # Create simple test data
-  test_data <- data.frame(x = 1:3, y = 1:3, shape = c("circle", "square", "triangle"))
+  testData <- data.frame(x = 1:3, y = 1:3, shape = c("circle", "square", "triangle"))
 
   # Test that the geom can be added to a ggplot without errors
   expect_no_error({
-    p <- ggplot(test_data, aes(x = x, y = y, shape = shape)) +
+    p <- ggplot(testData, aes(x = x, y = y, shape = shape)) +
       geomPointUnicode()
   })
 
   # Test building the plot doesn't throw errors
   expect_no_error({
-    built_plot <- ggplot_build(p)
+    builtPlot <- ggplot_build(p)
   })
 })

@@ -92,8 +92,8 @@ plotForest <- function(plotData,
     combinedPlot$tableObject <- createTableObject(
       tableData = tableData,
       mapping = mapping,
-      digitsToRound = digitsToShow,
-      digitsToShow = digitsToRound,
+      digitsToRound = digitsToRound,
+      digitsToShow = digitsToShow,
       yFacetColumns = yFacetColumns
     )
   } else {

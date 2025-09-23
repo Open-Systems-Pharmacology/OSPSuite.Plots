@@ -2,49 +2,49 @@
 
 test_that("updateScaleArgumentsForTimeUnit works correctly", {
   # Test with time dimension and various units
-  scale_args <- list(limits = c(0, 24))
+  scaleArgs <- list(limits = c(0, 24))
 
   # Test seconds
-  result <- updateScaleArgumentsForTimeUnit(scale_args, "time", "s")
+  result <- updateScaleArgumentsForTimeUnit(scaleArgs, "time", "s")
   expect_true("breaks" %in% names(result))
   expect_true("minor_breaks" %in% names(result))
 
   # Test minutes
-  result <- updateScaleArgumentsForTimeUnit(scale_args, "time", "min")
+  result <- updateScaleArgumentsForTimeUnit(scaleArgs, "time", "min")
   expect_true("breaks" %in% names(result))
 
   # Test hours
-  result <- updateScaleArgumentsForTimeUnit(scale_args, "time", "h")
+  result <- updateScaleArgumentsForTimeUnit(scaleArgs, "time", "h")
   expect_true("breaks" %in% names(result))
 
   # Test days
-  result <- updateScaleArgumentsForTimeUnit(scale_args, "time", "day(s)")
+  result <- updateScaleArgumentsForTimeUnit(scaleArgs, "time", "day(s)")
   expect_true("breaks" %in% names(result))
 
   # Test weeks
-  result <- updateScaleArgumentsForTimeUnit(scale_args, "time", "week(s)")
+  result <- updateScaleArgumentsForTimeUnit(scaleArgs, "time", "week(s)")
   expect_true("breaks" %in% names(result))
 
   # Test months
-  result <- updateScaleArgumentsForTimeUnit(scale_args, "time", "month(s)")
+  result <- updateScaleArgumentsForTimeUnit(scaleArgs, "time", "month(s)")
   expect_true("breaks" %in% names(result))
 
   # Test non-time dimension returns unchanged
-  result <- updateScaleArgumentsForTimeUnit(scale_args, "concentration", "mg/L")
-  expect_identical(result, scale_args)
+  result <- updateScaleArgumentsForTimeUnit(scaleArgs, "concentration", "mg/L")
+  expect_identical(result, scaleArgs)
 
   # Test NULL dimension returns unchanged
-  result <- updateScaleArgumentsForTimeUnit(scale_args, NULL, "h")
-  expect_identical(result, scale_args)
+  result <- updateScaleArgumentsForTimeUnit(scaleArgs, NULL, "h")
+  expect_identical(result, scaleArgs)
 
   # Test NULL unit returns unchanged
-  result <- updateScaleArgumentsForTimeUnit(scale_args, "time", NULL)
-  expect_identical(result, scale_args)
+  result <- updateScaleArgumentsForTimeUnit(scaleArgs, "time", NULL)
+  expect_identical(result, scaleArgs)
 
-  # Test scale_args with existing breaks/labels returns unchanged
-  scale_args_with_breaks <- list(limits = c(0, 24), breaks = c(0, 12, 24))
-  result <- updateScaleArgumentsForTimeUnit(scale_args_with_breaks, "time", "h")
-  expect_identical(result, scale_args_with_breaks)
+  # Test scaleArgs with existing breaks/labels returns unchanged
+  scaleArgsWithBreaks <- list(limits = c(0, 24), breaks = c(0, 12, 24))
+  result <- updateScaleArgumentsForTimeUnit(scaleArgsWithBreaks, "time", "h")
+  expect_identical(result, scaleArgsWithBreaks)
 })
 
 test_that("constructLabelWithUnit works correctly", {
@@ -131,12 +131,12 @@ test_that("metaData2DataFrame works correctly", {
   expect_equal(result["unit", "time"], "h")
 
   # Test with missing elements (should be empty string)
-  metaData_incomplete <- list(
+  metaDataIncomplete <- list(
     concentration = list(dimension = "Concentration"), # missing unit
     time = list(unit = "h") # missing dimension
   )
 
-  result <- metaData2DataFrame(metaData_incomplete)
+  result <- metaData2DataFrame(metaDataIncomplete)
   expect_equal(result["unit", "concentration"], "")
   expect_equal(result["dimension", "time"], "")
 

@@ -5,76 +5,76 @@ test_that("MappedDataBoxplot initialization works correctly", {
   skip_if_not_installed("R6")
 
   # Create test data
-  test_data <- data.frame(
+  testData <- data.frame(
     x = c(1, 2, 3, 1, 2, 3),
     y = c(10, 15, 12, 8, 14, 11),
     group = factor(c("A", "A", "A", "B", "B", "B"))
   )
 
-  test_mapping <- ggplot2::aes(x = x, y = y)
+  testMapping <- ggplot2::aes(x = x, y = y)
 
   # Test basic initialization
-  mapped_data <- MappedDataBoxplot$new(
-    data = test_data,
-    mapping = test_mapping
+  mappedData <- MappedDataBoxplot$new(
+    data = testData,
+    mapping = testMapping
   )
 
-  expect_s3_class(mapped_data, "MappedDataBoxplot")
-  expect_s3_class(mapped_data, "MappedData")
-  expect_equal(mapped_data$data, test_data)
-  expect_true(mapped_data$hasXmapping)
+  expect_s3_class(mappedData, "MappedDataBoxplot")
+  expect_s3_class(mappedData, "MappedData")
+  expect_equal(mappedData$data, testData)
+  expect_true(mappedData$hasXmapping)
 })
 
 test_that("MappedDataBoxplot handles x mapping detection correctly", {
   skip_if_not_installed("ggplot2")
 
-  test_data <- data.frame(y = c(10, 15, 12))
+  testData <- data.frame(y = c(10, 15, 12))
 
   # Test without x mapping
-  mapped_data_no_x <- MappedDataBoxplot$new(
-    data = test_data,
+  mappedDataNoX <- MappedDataBoxplot$new(
+    data = testData,
     mapping = ggplot2::aes(y = y)
   )
-  expect_false(mapped_data_no_x$hasXmapping)
+  expect_false(mappedDataNoX$hasXmapping)
 
   # Test with x mapping
-  test_data_with_x <- data.frame(x = c(1, 2, 3), y = c(10, 15, 12))
-  mapped_data_with_x <- MappedDataBoxplot$new(
-    data = test_data_with_x,
+  testDataWithX <- data.frame(x = c(1, 2, 3), y = c(10, 15, 12))
+  mappedDataWithX <- MappedDataBoxplot$new(
+    data = testDataWithX,
     mapping = ggplot2::aes(x = x, y = y)
   )
-  expect_true(mapped_data_with_x$hasXmapping)
+  expect_true(mappedDataWithX$hasXmapping)
 })
 
 test_that("MappedDataBoxplot boxwhiskerMapping active field works correctly", {
   skip_if_not_installed("ggplot2")
 
-  test_data <- data.frame(
+  testData <- data.frame(
     x = c(1, 2, 3),
     y = c(10, 15, 12)
   )
 
   # Test with x mapping
-  mapped_data_with_x <- MappedDataBoxplot$new(
-    data = test_data,
+  mappedDataWithX <- MappedDataBoxplot$new(
+    data = testData,
     mapping = ggplot2::aes(x = x, y = y)
   )
 
-  boxwhisker_mapping <- mapped_data_with_x$boxwhiskerMapping
-  expect_s3_class(boxwhisker_mapping, "uneval")
+  boxwhiskerMapping <- mappedDataWithX$boxwhiskerMapping
+  expect_s3_class(boxwhiskerMapping, "uneval")
   # When x is mapped, should return empty aes()
-  expect_equal(length(boxwhisker_mapping), 0)
+  expect_equal(length(boxwhiskerMapping), 0)
 
   # Test without x mapping
-  test_data_no_x <- data.frame(y = c(10, 15, 12))
-  mapped_data_no_x <- MappedDataBoxplot$new(
-    data = test_data_no_x,
+  testDataNoX <- data.frame(y = c(10, 15, 12))
+  mappedDataNoX <- MappedDataBoxplot$new(
+    data = testDataNoX,
     mapping = ggplot2::aes(y = y)
   )
 
-  boxwhisker_mapping_no_x <- mapped_data_no_x$boxwhiskerMapping
-  expect_s3_class(boxwhisker_mapping_no_x, "uneval")
-  expect_true("x" %in% names(boxwhisker_mapping_no_x))
+  boxwhiskerMappingNoX <- mappedDataNoX$boxwhiskerMapping
+  expect_s3_class(boxwhiskerMappingNoX, "uneval")
+  expect_true("x" %in% names(boxwhiskerMappingNoX))
 })
 
 test_that("MappedDataBoxplot doAdjustmentsWithMetaData works correctly", {
@@ -120,17 +120,17 @@ test_that("MappedDataBoxplot doAdjustmentsWithMetaData works correctly", {
   expect_equal(mappedDataNumeric$xscale, "linear")
 
   # Test data with factor x
-  test_data_factor <- data.frame(
+  testDataFactor <- data.frame(
     x = factor(c("A", "B", "C")),
     y = c(10, 15, 12)
   )
 
-  mapped_data_factor <- MappedDataBoxplot$new(
-    data = test_data_factor,
+  mappedDataFactor <- MappedDataBoxplot$new(
+    data = testDataFactor,
     mapping = ggplot2::aes(x = x, y = y)
   )
 
-  mapped_data_factor$addMetaData(
+  mappedDataFactor$addMetaData(
     metaData = list(x = list(
       dimension = "time",
       unit = "h"
@@ -139,30 +139,30 @@ test_that("MappedDataBoxplot doAdjustmentsWithMetaData works correctly", {
 
   # Test with discrete scale for factor data
   expect_no_error({
-    mapped_data_factor$doAdjustmentsWithMetaData(
+    mappedDataFactor$doAdjustmentsWithMetaData(
       originalmapping = ggplot2::aes(x = x, y = y),
       xscale = "auto",
       xscale.args = list()
     )
   })
 
-  expect_equal(mapped_data_factor$xscale, "discrete")
+  expect_equal(mappedDataFactor$xscale, "discrete")
 })
 
 test_that("MappedDataBoxplot scale validation works correctly", {
   skip_if_not_installed("ggplot2")
 
   # Test error when trying to use continuous scale with factor data
-  test_data_factor <- data.frame(
+  testDataFactor <- data.frame(
     x = factor(c("A", "B", "C")),
     y = c(10, 15, 12)
   )
 
-  mapped_data_factor <- MappedDataBoxplot$new(
-    data = test_data_factor,
+  mappedDataFactor <- MappedDataBoxplot$new(
+    data = testDataFactor,
     mapping = ggplot2::aes(x = x, y = y)
   )
-  mapped_data_factor$addMetaData(
+  mappedDataFactor$addMetaData(
     metaData = list(x = list(
       dimension = "time",
       unit = "h"
@@ -170,7 +170,7 @@ test_that("MappedDataBoxplot scale validation works correctly", {
   )
 
   expect_error({
-    mapped_data_factor$doAdjustmentsWithMetaData(
+    mappedDataFactor$doAdjustmentsWithMetaData(
       originalmapping = ggplot2::aes(x = x, y = y),
       xscale = "linear", # This should fail for factor data
       xscale.args = list()
@@ -206,12 +206,12 @@ test_that("MappedDataBoxplot scale validation works correctly", {
 test_that("MappedDataBoxplot input validation works", {
   skip_if_not_installed("ggplot2")
 
-  test_data <- data.frame(x = c(1, 2, 3), y = c(10, 15, 12))
-  mapped_data <- MappedDataBoxplot$new(
-    data = test_data,
+  testData <- data.frame(x = c(1, 2, 3), y = c(10, 15, 12))
+  mappedData <- MappedDataBoxplot$new(
+    data = testData,
     mapping = ggplot2::aes(x = x, y = y)
   )
-  mapped_data$addMetaData(
+  mappedData$addMetaData(
     metaData = list(x = list(
       dimension = "time",
       unit = "h"

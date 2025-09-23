@@ -13,17 +13,17 @@ test_that(".onLoad function exists and can be called", {
 
 test_that("Font files exist in package", {
   # Test that the font files referenced in .onLoad exist
-  symbola_path <- system.file("extdata", "Symbola.ttf", package = "ospsuite.plots")
-  notosans_path <- system.file("extdata", "NotoSans-Regular.ttf", package = "ospsuite.plots")
+  symbolaPath <- system.file("extdata", "Symbola.ttf", package = "ospsuite.plots")
+  notosansPath <- system.file("extdata", "NotoSans-Regular.ttf", package = "ospsuite.plots")
 
   # Files should exist (even if they might be empty in test environment)
-  expect_type(symbola_path, "character")
-  expect_type(notosans_path, "character")
+  expect_type(symbolaPath, "character")
+  expect_type(notosansPath, "character")
 
   # The system.file should return non-empty string if file exists, empty if not
   # We expect at least the path structure to be present
-  expect_true(nchar(symbola_path) >= 0)
-  expect_true(nchar(notosans_path) >= 0)
+  expect_true(nchar(symbolaPath) >= 0)
+  expect_true(nchar(notosansPath) >= 0)
 })
 
 test_that(".onLoad handles missing showtext gracefully", {

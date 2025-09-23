@@ -49,9 +49,9 @@ test_that("ResidualScales enum works correctly", {
 
 test_that("All enums have consistent structure", {
   # All enums should follow the same pattern where names equal values
-  enum_lists <- list(AxisScales, ResidualScales)
+  enumLists <- list(AxisScales, ResidualScales)
 
-  for (enum_list in enum_lists) {
-    expect_equal(names(enum_list), unlist(enum_list, use.names = FALSE))
+  for (enumList in enumLists) {
+    expect_equal(names(enumList), unlist(enumList, use.names = FALSE))
   }
 })

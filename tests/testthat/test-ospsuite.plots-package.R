@@ -17,8 +17,8 @@ test_that("Package constants and utilities are defined", {
   expect_true(exists(".", envir = asNamespace("ospsuite.plots"), inherits = FALSE))
 
   # The . should be defined as list
-  dot_object <- get(".", envir = asNamespace("ospsuite.plots"))
-  expect_identical(dot_object, list)
+  dotObject <- get(".", envir = asNamespace("ospsuite.plots"))
+  expect_identical(dotObject, list)
 })
 
 test_that("Package namespace is properly structured", {
@@ -27,11 +27,11 @@ test_that("Package namespace is properly structured", {
   expect_true(is.environment(ns))
 
   # Test that some key functions are exported (available in namespace)
-  expected_functions <- c(
+  expectedFunctions <- c(
     "AxisScales", "ResidualScales", "OptionKeys", "Shapes"
   )
 
-  for (func in expected_functions) {
+  for (func in expectedFunctions) {
     expect_true(exists(func, envir = ns, inherits = FALSE),
       info = paste("Function", func, "should exist in namespace")
     )

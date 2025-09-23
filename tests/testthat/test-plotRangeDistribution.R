@@ -1,15 +1,16 @@
-
 # Sample data for testing
 n <- 1000
 exampleData <- data.table(
   IndividualId = 1:n,
-  Age = seq(2,18,length.out = n),
-  Group = rep(c("A", "B"), n/2)
+  Age = seq(2, 18, length.out = n),
+  Group = rep(c("A", "B"), n / 2)
 )
-exampleData[,value := rep(qnorm(seq(0.1,0.9,length.out = 20)),round(n/20)) + ifelse(Group == 'A',Age,10)]
+exampleData[, value := rep(qnorm(seq(0.1, 0.9, length.out = 20)), round(n / 20)) + ifelse(Group == "A", Age, 10)]
 
-metaData = list(Age = list(dimension = 'Age',
-                           unit = 'year(s)'))
+metaData <- list(Age = list(
+  dimension = "Age",
+  unit = "year(s)"
+))
 
 # Unit tests for BINNINGMODE
 test_that("BINNINGMODE enumeration works correctly", {
@@ -20,11 +21,10 @@ test_that("BINNINGMODE enumeration works correctly", {
 
 # Unit tests for plotRangeDistribution function
 test_that("plotRangeDistribution generates correct plots", {
-
   # Basic plot test
   plotObject <- plotRangeDistribution(
     data = exampleData,
-    mapping = aes(x = Age, y = value,groupby = Group),
+    mapping = aes(x = Age, y = value, groupby = Group),
     modeOfBinning = BINNINGMODE$number,
     numberOfBins = 20,
     statFun = NULL,
@@ -38,7 +38,7 @@ test_that("plotRangeDistribution generates correct plots", {
   customBreaks <- c(2, 6, 12, 18)
   plotObject <- plotRangeDistribution(
     data = exampleData,
-    mapping = aes(x = Age, y = value,groupby = Group),
+    mapping = aes(x = Age, y = value, groupby = Group),
     modeOfBinning = BINNINGMODE$breaks,
     breaks = customBreaks,
     statFun = NULL,
@@ -51,7 +51,7 @@ test_that("plotRangeDistribution generates correct plots", {
   # Test with equal width binning
   plotObject <- plotRangeDistribution(
     data = exampleData,
-    mapping = aes(x = Age, y = value,groupby = Group),
+    mapping = aes(x = Age, y = value, groupby = Group),
     modeOfBinning = BINNINGMODE$interval,
     numberOfBins = 9,
     asStepPlot = TRUE,
@@ -70,7 +70,7 @@ test_that("plotRangeDistribution generates correct plots", {
 
   plotObject <- plotRangeDistribution(
     data = exampleData,
-    mapping = aes(x = Age, y = value,groupby = Group),
+    mapping = aes(x = Age, y = value, groupby = Group),
     modeOfBinning = BINNINGMODE$number,
     numberOfBins = 20,
     statFun = customStatFun,
@@ -83,7 +83,7 @@ test_that("plotRangeDistribution generates correct plots", {
   # Test for step plot
   plotObject <- plotRangeDistribution(
     data = exampleData,
-    mapping = aes(x = Age, y = value,groupby = Group),
+    mapping = aes(x = Age, y = value, groupby = Group),
     modeOfBinning = BINNINGMODE$number,
     numberOfBins = 4,
     asStepPlot = TRUE,
@@ -97,7 +97,6 @@ test_that("plotRangeDistribution generates correct plots", {
 
 # Edge case tests
 test_that("plotRangeDistribution handles edge cases", {
-
   # Test for missing data
   emptyData <- data.table(IndividualId = integer(0), Value = numeric(0), Group = character(0))
   expect_error(
@@ -114,7 +113,7 @@ test_that("plotRangeDistribution handles edge cases", {
   expect_error(
     plotRangeDistribution(
       data = exampleData,
-      mapping = aes(x = Age, y = value,groupby = Group),
+      mapping = aes(x = Age, y = value, groupby = Group),
       modeOfBinning = "Invalid Binning Mode",
       numberOfBins = 20
     )
@@ -124,10 +123,10 @@ test_that("plotRangeDistribution handles edge cases", {
   expect_error(
     plotRangeDistribution(
       data = exampleData,
-      mapping = aes(x = Age, y = value,groupby = Group),
+      mapping = aes(x = Age, y = value, groupby = Group),
       modeOfBinning = BINNINGMODE$number,
       numberOfBins = 20,
-      percentiles = c(0.1, 0.5, 1.1)  # Invalid percentile
+      percentiles = c(0.1, 0.5, 1.1) # Invalid percentile
     ),
     "Assertion on 'percentiles' failed: Element 3 is not <= 1."
   )
@@ -139,7 +138,7 @@ test_that("plotRangeDistribution handles edge cases", {
       mapping = aes(x = Group, y = Value),
       modeOfBinning = BINNINGMODE$number,
       numberOfBins = 20,
-      statFun = "not_a_function"  # Invalid statFun
+      statFun = "not_a_function" # Invalid statFun
     )
   )
 })

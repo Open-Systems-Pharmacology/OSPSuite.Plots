@@ -128,7 +128,7 @@ addWatermark <- function(plotObject) {
 
   watermarkLabel <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_label)
   watermarkOptions <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
-  
+
   # Validate watermark options
   checkmate::assertCharacter(watermarkLabel, len = 1, null.ok = FALSE)
   checkmate::assertList(watermarkOptions, null.ok = FALSE)

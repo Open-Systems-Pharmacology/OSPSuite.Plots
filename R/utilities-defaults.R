@@ -11,7 +11,8 @@
 #' oldTheme <- setDefaultTheme()
 #'
 #' # Create a plot with the new theme
-#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+#'   geom_point()
 #' print(p)
 #'
 #' # Restore previous theme
@@ -104,8 +105,8 @@ colorMaps <- list( # nolint: object_name_linter
 #' \dontrun{
 #' # Set custom color maps
 #' customColors <- list(
-#'   c("#FF0000", "#00FF00", "#0000FF"),  # RGB colors
-#'   c("red", "green", "blue")           # Named colors
+#'   c("#FF0000", "#00FF00", "#0000FF"), # RGB colors
+#'   c("red", "green", "blue") # Named colors
 #' )
 #' oldColors <- setDefaultColorMapDistinct(customColors)
 #'
@@ -136,8 +137,10 @@ setDefaultColorMapDistinct <- function(colorMapList = NULL) {
     checkmate::assertList(colorMapList, min.len = 1)
     # Validate that each element is a character vector of colors
     for (i in seq_along(colorMapList)) {
-      checkmate::assertCharacter(colorMapList[[i]], min.len = 1,
-                                 .var.name = paste0("colorMapList[[", i, "]]"))
+      checkmate::assertCharacter(colorMapList[[i]],
+        min.len = 1,
+        .var.name = paste0("colorMapList[[", i, "]]")
+      )
       # Validate colors using the helper function
       validateColors(colorMapList[[i]], paste0("colorMapList[[", i, "]]"))
     }

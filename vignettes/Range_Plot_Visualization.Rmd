@@ -28,7 +28,7 @@ library(tidyr)
 library(data.table)
 library(ggplot2)
 
-# Set Defaults 
+# Set Defaults
 oldDefaults <- setDefaults()
 ```
 
@@ -42,13 +42,15 @@ set.seed(123)
 n <- 1000
 exampleData <- data.table(
   IndividualId = 1:n,
-  Age = runif(n = n, min = 2,max = 18),
+  Age = runif(n = n, min = 2, max = 18),
   Group = sample(c("A", "B"), n, replace = TRUE)
 )
-exampleData[,value := rnorm(n) + ifelse(Group == 'A',Age,10)]
+exampleData[, value := rnorm(n) + ifelse(Group == "A", Age, 10)]
 
-metaData = list(Age = list(dimension = 'Age',
-                           unit = 'year(s)'))
+metaData <- list(Age = list(
+  dimension = "Age",
+  unit = "year(s)"
+))
 
 # Display the first few rows of the example data
 head(exampleData)
@@ -79,7 +81,7 @@ In this example, we will create a basic range plot to visualize the distribution
 ```{r basic-range-plot, fig.alt = "A range plot showing the distribution of values across groups A and B."}
 plotObject <- plotRangeDistribution(
   data = exampleData,
-  mapping = aes(x = Age, y = value,groupby = Group),
+  mapping = aes(x = Age, y = value, groupby = Group),
   modeOfBinning = BINNINGMODE$number,
   numberOfBins = 20,
   statFun = NULL,
@@ -101,11 +103,11 @@ print(plotObject)
 In this example, we will create a range plot using custom binning breaks.
 
 ```{r custom-binning-range-plot, fig.alt = "A range plot showing the distribution of values with custom binning."}
-custom_breaks <- c(2,6,12,18)
+custom_breaks <- c(2, 6, 12, 18)
 
 plotObject <- plotRangeDistribution(
   data = exampleData,
-  mapping = aes(x = Age, y = value,groupby = Group),
+  mapping = aes(x = Age, y = value, groupby = Group),
   modeOfBinning = BINNINGMODE$breaks,
   breaks = custom_breaks,
   statFun = NULL,
@@ -131,7 +133,7 @@ customStatFun <- function(y) {
 plotObject <- plotRangeDistribution(
   data = exampleData,
   metaData = metaData,
-  mapping = aes(x = Age, y = value,groupby = Group),
+  mapping = aes(x = Age, y = value, groupby = Group),
   modeOfBinning = BINNINGMODE$number,
   numberOfBins = 20,
   statFun = customStatFun,
@@ -151,7 +153,7 @@ In this example, we will create a range plot with the step plot option enabled.
 ```{r step-plot-range-plot, fig.alt = "A step range plot showing the distribution of values across groups A and B."}
 plotObject <- plotRangeDistribution(
   data = exampleData,
-  mapping = aes(x = Age, y = value,groupby = Group),
+  mapping = aes(x = Age, y = value, groupby = Group),
   metaData = metaData,
   modeOfBinning = BINNINGMODE$number,
   numberOfBins = 20,

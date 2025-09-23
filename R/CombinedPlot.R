@@ -22,8 +22,8 @@ CombinedPlot <- R6::R6Class( # nolint
     #' @param tableObject A ggplot object for the table.
     #' @param plotObject A ggplot object for the main plot.
     initialize = function(plotObject = ggplot(), tableObject = NULL) {
-      checkmate::assertClass(plotObject,"gg")
-      checkmate::assertClass(tableObject,"gg",null.ok = TRUE)
+      checkmate::assertClass(plotObject, "gg")
+      checkmate::assertClass(tableObject, "gg", null.ok = TRUE)
 
       self$plotObject <- plotObject
       self$tableObject <- tableObject
@@ -56,9 +56,9 @@ CombinedPlot <- R6::R6Class( # nolint
     #' @return Invisibly returns the combined ggplot object
     print = function() {
       combinedPlot <- self$combined()
-      if (is.null(private$.tableObject)){
+      if (is.null(private$.tableObject)) {
         print(combinedPlot)
-      } else if ("ggWatermark"%in% class(self$plotObject)) {
+      } else if ("ggWatermark" %in% class(self$plotObject)) {
         # the combined plot has lost its watermarkClass
         print(addWatermark(combinedPlot))
       }

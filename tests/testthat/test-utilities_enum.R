@@ -4,13 +4,13 @@ test_that("OptionKeys enum works correctly", {
   # OptionKeys should be a list with enumerated values
   expect_type(OptionKeys, "list")
   expect_true(length(OptionKeys) > 0)
-  
+
   # All values should be character strings
   expect_true(all(sapply(OptionKeys, is.character)))
-  
+
   # Names and values should be identical for enum structure
   expect_equal(names(OptionKeys), unlist(OptionKeys, use.names = FALSE))
-  
+
   # Should include shapeValues as mentioned in the code
   expect_true("shapeValues" %in% names(OptionKeys))
 })
@@ -21,12 +21,12 @@ test_that("AxisScales enum works correctly", {
   expect_true("linear" %in% names(AxisScales))
   expect_true("log" %in% names(AxisScales))
   expect_true("discrete" %in% names(AxisScales))
-  
+
   # Values should match names (enum structure)
   expect_equal(AxisScales$linear, "linear")
   expect_equal(AxisScales$log, "log")
   expect_equal(AxisScales$discrete, "discrete")
-  
+
   # Should be character strings
   expect_true(all(sapply(AxisScales, is.character)))
 })
@@ -37,12 +37,12 @@ test_that("ResidualScales enum works correctly", {
   expect_true("linear" %in% names(ResidualScales))
   expect_true("log" %in% names(ResidualScales))
   expect_true("ratio" %in% names(ResidualScales))
-  
-  # Values should match names (enum structure)  
+
+  # Values should match names (enum structure)
   expect_equal(ResidualScales$linear, "linear")
   expect_equal(ResidualScales$log, "log")
   expect_equal(ResidualScales$ratio, "ratio")
-  
+
   # Should be character strings
   expect_true(all(sapply(ResidualScales, is.character)))
 })
@@ -50,7 +50,7 @@ test_that("ResidualScales enum works correctly", {
 test_that("All enums have consistent structure", {
   # All enums should follow the same pattern where names equal values
   enum_lists <- list(AxisScales, ResidualScales)
-  
+
   for (enum_list in enum_lists) {
     expect_equal(names(enum_list), unlist(enum_list, use.names = FALSE))
   }

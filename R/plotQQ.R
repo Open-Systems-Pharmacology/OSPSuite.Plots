@@ -7,7 +7,7 @@
 #'
 #' @inheritParams plotTimeProfile
 #' @param data  ´data.frame` with data to plot
-#' @param residualScale Either `"linear"` or `"log"` for scaling residuals. 
+#' @param residualScale Either `"linear"` or `"log"` for scaling residuals.
 #'   For linear: residuals = observed - predicted. For log: residuals = log(observed) - log(predicted).
 #'   The y-axis scale remains linear in both cases.
 #' @param geomQQAttributes A list of arguments passed to `ggplot2::stat_qq()`.

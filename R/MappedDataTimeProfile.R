@@ -3,12 +3,12 @@
 #' @description R6 class for mapping variable to data for time profile visualizations.
 #' This class extends MappedData to provide specialized functionality for time-series plots,
 #' including support for secondary y-axes, dual scaling, and time-specific axis handling.
-#' 
+#'
 #' @details This class is specifically designed for pharmacokinetic time profile plots
 #' where data may need to be displayed on dual y-axes with different scales (linear/log).
 #' It handles complex scenarios like mapping simulated and observed data with different
 #' scaling requirements.
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # Create time profile mapping with secondary axis
@@ -18,7 +18,7 @@
 #'   scaleOfPrimaryAxis = "linear",
 #'   scaleOfSecondaryAxis = "log"
 #' )
-#' 
+#'
 #' # Time profile with grouping aesthetics
 #' timeData <- MappedDataTimeProfile$new(
 #'   data = myDataFrame,
@@ -131,7 +131,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     #' This method handles the complex logic of scaling data between primary and secondary axes
     #' with different scale types (linear/log combinations).
     #' @param ylimits limits for primary axis (may be NULL)
-    #' @param y2limits limits for secondary axis (may be NULL) 
+    #' @param y2limits limits for secondary axis (may be NULL)
     #' @param y2scale.args arguments for secondary axis
     #'
     #' @return updated MappedDataTimeProfile
@@ -140,7 +140,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
                                          y2scale.args = list()) {
       # Validate input parameters
       checkmate::assertList(y2scale.args, null.ok = TRUE)
-      
+
       if (!self$requireDualAxis) {
         private$dataScaled <- self$data
         return(invisible(self))

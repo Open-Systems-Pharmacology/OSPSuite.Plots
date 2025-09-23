@@ -30,7 +30,7 @@ library(data.table)
 # Set Defaults
 oldDefaults <- ospsuite.plots::setDefaults()
 
-# Place default legend position above the plot 
+# Place default legend position above the plot
 theme_update(legend.position = "top")
 theme_update(legend.direction = "horizontal")
 theme_update(legend.title = element_blank())
@@ -45,15 +45,20 @@ This vignette uses the following datasets:
 ```{r load-data-1, results='asis'}
 histData <- exampleDataCovariates %>%
   dplyr::filter(SetID == "DataSet1") %>%
-  dplyr::select(c("ID", "Country", "Age", "AgeBin", "Obs","Pred")) %>% 
-  melt(id.vars = c("ID", "Country", "Age", "AgeBin"),
-       value.name = 'value',
-       variable.name = 'DataType')  
+  dplyr::select(c("ID", "Country", "Age", "AgeBin", "Obs", "Pred")) %>%
+  melt(
+    id.vars = c("ID", "Country", "Age", "AgeBin"),
+    value.name = "value",
+    variable.name = "DataType"
+  )
 
 # Prepare plot data by calculating mean and standard deviation
-plotData <- histData[,.(Mean = mean(value),
-                        SD = sd(value)),
-                     by = c("Country",  "AgeBin","DataType")]
+plotData <- histData[, .(
+  Mean = mean(value),
+  SD = sd(value)
+),
+by = c("Country", "AgeBin", "DataType")
+]
 ```
 
 # 2. Generating Forest Plots
@@ -64,14 +69,14 @@ In this example, we will create a basic forest plot using the mean and standard 
 
 ```{r basic-forest-plot, fig.alt = "A basic forest plot showing mean values of different age bins faceted by country."}
 plotObject <-
-        plotForest(
-          plotData = plotData,
-          mapping =  aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
-          xLabel = 'Mean',
-          yFacetColumns = 'Country',
-          tableColumns = c('Mean', 'SD'),
-          tableLabels = c('Mean', 'SD')
-        )
+  plotForest(
+    plotData = plotData,
+    mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
+    xLabel = "Mean",
+    yFacetColumns = "Country",
+    tableColumns = c("Mean", "SD"),
+    tableLabels = c("Mean", "SD")
+  )
 
 print(plotObject)
 ```
@@ -88,15 +93,15 @@ In this example, we will create a forest plot similar to the previous one but wi
 
 ```{r forest-plot-no-table, fig.alt = "A forest plot showing mean values of different age bins faceted by country, without a summary table."}
 plotObject <-
-        plotForest(
-          plotData = plotData,
-          mapping =  aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
-          xLabel = 'Mean',
-          yFacetColumns = 'Country',
-          tableColumns = c('Mean', 'SD'),
-          tableLabels = c('Mean', 'SD'),
-          withTable = FALSE
-        )
+  plotForest(
+    plotData = plotData,
+    mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
+    xLabel = "Mean",
+    yFacetColumns = "Country",
+    tableColumns = c("Mean", "SD"),
+    tableLabels = c("Mean", "SD"),
+    withTable = FALSE
+  )
 
 print(plotObject)
 ```
@@ -110,16 +115,16 @@ In this example, we will facet the plot by `DataType` while still using `Country
 
 ```{r facet-forest-plot, fig.alt = "A forest plot showing mean values of different age bins, faceted by country and data type."}
 plotObject <-
-        plotForest(
-          plotData = plotData,
-          mapping =  aes(x = Mean, error = SD, y = AgeBin),
-          xLabel = 'Mean',
-          yFacetColumns = 'Country',
-          xFacetColumn = 'DataType',
-          tableColumns = c('Mean', 'SD'),
-          tableLabels = c('Mean', 'SD'),
-          withTable = FALSE
-        )
+  plotForest(
+    plotData = plotData,
+    mapping = aes(x = Mean, error = SD, y = AgeBin),
+    xLabel = "Mean",
+    yFacetColumns = "Country",
+    xFacetColumn = "DataType",
+    tableColumns = c("Mean", "SD"),
+    tableLabels = c("Mean", "SD"),
+    withTable = FALSE
+  )
 
 print(plotObject)
 ```

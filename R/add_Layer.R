@@ -50,7 +50,7 @@ addLayer <- function(mappedData,
   checkmate::assertList(geomAttributes, null.ok = TRUE)
   checkmate::assertCharacter(geom, len = 1)
   checkmate::assertFunction(layerToCall)
-  
+
   filteredMapping <- mappedData$getAestheticsForGeom(
     geom = geom,
     geomAttributes = geomAttributes
@@ -132,7 +132,7 @@ addLLOQLayer <-
         structure(
           utils::modifyList(
             filteredMapping,
-            aes(linetype = "LLOQ")  # Maps to legend with "LLOQ" label
+            aes(linetype = "LLOQ") # Maps to legend with "LLOQ" label
           ),
           class = "uneval"
         )

@@ -4,12 +4,15 @@ oldDefaults <- ospsuite.plots::setDefaults()
 histData <- exampleDataCovariates %>%
   dplyr::filter(SetID == "DataSet1") %>%
   dplyr::select(c("ID", "Country", "Age", "AgeBin", "Obs", "Pred")) %>%
-  melt(id.vars = c("ID", "Country", "Age", "AgeBin"),
-       value.name = 'value',
-       variable.name = 'DataType')
+  melt(
+    id.vars = c("ID", "Country", "Age", "AgeBin"),
+    value.name = "value",
+    variable.name = "DataType"
+  )
 
 plotData <- histData[, .(Mean = mean(value), SD = sd(value)),
-                     by = c("Country", "AgeBin", "DataType")]
+  by = c("Country", "AgeBin", "DataType")
+]
 
 # Unit tests for plotForest function with vdiffr
 test_that("plotForest function generates correct plots", {
@@ -20,10 +23,10 @@ test_that("plotForest function generates correct plots", {
   plotObject <- plotForest(
     plotData = plotData,
     mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
-    xLabel = 'Mean',
-    yFacetColumns = 'Country',
-    tableColumns = c('Mean', 'SD'),
-    tableLabels = c('Mean', 'SD')
+    xLabel = "Mean",
+    yFacetColumns = "Country",
+    tableColumns = c("Mean", "SD"),
+    tableLabels = c("Mean", "SD")
   )
 
   # Visual test using vdiffr
@@ -33,10 +36,10 @@ test_that("plotForest function generates correct plots", {
   plotObject_no_table <- plotForest(
     plotData = plotData,
     mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
-    xLabel = 'Mean',
-    yFacetColumns = 'Country',
-    tableColumns = c('Mean', 'SD'),
-    tableLabels = c('Mean', 'SD'),
+    xLabel = "Mean",
+    yFacetColumns = "Country",
+    tableColumns = c("Mean", "SD"),
+    tableLabels = c("Mean", "SD"),
     withTable = FALSE
   )
 
@@ -47,11 +50,11 @@ test_that("plotForest function generates correct plots", {
   plotObject_facet_data_type <- plotForest(
     plotData = plotData,
     mapping = aes(x = Mean, error = SD, y = AgeBin),
-    xLabel = 'Mean',
-    yFacetColumns = 'Country',
-    xFacetColumn = 'DataType',
-    tableColumns = c('Mean', 'SD'),
-    tableLabels = c('Mean', 'SD'),
+    xLabel = "Mean",
+    yFacetColumns = "Country",
+    xFacetColumn = "DataType",
+    tableColumns = c("Mean", "SD"),
+    tableLabels = c("Mean", "SD"),
     withTable = FALSE
   )
 
@@ -62,21 +65,19 @@ test_that("plotForest function generates correct plots", {
   plotObject_with_facet <- plotForest(
     plotData = plotData,
     mapping = aes(x = Mean, error = SD, y = AgeBin),
-    xLabel = 'Mean',
-    yFacetColumns = 'Country',
-    xFacetColumn = 'DataType',
-    tableColumns = c('Mean', 'SD'),
-    tableLabels = c('Mean', 'SD')
+    xLabel = "Mean",
+    yFacetColumns = "Country",
+    xFacetColumn = "DataType",
+    tableColumns = c("Mean", "SD"),
+    tableLabels = c("Mean", "SD")
   )
 
   # Visual test using vdiffr
   vdiffr::expect_doppelganger("facet_forest_plot_with_data_type", plotObject_with_facet)
-
 })
 
 # Additional test cases
 test_that("plotForest handles edge cases and invalid inputs", {
-
   # Test for missing required columns in plotData
   invalid_data <- data.table(
     Country = c("USA", "Canada"),
@@ -88,10 +89,10 @@ test_that("plotForest handles edge cases and invalid inputs", {
     plotForest(
       plotData = invalid_data,
       mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
-      xLabel = 'Mean',
-      yFacetColumns = 'Country',
-      tableColumns = c('Mean', 'SD'),
-      tableLabels = c('Mean', 'SD')
+      xLabel = "Mean",
+      yFacetColumns = "Country",
+      tableColumns = c("Mean", "SD"),
+      tableLabels = c("Mean", "SD")
     ),
     "must include"
   )
@@ -101,11 +102,11 @@ test_that("plotForest handles edge cases and invalid inputs", {
     plotForest(
       plotData = plotData,
       mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
-      xLabel = 'Mean',
-      yFacetColumns = 'Country',
-      xscale = "invalid_scale",  # Invalid scale
-      tableColumns = c('Mean', 'SD'),
-      tableLabels = c('Mean', 'SD')
+      xLabel = "Mean",
+      yFacetColumns = "Country",
+      xscale = "invalid_scale", # Invalid scale
+      tableColumns = c("Mean", "SD"),
+      tableLabels = c("Mean", "SD")
     )
   )
 
@@ -114,10 +115,10 @@ test_that("plotForest handles edge cases and invalid inputs", {
     plotForest(
       plotData = plotData,
       mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
-      xLabel = 'Mean',
-      yFacetColumns = NULL,  # NULL should be valid, but check for warnings
-      tableColumns = c('Mean', 'SD'),
-      tableLabels = c('Mean', 'SD')
+      xLabel = "Mean",
+      yFacetColumns = NULL, # NULL should be valid, but check for warnings
+      tableColumns = c("Mean", "SD"),
+      tableLabels = c("Mean", "SD")
     )
   )
 
@@ -127,10 +128,10 @@ test_that("plotForest handles edge cases and invalid inputs", {
     plotForest(
       plotData = empty_data,
       mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
-      xLabel = 'Mean',
-      yFacetColumns = 'Country',
-      tableColumns = c('Mean', 'SD'),
-      tableLabels = c('Mean', 'SD')
+      xLabel = "Mean",
+      yFacetColumns = "Country",
+      tableColumns = c("Mean", "SD"),
+      tableLabels = c("Mean", "SD")
     )
   )
 })

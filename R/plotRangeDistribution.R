@@ -41,7 +41,7 @@ plotRangeDistribution <- function(data,
                                   geomLineAttributes = getDefaultGeomAttributes("Line"),
                                   identifier = "IndividualId") {
   ## Validation -----------
-  checkmate::assertDataFrame(data,min.rows = 1)
+  checkmate::assertDataFrame(data, min.rows = 1)
   checkmate::assertChoice(xscale, choices = c("linear", "log"), null.ok = FALSE)
   checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
   checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)

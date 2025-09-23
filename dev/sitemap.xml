@@ -1,13 +1,13 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/LICENSE-text.html</loc></url>
-<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/Forestplots.html</loc></url>
-<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/Goodness_of_fit.html</loc></url>
-<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/Range_Plot_Visualization.html</loc></url>
-<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/box-whisker-vignette.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/box-whisker-plots.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/forest-plots.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/goodness-of-fit.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/histogram.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/index.html</loc></url>
-<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/ospsuite_plots.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/ospsuite-plots.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/plot-time-profile.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/range-plot-visualization.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/authors.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/copilot-instructions.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/index.html</loc></url>

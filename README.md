@@ -12,15 +12,15 @@
 
 <!-- badges: end -->
 
-This package is currently under development  and not yet released.
 
 The `{ospsuite.plots}` package provides a framework to create
 figures and dependent tables which are used by R packages in the Open Systems
 Pharmacology ecosystem:
 
 -   [`{ospsuite}`](https://www.open-systems-pharmacology.org/OSPSuite-R/)
--   [`{ospsuite.reportingengine}`](https://www.open-systems-pharmacology.org/OSPSuite.ReportingEngine/)
+-   [`{ospsuite.reportingframework}`](https://www.open-systems-pharmacology.org/OSPSuite.ReportingFramework/)
 
+This is the beta release of the  `{ospsuite.plots}`. We welcome your feedback as we refine its features and performance.
 
 ## Installation
 

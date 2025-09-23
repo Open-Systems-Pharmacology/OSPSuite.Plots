@@ -175,7 +175,7 @@ test_that("MappedDataTimeProfile active fields work correctly", {
 
   # Test secAxis (should be waiver when no secondary axis)
   sec_axis <- mapped_data$secAxis
-  expect_s3_class(sec_axis,'waiver')
+  expect_s3_class(sec_axis, "waiver")
 
   # Test dataForPlot
   plot_data <- mapped_data$dataForPlot
@@ -225,7 +225,7 @@ test_that("MappedDataTimeProfile input validation works", {
     mappedData <- MappedDataTimeProfile$new(
       data = test_data,
       mapping = ggplot2::aes(x = time, y = concentration, y2axis = as.logical(y2)),
-      y2limits = c(10, 5)  # Should be sorted
+      y2limits = c(10, 5) # Should be sorted
     )
   })
 
@@ -233,7 +233,7 @@ test_that("MappedDataTimeProfile input validation works", {
     MappedDataTimeProfile$new(
       data = test_data,
       mapping = ggplot2::aes(x = time, y = concentration, y2axis = as.logical(y2)),
-      y2limits = c(1, 1)  # Should be unique
+      y2limits = c(1, 1) # Should be unique
     )
   })
 })

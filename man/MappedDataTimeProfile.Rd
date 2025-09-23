@@ -4,12 +4,39 @@
 \alias{MappedDataTimeProfile}
 \title{MappedDataTimeProfile}
 \description{
-R6 class for mapping variable to \code{data}
+R6 class for mapping variable to data for time profile visualizations.
+This class extends MappedData to provide specialized functionality for time-series plots,
+including support for secondary y-axes, dual scaling, and time-specific axis handling.
+}
+\details{
+This class is specifically designed for pharmacokinetic time profile plots
+where data may need to be displayed on dual y-axes with different scales (linear/log).
+It handles complex scenarios like mapping simulated and observed data with different
+scaling requirements.
+}
+\examples{
+\dontrun{
+# Create time profile mapping with secondary axis
+timeData <- MappedDataTimeProfile$new(
+  data = myDataFrame,
+  mapping = aes(x = time, y = concentration, y2axis = fraction_unbound),
+  scaleOfPrimaryAxis = "linear",
+  scaleOfSecondaryAxis = "log"
+)
+
+# Time profile with grouping aesthetics
+timeData <- MappedDataTimeProfile$new(
+  data = myDataFrame,
+  mapping = aes(x = time, y = concentration, color = compound),
+  groupAesthetics = c("color", "linetype")
+)
+}
 }
 \seealso{
 Other MappedData classes: 
 \code{\link{MappedData}},
-\code{\link{MappedDataBoxplot}}
+\code{\link{MappedDataBoxplot}},
+\code{\link{MappedDataRangeDistribution}}
 }
 \concept{MappedData classes}
 \section{Super class}{
@@ -107,7 +134,10 @@ use of group aesthetics triggers second axis after simulation layers}
 }
 \subsection{Returns}{
 A new \code{MappedDataTimeProfile} object
-scales data for secondary axis and updates \code{secAxis}
+Scale data for secondary axis and update secAxis transformation
+
+This method handles the complex logic of scaling data between primary and secondary axes
+with different scale types (linear/log combinations).
 }
 }
 \if{html}{\out{<hr>}}
@@ -125,9 +155,9 @@ scales data for secondary axis and updates \code{secAxis}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ylimits}}{limits for primary axis}
+\item{\code{ylimits}}{limits for primary axis (may be NULL)}
 
-\item{\code{y2limits}}{limits for secondary axis}
+\item{\code{y2limits}}{limits for secondary axis (may be NULL)}
 
 \item{\code{y2scale.args}}{arguments for secondary axis}
 }

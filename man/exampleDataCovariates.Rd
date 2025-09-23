@@ -3,16 +3,22 @@
 \docType{data}
 \name{exampleDataCovariates}
 \alias{exampleDataCovariates}
-\title{data frame which includes example data used in the vignette
-\code{vignette("Histogram Plots", package = "ospsuite.plots")}}
+\title{Example Covariates Data}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 410 rows and 11 columns.
+A data frame with covariate information typically used in population
+pharmacokinetic/pharmacodynamic analyses.
+}
+\source{
+Generated for package demonstration purposes.
 }
 \usage{
-exampleDataCovariates
+data(exampleDataCovariates)
 }
 \description{
-data frame which includes example data used in the vignette
+A data frame containing example covariate data used in the vignette
+for demonstrating histogram plotting functionality with different grouping variables.
+}
+\references{
 \code{vignette("Histogram Plots", package = "ospsuite.plots")}
 }
 \keyword{datasets}

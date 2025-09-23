@@ -85,8 +85,8 @@ MappedDataBoxplot <- R6::R6Class( # nolint
     doAdjustmentsWithMetaData = function(originalmapping,
                                          xscale,
                                          xscale.args) {
-      if (is.null(self$columnClasses[['x']])){
-        warning('No metaData available for x-axis')
+      if (is.null(self$columnClasses[["x"]])) {
+        warning("No metaData available for x-axis")
         return(invisible(self))
       }
       # Validate input mapping structure

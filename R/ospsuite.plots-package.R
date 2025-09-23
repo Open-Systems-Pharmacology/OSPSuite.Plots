@@ -7,6 +7,7 @@
 ## usethis namespace: start
 #' @import ggh4x
 #' @import ggplot2
+#' @import data.table
 #' @import ospsuite.utils
 #' @importFrom data.table .BY
 #' @importFrom data.table .EACHI

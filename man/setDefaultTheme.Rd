@@ -10,7 +10,22 @@ setDefaultTheme()
 invisibly return the previous theme so you can easily save it, then later restore it.
 }
 \description{
-set properties of the default theme
+set properties of the default theme for OSPSuite plots.
+This function applies a custom theme based on theme_bw() with OSPSuite-specific styling.
+}
+\examples{
+\dontrun{
+# Save current theme and set OSPSuite default
+oldTheme <- setDefaultTheme()
+
+# Create a plot with the new theme
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+print(p)
+
+# Restore previous theme
+resetDefaultTheme(oldTheme)
+}
+
 }
 \seealso{
 Other setDefault functions: 

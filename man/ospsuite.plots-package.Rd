@@ -8,6 +8,13 @@
 \description{
 This library provides a standardized approach to creating graphs and tables in the ospsuite context. It is based on ggplot2.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://www.open-systems-pharmacology.org/OSPSuite.Plots/}
+}
+
+}
 \author{
 \strong{Maintainer}: Katrin Coboeken \email{katrin.coboeken@bayer.com}
 

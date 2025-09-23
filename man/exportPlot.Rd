@@ -57,3 +57,31 @@ For more details and examples see the vignettes:
 \item \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 }
 }
+\examples{
+\dontrun{
+# Basic usage
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+exportPlot(
+  plotObject = p,
+  filepath = tempdir(),
+  filename = "my_plot.png"
+)
+
+# Export with custom dimensions and device
+exportPlot(
+  plotObject = p,
+  filepath = "./output",
+  filename = "scatter_plot",
+  width = 12,
+  height = 8,
+  device = "pdf"
+)
+
+# Export with special characters in filename (will be cleaned)
+exportPlot(
+  plotObject = p,
+  filepath = tempdir(),
+  filename = "concentration in µg/L: results"
+)
+}
+}

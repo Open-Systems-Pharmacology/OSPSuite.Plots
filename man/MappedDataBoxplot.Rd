@@ -2,13 +2,33 @@
 % Please edit documentation in R/MappedDataBoxplot.R
 \name{MappedDataBoxplot}
 \alias{MappedDataBoxplot}
-\title{object to map data for boxplots}
+\title{MappedDataBoxplot}
 \description{
-R6 class for mapping variable to \code{data}
+R6 class for mapping variable to data for boxplot visualizations.
+This class extends MappedData to provide specialized mapping functionality for box-and-whisker plots,
+including handling of discrete and continuous x-axis scales and automatic grouping logic.
+}
+\examples{
+\dontrun{
+# Create boxplot mapping with continuous x variable
+boxplotData <- MappedDataBoxplot$new(
+  data = myDataFrame,
+  mapping = aes(x = dose, y = concentration),
+  xscale = "linear"
+)
+
+# Create boxplot mapping with categorical x variable
+boxplotData <- MappedDataBoxplot$new(
+  data = myDataFrame,
+  mapping = aes(x = treatment_group, y = response),
+  xscale = "discrete"
+)
+}
 }
 \seealso{
 Other MappedData classes: 
 \code{\link{MappedData}},
+\code{\link{MappedDataRangeDistribution}},
 \code{\link{MappedDataTimeProfile}}
 }
 \concept{MappedData classes}

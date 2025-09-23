@@ -516,7 +516,6 @@ plotObject <- plotRatioVsCov(
 
 print(plotObject)
 knitr::kable(plotObject$countsWithin)
-
 ```
 
 # 5. Quantile Plot (`plotQQ()`)

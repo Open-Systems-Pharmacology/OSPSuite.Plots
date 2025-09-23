@@ -41,3 +41,4 @@ doc
 tests/testthat/*.pdf
 /doc/
 /Meta/
+inst/doc

@@ -21,12 +21,14 @@ articles:
       - ospsuite_plots
   - title: Plotting functions
     navbar: Plotting functions
-    desc: Details about primary functions
+    desc: Details about plot functions
     contents:
       - plot-time-profile
       - box-whisker-vignette
       - histogram
       - Goodness_of_fit
+      - Forestplots
+      - Range_Plot_Visualization
 
 figures:
   dev: ragg::agg_png
@@ -73,6 +75,7 @@ reference:
       - matches("AxisScales")
       - matches("OptionKeys")
       - matches("ResidualScales")
+      - matches("BINNINGMODE")
   - title: "Data"
     desc: "Data used within the vignette examples"
     contents:

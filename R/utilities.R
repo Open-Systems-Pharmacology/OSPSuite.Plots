@@ -167,10 +167,10 @@ createDefaultPlotLabels <- function(mappedData) {
 #' @export
 constructLabelWithUnit <- function(label, unit) {
   # Validate input arguments
-  if(is.factor(label)) label <- as.character(label)
-  if(is.double(label)) label <- as.character(label)
+  if (is.factor(label)) label <- as.character(label)
+  if (is.double(label)) label <- as.character(label)
   checkmate::assertCharacter(label, len = 1, null.ok = TRUE)
-  if(is.factor(unit)) unit <- as.character(unit)
+  if (is.factor(unit)) unit <- as.character(unit)
   checkmate::assertCharacter(unit, len = 1, null.ok = TRUE)
 
   if (!is.null(label) & !is.null(unit)) {
@@ -192,10 +192,12 @@ constructLabelWithUnit <- function(label, unit) {
 #' @return metaData as `data.frame`
 #'
 metaData2DataFrame <- function(metaData) {
-  checkmate::assertList(metaData,null.ok = TRUE)
+  checkmate::assertList(metaData, null.ok = TRUE)
   metaDF <- data.frame()
 
-  if (length(metaData) == 0) return(metaDF)
+  if (length(metaData) == 0) {
+    return(metaDF)
+  }
 
   for (element in c("dimension", "unit")) {
     tmp <- lapply(metaData, getElement, element) %>%

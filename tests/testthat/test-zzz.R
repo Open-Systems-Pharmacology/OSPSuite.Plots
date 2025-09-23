@@ -3,7 +3,7 @@
 test_that(".onLoad function exists and can be called", {
   # Test that .onLoad function exists in the namespace
   expect_true(exists(".onLoad", envir = asNamespace("ospsuite.plots"), inherits = FALSE))
-  
+
   # Test that .onLoad can be called without errors
   # This tests font loading functionality
   expect_no_error({
@@ -15,11 +15,11 @@ test_that("Font files exist in package", {
   # Test that the font files referenced in .onLoad exist
   symbola_path <- system.file("extdata", "Symbola.ttf", package = "ospsuite.plots")
   notosans_path <- system.file("extdata", "NotoSans-Regular.ttf", package = "ospsuite.plots")
-  
+
   # Files should exist (even if they might be empty in test environment)
   expect_type(symbola_path, "character")
   expect_type(notosans_path, "character")
-  
+
   # The system.file should return non-empty string if file exists, empty if not
   # We expect at least the path structure to be present
   expect_true(nchar(symbola_path) >= 0)

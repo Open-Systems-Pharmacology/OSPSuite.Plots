@@ -1,7 +1,6 @@
 # Test ospsuite.plots-package.R
 
 test_that("Package documentation and imports are properly defined", {
-
   # Test that key imports are available (these should be loaded when package loads)
   # We test by checking if the namespace can access these functions
 
@@ -34,6 +33,7 @@ test_that("Package namespace is properly structured", {
 
   for (func in expected_functions) {
     expect_true(exists(func, envir = ns, inherits = FALSE),
-                info = paste("Function", func, "should exist in namespace"))
+      info = paste("Function", func, "should exist in namespace")
+    )
   }
 })

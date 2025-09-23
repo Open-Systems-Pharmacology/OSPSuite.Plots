@@ -101,8 +101,10 @@ test_that("MappedDataBoxplot doAdjustmentsWithMetaData works correctly", {
   })
 
   mappedDataNumeric$addMetaData(
-    metaData = list(x = list(dimension = 'time',
-                             unit = 'h'))
+    metaData = list(x = list(
+      dimension = "time",
+      unit = "h"
+    ))
   )
 
   # Test with linear scale for numeric data
@@ -129,8 +131,10 @@ test_that("MappedDataBoxplot doAdjustmentsWithMetaData works correctly", {
   )
 
   mapped_data_factor$addMetaData(
-    metaData = list(x = list(dimension = 'time',
-                             unit = 'h'))
+    metaData = list(x = list(
+      dimension = "time",
+      unit = "h"
+    ))
   )
 
   # Test with discrete scale for factor data
@@ -159,14 +163,16 @@ test_that("MappedDataBoxplot scale validation works correctly", {
     mapping = ggplot2::aes(x = x, y = y)
   )
   mapped_data_factor$addMetaData(
-    metaData = list(x = list(dimension = 'time',
-                             unit = 'h'))
+    metaData = list(x = list(
+      dimension = "time",
+      unit = "h"
+    ))
   )
 
   expect_error({
     mapped_data_factor$doAdjustmentsWithMetaData(
       originalmapping = ggplot2::aes(x = x, y = y),
-      xscale = "linear",  # This should fail for factor data
+      xscale = "linear", # This should fail for factor data
       xscale.args = list()
     )
   })
@@ -182,14 +188,16 @@ test_that("MappedDataBoxplot scale validation works correctly", {
     mapping = ggplot2::aes(x = x, y = y)
   )
   mappedDataNumeric$addMetaData(
-    metaData = list(x = list(dimension = 'time',
-                             unit = 'h'))
+    metaData = list(x = list(
+      dimension = "time",
+      unit = "h"
+    ))
   )
 
   expect_error({
     mappedDataNumeric$doAdjustmentsWithMetaData(
       originalmapping = ggplot2::aes(x = x, y = y),
-      xscale = "discrete",  # This should fail for numeric data
+      xscale = "discrete", # This should fail for numeric data
       xscale.args = list()
     )
   })
@@ -204,15 +212,17 @@ test_that("MappedDataBoxplot input validation works", {
     mapping = ggplot2::aes(x = x, y = y)
   )
   mapped_data$addMetaData(
-    metaData = list(x = list(dimension = 'time',
-                             unit = 'h'))
+    metaData = list(x = list(
+      dimension = "time",
+      unit = "h"
+    ))
   )
 
 
   # Test doAdjustmentsWithMetaData input validation
   expect_error({
     mapped_data$doAdjustmentsWithMetaData(
-      originalmapping = "not_a_mapping",  # Should be a list/mapping
+      originalmapping = "not_a_mapping", # Should be a list/mapping
       xscale = "linear",
       xscale.args = list()
     )
@@ -221,7 +231,7 @@ test_that("MappedDataBoxplot input validation works", {
   expect_error({
     mapped_data$doAdjustmentsWithMetaData(
       originalmapping = ggplot2::aes(x = x, y = y),
-      xscale = c("linear", "log"),  # Should be single character
+      xscale = c("linear", "log"), # Should be single character
       xscale.args = list()
     )
   })

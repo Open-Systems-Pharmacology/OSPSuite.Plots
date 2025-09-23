@@ -31,7 +31,8 @@
 #' @examples
 #' \dontrun{
 #' # Basic usage
-#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+#'   geom_point()
 #' exportPlot(
 #'   plotObject = p,
 #'   filepath = tempdir(),
@@ -304,18 +305,18 @@ validateFilename <- function(filename, device) {
   # Validate input parameters
   checkmate::assertCharacter(filename, len = 1, null.ok = FALSE)
   checkmate::assertCharacter(device, len = 1, null.ok = TRUE)
-  
+
   # if  option is set overwrite file extension.
   if (is.null(device)) {
     device <- getOspsuite.plots.option(optionKey = OptionKeys$export.device)
   }
-  
+
   # Validate that device is a supported format
   supportedDevices <- c("png", "pdf", "jpeg", "jpg", "tiff", "svg", "eps")
   if (!device %in% supportedDevices) {
     warning("Device '", device, "' may not be supported by ggsave")
   }
-  
+
   filename <- fs::path_ext_set(filename, device)
 
   # replace µ by u

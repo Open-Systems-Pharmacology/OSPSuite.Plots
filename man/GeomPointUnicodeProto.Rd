@@ -13,7 +13,32 @@ GeomPointUnicodeProto
 \description{
 Define a Geom using \code{ggplot2::ggproto()} and based on GeomPoint.
 The Geom internally uses \code{textGrob} instead of \code{pointsGrob} so that fonts leverage for drawing shapes.
+Custom ggproto for Unicode Point Shapes
+
+A custom ggproto object that extends GeomPoint to use Unicode characters
+as plot symbols instead of standard R plotting symbols. This allows for more diverse
+and visually appealing point shapes in ggplot2 graphics.
+}
+\details{
+This geom uses Unicode characters to render points, providing access to
+a wider variety of shapes than standard R plotting symbols. The shapes are rendered
+as text using grid::textGrob, which allows for better scaling and appearance.
+
+Key features:
+\itemize{
+\item Uses Unicode characters for point rendering
+\item Supports color, fill, size, and alpha aesthetics
+\item Default shape is a filled square (\\u2588)
+\item Compatible with all standard ggplot2 aesthetics and scales
+}
+}
+\section{Shape Validation}{
+
+Shape codes are validated to ensure they are valid Unicode points. Invalid
+codes will fall back to default shapes or generate warnings.
+
 The \code{grid} and \code{scales} packages are supposed to be required by \code{ggplot2}.
 So there should not be any issue as installing \code{ggplot2} should install those 2 packages.
 }
+
 \keyword{internal}

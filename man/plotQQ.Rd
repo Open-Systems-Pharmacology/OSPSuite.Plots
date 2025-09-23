@@ -27,18 +27,18 @@ see vignettes for more details and examples}
 
 \item{xscale.args}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
 
-\item{residualScale}{either "linear" or "log" scale residuals,
-for linear residuals are calculated observed - predicted
-for log residuals are calculated log(observed) - log(predicted)
-y scale is always linear}
+\item{residualScale}{Either \code{"linear"} or \code{"log"} for scaling residuals.
+For linear: residuals = observed - predicted. For log: residuals = log(observed) - log(predicted).
+The y-axis scale remains linear in both cases.}
 
 \item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{geomQQAttributes}{arguments passed on to \code{ggplot2::qq_stat}}
+\item{geomQQAttributes}{A list of arguments passed to \code{ggplot2::stat_qq()}.}
 
-\item{geomQQLineAttributes}{arguments passed on to \code{ggplot2::qq_stat_line}}
+\item{geomQQLineAttributes}{A list of arguments passed to \code{ggplot2::stat_qq_line()}.}
 
-\item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with \code{groupby},}
+\item{groupAesthetics}{A character vector of aesthetic names used for grouping data points in the Q-Q plot.
+Common options include \code{"colour"}, \code{"fill"}, \code{"shape"}, \code{"linetype"}, and \code{"size"}.}
 }
 \value{
 A \code{ggplot} object
@@ -53,8 +53,10 @@ For details and examples see the vignettes:
 \seealso{
 Other plot functions: 
 \code{\link{plotBoxWhisker}()},
+\code{\link{plotForest}()},
 \code{\link{plotHistogram}()},
 \code{\link{plotPredVsObs}()},
+\code{\link{plotRangeDistribution}()},
 \code{\link{plotRatioVsCov}()},
 \code{\link{plotResVsCov}()},
 \code{\link{plotTimeProfile}()},

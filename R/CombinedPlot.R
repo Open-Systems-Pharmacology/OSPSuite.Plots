@@ -22,8 +22,8 @@ CombinedPlot <- R6::R6Class( # nolint
     #' @param tableObject A ggplot object for the table.
     #' @param plotObject A ggplot object for the main plot.
     initialize = function(plotObject = ggplot(), tableObject = NULL) {
-      checkmate::assertClass(plotObject,"gg")
-      checkmate::assertDataFrame(tableObject,null.ok = TRUE)
+      checkmate::assertClass(plotObject, "gg")
+      checkmate::assertClass(tableObject, "gg", null.ok = TRUE)
 
       self$plotObject <- plotObject
       self$tableObject <- tableObject
@@ -43,7 +43,7 @@ CombinedPlot <- R6::R6Class( # nolint
 
       return(cowplot::plot_grid(
         self$plotObject,
-        gridExtra::tableGrob(self$tableObject),
+        self$tableObject,
         nrow = 1,
         axis = "tb",
         align = "h",
@@ -56,9 +56,9 @@ CombinedPlot <- R6::R6Class( # nolint
     #' @return Invisibly returns the combined ggplot object
     print = function() {
       combinedPlot <- self$combined()
-      if (is.null(private$.tableObject)){
+      if (is.null(private$.tableObject)) {
         print(combinedPlot)
-      } else if ("ggWatermark"%in% class(self$plotObject)) {
+      } else if ("ggWatermark" %in% class(self$plotObject)) {
         # the combined plot has lost its watermarkClass
         print(addWatermark(combinedPlot))
       }
@@ -80,7 +80,7 @@ CombinedPlot <- R6::R6Class( # nolint
       if (missing(value)) {
         return(private$.tableObject) # Get the tableObject
       } else {
-        checkmate::assertClass(value, "data.frame", null.ok = TRUE)
+        checkmate::assertClass(value, "gg", null.ok = TRUE)
         private$.tableObject <- value # Set the tableObject
       }
     },

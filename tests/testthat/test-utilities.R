@@ -90,7 +90,7 @@ test_that("getFoldDistanceList works correctly", {
   result <- getFoldDistanceList()
   expect_named(result, c("identity", "1.5 fold", "2 fold"))
   expect_equal(result$identity, 1)
-  expect_equal(result$`1.5 fold`, c(1.5, 1/1.5))
+  expect_equal(result$`1.5 fold`, c(1.5, 1 / 1.5))
   expect_equal(result$`2 fold`, c(2, 0.5))
 
   # Test without identity
@@ -101,7 +101,7 @@ test_that("getFoldDistanceList works correctly", {
   # Test custom folds
   result <- getFoldDistanceList(folds = c(3, 5))
   expect_named(result, c("identity", "3 fold", "5 fold"))
-  expect_equal(result$`3 fold`, c(3, 1/3))
+  expect_equal(result$`3 fold`, c(3, 1 / 3))
   expect_equal(result$`5 fold`, c(5, 0.2))
 
   # Test single fold

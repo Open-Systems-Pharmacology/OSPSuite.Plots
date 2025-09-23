@@ -85,12 +85,37 @@ For more details and examples see the vignettes:
 \item \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 }
 }
+\examples{
+\dontrun{
+# Basic time profile plot with simulated data
+plotTimeProfile(
+  data = simulationData,
+  mapping = aes(x = time, y = concentration, color = compound)
+)
+
+# Time profile with both simulated and observed data
+plotTimeProfile(
+  data = simulationData,
+  observedData = observedData,
+  mapping = aes(x = time, y = concentration, color = treatment),
+  observedMapping = aes(x = time, y = concentration, color = treatment)
+)
+
+# Time profile with secondary y-axis
+plotTimeProfile(
+  data = myData,
+  mapping = aes(x = time, y = concentration, y2axis = fraction_unbound)
+)
+}
+}
 \seealso{
 Other plot functions: 
 \code{\link{plotBoxWhisker}()},
+\code{\link{plotForest}()},
 \code{\link{plotHistogram}()},
 \code{\link{plotPredVsObs}()},
 \code{\link{plotQQ}()},
+\code{\link{plotRangeDistribution}()},
 \code{\link{plotRatioVsCov}()},
 \code{\link{plotResVsCov}()},
 \code{\link{plotYVsX}()}

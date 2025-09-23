@@ -80,7 +80,7 @@ test_that("saves plot with watermark in SVG", {
 
   # Check if the watermark label is present in the SVG content
   expect_true(any(grepl(watermarkLabel, svgContent)),
-              info = "Watermark label should be present in the SVG content"
+    info = "Watermark label should be present in the SVG content"
   )
 
   # Test with a combined plot object
@@ -101,11 +101,11 @@ test_that("saves plot with watermark in SVG", {
 
   # Check if the watermark label is present in the SVG content
   expect_true(any(grepl(watermarkLabel, svgContent)),
-              info = "Watermark label should be present in the SVG content"
+    info = "Watermark label should be present in the SVG content"
   )
 
   # Create a CombinedPlot instance with both plot and table
-  combined <- CombinedPlot$new(plotObject = testPlotW, tableObject = testTable)
+  combined <- CombinedPlot$new(plotObject = testPlotW, tableObject = testPlotW)
 
   # Save the combined plot as SVG
   suppressMessages(ggsave(tempSvg, plot = fig, device = "svg"))
@@ -115,9 +115,8 @@ test_that("saves plot with watermark in SVG", {
 
   # Check if the watermark label is present in the SVG content
   expect_true(any(grepl(watermarkLabel, svgContent)),
-              info = "Watermark label should be present in the SVG content"
+    info = "Watermark label should be present in the SVG content"
   )
-
 })
 
 # Test for plot_list with cowplot

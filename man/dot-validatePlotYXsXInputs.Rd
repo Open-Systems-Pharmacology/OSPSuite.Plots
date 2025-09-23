@@ -41,7 +41,9 @@
 
 \item{geomLLOQAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
 
-\item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with \code{groupby},}
+\item{groupAesthetics}{A character vector of aesthetic names used for grouping data points when calculating
+comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
+and proportions within comparison lines. Common grouping aesthetics include \code{"colour"}, \code{"fill"}, \code{"shape"}.}
 
 \item{comparisonLineVector}{A vector defining the comparison lines.}
 

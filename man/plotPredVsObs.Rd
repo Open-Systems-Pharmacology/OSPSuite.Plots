@@ -73,6 +73,7 @@ Other plot functions:
 \code{\link{plotForest}()},
 \code{\link{plotHistogram}()},
 \code{\link{plotQQ}()},
+\code{\link{plotRangeDistribution}()},
 \code{\link{plotRatioVsCov}()},
 \code{\link{plotResVsCov}()},
 \code{\link{plotTimeProfile}()},

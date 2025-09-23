@@ -35,7 +35,8 @@ timeData <- MappedDataTimeProfile$new(
 \seealso{
 Other MappedData classes: 
 \code{\link{MappedData}},
-\code{\link{MappedDataBoxplot}}
+\code{\link{MappedDataBoxplot}},
+\code{\link{MappedDataRangeDistribution}}
 }
 \concept{MappedData classes}
 \section{Super class}{

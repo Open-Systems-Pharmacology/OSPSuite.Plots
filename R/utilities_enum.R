@@ -20,3 +20,11 @@ ResidualScales <- enum(c( # nolint
   log = "log",
   ratio = "ratio"
 ))
+
+#' @title enumeration keys for mode of Binning
+#' @export
+BINNINGMODE <- ospsuite.utils::enum(c( # nolint
+  number = "Equal Frequency Binning",
+  interval = "Equal Width Binning",
+  breaks = "Custom Binning"
+))

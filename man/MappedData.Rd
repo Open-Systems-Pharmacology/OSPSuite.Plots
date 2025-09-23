@@ -9,6 +9,7 @@ R6 class for mapping  variables to \code{data}
 \seealso{
 Other MappedData classes: 
 \code{\link{MappedDataBoxplot}},
+\code{\link{MappedDataRangeDistribution}},
 \code{\link{MappedDataTimeProfile}}
 }
 \concept{MappedData classes}

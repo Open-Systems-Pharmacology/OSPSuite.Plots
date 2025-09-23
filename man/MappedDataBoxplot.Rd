@@ -28,6 +28,7 @@ boxplotData <- MappedDataBoxplot$new(
 \seealso{
 Other MappedData classes: 
 \code{\link{MappedData}},
+\code{\link{MappedDataRangeDistribution}},
 \code{\link{MappedDataTimeProfile}}
 }
 \concept{MappedData classes}

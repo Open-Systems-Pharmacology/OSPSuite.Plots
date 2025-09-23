@@ -56,6 +56,7 @@ Other plot functions:
 \code{\link{plotForest}()},
 \code{\link{plotHistogram}()},
 \code{\link{plotPredVsObs}()},
+\code{\link{plotRangeDistribution}()},
 \code{\link{plotRatioVsCov}()},
 \code{\link{plotResVsCov}()},
 \code{\link{plotTimeProfile}()},

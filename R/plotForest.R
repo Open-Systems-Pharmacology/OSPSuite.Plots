@@ -279,10 +279,7 @@ createTableObject <- function(tableData, mapping, digitsToRound, digitsToShow, y
     mapping["y"],
     aes(
       x = .valueType,
-      label = formattable::formattable(
-        round(.value, digitsToRound),
-        digits = digitsToShow, format = "f"
-      )
+      label = sprintf(paste0("%.", digitsToShow, "f"), round(.value, digitsToRound))
     )
   )
 

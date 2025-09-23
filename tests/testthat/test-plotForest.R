@@ -87,7 +87,7 @@ test_that("plotForest handles edge cases and invalid inputs", {
 
   expect_error(
     plotForest(
-      plotData = invalid_data,
+      plotData = invalidData,
       mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
       xLabel = "Mean",
       yFacetColumns = "Country",

@@ -103,13 +103,13 @@ print(plotObject)
 In this example, we will create a range plot using custom binning breaks.
 
 ```{r custom-binning-range-plot, fig.alt = "A range plot showing the distribution of values with custom binning."}
-custom_breaks <- c(2, 6, 12, 18)
+customBreaks <- c(2, 6, 12, 18)
 
 plotObject <- plotRangeDistribution(
   data = exampleData,
   mapping = aes(x = Age, y = value, groupby = Group),
   modeOfBinning = BINNINGMODE$breaks,
-  breaks = custom_breaks,
+  breaks = customBreaks,
   statFun = NULL,
   percentiles = c(0.05, 0.5, 0.95),
   metaData = metaData

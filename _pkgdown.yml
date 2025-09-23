@@ -18,17 +18,17 @@ articles:
     navbar: Overview
     desc: Overview
     contents:
-      - ospsuite_plots
+      - ospsuite-plots
   - title: Plotting functions
     navbar: Plotting functions
     desc: Details about plot functions
     contents:
       - plot-time-profile
-      - box-whisker-vignette
+      - box-whisker-plots
       - histogram
-      - Goodness_of_fit
-      - Forestplots
-      - Range_Plot_Visualization
+      - goodness-of-fit
+      - forest-plots
+      - range-plot-visualization
 
 figures:
   dev: ragg::agg_png

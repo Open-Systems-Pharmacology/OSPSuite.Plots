@@ -98,7 +98,7 @@ test_that("GeomPointUnicodeProto has correct structure", {
   expect_true("size" %in% names(defaultAes))
 
   # Default shape should be a Unicode character
-  expect_equal(default_aes$shape, "\u2588")
+  expect_equal(defaultAes$shape, "\u2588")
 })
 
 # Integration test with actual plotting (if ggplot2 is available)

@@ -27,7 +27,7 @@ test_that("getOspsuite.plots.option works correctly", {
   # Test getting watermark label
   watermarkLabel <- getOspsuite.plots.option("watermark_label")
   expect_type(watermarkLabel, "character")
-  expect_equal(watermark_label, "preliminary analysis")
+  expect_equal(watermarkLabel, "preliminary analysis")
 
   # Test error for invalid option key
   expect_error(getOspsuite.plots.option("invalid_option"))
@@ -96,7 +96,7 @@ test_that("setDefaultColorMapDistinct works correctly", {
   expect_error(setDefaultColorMapDistinct(list(c("invalidcolor123"))))
 
   # Reset to original
-  resetDefaultColorMapDistinct(old_colors)
+  resetDefaultColorMapDistinct(oldColors)
 })
 
 test_that("resetDefaultColorMapDistinct works correctly", {

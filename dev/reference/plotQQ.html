@@ -15,7 +15,7 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9006</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,6 +35,8 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
     <li><a class="dropdown-item" href="../articles/box-whisker-vignette.html">Box-Whisker Plots</a></li>
     <li><a class="dropdown-item" href="../articles/histogram.html">Histogram Plots</a></li>
     <li><a class="dropdown-item" href="../articles/Goodness_of_fit.html">Goodness of fit</a></li>
+    <li><a class="dropdown-item" href="../articles/Forestplots.html">Forestplots</a></li>
+    <li><a class="dropdown-item" href="../articles/Range_Plot_Visualization.html">Range Plot Visualization</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -95,10 +97,9 @@ see vignettes for more details and examples</p></dd>
 
 
 <dt id="arg-residualscale">residualScale<a class="anchor" aria-label="anchor" href="#arg-residualscale"></a></dt>
-<dd><p>either "linear" or "log" scale residuals,
-for linear residuals are calculated observed - predicted
-for log residuals are calculated log(observed) - log(predicted)
-y scale is always linear</p></dd>
+<dd><p>Either <code>"linear"</code> or <code>"log"</code> for scaling residuals.
+For linear: residuals = observed - predicted. For log: residuals = log(observed) - log(predicted).
+The y-axis scale remains linear in both cases.</p></dd>
 
 
 <dt id="arg-yscale-args">yscale.args<a class="anchor" aria-label="anchor" href="#arg-yscale-args"></a></dt>
@@ -106,15 +107,16 @@ y scale is always linear</p></dd>
 
 
 <dt id="arg-geomqqattributes">geomQQAttributes<a class="anchor" aria-label="anchor" href="#arg-geomqqattributes"></a></dt>
-<dd><p>arguments passed on to <code>ggplot2::qq_stat</code></p></dd>
+<dd><p>A list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">ggplot2::stat_qq()</a></code>.</p></dd>
 
 
 <dt id="arg-geomqqlineattributes">geomQQLineAttributes<a class="anchor" aria-label="anchor" href="#arg-geomqqlineattributes"></a></dt>
-<dd><p>arguments passed on to <code>ggplot2::qq_stat_line</code></p></dd>
+<dd><p>A list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">ggplot2::stat_qq_line()</a></code>.</p></dd>
 
 
 <dt id="arg-groupaesthetics">groupAesthetics<a class="anchor" aria-label="anchor" href="#arg-groupaesthetics"></a></dt>
-<dd><p>vector of aesthetics, which are used for columns mapped with <code>groupby</code>,</p></dd>
+<dd><p>A character vector of aesthetic names used for grouping data points in the Q-Q plot.
+Common options include <code>"colour"</code>, <code>"fill"</code>, <code>"shape"</code>, <code>"linetype"</code>, and <code>"size"</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -125,8 +127,10 @@ y scale is always linear</p></dd>
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other plot functions:
 <code><a href="plotBoxWhisker.html">plotBoxWhisker</a>()</code>,
+<code><a href="plotForest.html">plotForest</a>()</code>,
 <code><a href="plotHistogram.html">plotHistogram</a>()</code>,
 <code><a href="plotPredVsObs.html">plotPredVsObs</a>()</code>,
+<code><a href="plotRangeDistribution.html">plotRangeDistribution</a>()</code>,
 <code><a href="plotRatioVsCov.html">plotRatioVsCov</a>()</code>,
 <code><a href="plotResVsCov.html">plotResVsCov</a>()</code>,
 <code><a href="plotTimeProfile.html">plotTimeProfile</a>()</code>,

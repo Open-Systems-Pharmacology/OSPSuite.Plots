@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9006</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +27,8 @@
     <li><a class="dropdown-item" href="../articles/box-whisker-vignette.html">Box-Whisker Plots</a></li>
     <li><a class="dropdown-item" href="../articles/histogram.html">Histogram Plots</a></li>
     <li><a class="dropdown-item" href="../articles/Goodness_of_fit.html">Goodness of fit</a></li>
+    <li><a class="dropdown-item" href="../articles/Forestplots.html">Forestplots</a></li>
+    <li><a class="dropdown-item" href="../articles/Range_Plot_Visualization.html">Range Plot Visualization</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -61,6 +63,12 @@
         <dd>Generate Box-Whisker Plots</dd>
       </dl><dl><dt>
 
+          <code><a href="plotForest.html">plotForest()</a></code>
+
+        </dt>
+        <dd>Create a Forest Plot</dd>
+      </dl><dl><dt>
+
           <code><a href="plotHistogram.html">plotHistogram()</a></code>
 
         </dt>
@@ -77,6 +85,12 @@
 
         </dt>
         <dd>generates residual quantile quantile plot</dd>
+      </dl><dl><dt>
+
+          <code><a href="plotRangeDistribution.html">plotRangeDistribution()</a></code>
+
+        </dt>
+        <dd>Plot Range Plot</dd>
       </dl><dl><dt>
 
           <code><a href="plotRatioVsCov.html">plotRatioVsCov()</a></code>
@@ -317,7 +331,13 @@
           <code><a href="MappedDataBoxplot.html">MappedDataBoxplot</a></code>
 
         </dt>
-        <dd>object to map data for boxplots</dd>
+        <dd>MappedDataBoxplot</dd>
+      </dl><dl><dt>
+
+          <code><a href="MappedDataRangeDistribution.html">MappedDataRangeDistribution</a></code>
+
+        </dt>
+        <dd>object to map data for rangeplots</dd>
       </dl><dl><dt>
 
           <code><a href="MappedDataTimeProfile.html">MappedDataTimeProfile</a></code>
@@ -353,6 +373,12 @@
 
         </dt>
         <dd>enumeration keys for OSPSuite.plots scaling options for residual calculations</dd>
+      </dl><dl><dt>
+
+          <code><a href="BINNINGMODE.html">BINNINGMODE</a></code>
+
+        </dt>
+        <dd>enumeration keys for mode of Binning</dd>
       </dl></div><div class="section level2">
       <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
 
@@ -369,13 +395,13 @@
           <code><a href="exampleDataCovariates.html">exampleDataCovariates</a></code>
 
         </dt>
-        <dd>data frame which includes example data used in the vignette <code>vignette("Histogram Plots", package = "ospsuite.plots")</code></dd>
+        <dd>Example Covariates Data</dd>
       </dl><dl><dt>
 
           <code><a href="exampleDataTimeProfile.html">exampleDataTimeProfile</a></code>
 
         </dt>
-        <dd>data frame which includes example data used in the vignette <code>vignette("Time Profile Plots", package = "ospsuite.plots")</code></dd>
+        <dd>Example Time Profile Data</dd>
       </dl></div><div class="section level2">
       <h2 id="auxiliary-functions">auxiliary functions<a class="anchor" aria-label="anchor" href="#auxiliary-functions"></a></h2>
 

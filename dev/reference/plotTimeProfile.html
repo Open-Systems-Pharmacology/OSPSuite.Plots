@@ -21,7 +21,7 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9006</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +41,8 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
     <li><a class="dropdown-item" href="../articles/box-whisker-vignette.html">Box-Whisker Plots</a></li>
     <li><a class="dropdown-item" href="../articles/histogram.html">Histogram Plots</a></li>
     <li><a class="dropdown-item" href="../articles/Goodness_of_fit.html">Goodness of fit</a></li>
+    <li><a class="dropdown-item" href="../articles/Forestplots.html">Forestplots</a></li>
+    <li><a class="dropdown-item" href="../articles/Range_Plot_Visualization.html">Range Plot Visualization</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -184,14 +186,41 @@ use of <code>mapSimulatedAndObserved</code> triggers reset of aesthetic scales a
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other plot functions:
 <code><a href="plotBoxWhisker.html">plotBoxWhisker</a>()</code>,
+<code><a href="plotForest.html">plotForest</a>()</code>,
 <code><a href="plotHistogram.html">plotHistogram</a>()</code>,
 <code><a href="plotPredVsObs.html">plotPredVsObs</a>()</code>,
 <code><a href="plotQQ.html">plotQQ</a>()</code>,
+<code><a href="plotRangeDistribution.html">plotRangeDistribution</a>()</code>,
 <code><a href="plotRatioVsCov.html">plotRatioVsCov</a>()</code>,
 <code><a href="plotResVsCov.html">plotResVsCov</a>()</code>,
 <code><a href="plotYVsX.html">plotYVsX</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># Basic time profile plot with simulated data</span></span></span>
+<span class="r-in"><span><span class="fu">plotTimeProfile</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">simulationData</span>,</span></span>
+<span class="r-in"><span>  mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, color <span class="op">=</span> <span class="va">compound</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Time profile with both simulated and observed data</span></span></span>
+<span class="r-in"><span><span class="fu">plotTimeProfile</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">simulationData</span>,</span></span>
+<span class="r-in"><span>  observedData <span class="op">=</span> <span class="va">observedData</span>,</span></span>
+<span class="r-in"><span>  mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, color <span class="op">=</span> <span class="va">treatment</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  observedMapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, color <span class="op">=</span> <span class="va">treatment</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Time profile with secondary y-axis</span></span></span>
+<span class="r-in"><span><span class="fu">plotTimeProfile</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">myData</span>,</span></span>
+<span class="r-in"><span>  mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, y2axis <span class="op">=</span> <span class="va">fraction_unbound</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

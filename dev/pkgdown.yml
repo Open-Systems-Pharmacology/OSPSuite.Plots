@@ -3,11 +3,13 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   box-whisker-vignette: box-whisker-vignette.html
+  Forestplots: Forestplots.html
   Goodness_of_fit: Goodness_of_fit.html
   histogram: histogram.html
   ospsuite_plots: ospsuite_plots.html
   plot-time-profile: plot-time-profile.html
-last_built: 2025-09-22T12:36Z
+  Range_Plot_Visualization: Range_Plot_Visualization.html
+last_built: 2025-09-23T11:40Z
 urls:
   reference: https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference
   article: https://www.open-systems-pharmacology.org/OSPSuite.Plots/articles

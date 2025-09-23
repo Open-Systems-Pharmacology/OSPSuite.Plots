@@ -48,7 +48,7 @@ test_that("plotRangeDistribution generates correct plots", {
   # Visual test using vdiffr
   vdiffr::expect_doppelganger("custom_binning_range_plot", plotObject)
 
-  # Test with equla width binning
+  # Test with equal width binning
   plotObject <- plotRangeDistribution(
     data = exampleData,
     mapping = aes(x = Age, y = value,groupby = Group),

@@ -80,7 +80,7 @@ install.packages('fs')
 Everyone interacting in the Open Systems Pharmacology community (codebases,
 issue trackers, chat rooms, mailing lists etc.) is expected to follow the Open
 Systems Pharmacology [code of
-conduct](https://dev.open-systems-pharmacology.org/r-development-resources/coding_standards_r).
+conduct](https://github.com/Open-Systems-Pharmacology/Suite/blob/master/CODE_OF_CONDUCT.md).
 
 ## Contribution
 

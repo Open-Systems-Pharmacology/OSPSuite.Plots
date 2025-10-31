@@ -14,41 +14,42 @@ Description: This library provides a standardized approach to creating graphs an
 URL: https://www.open-systems-pharmacology.org/OSPSuite.Plots/
 License: GPL-2 | file LICENSE
 Language: en-US
-Imports: 
-    ospsuite.utils (>= 1.4.0),
-    ggh4x,
-    ggnewscale,
-    data.table,
-    checkmate,
-    rlang,
-    scales,
-    dplyr,
-    magrittr,
-    fitdistrplus,
-    tidyr,
-    fs
 Depends: 
     R (>= 3.6),
     ggplot2 (>= 4.0)
-Encoding: UTF-8
-RoxygenNote: 7.3.1
-Roxygen: list(markdown = TRUE)
+Imports: 
+    checkmate,
+    cowplot,
+    data.table,
+    dplyr,
+    fitdistrplus,
+    fs,
+    ggh4x,
+    ggnewscale,
+    magrittr,
+    ospsuite.utils (>= 1.4.0),
+    R6,
+    rlang,
+    scales,
+    tidyr
 Suggests:
-    spelling,
+    devtools (>= 2.4.5),
+    ggpubr,
+    ggsci,
     knitr,
+    lintr,
+    png,
+    rex,
     rmarkdown,
     showtext,
-    sysfonts,
-    ggsci,
-    png,
-    cowplot,
-    ggpubr,
+    spelling,
     svglite,
+    sysfonts,
     testthat (>= 3.0.3),
-    vdiffr (>= 1.0.0),
-    lintr,
-    devtools (>= 2.4.5),
-    rex
+    vdiffr (>= 1.0.0)
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Vignette:
   inst/doc/ospsuite-plots.Rmd

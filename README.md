@@ -36,17 +36,17 @@ remotes::install_github("Open-Systems-Pharmacology/ospsuite.plots")
 
 From CRAN:
 
--   [ggplot2](https://cran.r-project.org/package=ggplot2/index.html)
--   [ggh4x](https://cran.r-project.org/package=ggh4x/index.html)
--   [data.table](https://cran.r-project.org/package=data.table/index.html)
--   [ggnewscale](https://cran.r-project.org/package=ggnewscale/index.html)
--   [checkmate](https://cran.r-project.org/package=checkmate/index.html)
--   [dplyr](https://cran.r-project.org/package=checkmate/index.html)
--   [magrittr](https://cran.r-project.org/package=magrittr/index.html)
--   [fitdistrplus](https://cran.r-project.org/package=magrittr/index.html)
--   [tidyr](https://cran.r-project.org/package=tidyr/index.html)
--   [fs](https://cran.r-project.org/package=fs/index.html)
-
+- [ggplot2](https://cran.r-project.org/package=ggplot2/index.html)
+- [ggh4x](https://cran.r-project.org/package=ggh4x/index.html)
+- [cowplot](https://cran.r-project.org/package=cowplot/index.html)
+- [data.table](https://cran.r-project.org/package=data.table/index.html)
+- [ggnewscale](https://cran.r-project.org/package=ggnewscale/index.html)
+- [checkmate](https://cran.r-project.org/package=checkmate/index.html)
+- [dplyr](https://cran.r-project.org/package=checkmate/index.html)
+- [magrittr](https://cran.r-project.org/package=magrittr/index.html)
+- [fitdistrplus](https://cran.r-project.org/package=magrittr/index.html)
+- [tidyr](https://cran.r-project.org/package=tidyr/index.html)
+- [fs](https://cran.r-project.org/package=fs/index.html)
 
 Must be downloaded manually:
 

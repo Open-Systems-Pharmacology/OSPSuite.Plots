@@ -399,7 +399,7 @@ plotTimeProfile <- function(data = NULL, # nolint
         y2scale.args = y2scale.args
       )
 
-      secAxis <- simMappedData$secAxis %||% secAxis
+      secAxis <- simMappedData$secAxis
     }
     if (!is.null(obsMappedData)) {
       obsMappedData <- obsMappedData$scaleDataForSecondaryAxis(
@@ -407,8 +407,8 @@ plotTimeProfile <- function(data = NULL, # nolint
         y2limits = commonLimits$y2,
         y2scale.args = y2scale.args
       )
-
-      secAxis <- obsMappedData$secAxis %||% secAxis
+      if (length(obsMappedData$secAxis) > 0)
+        secAxis <- obsMappedData$secAxis
     }
 
     # to suppress warnings add limits if secondary axis exists

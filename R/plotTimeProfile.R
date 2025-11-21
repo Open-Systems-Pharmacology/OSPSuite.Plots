@@ -407,7 +407,7 @@ plotTimeProfile <- function(data = NULL, # nolint
         y2limits = commonLimits$y2,
         y2scale.args = y2scale.args
       )
-      if (length(obsMappedData$secAxis) > 0)
+      if (!inherits(obsMappedData$secAxis, "waiver"))
         secAxis <- obsMappedData$secAxis
     }
 

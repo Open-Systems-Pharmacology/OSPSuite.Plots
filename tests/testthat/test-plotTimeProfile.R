@@ -237,7 +237,7 @@ test_that("plotTimeProfile works secondary axis", {
   fig <- plotTimeProfile(
     data = simData,
     observedData = obsData,
-    mapping <- aes(
+    mapping = aes(
       x = time,
       y = values,
       error_relative = error_relative,
@@ -268,7 +268,7 @@ test_that("plotTimeProfile works secondary axis", {
     data = simData,
     observedData = obsData |>
       dplyr::filter(dimension != "fraction"),
-    mapping <- aes(
+    mapping = aes(
       x = time,
       y = values,
       error_relative = error_relative,

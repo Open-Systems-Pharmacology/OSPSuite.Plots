@@ -1,9 +1,9 @@
 oldDefaults <- ospsuite.plots::setDefaults()
 
 # Sample data for testing, similar to the vignette
-histData <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet1") %>%
-  dplyr::select(c("ID", "Country", "Age", "AgeBin", "Obs", "Pred")) %>%
+histData <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet1") |>
+  dplyr::select(c("ID", "Country", "Age", "AgeBin", "Obs", "Pred")) |>
   melt(
     id.vars = c("ID", "Country", "Age", "AgeBin"),
     value.name = "value",

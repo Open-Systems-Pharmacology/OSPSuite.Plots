@@ -43,9 +43,9 @@ This vignette uses the following datasets:
 - **Data Set 1**: A simulated dataset containing various covariates such as ID, Country, Age, AgeBin, Observations, and Predictions. The dataset will be filtered and reshaped to prepare it for plotting.
 
 ```{r load-data-1, results='asis'}
-histData <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet1") %>%
-  dplyr::select(c("ID", "Country", "Age", "AgeBin", "Obs", "Pred")) %>%
+histData <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet1") |>
+  dplyr::select(c("ID", "Country", "Age", "AgeBin", "Obs", "Pred")) |>
   melt(
     id.vars = c("ID", "Country", "Age", "AgeBin"),
     value.name = "value",

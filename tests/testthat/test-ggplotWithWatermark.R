@@ -128,7 +128,7 @@ test_that("cowplot::plot_list works correctly", {
     geom_point()
 
   # Combine plots using cowplot
-  combiPlot <- cowplot::plot_grid(p1, p2) %>%
+  combiPlot <- cowplot::plot_grid(p1, p2) |>
     addWatermark()
 
   # Check that the combined plot is a ggplot object

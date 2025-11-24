@@ -59,8 +59,8 @@ This vignette uses two randomly generated example datasets provided by the packa
 ### 1.2.1 Dataset with Predicted and Observed Data
 
 ```{r load-data-1, results='asis'}
-data <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet2") %>%
+data <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet2") |>
   dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex"))
 
 knitr::kable(head(data), digits = 3, caption = "First rows of example data.")
@@ -73,9 +73,9 @@ knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "List of meta d
 ### 1.2.2 Dataset for Examples with DDI Prediction
 
 ```{r load-data-2, results='asis'}
-dDIdata <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet3") %>%
-  dplyr::select(c("ID", "Obs", "Pred")) %>%
+dDIdata <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet3") |>
+  dplyr::select(c("ID", "Obs", "Pred")) |>
   dplyr::mutate(Study = paste("Study", ID))
 
 dDIdata$Study <- factor(dDIdata$Study, levels = unique(dDIdata$Study))
@@ -93,9 +93,9 @@ knitr::kable(metaData2DataFrame(dDImetaData), digits = 2, caption = "List of met
 ### 1.2.3 Dataset for Ratio Comparison
 
 ```{r load-data-3, results='asis'}
-pkRatioData <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet1") %>%
-  dplyr::select(!c("SetID")) %>%
+pkRatioData <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet1") |>
+  dplyr::select(!c("SetID")) |>
   dplyr::mutate(gsd = 1.1)
 
 pkRatiometaData <- attr(exampleDataCovariates, "metaData")
@@ -187,8 +187,8 @@ Below, a dataset is created where the LLOQ is set to the 0.1 quantile of the obs
 ```{r basic-examples-lloq, fig.alt="Scatter plot showing predicted versus observed values with lower limit of quantification (LLOQ) handling. Values below the LLOQ are displayed with reduced transparency and marked with a horizontal LLOQ line. Data points below LLOQ are set to LLOQ/2 for visualization."}
 lloqData <- signif(quantile(data$Obs, probs = 0.1), 1)
 
-dataLLOQ <- data %>%
-  dplyr::mutate(lloq = lloqData) %>%
+dataLLOQ <- data |>
+  dplyr::mutate(lloq = lloqData) |>
   dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
 
 plotPredVsObs(
@@ -314,7 +314,7 @@ plotPredVsObs(
 By default, `plotPredVsObs()` produces a square plot with an aspect ratio of 1 and the same limits for the x and y axes. In the example below, the Predicted values are set to 1/2 of the original values. A square plot does not make sense anymore; therefore, the variable `asSquarePlot` is set to `FALSE`.
 
 ```{r example-nonsquare, fig.alt="Non-square scatter plot showing predicted versus observed values where predicted values have been scaled to half of observed values. The plot demonstrates how to handle cases where data ranges differ significantly between axes, using non-square format for better visualization. Points are colored by sex groups."}
-dataNonSquare <- data %>%
+dataNonSquare <- data |>
   dplyr::mutate(Pred = Pred / 2)
 
 plotPredVsObs(

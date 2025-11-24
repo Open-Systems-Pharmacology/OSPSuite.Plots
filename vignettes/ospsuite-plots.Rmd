@@ -42,8 +42,8 @@ The library is based on `ggplot2` functionality and also utilizes the `ggh4x` pa
 Examples within this vignette are plotted using the following test data:
 
 ```{r get-test-data, results='asis'}
-testData <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet1") %>%
+testData <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet1") |>
   dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex"))
 
 knitr::kable(head(testData), digits = 3)
@@ -273,9 +273,9 @@ df <- rbind(
   data.frame(defaultOption = "Boxplot", inputVariable = c("geomBoxplotAttributes", "geomPointAttributes"), functions = c("plotBoxWhisker()", "plotBoxWhisker()")),
   data.frame(defaultOption = "ComparisonLine", inputVariable = c("geomComparisonLineAttributes"), functions = c("plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()")),
   data.frame(defaultOption = "GuestLine", inputVariable = c("geomGuestLineAttributes"), functions = c("plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()"))
-) %>%
-  data.table::setDT() %>%
-  .[, .(inputVariable = paste(inputVariable, collapse = ", ")), by = c("defaultOption", "functions")] %>%
+) |>
+  data.table::setDT() |>
+  .[, .(inputVariable = paste(inputVariable, collapse = ", ")), by = c("defaultOption", "functions")] |>
   tidyr::pivot_wider(names_from = defaultOption, values_from = inputVariable, values_fill = " ")
 
 knitr::kable(df, align = "c", caption = "Usage of options for geom attributes")
@@ -381,8 +381,8 @@ df <- rbind(
   data.frame(aesthetic = "`y2axis`", functions = "plotTimeProfile()"),
   data.frame(aesthetic = "`mdv`", functions = c("plotTimeProfile()", "plotBoxWhisker()", "plotHistogram()", "plotPredVsObs()", "plotResVsCov()", "plotRatioVsCov()", "plotQQ()")),
   data.frame(aesthetic = "`observed` / `predicted`", functions = c("plotBoxWhisker()", "plotHistogram()", "plotPredVsObs()", "plotResVsCov()", "plotRatioVsCov()", "plotQQ()"))
-) %>%
-  dplyr::mutate(used = "X") %>%
+) |>
+  dplyr::mutate(used = "X") |>
   tidyr::pivot_wider(names_from = aesthetic, values_from = used, values_fill = " ")
 
 knitr::kable(df, align = "c", caption = "Applicability of additional aesthetics in functions")

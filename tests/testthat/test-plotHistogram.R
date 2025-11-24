@@ -103,8 +103,8 @@ test_that("plot histogram works for absolute distribution fit on logscale", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-  histDataDistr <- exampleDataCovariates %>%
-    dplyr::filter(SetID == "DataSet2") %>%
+  histDataDistr <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
     dplyr::select(c("ID", "AgeBin", "Sex", "Obs"))
 
   metaData <- attr(exampleDataCovariates, "metaData")
@@ -132,8 +132,8 @@ test_that("plot histogram works for categoricalData", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-  histData <- exampleDataCovariates %>%
-    dplyr::filter(SetID == "DataSet1") %>%
+  histData <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet1") |>
     dplyr::select(c("ID", "Sex", "Age", "AgeBin", "Ratio"))
 
   metaData <- attr(exampleDataCovariates, "metaData")

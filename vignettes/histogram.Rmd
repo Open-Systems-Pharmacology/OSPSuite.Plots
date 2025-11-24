@@ -50,8 +50,8 @@ This vignette uses the following datasets:
 - **Data Set 1**:
 
 ```{r load-data-1, results='asis'}
-histData <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet1") %>%
+histData <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet1") |>
   dplyr::select(c("ID", "Sex", "Age", "AgeBin", "Ratio"))
 
 # Metadata
@@ -65,8 +65,8 @@ knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "List of meta d
 - **Data Set 2**:
 
 ```{r load-data-2, results='asis'}
-histDataDistr <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet2") %>%
+histDataDistr <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet2") |>
   dplyr::select(c("ID", "AgeBin", "Sex", "Obs"))
 
 # Metadata for Distribution Data

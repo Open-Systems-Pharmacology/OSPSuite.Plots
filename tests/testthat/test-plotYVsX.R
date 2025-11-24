@@ -5,8 +5,8 @@ test_that("plot Residuals vs Covariate works", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-  data <- exampleDataCovariates %>%
-    dplyr::filter(SetID == "DataSet2") %>%
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
     dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex"))
 
   metaData <- attr(exampleDataCovariates, "metaData")
@@ -32,14 +32,14 @@ test_that("plot Observed vs Predicted works", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-  data <- exampleDataCovariates %>%
-    dplyr::filter(SetID == "DataSet2") %>%
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
     dplyr::select(c("ID", "Obs", "gsd", "Pred", "Sex"))
 
   lloqData <- signif(quantile(data$Obs, probs = 0.1), 1)
 
-  data <- data %>%
-    dplyr::mutate(lloq = lloqData) %>%
+  data <- data |>
+    dplyr::mutate(lloq = lloqData) |>
     dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
 
 
@@ -71,8 +71,8 @@ test_that("plotRatioVsCov works", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-  dDIdata <- exampleDataCovariates %>%
-    dplyr::filter(SetID == "DataSet3") %>%
+  dDIdata <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet3") |>
     dplyr::select(c("ID", "Obs", "Pred"))
 
 
@@ -107,8 +107,8 @@ test_that("plotRatioVsCov works", {
 })
 
 test_that("getCountsWithin works for Ratio", {
-  pkRatioData <- exampleDataCovariates %>%
-    dplyr::filter(SetID == "DataSet1") %>%
+  pkRatioData <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet1") |>
     dplyr::select(-c("SetID"))
 
   metaData <- attr(exampleDataCovariates, "metaData")
@@ -140,9 +140,9 @@ test_that("getCountsWithin works for Guest Criteria", {
   skip_if(getRversion() < "4.1")
 
   # Load example
-  dDIdata <- exampleDataCovariates %>%
-    dplyr::filter(SetID == "DataSet3") %>%
-    dplyr::select(c("ID", "Obs", "Pred")) %>%
+  dDIdata <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::select(c("ID", "Obs", "Pred")) |>
     dplyr::mutate(Type = ifelse(ID <= 5, "A", "B"))
 
   dDImetaData <- list(
@@ -199,8 +199,8 @@ test_that("getCountsWithin works for Guest Criteria", {
   expect_equal(plotObjectUngrouped$countsWithin$Fraction, c(1, 0.6, 1))
 })
 test_that("adjust lines works withot error", {
-  data <- exampleDataCovariates %>%
-    dplyr::filter(SetID == "DataSet2") %>%
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
     dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex"))
 
   # case with lines which are no interval

@@ -1,7 +1,7 @@
 Package: ospsuite.plots
 Type: Package
 Title: Library for standardized graphs
-Version: 1.0.1.9003
+Version: 1.0.1.9004
 Authors@R: 
     c(person(given = "Open-Systems-Pharmacology Community",
              role = "cph"),
@@ -83,5 +83,5 @@ Collate: 'utilities-defaults.R'
          'utilities_shapes.R'
          'zzz.R'
 LazyData: true
-Remotes: 
+Remotes:  
     ospsuite.utils=Open-Systems-Pharmacology/OSPSuite.RUtils

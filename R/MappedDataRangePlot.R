@@ -90,7 +90,7 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
         functionName <- "cut"
         functionArgs <- list(breaks = private$breaks, include.lowest = TRUE)
       }
-      self$data <- self$data %>%
+      self$data <- self$data |>
         dplyr::mutate(.bin = do.call(
           what = functionName,
           args = c(
@@ -113,11 +113,11 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
       checkmate::assertNames(c(".bin", identifier), subset.of = names(self$data))
 
       # get datatable with unique x values
-      tmp <- copy(self$data) %>%
+      tmp <- copy(self$data) |>
         dplyr::select(dplyr::all_of(c(".bin", identifier)))
       tmp$.x <- private$getDataForAesthetic(aesthetic = "x")
-      tmp <- tmp %>%
-        unique() %>%
+      tmp <- tmp |>
+        unique() |>
         setDT()
 
       borders <- tmp[!is.na(.bin), .(
@@ -184,31 +184,31 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
         tmp <- tmp[!is.na(breaksRight)]
 
         self$data <- rbind(
-          self$data %>%
+          self$data |>
             merge(tmp[, c(".bin", "breaks")],
               by = ".bin"
             ),
-          self$data %>%
+          self$data |>
             merge(tmp[, c(".bin", "breaksRight")],
               by = ".bin"
-            ) %>%
+            ) |>
             setnames(old = "breaksRight", new = "breaks"),
-          setDT(self$data)[is.na(.bin)] %>%
+          setDT(self$data)[is.na(.bin)] |>
             dplyr::mutate(breaks = min(self$border$breaks, na.rm = TRUE)),
-          setDT(self$data)[is.na(.bin)] %>%
+          setDT(self$data)[is.na(.bin)] |>
             dplyr::mutate(breaks = max(self$border$breaks, na.rm = TRUE))
         )
 
         private$addOverwriteAes(aes(x = breaks))
       } else {
         self$data <- rbind(
-          self$data %>%
+          self$data |>
             merge(self$border[, c(".bin", "medianX")],
               by = ".bin"
             ),
-          setDT(self$data)[is.na(.bin)] %>%
+          setDT(self$data)[is.na(.bin)] |>
             dplyr::mutate(medianX = min(self$border$medianX, na.rm = TRUE)),
-          setDT(self$data)[is.na(.bin)] %>%
+          setDT(self$data)[is.na(.bin)] |>
             dplyr::mutate(medianX = max(self$border$medianX, na.rm = TRUE))
         )
 

@@ -173,10 +173,10 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
       }
 
       # Split data based on y2axis mapping: FALSE = primary axis, TRUE = secondary axis
-      dataUnscaled <- self$data %>%
+      dataUnscaled <- self$data |>
         dplyr::filter(!!self$mapping[["y2axis"]] == FALSE)
 
-      dataScaled <- self$data %>%
+      dataScaled <- self$data |>
         dplyr::filter(!!self$mapping[["y2axis"]] == TRUE)
 
       # Create scaling functions based on axis scale combinations
@@ -245,7 +245,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
       }
       # get data columns to scale
       scalingRelevantMappings <-
-        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic %>%
+        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic |>
         intersect(names(self$mapping))
 
 
@@ -256,7 +256,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         )
 
         if (!is.null(tmp) && is.numeric(tmp)) {
-          dataScaled <- dataScaled %>%
+          dataScaled <- dataScaled |>
             dplyr::mutate(!!self$mapping[[aesthetic]] :=
               funScale(!!self$mapping[[aesthetic]]))
         }
@@ -317,7 +317,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
       if (private$scaleOfPrimaryAxis == AxisScales$log) {
         # get data columns to check for value <= 0
         scalingRelevantMappings <-
-          listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic %>%
+          listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic |>
           intersect(names(self$mapping))
 
         for (aesthetic in scalingRelevantMappings) {
@@ -330,7 +330,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
             tryCatch(
               {
                 plotData <-
-                  plotData %>%
+                  plotData |>
                   dplyr::mutate(!!self$mapping[[aesthetic]] :=
                     ifelse(!!self$mapping[[aesthetic]] <= 0, NA,
                       !!self$mapping[[aesthetic]]
@@ -359,7 +359,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     # check for scalingRelevantMappings aesthetics which are calls. The have to be transferred to allow scaling
     checkForCallAesthetics = function() {
       scalingRelevantMappings <-
-        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic %>%
+        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic |>
         intersect(names(self$mapping))
 
       for (aesthetic in scalingRelevantMappings) {
@@ -392,7 +392,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     setyLimits = function() {
       # get data columns to scale
       scalingRelevantMappings <-
-        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic %>%
+        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic |>
         intersect(names(self$mapping))
 
       # get Limits
@@ -409,9 +409,9 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
           ylimits <- c()
           for (aesthetic in scalingRelevantMappings) {
             tmpData <- switch(ax,
-              "primary" = self$data %>%
+              "primary" = self$data |>
                 dplyr::filter(!!self$mapping[["y2axis"]] == FALSE),
-              "secondary" = self$data %>%
+              "secondary" = self$data |>
                 dplyr::filter(!!self$mapping[["y2axis"]] == TRUE)
             )
             yData <- private$getDataForAesthetic(

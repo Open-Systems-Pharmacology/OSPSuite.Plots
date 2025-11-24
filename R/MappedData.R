@@ -90,7 +90,7 @@ MappedData <- R6::R6Class( # nolint
       )
 
       # delete columns with NA
-      data <- data %>%
+      data <- data |>
         dplyr::select(names(data)[sapply(data, function(x) !all(is.na(x)))])
 
       self$data <- data.frame(data) ## creates a copy
@@ -163,8 +163,8 @@ MappedData <- R6::R6Class( # nolint
       # take only the ones mapped by user
       # listOfAesthetics is included in sysdata.rda
       acceptedAes <-
-        listOfAesthetics[which(listOfAesthetics[[(paste0(geom, "_", private$direction))]] >= 1), ]$aesthetic %>%
-        setdiff(names(geomAttributes)) %>%
+        listOfAesthetics[which(listOfAesthetics[[(paste0(geom, "_", private$direction))]] >= 1), ]$aesthetic |>
+        setdiff(names(geomAttributes)) |>
         intersect(names(self$mapping))
 
       # check for mandatory
@@ -307,7 +307,7 @@ MappedData <- R6::R6Class( # nolint
         )
 
         self$data <-
-          self$data %>%
+          self$data |>
           dplyr::filter(!as.logical(!!self$mapping[["mdv"]]))
       }
 
@@ -323,7 +323,7 @@ MappedData <- R6::R6Class( # nolint
         )
 
         ## add new column
-        self$data <- self$data %>%
+        self$data <- self$data |>
           dplyr::mutate(isLLOQ.i = factor(!!self$mapping[[private$direction]] < !!self$mapping[["lloq"]],
             ordered = TRUE
           ))
@@ -376,13 +376,13 @@ MappedData <- R6::R6Class( # nolint
 
           if (!private$aestheticExists(paste(private$direction, "min"))) {
             if (errorType == "error") {
-              self$data <- self$data %>%
+              self$data <- self$data |>
                 dplyr::mutate("error.min" = ifelse(!!self$mapping[[private$direction]] > !!self$mapping[[errorType]],
                   !!self$mapping[[private$direction]] - !!self$mapping[[errorType]],
                   !!self$mapping[[private$direction]]
                 ))
             } else if (private$aestheticExists("error_relative")) {
-              self$data <- self$data %>%
+              self$data <- self$data |>
                 dplyr::mutate("error.min" = !!self$mapping[[private$direction]] / !!self$mapping[[errorType]])
             }
             newMapping <-
@@ -397,10 +397,10 @@ MappedData <- R6::R6Class( # nolint
 
           if (!private$aestheticExists(paste(private$direction, "max"))) {
             if (errorType == "error") {
-              self$data <- self$data %>%
+              self$data <- self$data |>
                 dplyr::mutate("error.max" = !!self$mapping[[private$direction]] + !!self$mapping[[errorType]])
             } else if (private$aestheticExists("error_relative")) {
-              self$data <- self$data %>%
+              self$data <- self$data |>
                 dplyr::mutate("error.max" = !!self$mapping[[private$direction]] * !!self$mapping[[errorType]])
             }
 
@@ -435,7 +435,7 @@ MappedData <- R6::R6Class( # nolint
             )
             if (!is.null(tmp) &&
               !is.factor(tmp)) {
-              self$data %>%
+              self$data |>
                 dplyr::mutate(!!self$mapping[[aesthetic]] := factor(!!self$mapping[[aesthetic]]))
             }
           }
@@ -455,7 +455,7 @@ MappedData <- R6::R6Class( # nolint
         if (!is.null(tmp) &&
           !is.factor(tmp) &&
           is.integer(tmp)) {
-          self$data <- self$data %>%
+          self$data <- self$data |>
             dplyr::mutate_at(vars(!!self$mapping[[aesthetic]]), as.double)
         }
       }
@@ -468,7 +468,7 @@ MappedData <- R6::R6Class( # nolint
         "y",
         private$direction,
         listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic
-      ) %>%
+      ) |>
         intersect(names(self$mapping))
 
       # get Limits
@@ -530,13 +530,13 @@ MappedData <- R6::R6Class( # nolint
         if (!residualAesthetic %in% names(self$mapping)) {
           ## add new column
           if (residualScale == ResidualScales$log) {
-            self$data <- self$data %>%
+            self$data <- self$data |>
               dplyr::mutate(residuals.i = log(!!self$mapping[["observed"]]) - log(!!self$mapping[["predicted"]]))
           } else if (residualScale == ResidualScales$linear) {
-            self$data <- self$data %>%
+            self$data <- self$data |>
               dplyr::mutate(residuals.i = !!self$mapping[["observed"]] - !!self$mapping[["predicted"]])
           } else if (residualScale == ResidualScales$ratio) {
-            self$data <- self$data %>%
+            self$data <- self$data |>
               dplyr::mutate(residuals.i = !!self$mapping[["observed"]] / !!self$mapping[["predicted"]])
           }
 

@@ -95,7 +95,7 @@ Create a new \code{MappedDataTimeProfile} object
   isObserved = TRUE,
   xlimits = NULL,
   ylimits = NULL,
-  xscale = AxisScales$linear,
+  xScale = AxisScales$linear,
   scaleOfPrimaryAxis = AxisScales$linear,
   scaleOfSecondaryAxis = AxisScales$linear,
   y2limits = NULL
@@ -122,7 +122,7 @@ use of group aesthetics triggers second axis after simulation layers}
 
 \item{\code{ylimits}}{limits for primary axis (may be NULL)}
 
-\item{\code{xscale}}{= scale of x-axis}
+\item{\code{xScale}}{= scale of x-axis}
 
 \item{\code{scaleOfPrimaryAxis}}{scale of direction, either "linear" or "log"}
 
@@ -148,7 +148,7 @@ with different scale types (linear/log combinations).
 \if{html}{\out{<div class="r">}}\preformatted{MappedDataTimeProfile$scaleDataForSecondaryAxis(
   ylimits = NULL,
   y2limits = NULL,
-  y2scale.args = list()
+  y2ScaleArgs = list()
 )}\if{html}{\out{</div>}}
 }
 
@@ -159,7 +159,7 @@ with different scale types (linear/log combinations).
 
 \item{\code{y2limits}}{limits for secondary axis (may be NULL)}
 
-\item{\code{y2scale.args}}{arguments for secondary axis}
+\item{\code{y2ScaleArgs}}{arguments for secondary axis}
 }
 \if{html}{\out{</div>}}
 }

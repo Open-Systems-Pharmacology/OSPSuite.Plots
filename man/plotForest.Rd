@@ -10,8 +10,8 @@ plotForest(
   xLabel,
   yFacetColumns = NULL,
   xFacetColumn = NULL,
-  xscale = c("linear", "log"),
-  xscale.args = list(),
+  xScale = c("linear", "log"),
+  xScaleArgs = list(),
   groupAesthetics = c("color", "fill", "shape"),
   tableColumns = c("yValues", "yErrorValues"),
   tableLabels = c("M", "Variance"),
@@ -35,9 +35,9 @@ plotForest(
 
 \item{xFacetColumn}{A character string specifying the column name for the x-axis facet. Must be of length 1 or NULL.}
 
-\item{xscale}{A character string indicating the scale type for the x-axis. Options are "linear" or "log".}
+\item{xScale}{A character string indicating the scale type for the x-axis. Options are "linear" or "log".}
 
-\item{xscale.args}{A list of additional arguments for customizing the x-axis scale.}
+\item{xScaleArgs}{A list of additional arguments for customizing the x-axis scale.}
 
 \item{groupAesthetics}{A character vector specifying aesthetics for grouping (e.g., color, fill, shape).}
 

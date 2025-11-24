@@ -95,8 +95,8 @@ test_that("MappedDataBoxplot doAdjustmentsWithMetaData works correctly", {
   expect_warning({
     mappedDataNumeric$doAdjustmentsWithMetaData(
       originalmapping = ggplot2::aes(x = x, y = y),
-      xscale = "linear",
-      xscale.args = list()
+      xScale = "linear",
+      xScaleArgs = list()
     )
   })
 
@@ -111,13 +111,13 @@ test_that("MappedDataBoxplot doAdjustmentsWithMetaData works correctly", {
   expect_no_error({
     mappedDataNumeric$doAdjustmentsWithMetaData(
       originalmapping = ggplot2::aes(x = x, y = y),
-      xscale = "linear",
-      xscale.args = list()
+      xScale = "linear",
+      xScaleArgs = list()
     )
   })
 
 
-  expect_equal(mappedDataNumeric$xscale, "linear")
+  expect_equal(mappedDataNumeric$xScale, "linear")
 
   # Test data with factor x
   testDataFactor <- data.frame(
@@ -141,12 +141,12 @@ test_that("MappedDataBoxplot doAdjustmentsWithMetaData works correctly", {
   expect_no_error({
     mappedDataFactor$doAdjustmentsWithMetaData(
       originalmapping = ggplot2::aes(x = x, y = y),
-      xscale = "auto",
-      xscale.args = list()
+      xScale = "auto",
+      xScaleArgs = list()
     )
   })
 
-  expect_equal(mappedDataFactor$xscale, "discrete")
+  expect_equal(mappedDataFactor$xScale, "discrete")
 })
 
 test_that("MappedDataBoxplot scale validation works correctly", {
@@ -172,8 +172,8 @@ test_that("MappedDataBoxplot scale validation works correctly", {
   expect_error({
     mappedDataFactor$doAdjustmentsWithMetaData(
       originalmapping = ggplot2::aes(x = x, y = y),
-      xscale = "linear", # This should fail for factor data
-      xscale.args = list()
+      xScale = "linear", # This should fail for factor data
+      xScaleArgs = list()
     )
   })
 
@@ -197,8 +197,8 @@ test_that("MappedDataBoxplot scale validation works correctly", {
   expect_error({
     mappedDataNumeric$doAdjustmentsWithMetaData(
       originalmapping = ggplot2::aes(x = x, y = y),
-      xscale = "discrete", # This should fail for numeric data
-      xscale.args = list()
+      xScale = "discrete", # This should fail for numeric data
+      xScaleArgs = list()
     )
   })
 })
@@ -223,16 +223,16 @@ test_that("MappedDataBoxplot input validation works", {
   expect_error({
     mapped_data$doAdjustmentsWithMetaData(
       originalmapping = "not_a_mapping", # Should be a list/mapping
-      xscale = "linear",
-      xscale.args = list()
+      xScale = "linear",
+      xScaleArgs = list()
     )
   })
 
   expect_error({
     mapped_data$doAdjustmentsWithMetaData(
       originalmapping = ggplot2::aes(x = x, y = y),
-      xscale = c("linear", "log"), # Should be single character
-      xscale.args = list()
+      xScale = c("linear", "log"), # Should be single character
+      xScaleArgs = list()
     )
   })
 })

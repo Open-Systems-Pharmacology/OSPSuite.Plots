@@ -11,12 +11,12 @@ plotTimeProfile(
   observedMapping = mapping,
   metaData = NULL,
   mapSimulatedAndObserved = NULL,
-  xscale = AxisScales$linear,
-  xscale.args = list(limits = c(0, NA)),
-  yscale = AxisScales$linear,
-  yscale.args = list(),
-  y2scale = AxisScales$linear,
-  y2scale.args = list(),
+  xScale = AxisScales$linear,
+  xScaleArgs = list(limits = c(0, NA)),
+  yScale = AxisScales$linear,
+  yScaleArgs = list(),
+  y2Scale = AxisScales$linear,
+  y2ScaleArgs = list(),
   plotObject = NULL,
   geomLineAttributes = getDefaultGeomAttributes("Line"),
   geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
@@ -44,17 +44,17 @@ if a different mapping is necessary use \code{mapping} and \code{observedMapping
 \item{mapSimulatedAndObserved}{table with columns observed and simulated which maps simulated and observed data
 use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after simulation layers}
 
-\item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
+\item{xScale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
 
-\item{xscale.args}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
+\item{xScaleArgs}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
 
-\item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
+\item{yScale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
-\item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
+\item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{y2scale}{either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale}
+\item{y2Scale}{either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale}
 
-\item{y2scale.args}{list of arguments passed to \code{ggplot2::sec_axis()}, trans, break are set by code}
+\item{y2ScaleArgs}{list of arguments passed to \code{ggplot2::sec_axis()}, trans, break are set by code}
 
 \item{plotObject}{An optional \code{ggplot} object on which to add the plot layers}
 

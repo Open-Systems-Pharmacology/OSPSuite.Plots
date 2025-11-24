@@ -20,8 +20,8 @@ Each color map should be a vector of valid color values (hex codes, color names,
 \dontrun{
 # Set custom color maps
 customColors <- list(
-  c("#FF0000", "#00FF00", "#0000FF"),  # RGB colors
-  c("red", "green", "blue")           # Named colors
+  c("#FF0000", "#00FF00", "#0000FF"), # RGB colors
+  c("red", "green", "blue") # Named colors
 )
 oldColors <- setDefaultColorMapDistinct(customColors)
 

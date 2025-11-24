@@ -26,8 +26,8 @@ MappedData <- R6::R6Class( # nolint
 
     #' @param data data.frame used for mapping
     #' @param mapping list of aesthetic mappings
-    #' @param xscale scale of x-axis either 'linear' or 'log'
-    #' @param yscale scale of y-axis either 'linear' or 'log'
+    #' @param xScale scale of x-axis either 'linear' or 'log'
+    #' @param yScale scale of y-axis either 'linear' or 'log'
     #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with `groupby`
     #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
@@ -41,8 +41,8 @@ MappedData <- R6::R6Class( # nolint
     #' @return A new `MappedData` object
     initialize = function(data,
                           mapping,
-                          xscale,
-                          yscale,
+                          xScale,
+                          yScale,
                           groupAesthetics = NULL,
                           groupOrder = NULL,
                           direction = "y",
@@ -134,7 +134,7 @@ MappedData <- R6::R6Class( # nolint
       )
 
       # setLimits
-      private$setLimits(xscale, yscale)
+      private$setLimits(xScale, yScale)
     },
 
     #' filter possible aesthetics for a geom,
@@ -211,26 +211,26 @@ MappedData <- R6::R6Class( # nolint
     },
     #' check if unit of scale direction i s time and sets the breaks accordingly
     #'
-    #' @param scale.args additional arguments passed on to scale function
+    #' @param scaleArgs additional arguments passed on to scale function
     #' @param scaleDirection direction of axis either 'x' or 'y'
     #'
-    #' @return `scale.args` with adjusted break function
-    updateScaleArgumentsForTimeUnit = function(scale.args,
+    #' @return `scaleArgs` with adjusted break function
+    updateScaleArgumentsForTimeUnit = function(scaleArgs,
                                                scaleDirection = "x") {
       ## Validation
-      checkmate::assertList(scale.args, null.ok = TRUE)
+      checkmate::assertList(scaleArgs, null.ok = TRUE)
 
       # check if anything to do
-      if (any(c("breaks", "labels") %in% names(scale.args))) {
-        return(scale.args)
+      if (any(c("breaks", "labels") %in% names(scaleArgs))) {
+        return(scaleArgs)
       }
       if (length(self$dimensions) == 0) {
-        return(scale.args)
+        return(scaleArgs)
       }
 
 
       return(updateScaleArgumentsForTimeUnit(
-        scale.args = scale.args,
+        scaleArgs = scaleArgs,
         dimension = self$dimensions[[scaleDirection]],
         unit = self$units[[scaleDirection]]
       ))
@@ -461,7 +461,7 @@ MappedData <- R6::R6Class( # nolint
       }
       return(invisible(self))
     },
-    setLimits = function(xscale, yscale) {
+    setLimits = function(xScale, yScale) {
       # get data columns to scale
       relevantMappings <- list(x = "x", y = "y")
       relevantMappings[[private$direction]] <- gsub(
@@ -478,8 +478,8 @@ MappedData <- R6::R6Class( # nolint
           "y" = self$ylimits
         )
         axisScale <- switch(ax,
-          "x" = xscale,
-          "y" = yscale
+          "x" = xScale,
+          "y" = yScale
         )
         if (is.null(oldLimits) || any(is.na(oldLimits))) {
           ylimits <- c()

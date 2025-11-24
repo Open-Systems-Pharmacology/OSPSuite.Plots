@@ -104,7 +104,7 @@ test_that("plotForest handles edge cases and invalid inputs", {
       mapping = aes(x = Mean, error = SD, y = AgeBin, groupby = DataType),
       xLabel = "Mean",
       yFacetColumns = "Country",
-      xscale = "invalid_scale", # Invalid scale
+      xScale = "invalid_scale", # Invalid scale
       tableColumns = c("Mean", "SD"),
       tableLabels = c("Mean", "SD")
     )

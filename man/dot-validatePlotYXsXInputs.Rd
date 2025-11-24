@@ -19,10 +19,10 @@
   deltaGuest,
   residualScale,
   asSquarePlot,
-  xscale,
-  xscale.args,
-  yscale,
-  yscale.args,
+  xScale,
+  xScaleArgs,
+  yScale,
+  yScaleArgs,
   observedDataDirection
 )
 }
@@ -57,13 +57,13 @@ and proportions within comparison lines. Common grouping aesthetics include \cod
 
 \item{asSquarePlot}{A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.}
 
-\item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
+\item{xScale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
 
-\item{xscale.args}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
+\item{xScaleArgs}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
 
-\item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
+\item{yScale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
-\item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
+\item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
 \item{observedDataDirection}{Either 'x' or 'y', defining the direction of observed data.}
 }

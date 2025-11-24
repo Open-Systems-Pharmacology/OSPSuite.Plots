@@ -19,9 +19,9 @@
 #' which overwrites the default calculation if provided.
 #' @param geomBoxplotAttributes A `list` of arguments passed to the `geom_boxplot` call.
 #' @param geomPointAttributes A `list` of arguments passed to the `ggplot2::geom_point` call.
-#' @param xscale Either 'linear', 'log', 'discrete', or 'auto' (default).
+#' @param xScale Either 'linear', 'log', 'discrete', or 'auto' (default).
 #' Auto selects linear for continuous data and discrete for categorical data.
-#' @param xscale.args A list of arguments passed to `ggplot2::scale_x_continuous()`,
+#' @param xScaleArgs A list of arguments passed to `ggplot2::scale_x_continuous()`,
 #' `ggplot2::scale_x_log10()`, or `ggplot2::scale_x_discrete()`.
 #'
 #' @return A `ggplot` object representing the box-whisker plot.
@@ -60,10 +60,10 @@ plotBoxWhisker <- function(data,
                            metaData = NULL,
                            plotObject = NULL,
                            percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles),
-                           yscale = AxisScales$linear,
-                           yscale.args = list(),
-                           xscale = "auto",
-                           xscale.args = list(),
+                           yScale = AxisScales$linear,
+                           yScaleArgs = list(),
+                           xScale = "auto",
+                           xScaleArgs = list(),
                            statFun = NULL,
                            outliers = FALSE,
                            statFunOutlier = NULL,
@@ -84,10 +84,10 @@ plotBoxWhisker <- function(data,
     null.ok = !is.null(statFun)
   )
 
-  checkmate::assertChoice(xscale, choices = c("auto", AxisScales$discrete, AxisScales$linear, AxisScales$log), null.ok = FALSE)
-  checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yscale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
-  checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
+  checkmate::assertChoice(xScale, choices = c("auto", AxisScales$discrete, AxisScales$linear, AxisScales$log), null.ok = FALSE)
+  checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
+  checkmate::assertChoice(yScale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
+  checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
 
   checkmate::assertFunction(statFun, null.ok = !is.null(percentiles))
   checkmate::assertFlag(outliers)
@@ -99,8 +99,8 @@ plotBoxWhisker <- function(data,
   mappedData <- MappedDataBoxplot$new(
     data = data,
     mapping = mapping,
-    xscale = xscale,
-    yscale = yscale,
+    xScale = xScale,
+    yScale = yScale,
     groupAesthetics = "fill",
     isObserved = TRUE,
     residualScale = residualScale,
@@ -109,8 +109,8 @@ plotBoxWhisker <- function(data,
   mappedData$addMetaData(metaData)
   mappedData$doAdjustmentsWithMetaData(
     originalmapping = mapping,
-    xscale = xscale,
-    xscale.args = xscale.args
+    xScale = xScale,
+    xScaleArgs = xScaleArgs
   )
 
   #-  create default plot ------
@@ -166,10 +166,10 @@ plotBoxWhisker <- function(data,
   # add x and y scale
   plotObject <- addXYScale(
     plotObject = plotObject,
-    xscale = mappedData$xscale,
-    xscale.args = xscale.args,
-    yscale = yscale,
-    yscale.args = yscale.args
+    xScale = mappedData$xScale,
+    xScaleArgs = xScaleArgs,
+    yScale = yScale,
+    yScaleArgs = yScaleArgs
   )
 
   plotObject <- plotObject +

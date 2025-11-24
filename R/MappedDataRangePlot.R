@@ -6,8 +6,8 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
   "MappedDataRangeDistribution",
   inherit = MappedData,
   public = list(
-    #' @field xscale scale of x axis
-    xscale = NULL,
+    #' @field xScale scale of x axis
+    xScale = NULL,
 
     #' @param data data.frame used for mapping
     #' @param mapping list of aesthetic mappings
@@ -16,8 +16,8 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
     #' @param isObserved A `boolean` if TRUE mappings mdv, lloq, error and error_relative are evaluated
     #' @param xlimits limits for x-axis (may be NULL)
     #' @param ylimits limits for y-axis (may be NULL)
-    #' @param xscale scale of x-axis either 'linear' or 'log'
-    #' @param yscale scale of y-axis either 'linear' or 'log'
+    #' @param xScale scale of x-axis either 'linear' or 'log'
+    #' @param yScale scale of y-axis either 'linear' or 'log'
     #' @param residualScale scale of x residuals
     #' @param residualAesthetic aesthetic used for mapping residuals
     #' @param modeOfBinning method of binning (e.g., 'breaks', 'number', 'interval')
@@ -32,8 +32,8 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
                           isObserved = TRUE,
                           xlimits = NULL,
                           ylimits = NULL,
-                          xscale = "linear",
-                          yscale = "linear",
+                          xScale = "linear",
+                          yScale = "linear",
                           residualScale = NULL,
                           residualAesthetic = "y",
                           modeOfBinning = NA,
@@ -47,8 +47,8 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
         isObserved = isObserved,
         xlimits = xlimits,
         ylimits = ylimits,
-        xscale = xscale,
-        yscale = yscale,
+        xScale = xScale,
+        yScale = yScale,
         residualScale = residualScale,
         residualAesthetic = residualAesthetic
       )
@@ -66,7 +66,7 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
       private$modeOfBinning <- modeOfBinning
       private$numberOfBins <- numberOfBins
       private$breaks <- breaks
-      self$xscale <- xscale
+      self$xScale <- xScale
     },
 
     #' Set binning columns
@@ -77,7 +77,7 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
         functionName <- "cut_number"
         functionArgs <- list(n = private$numberOfBins)
       } else if (private$modeOfBinning == BINNINGMODE$interval) {
-        if (self$xscale == "log") {
+        if (self$xScale == "log") {
           cutIntervalLog <- function(x, ...) {
             cut_interval(log(x), ...)
           }
@@ -176,7 +176,7 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
       private$asStepPlot <- asStepPlot
       if (asStepPlot) {
         tmp <- setDT(copy(self$border))
-        if (self$xscale == "linear") {
+        if (self$xScale == "linear") {
           tmp[, breaksRight := shift(breaks, type = "lead") - 0.001 * (maxValue - minValue)]
         } else {
           tmp[, breaksRight := exp(log(shift(breaks, type = "lead")) - 0.001 * (log(maxValue) - log(minValue)))]

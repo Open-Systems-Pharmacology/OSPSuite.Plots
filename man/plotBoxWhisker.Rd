@@ -10,10 +10,10 @@ plotBoxWhisker(
   metaData = NULL,
   plotObject = NULL,
   percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles),
-  yscale = AxisScales$linear,
-  yscale.args = list(),
-  xscale = "auto",
-  xscale.args = list(),
+  yScale = AxisScales$linear,
+  yScaleArgs = list(),
+  xScale = "auto",
+  xScaleArgs = list(),
   statFun = NULL,
   outliers = FALSE,
   statFunOutlier = NULL,
@@ -34,14 +34,14 @@ plotBoxWhisker(
 \item{percentiles}{A numeric vector with percentiles used for the box whiskers and boxes,
 e.g., c(0.05, 0.25, 0.5, 0.75, 0.95). Default defined by \code{ospsuite.plots} option.}
 
-\item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
+\item{yScale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
-\item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
+\item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{xscale}{Either 'linear', 'log', 'discrete', or 'auto' (default).
+\item{xScale}{Either 'linear', 'log', 'discrete', or 'auto' (default).
 Auto selects linear for continuous data and discrete for categorical data.}
 
-\item{xscale.args}{A list of arguments passed to \code{ggplot2::scale_x_continuous()},
+\item{xScaleArgs}{A list of arguments passed to \code{ggplot2::scale_x_continuous()},
 \code{ggplot2::scale_x_log10()}, or \code{ggplot2::scale_x_discrete()}.}
 
 \item{statFun}{(default NULL) A function to calculate whiskers and box ranges,

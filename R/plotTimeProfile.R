@@ -27,12 +27,12 @@
 #' @param geomErrorbarAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_errorbar`
 #' @param geomLLOQAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_hline`
 #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with `groupby`,
-#' @param xscale either 'linear' then `ggplot2::scale_x_continuous()` or 'log' then `ggplot2::scale_x_log10()` is used
-#' @param xscale.args list of arguments passed to `ggplot2::scale_x_continuous()` or `ggplot2::scale_x_log10()`
-#' @param yscale either 'linear' then `ggplot2::scale_y_continuous()` or 'log' then `ggplot2::scale_y_log10()` is used
-#' @param yscale.args list of arguments passed to `ggplot2::scale_y_continuous()` or `ggplot2::scale_y_log10()`
-#' @param y2scale either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale
-#' @param y2scale.args list of arguments passed to `ggplot2::sec_axis()`, trans, break are set by code
+#' @param xScale either 'linear' then `ggplot2::scale_x_continuous()` or 'log' then `ggplot2::scale_x_log10()` is used
+#' @param xScaleArgs list of arguments passed to `ggplot2::scale_x_continuous()` or `ggplot2::scale_x_log10()`
+#' @param yScale either 'linear' then `ggplot2::scale_y_continuous()` or 'log' then `ggplot2::scale_y_log10()` is used
+#' @param yScaleArgs list of arguments passed to `ggplot2::scale_y_continuous()` or `ggplot2::scale_y_log10()`
+#' @param y2Scale either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale
+#' @param y2ScaleArgs list of arguments passed to `ggplot2::sec_axis()`, trans, break are set by code
 #'
 #' @return A `ggplot` object
 #' @examples
@@ -65,12 +65,12 @@ plotTimeProfile <- function(data = NULL, # nolint
                             observedMapping = mapping,
                             metaData = NULL,
                             mapSimulatedAndObserved = NULL,
-                            xscale = AxisScales$linear,
-                            xscale.args = list(limits = c(0, NA)),
-                            yscale = AxisScales$linear,
-                            yscale.args = list(),
-                            y2scale = AxisScales$linear,
-                            y2scale.args = list(),
+                            xScale = AxisScales$linear,
+                            xScaleArgs = list(limits = c(0, NA)),
+                            yScale = AxisScales$linear,
+                            yScaleArgs = list(),
+                            y2Scale = AxisScales$linear,
+                            y2ScaleArgs = list(),
                             plotObject = NULL,
                             geomLineAttributes = getDefaultGeomAttributes("Line"),
                             geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
@@ -84,12 +84,12 @@ plotTimeProfile <- function(data = NULL, # nolint
     observedData = observedData,
     plotObject = plotObject,
     metaData = metaData,
-    xscale = xscale,
-    xscale.args = xscale.args,
-    yscale = yscale,
-    yscale.args = yscale.args,
-    y2scale = y2scale,
-    y2scale.args = y2scale.args,
+    xScale = xScale,
+    xScaleArgs = xScaleArgs,
+    yScale = yScale,
+    yScaleArgs = yScaleArgs,
+    y2Scale = y2Scale,
+    y2ScaleArgs = y2ScaleArgs,
     geomLineAttributes = geomLineAttributes,
     geomRibbonAttributes = geomRibbonAttributes,
     geomPointAttributes = geomPointAttributes,
@@ -106,11 +106,11 @@ plotTimeProfile <- function(data = NULL, # nolint
       observedData = observedData,
       observedMapping = observedMapping,
       metaData = metaData,
-      xscale = xscale,
-      yscale = yscale,
-      yscale.args = yscale.args,
-      y2scale = y2scale,
-      y2scale.args = y2scale.args,
+      xScale = xScale,
+      yScale = yScale,
+      yScaleArgs = yScaleArgs,
+      y2Scale = y2Scale,
+      y2ScaleArgs = y2ScaleArgs,
       groupAesthetics = groupAesthetics,
       mapSimulatedAndObserved = mapSimulatedAndObserved
     )
@@ -120,11 +120,11 @@ plotTimeProfile <- function(data = NULL, # nolint
       simMappedData = listMappedData$simMappedData,
       obsMappedData = listMappedData$obsMappedData,
       plotObject = plotObject,
-      xscale = xscale,
-      xscale.args = xscale.args,
-      yscale = yscale,
-      yscale.args = listMappedData$yscale.args, # for y2scaling, limits are updated
-      y2scale.args = listMappedData$y2scale.args,
+      xScale = xScale,
+      xScaleArgs = xScaleArgs,
+      yScale = yScale,
+      yScaleArgs = listMappedData$yScaleArgs, # for y2scaling, limits are updated
+      y2ScaleArgs = listMappedData$y2ScaleArgs,
       secAxis = listMappedData$secAxis
     )
 
@@ -201,12 +201,12 @@ plotTimeProfile <- function(data = NULL, # nolint
            observedData,
            plotObject,
            metaData,
-           xscale,
-           xscale.args,
-           yscale,
-           yscale.args,
-           y2scale,
-           y2scale.args,
+           xScale,
+           xScaleArgs,
+           yScale,
+           yScaleArgs,
+           y2Scale,
+           y2ScaleArgs,
            geomLineAttributes,
            geomRibbonAttributes,
            geomPointAttributes,
@@ -221,12 +221,12 @@ plotTimeProfile <- function(data = NULL, # nolint
     checkmate::assertClass(plotObject, classes = "ggplot", null.ok = TRUE)
     checkmate::assertList(metaData, types = "list", null.ok = TRUE)
 
-    checkmate::assertChoice(xscale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
-    checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
-    checkmate::assertChoice(yscale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
-    checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
-    checkmate::assertChoice(y2scale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
-    checkmate::assertList(y2scale.args, null.ok = FALSE, min.len = 0)
+    checkmate::assertChoice(xScale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
+    checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
+    checkmate::assertChoice(yScale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
+    checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
+    checkmate::assertChoice(y2Scale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
+    checkmate::assertList(y2ScaleArgs, null.ok = FALSE, min.len = 0)
 
     checkmate::assertList(geomLineAttributes, null.ok = FALSE, min.len = 0)
     checkmate::assertList(geomRibbonAttributes, null.ok = FALSE, min.len = 0)
@@ -255,17 +255,17 @@ plotTimeProfile <- function(data = NULL, # nolint
                                           observedData,
                                           observedMapping,
                                           metaData,
-                                          xscale,
-                                          yscale,
-                                          yscale.args,
-                                          y2scale,
-                                          y2scale.args,
+                                          xScale,
+                                          yScale,
+                                          yScaleArgs,
+                                          y2Scale,
+                                          y2ScaleArgs,
                                           groupAesthetics,
                                           mapSimulatedAndObserved) {
   requireDualAxis <- FALSE
   commonLimits <- list(
-    y = yscale.args$limits,
-    y2 = y2scale.args$limits
+    y = yScaleArgs$limits,
+    y2 = y2ScaleArgs$limits
   )
 
   if (!is.null(mapSimulatedAndObserved)) {
@@ -289,11 +289,11 @@ plotTimeProfile <- function(data = NULL, # nolint
       } else {
         NULL
       },
-      xscale = xscale,
-      scaleOfPrimaryAxis = yscale,
-      scaleOfSecondaryAxis = y2scale,
-      ylimits = yscale.args$limits,
-      y2limits = y2scale.args$limits
+      xScale = xScale,
+      scaleOfPrimaryAxis = yScale,
+      scaleOfSecondaryAxis = y2Scale,
+      ylimits = yScaleArgs$limits,
+      y2limits = y2ScaleArgs$limits
     )
     simMappedData$addMetaData(metaData = metaData)
     requireDualAxis <- simMappedData$requireDualAxis
@@ -321,11 +321,11 @@ plotTimeProfile <- function(data = NULL, # nolint
       },
       isObserved = TRUE,
       direction = "y",
-      xscale = xscale,
-      scaleOfPrimaryAxis = yscale,
-      scaleOfSecondaryAxis = y2scale,
-      ylimits = yscale.args$limits,
-      y2limits = y2scale.args$limits
+      xScale = xScale,
+      scaleOfPrimaryAxis = yScale,
+      scaleOfSecondaryAxis = y2Scale,
+      ylimits = yScaleArgs$limits,
+      y2limits = y2ScaleArgs$limits
     )
 
     obsMappedData$addMetaData(metaData = metaData)
@@ -348,20 +348,20 @@ plotTimeProfile <- function(data = NULL, # nolint
   }
 
   listMappedData <-
-    .addCommonLimitsAndYscaleArguments(
+    .addCommonLimitsAndYScaleArguments(
       simMappedData = simMappedData,
       obsMappedData = obsMappedData,
       commonLimits = commonLimits,
       requireDualAxis = requireDualAxis,
-      yscale.args = yscale.args,
-      y2scale.args = y2scale.args
+      yScaleArgs = yScaleArgs,
+      y2ScaleArgs = y2ScaleArgs
     )
 
 
   return(list(
     simMappedData = listMappedData$simMappedData,
     obsMappedData = listMappedData$obsMappedData,
-    yscale.args = listMappedData$yscale.args,
+    yScaleArgs = listMappedData$yScaleArgs,
     secAxis = listMappedData$secAxis,
     mapSimulatedAndObserved = mapSimulatedAndObserved,
     useLLOQLinetypeAsAttribute = useLLOQLinetypeAsAttribute
@@ -373,30 +373,30 @@ plotTimeProfile <- function(data = NULL, # nolint
 #' @param simMappedData object of class `MappedDataTimeprofile` for simulated data
 #' @param obsMappedData object of class `MappedDataTimeprofile` for observed data
 #' @param commonLimits common limits for simulated and observed data
-#' @param y2scale.args list with arguments for secondary y-axis
+#' @param y2ScaleArgs list with arguments for secondary y-axis
 #' @param requireDualAxis boolean if TRUE secondary axis is needed
-#' @param yscale.args list with y2scale arguments
+#' @param yScaleArgs list with y2scale arguments
 #'
 #' @return list with
 #'  `simMappedData` adjusted object of class `MappedDataTimeprofile` for simulated data
 #'  `obsMappedData` adjusted object of class `MappedDataTimeprofile` for observed data
-#'  `yscale.args` adjusted `yscale.args` with common limits for primary and secondary y-axis
+#'  `yScaleArgs` adjusted `yScaleArgs` with common limits for primary and secondary y-axis
 #'  `secAxis`  secondary axis object
 #'
 #' @keywords internal
-.addCommonLimitsAndYscaleArguments <- function(simMappedData,
+.addCommonLimitsAndYScaleArguments <- function(simMappedData,
                                                obsMappedData,
                                                commonLimits,
                                                requireDualAxis,
-                                               yscale.args,
-                                               y2scale.args) {
+                                               yScaleArgs,
+                                               y2ScaleArgs) {
   secAxis <- waiver()
   if (requireDualAxis) {
     if (!is.null(simMappedData)) {
       simMappedData <- simMappedData$scaleDataForSecondaryAxis(
         ylimits = commonLimits$y,
         y2limits = commonLimits$y2,
-        y2scale.args = y2scale.args
+        y2ScaleArgs = y2ScaleArgs
       )
 
       secAxis <- simMappedData$secAxis
@@ -405,20 +405,20 @@ plotTimeProfile <- function(data = NULL, # nolint
       obsMappedData <- obsMappedData$scaleDataForSecondaryAxis(
         ylimits = commonLimits$y,
         y2limits = commonLimits$y2,
-        y2scale.args = y2scale.args
+        y2ScaleArgs = y2ScaleArgs
       )
       if (!inherits(obsMappedData$secAxis, "waiver"))
         secAxis <- obsMappedData$secAxis
     }
 
     # to suppress warnings add limits if secondary axis exists
-    yscale.args$limits <- commonLimits$y
+    yScaleArgs$limits <- commonLimits$y
   }
 
   return(list(
     simMappedData = simMappedData,
     obsMappedData = obsMappedData,
-    yscale.args = yscale.args,
+    yScaleArgs = yScaleArgs,
     secAxis = secAxis
   ))
 }
@@ -457,11 +457,11 @@ plotTimeProfile <- function(data = NULL, # nolint
 .initialplotObjectForTimeProfile <- function(simMappedData,
                                              obsMappedData,
                                              plotObject,
-                                             xscale,
-                                             xscale.args,
-                                             yscale,
-                                             yscale.args,
-                                             y2scale.args,
+                                             xScale,
+                                             xScaleArgs,
+                                             yScale,
+                                             yScaleArgs,
+                                             y2ScaleArgs,
                                              secAxis) {
   # mapping can not be set in ggplot as observed and simulated mappings may differ
   if (is.null(plotObject)) {
@@ -470,9 +470,9 @@ plotTimeProfile <- function(data = NULL, # nolint
       setMapping = FALSE
     )
 
-    # add y2 label to y2scale.args
+    # add y2 label to y2ScaleArgs
     if (!is.null(plotObject@labels$y2) &
-      is.null(y2scale.args$name)) {
+      is.null(y2ScaleArgs$name)) {
       secAxis$name <- plotObject@labels$y2
       plotObject@labels$y2 <- NULL
     }
@@ -483,17 +483,17 @@ plotTimeProfile <- function(data = NULL, # nolint
 
   # check for timeUnit scaling
   myMappedData <- simMappedData %||% obsMappedData
-  xscale.args <- myMappedData$updateScaleArgumentsForTimeUnit(
-    scale.args = xscale.args,
+  xScaleArgs <- myMappedData$updateScaleArgumentsForTimeUnit(
+    scaleArgs = xScaleArgs,
     scaleDirection = "x"
   )
 
   plotObject <- addXYScale(
     plotObject = plotObject,
-    xscale = xscale,
-    xscale.args = xscale.args,
-    yscale = yscale,
-    yscale.args = yscale.args,
+    xScale = xScale,
+    xScaleArgs = xScaleArgs,
+    yScale = yScale,
+    yScaleArgs = yScaleArgs,
     secAxis = secAxis
   )
 

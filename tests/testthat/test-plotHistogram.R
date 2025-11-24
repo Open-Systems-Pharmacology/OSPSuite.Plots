@@ -120,7 +120,7 @@ test_that("plot histogram works for absolute distribution fit on logscale", {
         fill = Sex,
       ),
       metaData = metaDataDistr,
-      xscale = AxisScales$log,
+      xScale = AxisScales$log,
       distribution = "norm",
       meanFunction = "median"
     )

@@ -41,7 +41,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
     #' @param isObserved A `boolean` if TRUE mappings mdv, lloq are evaluated
-    #' @param xscale = scale of x-axis
+    #' @param xScale = scale of x-axis
     #' @param scaleOfPrimaryAxis  scale of direction, either "linear" or "log"
     #' @param scaleOfSecondaryAxis either 'linear' or 'log'
     #' @param xlimits limits for x-axis (may be NULL)
@@ -58,7 +58,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
                           isObserved = TRUE,
                           xlimits = NULL,
                           ylimits = NULL,
-                          xscale = AxisScales$linear,
+                          xScale = AxisScales$linear,
                           scaleOfPrimaryAxis = AxisScales$linear,
                           scaleOfSecondaryAxis = AxisScales$linear,
                           y2limits = NULL) {
@@ -71,8 +71,8 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         isObserved = isObserved,
         xlimits = NULL,
         ylimits = NULL,
-        xscale = xscale,
-        yscale = scaleOfPrimaryAxis
+        xScale = xScale,
+        yScale = scaleOfPrimaryAxis
       )
 
       checkmate::assertChoice(scaleOfPrimaryAxis, choices = c(AxisScales$linear, AxisScales$log))
@@ -132,14 +132,14 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     #' with different scale types (linear/log combinations).
     #' @param ylimits limits for primary axis (may be NULL)
     #' @param y2limits limits for secondary axis (may be NULL)
-    #' @param y2scale.args arguments for secondary axis
+    #' @param y2ScaleArgs arguments for secondary axis
     #'
     #' @return updated MappedDataTimeProfile
     scaleDataForSecondaryAxis = function(ylimits = NULL,
                                          y2limits = NULL,
-                                         y2scale.args = list()) {
+                                         y2ScaleArgs = list()) {
       # Validate input parameters
-      checkmate::assertList(y2scale.args, null.ok = TRUE)
+      checkmate::assertList(y2ScaleArgs, null.ok = TRUE)
 
       if (!self$requireDualAxis) {
         private$dataScaled <- self$data
@@ -270,16 +270,16 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
       )
 
       # set scale
-      y2scale.args[["transform"]] <- funScaleAxis
+      y2ScaleArgs[["transform"]] <- funScaleAxis
       if (private$scaleOfSecondaryAxis == AxisScales$log) {
-        y2scale.args[["breaks"]] <- scales::breaks_log(5, base = 10)(self$y2limits)
+        y2ScaleArgs[["breaks"]] <- scales::breaks_log(5, base = 10)(self$y2limits)
       } else if (private$scaleOfSecondaryAxis == AxisScales$linear) {
-        y2scale.args[["breaks"]] <- scales::breaks_extended()(self$y2limits)
+        y2ScaleArgs[["breaks"]] <- scales::breaks_extended()(self$y2limits)
       }
-      y2scale.args$limits <- NULL
+      y2ScaleArgs$limits <- NULL
       private$.secAxis <- do.call(
         what = sec_axis,
-        args = y2scale.args
+        args = y2ScaleArgs
       )
 
 

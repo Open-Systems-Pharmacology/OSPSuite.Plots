@@ -49,8 +49,8 @@ reference:
     desc: "initialize plot or add to existing plots"
     contents:
       - matches("initializePlot")
-      - matches("addXscale")
-      - matches("addYscale")
+      - matches("addXScale")
+      - matches("addYScale")
       - matches("addLLOQLayer")
       - matches("addXYScale")
   - title: "Watermark"

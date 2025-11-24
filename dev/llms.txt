@@ -1,0 +1,280 @@
+# ospsuite.plots: Graphics and tables for graphics for OSP
+
+The
+[ospsuite.plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/)
+package provides a framework to create figures and dependent tables
+which are used by R packages in the Open Systems Pharmacology ecosystem:
+
+- [`{ospsuite}`](https://www.open-systems-pharmacology.org/OSPSuite-R/)
+- [`{ospsuite.reportingframework}`](https://www.open-systems-pharmacology.org/OSPSuite.ReportingFramework/)
+
+This is the beta release of the
+[ospsuite.plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/).
+We welcome your feedback as we refine its features and performance.
+
+## Installation
+
+You can install the development version of
+[ospsuite.plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/)
+from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("Open-Systems-Pharmacology/ospsuite.plots")
+```
+
+[ospsuite.plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/)
+requires following packages to be installed:
+
+From CRAN:
+
+- [ggplot2](https://cran.r-project.org/package=ggplot2/index.html)
+- [ggh4x](https://cran.r-project.org/package=ggh4x/index.html)
+- [cowplot](https://cran.r-project.org/package=cowplot/index.html)
+- [data.table](https://cran.r-project.org/package=data.table/index.html)
+- [ggnewscale](https://cran.r-project.org/package=ggnewscale/index.html)
+- [checkmate](https://cran.r-project.org/package=checkmate/index.html)
+- [dplyr](https://cran.r-project.org/package=checkmate/index.html)
+- [magrittr](https://cran.r-project.org/package=magrittr/index.html)
+- [fitdistrplus](https://cran.r-project.org/package=magrittr/index.html)
+- [tidyr](https://cran.r-project.org/package=tidyr/index.html)
+- [fs](https://cran.r-project.org/package=fs/index.html)
+
+Must be downloaded manually:
+
+- [ospsuite.utils](https://github.com/Open-Systems-Pharmacology/OSPSuite.RUtils/releases/download/v1.3.17/ospsuite.utils_1.3.17.zip)
+
+To install manually, follow these instructions:
+
+``` r
+# Install `{ospsuite.utils}` from local file 
+# (`pathTo_ospsuite.utils.zip` here should be replaced with the actual path to the `.zip` file)
+install.packages(pathTo_ospsuite.utils.zip, repos = NULL)
+
+
+# Install dependencies (e.g. ggplot2) which are on CRAN
+install.packages('ggplot2')
+install.packages('ggh4x')
+install.packages('data.table')
+install.packages('ggnewscale')
+install.packages('checkmate')
+install.packages('dplyr')
+install.packages('magrittr')
+install.packages('fitdistrplus')
+install.packages('tidyr')
+install.packages('fs')
+```
+
+## Code of conduct
+
+Everyone interacting in the Open Systems Pharmacology community
+(codebases, issue trackers, chat rooms, mailing lists etc.) is expected
+to follow the Open Systems Pharmacology [code of
+conduct](https://github.com/Open-Systems-Pharmacology/Suite/blob/master/CODE_OF_CONDUCT.md).
+
+## Contribution
+
+We encourage contribution to the Open Systems Pharmacology community.
+Before getting started please read the [contribution
+guidelines](https://github.com/Open-Systems-Pharmacology/Suite/blob/master/CONTRIBUTING.md).
+If you are contributing code, please be familiar with the [coding
+standards](https://github.com/Open-Systems-Pharmacology/Suite/blob/master/CODING_STANDARDS_R.md).
+
+## License
+
+OSPSuite.Plots Library is released under the [GPLv2
+License](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/LICENSE).
+
+All trademarks within this document belong to their legitimate owners.
+
+# Package index
+
+## Plot Functions
+
+Functions for creating plots
+
+- [`plotBoxWhisker()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotBoxWhisker.md)
+  : Generate Box-Whisker Plots
+- [`plotForest()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotForest.md)
+  : Create a Forest Plot
+- [`plotHistogram()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotHistogram.md)
+  : Generates Histograms
+- [`plotPredVsObs()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotPredVsObs.md)
+  : Generate Predicted vs Observed Plots
+- [`plotQQ()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotQQ.md)
+  : generates residual quantile quantile plot
+- [`plotRangeDistribution()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotRangeDistribution.md)
+  : Plot Range Plot
+- [`plotRatioVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotRatioVsCov.md)
+  : Generate Plots of Ratios vs Covariate
+- [`plotResVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotResVsCov.md)
+  : Generate Residual Plots vs Covariate
+- [`plotTimeProfile()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotTimeProfile.md)
+  : generate time profile plots
+- [`plotYVsX()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotYVsX.md)
+  : Base Plot for Residuals and Predictions vs Covariates
+
+## Update/initialize plots
+
+initialize plot or add to existing plots
+
+- [`initializePlot()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/initializePlot.md)
+  : Initialize Plot
+- [`addXscale()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addXscale.md)
+  : add X-scale
+- [`addYscale()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addYscale.md)
+  : add y-scale
+- [`addLLOQLayer()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addLLOQLayer.md)
+  : Add LLOQ Layer with LLOQ Lines
+- [`addXYScale()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addXYScale.md)
+  : Add X and Y Scale
+
+## Watermark
+
+Functions to set watermark
+
+- [`addWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addWatermark.md)
+  : Add a watermark to a ggplot object
+- [`ggplotWithWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/ggplotWithWatermark.md)
+  : Create a ggplot with an optional watermark
+- [`plot(`*`<ggWatermark>`*`)`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plot.ggWatermark.md)
+  : Create plot function for ggWatermark.
+- [`print(`*`<ggWatermark>`*`)`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/print.ggWatermark.md)
+  : Print method for ggWatermark objects
+
+## Plot export
+
+Functions to export plot
+
+- [`exportPlot()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/exportPlot.md)
+  : Export a ggplot object to a file
+
+## Default settings
+
+Functions to set and reset Settings for plot layout
+
+- [`Shapes`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/Shapes.md)
+  : Shapes
+
+- [`colorMaps`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/colorMaps.md)
+  : Color maps
+
+- [`geomPointUnicode()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geomPointUnicode.md)
+  : layer to point unicode as shapes
+
+- [`getDefaultGeomAttributes()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/getDefaultGeomAttributes.md)
+  :
+
+  get the defaults for the geom attributes used as defaults in plot
+  functions see `vignette("ospsuite.plots", package = "ospsuite.plots")`
+  how to change defaults
+
+- [`getDefaultOptions()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/getDefaultOptions.md)
+  : get list of default options
+
+- [`getOspsuite.plots.option()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/getOspsuite.plots.option.md)
+  : returns an option value for a option defined by the package
+  OSPSuite.plots
+
+- [`resetDefaultColorMapDistinct()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaultColorMapDistinct.md)
+  : reset the default color map for discrete colors
+
+- [`resetDefaultShapeDiscrete()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaultShapeDiscrete.md)
+  : resets the scale for discrete shapes to ggplot default
+
+- [`resetDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaultTheme.md)
+  : reset the default theme
+
+- [`resetDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaults.md)
+  : restore to previously stored settings
+
+- [`setDefaultColorMapDistinct()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultColorMapDistinct.md)
+  : set the default color-map for discrete colors
+
+- [`setDefaultShapeDiscrete()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultShapeDiscrete.md)
+  : set the default shapes
+
+- [`setDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultTheme.md)
+  : set the default theme
+
+- [`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.md)
+  : sets the defaults for the OSPSuite.plots package
+
+- [`setOspsuite.plots.option()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setOspsuite.plots.option.md)
+  : Set OSPSuite plots option with a given key and value.
+
+## DataMapping Classes
+
+Classes combining data and Mapping
+
+- [`MappedData`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.md)
+  : MappedData
+- [`MappedDataBoxplot`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedDataBoxplot.md)
+  : MappedDataBoxplot
+- [`MappedDataRangeDistribution`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedDataRangeDistribution.md)
+  : object to map data for rangeplots
+- [`MappedDataTimeProfile`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedDataTimeProfile.md)
+  : MappedDataTimeProfile
+
+## Constants
+
+Enumeration constants for OSPSuite.plots options and scaling.
+
+- [`AxisScales`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/AxisScales.md)
+  : enumeration keys for OSPSuite.plots scaling options for axis
+  scalings
+- [`OptionKeys`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/OptionKeys.md)
+  : enumeration keys for OSPSuite.plots options
+- [`ResidualScales`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/ResidualScales.md)
+  : enumeration keys for OSPSuite.plots scaling options for residual
+  calculations
+- [`BINNINGMODE`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/BINNINGMODE.md)
+  : enumeration keys for mode of Binning
+
+## Data
+
+Data used within the vignette examples
+
+- [`exampleDataCovariates`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/exampleDataCovariates.md)
+  : Example Covariates Data
+- [`exampleDataTimeProfile`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/exampleDataTimeProfile.md)
+  : Example Time Profile Data
+
+## auxiliary functions
+
+Classes combining data and Mapping
+
+- [`metaData2DataFrame()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/metaData2DataFrame.md)
+  : converts metaData List to a data frame row names specify properties
+- [`CombinedPlot`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/CombinedPlot.md)
+  : CombinedPlot
+- [`constructLabelWithUnit()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/constructLabelWithUnit.md)
+  : Construct a Label with Unit
+- [`getFoldDistanceList()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/getFoldDistanceList.md)
+  : creates a list with fold Distances
+- [`updateScaleArgumentsForTimeUnit()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/updateScaleArgumentsForTimeUnit.md)
+  : adjust arguments for scale if dimension of scale is time
+
+# Articles
+
+### Overview
+
+Overview
+
+- [Overview](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/ospsuite-plots.md):
+
+### Plotting functions
+
+Details about plot functions
+
+- [Time Profile
+  Plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/plot-time-profile.md):
+- [Box-Whisker
+  Plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/box-whisker-plots.md):
+- [Histogram
+  Plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/histogram.md):
+- [Goodness of
+  fit](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/goodness-of-fit.md):
+- [Forestplots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/forest-plots.md):
+- [Range Plot
+  Visualization](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/articles/range-plot-visualization.md):

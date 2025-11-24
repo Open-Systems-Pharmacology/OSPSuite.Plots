@@ -11,6 +11,7 @@ linters: linters = linters_with_defaults(
     vector_logic_linter = NULL,
     indentation_linter = NULL,
     unreachable_code_linter = unreachable_code_linter(),
+    return_linter = NULL,
     object_name_linter(styles = c("camelCase", "symbols","dotted.case"))  # allow dotted case as it i very common in ggplot2
   )
 exclusions: list(

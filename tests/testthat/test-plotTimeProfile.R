@@ -237,7 +237,7 @@ test_that("plotTimeProfile works secondary axis", {
   fig <- plotTimeProfile(
     data = simData,
     observedData = obsData,
-    mapping <- aes(
+    mapping = aes(
       x = time,
       y = values,
       error_relative = error_relative,
@@ -264,6 +264,36 @@ test_that("plotTimeProfile works secondary axis", {
     fig = fig
   )
 
+  fig <- plotTimeProfile(
+    data = simData,
+    observedData = obsData |>
+      dplyr::filter(dimension != "fraction"),
+    mapping = aes(
+      x = time,
+      y = values,
+      error_relative = error_relative,
+      lloq = lloq,
+      shape = caption,
+      y2axis = (dimension == "fraction"),
+      groupby = dimension
+    ),
+    metaData = metaData,
+    yscale = AxisScales$log,
+    yscale.args = list(limits = c(0.01, NA)),
+    y2scale = AxisScales$linear,
+    y2scale.args = list(limits = c(0, 1.1)),
+    groupAesthetics = c("color", "fill")
+  ) +
+    theme(
+      axis.title.y.right = element_text(angle = 90),
+      legend.position = "top"
+    ) +
+    guides(shape = guide_legend(order = 2))
+
+  vdiffr::expect_doppelganger(
+    title = "secAxis linLog only simulation",
+    fig = fig
+  )
 
   metaData <- list(
     time = list(

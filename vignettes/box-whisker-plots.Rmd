@@ -308,7 +308,7 @@ plot(plotObject)
 # Make sure to add all relevant aesthetics to "by" columns
 dt <- plotObject$data |>
   data.table::setDT() |>
-  .[, as.list(plotObject$statFun(Age)), by = c("Country", "Sex")]
+  (\(x) x[, as.list(plotObject$statFun(Age)), by = c("Country", "Sex")])()
 
 knitr::kable(dt)
 ```
@@ -385,7 +385,7 @@ plotObject <- plotBoxWhisker(
 # Make sure to add all relevant aesthetics to "by" columns
 dt <- plotObject$data |>
   data.table::setDT() |>
-  .[, .(outliers = plotObject$statFunOutlier(Ratio)), by = c("Country", "Sex")]
+  (\(x) x[, .(outliers = plotObject$statFunOutlier(Ratio)), by = c("Country", "Sex")])()
 
 knitr::kable(dt)
 ```

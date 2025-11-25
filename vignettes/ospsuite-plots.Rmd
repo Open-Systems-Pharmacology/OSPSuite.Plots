@@ -275,7 +275,7 @@ df <- rbind(
   data.frame(defaultOption = "GuestLine", inputVariable = c("geomGuestLineAttributes"), functions = c("plotResVsCov()", "plotRatioVsCov()", "plotPredVsObs()"))
 ) |>
   data.table::setDT() |>
-  .[, .(inputVariable = paste(inputVariable, collapse = ", ")), by = c("defaultOption", "functions")] |>
+  (\(x) x[, .(inputVariable = paste(inputVariable, collapse = ", ")), by = c("defaultOption", "functions")])() |>
   tidyr::pivot_wider(names_from = defaultOption, values_from = inputVariable, values_fill = " ")
 
 knitr::kable(df, align = "c", caption = "Usage of options for geom attributes")

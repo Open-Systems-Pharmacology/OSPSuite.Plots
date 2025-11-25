@@ -54,7 +54,7 @@ test_that("plotWhisker works", {
 
   dt <- plotObject$data |>
     data.table::setDT() |>
-    .[, as.list(plotObject$statFun(Age)), by = c("Country", "Sex")]
+    (\(x) x[, as.list(plotObject$statFun(Age)), by = c("Country", "Sex")])()
   expect_true(nrow(dt) == 4)
   expect_equal(dt$N, c(19, 6, 15, 10))
 

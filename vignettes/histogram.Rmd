@@ -331,14 +331,14 @@ plotHistogram(
 
 ### 3.6 X-Axis on Log Scale for Distribution Fit
 
-As the fit is based on binning, and binning is dependent on scale, a log scale has to be set before the distribution fit. Please use the variable `xscale = 'log'` and do not add a `{ggplot}` like `scale_x_log10`.
+As the fit is based on binning, and binning is dependent on scale, a log scale has to be set before the distribution fit. Please use the variable `xScale = 'log'` and do not add a `{ggplot}` like `scale_x_log10`.
 
 ```{r example-logscale, fig.alt="Histogram with logarithmic x-axis scale and normal distribution fit. The log-scaled histogram shows observed values by sex with distribution fitting applied after log transformation. No mean line is displayed due to meanFunction = 'none' setting."}
 plotHistogram(
   data = histDataDistr,
   mapping = aes(x = Obs, fill = Sex),
   metaData = metaDataDistr,
-  xscale = "log",
+  xScale = "log",
   distribution = "norm",
   meanFunction = "none"
 ) + labs(tag = "A")

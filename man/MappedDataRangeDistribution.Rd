@@ -19,7 +19,7 @@ Other MappedData classes:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{xscale}}{scale of x axis}
+\item{\code{xScale}}{scale of x axis}
 }
 \if{html}{\out{</div>}}
 }
@@ -63,8 +63,8 @@ Create a new \code{MappedDataRangeDistribution} object
   isObserved = TRUE,
   xlimits = NULL,
   ylimits = NULL,
-  xscale = "linear",
-  yscale = "linear",
+  xScale = "linear",
+  yScale = "linear",
   residualScale = NULL,
   residualAesthetic = "y",
   modeOfBinning = NA,
@@ -90,9 +90,9 @@ Create a new \code{MappedDataRangeDistribution} object
 
 \item{\code{ylimits}}{limits for y-axis (may be NULL)}
 
-\item{\code{xscale}}{scale of x-axis either 'linear' or 'log'}
+\item{\code{xScale}}{scale of x-axis either 'linear' or 'log'}
 
-\item{\code{yscale}}{scale of y-axis either 'linear' or 'log'}
+\item{\code{yScale}}{scale of y-axis either 'linear' or 'log'}
 
 \item{\code{residualScale}}{scale of x residuals}
 

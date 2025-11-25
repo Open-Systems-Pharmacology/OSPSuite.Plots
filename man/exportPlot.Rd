@@ -60,7 +60,8 @@ For more details and examples see the vignettes:
 \examples{
 \dontrun{
 # Basic usage
-p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point()
 exportPlot(
   plotObject = p,
   filepath = tempdir(),

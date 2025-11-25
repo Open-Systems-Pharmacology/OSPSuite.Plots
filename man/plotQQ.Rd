@@ -8,9 +8,9 @@ plotQQ(
   data,
   mapping,
   metaData = NULL,
-  xscale.args = list(),
+  xScaleArgs = list(),
   residualScale = ResidualScales$log,
-  yscale.args = list(),
+  yScaleArgs = list(),
   geomQQAttributes = list(),
   geomQQLineAttributes = geomQQAttributes,
   groupAesthetics = c("colour", "fill", "shape")
@@ -25,13 +25,13 @@ see vignettes for more details and examples}
 
 \item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
 
-\item{xscale.args}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
+\item{xScaleArgs}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
 
 \item{residualScale}{Either \code{"linear"} or \code{"log"} for scaling residuals.
 For linear: residuals = observed - predicted. For log: residuals = log(observed) - log(predicted).
 The y-axis scale remains linear in both cases.}
 
-\item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
+\item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
 \item{geomQQAttributes}{A list of arguments passed to \code{ggplot2::stat_qq()}.}
 

@@ -172,31 +172,31 @@ addLLOQLayer <-
 #' Add X and Y scales to a `ggplot` object.
 #'
 #' @param plotObject A `ggplot` object on which to add the scale.
-#' @param xscale The x-axis scale type. Available is 'linear', 'log', 'discrete'
-#' @param xscale.args A list of arguments for the x-axis scale.
-#' @param yscale The y-axis scale type. Available is 'linear', 'log'
-#' @param yscale.args A list of arguments for the y-axis scale.
+#' @param xScale The x-axis scale type. Available is 'linear', 'log', 'discrete'
+#' @param xScaleArgs A list of arguments for the x-axis scale.
+#' @param yScale The y-axis scale type. Available is 'linear', 'log'
+#' @param yScaleArgs A list of arguments for the y-axis scale.
 #' @param secAxis Secondary axis arguments for scale_y functions.
 #'
 #' @return The updated `ggplot` object.
 #' @export
 addXYScale <- function(plotObject,
-                       xscale = NULL,
-                       xscale.args = list(),
-                       yscale = NULL,
-                       yscale.args = list(),
+                       xScale = NULL,
+                       xScaleArgs = list(),
+                       yScale = NULL,
+                       yScaleArgs = list(),
                        secAxis = waiver()) {
-  if (!is.null(xscale)) {
-    plotObject <- addXscale(plotObject,
-      xscale = xscale,
-      xscale.args = xscale.args
+  if (!is.null(xScale)) {
+    plotObject <- addXScale(plotObject,
+      xScale = xScale,
+      xScaleArgs = xScaleArgs
     )
   }
 
-  if (!is.null(yscale)) {
-    plotObject <- addYscale(plotObject,
-      yscale = yscale,
-      yscale.args = yscale.args,
+  if (!is.null(yScale)) {
+    plotObject <- addYScale(plotObject,
+      yScale = yScale,
+      yScaleArgs = yScaleArgs,
       secAxis = secAxis
     )
   }
@@ -209,28 +209,28 @@ addXYScale <- function(plotObject,
 #'
 #' @return The updated `ggplot` object
 #' @export
-addXscale <- function(plotObject,
-                      xscale,
-                      xscale.args = list()) {
-  checkmate::assertChoice(xscale, choices = unlist(AxisScales), null.ok = TRUE)
+addXScale <- function(plotObject,
+                      xScale,
+                      xScaleArgs = list()) {
+  checkmate::assertChoice(xScale, choices = unlist(AxisScales), null.ok = TRUE)
 
-  if (xscale == AxisScales$discrete) {
+  if (xScale == AxisScales$discrete) {
     scaleFunction <- scale_x_discrete
   } else {
     scaleFunction <- scale_x_continuous
   }
 
-  if (xscale == AxisScales$log) {
-    xscale.args[["transform"]] <- "log10"
-    if (is.null(xscale.args$guide)) {
-      xscale.args[["guide"]] <- "axis_logticks"
+  if (xScale == AxisScales$log) {
+    xScaleArgs[["transform"]] <- "log10"
+    if (is.null(xScaleArgs$guide)) {
+      xScaleArgs[["guide"]] <- "axis_logticks"
     }
   }
 
   plotObject <- plotObject +
     do.call(
       what = scaleFunction,
-      args = xscale.args
+      args = xScaleArgs
     )
 
   return(plotObject)
@@ -241,16 +241,16 @@ addXscale <- function(plotObject,
 #'
 #' @return The updated `ggplot` object
 #' @export
-addYscale <- function(plotObject,
-                      yscale,
-                      yscale.args = list(),
+addYScale <- function(plotObject,
+                      yScale,
+                      yScaleArgs = list(),
                       secAxis = waiver()) {
-  checkmate::assertChoice(yscale, choices = unlist(AxisScales[c("linear", "log")]), null.ok = TRUE)
+  checkmate::assertChoice(yScale, choices = unlist(AxisScales[c("linear", "log")]), null.ok = TRUE)
 
-  if (yscale == AxisScales$log) {
-    yscale.args[["transform"]] <- "log10"
-    if (is.null(yscale.args$guide)) {
-      yscale.args[["guide"]] <- "axis_logticks"
+  if (yScale == AxisScales$log) {
+    yScaleArgs[["transform"]] <- "log10"
+    if (is.null(yScaleArgs$guide)) {
+      yScaleArgs[["guide"]] <- "axis_logticks"
     }
   }
 
@@ -258,7 +258,7 @@ addYscale <- function(plotObject,
     do.call(
       what = scale_y_continuous,
       args = c(
-        yscale.args,
+        yScaleArgs,
         list(sec.axis = secAxis)
       )
     )

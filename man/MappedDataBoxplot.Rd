@@ -14,14 +14,14 @@ including handling of discrete and continuous x-axis scales and automatic groupi
 boxplotData <- MappedDataBoxplot$new(
   data = myDataFrame,
   mapping = aes(x = dose, y = concentration),
-  xscale = "linear"
+  xScale = "linear"
 )
 
 # Create boxplot mapping with categorical x variable
 boxplotData <- MappedDataBoxplot$new(
   data = myDataFrame,
   mapping = aes(x = treatment_group, y = response),
-  xscale = "discrete"
+  xScale = "discrete"
 )
 }
 }
@@ -38,9 +38,9 @@ Other MappedData classes:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{xscale}}{scale of x axis}
+\item{\code{xScale}}{scale of x axis}
 
-\item{\code{xscale.args}}{arguments for scale of x axis}
+\item{\code{xScaleArgs}}{arguments for scale of x axis}
 
 \item{\code{hasXmapping}}{boolean, if TRUE x is mapped}
 }
@@ -84,8 +84,8 @@ Create a new \code{MappedDataBoxplot} object
   isObserved = TRUE,
   xlimits = NULL,
   ylimits = NULL,
-  xscale = AxisScales$linear,
-  yscale = AxisScales$linear,
+  xScale = AxisScales$linear,
+  yScale = AxisScales$linear,
   residualScale = NULL,
   residualAesthetic = "y"
 )}\if{html}{\out{</div>}}
@@ -108,9 +108,9 @@ Create a new \code{MappedDataBoxplot} object
 
 \item{\code{ylimits}}{limits for y-axis (may be NULL)}
 
-\item{\code{xscale}}{scale of x-axis either 'linear' or 'log'}
+\item{\code{xScale}}{scale of x-axis either 'linear' or 'log'}
 
-\item{\code{yscale}}{scale of y-axis either 'linear' or 'log'}
+\item{\code{yScale}}{scale of y-axis either 'linear' or 'log'}
 
 \item{\code{residualScale}}{scale of x residuals}
 
@@ -130,8 +130,8 @@ use Metadata to adjust binning of x-axis, and group aesthetic
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MappedDataBoxplot$doAdjustmentsWithMetaData(
   originalmapping,
-  xscale,
-  xscale.args
+  xScale,
+  xScaleArgs
 )}\if{html}{\out{</div>}}
 }
 
@@ -140,9 +140,9 @@ use Metadata to adjust binning of x-axis, and group aesthetic
 \describe{
 \item{\code{originalmapping}}{mapping provided by user}
 
-\item{\code{xscale}}{either 'linear','log', 'discrete' or 'auto' (default) auto select linear for continuous data and discrete for categorical data}
+\item{\code{xScale}}{either 'linear','log', 'discrete' or 'auto' (default) auto select linear for continuous data and discrete for categorical data}
 
-\item{\code{xscale.args}}{list of arguments passed to \code{ggplot2::scale_x_continuous()}, \code{ggplot2::scale_x_log10()} or
+\item{\code{xScaleArgs}}{list of arguments passed to \code{ggplot2::scale_x_continuous()}, \code{ggplot2::scale_x_log10()} or
 \code{ggplot2::scale_x_discrete()}}
 }
 \if{html}{\out{</div>}}

@@ -8,11 +8,11 @@
   simMappedData,
   obsMappedData,
   plotObject,
-  xscale,
-  xscale.args,
-  yscale,
-  yscale.args,
-  y2scale.args,
+  xScale,
+  xScaleArgs,
+  yScale,
+  yScaleArgs,
+  y2ScaleArgs,
   secAxis
 )
 }
@@ -23,15 +23,15 @@
 
 \item{plotObject}{An optional \code{ggplot} object on which to add the plot layers}
 
-\item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
+\item{xScale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
 
-\item{xscale.args}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
+\item{xScaleArgs}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
 
-\item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
+\item{yScale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
-\item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
+\item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{y2scale.args}{list of arguments passed to \code{ggplot2::sec_axis()}, trans, break are set by code}
+\item{y2ScaleArgs}{list of arguments passed to \code{ggplot2::sec_axis()}, trans, break are set by code}
 }
 \value{
 plot object

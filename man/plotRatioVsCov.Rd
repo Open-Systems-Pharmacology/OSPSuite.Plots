@@ -8,8 +8,8 @@ plotRatioVsCov(
   data = NULL,
   mapping = NULL,
   addGuestLimits = FALSE,
-  yscale = AxisScales$log,
-  xscale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
+  yScale = AxisScales$log,
+  xScale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
   comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
   deltaGuest = 1,
   ...
@@ -22,9 +22,9 @@ plotRatioVsCov(
 
 \item{addGuestLimits}{A boolean that activates the insertion of guest limits.}
 
-\item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
+\item{yScale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
-\item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
+\item{xScale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
 
 \item{comparisonLineVector}{A vector defining the comparison lines.}
 
@@ -48,8 +48,8 @@ and proportions within comparison lines. Common grouping aesthetics include \cod
     \item{\code{geomPointAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
     \item{\code{geomErrorbarAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
     \item{\code{geomLLOQAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
-    \item{\code{xscale.args}}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
-    \item{\code{yscale.args}}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
+    \item{\code{xScaleArgs}}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
+    \item{\code{yScaleArgs}}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
   }}
 }
 \value{

@@ -18,7 +18,7 @@
 #'   This means that the breaks will be spaced far enough apart to be meaningful without overcrowding
 #'   the axis, providing clarity in the visualization.
 #'
-#' @param scale.args list of arguments for scale to be updated, passed to scale_x_continuous or scale_x_log10
+#' @param scaleArgs list of arguments for scale to be updated, passed to scale_x_continuous or scale_x_log10
 #' @param dimension  dimension of axis, if not 'time' list will not be updated
 #' @param unit A named list of information about the `data` such as the `dimension` and `unit` of its variables.
 #'
@@ -27,23 +27,23 @@
 #' @export
 #'
 #' @examples
-#' xscale.args <- list(limits = c(0, 24))
-#' xscale.args <-
+#' xScaleArgs <- list(limits = c(0, 24))
+#' xScaleArgs <-
 #'   updateScaleArgumentsForTimeUnit(
-#'     scale.args = xscale.args,
+#'     scaleArgs = xScaleArgs,
 #'     dimension = "time",
 #'     unit = "h"
 #'   )
-#' addXscale(plotObject = ggplot(), xscale = "linear", xscale.args = xscale.args)
-updateScaleArgumentsForTimeUnit <- function(scale.args,
+#' addXScale(plotObject = ggplot(), xScale = "linear", xScaleArgs = xScaleArgs)
+updateScaleArgumentsForTimeUnit <- function(scaleArgs,
                                             dimension,
                                             unit) {
   ## Validation
-  checkmate::assertList(scale.args, null.ok = TRUE)
+  checkmate::assertList(scaleArgs, null.ok = TRUE)
 
   # check if anything to do
-  if (any(c("breaks", "labels") %in% names(scale.args))) {
-    return(scale.args)
+  if (any(c("breaks", "labels") %in% names(scaleArgs))) {
+    return(scaleArgs)
   }
 
   checkmate::assertCharacter(dimension, max.len = 1, null.ok = TRUE)
@@ -51,13 +51,13 @@ updateScaleArgumentsForTimeUnit <- function(scale.args,
 
 
   if (is.null(dimension) | is.null(unit)) {
-    return(scale.args)
+    return(scaleArgs)
   }
 
 
   # if x has no time Unit return
   if (tolower(dimension) != "time") {
-    return(scale.args)
+    return(scaleArgs)
   }
 
 
@@ -74,7 +74,7 @@ updateScaleArgumentsForTimeUnit <- function(scale.args,
     }
   }
 
-  scale.args$breaks <- switch(tolower(unit),
+  scaleArgs$breaks <- switch(tolower(unit),
     "s" = timeBreaks(15),
     "min" = timeBreaks(15),
     "h" = timeBreaks(6),
@@ -85,10 +85,10 @@ updateScaleArgumentsForTimeUnit <- function(scale.args,
 
 
   # use minor steps 1
-  scale.args$minor_breaks <- scales::breaks_width(1)
+  scaleArgs$minor_breaks <- scales::breaks_width(1)
 
 
-  return(scale.args)
+  return(scaleArgs)
 }
 
 

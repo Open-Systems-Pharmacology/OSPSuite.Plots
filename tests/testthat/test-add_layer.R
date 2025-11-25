@@ -5,8 +5,8 @@ simData1 <- exampleDataTimeProfile |>
 
 mappedData <- MappedData$new(
   data = simData1,
-  xscale = AxisScales$linear,
-  yscale = AxisScales$linear,
+  xScale = AxisScales$linear,
+  yScale = AxisScales$linear,
   mapping = aes(
     x = time,
     y = values,
@@ -22,8 +22,8 @@ obsData <- exampleDataTimeProfile |>
 
 mappedDataLLOQ <- MappedData$new(
   data = obsData,
-  xscale = AxisScales$linear,
-  yscale = AxisScales$linear,
+  xScale = AxisScales$linear,
+  yScale = AxisScales$linear,
   mapping = aes(
     x = time,
     y = values,
@@ -69,29 +69,29 @@ test_that("addLLOQLayer adds LLOQ lines to the ggplot object", {
 test_that("addXYScale adds scales to the ggplot object", {
   plotObject <- ggplot(mtcars, aes(mpg, wt)) +
     geom_point()
-  updatedPlot <- addXYScale(plotObject, xscale = "linear", yscale = "log")
+  updatedPlot <- addXYScale(plotObject, xScale = "linear", yScale = "log")
   expect_no_error(print(updatedPlot))
   expect_false(is.null(updatedPlot@scales$get_scales("x")))
   expect_false(is.null(updatedPlot@scales$get_scales("y")))
 })
 
-# Test for addXscale
-test_that("addXscale adds x-scale to the ggplot object", {
+# Test for addXScale
+test_that("addXScale adds x-scale to the ggplot object", {
   plotObject <- ggplot(mtcars, aes(mpg, wt)) +
     geom_point()
-  updatedPlot <- addXscale(plotObject, xscale = "log", xscale.args = list(breaks = c(10, 15, 20, 30)))
+  updatedPlot <- addXScale(plotObject, xScale = "log", xScaleArgs = list(breaks = c(10, 15, 20, 30)))
   expect_no_error(print(updatedPlot))
   expect_false(is.null(updatedPlot@scales$get_scales("x")))
   expect_true(is.null(updatedPlot@scales$get_scales("y")))
 })
 
-# Test for addYscale
-test_that("addYscale adds y-scale to the ggplot object", {
+# Test for addYScale
+test_that("addYScale adds y-scale to the ggplot object", {
   plotObject <- ggplot(mtcars, aes(mpg, wt)) +
     geom_point()
-  updatedPlot <- addYscale(plotObject,
-    yscale = "log",
-    yscale.args = list(limits = c(1, 10)),
+  updatedPlot <- addYScale(plotObject,
+    yScale = "log",
+    yScaleArgs = list(limits = c(1, 10)),
     secAxis = sec_axis(~ . * 2, name = "Secondary Axis")
   )
   expect_no_error(print(updatedPlot))

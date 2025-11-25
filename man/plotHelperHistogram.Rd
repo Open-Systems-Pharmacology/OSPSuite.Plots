@@ -48,7 +48,7 @@ check if input is valid and returns function for vertical line}
 Create a new \code{MappedData} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{plotHelperHistogram$new(
-  xscale,
+  xScale,
   plotAsFrequency,
   asBarPlot,
   geomHistAttributes,
@@ -60,7 +60,7 @@ Create a new \code{MappedData} object
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{xscale}}{scale of x -axis}
+\item{\code{xScale}}{scale of x -axis}
 
 \item{\code{plotAsFrequency}}{A \code{boolean} to switch display of y to frequency}
 

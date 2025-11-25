@@ -9,6 +9,8 @@
 #' @import ggplot2
 #' @import data.table
 #' @import ospsuite.utils
+#' @importFrom R6 R6Class
+#' @importFrom fitdistrplus fitdist
 #' @importFrom data.table .BY
 #' @importFrom data.table .EACHI
 #' @importFrom data.table .GRP

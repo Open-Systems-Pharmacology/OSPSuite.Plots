@@ -67,7 +67,7 @@ test_that("plotTimeProfile works logscale", {
       ymax = maxValues,
       groupby = caption
     ),
-    yscale = AxisScales$log
+    yScale = AxisScales$log
   ) +
     theme(
       legend.position = "top",
@@ -155,8 +155,8 @@ test_that("plotTimeProfile works lloq", {
       groupby = caption,
       lloq = lloq
     ),
-    yscale = AxisScales$log,
-    yscale.args = list(limits = c(0.01, NA)),
+    yScale = AxisScales$log,
+    yScaleArgs = list(limits = c(0.01, NA)),
     geomLineAttributes = list(color = "black")
   ) +
     theme(
@@ -187,8 +187,8 @@ test_that("plotTimeProfile works lloq", {
       lloq = lloq
     ),
     groupAesthetics = c("color", "shape", "fill"),
-    yscale = AxisScales$log,
-    yscale.args = list(limits = c(0.01, NA)),
+    yScale = AxisScales$log,
+    yScaleArgs = list(limits = c(0.01, NA)),
     geomLineAttributes = list(color = "black")
   ) +
     theme(
@@ -247,10 +247,10 @@ test_that("plotTimeProfile works secondary axis", {
       groupby = dimension
     ),
     metaData = metaData,
-    yscale = AxisScales$log,
-    yscale.args = list(limits = c(0.01, NA)),
-    y2scale = AxisScales$linear,
-    y2scale.args = list(limits = c(0, 1.1)),
+    yScale = AxisScales$log,
+    yScaleArgs = list(limits = c(0.01, NA)),
+    y2Scale = AxisScales$linear,
+    y2ScaleArgs = list(limits = c(0, 1.1)),
     groupAesthetics = c("color", "fill")
   ) +
     theme(
@@ -278,10 +278,10 @@ test_that("plotTimeProfile works secondary axis", {
       groupby = dimension
     ),
     metaData = metaData,
-    yscale = AxisScales$log,
-    yscale.args = list(limits = c(0.01, NA)),
-    y2scale = AxisScales$linear,
-    y2scale.args = list(limits = c(0, 1.1)),
+    yScale = AxisScales$log,
+    yScaleArgs = list(limits = c(0.01, NA)),
+    y2Scale = AxisScales$linear,
+    y2ScaleArgs = list(limits = c(0, 1.1)),
     groupAesthetics = c("color", "fill")
   ) +
     theme(
@@ -324,10 +324,10 @@ test_that("plotTimeProfile works secondary axis", {
       linetype = dimension
     ),
     metaData = metaData,
-    y2scale = AxisScales$log,
-    y2scale.args = list(limits = c(0.01, NA)),
-    yscale = AxisScales$linear,
-    yscale.args = list(limits = c(0, 1)),
+    y2Scale = AxisScales$log,
+    y2ScaleArgs = list(limits = c(0.01, NA)),
+    yScale = AxisScales$linear,
+    yScaleArgs = list(limits = c(0, 1)),
   ) +
     theme(
       axis.title.y.right = element_text(angle = 90),
@@ -366,7 +366,7 @@ test_that("plotTimeProfile works with formula as aesthic", {
       y2axis = dose == 1,
       color = as.factor(dose)
     ),
-    yscale = AxisScales$log
+    yScale = AxisScales$log
   ))
 })
 ospsuite.plots::resetDefaults(oldDefaults)

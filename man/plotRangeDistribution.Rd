@@ -14,10 +14,10 @@ plotRangeDistribution(
   asStepPlot = FALSE,
   statFun = NULL,
   percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles)[c(1, 3, 5)],
-  yscale = "linear",
-  yscale.args = list(),
-  xscale = "linear",
-  xscale.args = list(),
+  yScale = "linear",
+  yScaleArgs = list(),
+  xScale = "linear",
+  xScaleArgs = list(),
   geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
   geomLineAttributes = getDefaultGeomAttributes("Line"),
   identifier = "IndividualId"
@@ -48,13 +48,13 @@ Default is \code{BINNINGMODE$number}.
 
 \item{percentiles}{A numeric vector of percentiles to be used in the statistical summary, which defines the range of values to be displayed on the plot. Default is the 5th, 50th, and 95th percentiles.}
 
-\item{yscale}{A character string specifying the y-axis scale. Options are "linear" or "log". This determines how the y values are displayed on the plot. Default is "linear".}
+\item{yScale}{A character string specifying the y-axis scale. Options are "linear" or "log". This determines how the y values are displayed on the plot. Default is "linear".}
 
-\item{yscale.args}{A list of additional arguments for the y-axis scale, which can be used to customize the appearance and behavior of the y-axis.}
+\item{yScaleArgs}{A list of additional arguments for the y-axis scale, which can be used to customize the appearance and behavior of the y-axis.}
 
-\item{xscale}{A character string specifying the x-axis scale. Options are "linear" or "log". This determines how the x values are displayed on the plot. Default is "linear".}
+\item{xScale}{A character string specifying the x-axis scale. Options are "linear" or "log". This determines how the x values are displayed on the plot. Default is "linear".}
 
-\item{xscale.args}{A list of additional arguments for the x-axis scale, which can be used to customize the appearance and behavior of the x-axis.}
+\item{xScaleArgs}{A list of additional arguments for the x-axis scale, which can be used to customize the appearance and behavior of the x-axis.}
 
 \item{geomRibbonAttributes}{A list of attributes for the ribbon geometry in the plot, allowing customization of the visual appearance, such as colors and transparency.}
 

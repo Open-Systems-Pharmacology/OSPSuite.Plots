@@ -13,8 +13,8 @@ test_that("adjustGroupAesthetics works", {
 
   simDataMatch <- MappedData$new(
     data = simData1,
-    xscale = AxisScales$linear,
-    yscale = AxisScales$linear,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
     mapping = mapping,
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
@@ -40,8 +40,8 @@ test_that("getAestheticsForGeom works", {
   lineMapping <- MappedData$new(
     data = simData1,
     mapping = simAes,
-    xscale = AxisScales$linear,
-    yscale = AxisScales$linear,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )$getAestheticsForGeom(
     geom = "line",
@@ -74,8 +74,8 @@ test_that("adjustForLLOQMatch works", {
   obsDataMatch <- MappedData$new(
     data = obsData,
     mapping = obsAes,
-    xscale = AxisScales$linear,
-    yscale = AxisScales$linear,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
 
@@ -115,8 +115,8 @@ test_that("adjustDataForMDV works", {
   obsDataMatch <- MappedData$new(
     data = obsData,
     mapping = obsAes,
-    xscale = AxisScales$linear,
-    yscale = AxisScales$linear,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
 
@@ -141,7 +141,7 @@ test_that("adjust secondary y axis scaling works lin to lin", {
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
     data = obsData,
-    xscale = AxisScales$linear,
+    xScale = AxisScales$linear,
     scaleOfPrimaryAxis = AxisScales$linear, scaleOfSecondaryAxis = AxisScales$linear
   )
   expect_true(dataMatch$requireDualAxis)
@@ -176,7 +176,7 @@ test_that("adjust secondary y axis scaling works log to log", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, xscale = AxisScales$linear, scaleOfPrimaryAxis = AxisScales$log, scaleOfSecondaryAxis = AxisScales$log
+    data = obsData, xScale = AxisScales$linear, scaleOfPrimaryAxis = AxisScales$log, scaleOfSecondaryAxis = AxisScales$log
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -211,7 +211,7 @@ test_that("adjust secondary y axis scaling works lin to log", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    xscale = AxisScales$linear,
+    xScale = AxisScales$linear,
     data = obsData, scaleOfPrimaryAxis = AxisScales$log, scaleOfSecondaryAxis = AxisScales$linear
   )
   expect_true(dataMatch$requireDualAxis)
@@ -247,7 +247,7 @@ test_that("adjust secondary y axis scaling works log to lin", {
 
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, xscale = AxisScales$linear, scaleOfPrimaryAxis = AxisScales$linear, scaleOfSecondaryAxis = AxisScales$log
+    data = obsData, xScale = AxisScales$linear, scaleOfPrimaryAxis = AxisScales$linear, scaleOfSecondaryAxis = AxisScales$log
   )
   expect_true(dataMatch$requireDualAxis)
   expect_equal(dataMatch$ylimits,
@@ -282,7 +282,7 @@ test_that("grouping for simulation and observed works", {
     direction = "y",
     isObserved = FALSE,
     groupOrder = c("Simulated Data 2", "Simulated Data 1", "simulated"),
-    xscale = AxisScales$linear,
+    xScale = AxisScales$linear,
     scaleOfPrimaryAxis = AxisScales$linear,
     scaleOfSecondaryAxis = AxisScales$linear,
     ylimits = list(),
@@ -307,7 +307,7 @@ test_that("grouping for simulation and observed works", {
       direction = "y",
       isObserved = FALSE,
       groupOrder = c("Simulated Data 2", "Simulated Data 1", "simulated"),
-      xscale = AxisScales$linear,
+      xScale = AxisScales$linear,
       scaleOfPrimaryAxis = AxisScales$linear,
       scaleOfSecondaryAxis = AxisScales$linear,
       ylimits = list(),
@@ -351,8 +351,8 @@ test_that("addMetaData works", {
 
   simDataMatch <- MappedData$new(
     data = simData1,
-    xscale = AxisScales$linear,
-    yscale = AxisScales$linear,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
     mapping = mapping
   )
 
@@ -383,8 +383,8 @@ test_that("updateScaleArgumentsForTimeUnit works", {
 
   simDataMatch <- MappedData$new(
     data = simData1,
-    xscale = AxisScales$linear,
-    yscale = AxisScales$linear,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
     mapping = mapping
   )
 
@@ -392,7 +392,7 @@ test_that("updateScaleArgumentsForTimeUnit works", {
   simDataMatch$dimensions$x <- "time"
   simDataMatch$units$x <- "h"
 
-  updatedScaleArgs <- simDataMatch$updateScaleArgumentsForTimeUnit(scale.args = list(), "x")
+  updatedScaleArgs <- simDataMatch$updateScaleArgumentsForTimeUnit(scaleArgs = list(), "x")
 
   expect_true("breaks" %in% names(updatedScaleArgs))
 })
@@ -412,8 +412,8 @@ test_that("adjustForResidualMatch works", {
   obsDataMatch <- MappedData$new(
     data = obsData,
     mapping = obsAes,
-    xscale = AxisScales$linear,
-    yscale = AxisScales$linear,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
 
@@ -424,8 +424,8 @@ test_that("adjustForResidualMatch works", {
   obsDataMatch <- MappedData$new(
     data = obsData,
     mapping = obsAes,
-    xscale = AxisScales$linear,
-    yscale = AxisScales$linear,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
     groupAesthetics = c("colour", "fill", "linetype", "shape"),
     residualScale = ResidualScales$ratio
   )

@@ -7,8 +7,8 @@
 createPlotObject(
   plotData,
   mapping,
-  xscale,
-  xscale.args,
+  xScale,
+  xScaleArgs,
   xLabel,
   groupAesthetics,
   yFacetColumns,
@@ -24,9 +24,9 @@ createPlotObject(
 
 \item{mapping}{A ggplot mapping object.}
 
-\item{xscale}{A character string indicating the scale type for the x-axis.}
+\item{xScale}{A character string indicating the scale type for the x-axis.}
 
-\item{xscale.args}{A list of additional arguments for customizing the x-axis scale.}
+\item{xScaleArgs}{A list of additional arguments for customizing the x-axis scale.}
 
 \item{xLabel}{A string representing the label for the x-axis.}
 

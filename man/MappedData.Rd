@@ -76,8 +76,8 @@ Create a new \code{MappedData} object
 \if{html}{\out{<div class="r">}}\preformatted{MappedData$new(
   data,
   mapping,
-  xscale,
-  yscale,
+  xScale,
+  yScale,
   groupAesthetics = NULL,
   groupOrder = NULL,
   direction = "y",
@@ -96,9 +96,9 @@ Create a new \code{MappedData} object
 
 \item{\code{mapping}}{list of aesthetic mappings}
 
-\item{\code{xscale}}{scale of x-axis either 'linear' or 'log'}
+\item{\code{xScale}}{scale of x-axis either 'linear' or 'log'}
 
-\item{\code{yscale}}{scale of y-axis either 'linear' or 'log'}
+\item{\code{yScale}}{scale of y-axis either 'linear' or 'log'}
 
 \item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with \code{groupby}}
 
@@ -171,20 +171,20 @@ check if unit of scale direction i s time and sets the breaks accordingly
 \if{latex}{\out{\hypertarget{method-MappedData-updateScaleArgumentsForTimeUnit}{}}}
 \subsection{Method \code{updateScaleArgumentsForTimeUnit()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedData$updateScaleArgumentsForTimeUnit(scale.args, scaleDirection = "x")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MappedData$updateScaleArgumentsForTimeUnit(scaleArgs, scaleDirection = "x")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{scale.args}}{additional arguments passed on to scale function}
+\item{\code{scaleArgs}}{additional arguments passed on to scale function}
 
 \item{\code{scaleDirection}}{direction of axis either 'x' or 'y'}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\code{scale.args} with adjusted break function
+\code{scaleArgs} with adjusted break function
 }
 }
 \if{html}{\out{<hr>}}

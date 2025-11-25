@@ -14,10 +14,10 @@
 #' @param asStepPlot A logical indicating whether to create a step plot. If TRUE, the plot will display steps between the data points rather than continuous lines. Default is FALSE.
 #' @param statFun An optional function for statistical summary, which takes a vector of y-values and returns a summary (e.g., quantiles). If NULL, defaults to calculating quantiles based on the specified `percentiles`.
 #' @param percentiles A numeric vector of percentiles to be used in the statistical summary, which defines the range of values to be displayed on the plot. Default is the 5th, 50th, and 95th percentiles.
-#' @param yscale A character string specifying the y-axis scale. Options are "linear" or "log". This determines how the y values are displayed on the plot. Default is "linear".
-#' @param yscale.args A list of additional arguments for the y-axis scale, which can be used to customize the appearance and behavior of the y-axis.
-#' @param xscale A character string specifying the x-axis scale. Options are "linear" or "log". This determines how the x values are displayed on the plot. Default is "linear".
-#' @param xscale.args A list of additional arguments for the x-axis scale, which can be used to customize the appearance and behavior of the x-axis.
+#' @param yScale A character string specifying the y-axis scale. Options are "linear" or "log". This determines how the y values are displayed on the plot. Default is "linear".
+#' @param yScaleArgs A list of additional arguments for the y-axis scale, which can be used to customize the appearance and behavior of the y-axis.
+#' @param xScale A character string specifying the x-axis scale. Options are "linear" or "log". This determines how the x values are displayed on the plot. Default is "linear".
+#' @param xScaleArgs A list of additional arguments for the x-axis scale, which can be used to customize the appearance and behavior of the x-axis.
 #' @param geomRibbonAttributes A list of attributes for the ribbon geometry in the plot, allowing customization of the visual appearance, such as colors and transparency.
 #' @param geomLineAttributes A list of attributes for the line geometry in the plot, allowing customization of line characteristics such as color, size, and type.
 #' @param identifier columnName of individual identifiers, default "IndividualId"
@@ -33,19 +33,19 @@ plotRangeDistribution <- function(data,
                                   asStepPlot = FALSE,
                                   statFun = NULL,
                                   percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles)[c(1, 3, 5)],
-                                  yscale = "linear",
-                                  yscale.args = list(), # nolint
-                                  xscale = "linear",
-                                  xscale.args = list(), # nolint
+                                  yScale = "linear",
+                                  yScaleArgs = list(), # nolint
+                                  xScale = "linear",
+                                  xScaleArgs = list(), # nolint
                                   geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
                                   geomLineAttributes = getDefaultGeomAttributes("Line"),
                                   identifier = "IndividualId") {
   ## Validation -----------
   checkmate::assertDataFrame(data, min.rows = 1)
-  checkmate::assertChoice(xscale, choices = c("linear", "log"), null.ok = FALSE)
-  checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yscale, choices = c("linear", "log"), null.ok = TRUE)
-  checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
+  checkmate::assertChoice(xScale, choices = c("linear", "log"), null.ok = FALSE)
+  checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
+  checkmate::assertChoice(yScale, choices = c("linear", "log"), null.ok = TRUE)
+  checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomRibbonAttributes, names = "named")
   checkmate::assertList(geomLineAttributes, names = "named")
 
@@ -65,8 +65,8 @@ plotRangeDistribution <- function(data,
   mappedData <- MappedDataRangeDistribution$new(
     data = data,
     mapping = mapping,
-    xscale = xscale,
-    yscale = yscale,
+    xScale = xScale,
+    yScale = yScale,
     groupAesthetics = c("fill", "color"),
     modeOfBinning = modeOfBinning,
     numberOfBins = numberOfBins,
@@ -91,10 +91,10 @@ plotRangeDistribution <- function(data,
   # add x and y scale
   plotObject <- addXYScale(
     plotObject = plotObject,
-    xscale = mappedData$xscale,
-    xscale.args = xscale.args,
-    yscale = yscale,
-    yscale.args = yscale.args
+    xScale = mappedData$xScale,
+    xScaleArgs = xScaleArgs,
+    yScale = yScale,
+    yScaleArgs = yScaleArgs
   )
 
 

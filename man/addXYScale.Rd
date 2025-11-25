@@ -6,23 +6,23 @@
 \usage{
 addXYScale(
   plotObject,
-  xscale = NULL,
-  xscale.args = list(),
-  yscale = NULL,
-  yscale.args = list(),
+  xScale = NULL,
+  xScaleArgs = list(),
+  yScale = NULL,
+  yScaleArgs = list(),
   secAxis = waiver()
 )
 }
 \arguments{
 \item{plotObject}{A \code{ggplot} object on which to add the scale.}
 
-\item{xscale}{The x-axis scale type. Available is 'linear', 'log', 'discrete'}
+\item{xScale}{The x-axis scale type. Available is 'linear', 'log', 'discrete'}
 
-\item{xscale.args}{A list of arguments for the x-axis scale.}
+\item{xScaleArgs}{A list of arguments for the x-axis scale.}
 
-\item{yscale}{The y-axis scale type. Available is 'linear', 'log'}
+\item{yScale}{The y-axis scale type. Available is 'linear', 'log'}
 
-\item{yscale.args}{A list of arguments for the y-axis scale.}
+\item{yScaleArgs}{A list of arguments for the y-axis scale.}
 
 \item{secAxis}{Secondary axis arguments for scale_y functions.}
 }

@@ -91,7 +91,7 @@ test_that("plotWhisker works", {
       ),
       data = pkRatioData,
       metaData = pkRatioMetaData,
-      xscale.args = list(limits = c(29, 31))
+      xScaleArgs = list(limits = c(29, 31))
     )
   )
 })

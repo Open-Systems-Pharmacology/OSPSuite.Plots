@@ -9,12 +9,12 @@
   observedData,
   plotObject,
   metaData,
-  xscale,
-  xscale.args,
-  yscale,
-  yscale.args,
-  y2scale,
-  y2scale.args,
+  xScale,
+  xScaleArgs,
+  yScale,
+  yScaleArgs,
+  y2Scale,
+  y2ScaleArgs,
   geomLineAttributes,
   geomRibbonAttributes,
   geomPointAttributes,
@@ -33,17 +33,17 @@
 
 \item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
 
-\item{xscale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
+\item{xScale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
 
-\item{xscale.args}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
+\item{xScaleArgs}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
 
-\item{yscale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
+\item{yScale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
-\item{yscale.args}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
+\item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{y2scale}{either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale}
+\item{y2Scale}{either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale}
 
-\item{y2scale.args}{list of arguments passed to \code{ggplot2::sec_axis()}, trans, break are set by code}
+\item{y2ScaleArgs}{list of arguments passed to \code{ggplot2::sec_axis()}, trans, break are set by code}
 
 \item{geomLineAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_line}}
 

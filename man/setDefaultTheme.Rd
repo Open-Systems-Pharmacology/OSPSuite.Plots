@@ -19,7 +19,8 @@ This function applies a custom theme based on theme_bw() with OSPSuite-specific 
 oldTheme <- setDefaultTheme()
 
 # Create a plot with the new theme
-p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point()
 print(p)
 
 # Restore previous theme

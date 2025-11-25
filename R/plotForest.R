@@ -7,8 +7,8 @@
 #' @param xLabel A string representing the label for the x-axis.
 #' @param yFacetColumns A character vector of column names used for faceting on the y-axis. Can be NULL or of length up to 2.
 #' @param xFacetColumn A character string specifying the column name for the x-axis facet. Must be of length 1 or NULL.
-#' @param xscale A character string indicating the scale type for the x-axis. Options are "linear" or "log".
-#' @param xscale.args A list of additional arguments for customizing the x-axis scale.
+#' @param xScale A character string indicating the scale type for the x-axis. Options are "linear" or "log".
+#' @param xScaleArgs A list of additional arguments for customizing the x-axis scale.
 #' @param groupAesthetics A character vector specifying aesthetics for grouping (e.g., color, fill, shape).
 #' @param tableColumns A character vector of column names to be included in the table.
 #' @param tableLabels A character vector of labels corresponding to `tableColumns`.
@@ -32,8 +32,8 @@ plotForest <- function(plotData,
                        xLabel,
                        yFacetColumns = NULL,
                        xFacetColumn = NULL,
-                       xscale = c("linear", "log"),
-                       xscale.args = list(), # nolint
+                       xScale = c("linear", "log"),
+                       xScaleArgs = list(), # nolint
                        groupAesthetics = c("color", "fill", "shape"),
                        tableColumns = c("yValues", "yErrorValues"),
                        tableLabels = c("M", "Variance"),
@@ -49,7 +49,7 @@ plotForest <- function(plotData,
 
   # Input checks
   checkmate::assertDataTable(plotData)
-  xscale <- match.arg(xscale)
+  xScale <- match.arg(xScale)
   checkmate::assertCharacter(xFacetColumn, null.ok = TRUE, len = 1)
   checkmate::assertCharacter(yFacetColumns, null.ok = TRUE, max.len = 2)
   checkmate::assertCharacter(tableColumns)
@@ -69,8 +69,8 @@ plotForest <- function(plotData,
       plotData = plotData,
       mapping = mapping,
       groupAesthetics = groupAesthetics,
-      xscale = xscale,
-      xscale.args = xscale.args,
+      xScale = xScale,
+      xScaleArgs = xScaleArgs,
       xLabel = xLabel,
       yFacetColumns = yFacetColumns,
       xFacetColumn = xFacetColumn,
@@ -110,8 +110,8 @@ plotForest <- function(plotData,
 #'
 #' @param plotData A data.table containing the data to be plotted.
 #' @param mapping A ggplot mapping object.
-#' @param xscale A character string indicating the scale type for the x-axis.
-#' @param xscale.args A list of additional arguments for customizing the x-axis scale.
+#' @param xScale A character string indicating the scale type for the x-axis.
+#' @param xScaleArgs A list of additional arguments for customizing the x-axis scale.
 #' @param xLabel A string representing the label for the x-axis.
 #' @param yFacetColumns A character vector of column names used for faceting on the y-axis.
 #' @param xFacetColumn A character string specifying the column name for the x-axis facet.
@@ -125,8 +125,8 @@ plotForest <- function(plotData,
 #' @keywords internal
 createPlotObject <- function(plotData,
                              mapping,
-                             xscale,
-                             xscale.args, # nolint
+                             xScale,
+                             xScaleArgs, # nolint
                              xLabel,
                              groupAesthetics,
                              yFacetColumns,
@@ -150,8 +150,8 @@ createPlotObject <- function(plotData,
     data = plotData,
     mapping = mapping,
     direction = "x",
-    yscale = "linear",
-    xscale = xscale,
+    yScale = "linear",
+    xScale = xScale,
     groupAesthetics = groupAesthetics
   )
   plotObject <- initializePlot(mappedData)
@@ -202,10 +202,10 @@ createPlotObject <- function(plotData,
       strip.placement = "outside"
     )
 
-  plotObject <- addXscale(
+  plotObject <- addXScale(
     plotObject = plotObject,
-    xscale = xscale,
-    xscale.args = xscale.args
+    xScale = xScale,
+    xScaleArgs = xScaleArgs
   )
 
   return(plotObject)
@@ -287,8 +287,8 @@ createTableObject <- function(tableData, mapping, digitsToRound, digitsToShow, y
   mappedData <- MappedData$new(
     data = tableData,
     mapping = mapping,
-    yscale = "linear",
-    xscale = "linear",
+    yScale = "linear",
+    xScale = "linear",
     groupAesthetics = c()
   )
   tableObject <- initializePlot(mappedData) +

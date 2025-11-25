@@ -22,7 +22,7 @@ plotResVsCov <- function(data,
                          mapping,
                          residualScale = ResidualScales$log,
                          comparisonLineVector = 0,
-                         yscale = AxisScales$linear,
+                         yScale = AxisScales$linear,
                          ...) {
   # Validation
 
@@ -31,7 +31,7 @@ plotResVsCov <- function(data,
     mapping = mapping,
     addGuestLimits = FALSE,
     residualScale = residualScale,
-    yscale = yscale,
+    yScale = yScale,
     comparisonLineVector = comparisonLineVector,
     observedDataDirection = "y",
     yDisplayAsAbsolute = FALSE,
@@ -62,8 +62,8 @@ plotResVsCov <- function(data,
 plotRatioVsCov <- function(data = NULL,
                            mapping = NULL,
                            addGuestLimits = FALSE,
-                           yscale = AxisScales$log,
-                           xscale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
+                           yScale = AxisScales$log,
+                           xScale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
                            comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
                            deltaGuest = 1,
                            ...) {
@@ -73,8 +73,8 @@ plotRatioVsCov <- function(data = NULL,
     data = data,
     mapping = mapping,
     comparisonLineVector = comparisonLineVector,
-    xscale = xscale,
-    yscale = yscale,
+    xScale = xScale,
+    yScale = yScale,
     addGuestLimits = addGuestLimits,
     deltaGuest = deltaGuest,
     observedDataDirection = "y",
@@ -97,7 +97,7 @@ plotRatioVsCov <- function(data = NULL,
 #' * \code{vignette("Goodness of fit", package = "ospsuite.plots")}
 #' * \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 #'
-#' @param xyscale Either "linear" or "log" scale for the X and Y axes.
+#' @param xyScale Either "linear" or "log" scale for the X and Y axes.
 #' @inheritParams plotYVsX
 #' @inheritDotParams plotYVsX
 #'
@@ -106,7 +106,7 @@ plotRatioVsCov <- function(data = NULL,
 #' @family plot functions
 plotPredVsObs <- function(data = NULL,
                           mapping = NULL,
-                          xyscale = AxisScales$log,
+                          xyScale = AxisScales$log,
                           comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
                           asSquarePlot = TRUE,
                           ...) {
@@ -122,8 +122,8 @@ plotPredVsObs <- function(data = NULL,
     mapping = mapping,
     residualScale = NULL,
     comparisonLineVector = comparisonLineVector,
-    xscale = xyscale,
-    yscale = xyscale,
+    xScale = xyScale,
+    yScale = xyScale,
     observedDataDirection = "x",
     yDisplayAsAbsolute = TRUE,
     asSquarePlot = asSquarePlot,
@@ -183,10 +183,10 @@ plotYVsX <- function(data,
                      labelGuestCriteria = "guest criteria",
                      residualScale = NULL,
                      asSquarePlot = FALSE,
-                     xscale = AxisScales$linear,
-                     xscale.args = list(),
-                     yscale = AxisScales$log,
-                     yscale.args = list(),
+                     xScale = AxisScales$linear,
+                     xScaleArgs = list(),
+                     yScale = AxisScales$log,
+                     yScaleArgs = list(),
                      observedDataDirection = "y",
                      yDisplayAsAbsolute = TRUE) {
   if (is.double(comparisonLineVector)) comparisonLineVector <- as.list(comparisonLineVector)
@@ -205,25 +205,25 @@ plotYVsX <- function(data,
     deltaGuest = deltaGuest,
     residualScale = residualScale,
     asSquarePlot = asSquarePlot,
-    xscale = xscale,
-    xscale.args = xscale.args,
-    yscale = yscale,
-    yscale.args = yscale.args,
+    xScale = xScale,
+    xScaleArgs = xScaleArgs,
+    yScale = yScale,
+    yScaleArgs = yScaleArgs,
     observedDataDirection = observedDataDirection
   )
 
   mappedData <- MappedData$new(
     data = data,
     mapping = mapping,
-    xlimits = xscale.args$limits,
-    ylimits = yscale.args$limits,
+    xlimits = xScaleArgs$limits,
+    ylimits = yScaleArgs$limits,
     direction = observedDataDirection,
     isObserved = TRUE,
     groupAesthetics = groupAesthetics,
     residualScale = residualScale,
     residualAesthetic = "y",
-    xscale = xscale,
-    yscale = yscale
+    xScale = xScale,
+    yScale = yScale
   )
   mappedData$addMetaData(metaData = metaData)
 
@@ -246,7 +246,7 @@ plotYVsX <- function(data,
       comparisonLineVector = comparisonLineVector,
       yDisplayAsAbsolute = yDisplayAsAbsolute,
       geomLineAttributes = geomComparisonLineAttributes,
-      xyscale = xscale
+      xyScale = xScale
     )
   }
 
@@ -336,25 +336,25 @@ plotYVsX <- function(data,
       theme(aspect.ratio = 1) +
       coord_fixed(ratio = 1)
 
-    xscale.args$limits <- range(mappedData$xlimits, mappedData$ylimits)
-    yscale.args$limits <- range(mappedData$xlimits, mappedData$ylimits)
+    xScaleArgs$limits <- range(mappedData$xlimits, mappedData$ylimits)
+    yScaleArgs$limits <- range(mappedData$xlimits, mappedData$ylimits)
   }
 
 
   # set scales
 
-  xscale.args <- mappedData$updateScaleArgumentsForTimeUnit(
-    scale.args = xscale.args,
+  xScaleArgs <- mappedData$updateScaleArgumentsForTimeUnit(
+    scaleArgs = xScaleArgs,
     scaleDirection = "x"
   )
 
 
   plotObject <- addXYScale(
     plotObject = plotObject,
-    xscale = xscale,
-    xscale.args = xscale.args,
-    yscale = yscale,
-    yscale.args = yscale.args
+    xScale = xScale,
+    xScaleArgs = xScaleArgs,
+    yScale = yScale,
+    yScaleArgs = yScaleArgs
   )
 
 
@@ -420,18 +420,18 @@ addComparisonLines <- function(plotObject,
                                comparisonLineVector,
                                yDisplayAsAbsolute,
                                geomLineAttributes,
-                               xyscale) {
+                               xyScale) {
   # initialize  to avoid warnings in check()
   value <- name <- NULL
 
   # get mapping
   if (yDisplayAsAbsolute) {
-    if (xyscale == AxisScales$log) {
+    if (xyScale == AxisScales$log) {
       lineMapping <- aes(
         intercept = log10(value),
         slope = 1
       )
-    } else if (xyscale == AxisScales$linear) {
+    } else if (xyScale == AxisScales$linear) {
       lineMapping <- aes(
         intercept = 0,
         slope = value
@@ -776,10 +776,10 @@ countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector,
     deltaGuest,
     residualScale,
     asSquarePlot,
-    xscale,
-    xscale.args,
-    yscale,
-    yscale.args,
+    xScale,
+    xScaleArgs,
+    yScale,
+    yScaleArgs,
     observedDataDirection) {
   checkmate::assertDataFrame(data)
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
@@ -805,10 +805,10 @@ countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector,
   ), null.ok = TRUE)
 
   checkmate::assertFlag(asSquarePlot)
-  checkmate::assertChoice(xscale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
-  checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yscale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
-  checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
+  checkmate::assertChoice(xScale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
+  checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
+  checkmate::assertChoice(yScale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
+  checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
 
   checkmate::assertChoice(observedDataDirection, choices = c("x", "y"), null.ok = TRUE)
 

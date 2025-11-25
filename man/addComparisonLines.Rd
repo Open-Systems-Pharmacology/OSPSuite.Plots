@@ -9,7 +9,7 @@ addComparisonLines(
   comparisonLineVector,
   yDisplayAsAbsolute,
   geomLineAttributes,
-  xyscale
+  xyScale
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ addComparisonLines(
 
 \item{geomLineAttributes}{Line attributes, e.g., \code{color}, \code{linetype}, passed to \code{ggplot2::geom_hline} or \code{ggplot2::geom_abline}.}
 
-\item{xyscale}{Either "linear" or "log" scale for the X and Y axes.}
+\item{xyScale}{Either "linear" or "log" scale for the X and Y axes.}
 }
 \value{
 The updated \code{ggplot} object with comparison lines added.

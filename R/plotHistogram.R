@@ -11,7 +11,7 @@
 #' @inheritParams plotYVsX
 #' @param plotAsFrequency A `logical` indicating if the histogram displays frequency on the y-axis.
 #' @param asBarPlot A `logical` indicating if `geom_histogram` should be used (for continuous data) or `geom_bar` (for categorical data).
-#'    If TRUE, the variables `distribution`, `meanFunction`, `xscale`, and `xscale.args` are ignored.
+#'    If TRUE, the variables `distribution`, `meanFunction`, `xScale`, and `xScaleArgs` are ignored.
 #' @param geomHistAttributes A `list` of arguments passed to `ggplot2::geom_histogram` (or `geom_bar` if `asBarPlot` = TRUE).
 #' @param distribution Name of the distribution to fit. Available distributions are those in the `stats` package (see ?stats::distributions):
 #'   `norm`, `lnorm`, `weibull`, `gamma`, etc. Use `"none"` for no fit (default).
@@ -29,10 +29,10 @@ plotHistogram <- function(data,
                           geomHistAttributes =
                             getDefaultGeomAttributes("Hist"),
                           plotAsFrequency = FALSE,
-                          xscale = AxisScales$linear,
-                          xscale.args = list(),
-                          yscale = AxisScales$linear,
-                          yscale.args = list(),
+                          xScale = AxisScales$linear,
+                          xScaleArgs = list(),
+                          yScale = AxisScales$linear,
+                          yScaleArgs = list(),
                           distribution = "none",
                           meanFunction = "auto",
                           residualScale = ResidualScales$log) {
@@ -45,10 +45,10 @@ plotHistogram <- function(data,
 
   checkmate::assertList(geomHistAttributes, null.ok = FALSE, min.len = 0)
 
-  checkmate::assertChoice(xscale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
-  checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yscale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
-  checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
+  checkmate::assertChoice(xScale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
+  checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
+  checkmate::assertChoice(yScale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
+  checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
   checkmate::assertChoice(residualScale, choices = c(ResidualScales$linear, ResidualScales$log, ResidualScales$ratio), null.ok = TRUE)
 
 
@@ -57,8 +57,8 @@ plotHistogram <- function(data,
     data = data,
     mapping = mapping,
     groupAesthetics = "fill",
-    xscale = xscale,
-    yscale = yscale,
+    xScale = xScale,
+    yScale = yScale,
     residualScale = residualScale,
     residualAesthetic = "x"
   )
@@ -70,7 +70,7 @@ plotHistogram <- function(data,
   if (asBarPlot) geomHistAttributes$bins <- NULL
 
   plotHelper <- plotHelperHistogram$new(
-    xscale = xscale,
+    xScale = xScale,
     plotAsFrequency = plotAsFrequency,
     asBarPlot = asBarPlot,
     geomHistAttributes = geomHistAttributes,
@@ -114,16 +114,16 @@ plotHistogram <- function(data,
 
   # add x-axis before distribution fit
   if (!plotHelper$asBarPlot) {
-    plotObject <- addXscale(
+    plotObject <- addXScale(
       plotObject = plotObject,
-      xscale = xscale,
-      xscale.args = xscale.args
+      xScale = xScale,
+      xScaleArgs = xScaleArgs
     )
   }
-  plotObject <- addYscale(
+  plotObject <- addYScale(
     plotObject = plotObject,
-    yscale = yscale,
-    yscale.args = yscale.args
+    yScale = yScale,
+    yScaleArgs = yScaleArgs
   )
 
   # distribution fit or mean will overwrite y label, save it to reset to current value
@@ -186,7 +186,7 @@ plotHelperHistogram <- R6::R6Class( # nolint
     #' @field asBarPlot `boolean` indicates plot switches to bar plot
     asBarPlot = FALSE,
 
-    #' @param xscale scale of x -axis
+    #' @param xScale scale of x -axis
     #' @param plotAsFrequency A `boolean` to switch display of y to frequency
     #' @param asBarPlot A `boolean` to switch from geom_histogram to geom_bar
     #' @param geomHistAttributes attribute for plotting the histogram`
@@ -195,7 +195,7 @@ plotHelperHistogram <- R6::R6Class( # nolint
     #'
     #' @description Create a new `MappedData` object
     #' @return A new `plotHelperHistogram` object
-    initialize = function(xscale,
+    initialize = function(xScale,
                           plotAsFrequency,
                           asBarPlot,
                           geomHistAttributes,
@@ -207,7 +207,7 @@ plotHelperHistogram <- R6::R6Class( # nolint
 
       self$scaledMeanFun <- private$selectMeanFunction(
         meanFunction = meanFunction,
-        xscale = xscale
+        xScale = xScale
       )
       # stack means a difference in calculating relative frequency
       self$isStacked <- (is.character(geomHistAttributes$position) &&
@@ -318,7 +318,7 @@ plotHelperHistogram <- R6::R6Class( # nolint
       return(binwidth)
     },
     #' check if input is valid and returns function for vertical line
-    selectMeanFunction = function(meanFunction, xscale) {
+    selectMeanFunction = function(meanFunction, xScale) {
       checkmate::assertChoice(meanFunction,
         choices = c("none", "mean", "geomean", "median", "auto"),
         null.ok = FALSE

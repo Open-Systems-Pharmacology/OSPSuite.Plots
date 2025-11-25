@@ -22,9 +22,9 @@
 plotQQ <- function(data,
                    mapping,
                    metaData = NULL,
-                   xscale.args = list(),
+                   xScaleArgs = list(),
                    residualScale = ResidualScales$log,
-                   yscale.args = list(),
+                   yScaleArgs = list(),
                    geomQQAttributes = list(),
                    geomQQLineAttributes = geomQQAttributes,
                    groupAesthetics = c("colour", "fill", "shape")) {
@@ -32,24 +32,24 @@ plotQQ <- function(data,
   checkmate::assertDataFrame(data)
 
   checkmate::assertChoice(residualScale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
-  checkmate::assertList(xscale.args, null.ok = FALSE, min.len = 0)
-  checkmate::assertList(yscale.args, null.ok = FALSE, min.len = 0)
+  checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
+  checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
 
   checkmate::assertList(geomQQAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomQQLineAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertCharacter(groupAesthetics, null.ok = TRUE, min.len = 1)
 
-  xscale <- AxisScales$linear
-  yscale <- AxisScales$linear
+  xScale <- AxisScales$linear
+  yScale <- AxisScales$linear
 
   # data match --------------
   mappedData <- MappedData$new(
     data = data,
     mapping = mapping,
-    xscale = xscale,
-    yscale = yscale,
-    xlimits = xscale.args$limits,
-    ylimits = yscale.args$limits,
+    xScale = xScale,
+    yScale = yScale,
+    xlimits = xScaleArgs$limits,
+    ylimits = yScaleArgs$limits,
     isObserved = TRUE,
     groupAesthetics = groupAesthetics,
     residualScale = residualScale,
@@ -92,10 +92,10 @@ plotQQ <- function(data,
 
   plotObject <- addXYScale(
     plotObject = plotObject,
-    xscale = xscale,
-    xscale.args = xscale.args,
-    yscale = yscale,
-    yscale.args = yscale.args
+    xScale = xScale,
+    xScaleArgs = xScaleArgs,
+    yScale = yScale,
+    yScaleArgs = yScaleArgs
   )
 
   return(plotObject)

@@ -9,14 +9,14 @@
 #' boxplotData <- MappedDataBoxplot$new(
 #'   data = myDataFrame,
 #'   mapping = aes(x = dose, y = concentration),
-#'   xscale = "linear"
+#'   xScale = "linear"
 #' )
 #'
 #' # Create boxplot mapping with categorical x variable
 #' boxplotData <- MappedDataBoxplot$new(
 #'   data = myDataFrame,
 #'   mapping = aes(x = treatment_group, y = response),
-#'   xscale = "discrete"
+#'   xScale = "discrete"
 #' )
 #' }
 #' @export
@@ -25,10 +25,10 @@ MappedDataBoxplot <- R6::R6Class( # nolint
   "MappedDataBoxplot",
   inherit = MappedData,
   public = list(
-    #' @field xscale scale of x axis
-    xscale = NULL,
-    #' @field xscale.args arguments for scale of x axis
-    xscale.args = NULL,
+    #' @field xScale scale of x axis
+    xScale = NULL,
+    #' @field xScaleArgs arguments for scale of x axis
+    xScaleArgs = NULL,
     #' @field hasXmapping boolean, if TRUE x is mapped
     hasXmapping = NULL,
     #'
@@ -37,8 +37,8 @@ MappedDataBoxplot <- R6::R6Class( # nolint
     #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with aesthetic `groupby`
     #' @param direction direction of plot either "x" or "y"
     #' @param isObserved A `boolean` if TRUE mappings mdv, lloq, error and error_relative are evaluated
-    #' @param xscale scale of x-axis either 'linear' or 'log'
-    #' @param yscale scale of y-axis either 'linear' or 'log'
+    #' @param xScale scale of x-axis either 'linear' or 'log'
+    #' @param yScale scale of y-axis either 'linear' or 'log'
     #' @param xlimits limits for x-axis (may be NULL)
     #' @param ylimits limits for y-axis (may be NULL)
     #' @param residualScale scale of x residuals
@@ -54,8 +54,8 @@ MappedDataBoxplot <- R6::R6Class( # nolint
                           isObserved = TRUE,
                           xlimits = NULL,
                           ylimits = NULL,
-                          xscale = AxisScales$linear,
-                          yscale = AxisScales$linear,
+                          xScale = AxisScales$linear,
+                          yScale = AxisScales$linear,
                           residualScale = NULL,
                           residualAesthetic = "y") {
       super$initialize(
@@ -66,8 +66,8 @@ MappedDataBoxplot <- R6::R6Class( # nolint
         isObserved = isObserved,
         xlimits = xlimits,
         ylimits = ylimits,
-        xscale = xscale,
-        yscale = yscale,
+        xScale = xScale,
+        yScale = yScale,
         residualScale = residualScale,
         residualAesthetic = residualAesthetic
       )
@@ -77,27 +77,27 @@ MappedDataBoxplot <- R6::R6Class( # nolint
     #' use Metadata to adjust binning of x-axis, and group aesthetic
     #'
     #' @param originalmapping mapping provided by user
-    #' @param xscale either 'linear','log', 'discrete' or 'auto' (default) auto select linear for continuous data and discrete for categorical data
-    #' @param xscale.args list of arguments passed to `ggplot2::scale_x_continuous()`, `ggplot2::scale_x_log10()` or
+    #' @param xScale either 'linear','log', 'discrete' or 'auto' (default) auto select linear for continuous data and discrete for categorical data
+    #' @param xScaleArgs list of arguments passed to `ggplot2::scale_x_continuous()`, `ggplot2::scale_x_log10()` or
     #'    `ggplot2::scale_x_discrete()`
     #'
     #' @return adjusted `MappedDataBoxplot` class object
     doAdjustmentsWithMetaData = function(originalmapping,
-                                         xscale,
-                                         xscale.args) {
+                                         xScale,
+                                         xScaleArgs) {
       if (is.null(self$columnClasses[["x"]])) {
         warning("No metaData available for x-axis")
         return(invisible(self))
       }
       # Validate input mapping structure
       checkmate::assertList(originalmapping, null.ok = FALSE)
-      checkmate::assertCharacter(xscale, len = 1, null.ok = FALSE)
-      checkmate::assertList(xscale.args, null.ok = TRUE)
+      checkmate::assertCharacter(xScale, len = 1, null.ok = FALSE)
+      checkmate::assertList(xScaleArgs, null.ok = TRUE)
 
       # Adjust group aesthetic based on x variable type and mapping requirements
       private$adjustGroupMapping(originalmapping = originalmapping)
       # Determine and validate appropriate x-axis scale based on data type
-      private$checkXscale(xscale = xscale, xscale.args)
+      private$checkXScale(xScale = xScale, xScaleArgs)
 
       return(invisible(self))
     }
@@ -117,33 +117,33 @@ MappedDataBoxplot <- R6::R6Class( # nolint
     }
   ),
   private = list(
-    checkXscale = function(xscale, xscale.args) {
+    checkXScale = function(xScale, xScaleArgs) {
       if (self$hasXmapping) {
         if (self$columnClasses[["x"]] == "factor") {
-          if (xscale %in% c(AxisScales$linear, AxisScales$log)) {
+          if (xScale %in% c(AxisScales$linear, AxisScales$log)) {
             stop(paste0('continuous x scale is not possible for factors, please select "', AxisScales$discrete, '"'))
           }
-          xscale <- AxisScales$discrete
+          xScale <- AxisScales$discrete
         } else {
           if (self$columnClasses[["x"]] == "numeric") {
-            if (xscale == AxisScales$discrete) {
+            if (xScale == AxisScales$discrete) {
               stop(paste0(
                 'discrete x scale is not possible for continuous data. Select "',
                 AxisScales$linear, '" or "', AxisScales$log, '" or convert data to factor'
               ))
             }
-            if (xscale == "auto") {
-              xscale <- AxisScales$linear
+            if (xScale == "auto") {
+              xScale <- AxisScales$linear
             }
           } else {
-            xscale <- AxisScales$discrete
+            xScale <- AxisScales$discrete
           }
         }
       } else {
-        xscale <- AxisScales$discrete
+        xScale <- AxisScales$discrete
       }
 
-      self$xscale <- xscale
+      self$xScale <- xScale
 
       return(invisible(NULL))
     },

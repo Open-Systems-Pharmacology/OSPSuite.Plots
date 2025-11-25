@@ -127,7 +127,7 @@ plotPredVsObs(
 
 ### 2.1.2 Basic Example: Linear Scale
 
-The scale for the x and y axes is set to linear. It is not intended to use different scales for the x and y axes. Therefore, only one variable `xyscale` exists for both axes.
+The scale for the x and y axes is set to linear. It is not intended to use different scales for the x and y axes. Therefore, only one variable `xyScale` exists for both axes.
 
 Predicted and observed data are mapped with `x` and `y`.
 
@@ -140,7 +140,7 @@ plotPredVsObs(
     groupby = Sex
   ),
   metaData = metaData,
-  xyscale = "linear"
+  xyScale = "linear"
 )
 ```
 
@@ -425,7 +425,7 @@ plotResVsCov(
 
 ### 4.1.1 Default Settings
 
-`plotRatioVsCov()` is used to evaluate ratios versus a covariate. By default, the identity and 1.5 and 2 point lines are added, and the default for `yscale` is 'log'. The aesthetic `groupby` can be used to group observations.
+`plotRatioVsCov()` is used to evaluate ratios versus a covariate. By default, the identity and 1.5 and 2 point lines are added, and the default for `yScale` is 'log'. The aesthetic `groupby` can be used to group observations.
 
 ```{r ratio-defaults, warning = FALSE, message = FALSE, fig.alt="Log-scale scatter plot showing ratio values versus age with default comparison lines. The plot displays ratios with identity line at 1 and fold-distance lines at 1.5 and 2. Points are colored by sex groups, with the log scale helping to visualize multiplicative relationships."}
 plotRatioVsCov(

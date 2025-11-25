@@ -19,11 +19,11 @@ Other MappedData classes:
 
 ## Public fields
 
-- `xscale`:
+- `xScale`:
 
   scale of x axis
 
-- `xscale.args`:
+- `xScaleArgs`:
 
   arguments for scale of x axis
 
@@ -69,8 +69,8 @@ Create a new `MappedDataBoxplot` object
       isObserved = TRUE,
       xlimits = NULL,
       ylimits = NULL,
-      xscale = AxisScales$linear,
-      yscale = AxisScales$linear,
+      xScale = AxisScales$linear,
+      yScale = AxisScales$linear,
       residualScale = NULL,
       residualAesthetic = "y"
     )
@@ -107,11 +107,11 @@ Create a new `MappedDataBoxplot` object
 
   limits for y-axis (may be NULL)
 
-- `xscale`:
+- `xScale`:
 
   scale of x-axis either 'linear' or 'log'
 
-- `yscale`:
+- `yScale`:
 
   scale of y-axis either 'linear' or 'log'
 
@@ -136,8 +136,8 @@ x-axis, and group aesthetic
 
     MappedDataBoxplot$doAdjustmentsWithMetaData(
       originalmapping,
-      xscale,
-      xscale.args
+      xScale,
+      xScaleArgs
     )
 
 #### Arguments
@@ -146,12 +146,12 @@ x-axis, and group aesthetic
 
   mapping provided by user
 
-- `xscale`:
+- `xScale`:
 
   either 'linear','log', 'discrete' or 'auto' (default) auto select
   linear for continuous data and discrete for categorical data
 
-- `xscale.args`:
+- `xScaleArgs`:
 
   list of arguments passed to
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html),
@@ -187,14 +187,14 @@ if (FALSE) { # \dontrun{
 boxplotData <- MappedDataBoxplot$new(
   data = myDataFrame,
   mapping = aes(x = dose, y = concentration),
-  xscale = "linear"
+  xScale = "linear"
 )
 
 # Create boxplot mapping with categorical x variable
 boxplotData <- MappedDataBoxplot$new(
   data = myDataFrame,
   mapping = aes(x = treatment_group, y = response),
-  xscale = "discrete"
+  xScale = "discrete"
 )
 } # }
 ```

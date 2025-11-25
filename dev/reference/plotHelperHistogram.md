@@ -54,7 +54,7 @@ Create a new `MappedData` object
 #### Usage
 
     plotHelperHistogram$new(
-      xscale,
+      xScale,
       plotAsFrequency,
       asBarPlot,
       geomHistAttributes,
@@ -64,7 +64,7 @@ Create a new `MappedData` object
 
 #### Arguments
 
-- `xscale`:
+- `xScale`:
 
   scale of x -axis
 

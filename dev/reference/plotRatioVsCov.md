@@ -24,8 +24,8 @@ plotRatioVsCov(
   data = NULL,
   mapping = NULL,
   addGuestLimits = FALSE,
-  yscale = AxisScales$log,
-  xscale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
+  yScale = AxisScales$log,
+  xScale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
   comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
   deltaGuest = 1,
   ...
@@ -46,7 +46,7 @@ plotRatioVsCov(
 
   A boolean that activates the insertion of guest limits.
 
-- yscale:
+- yScale:
 
   either 'linear' then
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -54,7 +54,7 @@ plotRatioVsCov(
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- xscale:
+- xScale:
 
   either 'linear' then
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -140,14 +140,14 @@ plotRatioVsCov(
   :   A `list` with arguments which are passed on to the call
       [`ggplot2::geom_hline`](https://ggplot2.tidyverse.org/reference/geom_abline.html)
 
-  `xscale.args`
+  `xScaleArgs`
 
   :   list of arguments passed to
       [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
       or
       [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-  `yscale.args`
+  `yScaleArgs`
 
   :   list of arguments passed to
       [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)

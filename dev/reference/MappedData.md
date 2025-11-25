@@ -91,8 +91,8 @@ Create a new `MappedData` object
     MappedData$new(
       data,
       mapping,
-      xscale,
-      yscale,
+      xScale,
+      yScale,
       groupAesthetics = NULL,
       groupOrder = NULL,
       direction = "y",
@@ -113,11 +113,11 @@ Create a new `MappedData` object
 
   list of aesthetic mappings
 
-- `xscale`:
+- `xScale`:
 
   scale of x-axis either 'linear' or 'log'
 
-- `yscale`:
+- `yScale`:
 
   scale of y-axis either 'linear' or 'log'
 
@@ -207,11 +207,11 @@ and sets the breaks accordingly
 
 #### Usage
 
-    MappedData$updateScaleArgumentsForTimeUnit(scale.args, scaleDirection = "x")
+    MappedData$updateScaleArgumentsForTimeUnit(scaleArgs, scaleDirection = "x")
 
 #### Arguments
 
-- `scale.args`:
+- `scaleArgs`:
 
   additional arguments passed on to scale function
 
@@ -221,7 +221,7 @@ and sets the breaks accordingly
 
 #### Returns
 
-`scale.args` with adjusted break function
+`scaleArgs` with adjusted break function
 
 ------------------------------------------------------------------------
 

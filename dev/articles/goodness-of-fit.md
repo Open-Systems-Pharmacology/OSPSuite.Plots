@@ -201,7 +201,7 @@ performance.](goodness-of-fit_files/figure-html/basic-examples-1.png)
 
 The scale for the x and y axes is set to linear. It is not intended to
 use different scales for the x and y axes. Therefore, only one variable
-`xyscale` exists for both axes.
+`xyScale` exists for both axes.
 
 Predicted and observed data are mapped with `x` and `y`.
 
@@ -214,7 +214,7 @@ plotPredVsObs(
     groupby = Sex
   ),
   metaData = metaData,
-  xyscale = "linear"
+  xyScale = "linear"
 )
 ```
 
@@ -640,7 +640,7 @@ sex groups.](goodness-of-fit_files/figure-html/unnamed-chunk-2-1.png)
 
 [`plotRatioVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotRatioVsCov.md)
 is used to evaluate ratios versus a covariate. By default, the identity
-and 1.5 and 2 point lines are added, and the default for `yscale` is
+and 1.5 and 2 point lines are added, and the default for `yScale` is
 ‘log’. The aesthetic `groupby` can be used to group observations.
 
 ``` r

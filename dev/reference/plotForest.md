@@ -12,8 +12,8 @@ plotForest(
   xLabel,
   yFacetColumns = NULL,
   xFacetColumn = NULL,
-  xscale = c("linear", "log"),
-  xscale.args = list(),
+  xScale = c("linear", "log"),
+  xScaleArgs = list(),
   groupAesthetics = c("color", "fill", "shape"),
   tableColumns = c("yValues", "yErrorValues"),
   tableLabels = c("M", "Variance"),
@@ -55,12 +55,12 @@ plotForest(
   A character string specifying the column name for the x-axis facet.
   Must be of length 1 or NULL.
 
-- xscale:
+- xScale:
 
   A character string indicating the scale type for the x-axis. Options
   are "linear" or "log".
 
-- xscale.args:
+- xScaleArgs:
 
   A list of additional arguments for customizing the x-axis scale.
 

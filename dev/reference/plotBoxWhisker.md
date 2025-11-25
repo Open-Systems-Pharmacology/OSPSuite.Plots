@@ -16,10 +16,10 @@ plotBoxWhisker(
   metaData = NULL,
   plotObject = NULL,
   percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles),
-  yscale = AxisScales$linear,
-  yscale.args = list(),
-  xscale = "auto",
-  xscale.args = list(),
+  yScale = AxisScales$linear,
+  yScaleArgs = list(),
+  xScale = "auto",
+  xScaleArgs = list(),
   statFun = NULL,
   outliers = FALSE,
   statFunOutlier = NULL,
@@ -54,7 +54,7 @@ plotBoxWhisker(
   e.g., c(0.05, 0.25, 0.5, 0.75, 0.95). Default defined by
   `ospsuite.plots` option.
 
-- yscale:
+- yScale:
 
   either 'linear' then
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -62,19 +62,19 @@ plotBoxWhisker(
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- yscale.args:
+- yScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   or
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-- xscale:
+- xScale:
 
   Either 'linear', 'log', 'discrete', or 'auto' (default). Auto selects
   linear for continuous data and discrete for categorical data.
 
-- xscale.args:
+- xScaleArgs:
 
   A list of arguments passed to
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html),

@@ -11,11 +11,11 @@ prepares mapped Data object for plotting
   observedData,
   observedMapping,
   metaData,
-  xscale,
-  yscale,
-  yscale.args,
-  y2scale,
-  y2scale.args,
+  xScale,
+  yScale,
+  yScaleArgs,
+  y2Scale,
+  y2ScaleArgs,
   groupAesthetics,
   mapSimulatedAndObserved
 )
@@ -51,7 +51,7 @@ prepares mapped Data object for plotting
   A named list of information about `data` such as the `dimension` and
   `unit` of its variables.
 
-- xscale:
+- xScale:
 
   either 'linear' then
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -59,7 +59,7 @@ prepares mapped Data object for plotting
   [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- yscale:
+- yScale:
 
   either 'linear' then
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -67,19 +67,19 @@ prepares mapped Data object for plotting
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- yscale.args:
+- yScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   or
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-- y2scale:
+- y2Scale:
 
   either 'linear' the secondary axis is displayed linear, or 'log'
   secondary axis is displayed with log scale
 
-- y2scale.args:
+- y2ScaleArgs:
 
   list of arguments passed to
   [`ggplot2::sec_axis()`](https://ggplot2.tidyverse.org/reference/sec_axis.html),

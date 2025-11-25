@@ -25,7 +25,7 @@ plotResVsCov(
   mapping,
   residualScale = ResidualScales$log,
   comparisonLineVector = 0,
-  yscale = AxisScales$linear,
+  yScale = AxisScales$linear,
   ...
 )
 ```
@@ -48,7 +48,7 @@ plotResVsCov(
 
   A vector defining the comparison lines.
 
-- yscale:
+- yScale:
 
   either 'linear' then
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -130,7 +130,7 @@ plotResVsCov(
   :   A `list` with arguments which are passed on to the call
       [`ggplot2::geom_hline`](https://ggplot2.tidyverse.org/reference/geom_abline.html)
 
-  `xscale`
+  `xScale`
 
   :   either 'linear' then
       [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -138,14 +138,14 @@ plotResVsCov(
       [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
       is used
 
-  `xscale.args`
+  `xScaleArgs`
 
   :   list of arguments passed to
       [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
       or
       [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-  `yscale.args`
+  `yScaleArgs`
 
   :   list of arguments passed to
       [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)

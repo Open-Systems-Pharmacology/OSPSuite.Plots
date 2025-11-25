@@ -7,10 +7,10 @@ Add X and Y scales to a `ggplot` object.
 ``` r
 addXYScale(
   plotObject,
-  xscale = NULL,
-  xscale.args = list(),
-  yscale = NULL,
-  yscale.args = list(),
+  xScale = NULL,
+  xScaleArgs = list(),
+  yScale = NULL,
+  yScaleArgs = list(),
   secAxis = waiver()
 )
 ```
@@ -21,19 +21,19 @@ addXYScale(
 
   A `ggplot` object on which to add the scale.
 
-- xscale:
+- xScale:
 
   The x-axis scale type. Available is 'linear', 'log', 'discrete'
 
-- xscale.args:
+- xScaleArgs:
 
   A list of arguments for the x-axis scale.
 
-- yscale:
+- yScale:
 
   The y-axis scale type. Available is 'linear', 'log'
 
-- yscale.args:
+- yScaleArgs:
 
   A list of arguments for the y-axis scale.
 

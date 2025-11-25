@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,10 +55,10 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">addXYScale</span><span class="op">(</span></span>
 <span>  <span class="va">plotObject</span>,</span>
-<span>  xscale <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  xscale.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  yscale <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  yscale.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  xScale <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  yScale <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  yScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  secAxis <span class="op">=</span> <span class="fu">waiver</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -71,19 +71,19 @@
 <dd><p>A <code>ggplot</code> object on which to add the scale.</p></dd>
 
 
-<dt id="arg-xscale">xscale<a class="anchor" aria-label="anchor" href="#arg-xscale"></a></dt>
+<dt id="arg-xscale">xScale<a class="anchor" aria-label="anchor" href="#arg-xscale"></a></dt>
 <dd><p>The x-axis scale type. Available is 'linear', 'log', 'discrete'</p></dd>
 
 
-<dt id="arg-xscale-args">xscale.args<a class="anchor" aria-label="anchor" href="#arg-xscale-args"></a></dt>
+<dt id="arg-xscaleargs">xScaleArgs<a class="anchor" aria-label="anchor" href="#arg-xscaleargs"></a></dt>
 <dd><p>A list of arguments for the x-axis scale.</p></dd>
 
 
-<dt id="arg-yscale">yscale<a class="anchor" aria-label="anchor" href="#arg-yscale"></a></dt>
+<dt id="arg-yscale">yScale<a class="anchor" aria-label="anchor" href="#arg-yscale"></a></dt>
 <dd><p>The y-axis scale type. Available is 'linear', 'log'</p></dd>
 
 
-<dt id="arg-yscale-args">yscale.args<a class="anchor" aria-label="anchor" href="#arg-yscale-args"></a></dt>
+<dt id="arg-yscaleargs">yScaleArgs<a class="anchor" aria-label="anchor" href="#arg-yscaleargs"></a></dt>
 <dd><p>A list of arguments for the y-axis scale.</p></dd>
 
 

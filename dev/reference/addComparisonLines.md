@@ -11,7 +11,7 @@ addComparisonLines(
   comparisonLineVector,
   yDisplayAsAbsolute,
   geomLineAttributes,
-  xyscale
+  xyScale
 )
 ```
 
@@ -32,7 +32,7 @@ addComparisonLines(
   or
   [`ggplot2::geom_abline`](https://ggplot2.tidyverse.org/reference/geom_abline.html).
 
-- xyscale:
+- xyScale:
 
   Either "linear" or "log" scale for the X and Y axes.
 

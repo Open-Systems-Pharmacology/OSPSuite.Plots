@@ -275,7 +275,7 @@ data.](plot-time-profile_files/figure-html/examples-single-observation-B-1.png)
 The dataset includes a column with the standard deviation `sd`. If
 mapped to ‘error’, this variable will be used to create corresponding
 `ymin` and `ymax` values for the error bars `ymin = values - sd` and
-`ymax = values + sd`. If `yscale = 'log'`, `ymin` values below 0 are set
+`ymax = values + sd`. If `yScale = 'log'`, `ymin` values below 0 are set
 to `y`. Additionally, `error_relative` can be used where a
 multiplicative error is assumed: `ymin = values / error_relative` and
 `ymax = values * error_relative`.
@@ -643,10 +643,10 @@ plotTimeProfile(
     shape = caption
   ),
   metaData = metaDataY2,
-  yscale = "log",
-  yscale.args = list(limits = c(0.01, NA)),
-  y2scale = "linear",
-  y2scale.args = list(limits = c(0, 1))
+  yScale = "log",
+  yScaleArgs = list(limits = c(0.01, NA)),
+  y2Scale = "linear",
+  y2ScaleArgs = list(limits = c(0, 1))
 ) +
   theme(
     axis.title.y.right = element_text(angle = 90),
@@ -878,8 +878,8 @@ plotTimeProfile(
     y = values,
     groupby = caption
   ),
-  yscale = "log",
-  xscale.args = list(limits = c(24, 48), breaks = seq(24, 48, 3))
+  yScale = "log",
+  xScaleArgs = list(limits = c(24, 48), breaks = seq(24, 48, 3))
 )
 ```
 

@@ -9,11 +9,11 @@ initializes plot object and set scaling
   simMappedData,
   obsMappedData,
   plotObject,
-  xscale,
-  xscale.args,
-  yscale,
-  yscale.args,
-  y2scale.args,
+  xScale,
+  xScaleArgs,
+  yScale,
+  yScaleArgs,
+  y2ScaleArgs,
   secAxis
 )
 ```
@@ -32,7 +32,7 @@ initializes plot object and set scaling
 
   An optional `ggplot` object on which to add the plot layers
 
-- xscale:
+- xScale:
 
   either 'linear' then
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -40,14 +40,14 @@ initializes plot object and set scaling
   [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- xscale.args:
+- xScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   or
   [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-- yscale:
+- yScale:
 
   either 'linear' then
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -55,14 +55,14 @@ initializes plot object and set scaling
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- yscale.args:
+- yScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   or
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-- y2scale.args:
+- y2ScaleArgs:
 
   list of arguments passed to
   [`ggplot2::sec_axis()`](https://ggplot2.tidyverse.org/reference/sec_axis.html),

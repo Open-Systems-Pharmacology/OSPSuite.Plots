@@ -509,7 +509,7 @@ respective functions.
 - `error`: Mapped to a column with additive error (e.g., standard
   deviation); error bars are plotted. This is a shortcut to map `ymin`
   and `ymax` directly (`ymin = y - error` and `ymax = y + error`).
-  Additionally, if `yscale` is set, `ymin` values below 0 are set to
+  Additionally, if `yScale` is set, `ymin` values below 0 are set to
   `y`.
 - `error_relative`: Mapped to a column with relative error (e.g.,
   geometric standard deviation); error bars are plotted. This is a
@@ -653,7 +653,7 @@ oldDefaults <- ospsuite.plots::setDefaults(pointAsUnicode = TRUE)
 
 dt <- data.frame(x = c(1, 2, 1, 2), y = c(1, 1, 2, 2), species = c("pig", "dog", "mouse", "rat"))
 
-plotObject <- plotYVsX(data = dt, mapping = aes(x = x, y = y, groupby = species), xscale = "linear", xscale.args = list(limits = c(0.5, 2.5)), yscale = "linear", yscale.args = list(limits = c(0.5, 2.5)))
+plotObject <- plotYVsX(data = dt, mapping = aes(x = x, y = y, groupby = species), xScale = "linear", xScaleArgs = list(limits = c(0.5, 2.5)), yScale = "linear", yScaleArgs = list(limits = c(0.5, 2.5)))
 
 plot(plotObject)
 ```

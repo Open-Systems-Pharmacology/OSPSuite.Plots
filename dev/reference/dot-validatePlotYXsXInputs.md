@@ -21,10 +21,10 @@ ensure proper data format and parameter values.
   deltaGuest,
   residualScale,
   asSquarePlot,
-  xscale,
-  xscale.args,
-  yscale,
-  yscale.args,
+  xScale,
+  xScaleArgs,
+  yScale,
+  yScaleArgs,
   observedDataDirection
 )
 ```
@@ -99,7 +99,7 @@ ensure proper data format and parameter values.
   A boolean; if true, the plot is returned as a square plot with aspect
   ratio = 1 and fixed ratios.
 
-- xscale:
+- xScale:
 
   either 'linear' then
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -107,14 +107,14 @@ ensure proper data format and parameter values.
   [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- xscale.args:
+- xScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   or
   [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-- yscale:
+- yScale:
 
   either 'linear' then
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -122,7 +122,7 @@ ensure proper data format and parameter values.
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- yscale.args:
+- yScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,11 +57,11 @@
 <span>  <span class="va">simMappedData</span>,</span>
 <span>  <span class="va">obsMappedData</span>,</span>
 <span>  <span class="va">plotObject</span>,</span>
-<span>  <span class="va">xscale</span>,</span>
-<span>  <span class="va">xscale.args</span>,</span>
-<span>  <span class="va">yscale</span>,</span>
-<span>  <span class="va">yscale.args</span>,</span>
-<span>  <span class="va">y2scale.args</span>,</span>
+<span>  <span class="va">xScale</span>,</span>
+<span>  <span class="va">xScaleArgs</span>,</span>
+<span>  <span class="va">yScale</span>,</span>
+<span>  <span class="va">yScaleArgs</span>,</span>
+<span>  <span class="va">y2ScaleArgs</span>,</span>
 <span>  <span class="va">secAxis</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -82,23 +82,23 @@
 <dd><p>An optional <code>ggplot</code> object on which to add the plot layers</p></dd>
 
 
-<dt id="arg-xscale">xscale<a class="anchor" aria-label="anchor" href="#arg-xscale"></a></dt>
+<dt id="arg-xscale">xScale<a class="anchor" aria-label="anchor" href="#arg-xscale"></a></dt>
 <dd><p>either 'linear' then <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_continuous()</a></code> or 'log' then <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_log10()</a></code> is used</p></dd>
 
 
-<dt id="arg-xscale-args">xscale.args<a class="anchor" aria-label="anchor" href="#arg-xscale-args"></a></dt>
+<dt id="arg-xscaleargs">xScaleArgs<a class="anchor" aria-label="anchor" href="#arg-xscaleargs"></a></dt>
 <dd><p>list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_continuous()</a></code> or <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_log10()</a></code></p></dd>
 
 
-<dt id="arg-yscale">yscale<a class="anchor" aria-label="anchor" href="#arg-yscale"></a></dt>
+<dt id="arg-yscale">yScale<a class="anchor" aria-label="anchor" href="#arg-yscale"></a></dt>
 <dd><p>either 'linear' then <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_continuous()</a></code> or 'log' then <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_log10()</a></code> is used</p></dd>
 
 
-<dt id="arg-yscale-args">yscale.args<a class="anchor" aria-label="anchor" href="#arg-yscale-args"></a></dt>
+<dt id="arg-yscaleargs">yScaleArgs<a class="anchor" aria-label="anchor" href="#arg-yscaleargs"></a></dt>
 <dd><p>list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_continuous()</a></code> or <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_log10()</a></code></p></dd>
 
 
-<dt id="arg-y-scale-args">y2scale.args<a class="anchor" aria-label="anchor" href="#arg-y-scale-args"></a></dt>
+<dt id="arg-y-scaleargs">y2ScaleArgs<a class="anchor" aria-label="anchor" href="#arg-y-scaleargs"></a></dt>
 <dd><p>list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/sec_axis.html" class="external-link">ggplot2::sec_axis()</a></code>, trans, break are set by code</p></dd>
 
 </dl></div>

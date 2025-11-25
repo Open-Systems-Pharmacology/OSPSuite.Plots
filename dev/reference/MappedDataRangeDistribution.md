@@ -16,7 +16,7 @@ Other MappedData classes:
 
 ## Public fields
 
-- `xscale`:
+- `xScale`:
 
   scale of x axis
 
@@ -62,8 +62,8 @@ Create a new `MappedDataRangeDistribution` object
       isObserved = TRUE,
       xlimits = NULL,
       ylimits = NULL,
-      xscale = "linear",
-      yscale = "linear",
+      xScale = "linear",
+      yScale = "linear",
       residualScale = NULL,
       residualAesthetic = "y",
       modeOfBinning = NA,
@@ -103,11 +103,11 @@ Create a new `MappedDataRangeDistribution` object
 
   limits for y-axis (may be NULL)
 
-- `xscale`:
+- `xScale`:
 
   scale of x-axis either 'linear' or 'log'
 
-- `yscale`:
+- `yScale`:
 
   scale of y-axis either 'linear' or 'log'
 

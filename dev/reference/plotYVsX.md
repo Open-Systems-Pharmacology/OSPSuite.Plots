@@ -32,10 +32,10 @@ plotYVsX(
   labelGuestCriteria = "guest criteria",
   residualScale = NULL,
   asSquarePlot = FALSE,
-  xscale = AxisScales$linear,
-  xscale.args = list(),
-  yscale = AxisScales$log,
-  yscale.args = list(),
+  xScale = AxisScales$linear,
+  xScaleArgs = list(),
+  yScale = AxisScales$log,
+  yScaleArgs = list(),
   observedDataDirection = "y",
   yDisplayAsAbsolute = TRUE
 )
@@ -120,7 +120,7 @@ plotYVsX(
   A boolean; if true, the plot is returned as a square plot with aspect
   ratio = 1 and fixed ratios.
 
-- xscale:
+- xScale:
 
   either 'linear' then
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -128,14 +128,14 @@ plotYVsX(
   [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- xscale.args:
+- xScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   or
   [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-- yscale:
+- yScale:
 
   either 'linear' then
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -143,7 +143,7 @@ plotYVsX(
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- yscale.args:
+- yScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)

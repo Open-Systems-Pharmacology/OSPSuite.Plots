@@ -18,10 +18,10 @@ plotRangeDistribution(
   asStepPlot = FALSE,
   statFun = NULL,
   percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles)[c(1, 3, 5)],
-  yscale = "linear",
-  yscale.args = list(),
-  xscale = "linear",
-  xscale.args = list(),
+  yScale = "linear",
+  yScaleArgs = list(),
+  xScale = "linear",
+  xScaleArgs = list(),
   geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
   geomLineAttributes = getDefaultGeomAttributes("Line"),
   identifier = "IndividualId"
@@ -87,24 +87,24 @@ plotRangeDistribution(
   which defines the range of values to be displayed on the plot. Default
   is the 5th, 50th, and 95th percentiles.
 
-- yscale:
+- yScale:
 
   A character string specifying the y-axis scale. Options are "linear"
   or "log". This determines how the y values are displayed on the plot.
   Default is "linear".
 
-- yscale.args:
+- yScaleArgs:
 
   A list of additional arguments for the y-axis scale, which can be used
   to customize the appearance and behavior of the y-axis.
 
-- xscale:
+- xScale:
 
   A character string specifying the x-axis scale. Options are "linear"
   or "log". This determines how the x values are displayed on the plot.
   Default is "linear".
 
-- xscale.args:
+- xScaleArgs:
 
   A list of additional arguments for the x-axis scale, which can be used
   to customize the appearance and behavior of the x-axis.

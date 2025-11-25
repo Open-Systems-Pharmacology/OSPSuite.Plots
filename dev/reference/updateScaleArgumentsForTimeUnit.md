@@ -5,12 +5,12 @@ adds break function with fixed width for breaks depending on unit:
 ## Usage
 
 ``` r
-updateScaleArgumentsForTimeUnit(scale.args, dimension, unit)
+updateScaleArgumentsForTimeUnit(scaleArgs, dimension, unit)
 ```
 
 ## Arguments
 
-- scale.args:
+- scaleArgs:
 
   list of arguments for scale to be updated, passed to
   scale_x_continuous or scale_x_log10
@@ -59,12 +59,12 @@ The function uses the following logic to determine the breaks:
 ## Examples
 
 ``` r
-xscale.args <- list(limits = c(0, 24))
-xscale.args <-
+xScaleArgs <- list(limits = c(0, 24))
+xScaleArgs <-
   updateScaleArgumentsForTimeUnit(
-    scale.args = xscale.args,
+    scaleArgs = xScaleArgs,
     dimension = "time",
     unit = "h"
   )
-addXscale(plotObject = ggplot(), xscale = "linear", xscale.args = xscale.args)
+addXScale(plotObject = ggplot(), xScale = "linear", xScaleArgs = xScaleArgs)
 ```

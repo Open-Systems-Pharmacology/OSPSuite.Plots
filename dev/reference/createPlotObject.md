@@ -8,8 +8,8 @@ This function generates the main plot object for the forest plot.
 createPlotObject(
   plotData,
   mapping,
-  xscale,
-  xscale.args,
+  xScale,
+  xScaleArgs,
   xLabel,
   groupAesthetics,
   yFacetColumns,
@@ -31,11 +31,11 @@ createPlotObject(
 
   A ggplot mapping object.
 
-- xscale:
+- xScale:
 
   A character string indicating the scale type for the x-axis.
 
-- xscale.args:
+- xScaleArgs:
 
   A list of additional arguments for customizing the x-axis scale.
 

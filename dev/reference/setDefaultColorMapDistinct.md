@@ -44,8 +44,8 @@ Other setDefault functions:
 if (FALSE) { # \dontrun{
 # Set custom color maps
 customColors <- list(
-  c("#FF0000", "#00FF00", "#0000FF"),  # RGB colors
-  c("red", "green", "blue")           # Named colors
+  c("#FF0000", "#00FF00", "#0000FF"), # RGB colors
+  c("red", "green", "blue") # Named colors
 )
 oldColors <- setDefaultColorMapDistinct(customColors)
 

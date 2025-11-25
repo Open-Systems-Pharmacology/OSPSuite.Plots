@@ -81,7 +81,7 @@ Create a new `MappedDataTimeProfile` object
       isObserved = TRUE,
       xlimits = NULL,
       ylimits = NULL,
-      xscale = AxisScales$linear,
+      xScale = AxisScales$linear,
       scaleOfPrimaryAxis = AxisScales$linear,
       scaleOfSecondaryAxis = AxisScales$linear,
       y2limits = NULL
@@ -123,7 +123,7 @@ Create a new `MappedDataTimeProfile` object
 
   limits for primary axis (may be NULL)
 
-- `xscale`:
+- `xScale`:
 
   = scale of x-axis
 
@@ -156,7 +156,7 @@ and secondary axes with different scale types (linear/log combinations).
     MappedDataTimeProfile$scaleDataForSecondaryAxis(
       ylimits = NULL,
       y2limits = NULL,
-      y2scale.args = list()
+      y2ScaleArgs = list()
     )
 
 #### Arguments
@@ -169,7 +169,7 @@ and secondary axes with different scale types (linear/log combinations).
 
   limits for secondary axis (may be NULL)
 
-- `y2scale.args`:
+- `y2ScaleArgs`:
 
   arguments for secondary axis
 

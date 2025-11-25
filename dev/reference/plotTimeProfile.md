@@ -22,12 +22,12 @@ plotTimeProfile(
   observedMapping = mapping,
   metaData = NULL,
   mapSimulatedAndObserved = NULL,
-  xscale = AxisScales$linear,
-  xscale.args = list(limits = c(0, NA)),
-  yscale = AxisScales$linear,
-  yscale.args = list(),
-  y2scale = AxisScales$linear,
-  y2scale.args = list(),
+  xScale = AxisScales$linear,
+  xScaleArgs = list(limits = c(0, NA)),
+  yScale = AxisScales$linear,
+  yScaleArgs = list(),
+  y2Scale = AxisScales$linear,
+  y2ScaleArgs = list(),
   plotObject = NULL,
   geomLineAttributes = getDefaultGeomAttributes("Line"),
   geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
@@ -74,7 +74,7 @@ plotTimeProfile(
   observed data use of `mapSimulatedAndObserved` triggers reset of
   aesthetic scales after simulation layers
 
-- xscale:
+- xScale:
 
   either 'linear' then
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -82,14 +82,14 @@ plotTimeProfile(
   [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- xscale.args:
+- xScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   or
   [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-- yscale:
+- yScale:
 
   either 'linear' then
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -97,19 +97,19 @@ plotTimeProfile(
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- yscale.args:
+- yScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   or
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-- y2scale:
+- y2Scale:
 
   either 'linear' the secondary axis is displayed linear, or 'log'
   secondary axis is displayed with log scale
 
-- y2scale.args:
+- y2ScaleArgs:
 
   list of arguments passed to
   [`ggplot2::sec_axis()`](https://ggplot2.tidyverse.org/reference/sec_axis.html),

@@ -13,9 +13,9 @@ plotQQ(
   data,
   mapping,
   metaData = NULL,
-  xscale.args = list(),
+  xScaleArgs = list(),
   residualScale = ResidualScales$log,
-  yscale.args = list(),
+  yScaleArgs = list(),
   geomQQAttributes = list(),
   geomQQLineAttributes = geomQQAttributes,
   groupAesthetics = c("colour", "fill", "shape")
@@ -40,7 +40,7 @@ plotQQ(
   A named list of information about `data` such as the `dimension` and
   `unit` of its variables.
 
-- xscale.args:
+- xScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -53,7 +53,7 @@ plotQQ(
   residuals = observed - predicted. For log: residuals = log(observed) -
   log(predicted). The y-axis scale remains linear in both cases.
 
-- yscale.args:
+- yScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)

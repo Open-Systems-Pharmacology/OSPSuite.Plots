@@ -20,10 +20,10 @@ plotHistogram(
   asBarPlot = NULL,
   geomHistAttributes = getDefaultGeomAttributes("Hist"),
   plotAsFrequency = FALSE,
-  xscale = AxisScales$linear,
-  xscale.args = list(),
-  yscale = AxisScales$linear,
-  yscale.args = list(),
+  xScale = AxisScales$linear,
+  xScaleArgs = list(),
+  yScale = AxisScales$linear,
+  yScaleArgs = list(),
   distribution = "none",
   meanFunction = "auto",
   residualScale = ResidualScales$log
@@ -52,7 +52,7 @@ plotHistogram(
 
   A `logical` indicating if `geom_histogram` should be used (for
   continuous data) or `geom_bar` (for categorical data). If TRUE, the
-  variables `distribution`, `meanFunction`, `xscale`, and `xscale.args`
+  variables `distribution`, `meanFunction`, `xScale`, and `xScaleArgs`
   are ignored.
 
 - geomHistAttributes:
@@ -66,7 +66,7 @@ plotHistogram(
   A `logical` indicating if the histogram displays frequency on the
   y-axis.
 
-- xscale:
+- xScale:
 
   either 'linear' then
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -74,14 +74,14 @@ plotHistogram(
   [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- xscale.args:
+- xScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   or
   [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-- yscale:
+- yScale:
 
   either 'linear' then
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -89,7 +89,7 @@ plotHistogram(
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
 
-- yscale.args:
+- yScaleArgs:
 
   list of arguments passed to
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)

@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -586,14 +586,14 @@ variable <code>plotAsFrequency</code> to TRUE.</p>
 </h4>
 <p>As the fit is based on binning, and binning is dependent on scale, a
 log scale has to be set before the distribution fit. Please use the
-variable <code>xscale = 'log'</code> and do not add a
+variable <code>xScale = 'log'</code> and do not add a
 <code>{ggplot}</code> like <code>scale_x_log10</code>.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotHistogram.html">plotHistogram</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">histDataDistr</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Obs</span>, fill <span class="op">=</span> <span class="va">Sex</span><span class="op">)</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaDataDistr</span>,</span>
-<span>  xscale <span class="op">=</span> <span class="st">"log"</span>,</span>
+<span>  xScale <span class="op">=</span> <span class="st">"log"</span>,</span>
 <span>  distribution <span class="op">=</span> <span class="st">"norm"</span>,</span>
 <span>  meanFunction <span class="op">=</span> <span class="st">"none"</span></span>
 <span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>tag <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></span></code></pre></div>

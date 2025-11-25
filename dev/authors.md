@@ -13,13 +13,13 @@
 ## Citation
 
 Coboeken K (2025). *ospsuite.plots: Library for standardized graphs*. R
-package version 1.0.1.9004,
+package version 1.0.1.9005,
 <https://www.open-systems-pharmacology.org/OSPSuite.Plots/>.
 
     @Manual{,
       title = {ospsuite.plots: Library for standardized graphs},
       author = {Katrin Coboeken},
       year = {2025},
-      note = {R package version 1.0.1.9004},
+      note = {R package version 1.0.1.9005},
       url = {https://www.open-systems-pharmacology.org/OSPSuite.Plots/},
     }

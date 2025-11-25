@@ -27,7 +27,7 @@ vignette(&quot;ospsuite.plots&quot;, package = &quot;ospsuite.plots&quot;)
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,7 +80,7 @@ vignette(&quot;ospsuite.plots&quot;, package = &quot;ospsuite.plots&quot;)
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plotPredVsObs</span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  xyscale <span class="op">=</span> <span class="va">AxisScales</span><span class="op">$</span><span class="va">log</span>,</span>
+<span>  xyScale <span class="op">=</span> <span class="va">AxisScales</span><span class="op">$</span><span class="va">log</span>,</span>
 <span>  comparisonLineVector <span class="op">=</span> <span class="fu"><a href="getFoldDistanceList.html">getFoldDistanceList</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  asSquarePlot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -99,7 +99,7 @@ vignette(&quot;ospsuite.plots&quot;, package = &quot;ospsuite.plots&quot;)
 <dd><p>A list of aesthetic mappings to use for the plot.</p></dd>
 
 
-<dt id="arg-xyscale">xyscale<a class="anchor" aria-label="anchor" href="#arg-xyscale"></a></dt>
+<dt id="arg-xyscale">xyScale<a class="anchor" aria-label="anchor" href="#arg-xyscale"></a></dt>
 <dd><p>Either "linear" or "log" scale for the X and Y axes.</p></dd>
 
 
@@ -156,16 +156,16 @@ and proportions within comparison lines. Common grouping aesthetics include <cod
     <dt><code>geomLLOQAttributes</code></dt>
 <dd><p>A <code>list</code> with arguments which are passed on to the call <code><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">ggplot2::geom_hline</a></code></p></dd>
 
-    <dt><code>xscale</code></dt>
+    <dt><code>xScale</code></dt>
 <dd><p>either 'linear' then <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_continuous()</a></code> or 'log' then <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_log10()</a></code> is used</p></dd>
 
-    <dt><code>xscale.args</code></dt>
+    <dt><code>xScaleArgs</code></dt>
 <dd><p>list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_continuous()</a></code> or <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_log10()</a></code></p></dd>
 
-    <dt><code>yscale</code></dt>
+    <dt><code>yScale</code></dt>
 <dd><p>either 'linear' then <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_continuous()</a></code> or 'log' then <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_log10()</a></code> is used</p></dd>
 
-    <dt><code>yscale.args</code></dt>
+    <dt><code>yScaleArgs</code></dt>
 <dd><p>list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_continuous()</a></code> or <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_log10()</a></code></p></dd>
 
 

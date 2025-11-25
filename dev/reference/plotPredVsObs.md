@@ -21,7 +21,7 @@ For details and examples, see the vignettes:
 plotPredVsObs(
   data = NULL,
   mapping = NULL,
-  xyscale = AxisScales$log,
+  xyScale = AxisScales$log,
   comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
   asSquarePlot = TRUE,
   ...
@@ -38,7 +38,7 @@ plotPredVsObs(
 
   A list of aesthetic mappings to use for the plot.
 
-- xyscale:
+- xyScale:
 
   Either "linear" or "log" scale for the X and Y axes.
 
@@ -124,7 +124,7 @@ plotPredVsObs(
   :   A `list` with arguments which are passed on to the call
       [`ggplot2::geom_hline`](https://ggplot2.tidyverse.org/reference/geom_abline.html)
 
-  `xscale`
+  `xScale`
 
   :   either 'linear' then
       [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -132,14 +132,14 @@ plotPredVsObs(
       [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
       is used
 
-  `xscale.args`
+  `xScaleArgs`
 
   :   list of arguments passed to
       [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
       or
       [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-  `yscale`
+  `yScale`
 
   :   either 'linear' then
       [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
@@ -147,7 +147,7 @@ plotPredVsObs(
       [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
       is used
 
-  `yscale.args`
+  `yScaleArgs`
 
   :   list of arguments passed to
       [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)

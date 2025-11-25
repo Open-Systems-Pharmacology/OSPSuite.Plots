@@ -501,14 +501,14 @@ data.](histogram_files/figure-html/example-frequency-stacked-fit-1.png)
 
 As the fit is based on binning, and binning is dependent on scale, a log
 scale has to be set before the distribution fit. Please use the variable
-`xscale = 'log'` and do not add a `{ggplot}` like `scale_x_log10`.
+`xScale = 'log'` and do not add a `{ggplot}` like `scale_x_log10`.
 
 ``` r
 plotHistogram(
   data = histDataDistr,
   mapping = aes(x = Obs, fill = Sex),
   metaData = metaDataDistr,
-  xscale = "log",
+  xScale = "log",
   distribution = "norm",
   meanFunction = "none"
 ) + labs(tag = "A")

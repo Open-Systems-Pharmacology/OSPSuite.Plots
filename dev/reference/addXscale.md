@@ -5,7 +5,7 @@ add X-scale
 ## Usage
 
 ``` r
-addXscale(plotObject, xscale, xscale.args = list())
+addXScale(plotObject, xScale, xScaleArgs = list())
 ```
 
 ## Arguments
@@ -14,11 +14,11 @@ addXscale(plotObject, xscale, xscale.args = list())
 
   A `ggplot` object on which to add the scale.
 
-- xscale:
+- xScale:
 
   The x-axis scale type. Available is 'linear', 'log', 'discrete'
 
-- xscale.args:
+- xScaleArgs:
 
   A list of arguments for the x-axis scale.
 

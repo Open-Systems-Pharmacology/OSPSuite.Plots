@@ -5,7 +5,7 @@ add y-scale
 ## Usage
 
 ``` r
-addYscale(plotObject, yscale, yscale.args = list(), secAxis = waiver())
+addYScale(plotObject, yScale, yScaleArgs = list(), secAxis = waiver())
 ```
 
 ## Arguments
@@ -14,11 +14,11 @@ addYscale(plotObject, yscale, yscale.args = list(), secAxis = waiver())
 
   A `ggplot` object on which to add the scale.
 
-- yscale:
+- yScale:
 
   The y-axis scale type. Available is 'linear', 'log'
 
-- yscale.args:
+- yScaleArgs:
 
   A list of arguments for the y-axis scale.
 

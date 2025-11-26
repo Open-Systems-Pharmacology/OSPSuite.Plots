@@ -662,11 +662,11 @@ getCountsWithin <- function(data,
       data = tmp,
       cols = intersect(names(tmp), c(names(lineVectorFiltered), "guest criteria")),
       names_to = "Description", values_to = "Number"
-    ) %>%
-      dplyr::mutate(Fraction = Number / get("Points total")) %>%
-      tidyr::pivot_longer(cols = c("Number", "Fraction")) %>%
-      dplyr::mutate(Description = paste(Description, name)) %>%
-      dplyr::mutate(name = NULL) %>%
+    ) |>
+      dplyr::mutate(Fraction = Number / get("Points total")) |>
+      tidyr::pivot_longer(cols = c("Number", "Fraction")) |>
+      dplyr::mutate(Description = paste(Description, name)) |>
+      dplyr::mutate(name = NULL) |>
       tidyr::pivot_wider(names_from = Description, values_from = value)
   } else {
     # if provide one row per 'fold'
@@ -674,8 +674,8 @@ getCountsWithin <- function(data,
     totalNumber <- fixedData[, .(
       Number = sum(!is.na(y)),
       Fraction = 1
-    )] %>%
-      dplyr::mutate(Description = "Points total") %>%
+    )] |>
+      dplyr::mutate(Description = "Points total") |>
       data.table::setcolorder("Description")
 
     tmp <-
@@ -689,8 +689,8 @@ getCountsWithin <- function(data,
           yDisplayAsAbsolute = yDisplayAsAbsolute
         )
       )]
-    tmp <- tidyr::pivot_longer(data = tmp, cols = names(tmp), names_to = "Description", values_to = "Number") %>%
-      dplyr::mutate(Fraction = Number / totalNumber$Number) %>%
+    tmp <- tidyr::pivot_longer(data = tmp, cols = names(tmp), names_to = "Description", values_to = "Number") |>
+      dplyr::mutate(Fraction = Number / totalNumber$Number) |>
       dplyr::mutate(Description = paste("Points within", Description))
 
 

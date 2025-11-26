@@ -7,9 +7,6 @@ test_that("Package documentation and imports are properly defined", {
   # Check for ggplot2 functions
   expect_true(exists("ggplot", envir = asNamespace("ggplot2"), inherits = FALSE))
   expect_true(exists("aes", envir = asNamespace("ggplot2"), inherits = FALSE))
-
-  # Check that magrittr pipe is accessible
-  expect_true(exists("%>%", envir = asNamespace("magrittr"), inherits = FALSE))
 })
 
 test_that("Package constants and utilities are defined", {

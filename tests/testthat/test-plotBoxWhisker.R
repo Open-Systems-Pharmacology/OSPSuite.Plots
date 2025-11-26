@@ -2,10 +2,10 @@
 oldDefaults <- ospsuite.plots::setDefaults()
 
 test_that("plotWhisker works", {
-  pkRatioData <- exampleDataCovariates %>%
-    dplyr::filter(SetID == "DataSet1") %>%
-    dplyr::mutate(SetID = NULL) %>%
-    dplyr::group_by(Country) %>%
+  pkRatioData <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet1") |>
+    dplyr::mutate(SetID = NULL) |>
+    dplyr::group_by(Country) |>
     dplyr::mutate(meanAge = round(mean(Age), 2))
 
   pkRatioMetaData <- attr(exampleDataCovariates, "metaData")
@@ -52,9 +52,9 @@ test_that("plotWhisker works", {
     fig = plotObject
   )
 
-  dt <- plotObject$data %>%
-    data.table::setDT() %>%
-    .[, as.list(plotObject$statFun(Age)), by = c("Country", "Sex")]
+  dt <- plotObject$data |>
+    data.table::setDT() |>
+    (\(x) x[, as.list(plotObject$statFun(Age)), by = c("Country", "Sex")])()
   expect_true(nrow(dt) == 4)
   expect_equal(dt$N, c(19, 6, 15, 10))
 

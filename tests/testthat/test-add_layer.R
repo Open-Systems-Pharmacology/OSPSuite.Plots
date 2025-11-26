@@ -1,6 +1,6 @@
-simData1 <- exampleDataTimeProfile %>%
-  dplyr::filter(SetID == "DataSet1") %>%
-  dplyr::filter(Type == "simulated") %>%
+simData1 <- exampleDataTimeProfile |>
+  dplyr::filter(SetID == "DataSet1") |>
+  dplyr::filter(Type == "simulated") |>
   dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
 mappedData <- MappedData$new(
@@ -14,10 +14,10 @@ mappedData <- MappedData$new(
   ),
 )
 
-obsData <- exampleDataTimeProfile %>%
-  dplyr::filter(SetID == "DataSet3") %>%
-  dplyr::filter(Type == "observed") %>%
-  dplyr::filter(dimension == "concentration") %>%
+obsData <- exampleDataTimeProfile |>
+  dplyr::filter(SetID == "DataSet3") |>
+  dplyr::filter(Type == "observed") |>
+  dplyr::filter(dimension == "concentration") |>
   dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
 
 mappedDataLLOQ <- MappedData$new(

@@ -200,10 +200,10 @@ metaData2DataFrame <- function(metaData) {
   }
 
   for (element in c("dimension", "unit")) {
-    tmp <- lapply(metaData, getElement, element) %>%
+    tmp <- lapply(metaData, getElement, element) |>
       lapply(function(x) {
         ifelse(is.null(x), "", x)
-      }) %>%
+      }) |>
       as.data.frame()
     rownames(tmp) <- element
 

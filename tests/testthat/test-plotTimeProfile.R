@@ -5,14 +5,14 @@ test_that("plotTimeProfile works basic", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-  simData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
-    dplyr::filter(Type == "simulated") %>%
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "simulated") |>
     dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
-  obsData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
-    dplyr::filter(Type == "observed") %>%
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "observed") |>
     dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
   metaData <- attr(exampleDataTimeProfile, "metaData")
@@ -44,14 +44,14 @@ test_that("plotTimeProfile works logscale", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-  simData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
-    dplyr::filter(Type == "simulated") %>%
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "simulated") |>
     dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
-  obsData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
-    dplyr::filter(Type == "observed") %>%
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "observed") |>
     dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
   metaData <- attr(exampleDataTimeProfile, "metaData")
@@ -84,14 +84,14 @@ test_that("plotTimeProfile works mapping observed plot", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-  simData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
-    dplyr::filter(Type == "simulated") %>%
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "simulated") |>
     dplyr::select(c("time", "values", "minValues", "maxValues", "caption"))
 
-  obsData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) %>%
-    dplyr::filter(Type == "observed") %>%
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "observed") |>
     dplyr::select(c("time", "values", "sd", "maxValues", "minValues", "caption"))
 
   metaData <- attr(exampleDataTimeProfile, "metaData")
@@ -127,16 +127,16 @@ test_that("plotTimeProfile works lloq", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
 
-  simData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID == c("DataSet3")) %>%
-    dplyr::filter(Type == "simulated") %>%
-    dplyr::filter(dimension == "concentration") %>%
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == c("DataSet3")) |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::filter(dimension == "concentration") |>
     dplyr::select(c("time", "values", "caption"))
 
-  obsData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID == "DataSet3") %>%
-    dplyr::filter(Type == "observed") %>%
-    dplyr::filter(dimension == "concentration") %>%
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
     dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
 
   obsData$lloq[3] <- NA
@@ -222,15 +222,15 @@ test_that("plotTimeProfile works secondary axis", {
     )
   )
 
-  simData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID == "DataSet3") %>%
-    dplyr::filter(Type == "simulated") %>%
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "simulated") |>
     dplyr::select(c("time", "values", "dimension", "caption"))
 
 
-  obsData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID == "DataSet3") %>%
-    dplyr::filter(Type == "observed") %>%
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
     dplyr::select(c("time", "values", "dimension", "caption", "lloq", "error_relative"))
 
 

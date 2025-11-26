@@ -57,8 +57,8 @@ data <- data.frame(
   dimension = "concentration",
   sd = c(0.404, 0.41, 0.441, 0.39, 0.36),
   caption = "Observed Data 1"
-) %>%
-  dplyr::mutate(minValues = values - sd) %>%
+) |>
+  dplyr::mutate(minValues = values - sd) |>
   dplyr::mutate(maxValues = values + sd)
 
 exampleDataTimeProfile <- rbind(exampleDataTimeProfile,
@@ -76,8 +76,8 @@ data <- data.frame(
   dimension = "concentration",
   sd = c(0, 0.4, 0.3, 0.35, 0.25, 0.2),
   caption = "Observed Data 2"
-) %>%
-  dplyr::mutate(minValues = values - sd) %>%
+) |>
+  dplyr::mutate(minValues = values - sd) |>
   dplyr::mutate(maxValues = values + sd)
 
 exampleDataTimeProfile <- rbind(exampleDataTimeProfile,
@@ -99,17 +99,17 @@ obsData <- data.frame(
 )
 
 data <- rbind(
-  copy(obsData) %>%
-    dplyr::mutate(values = values * rnorm(14, 1, .25)) %>%
+  copy(obsData) |>
+    dplyr::mutate(values = values * rnorm(14, 1, .25)) |>
     dplyr::mutate(values = ifelse(values <= lloq, lloq / 2, values)),
-  copy(obsData) %>%
-    dplyr::group_by(caption) %>%
-    dplyr::mutate(values = values * rnorm(7, 1, .05)) %>%
-    dplyr::mutate(values = cumsum(values) / sum(values)) %>%
-    dplyr::mutate(lloq = rep(NA, 7)) %>%
+  copy(obsData) |>
+    dplyr::group_by(caption) |>
+    dplyr::mutate(values = values * rnorm(7, 1, .05)) |>
+    dplyr::mutate(values = cumsum(values) / sum(values)) |>
+    dplyr::mutate(lloq = rep(NA, 7)) |>
     dplyr::mutate(dimension = "fraction")
-) %>%
-  dplyr::mutate(SetID = "DataSet3") %>%
+) |>
+  dplyr::mutate(SetID = "DataSet3") |>
   dplyr::mutate(Type = "observed")
 
 exampleDataTimeProfile <- rbind(exampleDataTimeProfile,
@@ -130,16 +130,16 @@ simData <- data.frame(
 
 data <- rbind(
   simData,
-  copy(simData) %>%
-    dplyr::mutate(values = cumsum(values) / sum(values)) %>%
-    dplyr::mutate(minValues = 0.8 * values) %>%
+  copy(simData) |>
+    dplyr::mutate(values = cumsum(values) / sum(values)) |>
+    dplyr::mutate(minValues = 0.8 * values) |>
     dplyr::mutate(maxValues = ifelse(1.2 * values > 1,
       1,
       1.2 * values
-    )) %>%
+    )) |>
     dplyr::mutate(dimension = "fraction")
-) %>%
-  dplyr::mutate(SetID = "DataSet3") %>%
+) |>
+  dplyr::mutate(SetID = "DataSet3") |>
   dplyr::mutate(Type = "simulated")
 
 
@@ -216,7 +216,7 @@ usethis::use_data(exampleDataTimeProfile, overwrite = TRUE, internal = FALSE)
 
 ##  Set 1 ----
 
-exampleDataCovariates <- fread(file.path("data-raw", "test-data.csv")) %>%
+exampleDataCovariates <- fread(file.path("data-raw", "test-data.csv")) |>
   dplyr::mutate(SetID = "DataSet1")
 
 
@@ -233,8 +233,8 @@ data <- data.table(
   Sex = rep(c("Female", "Male"), 175),
   Obs = c(rnorm(200, 20, 5), rnorm(150, 25, 10)) +
     rep(c(10, 50), 175)
-) %>%
-  dplyr::mutate(Pred = Obs * rnorm(350, 1, .1)) %>%
+) |>
+  dplyr::mutate(Pred = Obs * rnorm(350, 1, .1)) |>
   dplyr::mutate(gsd = rnorm(350, 1, .05))
 
 data[, ID := .I]

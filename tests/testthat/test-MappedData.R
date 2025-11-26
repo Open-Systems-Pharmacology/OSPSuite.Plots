@@ -1,7 +1,7 @@
 test_that("adjustGroupAesthetics works", {
-  simData1 <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID == "DataSet1") %>%
-    dplyr::filter(Type == "simulated") %>%
+  simData1 <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet1") |>
+    dplyr::filter(Type == "simulated") |>
     dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
 
@@ -26,9 +26,9 @@ test_that("adjustGroupAesthetics works", {
 
 
 test_that("getAestheticsForGeom works", {
-  simData1 <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID == "DataSet1") %>%
-    dplyr::filter(Type == "simulated") %>%
+  simData1 <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet1") |>
+    dplyr::filter(Type == "simulated") |>
     dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
   simAes <- aes(
@@ -56,10 +56,10 @@ test_that("getAestheticsForGeom works", {
 
 test_that("adjustForLLOQMatch works", {
   # Observed data 1
-  obsData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID == "DataSet3") %>%
-    dplyr::filter(Type == "observed") %>%
-    dplyr::filter(dimension == "concentration") %>%
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
     dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
 
 
@@ -95,10 +95,10 @@ test_that("adjustForLLOQMatch works", {
 
 test_that("adjustDataForMDV works", {
   # Observed data 1
-  obsData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID == "DataSet3") %>%
-    dplyr::filter(Type == "observed") %>%
-    dplyr::filter(dimension == "concentration") %>%
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
     dplyr::select(c("time", "values", "caption"))
 
 
@@ -266,9 +266,9 @@ test_that("adjust secondary y axis scaling works log to lin", {
 })
 
 test_that("grouping for simulation and observed works", {
-  simData <- exampleDataTimeProfile %>%
-    dplyr::filter(Type == "simulated") %>%
-    dplyr::filter(SetID %in% c("DataSet1", "DataSet2", "DataSet3")) %>%
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2", "DataSet3")) |>
     dplyr::select(c("time", "values", "minValues", "maxValues", "caption", "dimension"))
 
   simMappedData <- MappedDataTimeProfile$new(
@@ -338,9 +338,9 @@ test_that("grouping for simulation and observed works", {
 
 
 test_that("addMetaData works", {
-  simData1 <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID == "DataSet1") %>%
-    dplyr::filter(Type == "simulated") %>%
+  simData1 <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet1") |>
+    dplyr::filter(Type == "simulated") |>
     dplyr::select(c("time", "values", "caption"))
 
   mapping <- aes(
@@ -370,9 +370,9 @@ test_that("addMetaData works", {
 })
 
 test_that("updateScaleArgumentsForTimeUnit works", {
-  simData1 <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID == "DataSet1") %>%
-    dplyr::filter(Type == "simulated") %>%
+  simData1 <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet1") |>
+    dplyr::filter(Type == "simulated") |>
     dplyr::select(c("time", "values", "caption"))
 
   mapping <- aes(
@@ -398,9 +398,9 @@ test_that("updateScaleArgumentsForTimeUnit works", {
 })
 
 test_that("adjustForResidualMatch works", {
-  obsData <- exampleDataTimeProfile %>%
-    dplyr::filter(SetID == "DataSet3") %>%
-    dplyr::filter(Type == "observed") %>%
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
     dplyr::filter(dimension == "concentration")
   obsAes <- aes(
     x = time,

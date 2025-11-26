@@ -20,6 +20,5 @@
 #' @importFrom data.table .SD
 #' @importFrom data.table :=
 #' @importFrom data.table data.table
-#' @importFrom magrittr %>%
 ## usethis namespace: end
 NULL

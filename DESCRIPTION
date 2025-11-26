@@ -15,7 +15,7 @@ URL: https://www.open-systems-pharmacology.org/OSPSuite.Plots/
 License: GPL-2 | file LICENSE
 Language: en-US
 Depends: 
-    R (>= 3.6),
+    R (>= 4.1.0),
     ggplot2 (>= 4.0)
 Imports: 
     checkmate,
@@ -26,7 +26,6 @@ Imports:
     fs,
     ggh4x,
     ggnewscale,
-    magrittr,
     ospsuite.utils (>= 1.4.0),
     R6,
     rlang,

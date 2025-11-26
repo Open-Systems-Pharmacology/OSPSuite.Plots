@@ -42,9 +42,9 @@ This vignette uses the following datasets:
   dataset will be filtered and reshaped to prepare it for plotting.
 
 ``` r
-histData <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet1") %>%
-  dplyr::select(c("ID", "Country", "Age", "AgeBin", "Obs", "Pred")) %>%
+histData <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet1") |>
+  dplyr::select(c("ID", "Country", "Age", "AgeBin", "Obs", "Pred")) |>
   melt(
     id.vars = c("ID", "Country", "Age", "AgeBin"),
     value.name = "value",

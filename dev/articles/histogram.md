@@ -37,8 +37,8 @@ This vignette uses the following datasets:
 - **Data Set 1**:
 
 ``` r
-histData <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet1") %>%
+histData <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet1") |>
   dplyr::select(c("ID", "Sex", "Age", "AgeBin", "Ratio"))
 
 # Metadata
@@ -73,8 +73,8 @@ List of meta data
 - **Data Set 2**:
 
 ``` r
-histDataDistr <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet2") %>%
+histDataDistr <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet2") |>
   dplyr::select(c("ID", "AgeBin", "Sex", "Obs"))
 
 # Metadata for Distribution Data

@@ -64,8 +64,8 @@ the package.
 #### 1.2.1 Dataset with Predicted and Observed Data
 
 ``` r
-data <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet2") %>%
+data <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet2") |>
   dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex"))
 
 knitr::kable(head(data), digits = 3, caption = "First rows of example data.")
@@ -99,9 +99,9 @@ List of meta data
 #### 1.2.2 Dataset for Examples with DDI Prediction
 
 ``` r
-dDIdata <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet3") %>%
-  dplyr::select(c("ID", "Obs", "Pred")) %>%
+dDIdata <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet3") |>
+  dplyr::select(c("ID", "Obs", "Pred")) |>
   dplyr::mutate(Study = paste("Study", ID))
 
 dDIdata$Study <- factor(dDIdata$Study, levels = unique(dDIdata$Study))
@@ -140,9 +140,9 @@ List of meta data
 #### 1.2.3 Dataset for Ratio Comparison
 
 ``` r
-pkRatioData <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet1") %>%
-  dplyr::select(!c("SetID")) %>%
+pkRatioData <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet1") |>
+  dplyr::select(!c("SetID")) |>
   dplyr::mutate(gsd = 1.1)
 
 pkRatiometaData <- attr(exampleDataCovariates, "metaData")
@@ -286,8 +286,8 @@ line for the LLOQ is added.
 ``` r
 lloqData <- signif(quantile(data$Obs, probs = 0.1), 1)
 
-dataLLOQ <- data %>%
-  dplyr::mutate(lloq = lloqData) %>%
+dataLLOQ <- data |>
+  dplyr::mutate(lloq = lloqData) |>
   dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
 
 plotPredVsObs(
@@ -477,7 +477,7 @@ the x and y axes. In the example below, the Predicted values are set to
 therefore, the variable `asSquarePlot` is set to `FALSE`.
 
 ``` r
-dataNonSquare <- data %>%
+dataNonSquare <- data |>
   dplyr::mutate(Pred = Pred / 2)
 
 plotPredVsObs(

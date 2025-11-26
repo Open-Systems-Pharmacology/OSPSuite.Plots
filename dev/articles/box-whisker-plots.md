@@ -38,9 +38,9 @@ theme_update(plot.caption = element_text(hjust = 1))
 This vignette uses a dataset provided by the package:
 
 ``` r
-pkRatioData <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet1") %>%
-  dplyr::select(-c("SetID", "gsd", "AgeBin")) %>%
+pkRatioData <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet1") |>
+  dplyr::select(-c("SetID", "gsd", "AgeBin")) |>
   dplyr::mutate(Agegroup = cut(Age, breaks = c(0, 6, 12, 18, 60), include.lowest = TRUE, labels = c("infants", "school children", "adolescents", "adults")))
 
 knitr::kable(head(pkRatioData), digits = 3, caption = "First rows of example data pkRatioData")
@@ -217,8 +217,8 @@ group to the dataset. This column is mapped *as factor* to `x`. The
 values are now displayed as categorical values equidistant:
 
 ``` r
-pkRatioData <- pkRatioData %>%
-  dplyr::group_by(Agegroup) %>%
+pkRatioData <- pkRatioData |>
+  dplyr::group_by(Agegroup) |>
   dplyr::mutate(meanAge = round(mean(Age), 2))
 
 metaData[["meanAge"]] <- metaData[["Age"]]
@@ -423,9 +423,9 @@ plot(plotObject)
 
 # Convert data to data.table and use statFun saved in plotObject for aggregation
 # Make sure to add all relevant aesthetics to "by" columns
-dt <- plotObject$data %>%
-  data.table::setDT() %>%
-  .[, as.list(plotObject$statFun(Age)), by = c("Country", "Sex")]
+dt <- plotObject$data |>
+  data.table::setDT() |>
+  (\(x) x[, as.list(plotObject$statFun(Age)), by = c("Country", "Sex")])()
 
 knitr::kable(dt)
 ```
@@ -533,9 +533,9 @@ plotObject <- plotBoxWhisker(
 
 # Convert data to data.table and use statFun saved in plotObject for aggregation
 # Make sure to add all relevant aesthetics to "by" columns
-dt <- plotObject$data %>%
-  data.table::setDT() %>%
-  .[, .(outliers = plotObject$statFunOutlier(Ratio)), by = c("Country", "Sex")]
+dt <- plotObject$data |>
+  data.table::setDT() |>
+  (\(x) x[, .(outliers = plotObject$statFunOutlier(Ratio)), by = c("Country", "Sex")])()
 
 knitr::kable(dt)
 ```

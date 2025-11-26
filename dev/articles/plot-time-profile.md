@@ -56,26 +56,26 @@ The following datasets are used in the example:
   `obsData1` and `obsData2`
 
 ``` r
-simData1 <- exampleDataTimeProfile %>%
-  dplyr::filter(SetID == "DataSet1") %>%
-  dplyr::filter(Type == "simulated") %>%
+simData1 <- exampleDataTimeProfile |>
+  dplyr::filter(SetID == "DataSet1") |>
+  dplyr::filter(Type == "simulated") |>
   dplyr::select(c("time", "values", "minValues", "maxValues", "caption"))
 
-simData2 <- exampleDataTimeProfile %>%
-  dplyr::filter(SetID == "DataSet2") %>%
-  dplyr::filter(Type == "simulated") %>%
+simData2 <- exampleDataTimeProfile |>
+  dplyr::filter(SetID == "DataSet2") |>
+  dplyr::filter(Type == "simulated") |>
   dplyr::select(c("time", "values", "minValues", "maxValues", "caption"))
 
 simData <- rbind(simData1, simData2)
 
-obsData1 <- exampleDataTimeProfile %>%
-  dplyr::filter(SetID == "DataSet1") %>%
-  dplyr::filter(Type == "observed") %>%
+obsData1 <- exampleDataTimeProfile |>
+  dplyr::filter(SetID == "DataSet1") |>
+  dplyr::filter(Type == "observed") |>
   dplyr::select(c("time", "values", "sd", "maxValues", "minValues", "caption"))
 
-obsData2 <- exampleDataTimeProfile %>%
-  dplyr::filter(SetID == "DataSet2") %>%
-  dplyr::filter(Type == "observed") %>%
+obsData2 <- exampleDataTimeProfile |>
+  dplyr::filter(SetID == "DataSet2") |>
+  dplyr::filter(Type == "observed") |>
   dplyr::select(c("time", "values", "sd", "maxValues", "minValues", "caption"))
 
 obsData <- rbind(obsData1, obsData2)
@@ -97,16 +97,16 @@ First rows of example data simData
 - `simDataLloq` and `obsDataLloq`: dataset with a column defining LLOQ.
 
 ``` r
-simDataLloq <- exampleDataTimeProfile %>%
-  dplyr::filter(SetID == c("DataSet3")) %>%
-  dplyr::filter(Type == "simulated") %>%
-  dplyr::filter(dimension == "concentration") %>%
+simDataLloq <- exampleDataTimeProfile |>
+  dplyr::filter(SetID == c("DataSet3")) |>
+  dplyr::filter(Type == "simulated") |>
+  dplyr::filter(dimension == "concentration") |>
   dplyr::select(c("time", "values", "caption"))
 
-obsDataLloq <- exampleDataTimeProfile %>%
-  dplyr::filter(SetID == "DataSet3") %>%
-  dplyr::filter(Type == "observed") %>%
-  dplyr::filter(dimension == "concentration") %>%
+obsDataLloq <- exampleDataTimeProfile |>
+  dplyr::filter(SetID == "DataSet3") |>
+  dplyr::filter(Type == "observed") |>
+  dplyr::filter(dimension == "concentration") |>
   dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
 ```
 
@@ -114,14 +114,14 @@ obsDataLloq <- exampleDataTimeProfile %>%
   dimensions: “concentration” and “fraction”.
 
 ``` r
-simData2Dimension <- exampleDataTimeProfile %>%
-  dplyr::filter(SetID == "DataSet3") %>%
-  dplyr::filter(Type == "simulated") %>%
+simData2Dimension <- exampleDataTimeProfile |>
+  dplyr::filter(SetID == "DataSet3") |>
+  dplyr::filter(Type == "simulated") |>
   dplyr::select(c("time", "values", "dimension", "caption"))
 
-obsData2Dimension <- exampleDataTimeProfile %>%
-  dplyr::filter(SetID == "DataSet3") %>%
-  dplyr::filter(Type == "observed") %>%
+obsData2Dimension <- exampleDataTimeProfile |>
+  dplyr::filter(SetID == "DataSet3") |>
+  dplyr::filter(Type == "observed") |>
   dplyr::select(c("time", "values", "dimension", "caption", "lloq", "error_relative"))
 ```
 
@@ -129,14 +129,14 @@ obsData2Dimension <- exampleDataTimeProfile %>%
   `simDataGender`: a mean model presentation.
 
 ``` r
-simDataGender <- exampleDataTimeProfile %>%
-  dplyr::filter(SetID == "DataSet4") %>%
-  dplyr::filter(Type == "simulated") %>%
+simDataGender <- exampleDataTimeProfile |>
+  dplyr::filter(SetID == "DataSet4") |>
+  dplyr::filter(Type == "simulated") |>
   dplyr::select(c("time", "values", "caption"))
 
-obsDataGender <- exampleDataTimeProfile %>%
-  dplyr::filter(SetID == "DataSet4") %>%
-  dplyr::filter(Type == "observed") %>%
+obsDataGender <- exampleDataTimeProfile |>
+  dplyr::filter(SetID == "DataSet4") |>
+  dplyr::filter(Type == "observed") |>
   dplyr::select(c("time", "values", "caption", "gender"))
 ```
 
@@ -377,10 +377,10 @@ simulated data.
 
 ``` r
 # Create datasets with common caption
-simData <- data.frame(simData) %>%
+simData <- data.frame(simData) |>
   dplyr::mutate(captionCommon = gsub("Simulated ", "", caption))
 
-obsData <- data.frame(obsData) %>%
+obsData <- data.frame(obsData) |>
   dplyr::mutate(captionCommon = gsub("Observed ", "", caption))
 
 plotTimeProfile(
@@ -723,10 +723,10 @@ Below, the plot from section 2.3.1 is repeated.
 
 ``` r
 # Create datasets with common caption
-simData <- data.frame(simData) %>%
+simData <- data.frame(simData) |>
   dplyr::mutate(captionCommon = gsub("Simulated ", "", caption))
 
-obsData <- data.frame(obsData) %>%
+obsData <- data.frame(obsData) |>
   dplyr::mutate(captionCommon = gsub("Observed ", "", caption))
 
 plotTimeProfile(
@@ -871,7 +871,7 @@ overwritten, and the breaks were set manually.
 
 ``` r
 plotTimeProfile(
-  data = simData %>% dplyr::filter(values > 0),
+  data = simData |> dplyr::filter(values > 0),
   metaData = metaData,
   mapping = aes(
     x = time + 24,

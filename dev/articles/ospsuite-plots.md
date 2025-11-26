@@ -22,8 +22,8 @@ theme, geometric aesthetics, colors, and shapes for distinct scales.
 Examples within this vignette are plotted using the following test data:
 
 ``` r
-testData <- exampleDataCovariates %>%
-  dplyr::filter(SetID == "DataSet1") %>%
+testData <- exampleDataCovariates |>
+  dplyr::filter(SetID == "DataSet1") |>
   dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex"))
 
 knitr::kable(head(testData), digits = 3)

@@ -185,7 +185,7 @@ plotTimeProfile <- function(data = NULL, # nolint
     is.null(listMappedData$mapSimulatedAndObserved) &&
     all(c("colour", "shape") %in% groupAesthetics)) {
     plotObject <- plotObject +
-      scale_shape(guide = "none")
+      guides(shape = "none")
   }
 
   return(plotObject)
@@ -541,7 +541,7 @@ plotTimeProfile <- function(data = NULL, # nolint
       plotObject <- plotObject +
         scale_discrete_manual(aesthetic,
           values = mapSimulatedAndObserved[[aesthetic]],
-          guide = guide_legend(order = 1, title = "Simulated")
+          guide = guide_legend(order = 2, title = "Simulated")
         )
     }
   }
@@ -574,7 +574,7 @@ plotTimeProfile <- function(data = NULL, # nolint
   if (!is.null(mapSimulatedAndObserved)) {
     for (aesthetic in groupAesthetics) {
       plotObject <- plotObject +
-        guides(aesthetic = guide_legend(title = "observed", order = 1)) +
+        guides(aesthetic = guide_legend(title = "Observed", order = 1)) +
         ggnewscale::new_scale(new_aes = aesthetic)
     }
   }

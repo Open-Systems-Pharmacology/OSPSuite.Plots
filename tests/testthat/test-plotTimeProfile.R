@@ -369,4 +369,52 @@ test_that("plotTimeProfile works with formula as aesthic", {
     yScale = AxisScales$log
   ))
 })
+
+test_that("plotTimeProfile works with different observedMapping", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "minValues", "maxValues", "caption"))
+
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::select(c("time", "values", "minValues", "maxValues", "caption"))
+
+  metaData <- attr(exampleDataTimeProfile, "metaData")
+
+  # Test with different observedMapping (different aesthetics for observed data)
+  fig <- plotTimeProfile(
+    data = simData,
+    observedData = obsData,
+    metaData = metaData,
+    mapping = aes(
+      x = time,
+      y = values,
+      ymin = minValues,
+      ymax = maxValues,
+      groupby = caption
+    ),
+    observedMapping = aes(
+      x = time,
+      y = values,
+      ymin = minValues,
+      ymax = maxValues,
+      groupby = caption,
+      shape = caption
+    )
+  ) +
+    theme(
+      legend.position = "top"
+    )
+
+  vdiffr::expect_doppelganger(
+    title = "different-observedMapping",
+    fig = fig
+  )
+})
+
 ospsuite.plots::resetDefaults(oldDefaults)

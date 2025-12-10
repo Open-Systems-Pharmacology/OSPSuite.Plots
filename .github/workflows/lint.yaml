@@ -6,6 +6,8 @@ on:
   pull_request:
 
 name: Lint
+permissions:
+  contents: read
 
 jobs:
   lint:

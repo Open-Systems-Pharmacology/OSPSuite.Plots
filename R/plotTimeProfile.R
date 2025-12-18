@@ -27,12 +27,12 @@
 #' @param geomErrorbarAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_errorbar`
 #' @param geomLLOQAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_hline`
 #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with `groupby`,
-#' @param xScale either 'linear' then `ggplot2::scale_x_continuous()` or 'log' then `ggplot2::scale_x_log10()` is used
-#' @param xScaleArgs list of arguments passed to `ggplot2::scale_x_continuous()` or `ggplot2::scale_x_log10()`
-#' @param yScale either 'linear' then `ggplot2::scale_y_continuous()` or 'log' then `ggplot2::scale_y_log10()` is used
-#' @param yScaleArgs list of arguments passed to `ggplot2::scale_y_continuous()` or `ggplot2::scale_y_log10()`
-#' @param y2Scale either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale
-#' @param y2ScaleArgs list of arguments passed to `ggplot2::sec_axis()`, trans, break are set by code
+#' @param xscale either 'linear' then `ggplot2::scale_x_continuous()` or 'log' then `ggplot2::scale_x_log10()` is used
+#' @param xscale.args list of arguments passed to `ggplot2::scale_x_continuous()` or `ggplot2::scale_x_log10()`
+#' @param yscale either 'linear' then `ggplot2::scale_y_continuous()` or 'log' then `ggplot2::scale_y_log10()` is used
+#' @param yscale.args list of arguments passed to `ggplot2::scale_y_continuous()` or `ggplot2::scale_y_log10()`
+#' @param y2scale either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale
+#' @param y2scale.args list of arguments passed to `ggplot2::sec_axis()`, trans, break are set by code
 #'
 #' @return A `ggplot` object
 #' @examples
@@ -65,31 +65,57 @@ plotTimeProfile <- function(data = NULL, # nolint
                             observedMapping = mapping,
                             metaData = NULL,
                             mapSimulatedAndObserved = NULL,
-                            xScale = AxisScales$linear,
-                            xScaleArgs = list(limits = c(0, NA)),
-                            yScale = AxisScales$linear,
-                            yScaleArgs = list(),
-                            y2Scale = AxisScales$linear,
-                            y2ScaleArgs = list(),
+                            xscale = AxisScales$linear,
+                            xscale.args = list(limits = c(0, NA)),
+                            yscale = AxisScales$linear,
+                            yscale.args = list(),
+                            y2scale = AxisScales$linear,
+                            y2scale.args = list(),
                             plotObject = NULL,
                             geomLineAttributes = getDefaultGeomAttributes("Line"),
                             geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
                             geomPointAttributes = getDefaultGeomAttributes("Point"),
                             geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
                             geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
-                            groupAesthetics = c("colour", "fill", "shape")) {
+                            groupAesthetics = c("colour", "fill", "shape"),
+                            xScale = NULL,
+                            xScaleArgs = NULL,
+                            yScale = NULL,
+                            yScaleArgs = NULL,
+                            y2Scale = NULL,
+                            y2ScaleArgs = NULL) {
+  # Handle backward compatibility for camelCase parameter names
+  if (!is.null(xScale)) {
+    xscale <- xScale
+  }
+  if (!is.null(xScaleArgs)) {
+    xscale.args <- xScaleArgs
+  }
+  if (!is.null(yScale)) {
+    yscale <- yScale
+  }
+  if (!is.null(yScaleArgs)) {
+    yscale.args <- yScaleArgs
+  }
+  if (!is.null(y2Scale)) {
+    y2scale <- y2Scale
+  }
+  if (!is.null(y2ScaleArgs)) {
+    y2scale.args <- y2ScaleArgs
+  }
+
   groupAesthetics <- ggplot2::standardise_aes_names(groupAesthetics)
   .validatePlotTimeProfileInputs(
     data = data,
     observedData = observedData,
     plotObject = plotObject,
     metaData = metaData,
-    xScale = xScale,
-    xScaleArgs = xScaleArgs,
-    yScale = yScale,
-    yScaleArgs = yScaleArgs,
-    y2Scale = y2Scale,
-    y2ScaleArgs = y2ScaleArgs,
+    xScale = xscale,
+    xScaleArgs = xscale.args,
+    yScale = yscale,
+    yScaleArgs = yscale.args,
+    y2Scale = y2scale,
+    y2ScaleArgs = y2scale.args,
     geomLineAttributes = geomLineAttributes,
     geomRibbonAttributes = geomRibbonAttributes,
     geomPointAttributes = geomPointAttributes,
@@ -106,11 +132,11 @@ plotTimeProfile <- function(data = NULL, # nolint
       observedData = observedData,
       observedMapping = observedMapping,
       metaData = metaData,
-      xScale = xScale,
-      yScale = yScale,
-      yScaleArgs = yScaleArgs,
-      y2Scale = y2Scale,
-      y2ScaleArgs = y2ScaleArgs,
+      xScale = xscale,
+      yScale = yscale,
+      yScaleArgs = yscale.args,
+      y2Scale = y2scale,
+      y2ScaleArgs = y2scale.args,
       groupAesthetics = groupAesthetics,
       mapSimulatedAndObserved = mapSimulatedAndObserved
     )
@@ -120,9 +146,9 @@ plotTimeProfile <- function(data = NULL, # nolint
       simMappedData = listMappedData$simMappedData,
       obsMappedData = listMappedData$obsMappedData,
       plotObject = plotObject,
-      xScale = xScale,
-      xScaleArgs = xScaleArgs,
-      yScale = yScale,
+      xScale = xscale,
+      xScaleArgs = xscale.args,
+      yScale = yscale,
       yScaleArgs = listMappedData$yScaleArgs, # for y2scaling, limits are updated
       y2ScaleArgs = listMappedData$y2ScaleArgs,
       secAxis = listMappedData$secAxis
@@ -373,14 +399,14 @@ plotTimeProfile <- function(data = NULL, # nolint
 #' @param simMappedData object of class `MappedDataTimeprofile` for simulated data
 #' @param obsMappedData object of class `MappedDataTimeprofile` for observed data
 #' @param commonLimits common limits for simulated and observed data
-#' @param y2ScaleArgs list with arguments for secondary y-axis
+#' @param y2scale.args list with arguments for secondary y-axis
 #' @param requireDualAxis boolean if TRUE secondary axis is needed
-#' @param yScaleArgs list with y2scale arguments
+#' @param yscale.args list with y2scale arguments
 #'
 #' @return list with
 #'  `simMappedData` adjusted object of class `MappedDataTimeprofile` for simulated data
 #'  `obsMappedData` adjusted object of class `MappedDataTimeprofile` for observed data
-#'  `yScaleArgs` adjusted `yScaleArgs` with common limits for primary and secondary y-axis
+#'  `yscale.args` adjusted `yscale.args` with common limits for primary and secondary y-axis
 #'  `secAxis`  secondary axis object
 #'
 #' @keywords internal
@@ -573,8 +599,12 @@ plotTimeProfile <- function(data = NULL, # nolint
   # to separate simulated and observed legend entries and start again with default colors
   if (!is.null(mapSimulatedAndObserved)) {
     for (aesthetic in groupAesthetics) {
+      guidesList <- stats::setNames(
+        list(guide_legend(title = "Simulated", order = 2)),
+        aesthetic
+      )
       plotObject <- plotObject +
-        guides(aesthetic = guide_legend(title = "Observed", order = 1)) +
+        guides(!!!guidesList) +
         ggnewscale::new_scale(new_aes = aesthetic)
     }
   }

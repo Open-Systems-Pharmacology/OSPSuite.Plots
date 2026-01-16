@@ -78,6 +78,7 @@ plotTimeProfile <- function(data = NULL, # nolint
                             geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
                             geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
                             groupAesthetics = c("colour", "fill", "shape")) {
+
   groupAesthetics <- ggplot2::standardise_aes_names(groupAesthetics)
   .validatePlotTimeProfileInputs(
     data = data,
@@ -185,7 +186,7 @@ plotTimeProfile <- function(data = NULL, # nolint
     is.null(listMappedData$mapSimulatedAndObserved) &&
     all(c("colour", "shape") %in% groupAesthetics)) {
     plotObject <- plotObject +
-      scale_shape(guide = "none")
+      guides(shape = "none")
   }
 
   return(plotObject)
@@ -375,7 +376,7 @@ plotTimeProfile <- function(data = NULL, # nolint
 #' @param commonLimits common limits for simulated and observed data
 #' @param y2ScaleArgs list with arguments for secondary y-axis
 #' @param requireDualAxis boolean if TRUE secondary axis is needed
-#' @param yScaleArgs list with y2scale arguments
+#' @param yScaleArgs list with yScale arguments
 #'
 #' @return list with
 #'  `simMappedData` adjusted object of class `MappedDataTimeprofile` for simulated data
@@ -541,7 +542,7 @@ plotTimeProfile <- function(data = NULL, # nolint
       plotObject <- plotObject +
         scale_discrete_manual(aesthetic,
           values = mapSimulatedAndObserved[[aesthetic]],
-          guide = guide_legend(order = 1, title = "Simulated")
+          guide = guide_legend(order = 2, title = "Simulated")
         )
     }
   }
@@ -573,8 +574,12 @@ plotTimeProfile <- function(data = NULL, # nolint
   # to separate simulated and observed legend entries and start again with default colors
   if (!is.null(mapSimulatedAndObserved)) {
     for (aesthetic in groupAesthetics) {
+      guidesList <- stats::setNames(
+        list(guide_legend(title = "Simulated", order = 2)),
+        aesthetic
+      )
       plotObject <- plotObject +
-        guides(aesthetic = guide_legend(title = "observed", order = 1)) +
+        guides(!!!guidesList) +
         ggnewscale::new_scale(new_aes = aesthetic)
     }
   }

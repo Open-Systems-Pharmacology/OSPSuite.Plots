@@ -11,6 +11,42 @@ test_that(".onLoad function exists and can be called", {
   })
 })
 
+test_that(".onLoad warns when watermark option is not set", {
+  # Save current option value
+  oldValue <- getOption("ospsuite.plots.watermark_enabled")
+  
+  # Clear the option
+  options(ospsuite.plots.watermark_enabled = NULL)
+  
+  # Test that .onLoad produces a message when watermark option is not set
+  expect_message(
+    .onLoad("ospsuite.plots", "ospsuite.plots"),
+    "ospsuite.plots.watermark_enabled.*not set"
+  )
+  
+  # Restore option
+  options(ospsuite.plots.watermark_enabled = oldValue)
+})
+
+test_that(".onLoad does not warn when watermark option is set", {
+  # Save current option value
+  oldValue <- getOption("ospsuite.plots.watermark_enabled")
+  
+  # Set the option
+  options(ospsuite.plots.watermark_enabled = TRUE)
+  
+  # Test that .onLoad does not produce a warning when option is set
+  # We can't use expect_no_message directly, so we capture messages
+  messages <- capture.output(.onLoad("ospsuite.plots", "ospsuite.plots"), type = "message")
+  
+  # Check that there's no watermark-related message
+  watermarkMessages <- grep("ospsuite.plots.watermark_enabled", messages, value = TRUE)
+  expect_equal(length(watermarkMessages), 0)
+  
+  # Restore option
+  options(ospsuite.plots.watermark_enabled = oldValue)
+})
+
 test_that("Font files exist in package", {
   # Test that the font files referenced in .onLoad exist
   symbolaPath <- system.file("extdata", "Symbola.ttf", package = "ospsuite.plots")

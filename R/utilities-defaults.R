@@ -258,7 +258,6 @@ resetDefaultShapeDiscrete <- function(oldShapeValues = NULL) {
 getDefaultOptions <- function() {
   optionList <- list(
     # watermark
-    ospsuite.plots.watermark_enabled = TRUE,
     ospsuite.plots.watermark_label = "preliminary analysis",
     ospsuite.plots.watermark_format = list(
       x = 0.5,

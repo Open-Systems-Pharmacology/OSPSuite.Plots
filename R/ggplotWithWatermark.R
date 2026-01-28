@@ -74,7 +74,19 @@ ggplotWithWatermark <- function(...) {
 #' @family watermark
 #' @export
 print.ggWatermark <- function(x, ...) {
-  if (getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)) {
+  watermarkEnabled <- getOption("ospsuite.plots.watermark_enabled")
+  
+  # Check if watermark_enabled option is set
+  if (is.null(watermarkEnabled)) {
+    stop(
+      "The option 'ospsuite.plots.watermark_enabled' is not set.\n",
+      "Please set it in your .Rprofile or use:\n",
+      "  options(ospsuite.plots.watermark_enabled = TRUE)  # to enable\n",
+      "  options(ospsuite.plots.watermark_enabled = FALSE) # to disable"
+    )
+  }
+  
+  if (watermarkEnabled) {
     # Add watermark overlay when watermark is enabled
     print(addWatermark(x))
   } else {
@@ -121,8 +133,20 @@ addWatermark <- function(plotObject) {
   x <- y <- label <- NULL
 
   checkmate::assert_class(plotObject, classes = "gg")
+  
+  # Check if watermark_enabled option is set
+  watermarkEnabled <- getOption("ospsuite.plots.watermark_enabled")
+  if (is.null(watermarkEnabled)) {
+    stop(
+      "The option 'ospsuite.plots.watermark_enabled' is not set.\n",
+      "Please set it in your .Rprofile or use:\n",
+      "  options(ospsuite.plots.watermark_enabled = TRUE)  # to enable\n",
+      "  options(ospsuite.plots.watermark_enabled = FALSE) # to disable"
+    )
+  }
+  
   # if watermark is not enabled return unchanged object
-  if (!getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)) {
+  if (!watermarkEnabled) {
     return(plotObject)
   }
 

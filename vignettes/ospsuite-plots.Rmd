@@ -25,6 +25,8 @@ knitr::opts_chunk$set(
 library(ospsuite.plots)
 library(tidyr)
 options(rmarkdown.html_vignette.check_title = FALSE)
+# Set watermark option required for ospsuite.plots functionality
+options(ospsuite.plots.watermark_enabled = TRUE)
 ```
 
 # 1. Introduction
@@ -217,11 +219,23 @@ The names of all options defined by this package start with the package name `os
 
 All plots in this packages are created with the function `ggplotWithWatermark()` instead of `ggplot()`. This function creates a normal `ggplot` object only if printed, a watermark is added. 
 
+**Important:** The `watermark_enabled` option must be explicitly set before using watermark features. Add it to your `.Rprofile`:
+
+```r
+# Enable watermarks
+options(ospsuite.plots.watermark_enabled = TRUE)
+
+# Or disable watermarks
+options(ospsuite.plots.watermark_enabled = FALSE)
+```
+
+You can edit your `.Rprofile` with `usethis::edit_r_profile()`.
+
 Attention! If you combine plots e.g. with `cowplot:plot_grid` the default print function without watermark is called. In this case you have to add the watermark with the function `addwatermark(plotObject)` before the print.
 
 The watermark can by customized by this options:
 
-- Switch the watermark on and off (option key = `watermark_enabled`, default = `TRUE`)
+- Switch the watermark on and off (option key = `watermark_enabled`, **no default - must be set explicitly**)
 - Select the label (option key = `watermark_label`, default = "preliminary analysis")
 - Customize format (option key = `watermark_format`, default = `list(x = 0.5, y = 0.5, color = "grey20", angle = 30, fontsize = 12, alpha = 0.7)`)
 

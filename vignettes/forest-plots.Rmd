@@ -23,12 +23,14 @@ This vignette documents and illustrates workflows for producing forest plots usi
 This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. We will use the default settings of `{ospsuite.plots}` (see `vignette("ospsuite.plots", package = "ospsuite.plots")`) but will adjust the legend position for better visibility.
 
 ```{r setup}
-library(ospsuite.plots)
-library(tidyr)
-library(data.table)
+options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Set watermark option required for ospsuite.plots functionality
 options(ospsuite.plots.watermark_enabled = TRUE)
+
+library(ospsuite.plots)
+library(tidyr)
+library(data.table)
 
 # Set Defaults
 oldDefaults <- ospsuite.plots::setDefaults()

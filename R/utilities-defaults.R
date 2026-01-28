@@ -341,7 +341,12 @@ getDefaultGeomAttributes <- function(geom) {
 #' @export
 #' @family setDefault functions
 #'
-#' @examples getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
+#' @examples
+#' \dontrun{
+#' # Set the option first before getting it
+#' options(ospsuite.plots.watermark_enabled = TRUE)
+#' getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
+#' }
 getOspsuite.plots.option <- function(optionKey) { # nolint
   checkmate::assert_choice(optionKey,
     choices = names(OptionKeys)

@@ -22,6 +22,10 @@
 #'   - `alpha`: The transparency level of the watermark text, ranging from 0 (completely transparent) to 1 (completely opaque).
 #'
 #' @examples
+#' \dontrun{
+#' # Set watermark option first (required)
+#' options(ospsuite.plots.watermark_enabled = TRUE)
+#'
 #' # Example usage with watermark enabled
 #' plotWithWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
 #'   geom_point()
@@ -52,6 +56,7 @@
 #'   optionKey = OptionKeys$watermark_label,
 #'   value = getDefaultOptions()[[OptionKeys$watermark_label]]
 #' )
+#' }
 #' @family watermark
 #' @export
 ggplotWithWatermark <- function(...) {
@@ -110,6 +115,10 @@ print.ggWatermark <- function(x, ...) {
 #' @return A ggplot object with a watermark drawn on it. The watermark is displayed according to the specified options.
 #'
 #' @examples
+#' \dontrun{
+#' # Set watermark option first (required)
+#' options(ospsuite.plots.watermark_enabled = TRUE)
+#'
 #' # Example usage
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'   geom_point()
@@ -130,6 +139,7 @@ print.ggWatermark <- function(x, ...) {
 #' # Create plot with customized watermark
 #' p_custom <- addWatermark(p)
 #' print(p_custom)
+#' }
 #'
 #' @export
 #'

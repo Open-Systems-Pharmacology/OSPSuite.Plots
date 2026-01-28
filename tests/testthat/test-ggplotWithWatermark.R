@@ -45,9 +45,10 @@ test_that("Change watermark", {
     optionKey = OptionKeys$watermark_label,
     value = NULL
   )
+  # Reset watermark_enabled to TRUE instead of NULL since there's no default
   setOspsuite.plots.option(
     optionKey = OptionKeys$watermark_enabled,
-    value = NULL
+    value = TRUE
   )
 
   vdiffr::expect_doppelganger(

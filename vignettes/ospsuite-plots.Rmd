@@ -237,7 +237,7 @@ The watermark can by customized by this options:
 
 - Switch the watermark on and off (option key = `watermark_enabled`, **no default value - must be explicitly set by the user before using watermark features**)
 - Select the label (option key = `watermark_label`, default = "preliminary analysis")
-- Customize format (option key = `watermark_format`, default = `list(x = 0.5, y = 0.5, color = "grey20", angle = 30, fontsize = 12, alpha = 0.7)`)
+- Customize format (option key = `watermark_format`, default = `list(x = 0.5, y = 0.5, color = "lightgrey", angle = 30, fontsize = 12, alpha = 0.7)`)
 
 ### Examples to Customize Watermark
 

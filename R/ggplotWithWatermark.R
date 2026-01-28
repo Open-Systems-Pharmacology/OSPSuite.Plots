@@ -63,6 +63,17 @@ ggplotWithWatermark <- function(...) {
   return(plotObject)
 }
 
+# Helper function to generate error message for missing watermark option
+# @keywords internal
+watermarkOptionNotSetError <- function() {
+  stop(
+    "The option 'ospsuite.plots.watermark_enabled' is not set.\n",
+    "Please set it in your .Rprofile or use:\n",
+    "  options(ospsuite.plots.watermark_enabled = TRUE)  # to enable\n",
+    "  options(ospsuite.plots.watermark_enabled = FALSE) # to disable"
+  )
+}
+
 #' Print method for ggWatermark objects
 #'
 #' This function customizes the printing of ggplot objects with the class "ggWatermark" by adding a watermark.
@@ -78,12 +89,7 @@ print.ggWatermark <- function(x, ...) {
   
   # Check if watermark_enabled option is set
   if (is.null(watermarkEnabled)) {
-    stop(
-      "The option 'ospsuite.plots.watermark_enabled' is not set.\n",
-      "Please set it in your .Rprofile or use:\n",
-      "  options(ospsuite.plots.watermark_enabled = TRUE)  # to enable\n",
-      "  options(ospsuite.plots.watermark_enabled = FALSE) # to disable"
-    )
+    watermarkOptionNotSetError()
   }
   
   if (watermarkEnabled) {
@@ -137,12 +143,7 @@ addWatermark <- function(plotObject) {
   # Check if watermark_enabled option is set
   watermarkEnabled <- getOption("ospsuite.plots.watermark_enabled")
   if (is.null(watermarkEnabled)) {
-    stop(
-      "The option 'ospsuite.plots.watermark_enabled' is not set.\n",
-      "Please set it in your .Rprofile or use:\n",
-      "  options(ospsuite.plots.watermark_enabled = TRUE)  # to enable\n",
-      "  options(ospsuite.plots.watermark_enabled = FALSE) # to disable"
-    )
+    watermarkOptionNotSetError()
   }
   
   # if watermark is not enabled return unchanged object

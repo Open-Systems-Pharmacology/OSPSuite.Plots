@@ -235,7 +235,7 @@ Attention! If you combine plots e.g. with `cowplot:plot_grid` the default print 
 
 The watermark can by customized by this options:
 
-- Switch the watermark on and off (option key = `watermark_enabled`, **no default - must be set explicitly**)
+- Switch the watermark on and off (option key = `watermark_enabled`, **no default value - must be explicitly set by the user before using watermark features**)
 - Select the label (option key = `watermark_label`, default = "preliminary analysis")
 - Customize format (option key = `watermark_format`, default = `list(x = 0.5, y = 0.5, color = "grey20", angle = 30, fontsize = 12, alpha = 0.7)`)
 

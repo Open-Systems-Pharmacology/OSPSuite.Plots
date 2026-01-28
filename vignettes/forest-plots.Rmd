@@ -27,6 +27,9 @@ library(ospsuite.plots)
 library(tidyr)
 library(data.table)
 
+# Set watermark option required for ospsuite.plots functionality
+options(ospsuite.plots.watermark_enabled = TRUE)
+
 # Set Defaults
 oldDefaults <- ospsuite.plots::setDefaults()
 

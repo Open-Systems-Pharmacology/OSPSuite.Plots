@@ -28,6 +28,9 @@ library(tidyr)
 library(data.table)
 library(ggplot2)
 
+# Set watermark option required for ospsuite.plots functionality
+options(ospsuite.plots.watermark_enabled = TRUE)
+
 # Set Defaults
 oldDefaults <- setDefaults()
 ```

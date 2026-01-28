@@ -49,6 +49,9 @@ This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. We will use t
 library(ospsuite.plots)
 library(tidyr)
 
+# Set watermark option required for ospsuite.plots functionality
+options(ospsuite.plots.watermark_enabled = TRUE)
+
 oldDefaults <- setDefaults()
 ```
 

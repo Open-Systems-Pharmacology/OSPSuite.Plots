@@ -51,7 +51,7 @@ test_that("setOspsuite.plots.option works correctly", {
   # Test setting NULL value clears the option
   setOspsuite.plots.option("watermark_enabled", NULL)
   clearedValue <- getOspsuite.plots.option("watermark_enabled")
-  # Since watermark_enabled is not in defaults anymore, cleared value should be NULL
+  # watermark_enabled has no default, so cleared value should be NULL
   expect_null(clearedValue)
 
   # Reset for other tests

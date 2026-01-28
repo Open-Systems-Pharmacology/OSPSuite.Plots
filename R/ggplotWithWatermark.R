@@ -79,6 +79,16 @@ watermarkOptionNotSetError <- function() {
   )
 }
 
+# Helper function to get watermark enabled status and validate it's set
+# @keywords internal
+getWatermarkEnabled <- function() {
+  watermarkEnabled <- getOption("ospsuite.plots.watermark_enabled")
+  if (is.null(watermarkEnabled)) {
+    watermarkOptionNotSetError()
+  }
+  return(watermarkEnabled)
+}
+
 #' Print method for ggWatermark objects
 #'
 #' This function customizes the printing of ggplot objects with the class "ggWatermark" by adding a watermark.
@@ -90,12 +100,7 @@ watermarkOptionNotSetError <- function() {
 #' @family watermark
 #' @export
 print.ggWatermark <- function(x, ...) {
-  watermarkEnabled <- getOption("ospsuite.plots.watermark_enabled")
-  
-  # Check if watermark_enabled option is set
-  if (is.null(watermarkEnabled)) {
-    watermarkOptionNotSetError()
-  }
+  watermarkEnabled <- getWatermarkEnabled()
   
   if (watermarkEnabled) {
     # Add watermark overlay when watermark is enabled
@@ -150,11 +155,8 @@ addWatermark <- function(plotObject) {
 
   checkmate::assert_class(plotObject, classes = "gg")
   
-  # Check if watermark_enabled option is set
-  watermarkEnabled <- getOption("ospsuite.plots.watermark_enabled")
-  if (is.null(watermarkEnabled)) {
-    watermarkOptionNotSetError()
-  }
+  # Check if watermark_enabled option is set and get its value
+  watermarkEnabled <- getWatermarkEnabled()
   
   # if watermark is not enabled return unchanged object
   if (!watermarkEnabled) {

@@ -3,6 +3,7 @@
 OptionKeys <- enum(c( # nolint
   gsub("ospsuite.plots.", "", names(getDefaultOptions())),
   "shapeValues",
+  # Manually include watermark_enabled because it has no default value
   "watermark_enabled"
 ))
 

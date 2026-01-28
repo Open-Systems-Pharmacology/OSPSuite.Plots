@@ -33,6 +33,7 @@ This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. We will use t
 
 ```{r setup, warning=FALSE, message=FALSE}
 options(rmarkdown.html_vignette.check_title = FALSE)
+
 # Set watermark option required for ospsuite.plots functionality
 options(ospsuite.plots.watermark_enabled = TRUE)
 

@@ -101,7 +101,7 @@ getWatermarkEnabled <- function() {
 #' @export
 print.ggWatermark <- function(x, ...) {
   watermarkEnabled <- getWatermarkEnabled()
-  
+
   if (watermarkEnabled) {
     # Add watermark overlay when watermark is enabled
     print(addWatermark(x))
@@ -122,7 +122,7 @@ print.ggWatermark <- function(x, ...) {
 #' @examples
 #' \dontrun{
 #' # Set watermark option first (required)
-#' options(ospsuite.plots.watermark_enabled = TRUE)
+#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
 #'
 #' # Example usage
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
@@ -154,10 +154,10 @@ addWatermark <- function(plotObject) {
   x <- y <- label <- NULL
 
   checkmate::assert_class(plotObject, classes = "gg")
-  
+
   # Check if watermark_enabled option is set and get its value
   watermarkEnabled <- getWatermarkEnabled()
-  
+
   # if watermark is not enabled return unchanged object
   if (!watermarkEnabled) {
     return(plotObject)

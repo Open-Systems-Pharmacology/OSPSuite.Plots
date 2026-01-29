@@ -6,6 +6,9 @@
 #' @examples
 #' \dontrun{
 #'
+#' # Set watermark option first (required)
+#' options(ospsuite.plots.watermark_enabled = TRUE)
+#'
 #' # Create a new CombinedPlot instance
 #' combinedPlotInstance <- CombinedPlot$new(plotObject <- myPlotObject, tableObject <- myTableObject)
 #'

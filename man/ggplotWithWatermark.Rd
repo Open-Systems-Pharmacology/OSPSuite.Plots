@@ -35,6 +35,10 @@ The following options can be used to customize the watermark:
 }
 }
 \examples{
+\dontrun{
+# Set watermark option first (required)
+options(ospsuite.plots.watermark_enabled = TRUE)
+
 # Example usage with watermark enabled
 plotWithWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
   geom_point()
@@ -65,6 +69,7 @@ setOspsuite.plots.option(
   optionKey = OptionKeys$watermark_label,
   value = getDefaultOptions()[[OptionKeys$watermark_label]]
 )
+}
 }
 \seealso{
 Other watermark: 

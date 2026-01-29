@@ -16,6 +16,10 @@ A ggplot object with a watermark drawn on it. The watermark is displayed accordi
 This function adds a customizable watermark to a ggplot object. The watermark can be configured with various options such as position, angle, font size, color, and transparency.
 }
 \examples{
+\dontrun{
+# Set watermark option first (required)
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
+
 # Example usage
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point()
@@ -36,6 +40,7 @@ setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = waterm
 # Create plot with customized watermark
 p_custom <- addWatermark(p)
 print(p_custom)
+}
 
 }
 \seealso{

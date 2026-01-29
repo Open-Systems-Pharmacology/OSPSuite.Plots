@@ -7,6 +7,9 @@
 #' @return invisibly return the previous theme so you can easily save it, then later restore it.
 #' @examples
 #' \dontrun{
+#' # Set watermark option first (required)
+#' options(ospsuite.plots.watermark_enabled = TRUE)
+#'
 #' # Save current theme and set OSPSuite default
 #' oldTheme <- setDefaultTheme()
 #'
@@ -368,7 +371,8 @@ getOspsuite.plots.option <- function(optionKey) { # nolint
 #' @export
 #' @family setDefault functions
 #'
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
 #' }
 setOspsuite.plots.option <- function(optionKey, value) { # nolint

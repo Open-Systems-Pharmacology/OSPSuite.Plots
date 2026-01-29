@@ -87,6 +87,9 @@ For more details and examples see the vignettes:
 }
 \examples{
 \dontrun{
+# Set watermark option first (required)
+options(ospsuite.plots.watermark_enabled = TRUE)
+
 # Basic time profile plot with simulated data
 plotTimeProfile(
   data = simulationData,

@@ -35,7 +35,6 @@ The following options can be used to customize the watermark:
 }
 }
 \examples{
-\dontrun{
 # Set watermark option first (required)
 options(ospsuite.plots.watermark_enabled = TRUE)
 
@@ -69,7 +68,6 @@ setOspsuite.plots.option(
   optionKey = OptionKeys$watermark_label,
   value = getDefaultOptions()[[OptionKeys$watermark_label]]
 )
-}
 }
 \seealso{
 Other watermark: 

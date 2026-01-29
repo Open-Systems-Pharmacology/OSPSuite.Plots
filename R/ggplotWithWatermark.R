@@ -22,7 +22,6 @@
 #'   - `alpha`: The transparency level of the watermark text, ranging from 0 (completely transparent) to 1 (completely opaque).
 #'
 #' @examples
-#' \dontrun{
 #' # Set watermark option first (required)
 #' options(ospsuite.plots.watermark_enabled = TRUE)
 #'
@@ -56,7 +55,6 @@
 #'   optionKey = OptionKeys$watermark_label,
 #'   value = getDefaultOptions()[[OptionKeys$watermark_label]]
 #' )
-#' }
 #' @family watermark
 #' @export
 ggplotWithWatermark <- function(...) {
@@ -68,23 +66,18 @@ ggplotWithWatermark <- function(...) {
   return(plotObject)
 }
 
-# Helper function to generate error message for missing watermark option
-# @keywords internal
-watermarkOptionNotSetError <- function() {
-  stop(
-    "The option 'ospsuite.plots.watermark_enabled' is not set.\n",
-    "Please set it in your .Rprofile or use:\n",
-    "  options(ospsuite.plots.watermark_enabled = TRUE)  # to enable\n",
-    "  options(ospsuite.plots.watermark_enabled = FALSE) # to disable"
-  )
-}
 
 # Helper function to get watermark enabled status and validate it's set
 # @keywords internal
-getWatermarkEnabled <- function() {
+.getWatermarkEnabled <- function() {
   watermarkEnabled <- getOption("ospsuite.plots.watermark_enabled")
   if (is.null(watermarkEnabled)) {
-    watermarkOptionNotSetError()
+    stop(
+      "The option 'ospsuite.plots.watermark_enabled' is not set.\n",
+      "Please set it in your .Rprofile or use:\n",
+      "  options(ospsuite.plots.watermark_enabled = TRUE)  # to enable\n",
+      "  options(ospsuite.plots.watermark_enabled = FALSE) # to disable"
+    )
   }
   return(watermarkEnabled)
 }
@@ -100,7 +93,7 @@ getWatermarkEnabled <- function() {
 #' @family watermark
 #' @export
 print.ggWatermark <- function(x, ...) {
-  watermarkEnabled <- getWatermarkEnabled()
+  watermarkEnabled <- .getWatermarkEnabled()
 
   if (watermarkEnabled) {
     # Add watermark overlay when watermark is enabled
@@ -156,7 +149,7 @@ addWatermark <- function(plotObject) {
   checkmate::assert_class(plotObject, classes = "gg")
 
   # Check if watermark_enabled option is set and get its value
-  watermarkEnabled <- getWatermarkEnabled()
+  watermarkEnabled <- .getWatermarkEnabled()
 
   # if watermark is not enabled return unchanged object
   if (!watermarkEnabled) {

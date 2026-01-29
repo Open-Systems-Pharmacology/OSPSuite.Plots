@@ -219,9 +219,9 @@ The names of all options defined by this package start with the package name `os
 
 ## 2.5.1 Options to Customize Watermark
 
-All plots in this packages are created with the function `ggplotWithWatermark()` instead of `ggplot()`. This function creates a normal `ggplot` object only if printed, a watermark is added. 
+All plots in this packages are created with the function `ggplotWithWatermark()` instead of `ggplot()`. This function creates a `ggplot` with a customized print function which adds a watermark. 
 
-**Important:** The `watermark_enabled` option must be explicitly set before using watermark features. Add it to your `.Rprofile`:
+**Important:** The `watermark_enabled` option must be explicitly set before using one of the plot functions. Add it to your `.Rprofile`:
 
 ```r
 # Enable watermarks

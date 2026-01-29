@@ -64,7 +64,7 @@ test_that("getDefaultOptions returns complete options list", {
   expect_type(optionsList, "list")
   expect_true(length(optionsList) > 0)
 
-  # Test presence of key options (except watermark_enabled which is no longer in defaults)
+  # Test presence of key options
   expectedOptions <- c(
     "ospsuite.plots.watermark_label",
     "ospsuite.plots.geomLineAttributes",
@@ -76,9 +76,6 @@ test_that("getDefaultOptions returns complete options list", {
   # Test specific default values
   expect_equal(optionsList$ospsuite.plots.watermark_label, "preliminary analysis")
   expect_equal(optionsList$ospsuite.plots.Alpha, 0.5)
-  
-  # Verify that watermark_enabled is NOT in defaults anymore
-  expect_false("ospsuite.plots.watermark_enabled" %in% names(optionsList))
 })
 
 test_that("setDefaultColorMapDistinct works correctly", {

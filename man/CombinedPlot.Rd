@@ -11,8 +11,11 @@ It provides methods to get and set the plot and table objects, as well as to pri
 \examples{
 \dontrun{
 
+# Set watermark option first (required)
+options(ospsuite.plots.watermark_enabled = TRUE)
+
 # Create a new CombinedPlot instance
-combinedPlotInstance <- CombinedPlot$new(plotObject <- myPlotObject, tableObject <- myTableObject)
+combinedPlotInstance <- CombinedPlot$new(plotObject = myPlotObject, tableObject = myTableObject)
 
 # Print the combined plot and table
 print(combinedPlotInstance)

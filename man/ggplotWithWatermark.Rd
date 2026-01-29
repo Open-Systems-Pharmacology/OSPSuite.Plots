@@ -35,6 +35,9 @@ The following options can be used to customize the watermark:
 }
 }
 \examples{
+# Set watermark option first (required)
+options(ospsuite.plots.watermark_enabled = TRUE)
+
 # Example usage with watermark enabled
 plotWithWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
   geom_point()

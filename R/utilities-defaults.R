@@ -7,6 +7,9 @@
 #' @return invisibly return the previous theme so you can easily save it, then later restore it.
 #' @examples
 #' \dontrun{
+#' # Set watermark option first (required)
+#' options(ospsuite.plots.watermark_enabled = TRUE)
+#'
 #' # Save current theme and set OSPSuite default
 #' oldTheme <- setDefaultTheme()
 #'
@@ -258,7 +261,6 @@ resetDefaultShapeDiscrete <- function(oldShapeValues = NULL) {
 getDefaultOptions <- function() {
   optionList <- list(
     # watermark
-    ospsuite.plots.watermark_enabled = TRUE,
     ospsuite.plots.watermark_label = "preliminary analysis",
     ospsuite.plots.watermark_format = list(
       x = 0.5,
@@ -342,7 +344,12 @@ getDefaultGeomAttributes <- function(geom) {
 #' @export
 #' @family setDefault functions
 #'
-#' @examples getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
+#' @examples
+#' \dontrun{
+#' # Set the option first before getting it
+#' options(ospsuite.plots.watermark_enabled = TRUE)
+#' getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
+#' }
 getOspsuite.plots.option <- function(optionKey) { # nolint
   checkmate::assert_choice(optionKey,
     choices = names(OptionKeys)
@@ -364,7 +371,8 @@ getOspsuite.plots.option <- function(optionKey) { # nolint
 #' @export
 #' @family setDefault functions
 #'
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
 #' }
 setOspsuite.plots.option <- function(optionKey, value) { # nolint

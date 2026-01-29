@@ -30,6 +30,9 @@
 #'
 #' @examples
 #' \dontrun{
+#' # Set watermark option first (required)
+#' options(ospsuite.plots.watermark_enabled = TRUE)
+#'
 #' # Basic usage
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'   geom_point()

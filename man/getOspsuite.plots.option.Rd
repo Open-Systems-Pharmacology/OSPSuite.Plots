@@ -16,7 +16,11 @@ option value
 returns an option value for a option defined by the package OSPSuite.plots
 }
 \examples{
+\dontrun{
+# Set the option first before getting it
+options(ospsuite.plots.watermark_enabled = TRUE)
 getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
+}
 }
 \seealso{
 Other setDefault functions: 

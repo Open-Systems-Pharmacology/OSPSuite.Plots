@@ -43,9 +43,10 @@ test_that("Change watermark", {
     optionKey = OptionKeys$watermark_label,
     value = NULL
   )
+  # Reset watermark_enabled to TRUE instead of NULL since there's no default
   setOspsuite.plots.option(
     optionKey = OptionKeys$watermark_enabled,
-    value = NULL
+    value = TRUE
   )
 
   vdiffr::expect_doppelganger(
@@ -136,6 +137,48 @@ test_that("cowplot::plot_list works correctly", {
     title = "watermark_cowplotCombi",
     fig = combiPlot
   )
+})
+
+test_that("addWatermark throws error when watermark option is not set", {
+  # Save current option value
+  oldValue <- getOption("ospsuite.plots.watermark_enabled")
+  
+  # Clear the option
+  options(ospsuite.plots.watermark_enabled = NULL)
+  
+  # Create a simple plot
+  p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+    geom_point()
+  
+  # Test that addWatermark throws an error
+  expect_error(
+    addWatermark(p),
+    "ospsuite.plots.watermark_enabled.*not set"
+  )
+  
+  # Restore option
+  options(ospsuite.plots.watermark_enabled = oldValue)
+})
+
+test_that("print.ggWatermark throws error when watermark option is not set", {
+  # Save current option value
+  oldValue <- getOption("ospsuite.plots.watermark_enabled")
+  
+  # Clear the option
+  options(ospsuite.plots.watermark_enabled = NULL)
+  
+  # Create a plot with watermark class
+  p <- ggplotWithWatermark(mtcars, aes(x = wt, y = mpg)) +
+    geom_point()
+  
+  # Test that printing throws an error
+  expect_error(
+    print(p),
+    "ospsuite.plots.watermark_enabled.*not set"
+  )
+  
+  # Restore option
+  options(ospsuite.plots.watermark_enabled = oldValue)
 })
 
 

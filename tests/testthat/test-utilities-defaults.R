@@ -1,8 +1,6 @@
 # Test utilities-defaults.R functions
 
 # Store original options to restore later
-# Set watermark option before calling setDefaults since it's no longer in defaults
-options(ospsuite.plots.watermark_enabled = TRUE)
 oldDefaults <- ospsuite.plots::setDefaults()
 
 test_that("getDefaultGeomAttributes works correctly", {

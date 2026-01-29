@@ -1,5 +1,3 @@
-# Set watermark option before calling setDefaults since it's no longer in defaults
-options(ospsuite.plots.watermark_enabled = TRUE)
 oldDefaults <- ospsuite.plots::setDefaults()
 
 # Sample data for testing, similar to the vignette

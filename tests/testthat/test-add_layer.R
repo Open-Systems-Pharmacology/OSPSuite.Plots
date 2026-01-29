@@ -1,6 +1,3 @@
-# Set watermark option before using watermark functions
-options(ospsuite.plots.watermark_enabled = TRUE)
-
 simData1 <- exampleDataTimeProfile |>
   dplyr::filter(SetID == "DataSet1") |>
   dplyr::filter(Type == "simulated") |>

@@ -1,6 +1,4 @@
 # setDefaults
-# Set watermark option before calling setDefaults since it's no longer in defaults
-options(ospsuite.plots.watermark_enabled = TRUE)
 oldDefaults <- ospsuite.plots::setDefaults()
 theme_update(legend.position = "top")
 theme_update(legend.title = element_blank())

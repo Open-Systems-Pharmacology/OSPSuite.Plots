@@ -20,7 +20,9 @@ test_that("getDefaultGeomAttributes works correctly", {
 })
 
 test_that("getOspsuite.plots.option works correctly", {
-  # Test getting watermark option
+  # Test getting watermark option when it's set
+  # Set it first since it's no longer in defaults
+  setOspsuite.plots.option("watermark_enabled", TRUE)
   watermarkEnabled <- getOspsuite.plots.option("watermark_enabled")
   expect_type(watermarkEnabled, "logical")
 
@@ -35,6 +37,7 @@ test_that("getOspsuite.plots.option works correctly", {
 
 test_that("setOspsuite.plots.option works correctly", {
   # Test setting a valid option
+  setOspsuite.plots.option("watermark_enabled", TRUE)
   originalValue <- getOspsuite.plots.option("watermark_enabled")
   setOspsuite.plots.option("watermark_enabled", FALSE)
   newValue <- getOspsuite.plots.option("watermark_enabled")
@@ -46,7 +49,11 @@ test_that("setOspsuite.plots.option works correctly", {
   # Test setting NULL value clears the option
   setOspsuite.plots.option("watermark_enabled", NULL)
   clearedValue <- getOspsuite.plots.option("watermark_enabled")
-  expect_equal(clearedValue, getDefaultOptions()[["ospsuite.plots.watermark_enabled"]])
+  # watermark_enabled has no default, so cleared value should be NULL
+  expect_null(clearedValue)
+
+  # Reset for other tests
+  setOspsuite.plots.option("watermark_enabled", TRUE)
 
   # Test error for invalid option key
   expect_error(setOspsuite.plots.option("invalid_option", TRUE))
@@ -59,7 +66,6 @@ test_that("getDefaultOptions returns complete options list", {
 
   # Test presence of key options
   expectedOptions <- c(
-    "ospsuite.plots.watermark_enabled",
     "ospsuite.plots.watermark_label",
     "ospsuite.plots.geomLineAttributes",
     "ospsuite.plots.geomPointAttributes",
@@ -68,7 +74,6 @@ test_that("getDefaultOptions returns complete options list", {
   expect_true(all(expectedOptions %in% names(optionsList)))
 
   # Test specific default values
-  expect_equal(optionsList$ospsuite.plots.watermark_enabled, TRUE)
   expect_equal(optionsList$ospsuite.plots.watermark_label, "preliminary analysis")
   expect_equal(optionsList$ospsuite.plots.Alpha, 0.5)
 })

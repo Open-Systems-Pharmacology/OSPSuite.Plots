@@ -22,7 +22,7 @@
 
 \item{requireDualAxis}{boolean if TRUE secondary axis is needed}
 
-\item{yScaleArgs}{list with y2scale arguments}
+\item{yScaleArgs}{list with yScale arguments}
 
 \item{y2ScaleArgs}{list with arguments for secondary y-axis}
 }

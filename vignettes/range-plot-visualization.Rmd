@@ -23,6 +23,11 @@ This vignette documents and illustrates workflows for creating range plots using
 This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. We will also utilize the `ggplot2` package for plotting.
 
 ```{r setup}
+options(rmarkdown.html_vignette.check_title = FALSE)
+
+# Set watermark option required for ospsuite.plots functionality
+options(ospsuite.plots.watermark_enabled = TRUE)
+
 library(ospsuite.plots)
 library(tidyr)
 library(data.table)

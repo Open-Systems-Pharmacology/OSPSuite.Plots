@@ -40,6 +40,9 @@ Other setDefault functions:
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
+# Set the option first before getting it
+options(ospsuite.plots.watermark_enabled = TRUE)
 getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
-#> [1] TRUE
+} # }
 ```

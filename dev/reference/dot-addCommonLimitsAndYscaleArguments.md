@@ -36,7 +36,7 @@ arguments
 
 - yScaleArgs:
 
-  list with y2scale arguments
+  list with yScale arguments
 
 - y2ScaleArgs:
 

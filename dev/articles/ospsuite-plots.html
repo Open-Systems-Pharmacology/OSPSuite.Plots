@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9007</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -357,8 +357,19 @@ are two helper functions (<code>setOspsuite.plots.option</code> and
 </h3>
 <p>All plots in this packages are created with the function
 <code><a href="../reference/ggplotWithWatermark.html">ggplotWithWatermark()</a></code> instead of <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot()</a></code>.
-This function creates a normal <code>ggplot</code> object only if
-printed, a watermark is added.</p>
+This function creates a <code>ggplot</code> with a customized print
+function which adds a watermark.</p>
+<p><strong>Important:</strong> The <code>watermark_enabled</code> option
+must be explicitly set before using one of the plot functions. Add it to
+your <code>.Rprofile</code>:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Enable watermarks</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermark_enabled <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or disable watermarks</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermark_enabled <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>You can edit your <code>.Rprofile</code> with
+<code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_profile()</a></code>.</p>
 <p>Attention! If you combine plots e.g. with
 <code>cowplot:plot_grid</code> the default print function without
 watermark is called. In this case you have to add the watermark with the
@@ -366,12 +377,14 @@ function <code>addwatermark(plotObject)</code> before the print.</p>
 <p>The watermark can by customized by this options:</p>
 <ul>
 <li>Switch the watermark on and off (option key =
-<code>watermark_enabled</code>, default = <code>TRUE</code>)</li>
+<code>watermark_enabled</code>, <strong>no default value - must be
+explicitly set by the user before using watermark
+features</strong>)</li>
 <li>Select the label (option key = <code>watermark_label</code>, default
 = “preliminary analysis”)</li>
 <li>Customize format (option key = <code>watermark_format</code>,
 default =
-<code>list(x = 0.5, y = 0.5, color = "grey20", angle = 30, fontsize = 12, alpha = 0.7)</code>)</li>
+<code>list(x = 0.5, y = 0.5, color = "lightgrey", angle = 30, fontsize = 12, alpha = 0.7)</code>)</li>
 </ul>
 <div class="section level4">
 <h4 id="examples-to-customize-watermark">Examples to Customize Watermark<a class="anchor" aria-label="anchor" href="#examples-to-customize-watermark"></a>
@@ -381,7 +394,7 @@ default =
 <li>B: Disable watermark</li>
 <li>C: Reset to default</li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Change format and label of watermark</span></span>
 <span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_format</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0.2</span>, y <span class="op">=</span> <span class="fl">0.6</span>, color <span class="op">=</span> <span class="st">"red"</span>, angle <span class="op">=</span> <span class="fl">90</span>, fontsize <span class="op">=</span> <span class="fl">24</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_label</span>, value <span class="op">=</span> <span class="st">"NEW"</span><span class="op">)</span></span>
@@ -389,18 +402,18 @@ default =
 <span><span class="co"># Initialize plot</span></span>
 <span><span class="fu"><a href="../reference/ggplotWithWatermark.html">ggplotWithWatermark</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Changed Watermark"</span>, tag <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ospsuite-plots_files/figure-html/customize-watermark-1.png" class="r-plt" alt="Plot demonstrating customized watermark formatting. The plot shows a blank coordinate system with a red watermark rotated 90 degrees, positioned at specific coordinates with increased font size and reduced transparency, labeled 'NEW' instead of the default text." width="80%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Disable watermark</span></span>
 <span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_enabled</span>, value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Initialize plot</span></span>
 <span><span class="fu"><a href="../reference/ggplotWithWatermark.html">ggplotWithWatermark</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"No Watermark"</span>, tag <span class="op">=</span> <span class="st">"B"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ospsuite-plots_files/figure-html/disable-watermark-1.png" class="r-plt" alt="Plot demonstrating disabled watermark functionality. The plot shows a clean blank coordinate system with no watermark text overlay, illustrating how the watermark_enabled option can be set to FALSE for clean publication-ready plots." width="80%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Reset to default</span></span>
 <span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_format</span>, value <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_label</span>, value <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_enabled</span>, value <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_enabled</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Initialize plot</span></span>
 <span><span class="fu"><a href="../reference/ggplotWithWatermark.html">ggplotWithWatermark</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Default Watermark"</span>, tag <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span></span></code></pre></div>
@@ -532,7 +545,7 @@ defaults of the input variables can be set by options.</p>
 </h3>
 <p>Options to set the face alpha of ribbons filled points and options to
 set the filled points for values below and above LLOQ.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Default alpha = 0.5</span></span>
 <span><span class="fu"><a href="../reference/getOspsuite.plots.option.html">getOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="st">"Alpha"</span><span class="op">)</span></span>
 <span></span>
@@ -783,14 +796,14 @@ presentation.</p>
 <p>To export a plot, you need a ggplot object. Here’s a basic
 example:</p>
 <p>Create a simple ggplot object:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plotObject</span> <span class="op">&lt;-</span> <span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/plotHistogram.html">plotHistogram</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">testData</span>, mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Age</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Exporting the Plot: Using the <code>exportPlot</code> function, you
 can easily save this plot to a file:</p>
 <p>Replace “path/to/save” with the actual directory path where you want
 to save the plot, and adjust the width and height parameters as
 needed.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/exportPlot.html">exportPlot</a></span><span class="op">(</span>plotObject <span class="op">=</span> <span class="va">plotObject</span>, filepath <span class="op">=</span> <span class="st">"path/to/save"</span>, filename <span class="op">=</span> <span class="st">"myplot"</span>, width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -803,7 +816,7 @@ needed.</p>
 plot dimensions based on its content, such as the presence of a legend
 or the aspect ratio.</p>
 <p>Assuming <code>plotObject</code> is your ggplot object:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/exportPlot.html">exportPlot</a></span><span class="op">(</span>plotObject <span class="op">=</span> <span class="va">plotObject</span>, filepath <span class="op">=</span> <span class="st">"path/to/save"</span>, filename <span class="op">=</span> <span class="st">"adjusted_plot.png"</span><span class="op">)</span></span></code></pre></div>
 <p>In this case, you don’t need to specify the width and height
 explicitly; the function calculates them for you. The default width
@@ -820,7 +833,7 @@ function exports square figures.</p>
 <div class="section level3">
 <h3 id="default-shapes-1">6.1 Default Shapes<a class="anchor" aria-label="anchor" href="#default-shapes-1"></a>
 </h3>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">shapeNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"circle"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"circle"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open"</span>, <span class="st">"filled"</span>, <span class="st">"cross"</span>, <span class="st">"plus"</span>, <span class="st">"small"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"bullet"</span>, <span class="st">"square"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"square"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open"</span>, <span class="st">"filled"</span>, <span class="st">"cross"</span>, <span class="st">"plus"</span>, <span class="st">"triangle"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"diamond"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"diamond"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open"</span>, <span class="st">"filled"</span>, <span class="st">"plus"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"triangle"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"triangle"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open"</span>, <span class="st">"filled"</span>, <span class="st">"square"</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"triangle down"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open"</span>, <span class="st">"filled"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"plus"</span>, <span class="st">"cross"</span>, <span class="st">"asterisk"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">shapes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>shapeNames <span class="op">=</span> <span class="va">shapeNames</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">6</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, y <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">6</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -838,7 +851,7 @@ function exports square figures.</p>
 <p>Attention: The use of <a href="https://github.com/yixuan/showtext" class="external-link">showtext</a> has side effects - a
 customized <code>geom_Point</code> function
 <code>geomPointUnicode</code> has to be used.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">shapes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>shapeNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">Shapes</span><span class="op">)</span>, shape_symbols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">Shapes</span><span class="op">)</span><span class="op">)</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, <span class="fl">8</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">showtext</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html" class="external-link">showtext_auto</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -859,7 +872,7 @@ input variable <code>pointAsUnicode = TRUE</code>. To switch back, use
 <code>resetDefaults(oldDefaults)</code>. However, it is recommended to
 produce all plots of one workflow either with Unicode mode or without.
 Otherwise, the plots may have different fonts.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oldDefaults</span> <span class="op">&lt;-</span> <span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/setDefaults.html">setDefaults</a></span><span class="op">(</span>pointAsUnicode <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pig"</span>, <span class="st">"dog"</span>, <span class="st">"mouse"</span>, <span class="st">"rat"</span><span class="op">)</span><span class="op">)</span></span>
@@ -871,7 +884,7 @@ Otherwise, the plots may have different fonts.</p>
 <div class="section level4">
 <h4 id="use-non-default-icons">Use Non-Default Icons<a class="anchor" aria-label="anchor" href="#use-non-default-icons"></a>
 </h4>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">plotObject</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_shape_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>pig <span class="op">=</span> <span class="st">"pig"</span>, dog <span class="op">=</span> <span class="st">"dog"</span>, mouse <span class="op">=</span> <span class="st">"mouse"</span>, rat <span class="op">=</span> <span class="st">"rat"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ospsuite-plots_files/figure-html/export-non-default-icons-1.png" class="r-plt" alt="Scatter plot demonstrating the use of non-default icons in ospsuite.plots. The plot displays four data points representing different species (pig, dog, mouse, rat) using custom shapes for each species instead of standard ggplot shapes, showcasing the ability to personalize plot aesthetics with unique icons." width="80%" style="display: block; margin: auto;"></p>

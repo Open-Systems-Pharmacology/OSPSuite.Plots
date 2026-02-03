@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9007</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +48,28 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="ospsuiteplots-development-version">ospsuite.plots (development version)<a class="anchor" aria-label="anchor" href="#ospsuiteplots-development-version"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-development-version">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<ul><li>
+<p>The <code>ospsuite.plots.watermark_enabled</code> option no longer has a default value. Users must now explicitly set this option before using any plotting functions. This ensures conscious decision-making about watermark usage.</p>
+<p>To use the package, add one of the following to your <code>.Rprofile</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Enable watermarks</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermark_enabled <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or disable watermarks</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermark_enabled <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>You can edit your <code>.Rprofile</code> with <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_profile()</a></code>.</p>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-development-version">Changes<a class="anchor" aria-label="anchor" href="#changes-development-version"></a></h3>
+<ul><li>Added startup message when <code>ospsuite.plots.watermark_enabled</code> is not set, providing instructions on how to configure it</li>
+<li>
+<code><a href="../reference/addWatermark.html">addWatermark()</a></code> and <code><a href="../reference/print.ggWatermark.html">print.ggWatermark()</a></code> now throw an error if the watermark option is not set</li>
+<li>Added comprehensive test coverage for watermark option validation</li>
+<li>Updated all vignettes and examples to explicitly set the watermark option</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.1" id="ospsuiteplots-101">ospsuite.plots 1.0.1<a class="anchor" aria-label="anchor" href="#ospsuiteplots-101"></a></h2>

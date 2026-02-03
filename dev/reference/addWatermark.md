@@ -31,12 +31,15 @@ Other watermark:
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
+# Set watermark option first (required)
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
+
 # Example usage
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point()
 p_with_watermark <- addWatermark(p)
 print(p_with_watermark)
-
 
 # Example of customizing the watermark
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "Custom Watermark")
@@ -52,5 +55,5 @@ setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = waterm
 # Create plot with customized watermark
 p_custom <- addWatermark(p)
 print(p_custom)
-
+} # }
 ```

@@ -21,6 +21,11 @@ default settings of
 adjust the legend position and the alignment of the caption.
 
 ``` r
+options(rmarkdown.html_vignette.check_title = FALSE)
+
+# Set watermark option required for ospsuite.plots functionality
+options(ospsuite.plots.watermark_enabled = TRUE)
+
 library(ospsuite.plots)
 library(tidyr)
 

@@ -319,8 +319,22 @@ All plots in this packages are created with the function
 [`ggplotWithWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/ggplotWithWatermark.md)
 instead of
 [`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html). This
-function creates a normal `ggplot` object only if printed, a watermark
-is added.
+function creates a `ggplot` with a customized print function which adds
+a watermark.
+
+**Important:** The `watermark_enabled` option must be explicitly set
+before using one of the plot functions. Add it to your `.Rprofile`:
+
+``` r
+# Enable watermarks
+options(ospsuite.plots.watermark_enabled = TRUE)
+
+# Or disable watermarks
+options(ospsuite.plots.watermark_enabled = FALSE)
+```
+
+You can edit your `.Rprofile` with
+[`usethis::edit_r_profile()`](https://usethis.r-lib.org/reference/edit.html).
 
 Attention! If you combine plots e.g. with `cowplot:plot_grid` the
 default print function without watermark is called. In this case you
@@ -330,11 +344,12 @@ before the print.
 The watermark can by customized by this options:
 
 - Switch the watermark on and off (option key = `watermark_enabled`,
-  default = `TRUE`)
+  **no default value - must be explicitly set by the user before using
+  watermark features**)
 - Select the label (option key = `watermark_label`, default =
   “preliminary analysis”)
 - Customize format (option key = `watermark_format`, default =
-  `list(x = 0.5, y = 0.5, color = "grey20", angle = 30, fontsize = 12, alpha = 0.7)`)
+  `list(x = 0.5, y = 0.5, color = "lightgrey", angle = 30, fontsize = 12, alpha = 0.7)`)
 
 #### Examples to Customize Watermark
 
@@ -375,7 +390,7 @@ plots.](ospsuite-plots_files/figure-html/disable-watermark-1.png)
 # Reset to default
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = NULL)
 setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = NULL)
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = NULL)
+setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
 
 # Initialize plot
 ggplotWithWatermark() + labs(title = "Default Watermark", tag = "C")

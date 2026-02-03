@@ -16,6 +16,11 @@ and [tidyr](https://tidyr.tidyverse.org) libraries. We will also utilize
 the `ggplot2` package for plotting.
 
 ``` r
+options(rmarkdown.html_vignette.check_title = FALSE)
+
+# Set watermark option required for ospsuite.plots functionality
+options(ospsuite.plots.watermark_enabled = TRUE)
+
 library(ospsuite.plots)
 #> Loading required package: ggplot2
 library(tidyr)

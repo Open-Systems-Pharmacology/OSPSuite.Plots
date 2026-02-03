@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9007</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,12 +78,15 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example usage</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># Set watermark option first (required)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_enabled</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example usage</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">p_with_watermark</span> <span class="op">&lt;-</span> <span class="fu">addWatermark</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p_with_watermark</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="addWatermark-1.png" alt="" width="960" height="593"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example of customizing the watermark</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_label</span>, value <span class="op">=</span> <span class="st">"Custom Watermark"</span><span class="op">)</span></span></span>
@@ -99,7 +102,7 @@
 <span class="r-in"><span><span class="co"># Create plot with customized watermark</span></span></span>
 <span class="r-in"><span><span class="va">p_custom</span> <span class="op">&lt;-</span> <span class="fu">addWatermark</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p_custom</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="addWatermark-2.png" alt="" width="960" height="593"></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

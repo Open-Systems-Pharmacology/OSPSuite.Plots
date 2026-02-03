@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9007</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,7 +94,12 @@ a <code>ggplot</code> object.</p>
 “ospsuite.plots”)) but will adjust the legend position and the alignment
 of the caption.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.open-systems-pharmacology.org/OSPSuite.Plots/">ospsuite.plots</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>rmarkdown.html_vignette.check_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Set watermark option required for ospsuite.plots functionality</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermark_enabled <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.open-systems-pharmacology.org/OSPSuite.Plots/">ospsuite.plots</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Set Defaults</span></span>
@@ -528,7 +533,7 @@ as used for the plot.</p>
 <span><span class="co"># Convert data to data.table and use statFun saved in plotObject for aggregation</span></span>
 <span><span class="co"># Make sure to add all relevant aesthetics to "by" columns</span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="va">plotObject</span><span class="op">$</span><span class="va">data</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/setDT.html" class="external-link">setDT</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDT.html" class="external-link">setDT</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="va">plotObject</span><span class="op">$</span><span class="fu">statFun</span><span class="op">(</span><span class="va">Age</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Country"</span>, <span class="st">"Sex"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></span></code></pre></div>
@@ -715,7 +720,7 @@ plot object. So outliers can be easily retrieved, e.g., with the
 <span><span class="co"># Convert data to data.table and use statFun saved in plotObject for aggregation</span></span>
 <span><span class="co"># Make sure to add all relevant aesthetics to "by" columns</span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="va">plotObject</span><span class="op">$</span><span class="va">data</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/setDT.html" class="external-link">setDT</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDT.html" class="external-link">setDT</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>outliers <span class="op">=</span> <span class="va">plotObject</span><span class="op">$</span><span class="fu">statFunOutlier</span><span class="op">(</span><span class="va">Ratio</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Country"</span>, <span class="st">"Sex"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></span></code></pre></div>

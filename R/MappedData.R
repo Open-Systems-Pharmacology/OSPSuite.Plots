@@ -531,10 +531,10 @@ MappedData <- R6::R6Class( # nolint
           ## add new column
           if (residualScale == ResidualScales$log) {
             self$data <- self$data |>
-              dplyr::mutate(residuals.i = log(!!self$mapping[["observed"]]) - log(!!self$mapping[["predicted"]]))
+              dplyr::mutate(residuals.i = log(!!self$mapping[["predicted"]]) - log(!!self$mapping[["observed"]]))
           } else if (residualScale == ResidualScales$linear) {
             self$data <- self$data |>
-              dplyr::mutate(residuals.i = !!self$mapping[["observed"]] - !!self$mapping[["predicted"]])
+              dplyr::mutate(residuals.i = !!self$mapping[["predicted"]] - !!self$mapping[["observed"]])
           } else if (residualScale == ResidualScales$ratio) {
             self$data <- self$data |>
               dplyr::mutate(residuals.i = !!self$mapping[["observed"]] / !!self$mapping[["predicted"]])
@@ -555,8 +555,8 @@ MappedData <- R6::R6Class( # nolint
 
           self$residualLabel <-
             switch(residualScale,
-              linear = "residuals\nobserved - predicted",
-              log = "residuals\nlog(observed) - log(predicted)",
+              linear = "residuals\npredicted - observed",
+              log = "residuals\nlog(predicted) - log(observed)",
               ratio = "observed/predicted"
             )
         }

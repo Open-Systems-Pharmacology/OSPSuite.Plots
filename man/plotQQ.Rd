@@ -28,7 +28,7 @@ see vignettes for more details and examples}
 \item{xScaleArgs}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
 
 \item{residualScale}{Either \code{"linear"} or \code{"log"} for scaling residuals.
-For linear: residuals = observed - predicted. For log: residuals = log(observed) - log(predicted).
+For linear: residuals = predicted - observed. For log: residuals = log(predicted) - log(observed).
 The y-axis scale remains linear in both cases.}
 
 \item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}

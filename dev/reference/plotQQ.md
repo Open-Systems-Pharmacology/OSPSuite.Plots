@@ -50,8 +50,9 @@ plotQQ(
 - residualScale:
 
   Either `"linear"` or `"log"` for scaling residuals. For linear:
-  residuals = observed - predicted. For log: residuals = log(observed) -
-  log(predicted). The y-axis scale remains linear in both cases.
+  residuals = predicted - observed. For log: residuals =
+  log(predicted) - log(observed). The y-axis scale remains linear in
+  both cases.
 
 - yScaleArgs:
 

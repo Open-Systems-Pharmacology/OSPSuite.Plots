@@ -516,7 +516,7 @@ calculates the residuals using the aesthetics `observed` and
 #### 3.1.1 Default Settings
 
 The default value for the variable `residualScale` is “log”. Residuals
-will then be calculated by `log(observed) - log(predicted)`. A
+will then be calculated by `log(predicted) - log(observed)`. A
 horizontal comparison line with the value 0 is displayed. The aesthetic
 `groupby` can be used to group observations.
 
@@ -533,7 +533,7 @@ plotResVsCov(
 ```
 
 ![Scatter plot showing log residuals versus age with default settings.
-Residuals are calculated as log(observed) - log(predicted), displayed as
+Residuals are calculated as log(predicted) - log(observed), displayed as
 points colored by sex groups. A horizontal reference line at zero
 indicates perfect prediction. Points scattered around zero suggest good
 model
@@ -542,7 +542,7 @@ performance.](goodness-of-fit_files/figure-html/reVsObs-default-1.png)
 ### 3.1.2 Linear Scale for Residuals
 
 If the variable `residualScale` is set to “linear”, residuals will be
-calculated by \#\$# observed - predicted \#\$\#.
+calculated by \#\$# predicted - observed \#\$\#.
 
 Below, the line type of the comparison line is set to ‘solid’.
 
@@ -561,10 +561,10 @@ plotResVsCov(
 ```
 
 ![Scatter plot showing linear residuals versus age with a solid
-horizontal reference line. Residuals are calculated as observed -
-predicted on a linear scale, with points colored by sex groups. The
-solid reference line at zero provides a clear visual reference for
-assessing prediction
+horizontal reference line. Residuals are calculated as predicted -
+observed on a linear scale, with points colored by sex groups. The solid
+reference line at zero provides a clear visual reference for assessing
+prediction
 accuracy.](goodness-of-fit_files/figure-html/resVsCov-basic-linear-1.png)
 
 ### 3.1.3 Map Residuals Directly

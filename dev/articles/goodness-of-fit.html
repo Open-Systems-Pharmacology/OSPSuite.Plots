@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -724,7 +724,7 @@ using the aesthetics <code>observed</code> and
 </h4>
 <p>The default value for the variable <code>residualScale</code> is
 “log”. Residuals will then be calculated by
-<code>log(observed) - log(predicted)</code>. A horizontal comparison
+<code>log(predicted) - log(observed)</code>. A horizontal comparison
 line with the value 0 is displayed. The aesthetic <code>groupby</code>
 can be used to group observations.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
@@ -737,15 +737,15 @@ can be used to group observations.</p>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/reVsObs-default-1.png" class="r-plt" alt="Scatter plot showing log residuals versus age with default settings. Residuals are calculated as log(observed) - log(predicted), displayed as points colored by sex groups. A horizontal reference line at zero indicates perfect prediction. Points scattered around zero suggest good model performance." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/reVsObs-default-1.png" class="r-plt" alt="Scatter plot showing log residuals versus age with default settings. Residuals are calculated as log(predicted) - log(observed), displayed as points colored by sex groups. A horizontal reference line at zero indicates perfect prediction. Points scattered around zero suggest good model performance." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="linear-scale-for-residuals">3.1.2 Linear Scale for Residuals<a class="anchor" aria-label="anchor" href="#linear-scale-for-residuals"></a>
 </h3>
 <p>If the variable <code>residualScale</code> is set to “linear”,
-residuals will be calculated by #<span class="math inline">$# observed -
-predicted #$</span>#.</p>
+residuals will be calculated by #<span class="math inline">$# predicted
+- observed #$</span>#.</p>
 <p>Below, the line type of the comparison line is set to ‘solid’.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
@@ -759,7 +759,7 @@ predicted #$</span>#.</p>
 <span>  residualScale <span class="op">=</span> <span class="st">"linear"</span>,</span>
 <span>  geomComparisonLineAttributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="st">"solid"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/resVsCov-basic-linear-1.png" class="r-plt" alt="Scatter plot showing linear residuals versus age with a solid horizontal reference line. Residuals are calculated as observed - predicted on a linear scale, with points colored by sex groups. The solid reference line at zero provides a clear visual reference for assessing prediction accuracy." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/resVsCov-basic-linear-1.png" class="r-plt" alt="Scatter plot showing linear residuals versus age with a solid horizontal reference line. Residuals are calculated as predicted - observed on a linear scale, with points colored by sex groups. The solid reference line at zero provides a clear visual reference for assessing prediction accuracy." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="map-residuals-directly">3.1.3 Map Residuals Directly<a class="anchor" aria-label="anchor" href="#map-residuals-directly"></a>

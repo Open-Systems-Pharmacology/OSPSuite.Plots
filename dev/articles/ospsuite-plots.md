@@ -541,8 +541,8 @@ respective functions.
   `observed` is mapped to `x` and `predicted` is mapped to `y`. For all
   other functions, residuals are calculated if both aesthetics are
   mapped. The variable `residualScale` defines the calculation method:
-  - `residualScale = "log"`: $log(observed) - log(predicted)$,
-  - `residualScale = "linear"`: $observed - predicted$,
+  - `residualScale = "log"`: $log(predicted) - log(observed)$,
+  - `residualScale = "linear"`: $predicted - observed$,
   - `residualScale = "ratio"`: $observed/predicted$.
 
 See `vignette("Goodness of Fit", package = "ospsuite.plots")` for

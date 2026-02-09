@@ -342,9 +342,9 @@ The function `plotResVsCov()` calculates the residuals using the aesthetics `obs
 
 ### 3.1.1 Default Settings
 
-The default value for the variable `residualScale` is "log". Residuals will then be calculated by `log(observed) - log(predicted)`. A horizontal comparison line with the value 0 is displayed. The aesthetic `groupby` can be used to group observations.
+The default value for the variable `residualScale` is "log". Residuals will then be calculated by `log(predicted) - log(observed)`. A horizontal comparison line with the value 0 is displayed. The aesthetic `groupby` can be used to group observations.
 
-```{r reVsObs-default, fig.alt="Scatter plot showing log residuals versus age with default settings. Residuals are calculated as log(observed) - log(predicted), displayed as points colored by sex groups. A horizontal reference line at zero indicates perfect prediction. Points scattered around zero suggest good model performance."}
+```{r reVsObs-default, fig.alt="Scatter plot showing log residuals versus age with default settings. Residuals are calculated as log(predicted) - log(observed), displayed as points colored by sex groups. A horizontal reference line at zero indicates perfect prediction. Points scattered around zero suggest good model performance."}
 plotResVsCov(
   data = data,
   mapping = aes(
@@ -358,11 +358,11 @@ plotResVsCov(
 
 ## 3.1.2 Linear Scale for Residuals
 
-If the variable `residualScale` is set to "linear", residuals will be calculated by #$# observed - predicted #$#.
+If the variable `residualScale` is set to "linear", residuals will be calculated by #$# predicted - observed #$#.
 
 Below, the line type of the comparison line is set to 'solid'.
 
-```{r resVsCov-basic-linear, fig.alt="Scatter plot showing linear residuals versus age with a solid horizontal reference line. Residuals are calculated as observed - predicted on a linear scale, with points colored by sex groups. The solid reference line at zero provides a clear visual reference for assessing prediction accuracy."}
+```{r resVsCov-basic-linear, fig.alt="Scatter plot showing linear residuals versus age with a solid horizontal reference line. Residuals are calculated as predicted - observed on a linear scale, with points colored by sex groups. The solid reference line at zero provides a clear visual reference for assessing prediction accuracy."}
 plotResVsCov(
   data = data,
   mapping = aes(

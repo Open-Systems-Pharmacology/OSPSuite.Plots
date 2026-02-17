@@ -189,7 +189,7 @@ plotTimeProfile <- function(data = NULL, # nolint
     !is.null(listMappedData$simMappedData) &&
       !is.null(listMappedData$obsMappedData) &&
       is.null(listMappedData$mapSimulatedAndObserved) &&
-      all(c("colour", "shape") %in% groupAesthetics)
+      "colour" %in% groupAesthetics
   ) {
     obsMapping <- listMappedData$obsMappedData$mapping
     obsColourExpr <- rlang::get_expr(obsMapping$colour)

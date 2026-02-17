@@ -21,6 +21,7 @@
 * `addWatermark()` and `print.ggWatermark()` now throw an error if the watermark option is not set
 * Added comprehensive test coverage for watermark option validation
 * Updated all vignettes and examples to explicitly set the watermark option
+* Added `calculateResiduals()` function to provide a consistent method for calculating residuals across the Open Systems Pharmacology ecosystem. This function uses the same calculation logic as the internal residual calculations in plotting functions like `plotResVsCov()` and `plotRatioVsCov()`. This aligns residual calculations between `ospsuite.plots` and `ospsuite` packages. (#1713)
 
 # ospsuite.plots 1.0.1
 

@@ -529,19 +529,19 @@ MappedData <- R6::R6Class( # nolint
 
         if (!residualAesthetic %in% names(self$mapping)) {
           # Extract predicted and observed values
-          predicted_values <- private$getDataForAesthetic("predicted")
-          observed_values <- private$getDataForAesthetic("observed")
+          predictedValues <- private$getDataForAesthetic("predicted")
+          observedValues <- private$getDataForAesthetic("observed")
 
           # Use calculateResiduals function for consistent calculation
-          residual_values <- calculateResiduals(
-            predicted = predicted_values,
-            observed = observed_values,
+          residualValues <- calculateResiduals(
+            predicted = predictedValues,
+            observed = observedValues,
             scaling = residualScale
           )
 
           # Add residuals column to data
           self$data <- self$data |>
-            dplyr::mutate(residuals.i = residual_values)
+            dplyr::mutate(residuals.i = residualValues)
 
           # add mapping for residuals
           private$addOverwriteAes(eval(parse(

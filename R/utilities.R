@@ -254,13 +254,14 @@ getFoldDistanceList <- function(folds = c(1.5, 2),
 #' @param observed A numeric vector of observed values. Must have the same length as `predicted`.
 #' @param scaling A character string specifying the scaling method. Must be one of:
 #'   * `"log"` (default): Residuals are calculated as `log(predicted) - log(observed)`.
-#'     Invalid values (non-positive) are set to NA with a warning.
+#'     Invalid values (non-positive) or NA values are set to NA with a warning.
 #'   * `"linear"`: Residuals are calculated as `predicted - observed`.
+#'     NA values are set to NA with a warning.
 #'   * `"ratio"`: Residuals are calculated as `predicted / observed`.
-#'     Invalid values (zero observed values) are set to NA with a warning.
+#'     Invalid values (zero observed values) or NA values are set to NA with a warning.
 #'
 #' @return A numeric vector of residuals with the same length as the input vectors.
-#'   Invalid calculations are returned as NA values.
+#'   Invalid calculations and NA values are returned as NA.
 #'
 #' @details
 #' This function implements the same residual calculation logic used internally by
@@ -271,17 +272,20 @@ getFoldDistanceList <- function(folds = c(1.5, 2),
 #' **Calculation Details:**
 #'
 #' * **Log scaling**: `log(predicted) - log(observed)`
+#'   - NA values are set to NA with a warning
 #'   - Non-positive values are set to NA with a warning
 #'   - Symmetric for over- and under-prediction on log scale
 #'   - Commonly used for pharmacokinetic data
 #'
 #' * **Linear scaling**: `predicted - observed`
+#'   - NA values are set to NA with a warning
 #'   - Standard residual calculation
 #'   - Positive values indicate over-prediction
 #'   - Negative values indicate under-prediction
 #'
 #' * **Ratio scaling**: `predicted / observed`
 #'   - Returns ratios instead of differences
+#'   - NA values are set to NA with a warning
 #'   - Zero observed values are set to NA with a warning
 #'   - Values > 1 indicate over-prediction
 #'   - Values < 1 indicate under-prediction
@@ -293,28 +297,28 @@ getFoldDistanceList <- function(folds = c(1.5, 2),
 #' observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
 #'
 #' # Calculate residuals with different scaling methods
-#' residuals_log <- calculateResiduals(predicted, observed, scaling = "log")
-#' residuals_linear <- calculateResiduals(predicted, observed, scaling = "linear")
-#' residuals_ratio <- calculateResiduals(predicted, observed, scaling = "ratio")
+#' residualsLog <- calculateResiduals(predicted, observed, scaling = "log")
+#' residualsLinear <- calculateResiduals(predicted, observed, scaling = "linear")
+#' residualsRatio <- calculateResiduals(predicted, observed, scaling = "ratio")
 #'
 #' # Compare results
 #' data.frame(
 #'   predicted = predicted,
 #'   observed = observed,
-#'   log_residuals = residuals_log,
-#'   linear_residuals = residuals_linear,
-#'   ratio_residuals = residuals_ratio
+#'   logResiduals = residualsLog,
+#'   linearResiduals = residualsLinear,
+#'   ratioResiduals = residualsRatio
 #' )
 #'
 #' # Example with invalid values
-#' predicted_invalid <- c(1.5, -2.0, 3.5)
-#' observed_invalid <- c(1.2, 2.1, 0)
+#' predictedInvalid <- c(1.5, -2.0, 3.5)
+#' observedInvalid <- c(1.2, 2.1, 0)
 #'
 #' # Log scaling warns about non-positive values and returns NA
-#' residuals_log_invalid <- calculateResiduals(predicted_invalid, observed_invalid, scaling = "log")
+#' residualsLogInvalid <- calculateResiduals(predictedInvalid, observedInvalid, scaling = "log")
 #'
 #' # Ratio scaling warns about zero observed values and returns NA
-#' residuals_ratio_invalid <- calculateResiduals(predicted_invalid, observed_invalid, scaling = "ratio")
+#' residualsRatioInvalid <- calculateResiduals(predictedInvalid, observedInvalid, scaling = "ratio")
 #'
 #' @export
 calculateResiduals <- function(predicted,
@@ -334,46 +338,60 @@ calculateResiduals <- function(predicted,
     stop("predicted and observed must have the same length")
   }
 
+  # Check for NA values and warn
+  naPredicted <- is.na(predicted)
+  naObserved <- is.na(observed)
+  naValues <- naPredicted | naObserved
+
+  if (any(naValues)) {
+    nNa <- sum(naValues)
+    warning(sprintf(
+      "%d residual value%s set to NA: NA values found in predicted or observed",
+      nNa,
+      ifelse(nNa == 1, "", "s")
+    ))
+  }
+
   # Initialize residuals vector
   residuals <- rep(NA_real_, length(predicted))
 
   # Calculate residuals based on scaling method
   if (scaling == ResidualScales$log) {
     # Check for positive values
-    invalid_predicted <- predicted <= 0 & !is.na(predicted)
-    invalid_observed <- observed <= 0 & !is.na(observed)
-    invalid_indices <- invalid_predicted | invalid_observed
+    invalidPredicted <- predicted <= 0 & !is.na(predicted)
+    invalidObserved <- observed <= 0 & !is.na(observed)
+    invalidIndices <- invalidPredicted | invalidObserved
 
-    if (any(invalid_indices)) {
-      n_invalid <- sum(invalid_indices)
+    if (any(invalidIndices)) {
+      nInvalid <- sum(invalidIndices)
       warning(sprintf(
         "%d residual value%s set to NA: non-positive values found for log scaling",
-        n_invalid,
-        ifelse(n_invalid == 1, "", "s")
+        nInvalid,
+        ifelse(nInvalid == 1, "", "s")
       ))
     }
 
     # Calculate residuals for valid values
-    valid_indices <- !invalid_indices
-    residuals[valid_indices] <- log(predicted[valid_indices]) - log(observed[valid_indices])
+    validIndices <- !invalidIndices & !naValues
+    residuals[validIndices] <- log(predicted[validIndices]) - log(observed[validIndices])
   } else if (scaling == ResidualScales$linear) {
     residuals <- predicted - observed
   } else if (scaling == ResidualScales$ratio) {
     # Check for zero observed values
-    invalid_observed <- observed == 0 & !is.na(observed)
+    invalidObserved <- observed == 0 & !is.na(observed)
 
-    if (any(invalid_observed)) {
-      n_invalid <- sum(invalid_observed)
+    if (any(invalidObserved)) {
+      nInvalid <- sum(invalidObserved)
       warning(sprintf(
         "%d residual value%s set to NA: zero observed values found for ratio scaling",
-        n_invalid,
-        ifelse(n_invalid == 1, "", "s")
+        nInvalid,
+        ifelse(nInvalid == 1, "", "s")
       ))
     }
 
     # Calculate residuals for valid values
-    valid_indices <- !invalid_observed
-    residuals[valid_indices] <- predicted[valid_indices] / observed[valid_indices]
+    validIndices <- !invalidObserved & !naValues
+    residuals[validIndices] <- predicted[validIndices] / observed[validIndices]
   }
 
   return(residuals)

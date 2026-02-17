@@ -528,18 +528,20 @@ MappedData <- R6::R6Class( # nolint
         )
 
         if (!residualAesthetic %in% names(self$mapping)) {
-          ## add new column
-          if (residualScale == ResidualScales$log) {
-            self$data <- self$data |>
-              dplyr::mutate(residuals.i = log(!!self$mapping[["predicted"]]) - log(!!self$mapping[["observed"]]))
-          } else if (residualScale == ResidualScales$linear) {
-            self$data <- self$data |>
-              dplyr::mutate(residuals.i = !!self$mapping[["predicted"]] - !!self$mapping[["observed"]])
-          } else if (residualScale == ResidualScales$ratio) {
-            self$data <- self$data |>
-              dplyr::mutate(residuals.i = !!self$mapping[["observed"]] / !!self$mapping[["predicted"]])
-          }
+          # Extract predicted and observed values
+          predicted_values <- private$getDataForAesthetic("predicted")
+          observed_values <- private$getDataForAesthetic("observed")
 
+          # Use calculateResiduals function for consistent calculation
+          residual_values <- calculateResiduals(
+            predicted = predicted_values,
+            observed = observed_values,
+            scaling = residualScale
+          )
+
+          # Add residuals column to data
+          self$data <- self$data |>
+            dplyr::mutate(residuals.i = residual_values)
 
           # add mapping for residuals
           private$addOverwriteAes(eval(parse(
@@ -557,7 +559,7 @@ MappedData <- R6::R6Class( # nolint
             switch(residualScale,
               linear = "residuals\npredicted - observed",
               log = "residuals\nlog(predicted) - log(observed)",
-              ratio = "observed/predicted"
+              ratio = "predicted/observed"
             )
         }
       }

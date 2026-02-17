@@ -14,14 +14,15 @@ calculateResiduals(predicted, observed, scaling = ResidualScales$log)
 \item{scaling}{A character string specifying the scaling method. Must be one of:
 \itemize{
 \item \code{"log"} (default): Residuals are calculated as \code{log(predicted) - log(observed)}.
-Note: Values must be positive for log scaling.
+Invalid values (non-positive) are set to NA with a warning.
 \item \code{"linear"}: Residuals are calculated as \code{predicted - observed}.
-\item \code{"ratio"}: Residuals are calculated as \code{observed / predicted}.
-Note: Predicted values must be non-zero for ratio scaling.
+\item \code{"ratio"}: Residuals are calculated as \code{predicted / observed}.
+Invalid values (zero observed values) are set to NA with a warning.
 }}
 }
 \value{
 A numeric vector of residuals with the same length as the input vectors.
+Invalid calculations are returned as NA values.
 }
 \description{
 This function calculates residuals from predicted and observed values using different scaling methods.
@@ -38,7 +39,7 @@ residual calculations across different packages in the Open Systems Pharmacology
 \itemize{
 \item \strong{Log scaling}: \code{log(predicted) - log(observed)}
 \itemize{
-\item All values must be positive
+\item Non-positive values are set to NA with a warning
 \item Symmetric for over- and under-prediction on log scale
 \item Commonly used for pharmacokinetic data
 }
@@ -48,11 +49,12 @@ residual calculations across different packages in the Open Systems Pharmacology
 \item Positive values indicate over-prediction
 \item Negative values indicate under-prediction
 }
-\item \strong{Ratio scaling}: \code{observed / predicted}
+\item \strong{Ratio scaling}: \code{predicted / observed}
 \itemize{
 \item Returns ratios instead of differences
-\item Values > 1 indicate under-prediction
-\item Values < 1 indicate over-prediction
+\item Zero observed values are set to NA with a warning
+\item Values > 1 indicate over-prediction
+\item Values < 1 indicate under-prediction
 \item Value of 1 indicates perfect prediction
 }
 }
@@ -75,5 +77,15 @@ data.frame(
   linear_residuals = residuals_linear,
   ratio_residuals = residuals_ratio
 )
+
+# Example with invalid values
+predicted_invalid <- c(1.5, -2.0, 3.5)
+observed_invalid <- c(1.2, 2.1, 0)
+
+# Log scaling warns about non-positive values and returns NA
+residuals_log_invalid <- calculateResiduals(predicted_invalid, observed_invalid, scaling = "log")
+
+# Ratio scaling warns about zero observed values and returns NA
+residuals_ratio_invalid <- calculateResiduals(predicted_invalid, observed_invalid, scaling = "ratio")
 
 }

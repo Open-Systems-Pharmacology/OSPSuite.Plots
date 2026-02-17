@@ -161,19 +161,34 @@ test_that("calculateResiduals works correctly with log scaling", {
   result_default <- calculateResiduals(predicted, observed)
   expect_equal(result_default, result)
 
-  # Test error for non-positive values with log scaling
-  expect_error(
-    calculateResiduals(c(-1, 2, 3), c(1, 2, 3), scaling = "log"),
-    "All predicted and observed values must be positive for log scaling"
+  # Test warning and NA for non-positive values with log scaling
+  expect_warning(
+    result <- calculateResiduals(c(-1, 2, 3), c(1, 2, 3), scaling = "log"),
+    "1 residual value set to NA: non-positive values found for log scaling"
   )
-  expect_error(
-    calculateResiduals(c(1, 2, 3), c(-1, 2, 3), scaling = "log"),
-    "All predicted and observed values must be positive for log scaling"
+  expect_true(is.na(result[1]))
+  expect_false(is.na(result[2]))
+
+  expect_warning(
+    result <- calculateResiduals(c(1, 2, 3), c(-1, 2, 3), scaling = "log"),
+    "1 residual value set to NA: non-positive values found for log scaling"
   )
-  expect_error(
-    calculateResiduals(c(0, 2, 3), c(1, 2, 3), scaling = "log"),
-    "All predicted and observed values must be positive for log scaling"
+  expect_true(is.na(result[1]))
+
+  expect_warning(
+    result <- calculateResiduals(c(0, 2, 3), c(1, 2, 3), scaling = "log"),
+    "1 residual value set to NA: non-positive values found for log scaling"
   )
+  expect_true(is.na(result[1]))
+
+  # Test multiple invalid values
+  expect_warning(
+    result <- calculateResiduals(c(-1, 0, 3), c(1, -2, 3), scaling = "log"),
+    "3 residual values set to NA: non-positive values found for log scaling"
+  )
+  expect_true(is.na(result[1]))
+  expect_true(is.na(result[2]))
+  expect_false(is.na(result[3]))
 })
 
 test_that("calculateResiduals works correctly with linear scaling", {
@@ -195,17 +210,28 @@ test_that("calculateResiduals works correctly with ratio scaling", {
   predicted <- c(1.5, 2.0, 3.5, 5.0, 7.5)
   observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
 
-  # Test ratio scaling
+  # Test ratio scaling - now predicted / observed
   result <- calculateResiduals(predicted, observed, scaling = "ratio")
-  expected <- observed / predicted
+  expected <- predicted / observed
   expect_equal(result, expected)
   expect_length(result, 5)
 
-  # Test error for zero predicted values with ratio scaling
-  expect_error(
-    calculateResiduals(c(0, 2, 3), c(1, 2, 3), scaling = "ratio"),
-    "Predicted values cannot be zero for ratio scaling"
+  # Test warning and NA for zero observed values with ratio scaling
+  expect_warning(
+    result <- calculateResiduals(c(1, 2, 3), c(0, 2, 3), scaling = "ratio"),
+    "1 residual value set to NA: zero observed values found for ratio scaling"
   )
+  expect_true(is.na(result[1]))
+  expect_false(is.na(result[2]))
+
+  # Test multiple zero observed values
+  expect_warning(
+    result <- calculateResiduals(c(1, 2, 3), c(0, 0, 3), scaling = "ratio"),
+    "2 residual values set to NA: zero observed values found for ratio scaling"
+  )
+  expect_true(is.na(result[1]))
+  expect_true(is.na(result[2]))
+  expect_false(is.na(result[3]))
 })
 
 test_that("calculateResiduals handles NA values correctly", {
@@ -268,8 +294,8 @@ test_that("calculateResiduals matches MappedData internal calculations", {
   expected_linear <- predicted - observed
   expect_equal(result_linear, expected_linear)
 
-  # Ratio scaling: observed / predicted
+  # Ratio scaling: predicted / observed (changed from observed / predicted)
   result_ratio <- calculateResiduals(predicted, observed, scaling = "ratio")
-  expected_ratio <- observed / predicted
+  expected_ratio <- predicted / observed
   expect_equal(result_ratio, expected_ratio)
 })

@@ -243,3 +243,101 @@ getFoldDistanceList <- function(folds = c(1.5, 2),
 
   return(foldDistance)
 }
+
+#' Calculate Residuals
+#'
+#' This function calculates residuals from predicted and observed values using different scaling methods.
+#' The calculation method is consistent with the residual calculation used in `plotResVsCov()` and other
+#' plotting functions in the ospsuite.plots package.
+#'
+#' @param predicted A numeric vector of predicted values. Must have the same length as `observed`.
+#' @param observed A numeric vector of observed values. Must have the same length as `predicted`.
+#' @param scaling A character string specifying the scaling method. Must be one of:
+#'   * `"log"` (default): Residuals are calculated as `log(predicted) - log(observed)`.
+#'     Note: Values must be positive for log scaling.
+#'   * `"linear"`: Residuals are calculated as `predicted - observed`.
+#'   * `"ratio"`: Residuals are calculated as `observed / predicted`.
+#'     Note: Predicted values must be non-zero for ratio scaling.
+#'
+#' @return A numeric vector of residuals with the same length as the input vectors.
+#'
+#' @details
+#' This function implements the same residual calculation logic used internally by
+#' the ospsuite.plots package when creating residual plots with `plotResVsCov()` and
+#' `plotRatioVsCov()`. It is provided as a standalone function to enable consistent
+#' residual calculations across different packages in the Open Systems Pharmacology ecosystem.
+#'
+#' **Calculation Details:**
+#'
+#' * **Log scaling**: `log(predicted) - log(observed)`
+#'   - All values must be positive
+#'   - Symmetric for over- and under-prediction on log scale
+#'   - Commonly used for pharmacokinetic data
+#'
+#' * **Linear scaling**: `predicted - observed`
+#'   - Standard residual calculation
+#'   - Positive values indicate over-prediction
+#'   - Negative values indicate under-prediction
+#'
+#' * **Ratio scaling**: `observed / predicted`
+#'   - Returns ratios instead of differences
+#'   - Values > 1 indicate under-prediction
+#'   - Values < 1 indicate over-prediction
+#'   - Value of 1 indicates perfect prediction
+#'
+#' @examples
+#' # Example data
+#' predicted <- c(1.5, 2.0, 3.5, 5.0, 7.5)
+#' observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
+#'
+#' # Calculate residuals with different scaling methods
+#' residuals_log <- calculateResiduals(predicted, observed, scaling = "log")
+#' residuals_linear <- calculateResiduals(predicted, observed, scaling = "linear")
+#' residuals_ratio <- calculateResiduals(predicted, observed, scaling = "ratio")
+#'
+#' # Compare results
+#' data.frame(
+#'   predicted = predicted,
+#'   observed = observed,
+#'   log_residuals = residuals_log,
+#'   linear_residuals = residuals_linear,
+#'   ratio_residuals = residuals_ratio
+#' )
+#'
+#' @export
+calculateResiduals <- function(predicted,
+                              observed,
+                              scaling = ResidualScales$log) {
+  # Validation
+  checkmate::assertNumeric(predicted, any.missing = TRUE, min.len = 1)
+  checkmate::assertNumeric(observed, any.missing = TRUE, min.len = 1)
+  checkmate::assertChoice(scaling, choices = c(
+    ResidualScales$linear,
+    ResidualScales$log,
+    ResidualScales$ratio
+  ))
+
+  # Check that vectors have the same length
+  if (length(predicted) != length(observed)) {
+    stop("predicted and observed must have the same length")
+  }
+
+  # Calculate residuals based on scaling method
+  if (scaling == ResidualScales$log) {
+    # Check for positive values
+    if (any(predicted <= 0, na.rm = TRUE) || any(observed <= 0, na.rm = TRUE)) {
+      stop("All predicted and observed values must be positive for log scaling")
+    }
+    residuals <- log(predicted) - log(observed)
+  } else if (scaling == ResidualScales$linear) {
+    residuals <- predicted - observed
+  } else if (scaling == ResidualScales$ratio) {
+    # Check for non-zero predicted values
+    if (any(predicted == 0, na.rm = TRUE)) {
+      stop("Predicted values cannot be zero for ratio scaling")
+    }
+    residuals <- observed / predicted
+  }
+
+  return(residuals)
+}

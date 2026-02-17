@@ -146,3 +146,130 @@ test_that("metaData2DataFrame works correctly", {
   expect_equal(nrow(result), 0)
   expect_equal(ncol(result), 0)
 })
+
+test_that("calculateResiduals works correctly with log scaling", {
+  predicted <- c(1.5, 2.0, 3.5, 5.0, 7.5)
+  observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
+
+  # Test log scaling
+  result <- calculateResiduals(predicted, observed, scaling = "log")
+  expected <- log(predicted) - log(observed)
+  expect_equal(result, expected)
+  expect_length(result, 5)
+
+  # Test that default is log scaling
+  result_default <- calculateResiduals(predicted, observed)
+  expect_equal(result_default, result)
+
+  # Test error for non-positive values with log scaling
+  expect_error(
+    calculateResiduals(c(-1, 2, 3), c(1, 2, 3), scaling = "log"),
+    "All predicted and observed values must be positive for log scaling"
+  )
+  expect_error(
+    calculateResiduals(c(1, 2, 3), c(-1, 2, 3), scaling = "log"),
+    "All predicted and observed values must be positive for log scaling"
+  )
+  expect_error(
+    calculateResiduals(c(0, 2, 3), c(1, 2, 3), scaling = "log"),
+    "All predicted and observed values must be positive for log scaling"
+  )
+})
+
+test_that("calculateResiduals works correctly with linear scaling", {
+  predicted <- c(1.5, 2.0, 3.5, 5.0, 7.5)
+  observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
+
+  # Test linear scaling
+  result <- calculateResiduals(predicted, observed, scaling = "linear")
+  expected <- predicted - observed
+  expect_equal(result, expected)
+  expect_length(result, 5)
+
+  # Test with negative values (should work for linear)
+  result_neg <- calculateResiduals(c(-1, 2, 3), c(1, -2, 3), scaling = "linear")
+  expect_equal(result_neg, c(-2, 4, 0))
+})
+
+test_that("calculateResiduals works correctly with ratio scaling", {
+  predicted <- c(1.5, 2.0, 3.5, 5.0, 7.5)
+  observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
+
+  # Test ratio scaling
+  result <- calculateResiduals(predicted, observed, scaling = "ratio")
+  expected <- observed / predicted
+  expect_equal(result, expected)
+  expect_length(result, 5)
+
+  # Test error for zero predicted values with ratio scaling
+  expect_error(
+    calculateResiduals(c(0, 2, 3), c(1, 2, 3), scaling = "ratio"),
+    "Predicted values cannot be zero for ratio scaling"
+  )
+})
+
+test_that("calculateResiduals handles NA values correctly", {
+  predicted <- c(1.5, NA, 3.5, 5.0)
+  observed <- c(1.2, 2.1, NA, 5.5)
+
+  # Test that NA values are preserved
+  result_log <- calculateResiduals(predicted, observed, scaling = "log")
+  expect_true(is.na(result_log[2]))
+  expect_true(is.na(result_log[3]))
+  expect_false(is.na(result_log[1]))
+  expect_false(is.na(result_log[4]))
+
+  result_linear <- calculateResiduals(predicted, observed, scaling = "linear")
+  expect_true(is.na(result_linear[2]))
+  expect_true(is.na(result_linear[3]))
+
+  result_ratio <- calculateResiduals(predicted, observed, scaling = "ratio")
+  expect_true(is.na(result_ratio[2]))
+  expect_true(is.na(result_ratio[3]))
+})
+
+test_that("calculateResiduals validates input correctly", {
+  # Test length mismatch
+  expect_error(
+    calculateResiduals(c(1, 2, 3), c(1, 2)),
+    "predicted and observed must have the same length"
+  )
+
+  # Test invalid scaling
+  expect_error(
+    calculateResiduals(c(1, 2, 3), c(1, 2, 3), scaling = "invalid"),
+    "Must be element of set"
+  )
+
+  # Test non-numeric inputs
+  expect_error(
+    calculateResiduals(c("a", "b"), c(1, 2)),
+    "Assertion on 'predicted' failed"
+  )
+  expect_error(
+    calculateResiduals(c(1, 2), c("a", "b")),
+    "Assertion on 'observed' failed"
+  )
+})
+
+test_that("calculateResiduals matches MappedData internal calculations", {
+  # This test ensures consistency with the internal residual calculation
+  # in MappedData$adjustForResidualMatch
+  predicted <- c(1.5, 2.0, 3.5, 5.0, 7.5)
+  observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
+
+  # Log scaling: log(predicted) - log(observed)
+  result_log <- calculateResiduals(predicted, observed, scaling = "log")
+  expected_log <- log(predicted) - log(observed)
+  expect_equal(result_log, expected_log)
+
+  # Linear scaling: predicted - observed
+  result_linear <- calculateResiduals(predicted, observed, scaling = "linear")
+  expected_linear <- predicted - observed
+  expect_equal(result_linear, expected_linear)
+
+  # Ratio scaling: observed / predicted
+  result_ratio <- calculateResiduals(predicted, observed, scaling = "ratio")
+  expected_ratio <- observed / predicted
+  expect_equal(result_ratio, expected_ratio)
+})

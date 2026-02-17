@@ -186,25 +186,25 @@ plotTimeProfile <- function(data = NULL, # nolint
   # suppress shape/fill legends that duplicate colour (expanded from groupby),
   # but preserve user-explicit mappings (e.g. aes(shape = otherVar))
   if (
-    !(any(
-      is.null(listMappedData$simMappedData) |
-        is.null(listMappedData$obsMappedData)
-    )) &&
+    !is.null(listMappedData$simMappedData) &&
+      !is.null(listMappedData$obsMappedData) &&
       is.null(listMappedData$mapSimulatedAndObserved) &&
       all(c("colour", "shape") %in% groupAesthetics)
   ) {
     obsMapping <- listMappedData$obsMappedData$mapping
     obsColourExpr <- rlang::get_expr(obsMapping$colour)
 
-    suppressGuides <- list()
-    if (identical(rlang::get_expr(obsMapping$shape), obsColourExpr)) {
-      suppressGuides$shape <- "none"
-    }
-    if (identical(rlang::get_expr(obsMapping$fill), obsColourExpr)) {
-      suppressGuides$fill <- "none"
-    }
-    if (length(suppressGuides) > 0) {
-      plotObject <- plotObject + guides(!!!suppressGuides)
+    if (!is.null(obsColourExpr)) {
+      suppressGuides <- list()
+      if (identical(rlang::get_expr(obsMapping$shape), obsColourExpr)) {
+        suppressGuides$shape <- "none"
+      }
+      if (identical(rlang::get_expr(obsMapping$fill), obsColourExpr)) {
+        suppressGuides$fill <- "none"
+      }
+      if (length(suppressGuides) > 0) {
+        plotObject <- plotObject + guides(!!!suppressGuides)
+      }
     }
   }
 

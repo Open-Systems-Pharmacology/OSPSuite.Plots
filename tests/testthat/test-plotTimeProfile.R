@@ -417,4 +417,70 @@ test_that("plotTimeProfile works with different observedMapping", {
   )
 })
 
+test_that("plotTimeProfile suppresses duplicate shape and fill legends with mixed obs+sim data", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  metaData <- attr(exampleDataTimeProfile, "metaData")
+
+  fig <- plotTimeProfile(
+    data = simData,
+    observedData = obsData,
+    metaData = metaData,
+    mapping = aes(
+      x = time,
+      y = values,
+      groupby = caption
+    )
+  )
+
+  # shape and fill guides should be suppressed (auto-expanded from groupby)
+  expect_equal(fig$guides$guides$shape, "none")
+  expect_equal(fig$guides$guides$fill, "none")
+})
+
+test_that("plotTimeProfile preserves user-explicit fill mapping in legend", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::mutate(fillVar = caption) |>
+    dplyr::select(c("time", "values", "caption", "fillVar"))
+
+  metaData <- attr(exampleDataTimeProfile, "metaData")
+
+  fig <- plotTimeProfile(
+    data = simData,
+    observedData = obsData,
+    metaData = metaData,
+    mapping = aes(
+      x = time,
+      y = values,
+      groupby = caption
+    ),
+    observedMapping = aes(
+      x = time,
+      y = values,
+      groupby = caption,
+      fill = fillVar
+    )
+  )
+
+  # shape should be suppressed (same as colour from groupby)
+  expect_equal(fig$guides$guides$shape, "none")
+  # fill should NOT be suppressed (user-explicit, maps to different variable)
+  expect_false(identical(fig$guides$guides$fill, "none"))
+})
+
 ospsuite.plots::resetDefaults(oldDefaults)

@@ -147,43 +147,43 @@ test_that("metaData2DataFrame works correctly", {
   expect_equal(ncol(result), 0)
 })
 
-test_that("calculateResiduals works correctly with log scaling", {
+test_that("computeResiduals works correctly with log scaling", {
   predicted <- c(1.5, 2.0, 3.5, 5.0, 7.5)
   observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
 
   # Test log scaling
-  result <- calculateResiduals(predicted, observed, scaling = "log")
+  result <- computeResiduals(predicted, observed, scaling = "log")
   expected <- log(predicted) - log(observed)
   expect_equal(result, expected)
   expect_length(result, 5)
 
   # Test that default is log scaling
-  resultDefault <- calculateResiduals(predicted, observed)
+  resultDefault <- computeResiduals(predicted, observed)
   expect_equal(resultDefault, result)
 
   # Test warning and NA for non-positive values with log scaling
   expect_warning(
-    result <- calculateResiduals(c(-1, 2, 3), c(1, 2, 3), scaling = "log"),
+    result <- computeResiduals(c(-1, 2, 3), c(1, 2, 3), scaling = "log"),
     "1 residual value set to NA: non-positive values found for log scaling"
   )
   expect_true(is.na(result[1]))
   expect_false(is.na(result[2]))
 
   expect_warning(
-    result <- calculateResiduals(c(1, 2, 3), c(-1, 2, 3), scaling = "log"),
+    result <- computeResiduals(c(1, 2, 3), c(-1, 2, 3), scaling = "log"),
     "1 residual value set to NA: non-positive values found for log scaling"
   )
   expect_true(is.na(result[1]))
 
   expect_warning(
-    result <- calculateResiduals(c(0, 2, 3), c(1, 2, 3), scaling = "log"),
+    result <- computeResiduals(c(0, 2, 3), c(1, 2, 3), scaling = "log"),
     "1 residual value set to NA: non-positive values found for log scaling"
   )
   expect_true(is.na(result[1]))
 
   # Test multiple invalid values
   expect_warning(
-    result <- calculateResiduals(c(-1, 0, 3), c(1, -2, 3), scaling = "log"),
+    result <- computeResiduals(c(-1, 0, 3), c(1, -2, 3), scaling = "log"),
     "2 residual values set to NA: non-positive values found for log scaling"
   )
   expect_true(is.na(result[1]))
@@ -191,34 +191,34 @@ test_that("calculateResiduals works correctly with log scaling", {
   expect_false(is.na(result[3]))
 })
 
-test_that("calculateResiduals works correctly with linear scaling", {
+test_that("computeResiduals works correctly with linear scaling", {
   predicted <- c(1.5, 2.0, 3.5, 5.0, 7.5)
   observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
 
   # Test linear scaling
-  result <- calculateResiduals(predicted, observed, scaling = "linear")
+  result <- computeResiduals(predicted, observed, scaling = "linear")
   expected <- predicted - observed
   expect_equal(result, expected)
   expect_length(result, 5)
 
   # Test with negative values (should work for linear)
-  resultNeg <- calculateResiduals(c(-1, 2, 3), c(1, -2, 3), scaling = "linear")
+  resultNeg <- computeResiduals(c(-1, 2, 3), c(1, -2, 3), scaling = "linear")
   expect_equal(resultNeg, c(-2, 4, 0))
 })
 
-test_that("calculateResiduals works correctly with ratio scaling", {
+test_that("computeResiduals works correctly with ratio scaling", {
   predicted <- c(1.5, 2.0, 3.5, 5.0, 7.5)
   observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
 
   # Test ratio scaling - now predicted / observed
-  result <- calculateResiduals(predicted, observed, scaling = "ratio")
+  result <- computeResiduals(predicted, observed, scaling = "ratio")
   expected <- predicted / observed
   expect_equal(result, expected)
   expect_length(result, 5)
 
   # Test warning and NA for zero observed values with ratio scaling
   expect_warning(
-    result <- calculateResiduals(c(1, 2, 3), c(0, 2, 3), scaling = "ratio"),
+    result <- computeResiduals(c(1, 2, 3), c(0, 2, 3), scaling = "ratio"),
     "1 residual value set to NA: zero observed values found for ratio scaling"
   )
   expect_true(is.na(result[1]))
@@ -226,7 +226,7 @@ test_that("calculateResiduals works correctly with ratio scaling", {
 
   # Test multiple zero observed values
   expect_warning(
-    result <- calculateResiduals(c(1, 2, 3), c(0, 0, 3), scaling = "ratio"),
+    result <- computeResiduals(c(1, 2, 3), c(0, 0, 3), scaling = "ratio"),
     "2 residual values set to NA: zero observed values found for ratio scaling"
   )
   expect_true(is.na(result[1]))
@@ -234,13 +234,13 @@ test_that("calculateResiduals works correctly with ratio scaling", {
   expect_false(is.na(result[3]))
 })
 
-test_that("calculateResiduals handles NA values correctly", {
+test_that("computeResiduals handles NA values correctly", {
   predicted <- c(1.5, NA, 3.5, 5.0)
   observed <- c(1.2, 2.1, NA, 5.5)
 
   # Test that NA values trigger warning and are preserved
   expect_warning(
-    resultLog <- calculateResiduals(predicted, observed, scaling = "log"),
+    resultLog <- computeResiduals(predicted, observed, scaling = "log"),
     "2 residual values set to NA: NA values found in predicted or observed"
   )
   expect_true(is.na(resultLog[2]))
@@ -249,40 +249,40 @@ test_that("calculateResiduals handles NA values correctly", {
   expect_false(is.na(resultLog[4]))
 
   expect_warning(
-    resultLinear <- calculateResiduals(predicted, observed, scaling = "linear"),
+    resultLinear <- computeResiduals(predicted, observed, scaling = "linear"),
     "2 residual values set to NA: NA values found in predicted or observed"
   )
   expect_true(is.na(resultLinear[2]))
   expect_true(is.na(resultLinear[3]))
 
   expect_warning(
-    resultRatio <- calculateResiduals(predicted, observed, scaling = "ratio"),
+    resultRatio <- computeResiduals(predicted, observed, scaling = "ratio"),
     "2 residual values set to NA: NA values found in predicted or observed"
   )
   expect_true(is.na(resultRatio[2]))
   expect_true(is.na(resultRatio[3]))
 })
 
-test_that("calculateResiduals validates input correctly", {
+test_that("computeResiduals validates input correctly", {
   # Test length mismatch
   expect_error(
-    calculateResiduals(c(1, 2, 3), c(1, 2)),
+    computeResiduals(c(1, 2, 3), c(1, 2)),
     "predicted and observed must have the same length"
   )
 
   # Test invalid scaling
   expect_error(
-    calculateResiduals(c(1, 2, 3), c(1, 2, 3), scaling = "invalid"),
+    computeResiduals(c(1, 2, 3), c(1, 2, 3), scaling = "invalid"),
     "Must be element of set"
   )
 
   # Test non-numeric inputs
   expect_error(
-    calculateResiduals(c("a", "b"), c(1, 2)),
+    computeResiduals(c("a", "b"), c(1, 2)),
     "Assertion on 'predicted' failed"
   )
   expect_error(
-    calculateResiduals(c(1, 2), c("a", "b")),
+    computeResiduals(c(1, 2), c("a", "b")),
     "Assertion on 'observed' failed"
   )
 })

@@ -244,9 +244,9 @@ getFoldDistanceList <- function(folds = c(1.5, 2),
   return(foldDistance)
 }
 
-#' Calculate Residuals
+#' Compute Residuals
 #'
-#' This function calculates residuals from predicted and observed values using different scaling methods.
+#' This function computes residuals from predicted and observed values using different scaling methods.
 #' The calculation method is consistent with the residual calculation used in `plotResVsCov()` and other
 #' plotting functions in the ospsuite.plots package.
 #'
@@ -296,10 +296,10 @@ getFoldDistanceList <- function(folds = c(1.5, 2),
 #' predicted <- c(1.5, 2.0, 3.5, 5.0, 7.5)
 #' observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
 #'
-#' # Calculate residuals with different scaling methods
-#' residualsLog <- calculateResiduals(predicted, observed, scaling = "log")
-#' residualsLinear <- calculateResiduals(predicted, observed, scaling = "linear")
-#' residualsRatio <- calculateResiduals(predicted, observed, scaling = "ratio")
+#' # Compute residuals with different scaling methods
+#' residualsLog <- computeResiduals(predicted, observed, scaling = "log")
+#' residualsLinear <- computeResiduals(predicted, observed, scaling = "linear")
+#' residualsRatio <- computeResiduals(predicted, observed, scaling = "ratio")
 #'
 #' # Compare results
 #' data.frame(
@@ -315,13 +315,13 @@ getFoldDistanceList <- function(folds = c(1.5, 2),
 #' observedInvalid <- c(1.2, 2.1, 0)
 #'
 #' # Log scaling warns about non-positive values and returns NA
-#' residualsLogInvalid <- calculateResiduals(predictedInvalid, observedInvalid, scaling = "log")
+#' residualsLogInvalid <- computeResiduals(predictedInvalid, observedInvalid, scaling = "log")
 #'
 #' # Ratio scaling warns about zero observed values and returns NA
-#' residualsRatioInvalid <- calculateResiduals(predictedInvalid, observedInvalid, scaling = "ratio")
+#' residualsRatioInvalid <- computeResiduals(predictedInvalid, observedInvalid, scaling = "ratio")
 #'
 #' @export
-calculateResiduals <- function(predicted,
+computeResiduals <- function(predicted,
                               observed,
                               scaling = ResidualScales$log) {
   # Validation

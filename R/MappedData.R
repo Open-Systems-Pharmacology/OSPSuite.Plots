@@ -585,7 +585,7 @@ MappedData <- R6::R6Class(
           predictedValues <- private$getDataForAesthetic("predicted")
           observedValues <- private$getDataForAesthetic("observed")
 
-          residualValues <- calculateResiduals(
+          residualValues <- computeResiduals(
             predicted = predictedValues,
             observed = observedValues,
             scaling = residualScale

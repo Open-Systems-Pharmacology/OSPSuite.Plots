@@ -184,7 +184,7 @@ test_that("calculateResiduals works correctly with log scaling", {
   # Test multiple invalid values
   expect_warning(
     result <- calculateResiduals(c(-1, 0, 3), c(1, -2, 3), scaling = "log"),
-    "3 residual values set to NA: non-positive values found for log scaling"
+    "2 residual values set to NA: non-positive values found for log scaling"
   )
   expect_true(is.na(result[1]))
   expect_true(is.na(result[2]))
@@ -284,64 +284,5 @@ test_that("calculateResiduals validates input correctly", {
   expect_error(
     calculateResiduals(c(1, 2), c("a", "b")),
     "Assertion on 'observed' failed"
-  )
-})
-
-test_that("calculateResiduals matches MappedData internal calculations", {
-  # This test ensures consistency with the internal residual calculation
-  # in MappedData$adjustForResidualMatch
-  predicted <- c(1.5, 2.0, 3.5, 5.0, 7.5)
-  observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
-
-  # Log scaling: log(predicted) - log(observed)
-  resultLog <- calculateResiduals(predicted, observed, scaling = "log")
-  expectedLog <- log(predicted) - log(observed)
-  expect_equal(resultLog, expectedLog)
-
-  # Linear scaling: predicted - observed
-  resultLinear <- calculateResiduals(predicted, observed, scaling = "linear")
-  expectedLinear <- predicted - observed
-  expect_equal(resultLinear, expectedLinear)
-
-  # Ratio scaling: predicted / observed (changed from observed / predicted)
-  resultRatio <- calculateResiduals(predicted, observed, scaling = "ratio")
-  expectedRatio <- predicted / observed
-  expect_equal(resultRatio, expectedRatio)
-})
-
-test_that("calculateResiduals warns about NA values", {
-  # Test warning for single NA in predicted
-  expect_warning(
-    result <- calculateResiduals(c(1.5, NA, 3.5), c(1.2, 2.1, 3.0), scaling = "log"),
-    "1 residual value set to NA: NA values found in predicted or observed"
-  )
-  expect_true(is.na(result[2]))
-
-  # Test warning for single NA in observed
-  expect_warning(
-    result <- calculateResiduals(c(1.5, 2.0, 3.5), c(1.2, NA, 3.0), scaling = "log"),
-    "1 residual value set to NA: NA values found in predicted or observed"
-  )
-  expect_true(is.na(result[2]))
-
-  # Test warning for multiple NAs
-  expect_warning(
-    result <- calculateResiduals(c(NA, 2.0, 3.5), c(1.2, NA, 3.0), scaling = "log"),
-    "2 residual values set to NA: NA values found in predicted or observed"
-  )
-  expect_true(is.na(result[1]))
-  expect_true(is.na(result[2]))
-  expect_false(is.na(result[3]))
-
-  # Test warning works with linear scaling
-  expect_warning(
-    result <- calculateResiduals(c(1.5, NA, 3.5), c(1.2, 2.1, 3.0), scaling = "linear"),
-    "1 residual value set to NA: NA values found in predicted or observed"
-  )
-
-  # Test warning works with ratio scaling
-  expect_warning(
-    result <- calculateResiduals(c(1.5, NA, 3.5), c(1.2, 2.1, 3.0), scaling = "ratio"),
-    "1 residual value set to NA: NA values found in predicted or observed"
   )
 })

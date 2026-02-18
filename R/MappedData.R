@@ -2,7 +2,8 @@
 #' @description  R6 class for mapping  variables to `data`
 #' @export
 #' @family MappedData classes
-MappedData <- R6::R6Class( # nolint
+MappedData <- R6::R6Class(
+  # nolint
   "MappedData",
   public = list(
     #' @field data data.frame used for mapping
@@ -39,27 +40,30 @@ MappedData <- R6::R6Class( # nolint
     #'
     #' @description Create a new `MappedData` object
     #' @return A new `MappedData` object
-    initialize = function(data,
-                          mapping,
-                          xScale,
-                          yScale,
-                          groupAesthetics = NULL,
-                          groupOrder = NULL,
-                          direction = "y",
-                          isObserved = TRUE,
-                          xlimits = NULL,
-                          ylimits = NULL,
-                          residualScale = NULL,
-                          residualAesthetic = "y") {
+    initialize = function(
+      data,
+      mapping,
+      xScale,
+      yScale,
+      groupAesthetics = NULL,
+      groupOrder = NULL,
+      direction = "y",
+      isObserved = TRUE,
+      xlimits = NULL,
+      ylimits = NULL,
+      residualScale = NULL,
+      residualAesthetic = "y"
+    ) {
       # Validation
       checkmate::assertClass(data, classes = "data.frame", null.ok = FALSE)
-      checkmate::assertList(mapping,
-        names = "named",
-        any.missing = FALSE
-      )
+      checkmate::assertList(mapping, names = "named", any.missing = FALSE)
       # listOfAesthetics is included in sysdata.rda
-      checkmate::assertNames(x = names(mapping), subset.of = listOfAesthetics$aesthetic)
-      checkmate::assertCharacter(groupAesthetics,
+      checkmate::assertNames(
+        x = names(mapping),
+        subset.of = listOfAesthetics$aesthetic
+      )
+      checkmate::assertCharacter(
+        groupAesthetics,
         any.missing = FALSE,
         null.ok = TRUE
       )
@@ -109,12 +113,10 @@ MappedData <- R6::R6Class( # nolint
       }
       private$groupAesthetics <- unique(c(private$groupAesthetics, "group"))
 
-
       if (isObserved) {
         # MDV is a Nonmem notation in which values with MDV==1 are removed
         # if a mdv column is mapped delete all entries with logical = TRUE
         private$adjustDataForMDV()
-
 
         # lloq values are matched
         private$adjustForLLOQMatch()
@@ -144,14 +146,15 @@ MappedData <- R6::R6Class( # nolint
     #' @param geomAttributes additionally arguments for geom layer, will overwrite aesthetics
     #'
     #' @return list of accepted mappings
-    getAestheticsForGeom = function(geom,
-                                    geomAttributes) {
+    getAestheticsForGeom = function(geom, geomAttributes) {
       # Validation
-      checkmate::assertNames(geom,
+      checkmate::assertNames(
+        geom,
         subset.of = setdiff(
           unique(
             gsub(
-              "_y", "",
+              "_y",
+              "",
               gsub("_x", "", names(listOfAesthetics))
             )
           ),
@@ -163,13 +166,25 @@ MappedData <- R6::R6Class( # nolint
       # take only the ones mapped by user
       # listOfAesthetics is included in sysdata.rda
       acceptedAes <-
-        listOfAesthetics[which(listOfAesthetics[[(paste0(geom, "_", private$direction))]] >= 1), ]$aesthetic |>
+        listOfAesthetics[
+          which(
+            listOfAesthetics[[(paste0(geom, "_", private$direction))]] >= 1
+          ),
+        ]$aesthetic |>
         setdiff(names(geomAttributes)) |>
         intersect(names(self$mapping))
 
       # check for mandatory
-      if (!all(listOfAesthetics[which(listOfAesthetics[[(paste0(geom, "_", private$direction))]] >= 2), ]$aesthetic
-        %in% acceptedAes)) {
+      if (
+        !all(
+          listOfAesthetics[
+            which(
+              listOfAesthetics[[(paste0(geom, "_", private$direction))]] >= 2
+            ),
+          ]$aesthetic %in%
+            acceptedAes
+        )
+      ) {
         return(NULL)
       } else {
         return(structure(self$mapping[acceptedAes], class = "uneval"))
@@ -215,8 +230,10 @@ MappedData <- R6::R6Class( # nolint
     #' @param scaleDirection direction of axis either 'x' or 'y'
     #'
     #' @return `scaleArgs` with adjusted break function
-    updateScaleArgumentsForTimeUnit = function(scaleArgs,
-                                               scaleDirection = "x") {
+    updateScaleArgumentsForTimeUnit = function(
+      scaleArgs,
+      scaleDirection = "x"
+    ) {
       ## Validation
       checkmate::assertList(scaleArgs, null.ok = TRUE)
 
@@ -227,7 +244,6 @@ MappedData <- R6::R6Class( # nolint
       if (length(self$dimensions) == 0) {
         return(scaleArgs)
       }
-
 
       return(updateScaleArgumentsForTimeUnit(
         scaleArgs = scaleArgs,
@@ -263,9 +279,11 @@ MappedData <- R6::R6Class( # nolint
       return(rlang::is_quosure(self$mapping[[aesthetic]]))
     },
     #' returns data column for aesthetic
-    getDataForAesthetic = function(aesthetic,
-                                   data = self$data,
-                                   stopIfNull = TRUE) {
+    getDataForAesthetic = function(
+      aesthetic,
+      data = self$data,
+      stopIfNull = TRUE
+    ) {
       dataCol <- tryCatch(
         {
           rlang::eval_tidy(
@@ -301,7 +319,8 @@ MappedData <- R6::R6Class( # nolint
     #'
     adjustDataForMDV = function() {
       if (private$aestheticExists("mdv")) {
-        checkmate::assertLogical(as.logical(private$getDataForAesthetic("mdv")),
+        checkmate::assertLogical(
+          as.logical(private$getDataForAesthetic("mdv")),
           all.missing = FALSE,
           .var.name = "mdv mapping"
         )
@@ -324,9 +343,12 @@ MappedData <- R6::R6Class( # nolint
 
         ## add new column
         self$data <- self$data |>
-          dplyr::mutate(isLLOQ.i = factor(!!self$mapping[[private$direction]] < !!self$mapping[["lloq"]],
-            ordered = TRUE
-          ))
+          dplyr::mutate(
+            isLLOQ.i = factor(
+              !!self$mapping[[private$direction]] < !!self$mapping[["lloq"]],
+              ordered = TRUE
+            )
+          )
 
         ## add or overwrite mapping alpha
         private$addOverwriteAes(aes(alpha = isLLOQ.i))
@@ -350,8 +372,10 @@ MappedData <- R6::R6Class( # nolint
     },
     #' adds new columns `ymin` and `ymax` if required
     translateErrorAestethics = function() {
-      if (!private$aestheticExists(paste(private$direction, "min")) |
-        !private$aestheticExists(paste(private$direction, "max"))) {
+      if (
+        !private$aestheticExists(paste(private$direction, "min")) |
+          !private$aestheticExists(paste(private$direction, "max"))
+      ) {
         errorType <-
           intersect(names(self$mapping), c("error", "error_relative"))
         if (length(errorType) > 1) {
@@ -361,10 +385,10 @@ MappedData <- R6::R6Class( # nolint
           ))
         }
 
-        if (length(errorType) == 1 &&
-          !is.null(private$getDataForAesthetic(errorType,
-            stopIfNull = FALSE
-          ))) {
+        if (
+          length(errorType) == 1 &&
+            !is.null(private$getDataForAesthetic(errorType, stopIfNull = FALSE))
+        ) {
           newMapping <- list()
 
           checkmate::assertNames(
@@ -373,50 +397,73 @@ MappedData <- R6::R6Class( # nolint
             .var.name = "column names of data"
           )
 
-
           if (!private$aestheticExists(paste(private$direction, "min"))) {
             if (errorType == "error") {
               self$data <- self$data |>
-                dplyr::mutate("error.min" = ifelse(!!self$mapping[[private$direction]] > !!self$mapping[[errorType]],
-                  !!self$mapping[[private$direction]] - !!self$mapping[[errorType]],
-                  !!self$mapping[[private$direction]]
-                ))
+                dplyr::mutate(
+                  "error.min" = ifelse(
+                    !!self$mapping[[private$direction]] >
+                      !!self$mapping[[errorType]],
+                    !!self$mapping[[private$direction]] -
+                      !!self$mapping[[errorType]],
+                    !!self$mapping[[private$direction]]
+                  )
+                )
             } else if (private$aestheticExists("error_relative")) {
               self$data <- self$data |>
-                dplyr::mutate("error.min" = !!self$mapping[[private$direction]] / !!self$mapping[[errorType]])
+                dplyr::mutate(
+                  "error.min" = !!self$mapping[[private$direction]] /
+                    !!self$mapping[[errorType]]
+                )
             }
             newMapping <-
-              c(newMapping, eval(parse(
-                text = paste0(
-                  "aes(",
-                  private$direction,
-                  "min = error.min)"
-                )
-              )))
+              c(
+                newMapping,
+                eval(parse(
+                  text = paste0(
+                    "aes(",
+                    private$direction,
+                    "min = error.min)"
+                  )
+                ))
+              )
           }
 
           if (!private$aestheticExists(paste(private$direction, "max"))) {
             if (errorType == "error") {
               self$data <- self$data |>
-                dplyr::mutate("error.max" = !!self$mapping[[private$direction]] + !!self$mapping[[errorType]])
+                dplyr::mutate(
+                  "error.max" = !!self$mapping[[private$direction]] +
+                    !!self$mapping[[errorType]]
+                )
             } else if (private$aestheticExists("error_relative")) {
               self$data <- self$data |>
-                dplyr::mutate("error.max" = !!self$mapping[[private$direction]] * !!self$mapping[[errorType]])
+                dplyr::mutate(
+                  "error.max" = !!self$mapping[[private$direction]] *
+                    !!self$mapping[[errorType]]
+                )
             }
 
             newMapping <-
-              c(newMapping, eval(parse(
-                text = paste0(
-                  "aes(",
-                  private$direction,
-                  "max = error.max)"
-                )
-              )))
+              c(
+                newMapping,
+                eval(parse(
+                  text = paste0(
+                    "aes(",
+                    private$direction,
+                    "max = error.max)"
+                  )
+                ))
+              )
           }
           private$addOverwriteAes(newMapping)
 
-          if (private$aestheticExists("error")) self$mapping$error <- NULL
-          if (private$aestheticExists("error_relative")) self$mapping$error_relative <- NULL
+          if (private$aestheticExists("error")) {
+            self$mapping$error <- NULL
+          }
+          if (private$aestheticExists("error_relative")) {
+            self$mapping$error_relative <- NULL
+          }
         }
       }
 
@@ -430,13 +477,17 @@ MappedData <- R6::R6Class( # nolint
           if (!private$aestheticExists(aesthetic)) {
             newMapping[[aesthetic]] <- self$mapping$groupby
 
-            tmp <- private$getDataForAesthetic(aesthetic,
-              stopIfNull = FALSE
-            )
-            if (!is.null(tmp) &&
-              !is.factor(tmp)) {
+            tmp <- private$getDataForAesthetic(aesthetic, stopIfNull = FALSE)
+            if (
+              !is.null(tmp) &&
+                !is.factor(tmp)
+            ) {
               self$data |>
-                dplyr::mutate(!!self$mapping[[aesthetic]] := factor(!!self$mapping[[aesthetic]]))
+                dplyr::mutate(
+                  !!self$mapping[[aesthetic]] := factor(
+                    !!self$mapping[[aesthetic]]
+                  )
+                )
             }
           }
         }
@@ -449,12 +500,12 @@ MappedData <- R6::R6Class( # nolint
     #' converts Integer columns, which are no factors to double
     convertIntegerToDouble = function() {
       for (aesthetic in names(self$mapping)) {
-        tmp <- private$getDataForAesthetic(aesthetic,
-          stopIfNull = FALSE
-        )
-        if (!is.null(tmp) &&
-          !is.factor(tmp) &&
-          is.integer(tmp)) {
+        tmp <- private$getDataForAesthetic(aesthetic, stopIfNull = FALSE)
+        if (
+          !is.null(tmp) &&
+            !is.factor(tmp) &&
+            is.integer(tmp)
+        ) {
           self$data <- self$data |>
             dplyr::mutate_at(vars(!!self$mapping[[aesthetic]]), as.double)
         }
@@ -467,20 +518,19 @@ MappedData <- R6::R6Class( # nolint
       relevantMappings[[private$direction]] <- gsub(
         "y",
         private$direction,
-        listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic
+        listOfAesthetics[
+          which(listOfAesthetics$scalingRelevant >= 1),
+        ]$aesthetic
       ) |>
         intersect(names(self$mapping))
 
       # get Limits
-      for (ax in c(private$direction, setdiff(c("x", "y"), private$direction))) {
-        oldLimits <- switch(ax,
-          "x" = self$xlimits,
-          "y" = self$ylimits
-        )
-        axisScale <- switch(ax,
-          "x" = xScale,
-          "y" = yScale
-        )
+      for (ax in c(
+        private$direction,
+        setdiff(c("x", "y"), private$direction)
+      )) {
+        oldLimits <- switch(ax, "x" = self$xlimits, "y" = self$ylimits)
+        axisScale <- switch(ax, "x" = xScale, "y" = yScale)
         if (is.null(oldLimits) || any(is.na(oldLimits))) {
           ylimits <- c()
 
@@ -492,7 +542,9 @@ MappedData <- R6::R6Class( # nolint
             )
 
             if (!is.null(yData) && !is.function(yData)) {
-              if (axisScale == AxisScales$log) yData <- yData[yData > 0]
+              if (axisScale == AxisScales$log) {
+                yData <- yData[yData > 0]
+              }
               ylimits <- range(c(ylimits, yData), na.rm = TRUE)
             }
           }
@@ -514,13 +566,14 @@ MappedData <- R6::R6Class( # nolint
       return(invisible(self))
     },
     #' adds new column `residuals.i`
-    adjustForResidualMatch = function(residualScale,
-                                      residualAesthetic) {
+    adjustForResidualMatch = function(residualScale, residualAesthetic) {
       if (is.null(residualScale)) {
         return(invisible(self))
       }
-      if (private$aestheticExists("predicted") &
-        private$aestheticExists("observed")) {
+      if (
+        private$aestheticExists("predicted") &
+          private$aestheticExists("observed")
+      ) {
         checkmate::assertNames(
           names(self$data),
           disjunct.from = c("residuals.i"),
@@ -528,18 +581,19 @@ MappedData <- R6::R6Class( # nolint
         )
 
         if (!residualAesthetic %in% names(self$mapping)) {
-          ## add new column
-          if (residualScale == ResidualScales$log) {
-            self$data <- self$data |>
-              dplyr::mutate(residuals.i = log(!!self$mapping[["predicted"]]) - log(!!self$mapping[["observed"]]))
-          } else if (residualScale == ResidualScales$linear) {
-            self$data <- self$data |>
-              dplyr::mutate(residuals.i = !!self$mapping[["predicted"]] - !!self$mapping[["observed"]])
-          } else if (residualScale == ResidualScales$ratio) {
-            self$data <- self$data |>
-              dplyr::mutate(residuals.i = !!self$mapping[["observed"]] / !!self$mapping[["predicted"]])
-          }
+          # Extract predicted and observed values
+          predictedValues <- private$getDataForAesthetic("predicted")
+          observedValues <- private$getDataForAesthetic("observed")
 
+          residualValues <- computeResiduals(
+            predicted = predictedValues,
+            observed = observedValues,
+            scaling = residualScale
+          )
+
+          # Add residuals column to data
+          self$data <- self$data |>
+            dplyr::mutate(residuals.i = residualValues)
 
           # add mapping for residuals
           private$addOverwriteAes(eval(parse(
@@ -554,10 +608,11 @@ MappedData <- R6::R6Class( # nolint
           self$hasResidualMapping <- TRUE
 
           self$residualLabel <-
-            switch(residualScale,
+            switch(
+              residualScale,
               linear = "residuals\npredicted - observed",
               log = "residuals\nlog(predicted) - log(observed)",
-              ratio = "observed/predicted"
+              ratio = "predicted/observed"
             )
         }
       }
@@ -566,7 +621,6 @@ MappedData <- R6::R6Class( # nolint
       self$mapping[["observed"]] <- NULL
       self$mapping[["predicted"]] <- NULL
 
-
       return(invisible(self))
     },
     #' factorize column for group to factor
@@ -574,19 +628,22 @@ MappedData <- R6::R6Class( # nolint
       if (is.null(groupOrder)) {
         return(invisible(self))
       }
-      if (!private$aestheticExists("group") & !private$aestheticExists("groupby")) {
-        stop('for mapping of observed to simulated aesthetic "group" or "groupby" is needed')
+      if (
+        !private$aestheticExists("group") & !private$aestheticExists("groupby")
+      ) {
+        stop(
+          'for mapping of observed to simulated aesthetic "group" or "groupby" is needed'
+        )
       }
 
       aesthetics <- intersect(names(self$mapping), c("group", "groupby"))
 
-      tmp <- private$getDataForAesthetic(aesthetics[1],
-        stopIfNull = FALSE
-      )
+      tmp <- private$getDataForAesthetic(aesthetics[1], stopIfNull = FALSE)
 
       checkmate::assertNames(
         x = as.character(unique(tmp)),
-        subset.of = groupOrder, .var.name = "Mapping vector"
+        subset.of = groupOrder,
+        .var.name = "Mapping vector"
       )
 
       # add new column as factor

@@ -13,7 +13,8 @@ test_that("plot Residuals vs Covariate works", {
   metaData <- metaData[intersect(names(data), names(metaData))]
 
   fig <- plotResVsCov(
-    data = data, mapping = aes(
+    data = data,
+    mapping = aes(
       x = Age,
       predicted = Pred,
       observed = Obs,
@@ -41,7 +42,6 @@ test_that("plot Observed vs Predicted works", {
   data <- data |>
     dplyr::mutate(lloq = lloqData) |>
     dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
-
 
   metaData <- attr(exampleDataCovariates, "metaData")
   metaData <- metaData[intersect(names(data), names(metaData))]
@@ -74,7 +74,6 @@ test_that("plotRatioVsCov works", {
   dDIdata <- exampleDataCovariates |>
     dplyr::filter(SetID == "DataSet3") |>
     dplyr::select(c("ID", "Obs", "Pred"))
-
 
   dDImetaData <- list(
     Obs = list(
@@ -124,15 +123,20 @@ test_that("getCountsWithin works for Ratio", {
     metaData = metaData,
   )
 
-
   vdiffr::expect_doppelganger(
     title = "pk Ratio plot",
     fig = plotObject
   )
 
-  expect_equal(as.vector(unlist(plotObject$countsWithin[1, c(4, 6)])), expected = c(0.48, 0.64))
+  expect_equal(
+    as.vector(unlist(plotObject$countsWithin[1, c(4, 6)])),
+    expected = c(0.48, 0.64)
+  )
 
-  expect_equal(plotObject$countsWithin$`1.5 fold Fraction`, expected = c(0.48, 0.44, 0.52))
+  expect_equal(
+    plotObject$countsWithin$`1.5 fold Fraction`,
+    expected = c(0.48, 0.44, 0.52)
+  )
 })
 
 test_that("getCountsWithin works for Guest Criteria", {
@@ -169,7 +173,10 @@ test_that("getCountsWithin works for Guest Criteria", {
     deltaGuest = 1
   )
 
-  expect_equal(plotObject$countsWithin$`guest criteria Fraction`, expected = c(0.6, 0.6, 0.6))
+  expect_equal(
+    plotObject$countsWithin$`guest criteria Fraction`,
+    expected = c(0.6, 0.6, 0.6)
+  )
 
   plotObjectDiag <- plotPredVsObs(
     data = dDIdata,
@@ -212,7 +219,11 @@ test_that("adjust lines works withot error", {
       observed = Obs,
       groupby = Sex
     ),
-    comparisonLineVector = list(zero = 0, "lower limit" = -0.25, "upper limit" = 0.25)
+    comparisonLineVector = list(
+      zero = 0,
+      "lower limit" = -0.25,
+      "upper limit" = 0.25
+    )
   ))
 
   # case with unnamed intervals

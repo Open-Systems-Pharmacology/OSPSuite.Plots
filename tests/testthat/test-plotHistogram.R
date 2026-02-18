@@ -24,7 +24,8 @@ test_that("plot histogram works for all stacked  frequency distribution fit comb
     fig = plotHistogram(
       data = myData,
       mapping = aes(
-        x = Ratio, fill = Sex
+        x = Ratio,
+        fill = Sex
       ),
       geomHistAttributes = utils::modifyList(
         getDefaultGeomAttributes("Hist"),
@@ -43,7 +44,8 @@ test_that("plot histogram works for all stacked  frequency distribution fit comb
     fig = plotHistogram(
       data = myData,
       mapping = aes(
-        x = Ratio, fill = Sex
+        x = Ratio,
+        fill = Sex
       ),
       geomHistAttributes = utils::modifyList(
         getDefaultGeomAttributes("Hist"),
@@ -58,13 +60,13 @@ test_that("plot histogram works for all stacked  frequency distribution fit comb
     )
   )
 
-
   vdiffr::expect_doppelganger(
     title = "noStack_frequency",
     fig = plotHistogram(
       data = myData,
       mapping = aes(
-        x = Ratio, fill = as.factor(Sex)
+        x = Ratio,
+        fill = as.factor(Sex)
       ),
       geomHistAttributes = utils::modifyList(
         getDefaultGeomAttributes("Hist"),
@@ -83,7 +85,8 @@ test_that("plot histogram works for all stacked  frequency distribution fit comb
     fig = plotHistogram(
       data = myData,
       mapping = aes(
-        x = Ratio, fill = Sex
+        x = Ratio,
+        fill = Sex
       ),
       geomHistAttributes = utils::modifyList(
         getDefaultGeomAttributes("Hist"),
@@ -109,7 +112,6 @@ test_that("plot histogram works for absolute distribution fit on logscale", {
 
   metaData <- attr(exampleDataCovariates, "metaData")
   metaDataDistr <- metaData[intersect(names(histDataDistr), names(metaData))]
-
 
   vdiffr::expect_doppelganger(
     title = "logScaleDistribution",
@@ -138,7 +140,6 @@ test_that("plot histogram works for categoricalData", {
 
   metaData <- attr(exampleDataCovariates, "metaData")
   metaData <- metaData[intersect(names(histData), names(metaData))]
-
 
   vdiffr::expect_doppelganger(
     title = "barPlot",

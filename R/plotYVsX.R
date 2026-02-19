@@ -325,7 +325,7 @@ plotYVsX <- function(data,
   plotObject <- addLLOQLayer(
     plotObject = plotObject,
     mappedData = mappedData,
-    layerToCall = geom_vline,
+    layerToCall = if (observedDataDirection == "x") geom_vline else geom_hline,
     useLinetypeAsAttribute = "lloq" %in% names(mappedData$mapping),
     geomLLOQAttributes = geomLLOQAttributes
   )

@@ -228,4 +228,54 @@ test_that("adjust lines works withot error", {
   ))
 })
 
+test_that("plotYVsX with LLOQ works for observedDataDirection = y", {
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
+    dplyr::select(c("ID", "Obs", "gsd", "Pred", "Sex"))
+
+  lloqData <- signif(quantile(data$Obs, probs = 0.1), 1)
+
+  data <- data |>
+    dplyr::mutate(lloq = lloqData) |>
+    dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
+
+  expect_no_error(
+    plotYVsX(
+      data = data,
+      mapping = aes(
+        x = Pred,
+        y = Obs,
+        lloq = lloq,
+        groupby = Sex
+      ),
+      observedDataDirection = "y"
+    )
+  )
+})
+
+test_that("plotYVsX with LLOQ works for observedDataDirection = x", {
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
+    dplyr::select(c("ID", "Obs", "gsd", "Pred", "Sex"))
+
+  lloqData <- signif(quantile(data$Obs, probs = 0.1), 1)
+
+  data <- data |>
+    dplyr::mutate(lloq = lloqData) |>
+    dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
+
+  expect_no_error(
+    plotYVsX(
+      data = data,
+      mapping = aes(
+        x = Obs,
+        y = Pred,
+        lloq = lloq,
+        groupby = Sex
+      ),
+      observedDataDirection = "x"
+    )
+  )
+})
+
 ospsuite.plots::resetDefaults(oldDefaults)

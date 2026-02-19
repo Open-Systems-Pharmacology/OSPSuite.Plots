@@ -336,36 +336,38 @@ plotYVsX <- function(
   }
 
   # add lloq lines
-  lloqDirs <- if (lloqDirection == "both") {
-    c("y", "x")
-  } else {
-    observedDataDirection
-  }
-  for (dir in lloqDirs) {
-    lloqMappedData <- if (dir == observedDataDirection) {
-      mappedData
+  if (mappedData$hasLLOQMatch) {
+    lloqDirs <- if (lloqDirection == "both") {
+      c("y", "x")
     } else {
-      MappedData$new(
-        data = data,
-        mapping = mapping,
-        xlimits = xScaleArgs$limits,
-        ylimits = yScaleArgs$limits,
-        direction = dir,
-        isObserved = TRUE,
-        groupAesthetics = groupAesthetics,
-        residualScale = residualScale,
-        residualAesthetic = "y",
-        xScale = xScale,
-        yScale = yScale
+      observedDataDirection
+    }
+    for (dir in lloqDirs) {
+      lloqMappedData <- if (dir == observedDataDirection) {
+        mappedData
+      } else {
+        MappedData$new(
+          data = data,
+          mapping = mapping,
+          xlimits = xScaleArgs$limits,
+          ylimits = yScaleArgs$limits,
+          direction = dir,
+          isObserved = TRUE,
+          groupAesthetics = groupAesthetics,
+          residualScale = residualScale,
+          residualAesthetic = "y",
+          xScale = xScale,
+          yScale = yScale
+        )
+      }
+      plotObject <- addLLOQLayer(
+        plotObject = plotObject,
+        mappedData = lloqMappedData,
+        layerToCall = if (dir == "x") geom_vline else geom_hline,
+        useLinetypeAsAttribute = "lloq" %in% names(mappedData$mapping),
+        geomLLOQAttributes = geomLLOQAttributes
       )
     }
-    plotObject <- addLLOQLayer(
-      plotObject = plotObject,
-      mappedData = lloqMappedData,
-      layerToCall = if (dir == "x") geom_vline else geom_hline,
-      useLinetypeAsAttribute = "lloq" %in% names(mappedData$mapping),
-      geomLLOQAttributes = geomLLOQAttributes
-    )
   }
 
   if (asSquarePlot) {

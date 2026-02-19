@@ -208,6 +208,22 @@ plotPredVsObs(
 )
 ```
 
+By default (`lloqDirection = "observedDataDirection"`), the LLOQ line is drawn only along the observed data axis. Setting `lloqDirection = "both"` draws LLOQ lines on both the x and y axes, which is useful when the same LLOQ applies to both axes.
+
+```{r basic-examples-lloq-both, fig.alt="Scatter plot showing predicted versus observed values with LLOQ lines drawn on both axes. Vertical and horizontal LLOQ lines are displayed, and values below the LLOQ are shown with reduced transparency."}
+plotPredVsObs(
+  data = dataLLOQ,
+  mapping = aes(
+    x = Obs,
+    y = Pred,
+    lloq = lloq,
+    groupby = Sex
+  ),
+  metaData = metaData,
+  lloqDirection = "both"
+)
+```
+
 ## 2.2 Adjust Comparison Lines
 
 ### 2.2.1 Adjust Fold Distance

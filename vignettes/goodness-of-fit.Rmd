@@ -208,7 +208,7 @@ plotPredVsObs(
 )
 ```
 
-By default (`lloqDirection = "observedDataDirection"`), the LLOQ line is drawn only along the observed data axis. Setting `lloqDirection = "both"` draws LLOQ lines on both the x and y axes, which is useful when the same LLOQ applies to both axes.
+By default (`lloqDirection = "observedDataDirection"`), the LLOQ line is drawn only perpendicular to the observed data axis. Setting `lloqDirection = "both"` draws LLOQ lines on both the x and y axes. This is quite useful, as it makes it clear if the simulated results should be considered as "quantifiable" or not.
 
 ```{r basic-examples-lloq-both, fig.alt="Scatter plot showing predicted versus observed values with LLOQ lines drawn on both axes. Vertical and horizontal LLOQ lines are displayed, and values below the LLOQ are shown with reduced transparency."}
 plotPredVsObs(

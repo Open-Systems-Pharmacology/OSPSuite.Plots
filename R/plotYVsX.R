@@ -160,6 +160,8 @@ plotPredVsObs <- function(data = NULL,
 #' @param labelGuestCriteria Label used in the legend for guest criteria (default: "guest criteria").
 #' @param asSquarePlot A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.
 #' @param observedDataDirection Either 'x' or 'y', defining the direction of observed data.
+#' @param lloqDirection Either 'x', 'y', or 'both', defining the axis direction(s) on which LLOQ lines are drawn.
+#'   Default is 'both', which draws LLOQ lines on both axes.
 #' @param groupAesthetics A character vector of aesthetic names used for grouping data points when calculating
 #'   comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
 #'   and proportions within comparison lines. Common grouping aesthetics include `"colour"`, `"fill"`, `"shape"`.
@@ -188,6 +190,7 @@ plotYVsX <- function(data,
                      yScale = AxisScales$log,
                      yScaleArgs = list(),
                      observedDataDirection = "y",
+                     lloqDirection = "both",
                      yDisplayAsAbsolute = TRUE) {
   if (is.double(comparisonLineVector)) comparisonLineVector <- as.list(comparisonLineVector)
   .validatePlotYXsXInputs(
@@ -209,7 +212,8 @@ plotYVsX <- function(data,
     xScaleArgs = xScaleArgs,
     yScale = yScale,
     yScaleArgs = yScaleArgs,
-    observedDataDirection = observedDataDirection
+    observedDataDirection = observedDataDirection,
+    lloqDirection = lloqDirection
   )
 
   mappedData <- MappedData$new(
@@ -322,13 +326,33 @@ plotYVsX <- function(data,
   }
 
   # add lloq lines
-  plotObject <- addLLOQLayer(
-    plotObject = plotObject,
-    mappedData = mappedData,
-    layerToCall = if (observedDataDirection == "x") geom_vline else geom_hline,
-    useLinetypeAsAttribute = "lloq" %in% names(mappedData$mapping),
-    geomLLOQAttributes = geomLLOQAttributes
-  )
+  lloqDirs <- if (lloqDirection == "both") c("y", "x") else lloqDirection
+  for (dir in lloqDirs) {
+    lloqMappedData <- if (dir == observedDataDirection) {
+      mappedData
+    } else {
+      MappedData$new(
+        data = data,
+        mapping = mapping,
+        xlimits = xScaleArgs$limits,
+        ylimits = yScaleArgs$limits,
+        direction = dir,
+        isObserved = TRUE,
+        groupAesthetics = groupAesthetics,
+        residualScale = residualScale,
+        residualAesthetic = "y",
+        xScale = xScale,
+        yScale = yScale
+      )
+    }
+    plotObject <- addLLOQLayer(
+      plotObject = plotObject,
+      mappedData = lloqMappedData,
+      layerToCall = if (dir == "x") geom_vline else geom_hline,
+      useLinetypeAsAttribute = "lloq" %in% names(mappedData$mapping),
+      geomLLOQAttributes = geomLLOQAttributes
+    )
+  }
 
 
   if (asSquarePlot) {
@@ -780,7 +804,8 @@ countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector,
     xScaleArgs,
     yScale,
     yScaleArgs,
-    observedDataDirection) {
+    observedDataDirection,
+    lloqDirection) {
   checkmate::assertDataFrame(data)
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
 
@@ -811,6 +836,7 @@ countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector,
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
 
   checkmate::assertChoice(observedDataDirection, choices = c("x", "y"), null.ok = TRUE)
+  checkmate::assertChoice(lloqDirection, choices = c("x", "y", "both"), null.ok = FALSE)
 
   return(invisible())
 }

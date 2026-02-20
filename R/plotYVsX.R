@@ -345,7 +345,7 @@ plotYVsX <- function(
       lloqMappedData <- if (dir == observedDataDirection) {
         mappedData
       } else {
-        MappedData$new(
+        secondaryMapped <- MappedData$new(
           data = data,
           mapping = mapping,
           xlimits = xScaleArgs$limits,
@@ -358,6 +358,9 @@ plotYVsX <- function(
           xScale = xScale,
           yScale = yScale
         )
+        # isLLOQ.i is based on the observed-data axis
+        secondaryMapped$data$isLLOQ.i <- mappedData$data$isLLOQ.i
+        secondaryMapped
       }
       plotObject <- addLLOQLayer(
         plotObject = plotObject,

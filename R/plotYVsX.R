@@ -167,7 +167,7 @@ plotPredVsObs <- function(
 #' @param asSquarePlot A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.
 #' @param observedDataDirection Either 'x' or 'y', defining the direction of observed data.
 #' @param lloqOnBothAxes A boolean; if `TRUE`, LLOQ lines are drawn on both axes. If `FALSE` (default),
-#'   the LLOQ line is drawn only along the observed data axis
+#'   the LLOQ line is drawn for the observed-data axis only.
 #'   (`geom_vline` when `observedDataDirection = 'x'`, `geom_hline` when `observedDataDirection = 'y'`).
 #' @param groupAesthetics A character vector of aesthetic names used for grouping data points when calculating
 #'   comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts

@@ -2,28 +2,13 @@
 
 ## Breaking Changes
 
-* The `ospsuite.plots.watermark_enabled` option no longer has a default value. Users must now explicitly set this option before using any plotting functions. This ensures conscious decision-making about watermark usage.
-  
-  To use the package, add one of the following to your `.Rprofile`:
-  ```r
-  # Enable watermarks
-  options(ospsuite.plots.watermark_enabled = TRUE)
-  
-  # Or disable watermarks
-  options(ospsuite.plots.watermark_enabled = FALSE)
-  ```
-  
-  You can edit your `.Rprofile` with `usethis::edit_r_profile()`.
+- Residuals are now calculated as `predicted - observed` (linear) and `log(predicted) - log(observed)` (log scale) to be consistent with PK-Sim (#71).
+- `ospsuite.plots.watermark_enabled` option must now be set explicitly before using any plotting functions (#68).
 
-## Changes
+## Minor improvements and bug fixes
 
-* Added startup message when `ospsuite.plots.watermark_enabled` is not set, providing instructions on how to configure it
-* `addWatermark()` and `print.ggWatermark()` now throw an error if the watermark option is not set
-* Added comprehensive test coverage for watermark option validation
-* Updated all vignettes and examples to explicitly set the watermark option
+- Fixed duplicate legend in `plotTimeProfile()` when mixing observed and simulated data. Shape and fill guides are now suppressed only when they were autoexpanded from `groupby`, preserving explicit user-defined mappings (#76).
 
 # ospsuite.plots 1.0.1
 
-  - Initial Release of beta version
-
-
+- Initial Release of beta version

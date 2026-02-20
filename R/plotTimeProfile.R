@@ -183,13 +183,29 @@ plotTimeProfile <- function(data = NULL, # nolint
     plotObject <- plotObject + guides(!!!guidesList)
   }
 
-  # merge shape legend into colour for unmapped data
-  if (!(any(is.null(listMappedData$simMappedData) |
-    is.null(listMappedData$obsMappedData))) &&
-    is.null(listMappedData$mapSimulatedAndObserved) &&
-    all(c("colour", "shape") %in% groupAesthetics)) {
-    plotObject <- plotObject +
-      guides(shape = "none")
+  # suppress shape/fill legends that duplicate colour (expanded from groupby),
+  # but preserve user-explicit mappings (e.g. aes(shape = otherVar))
+  if (
+    !is.null(listMappedData$simMappedData) &&
+      !is.null(listMappedData$obsMappedData) &&
+      is.null(listMappedData$mapSimulatedAndObserved) &&
+      "colour" %in% groupAesthetics
+  ) {
+    obsMapping <- listMappedData$obsMappedData$mapping
+    obsColourExpr <- rlang::get_expr(obsMapping$colour)
+
+    if (!is.null(obsColourExpr)) {
+      suppressGuides <- list()
+      if (identical(rlang::get_expr(obsMapping$shape), obsColourExpr)) {
+        suppressGuides$shape <- "none"
+      }
+      if (identical(rlang::get_expr(obsMapping$fill), obsColourExpr)) {
+        suppressGuides$fill <- "none"
+      }
+      if (length(suppressGuides) > 0) {
+        plotObject <- plotObject + guides(!!!suppressGuides)
+      }
+    }
   }
 
   return(plotObject)

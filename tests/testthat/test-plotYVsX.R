@@ -299,7 +299,7 @@ test_that("plotYVsX with LLOQ works for observedDataDirection = x", {
   )
 })
 
-test_that("plotYVsX with LLOQ works for lloqDirection = both", {
+test_that("plotYVsX with LLOQ works for lloqOnBothAxes = TRUE", {
   data <- exampleDataCovariates |>
     dplyr::filter(SetID == "DataSet2") |>
     dplyr::select(c("ID", "Obs", "gsd", "Pred", "Sex"))
@@ -320,7 +320,7 @@ test_that("plotYVsX with LLOQ works for lloqDirection = both", {
         groupby = Sex
       ),
       observedDataDirection = "x",
-      lloqDirection = "both"
+      lloqOnBothAxes = TRUE
     )
   )
 

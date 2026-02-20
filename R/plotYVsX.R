@@ -3,8 +3,8 @@
 #' This function is a wrapper for `plotYVsX` with adjusted input parameters.
 #'
 #' The following parameters are fixed and cannot be set:
-#' * `observedDataDirection = 'y'`
-#' * `yDisplayAsAbsolute = TRUE`
+#' * `observedDataDirection = "y"`
+#' * `yDisplayAsAbsolute = FALSE`
 #' * `addGuestLimits = FALSE` (use `plotRatio()` if needed)
 #'
 #' For details and examples, see the vignettes:
@@ -48,7 +48,7 @@ plotResVsCov <- function(
 #'
 #' The following parameters are fixed and cannot be set:
 #' * `residualScale = "ratio"`
-#' * `observedDataDirection = 'y'`
+#' * `observedDataDirection = "y"`
 #' * `yDisplayAsAbsolute = FALSE`
 #'
 #' For details and examples, see the vignettes:
@@ -93,9 +93,9 @@ plotRatioVsCov <- function(
 #' @description
 #' This function is a wrapper for `plotYVsX` with adjusted input parameters.
 #'
-#' The following parameters are fixed:
-#' * `residualScale` is fixed to NULL,
-#' * `observedDataDirection` is fixed to 'x'
+#' The following parameters are fixed and cannot be set:
+#' * `residualScale = NULL`
+#' * `observedDataDirection = "x"`
 #'
 #' For details and examples, see the vignettes:
 #' * \code{vignette("Goodness of fit", package = "ospsuite.plots")}
@@ -165,10 +165,10 @@ plotPredVsObs <- function(
 #' @param deltaGuest Numeric value parameter for the Guest function.
 #' @param labelGuestCriteria Label used in the legend for guest criteria (default: "guest criteria").
 #' @param asSquarePlot A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.
-#' @param observedDataDirection Either 'x' or 'y', defining the direction of observed data.
+#' @param observedDataDirection Either "x" or "y", defining the direction of observed data.
 #' @param lloqOnBothAxes A boolean; if `TRUE`, LLOQ lines are drawn on both axes. If `FALSE` (default),
 #'   the LLOQ line is drawn for the observed-data axis only.
-#'   (`geom_vline` when `observedDataDirection = 'x'`, `geom_hline` when `observedDataDirection = 'y'`).
+#'   (`geom_vline` when `observedDataDirection = "x"`, `geom_hline` when `observedDataDirection = "y"`).
 #' @param groupAesthetics A character vector of aesthetic names used for grouping data points when calculating
 #'   comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
 #'   and proportions within comparison lines. Common grouping aesthetics include `"colour"`, `"fill"`, `"shape"`.

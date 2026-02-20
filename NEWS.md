@@ -7,6 +7,8 @@
 
 ## Minor improvements and bug fixes
 
+- Fixed `plotYVsX()` LLOQ layer using wrong geom when `observedDataDirection = "y"`. The LLOQ line now correctly uses `geom_hline` for y-direction and `geom_vline` for x-direction (#78).
+- Added `lloqOnBothAxes` parameter to `plotYVsX()` to optionally draw LLOQ lines on both axes (#78).
 - Fixed duplicate legend in `plotTimeProfile()` when mixing observed and simulated data. Shape and fill guides are now suppressed only when they were autoexpanded from `groupby`, preserving explicit user-defined mappings (#76).
 
 # ospsuite.plots 1.0.1

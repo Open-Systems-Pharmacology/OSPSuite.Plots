@@ -3,8 +3,8 @@
 #' This function is a wrapper for `plotYVsX` with adjusted input parameters.
 #'
 #' The following parameters are fixed and cannot be set:
-#' * `observedDataDirection = 'y'`
-#' * `yDisplayAsAbsolute = TRUE`
+#' * `observedDataDirection = "y"`
+#' * `yDisplayAsAbsolute = FALSE`
 #' * `addGuestLimits = FALSE` (use `plotRatio()` if needed)
 #'
 #' For details and examples, see the vignettes:
@@ -18,12 +18,14 @@
 #' @return A `ggplot` object representing the residual plots.
 #' @export
 #' @family plot functions
-plotResVsCov <- function(data,
-                         mapping,
-                         residualScale = ResidualScales$log,
-                         comparisonLineVector = 0,
-                         yScale = AxisScales$linear,
-                         ...) {
+plotResVsCov <- function(
+  data,
+  mapping,
+  residualScale = ResidualScales$log,
+  comparisonLineVector = 0,
+  yScale = AxisScales$linear,
+  ...
+) {
   # Validation
 
   plotObject <- plotYVsX(
@@ -46,7 +48,7 @@ plotResVsCov <- function(data,
 #'
 #' The following parameters are fixed and cannot be set:
 #' * `residualScale = "ratio"`
-#' * `observedDataDirection = 'y'`
+#' * `observedDataDirection = "y"`
 #' * `yDisplayAsAbsolute = FALSE`
 #'
 #' For details and examples, see the vignettes:
@@ -59,14 +61,16 @@ plotResVsCov <- function(data,
 #' @return A `ggplot` object representing the ratio plots.
 #' @export
 #' @family plot functions
-plotRatioVsCov <- function(data = NULL,
-                           mapping = NULL,
-                           addGuestLimits = FALSE,
-                           yScale = AxisScales$log,
-                           xScale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
-                           comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
-                           deltaGuest = 1,
-                           ...) {
+plotRatioVsCov <- function(
+  data = NULL,
+  mapping = NULL,
+  addGuestLimits = FALSE,
+  yScale = AxisScales$log,
+  xScale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
+  comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
+  deltaGuest = 1,
+  ...
+) {
   yDisplayAsAbsolute <- FALSE
 
   plotObject <- plotYVsX(
@@ -89,9 +93,9 @@ plotRatioVsCov <- function(data = NULL,
 #' @description
 #' This function is a wrapper for `plotYVsX` with adjusted input parameters.
 #'
-#' The following parameters are fixed:
-#' * `residualScale` is fixed to NULL,
-#' * `observedDataDirection` is fixed to 'x'
+#' The following parameters are fixed and cannot be set:
+#' * `residualScale = NULL`
+#' * `observedDataDirection = "x"`
 #'
 #' For details and examples, see the vignettes:
 #' * \code{vignette("Goodness of fit", package = "ospsuite.plots")}
@@ -104,12 +108,14 @@ plotRatioVsCov <- function(data = NULL,
 #' @return A `ggplot` object representing the predicted vs observed plots.
 #' @export
 #' @family plot functions
-plotPredVsObs <- function(data = NULL,
-                          mapping = NULL,
-                          xyScale = AxisScales$log,
-                          comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
-                          asSquarePlot = TRUE,
-                          ...) {
+plotPredVsObs <- function(
+  data = NULL,
+  mapping = NULL,
+  xyScale = AxisScales$log,
+  comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
+  asSquarePlot = TRUE,
+  ...
+) {
   if (!("x" %in% names(mapping)) & "observed" %in% names(mapping)) {
     names(mapping)[names(mapping) == "observed"] <- "x"
   }
@@ -159,7 +165,10 @@ plotPredVsObs <- function(data = NULL,
 #' @param deltaGuest Numeric value parameter for the Guest function.
 #' @param labelGuestCriteria Label used in the legend for guest criteria (default: "guest criteria").
 #' @param asSquarePlot A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.
-#' @param observedDataDirection Either 'x' or 'y', defining the direction of observed data.
+#' @param observedDataDirection Either "x" or "y", defining the direction of observed data.
+#' @param lloqOnBothAxes A boolean; if `TRUE`, LLOQ lines are drawn on both axes. If `FALSE` (default),
+#'   the LLOQ line is drawn for the observed-data axis only.
+#'   (`geom_vline` when `observedDataDirection = "x"`, `geom_hline` when `observedDataDirection = "y"`).
 #' @param groupAesthetics A character vector of aesthetic names used for grouping data points when calculating
 #'   comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
 #'   and proportions within comparison lines. Common grouping aesthetics include `"colour"`, `"fill"`, `"shape"`.
@@ -167,29 +176,34 @@ plotPredVsObs <- function(data = NULL,
 #' @return A `ggplot` object representing the plotted data.
 #' @export
 #' @family plot functions
-plotYVsX <- function(data,
-                     mapping,
-                     metaData = NULL,
-                     geomPointAttributes = getDefaultGeomAttributes("Point"),
-                     geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
-                     geomGuestLineAttributes = getDefaultGeomAttributes("GuestLine"),
-                     geomComparisonLineAttributes = getDefaultGeomAttributes("ComparisonLine"),
-                     geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
-                     groupAesthetics = c("colour", "fill", "shape"),
-                     comparisonLineVector = NULL,
-                     addRegression = FALSE,
-                     addGuestLimits = FALSE,
-                     deltaGuest = 1,
-                     labelGuestCriteria = "guest criteria",
-                     residualScale = NULL,
-                     asSquarePlot = FALSE,
-                     xScale = AxisScales$linear,
-                     xScaleArgs = list(),
-                     yScale = AxisScales$log,
-                     yScaleArgs = list(),
-                     observedDataDirection = "y",
-                     yDisplayAsAbsolute = TRUE) {
-  if (is.double(comparisonLineVector)) comparisonLineVector <- as.list(comparisonLineVector)
+plotYVsX <- function(
+  data,
+  mapping,
+  metaData = NULL,
+  geomPointAttributes = getDefaultGeomAttributes("Point"),
+  geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
+  geomGuestLineAttributes = getDefaultGeomAttributes("GuestLine"),
+  geomComparisonLineAttributes = getDefaultGeomAttributes("ComparisonLine"),
+  geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
+  groupAesthetics = c("colour", "fill", "shape"),
+  comparisonLineVector = NULL,
+  addRegression = FALSE,
+  addGuestLimits = FALSE,
+  deltaGuest = 1,
+  labelGuestCriteria = "guest criteria",
+  residualScale = NULL,
+  asSquarePlot = FALSE,
+  xScale = AxisScales$linear,
+  xScaleArgs = list(),
+  yScale = AxisScales$log,
+  yScaleArgs = list(),
+  observedDataDirection = "y",
+  lloqOnBothAxes = FALSE,
+  yDisplayAsAbsolute = TRUE
+) {
+  if (is.double(comparisonLineVector)) {
+    comparisonLineVector <- as.list(comparisonLineVector)
+  }
   .validatePlotYXsXInputs(
     data = data,
     metaData = metaData,
@@ -209,7 +223,8 @@ plotYVsX <- function(data,
     xScaleArgs = xScaleArgs,
     yScale = yScale,
     yScaleArgs = yScaleArgs,
-    observedDataDirection = observedDataDirection
+    observedDataDirection = observedDataDirection,
+    lloqOnBothAxes = lloqOnBothAxes
   )
 
   mappedData <- MappedData$new(
@@ -261,20 +276,18 @@ plotYVsX <- function(data,
     )
   }
 
-
   # add Error bars
   if (all(c("xmin", "xmax") %in% names(mappedData$mapping))) {
     plotObject <- plotObject +
       do.call(
         what = ggplot2::geom_errorbar,
-        args =
-          utils::modifyList(
-            x = list(
-              na.rm = TRUE,
-              orientation = "y"
-            ),
-            val = geomErrorbarAttributes
-          )
+        args = utils::modifyList(
+          x = list(
+            na.rm = TRUE,
+            orientation = "y"
+          ),
+          val = geomErrorbarAttributes
+        )
       )
   }
 
@@ -322,14 +335,42 @@ plotYVsX <- function(data,
   }
 
   # add lloq lines
-  plotObject <- addLLOQLayer(
-    plotObject = plotObject,
-    mappedData = mappedData,
-    layerToCall = geom_vline,
-    useLinetypeAsAttribute = "lloq" %in% names(mappedData$mapping),
-    geomLLOQAttributes = geomLLOQAttributes
-  )
-
+  if (mappedData$hasLLOQMatch) {
+    lloqDirs <- if (lloqOnBothAxes) {
+      c("y", "x")
+    } else {
+      observedDataDirection
+    }
+    for (dir in lloqDirs) {
+      lloqMappedData <- if (dir == observedDataDirection) {
+        mappedData
+      } else {
+        secondaryMapped <- MappedData$new(
+          data = data,
+          mapping = mapping,
+          xlimits = xScaleArgs$limits,
+          ylimits = yScaleArgs$limits,
+          direction = dir,
+          isObserved = TRUE,
+          groupAesthetics = groupAesthetics,
+          residualScale = residualScale,
+          residualAesthetic = "y",
+          xScale = xScale,
+          yScale = yScale
+        )
+        # isLLOQ.i is based on the observed-data axis
+        secondaryMapped$data$isLLOQ.i <- mappedData$data$isLLOQ.i
+        secondaryMapped
+      }
+      plotObject <- addLLOQLayer(
+        plotObject = plotObject,
+        mappedData = lloqMappedData,
+        layerToCall = if (dir == "x") geom_vline else geom_hline,
+        useLinetypeAsAttribute = "lloq" %in% names(mappedData$mapping),
+        geomLLOQAttributes = geomLLOQAttributes
+      )
+    }
+  }
 
   if (asSquarePlot) {
     plotObject <- plotObject +
@@ -340,14 +381,12 @@ plotYVsX <- function(data,
     yScaleArgs$limits <- range(mappedData$xlimits, mappedData$ylimits)
   }
 
-
   # set scales
 
   xScaleArgs <- mappedData$updateScaleArgumentsForTimeUnit(
     scaleArgs = xScaleArgs,
     scaleDirection = "x"
   )
-
 
   plotObject <- addXYScale(
     plotObject = plotObject,
@@ -356,7 +395,6 @@ plotYVsX <- function(data,
     yScale = yScale,
     yScaleArgs = yScaleArgs
   )
-
 
   plotObject <- plotObject +
     guides(linetype = guide_legend(title = NULL, order = 1))
@@ -370,8 +408,9 @@ plotYVsX <- function(data,
     iScale <- which(plotObjectBuild$plot$scales$find("linetype"))
     linetypeLabels <- plotObjectBuild$plot$scales$scales[[iScale]]$get_labels()
 
-    linetypes <- plotObjectBuild$plot$scales$scales[[iScale]]$palette(length(linetypeLabels))
-
+    linetypes <- plotObjectBuild$plot$scales$scales[[iScale]]$palette(length(
+      linetypeLabels
+    ))
 
     lineTypeNames <- names(comparisonLineVector)
     if (addGuestLimits) {
@@ -387,7 +426,8 @@ plotYVsX <- function(data,
     names(linetypes) <- lineTypeNames
     plotObject <- plotObject +
       scale_linetype_manual(
-        values = linetypes, breaks = names(linetypes),
+        values = linetypes,
+        breaks = names(linetypes),
         guide = guide_legend(order = 10, title = NULL)
       )
   }
@@ -416,11 +456,13 @@ plotYVsX <- function(data,
 #'
 #' @return The updated `ggplot` object with comparison lines added.
 #' @keywords internal
-addComparisonLines <- function(plotObject,
-                               comparisonLineVector,
-                               yDisplayAsAbsolute,
-                               geomLineAttributes,
-                               xyScale) {
+addComparisonLines <- function(
+  plotObject,
+  comparisonLineVector,
+  yDisplayAsAbsolute,
+  geomLineAttributes,
+  xyScale
+) {
   # initialize  to avoid warnings in check()
   value <- name <- NULL
 
@@ -441,7 +483,6 @@ addComparisonLines <- function(plotObject,
     lineMapping <- aes(yintercept = value)
   }
 
-
   # get data for lines
   if (any(!is.null(names(comparisonLineVector)))) {
     lineData <- data.frame()
@@ -454,20 +495,29 @@ addComparisonLines <- function(plotObject,
         )
       )
     }
-    lineData$name <- factor(lineData$name, levels = names(comparisonLineVector), ordered = TRUE)
+    lineData$name <- factor(
+      lineData$name,
+      levels = names(comparisonLineVector),
+      ordered = TRUE
+    )
 
-    lineMapping <- structure(c(lineMapping, aes(linetype = name)), class = "uneval")
+    lineMapping <- structure(
+      c(lineMapping, aes(linetype = name)),
+      class = "uneval"
+    )
 
     # use linetype for legend
-    if ("linetype" %in% names(geomLineAttributes)) geomLineAttributes$linetype <- NULL
+    if ("linetype" %in% names(geomLineAttributes)) {
+      geomLineAttributes$linetype <- NULL
+    }
   } else {
     lineData <- data.frame(value = unlist(comparisonLineVector))
   }
 
-
   plotObject <- plotObject +
     do.call(
-      what = ifelse(yDisplayAsAbsolute,
+      what = ifelse(
+        yDisplayAsAbsolute,
         ggplot2::geom_abline,
         ggplot2::geom_hline
       ),
@@ -493,11 +543,13 @@ addComparisonLines <- function(plotObject,
 #'
 #' @keywords internal
 #' @return The updated `ggplot` object
-addGuestLayer <- function(plotObject,
-                          deltaGuest,
-                          labelGuestCriteria,
-                          yDisplayAsAbsolute,
-                          geomGuestLineAttributes) {
+addGuestLayer <- function(
+  plotObject,
+  deltaGuest,
+  labelGuestCriteria,
+  yDisplayAsAbsolute,
+  geomGuestLineAttributes
+) {
   if ("linetype" %in% names(geomGuestLineAttributes)) {
     geomGuestLineAttributes$linetype <- NULL
   }
@@ -560,13 +612,22 @@ addGuestLayer <- function(plotObject,
 #'
 #' @return A numeric vector representing the calculated limits for the DDI ratio.
 #' @keywords internal
-getGuestLimits <- function(x, deltaGuest = 1, yDisplayAsAbsolute = FALSE, asLower = TRUE) {
+getGuestLimits <- function(
+  x,
+  deltaGuest = 1,
+  yDisplayAsAbsolute = FALSE,
+  asLower = TRUE
+) {
   xSym <- x
   xSym[x < 1] <- 1 / x[x < 1]
   limit <- (deltaGuest + 2 * (xSym - 1)) / xSym
-  if (asLower) limit <- 1 / limit
+  if (asLower) {
+    limit <- 1 / limit
+  }
 
-  if (yDisplayAsAbsolute) limit <- limit * x
+  if (yDisplayAsAbsolute) {
+    limit <- limit * x
+  }
 
   return(limit)
 }
@@ -578,29 +639,43 @@ getGuestLimits <- function(x, deltaGuest = 1, yDisplayAsAbsolute = FALSE, asLowe
 #'
 #' @return A data table summarizing the counts within the specified limits.
 #' @keywords internal
-getCountsWithin <- function(data,
-                            mapping,
-                            comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
-                            addGuestLimits = FALSE,
-                            deltaGuest = 1,
-                            yDisplayAsAbsolute) {
+getCountsWithin <- function(
+  data,
+  mapping,
+  comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
+  addGuestLimits = FALSE,
+  deltaGuest = 1,
+  yDisplayAsAbsolute
+) {
   # initialize variables to avoid warning in check()
   Description <- value <- Number <- name <- x <- y <- NULL # nolint
 
   # Check for limit lines
-  if (!addGuestLimits &&
-    is.null(comparisonLineVector)) {
+  if (
+    !addGuestLimits &&
+      is.null(comparisonLineVector)
+  ) {
     return(NULL)
   }
 
   checkmate::assertDataFrame(data, null.ok = FALSE, min.rows = 1)
   checkmate::assertNames(names(mapping), must.include = c("y", "x"))
   checkmate::assertFlag(addGuestLimits, null.ok = FALSE)
-  if (is.double(comparisonLineVector)) comparisonLineVector <- as.list(comparisonLineVector)
-  checkmate::assertList(comparisonLineVector, types = "double", any.missing = FALSE, null.ok = TRUE, min.len = 1)
+  if (is.double(comparisonLineVector)) {
+    comparisonLineVector <- as.list(comparisonLineVector)
+  }
+  checkmate::assertList(
+    comparisonLineVector,
+    types = "double",
+    any.missing = FALSE,
+    null.ok = TRUE,
+    min.len = 1
+  )
   checkmate::assertDouble(deltaGuest, null.ok = !addGuestLimits, len = 1)
 
-  lineVectorFiltered <- comparisonLineVector[lapply(comparisonLineVector, length) == 2]
+  lineVectorFiltered <- comparisonLineVector[
+    lapply(comparisonLineVector, length) == 2
+  ]
   if (length(lineVectorFiltered) == 0 && !addGuestLimits) {
     return(NULL)
   }
@@ -634,18 +709,20 @@ getCountsWithin <- function(data,
 
   # if grouping provide one row per group
   if ("group" %in% names(fixedData)) {
-    tmp <- merge(fixedData[, .("Points total" = .N), by = "group"],
-      fixedData[, as.list(
-        countEntriesInBetween(
-          xColumn = x,
-          yColumn = y,
-          comparisonLineVector = lineVectorFiltered,
-          addGuestLimits = addGuestLimits,
-          deltaGuest = deltaGuest,
-          yDisplayAsAbsolute = yDisplayAsAbsolute
-        )
-      ),
-      by = "group"
+    tmp <- merge(
+      fixedData[, .("Points total" = .N), by = "group"],
+      fixedData[,
+        as.list(
+          countEntriesInBetween(
+            xColumn = x,
+            yColumn = y,
+            comparisonLineVector = lineVectorFiltered,
+            addGuestLimits = addGuestLimits,
+            deltaGuest = deltaGuest,
+            yDisplayAsAbsolute = yDisplayAsAbsolute
+          )
+        ),
+        by = "group"
       ],
       by = "group"
     )
@@ -660,8 +737,12 @@ getCountsWithin <- function(data,
 
     countsWithin <- tidyr::pivot_longer(
       data = tmp,
-      cols = intersect(names(tmp), c(names(lineVectorFiltered), "guest criteria")),
-      names_to = "Description", values_to = "Number"
+      cols = intersect(
+        names(tmp),
+        c(names(lineVectorFiltered), "guest criteria")
+      ),
+      names_to = "Description",
+      values_to = "Number"
     ) |>
       dplyr::mutate(Fraction = Number / get("Points total")) |>
       tidyr::pivot_longer(cols = c("Number", "Fraction")) |>
@@ -689,15 +770,16 @@ getCountsWithin <- function(data,
           yDisplayAsAbsolute = yDisplayAsAbsolute
         )
       )]
-    tmp <- tidyr::pivot_longer(data = tmp, cols = names(tmp), names_to = "Description", values_to = "Number") |>
+    tmp <- tidyr::pivot_longer(
+      data = tmp,
+      cols = names(tmp),
+      names_to = "Description",
+      values_to = "Number"
+    ) |>
       dplyr::mutate(Fraction = Number / totalNumber$Number) |>
       dplyr::mutate(Description = paste("Points within", Description))
 
-
-    countsWithin <- rbind(totalNumber,
-      tmp,
-      fill = TRUE
-    )
+    countsWithin <- rbind(totalNumber, tmp, fill = TRUE)
   }
 
   return(countsWithin)
@@ -716,8 +798,14 @@ getCountsWithin <- function(data,
 #'
 #' @return A list containing counts of entries that fall within the specified limits, including guest criteria if applicable.
 #' @keywords internal
-countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector,
-                                  deltaGuest, addGuestLimits, yDisplayAsAbsolute) {
+countEntriesInBetween <- function(
+  yColumn,
+  xColumn,
+  comparisonLineVector,
+  deltaGuest,
+  addGuestLimits,
+  yDisplayAsAbsolute
+) {
   counts <- list()
   if (addGuestLimits) {
     lower <-
@@ -734,8 +822,10 @@ countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector,
         yDisplayAsAbsolute = yDisplayAsAbsolute,
         asLower = FALSE
       )
-    counts[["guest criteria"]] <- sum(yColumn >= lower &
-      yColumn <= upper)
+    counts[["guest criteria"]] <- sum(
+      yColumn >= lower &
+        yColumn <= upper
+    )
   }
 
   if (!is.null(names(comparisonLineVector))) {
@@ -746,8 +836,10 @@ countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector,
     }
     for (fd in names(comparisonLineVector)) {
       if (length(comparisonLineVector[[fd]]) > 1) {
-        counts[[fd]] <- sum(ratio >= min(comparisonLineVector[[fd]]) &
-          ratio <= max(comparisonLineVector[[fd]]))
+        counts[[fd]] <- sum(
+          ratio >= min(comparisonLineVector[[fd]]) &
+            ratio <= max(comparisonLineVector[[fd]])
+        )
       }
     }
   }
@@ -762,55 +854,95 @@ countEntriesInBetween <- function(yColumn, xColumn, comparisonLineVector,
 #' @return Invisible NULL if validation is successful; otherwise, an error is raised.
 #' @keywords internal
 .validatePlotYXsXInputs <- function(
-    data,
-    metaData,
-    geomPointAttributes,
-    geomErrorbarAttributes,
-    geomGuestLineAttributes,
-    geomComparisonLineAttributes,
-    geomLLOQAttributes,
-    groupAesthetics,
-    comparisonLineVector,
-    addRegression,
-    addGuestLimits,
-    deltaGuest,
-    residualScale,
-    asSquarePlot,
-    xScale,
-    xScaleArgs,
-    yScale,
-    yScaleArgs,
-    observedDataDirection) {
+  data,
+  metaData,
+  geomPointAttributes,
+  geomErrorbarAttributes,
+  geomGuestLineAttributes,
+  geomComparisonLineAttributes,
+  geomLLOQAttributes,
+  groupAesthetics,
+  comparisonLineVector,
+  addRegression,
+  addGuestLimits,
+  deltaGuest,
+  residualScale,
+  asSquarePlot,
+  xScale,
+  xScaleArgs,
+  yScale,
+  yScaleArgs,
+  observedDataDirection,
+  lloqOnBothAxes
+) {
   checkmate::assertDataFrame(data)
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
 
   checkmate::assertList(geomPointAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomErrorbarAttributes, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomGuestLineAttributes, null.ok = FALSE, min.len = 0)
-  checkmate::assertList(geomComparisonLineAttributes, null.ok = FALSE, min.len = 0)
+  checkmate::assertList(
+    geomComparisonLineAttributes,
+    null.ok = FALSE,
+    min.len = 0
+  )
   checkmate::assertList(geomLLOQAttributes, null.ok = FALSE, min.len = 0)
 
-  checkmate::assertCharacter(groupAesthetics, min.len = 0, all.missing = TRUE, null.ok = TRUE)
+  checkmate::assertCharacter(
+    groupAesthetics,
+    min.len = 0,
+    all.missing = TRUE,
+    null.ok = TRUE
+  )
 
-  checkmate::assertList(comparisonLineVector, types = "double", any.missing = FALSE, null.ok = TRUE, min.len = 1)
+  checkmate::assertList(
+    comparisonLineVector,
+    types = "double",
+    any.missing = FALSE,
+    null.ok = TRUE,
+    min.len = 1
+  )
 
   checkmate::assertFlag(addRegression)
 
   checkmate::assertFlag(addGuestLimits)
-  checkmate::assertDouble(deltaGuest, lower = 1, len = 1, null.ok = !addGuestLimits)
+  checkmate::assertDouble(
+    deltaGuest,
+    lower = 1,
+    len = 1,
+    null.ok = !addGuestLimits
+  )
 
-  checkmate::assertChoice(residualScale, choices = c(
-    ResidualScales$linear,
-    ResidualScales$log, ResidualScales$ratio
-  ), null.ok = TRUE)
+  checkmate::assertChoice(
+    residualScale,
+    choices = c(
+      ResidualScales$linear,
+      ResidualScales$log,
+      ResidualScales$ratio
+    ),
+    null.ok = TRUE
+  )
 
   checkmate::assertFlag(asSquarePlot)
-  checkmate::assertChoice(xScale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
+  checkmate::assertChoice(
+    xScale,
+    choices = c(ResidualScales$linear, ResidualScales$log),
+    null.ok = TRUE
+  )
   checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yScale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
+  checkmate::assertChoice(
+    yScale,
+    choices = c(ResidualScales$linear, ResidualScales$log),
+    null.ok = TRUE
+  )
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
 
-  checkmate::assertChoice(observedDataDirection, choices = c("x", "y"), null.ok = TRUE)
+  checkmate::assertChoice(
+    observedDataDirection,
+    choices = c("x", "y"),
+    null.ok = TRUE
+  )
+  checkmate::assertFlag(lloqOnBothAxes)
 
   return(invisible())
 }

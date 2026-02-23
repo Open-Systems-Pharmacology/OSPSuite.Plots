@@ -26,6 +26,7 @@ plotYVsX(
   yScale = AxisScales$log,
   yScaleArgs = list(),
   observedDataDirection = "y",
+  lloqOnBothAxes = FALSE,
   yDisplayAsAbsolute = TRUE
 )
 }
@@ -72,7 +73,11 @@ and proportions within comparison lines. Common grouping aesthetics include \cod
 
 \item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{observedDataDirection}{Either 'x' or 'y', defining the direction of observed data.}
+\item{observedDataDirection}{Either "x" or "y", defining the direction of observed data.}
+
+\item{lloqOnBothAxes}{A boolean; if \code{TRUE}, LLOQ lines are drawn on both axes. If \code{FALSE} (default),
+the LLOQ line is drawn for the observed-data axis only.
+(\code{geom_vline} when \code{observedDataDirection = "x"}, \code{geom_hline} when \code{observedDataDirection = "y"}).}
 
 \item{yDisplayAsAbsolute}{A boolean that defines the direction of comparison lines.}
 }

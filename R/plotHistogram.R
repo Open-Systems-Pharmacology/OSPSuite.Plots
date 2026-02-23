@@ -41,7 +41,7 @@ plotHistogram <- function(data,
 
   checkmate::assertFlag(plotAsFrequency)
   checkmate::assertFlag(plotAsFrequency)
-  if (plotAsFrequency & "y" %in% names(mapping)) warning("plotAsFrequency = TRUE will overwrite mapping of y")
+  if (plotAsFrequency & "y" %in% names(mapping)) warning(messages$warningPlotAsFrequencyOverwritesY())
 
   checkmate::assertList(geomHistAttributes, null.ok = FALSE, min.len = 0)
 
@@ -217,11 +217,11 @@ plotHelperHistogram <- R6::R6Class( # nolint
       self$asBarPlot <- asBarPlot
       if (self$asBarPlot) {
         if (self$distribution != "none") {
-          warning("It is not possible to fit a distribution for categorical data within a bar plot")
+          warning(messages$warningCannotFitDistributionCategorical())
           self$distribution <- "none"
         }
         if (!is.null(self$scaledMeanFun)) {
-          warning("It is not possible to calculate a mean for categorical datawithin a bar plot")
+          warning(messages$warningCannotCalculateMeanCategorical())
           self$scaledMeanFun <- NULL
         }
       }
@@ -285,7 +285,7 @@ plotHelperHistogram <- R6::R6Class( # nolint
             get(paste0("d", distribution), envir = nsenv)
           }, # nolint
           error = function(cond) {
-            stop(paste("distribution", distribution, "is an invalid function"))
+            stop(messages$errorInvalidDistribution(distribution))
           } # nolint
         )
       } else if (distribution == "normal") {
@@ -308,9 +308,9 @@ plotHelperHistogram <- R6::R6Class( # nolint
         }
       }
 
-      if (length(binwidth) == 0) stop("error within bin width determination. No binwidth found. Is the plot empty?")
+      if (length(binwidth) == 0) stop(messages$errorBinWidthNoBinwidthFound())
       if (abs(diff(range(binwidth, na.rm = TRUE)) / mean(binwidth, na.rm = TRUE)) > 1e-5) {
-        stop("error within bin width determination. Are the bins not unique?")
+        stop(messages$errorBinWidthBinsNotUnique())
       }
 
       binwidth <- mean(binwidth, na.rm = TRUE)

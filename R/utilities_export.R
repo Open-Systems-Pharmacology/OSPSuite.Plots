@@ -120,7 +120,7 @@ validateInputsExportPlot <- function(plotObject,
   checkmate::assertDouble(height, null.ok = TRUE)
 
   if (filename != basename(filename)) {
-    stop("filename should not contain a path, use input variable filepath")
+    stop(messages$errorFilenameContainsPath())
   }
 
   if (!dir.exists(filepath)) {
@@ -317,7 +317,7 @@ validateFilename <- function(filename, device) {
   # Validate that device is a supported format
   supportedDevices <- c("png", "pdf", "jpeg", "jpg", "tiff", "svg", "eps")
   if (!device %in% supportedDevices) {
-    warning("Device '", device, "' may not be supported by ggsave")
+    warning(messages$warningDeviceMayNotBeSupported(device))
   }
 
   filename <- fs::path_ext_set(filename, device)

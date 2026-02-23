@@ -229,7 +229,10 @@ metaData2DataFrame <- function(metaData) {
 #' @export
 getFoldDistanceList <- function(folds = c(1.5, 2),
                                 includeIdentity = TRUE) {
-  checkmate::assertDouble(folds, lower = 1, null.ok = TRUE)
+  checkmate::assertDouble(folds, null.ok = TRUE)
+  if (!is.null(folds) && any(folds <= 1)) {
+    stop(messages$errorFoldDistanceMustBeGreaterThanOne(folds[folds <= 1]))
+  }
 
   foldDistance <- list()
 

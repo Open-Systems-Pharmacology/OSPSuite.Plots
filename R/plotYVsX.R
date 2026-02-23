@@ -700,7 +700,7 @@ getCountsWithin <- function(
           )
         },
         error = function(cond) {
-          warning("It was not possible to derive the data with the mapping")
+          warning(messages$warningCouldNotDeriveDataWithMapping())
           return(NULL)
         }
       )

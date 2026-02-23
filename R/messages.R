@@ -34,7 +34,7 @@ messages$errorBinWidthBinsNotUnique <- function() {
 }
 
 messages$warningTablesOnlyWithoutFaceting <- function() {
-  "Tables will be only added if there is now faceting vs x (xFacetColumn is NULL)"
+  "Tables will be only added if there is no faceting vs x (xFacetColumn is NULL)"
 }
 
 messages$errorFilenameContainsPath <- function() {

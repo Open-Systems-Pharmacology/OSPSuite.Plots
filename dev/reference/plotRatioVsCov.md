@@ -7,7 +7,7 @@ The following parameters are fixed and cannot be set:
 
 - `residualScale = "ratio"`
 
-- `observedDataDirection = 'y'`
+- `observedDataDirection = "y"`
 
 - `yDisplayAsAbsolute = FALSE`
 
@@ -110,7 +110,14 @@ plotRatioVsCov(
 
   `observedDataDirection`
 
-  :   Either 'x' or 'y', defining the direction of observed data.
+  :   Either "x" or "y", defining the direction of observed data.
+
+  `lloqOnBothAxes`
+
+  :   A boolean; if `TRUE`, LLOQ lines are drawn on both axes. If
+      `FALSE` (default), the LLOQ line is drawn for the observed-data
+      axis only. (`geom_vline` when `observedDataDirection = "x"`,
+      `geom_hline` when `observedDataDirection = "y"`).
 
   `groupAesthetics`
 

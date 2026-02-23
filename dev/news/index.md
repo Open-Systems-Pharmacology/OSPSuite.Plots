@@ -12,6 +12,14 @@
 
 ### Minor improvements and bug fixes
 
+- Fixed
+  [`plotYVsX()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotYVsX.md)
+  LLOQ layer using wrong geom when `observedDataDirection = "y"`. The
+  LLOQ line now correctly uses `geom_hline` for y-direction and
+  `geom_vline` for x-direction (#78).
+- Added `lloqOnBothAxes` parameter to
+  [`plotYVsX()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotYVsX.md)
+  to optionally draw LLOQ lines on both axes (#78).
 - Fixed duplicate legend in
   [`plotTimeProfile()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotTimeProfile.md)
   when mixing observed and simulated data. Shape and fill guides are now

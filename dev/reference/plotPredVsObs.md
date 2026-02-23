@@ -3,11 +3,11 @@
 This function is a wrapper for `plotYVsX` with adjusted input
 parameters.
 
-The following parameters are fixed:
+The following parameters are fixed and cannot be set:
 
-- `residualScale` is fixed to NULL,
+- `residualScale = NULL`
 
-- `observedDataDirection` is fixed to 'x'
+- `observedDataDirection = "x"`
 
 For details and examples, see the vignettes:
 
@@ -94,7 +94,14 @@ plotPredVsObs(
 
   `observedDataDirection`
 
-  :   Either 'x' or 'y', defining the direction of observed data.
+  :   Either "x" or "y", defining the direction of observed data.
+
+  `lloqOnBothAxes`
+
+  :   A boolean; if `TRUE`, LLOQ lines are drawn on both axes. If
+      `FALSE` (default), the LLOQ line is drawn for the observed-data
+      axis only. (`geom_vline` when `observedDataDirection = "x"`,
+      `geom_hline` when `observedDataDirection = "y"`).
 
   `groupAesthetics`
 

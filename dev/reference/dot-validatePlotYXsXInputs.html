@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9010</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,7 +72,8 @@
 <span>  <span class="va">xScaleArgs</span>,</span>
 <span>  <span class="va">yScale</span>,</span>
 <span>  <span class="va">yScaleArgs</span>,</span>
-<span>  <span class="va">observedDataDirection</span></span>
+<span>  <span class="va">observedDataDirection</span>,</span>
+<span>  <span class="va">lloqOnBothAxes</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -155,7 +156,13 @@ and proportions within comparison lines. Common grouping aesthetics include <cod
 
 
 <dt id="arg-observeddatadirection">observedDataDirection<a class="anchor" aria-label="anchor" href="#arg-observeddatadirection"></a></dt>
-<dd><p>Either 'x' or 'y', defining the direction of observed data.</p></dd>
+<dd><p>Either "x" or "y", defining the direction of observed data.</p></dd>
+
+
+<dt id="arg-lloqonbothaxes">lloqOnBothAxes<a class="anchor" aria-label="anchor" href="#arg-lloqonbothaxes"></a></dt>
+<dd><p>A boolean; if <code>TRUE</code>, LLOQ lines are drawn on both axes. If <code>FALSE</code> (default),
+the LLOQ line is drawn for the observed-data axis only.
+(<code>geom_vline</code> when <code>observedDataDirection = "x"</code>, <code>geom_hline</code> when <code>observedDataDirection = "y"</code>).</p></dd>
 
 </dl></div>
     <div class="section level2">

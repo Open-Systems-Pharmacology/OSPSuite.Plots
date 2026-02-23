@@ -31,9 +31,9 @@ initialize plot or add to existing plots
 
 - [`initializePlot()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/initializePlot.md)
   : Initialize Plot
-- [`addXScale()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addXscale.md)
+- [`addXScale()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addXScale.md)
   : add X-scale
-- [`addYScale()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addYscale.md)
+- [`addYScale()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addYScale.md)
   : add y-scale
 - [`addLLOQLayer()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addLLOQLayer.md)
   : Add LLOQ Layer with LLOQ Lines

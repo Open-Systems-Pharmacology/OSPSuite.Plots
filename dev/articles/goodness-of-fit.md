@@ -313,6 +313,32 @@ with reduced transparency and marked with a horizontal LLOQ line. Data
 points below LLOQ are set to LLOQ/2 for
 visualization.](goodness-of-fit_files/figure-html/basic-examples-lloq-1.png)
 
+By default (`lloqOnBothAxes = FALSE`), the LLOQ line is drawn only for
+the observed-data axis—i.e., horizontal when observations are on the
+y-axis and vertical when observations are on the x-axis. Setting
+`lloqOnBothAxes = TRUE` draws LLOQ lines on both the x and y axes. This
+is quite useful, as it makes it clear if the simulated results should be
+considered as “quantifiable” or not.
+
+``` r
+plotPredVsObs(
+  data = dataLLOQ,
+  mapping = aes(
+    x = Obs,
+    y = Pred,
+    lloq = lloq,
+    groupby = Sex
+  ),
+  metaData = metaData,
+  lloqOnBothAxes = TRUE
+)
+```
+
+![Scatter plot showing predicted versus observed values with LLOQ lines
+drawn on both axes. Vertical and horizontal LLOQ lines are displayed,
+and values below the LLOQ are shown with reduced
+transparency.](goodness-of-fit_files/figure-html/basic-examples-lloq-both-1.png)
+
 ### 2.2 Adjust Comparison Lines
 
 #### 2.2.1 Adjust Fold Distance

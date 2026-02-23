@@ -29,9 +29,9 @@
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addLabels.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addLayer.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addWatermark.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addXScale.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addXYScale.html</loc></url>
-<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addXscale.html</loc></url>
-<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addYscale.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addYScale.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/calculatePlotDimensions.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/colorMaps.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/combinePlots.html</loc></url>
@@ -41,7 +41,7 @@
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/createPlotObject.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/createTableData.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/createTableObject.html</loc></url>
-<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-addCommonLimitsAndYscaleArguments.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-addCommonLimitsAndYScaleArguments.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-addLayersForObserveddData.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-addLayersForSimulatedData.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-adjustLimits.html</loc></url>

@@ -5,9 +5,9 @@ parameters.
 
 The following parameters are fixed and cannot be set:
 
-- `observedDataDirection = 'y'`
+- `observedDataDirection = "y"`
 
-- `yDisplayAsAbsolute = TRUE`
+- `yDisplayAsAbsolute = FALSE`
 
 - `addGuestLimits = FALSE` (use `plotRatio()` if needed)
 
@@ -100,7 +100,14 @@ plotResVsCov(
 
   `observedDataDirection`
 
-  :   Either 'x' or 'y', defining the direction of observed data.
+  :   Either "x" or "y", defining the direction of observed data.
+
+  `lloqOnBothAxes`
+
+  :   A boolean; if `TRUE`, LLOQ lines are drawn on both axes. If
+      `FALSE` (default), the LLOQ line is drawn for the observed-data
+      axis only. (`geom_vline` when `observedDataDirection = "x"`,
+      `geom_hline` when `observedDataDirection = "y"`).
 
   `groupAesthetics`
 

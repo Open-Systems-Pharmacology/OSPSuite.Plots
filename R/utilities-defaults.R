@@ -132,7 +132,7 @@ setDefaultColorMapDistinct <- function(colorMapList = NULL) {
   validateColors <- function(colorVector, varName) {
     for (color in colorVector) {
       if (any(is.na(grDevices::col2rgb(color, alpha = FALSE)))) {
-        stop(paste("Invalid color:", color, "in", varName))
+        stop(messages$errorInvalidColor(color, varName))
       }
     }
   }

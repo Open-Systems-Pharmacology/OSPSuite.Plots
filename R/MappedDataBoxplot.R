@@ -86,7 +86,7 @@ MappedDataBoxplot <- R6::R6Class( # nolint
                                          xScale,
                                          xScaleArgs) {
       if (is.null(self$columnClasses[["x"]])) {
-        warning("No metaData available for x-axis")
+        warning(messages$warningNoMetaDataForXAxis())
         return(invisible(self))
       }
       # Validate input mapping structure
@@ -121,16 +121,13 @@ MappedDataBoxplot <- R6::R6Class( # nolint
       if (self$hasXmapping) {
         if (self$columnClasses[["x"]] == "factor") {
           if (xScale %in% c(AxisScales$linear, AxisScales$log)) {
-            stop(paste0('continuous x scale is not possible for factors, please select "', AxisScales$discrete, '"'))
+            stop(messages$errorContinuousXScaleNotPossibleForFactors(AxisScales$discrete))
           }
           xScale <- AxisScales$discrete
         } else {
           if (self$columnClasses[["x"]] == "numeric") {
             if (xScale == AxisScales$discrete) {
-              stop(paste0(
-                'discrete x scale is not possible for continuous data. Select "',
-                AxisScales$linear, '" or "', AxisScales$log, '" or convert data to factor'
-              ))
+              stop(messages$errorDiscreteXScaleNotPossibleForContinuous(AxisScales$linear, AxisScales$log))
             }
             if (xScale == "auto") {
               xScale <- AxisScales$linear

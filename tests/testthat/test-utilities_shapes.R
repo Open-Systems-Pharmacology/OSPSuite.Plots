@@ -50,7 +50,11 @@ test_that(".asPlotShape converts shapes correctly", {
   expect_equal(result, "nonexistent")
 
   # Test with empty string should generate warning and use default
-  expect_warning(result <- .asPlotShape(""))
+  expect_warning(
+    result <- .asPlotShape(""),
+    regexp = messages$warningInvalidShapeCode(""),
+    fixed = TRUE
+  )
   expect_equal(result, Shapes[["square"]])
 
   # Test input validation

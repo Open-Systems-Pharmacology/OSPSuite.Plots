@@ -98,7 +98,7 @@ plotForest <- function(plotData,
     )
   } else {
     if (!is.null(xFacetColumn) & withTable) {
-      warning("Tables will be only added if there is now faceting vs x (xFacetColumn is NULL)")
+      warning(messages$warningTablesOnlyWithoutFaceting())
     }
   }
 

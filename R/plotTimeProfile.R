@@ -235,7 +235,7 @@ plotTimeProfile <- function(data = NULL, # nolint
            groupAesthetics,
            mapSimulatedAndObserved) {
     if (all(isEmpty(data), isEmpty(observedData))) {
-      stop("At least 'data' or 'observedData' is required.")
+      stop(messages$errorDataOrObservedDataRequired())
     }
 
     checkmate::assertClass(plotObject, classes = "ggplot", null.ok = TRUE)

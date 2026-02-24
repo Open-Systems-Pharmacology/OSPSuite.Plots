@@ -180,7 +180,11 @@ test_that("exportPlot handles legend offsets", {
 
 # Test for filename containing path
 test_that("exportPlot fails if filename contains path", {
-  expect_error(exportPlot(testPlot, filepath = tempdir(), filename = "invalid/path/testPlot.png"))
+  expect_error(
+    exportPlot(testPlot, filepath = tempdir(), filename = "invalid/path/testPlot.png"),
+    regexp = messages$errorFilenameContainsPath(),
+    fixed = TRUE
+  )
 })
 
 # Test for invalid plot object

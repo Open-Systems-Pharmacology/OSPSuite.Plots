@@ -59,7 +59,8 @@ Vignette:
   inst/doc/forest-plots.Rmd
   inst/doc/range-plot-visualization.Rmd
 Config/testthat/edition: 3
-Collate: 'utilities-defaults.R'
+Collate: 'messages.R'
+         'utilities-defaults.R'
          'utilities_enum.R'
          'add_Layer.R'
          'ggplotWithWatermark.R'

@@ -276,7 +276,7 @@ MappedData <- R6::R6Class( # nolint
         },
         error = function(cond) {
           if (stopIfNull) {
-            stop(paste("evaluation of aesthetic", aesthetic, "failed:", cond))
+            stop(messages$errorEvaluationOfAestheticFailed(aesthetic, cond))
           } else {
             NULL
           }
@@ -355,10 +355,7 @@ MappedData <- R6::R6Class( # nolint
         errorType <-
           intersect(names(self$mapping), c("error", "error_relative"))
         if (length(errorType) > 1) {
-          stop(paste(
-            "observed data mapping contains more then one error definition:",
-            paste0(errorType, collapse = ", ")
-          ))
+          stop(messages$errorObservedDataMultipleErrorDefinitions(errorType))
         }
 
         if (length(errorType) == 1 &&
@@ -575,7 +572,7 @@ MappedData <- R6::R6Class( # nolint
         return(invisible(self))
       }
       if (!private$aestheticExists("group") & !private$aestheticExists("groupby")) {
-        stop('for mapping of observed to simulated aesthetic "group" or "groupby" is needed')
+        stop(messages$errorGroupAestheticNeeded())
       }
 
       aesthetics <- intersect(names(self$mapping), c("group", "groupby"))

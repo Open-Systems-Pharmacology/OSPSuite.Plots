@@ -312,7 +312,9 @@ test_that("grouping for simulation and observed works", {
       scaleOfSecondaryAxis = AxisScales$linear,
       ylimits = list(),
       y2limits = list()
-    )
+    ),
+    regexp = messages$errorGroupAestheticNeeded(),
+    fixed = TRUE
   )
 
 

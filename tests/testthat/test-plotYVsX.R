@@ -239,6 +239,30 @@ test_that("adjust lines works withot error", {
   ))
 })
 
+test_that("addComparisonLines produces correct line data for named multi-value entries", {
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet1") |>
+    dplyr::select(c("Age", "Ratio"))
+
+  # Named list with multi-value entries (fold distances produce 2-element vectors)
+  folds <- getFoldDistanceList(c(1.5, 2), includeIdentity = TRUE)
+
+  plotObj <- plotRatioVsCov(
+    data = data,
+    mapping = aes(x = Age, y = Ratio),
+    comparisonLineVector = folds
+  )
+  # Plot must be created without error and be a ggplot
+  expect_s3_class(plotObj, "ggplot")
+
+  # Verify that all fold names appear as linetype levels in the plot layers
+  line_layers <- Filter(
+    function(l) inherits(l$geom, "GeomAbline") || inherits(l$geom, "GeomHline"),
+    plotObj$layers
+  )
+  expect_gt(length(line_layers), 0)
+})
+
 test_that("plotYVsX with LLOQ works for observedDataDirection = y", {
   data <- exampleDataCovariates |>
     dplyr::filter(SetID == "DataSet2") |>

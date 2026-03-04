@@ -435,3 +435,152 @@ test_that("adjustForResidualMatch works", {
   expect_true(obsDataMatch$hasResidualMapping)
   expect_true("residuals.i" %in% names(obsDataMatch$data))
 })
+
+test_that("adjustForLLOQMatch works for direction='x' (xintercept mapping)", {
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
+    dplyr::select(c("time", "values", "caption", "lloq"))
+
+  obsAes <- aes(
+    y = time,
+    x = values,
+    lloq = lloq
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    direction = "x"
+  )
+
+  expect_true("isLLOQ.i" %in% names(obsDataMatch$data))
+  expect_true(obsDataMatch$hasLLOQMatch)
+
+  # xintercept (not yintercept) must be in the hvline aesthetics
+  lloqMapping <- obsDataMatch$getAestheticsForGeom(
+    geom = "hvline",
+    geomAttributes = list()
+  )
+  expect_true("xintercept" %in% names(lloqMapping))
+})
+
+test_that("translateErrorAestethics creates ymin/ymax for absolute error", {
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
+    dplyr::select(c("time", "values", "caption")) |>
+    dplyr::mutate(err = abs(values) * 0.1)
+
+  obsAes <- aes(
+    x = time,
+    y = values,
+    error = err
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear
+  )
+
+  # error columns should be created
+  expect_true("error.min" %in% names(obsDataMatch$data))
+  expect_true("error.max" %in% names(obsDataMatch$data))
+
+  # ymin / ymax mappings must exist
+  expect_true("ymin" %in% names(obsDataMatch$mapping))
+  expect_true("ymax" %in% names(obsDataMatch$mapping))
+})
+
+test_that("translateErrorAestethics creates xmin/xmax for direction='x'", {
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
+    dplyr::select(c("time", "values", "caption")) |>
+    dplyr::mutate(err = abs(values) * 0.1)
+
+  obsAes <- aes(
+    y = time,
+    x = values,
+    error = err
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    direction = "x"
+  )
+
+  expect_true("xmin" %in% names(obsDataMatch$mapping))
+  expect_true("xmax" %in% names(obsDataMatch$mapping))
+})
+
+test_that("adjustForResidualMatch maps residuals to a custom aesthetic", {
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration")
+
+  obsAes <- aes(
+    x = time,
+    observed = values,
+    predicted = values
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    residualScale = ResidualScales$linear,
+    residualAesthetic = "y"
+  )
+
+  expect_true(obsDataMatch$hasResidualMapping)
+  expect_true("residuals.i" %in% names(obsDataMatch$data))
+  expect_true("y" %in% names(obsDataMatch$mapping))
+  expect_equal(
+    as.character(rlang::quo_get_expr(obsDataMatch$mapping[["y"]])),
+    "residuals.i"
+  )
+})
+
+test_that("checkForCallAesthetics in MappedDataTimeProfile resolves call aesthetics", {
+  obsData <- data.table::data.table(
+    x = c(1, 2, 3, 4),
+    conc = c(10, 20, 30, 40),
+    dose = c(2, 2, 2, 2),
+    y2axis = c(FALSE, FALSE, FALSE, FALSE)
+  )
+
+  # Use a call expression (conc / dose) as the y aesthetic
+  mapping <- aes(
+    x = x,
+    y = conc / dose,
+    y2axis = y2axis
+  )
+
+  dataMatch <- MappedDataTimeProfile$new(
+    data = obsData,
+    mapping = mapping,
+    xScale = AxisScales$linear,
+    scaleOfPrimaryAxis = AxisScales$linear,
+    scaleOfSecondaryAxis = AxisScales$linear
+  )
+
+  # The call aesthetic should have been materialised into a new column y.i
+  expect_true("y.i" %in% names(dataMatch$data))
+  expect_equal(
+    as.character(rlang::quo_get_expr(dataMatch$mapping[["y"]])),
+    "y.i"
+  )
+})

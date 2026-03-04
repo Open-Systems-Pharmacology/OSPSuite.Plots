@@ -332,11 +332,15 @@ MappedData <- R6::R6Class( # nolint
         private$addOverwriteAes(aes(alpha = isLLOQ.i))
 
         ## add  intercept mapping
-        interceptName <- paste0(private$direction, "intercept")
-        lloqExpr <- rlang::get_expr(self$mapping[["lloq"]])
-        private$addOverwriteAes(
-          rlang::inject(ggplot2::aes(!!rlang::sym(interceptName) := !!lloqExpr))
-        )
+        private$addOverwriteAes(eval(parse(
+          text = paste0(
+            "aes(",
+            paste0(private$direction, "intercept"),
+            " = ",
+            rlang::quo_get_expr(self$mapping[["lloq"]]),
+            ")"
+          )
+        )))
 
         # set boolean for LLOQ check
         private$LLOQMatch <- TRUE
@@ -379,8 +383,12 @@ MappedData <- R6::R6Class( # nolint
                 dplyr::mutate("error.min" = !!self$mapping[[private$direction]] / !!self$mapping[[errorType]])
             }
             newMapping <-
-              c(newMapping, rlang::inject(ggplot2::aes(
-                !!rlang::sym(paste0(private$direction, "min")) := error.min
+              c(newMapping, eval(parse(
+                text = paste0(
+                  "aes(",
+                  private$direction,
+                  "min = error.min)"
+                )
               )))
           }
 
@@ -394,8 +402,12 @@ MappedData <- R6::R6Class( # nolint
             }
 
             newMapping <-
-              c(newMapping, rlang::inject(ggplot2::aes(
-                !!rlang::sym(paste0(private$direction, "max")) := error.max
+              c(newMapping, eval(parse(
+                text = paste0(
+                  "aes(",
+                  private$direction,
+                  "max = error.max)"
+                )
               )))
           }
           private$addOverwriteAes(newMapping)
@@ -527,9 +539,13 @@ MappedData <- R6::R6Class( # nolint
 
 
           # add mapping for residuals
-          private$addOverwriteAes(
-            rlang::inject(ggplot2::aes(!!rlang::sym(residualAesthetic) := residuals.i))
-          )
+          private$addOverwriteAes(eval(parse(
+            text = paste0(
+              "aes(",
+              residualAesthetic,
+              "= residuals.i)"
+            )
+          )))
 
           # set boolean
           self$hasResidualMapping <- TRUE
@@ -582,9 +598,13 @@ MappedData <- R6::R6Class( # nolint
 
       # adjust mapping
       for (aesthetic in aesthetics) {
-        private$addOverwriteAes(
-          rlang::inject(ggplot2::aes(!!rlang::sym(aesthetic) := groupBy.i))
-        )
+        private$addOverwriteAes(eval(parse(
+          text = paste0(
+            "aes(",
+            aesthetic,
+            " = groupBy.i)"
+          )
+        )))
       }
 
       return(invisible(self))

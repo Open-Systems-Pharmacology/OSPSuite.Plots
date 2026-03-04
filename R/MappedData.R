@@ -335,7 +335,7 @@ MappedData <- R6::R6Class( # nolint
         interceptName <- paste0(private$direction, "intercept")
         lloqExpr <- rlang::get_expr(self$mapping[["lloq"]])
         private$addOverwriteAes(
-          rlang::inject(ggplot2::aes(!!interceptName := !!lloqExpr))
+          rlang::inject(ggplot2::aes(!!rlang::sym(interceptName) := !!lloqExpr))
         )
 
         # set boolean for LLOQ check
@@ -380,7 +380,7 @@ MappedData <- R6::R6Class( # nolint
             }
             newMapping <-
               c(newMapping, rlang::inject(ggplot2::aes(
-                !!paste0(private$direction, "min") := error.min
+                !!rlang::sym(paste0(private$direction, "min")) := error.min
               )))
           }
 
@@ -395,7 +395,7 @@ MappedData <- R6::R6Class( # nolint
 
             newMapping <-
               c(newMapping, rlang::inject(ggplot2::aes(
-                !!paste0(private$direction, "max") := error.max
+                !!rlang::sym(paste0(private$direction, "max")) := error.max
               )))
           }
           private$addOverwriteAes(newMapping)
@@ -528,7 +528,7 @@ MappedData <- R6::R6Class( # nolint
 
           # add mapping for residuals
           private$addOverwriteAes(
-            rlang::inject(ggplot2::aes(!!residualAesthetic := residuals.i))
+            rlang::inject(ggplot2::aes(!!rlang::sym(residualAesthetic) := residuals.i))
           )
 
           # set boolean
@@ -583,7 +583,7 @@ MappedData <- R6::R6Class( # nolint
       # adjust mapping
       for (aesthetic in aesthetics) {
         private$addOverwriteAes(
-          rlang::inject(ggplot2::aes(!!aesthetic := groupBy.i))
+          rlang::inject(ggplot2::aes(!!rlang::sym(aesthetic) := groupBy.i))
         )
       }
 

@@ -377,7 +377,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
           )
 
           private$addOverwriteAes(
-            rlang::inject(ggplot2::aes(!!aesthetic := !!rlang::sym(aestheticCol)))
+            rlang::inject(ggplot2::aes(!!rlang::sym(aesthetic) := !!rlang::sym(aestheticCol)))
           )
         }
       }

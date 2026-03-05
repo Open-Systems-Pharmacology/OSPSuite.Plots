@@ -144,7 +144,7 @@ test_that("adjustForLLOQMatch works", {
 })
 
 
-test_that("translateErrorAestethics works with error_relative", {
+test_that("translateErrorAesthetics works with error_relative", {
   obsData <- exampleDataTimeProfile |>
     dplyr::filter(SetID == "DataSet3") |>
     dplyr::filter(Type == "observed") |>
@@ -173,7 +173,7 @@ test_that("translateErrorAestethics works with error_relative", {
 })
 
 
-test_that("translateErrorAestethics works with absolute error", {
+test_that("translateErrorAesthetics works with absolute error", {
   testData <- data.frame(
     time = c(1, 2, 3, 4, 5),
     values = c(10, 8, 6, 5, 4),

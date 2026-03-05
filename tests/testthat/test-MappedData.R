@@ -93,6 +93,65 @@ test_that("adjustForLLOQMatch works", {
 })
 
 
+test_that("translateErrorAestethics works with error_relative", {
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
+    dplyr::select(c("time", "values", "caption", "error_relative"))
+
+  obsAes <- aes(
+    x = time,
+    y = values,
+    groupby = caption,
+    error_relative = error_relative
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    groupAesthetics = c("colour", "fill", "linetype", "shape")
+  )
+
+  expect_true("error.min" %in% names(obsDataMatch$data))
+  expect_true("error.max" %in% names(obsDataMatch$data))
+  expect_true("ymin" %in% names(obsDataMatch$mapping))
+  expect_true("ymax" %in% names(obsDataMatch$mapping))
+})
+
+
+test_that("translateErrorAestethics works with absolute error", {
+  testData <- data.frame(
+    time = c(1, 2, 3, 4, 5),
+    values = c(10, 8, 6, 5, 4),
+    error = c(1, 0.8, 0.6, 0.5, 0.4),
+    caption = rep("Test", 5)
+  )
+
+  testAes <- aes(
+    x = time,
+    y = values,
+    groupby = caption,
+    error = error
+  )
+
+  dataMatch <- MappedData$new(
+    data = testData,
+    mapping = testAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    groupAesthetics = c("colour", "fill", "linetype", "shape")
+  )
+
+  expect_true("error.min" %in% names(dataMatch$data))
+  expect_true("error.max" %in% names(dataMatch$data))
+  expect_true("ymin" %in% names(dataMatch$mapping))
+  expect_true("ymax" %in% names(dataMatch$mapping))
+})
+
+
 test_that("adjustDataForMDV works", {
   # Observed data 1
   obsData <- exampleDataTimeProfile |>

@@ -256,15 +256,15 @@ test_that("addComparisonLines produces correct line data for named multi-value e
   expect_s3_class(plotObj, "ggplot")
 
   # Verify that all fold names appear as linetype levels in the plot layers
-  line_layers <- Filter(
+  lineLayers <- Filter(
     function(l) inherits(l$geom, "GeomAbline") || inherits(l$geom, "GeomHline"),
     plotObj$layers
   )
-  expect_gt(length(line_layers), 0)
-  expect_equal(line_layers$geom_hline$data$value, unname(unlist(folds)))
+  expect_gt(length(lineLayers), 0)
+  expect_equal(lineLayers$geom_hline$data$value, unname(unlist(folds)))
 })
 
-test_that('getFoldDistance can handle non unique values', {
+test_that("getFoldDistance can handle non unique values", {
   folds <- getFoldDistanceList(c(1.5, 2, 2), includeIdentity = FALSE)
   expect_length(folds, 2)
 })

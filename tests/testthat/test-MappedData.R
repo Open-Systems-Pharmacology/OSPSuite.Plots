@@ -24,6 +24,34 @@ test_that("adjustGroupAesthetics works", {
   )
 })
 
+test_that("adjustGroupAesthetics clears groupby when groupAesthetics is NULL", {
+  simData1 <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet1") |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
+
+  # When groupAesthetics = NULL is passed, the constructor always adds "group",
+  # so groupby is transferred to the group aesthetic and then cleared
+  mappingWithGroupby <- aes(
+    x = time,
+    y = values,
+    groupby = caption
+  )
+
+  simDataNoExtra <- MappedData$new(
+    data = simData1,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    mapping = mappingWithGroupby,
+    groupAesthetics = NULL
+  )
+
+  # groupby should be cleared from the mapping after adjustGroupAesthetics
+  expect_null(simDataNoExtra$mapping$groupby)
+  # group aesthetic should be present
+  expect_true("group" %in% names(simDataNoExtra$mapping))
+})
+
 
 test_that("getAestheticsForGeom works", {
   simData1 <- exampleDataTimeProfile |>

@@ -658,6 +658,11 @@ getCountsWithin <- function(
     return(NULL)
   }
 
+  # Early return for empty or null data - no counts can be computed
+  if (is.null(data) || nrow(data) == 0) {
+    return(NULL)
+  }
+
   checkmate::assertDataFrame(data, null.ok = FALSE, min.rows = 1)
   checkmate::assertNames(names(mapping), must.include = c("y", "x"))
   checkmate::assertFlag(addGuestLimits, null.ok = FALSE)

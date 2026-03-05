@@ -261,6 +261,12 @@ test_that("addComparisonLines produces correct line data for named multi-value e
     plotObj$layers
   )
   expect_gt(length(line_layers), 0)
+  expect_equal(line_layers$geom_hline$data$value, unname(unlist(folds)))
+})
+
+test_that('getFoldDistance can handle non unique values', {
+  folds <- getFoldDistanceList(c(1.5, 2, 2), includeIdentity = FALSE)
+  expect_length(folds, 2)
 })
 
 test_that("plotYVsX with LLOQ works for observedDataDirection = y", {

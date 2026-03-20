@@ -187,11 +187,12 @@ constructLabelWithUnit <- function(label, unit) {
   checkmate::assertCharacter(unit, len = 1, null.ok = TRUE)
 
   if (!is.null(label) & !is.null(unit)) {
+    trimmedLabel <- trimws(label)
     trimmedUnit <- trimws(unit)
     if (trimmedUnit != "") {
-      label <- paste0(trimws(label), " [", trimmedUnit, "]")
+      label <- paste0(trimmedLabel, " [", trimmedUnit, "]")
     } else {
-      label <- trimws(label)
+      label <- trimmedLabel
     }
   }
   return(label)

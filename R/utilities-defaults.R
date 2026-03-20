@@ -319,12 +319,10 @@ getDefaultOptions <- function() {
 #'
 getDefaultGeomAttributes <- function(geom) {
   choices <- names(getDefaultOptions())
-  choices <- gsub(
-    "Attributes", "",
-    gsub(
-      "ospsuite.plots.geom", "",
-      choices[grep("ospsuite.plots.geom", choices)]
-    )
+  choices <- sub(
+    "^ospsuite\\.plots\\.geom(.+)Attributes$",
+    "\\1",
+    choices[grep("ospsuite.plots.geom", choices, fixed = TRUE)]
   )
   checkmate::assertChoice(geom, choices = choices)
 

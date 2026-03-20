@@ -128,6 +128,65 @@ test_that("getFoldDistanceList works correctly", {
   )
 })
 
+test_that("createDefaultPlotLabels returns labels from mapped dimensions and units", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet1", Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  mappedData <- MappedData$new(
+    data = simData,
+    mapping = aes(x = time, y = values, groupby = caption),
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear
+  )
+
+  mappedData$dimensions$x <- "Time"
+  mappedData$units$x <- "h"
+  mappedData$dimensions$y <- "Concentration"
+  mappedData$units$y <- "mg/L"
+
+  result <- createDefaultPlotLabels(mappedData)
+
+  expect_named(result, c("x", "y"))
+  expect_equal(result$x, "Time [h]")
+  expect_equal(result$y, "Concentration [mg/L]")
+})
+
+test_that("createDefaultPlotLabels omits labels when no dimensions are set", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet1", Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  mappedData <- MappedData$new(
+    data = simData,
+    mapping = aes(x = time, y = values, groupby = caption),
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear
+  )
+  # No dimensions set — result should be an empty list
+  result <- createDefaultPlotLabels(mappedData)
+  expect_equal(length(result), 0)
+})
+
+test_that("createDefaultPlotLabels uses unit-free label when unit is empty", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet1", Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  mappedData <- MappedData$new(
+    data = simData,
+    mapping = aes(x = time, y = values, groupby = caption),
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear
+  )
+
+  mappedData$dimensions$x <- "Time"
+  mappedData$units$x <- ""
+
+  result <- createDefaultPlotLabels(mappedData)
+  expect_equal(result$x, "Time")
+})
+
 test_that("metaData2DataFrame works correctly", {
   # Test with complete metadata
   metaData <- list(

@@ -19,6 +19,7 @@ testthat::test_that("validateFilename replaces forbidden characters and sets dev
   expect_equal(as.character(validateFilename("project:details", device = "pdf")), "project_details.pdf")
   expect_equal(as.character(validateFilename("invalid*filename?", device = NULL)), "invalid_filename_.png")
   expect_equal(as.character(validateFilename("<test>|doc.pdf", device = NULL)), "_test__doc.png")
+  expect_equal(as.character(validateFilename("path\\to\\file", device = NULL)), "path_to_file.png")
 })
 
 
@@ -130,6 +131,32 @@ test_that("exportPlot handles legend offsets", {
   expect_equal(widthNoLegend, expected = widthRightLegend)
   # High is adjusted
   expect_gt(heightNoLegend, expected = heightRightLegend)
+
+  filename <- "legendPlotBottom.png"
+
+  expect_silent(exportPlot(legendPlot + theme(legend.position = "bottom", legend.direction = "vertical"),
+    filepath = tempDir, filename = filename
+  ))
+
+  # dimensions for plot with legend on bottom
+  img <- png::readPNG(file.path(tempDir, filename))
+  heightBottomLegend <- dim(img)[1]
+
+  # height is adjusted for bottom legend
+  expect_lt(heightNoLegend, expected = heightBottomLegend)
+
+  filename <- "legendPlotLeft.png"
+
+  expect_silent(exportPlot(legendPlot + theme(legend.position = "left", legend.direction = "horizontal"),
+    filepath = tempDir, filename = filename
+  ))
+
+  # dimensions for plot with legend on left
+  img <- png::readPNG(file.path(tempDir, filename))
+  widthLeftLegend <- dim(img)[2]
+
+  # width stays the same for left legend
+  expect_equal(widthNoLegend, expected = widthLeftLegend)
 
 
   # Clean up

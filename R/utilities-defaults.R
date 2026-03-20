@@ -382,14 +382,8 @@ setOspsuite.plots.option <- function(optionKey, value) { # nolint
 
 
   if (is.null(value)) {
-    eval(parse(
-      text =
-        paste0(
-          "options(ospsuite.plots.",
-          optionKey,
-          " = NULL)"
-        )
-    ))
+    newOption <- stats::setNames(list(NULL), paste0("ospsuite.plots.", optionKey))
+    options(newOption)
   } else {
     newOption <- list()
     newOption[[paste0("ospsuite.plots.", optionKey)]] <- value

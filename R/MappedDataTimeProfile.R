@@ -376,15 +376,9 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
             stopIfNull = TRUE
           )
 
-          private$addOverwriteAes(eval(parse(
-            text = paste0(
-              "aes(",
-              aesthetic,
-              " = ",
-              aestheticCol,
-              ")"
-            )
-          )))
+          aesList <- list()
+          aesList[[aesthetic]] <- rlang::sym(aestheticCol)
+          private$addOverwriteAes(do.call(ggplot2::aes, aesList))
         }
       }
     },

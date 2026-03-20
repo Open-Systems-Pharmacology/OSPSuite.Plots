@@ -132,7 +132,7 @@ test_that("adjustForLLOQMatch works", {
     y = values,
     groupby = caption,
     error_relative = error_relative,
-    lloq = get('lloq')
+    lloq = get("lloq")
   )
 
   obsDataMatch <- MappedData$new(

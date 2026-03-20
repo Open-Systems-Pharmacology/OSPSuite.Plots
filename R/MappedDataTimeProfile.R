@@ -180,69 +180,10 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         dplyr::filter(!!self$mapping[["y2axis"]] == TRUE)
 
       # Create scaling functions based on axis scale combinations
-      # Four possible combinations: linear-linear, linear-log, log-linear, log-log
-      if (private$scaleOfSecondaryAxis == AxisScales$linear) {
-        if (private$scaleOfPrimaryAxis == AxisScales$linear) {
-          # Linear secondary to linear primary: simple linear transformation
-          offsetlin1 <- ylimits[1]
-          deltalin1 <- diff(ylimits)
+      scalingFunctions <- private$createScalingFunctions(ylimits, y2limits)
+      funScale <- scalingFunctions$funScale
+      funScaleAxis <- scalingFunctions$funScaleAxis
 
-          offsetlin2 <- y2limits[1]
-          deltalin2 <- diff(y2limits)
-
-          funScale <- function(y2) {
-            return((y2 - offsetlin2) / deltalin2 * deltalin1 + offsetlin1)
-          }
-
-          funScaleAxis <- function(ytrans) {
-            return((ytrans - offsetlin1) / deltalin1 * deltalin2 + offsetlin2)
-          }
-        } else if (private$scaleOfPrimaryAxis == AxisScales$log) {
-          offsetlin <- y2limits[1]
-          deltalin <- diff(y2limits)
-
-          offsetlog <- log(ylimits[1])
-          deltalog <- diff(log(ylimits))
-
-          funScale <- function(ylin) {
-            return(exp((ylin - offsetlin) / deltalin * deltalog + offsetlog))
-          }
-
-          funScaleAxis <- function(yt) {
-            return((log(yt) - offsetlog) / deltalog * deltalin + offsetlin)
-          }
-        }
-      } else if (private$scaleOfSecondaryAxis == AxisScales$log) {
-        if (private$scaleOfPrimaryAxis == AxisScales$linear) {
-          offsetlin <- ylimits[1]
-          deltalin <- diff(ylimits)
-
-          offsetlog <- log(y2limits[1])
-          deltalog <- diff(log(y2limits))
-
-          funScale <- function(ylog) {
-            return((log(ylog) - offsetlog) / deltalog * deltalin + offsetlin)
-          }
-
-          funScaleAxis <- function(ylin) {
-            return(exp((ylin - offsetlin) / deltalin * deltalog + offsetlog))
-          }
-        } else if (private$scaleOfPrimaryAxis == AxisScales$log) {
-          offsetlog1 <- log(ylimits[1])
-          deltalog1 <- diff(log(ylimits))
-
-          offsetlog2 <- log(y2limits[1])
-          deltalog2 <- diff(log(y2limits))
-
-          funScale <- function(y2) {
-            return(exp((log(y2) - offsetlog2) / deltalog2 * deltalog1 + offsetlog1))
-          }
-
-          funScaleAxis <- function(yt) {
-            return(exp((log(yt) - offsetlog1) / deltalog1 * deltalog2 + offsetlog2))
-          }
-        }
-      }
       # get data columns to scale
       scalingRelevantMappings <-
         listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic |>
@@ -437,6 +378,78 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
       }
 
       return(invisible(self))
+    },
+    #' Create scaling functions for dual-axis transformations
+    #'
+    #' Returns a named list with `funScale` (secondary-to-primary transformation)
+    #' and `funScaleAxis` (inverse transformation for the secondary axis labels).
+    #' Supports all four combinations of linear/log primary and secondary axes.
+    #'
+    #' @param ylimits numeric vector of length 2, limits of the primary axis
+    #' @param y2limits numeric vector of length 2, limits of the secondary axis
+    #'
+    #' @return named list with elements `funScale` and `funScaleAxis`
+    createScalingFunctions = function(ylimits, y2limits) {
+      if (private$scaleOfSecondaryAxis == AxisScales$linear) {
+        return(private$createScalingFunctionsLinearSecondary(ylimits, y2limits))
+      }
+      return(private$createScalingFunctionsLogSecondary(ylimits, y2limits))
+    },
+    #' Create scaling functions when secondary axis is linear
+    #'
+    #' @param ylimits numeric vector of length 2, limits of the primary axis
+    #' @param y2limits numeric vector of length 2, limits of the secondary axis
+    #'
+    #' @return named list with elements `funScale` and `funScaleAxis`
+    createScalingFunctionsLinearSecondary = function(ylimits, y2limits) {
+      offsetlin2 <- y2limits[1]
+      deltalin2 <- diff(y2limits)
+
+      if (private$scaleOfPrimaryAxis == AxisScales$linear) {
+        # Linear secondary to linear primary: simple linear transformation
+        offsetlin1 <- ylimits[1]
+        deltalin1 <- diff(ylimits)
+
+        funScale <- function(y2) (y2 - offsetlin2) / deltalin2 * deltalin1 + offsetlin1
+        funScaleAxis <- function(ytrans) (ytrans - offsetlin1) / deltalin1 * deltalin2 + offsetlin2
+      } else {
+        # Linear secondary to log primary
+        offsetlog <- log(ylimits[1])
+        deltalog <- diff(log(ylimits))
+
+        funScale <- function(ylin) exp((ylin - offsetlin2) / deltalin2 * deltalog + offsetlog)
+        funScaleAxis <- function(yt) (log(yt) - offsetlog) / deltalog * deltalin2 + offsetlin2
+      }
+
+      return(list(funScale = funScale, funScaleAxis = funScaleAxis))
+    },
+    #' Create scaling functions when secondary axis is log
+    #'
+    #' @param ylimits numeric vector of length 2, limits of the primary axis
+    #' @param y2limits numeric vector of length 2, limits of the secondary axis
+    #'
+    #' @return named list with elements `funScale` and `funScaleAxis`
+    createScalingFunctionsLogSecondary = function(ylimits, y2limits) {
+      offsetlog2 <- log(y2limits[1])
+      deltalog2 <- diff(log(y2limits))
+
+      if (private$scaleOfPrimaryAxis == AxisScales$linear) {
+        # Log secondary to linear primary
+        offsetlin <- ylimits[1]
+        deltalin <- diff(ylimits)
+
+        funScale <- function(ylog) (log(ylog) - offsetlog2) / deltalog2 * deltalin + offsetlin
+        funScaleAxis <- function(ylin) exp((ylin - offsetlin) / deltalin * deltalog2 + offsetlog2)
+      } else {
+        # Log secondary to log primary
+        offsetlog1 <- log(ylimits[1])
+        deltalog1 <- diff(log(ylimits))
+
+        funScale <- function(y2) exp((log(y2) - offsetlog2) / deltalog2 * deltalog1 + offsetlog1)
+        funScaleAxis <- function(yt) exp((log(yt) - offsetlog1) / deltalog1 * deltalog2 + offsetlog2)
+      }
+
+      return(list(funScale = funScale, funScaleAxis = funScaleAxis))
     }
   )
 )

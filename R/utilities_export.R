@@ -163,10 +163,10 @@ calculatePlotDimensions <- function(plotObject, width) {
   if (plotDim$legendHeight > 0) {
     legendPosition <- themeOfPlot$legend.position
     legendAddsToHeight <- as.numeric(
-      grepl(pattern = "top|bottom", x = legendPosition, ignore.case = TRUE)
+      any(grepl(pattern = "top|bottom", x = legendPosition, ignore.case = TRUE))
     )
     legendAddsToWidth <- as.numeric(
-      grepl(pattern = "left|right", x = legendPosition, ignore.case = TRUE)
+      any(grepl(pattern = "left|right", x = legendPosition, ignore.case = TRUE))
     )
   } else {
     legendAddsToHeight <- 0

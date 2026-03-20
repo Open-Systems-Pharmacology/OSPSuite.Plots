@@ -485,16 +485,12 @@ addComparisonLines <- function(
 
   # get data for lines
   if (any(!is.null(names(comparisonLineVector)))) {
-    lineData <- data.frame()
-    for (n in names(comparisonLineVector)) {
-      lineData <- rbind(
-        lineData,
-        data.frame(
-          value = comparisonLineVector[[n]],
-          name = n
-        )
+    lineData <- dplyr::bind_rows(lapply(names(comparisonLineVector), function(n) {
+      data.frame(
+        value = comparisonLineVector[[n]],
+        name = n
       )
-    }
+    }))
     lineData$name <- factor(
       lineData$name,
       levels = names(comparisonLineVector),

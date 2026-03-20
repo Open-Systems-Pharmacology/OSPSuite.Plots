@@ -4,7 +4,6 @@ test_that("adjustGroupAesthetics works", {
     dplyr::filter(Type == "simulated") |>
     dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
 
-
   mapping <- aes(
     x = time,
     y = values,
@@ -19,7 +18,8 @@ test_that("adjustGroupAesthetics works", {
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
 
-  expect_named(simDataMatch$mapping,
+  expect_named(
+    simDataMatch$mapping,
     expected = c("x", "y", "colour", "fill", "linetype", "shape", "group")
   )
 })
@@ -76,7 +76,8 @@ test_that("getAestheticsForGeom works", {
     geomAttributes = list()
   )
 
-  expect_named(lineMapping,
+  expect_named(
+    lineMapping,
     expected = c("colour", "group", "linetype", "x", "y")
   )
 })
@@ -89,7 +90,6 @@ test_that("adjustForLLOQMatch works", {
     dplyr::filter(Type == "observed") |>
     dplyr::filter(dimension == "concentration") |>
     dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
-
 
   obsAes <- aes(
     x = time,
@@ -107,7 +107,6 @@ test_that("adjustForLLOQMatch works", {
     groupAesthetics = c("colour", "fill", "linetype", "shape")
   )
 
-
   expect_true("isLLOQ.i" %in% names(obsDataMatch$data))
 
   expect_true(obsDataMatch$hasLLOQMatch)
@@ -117,7 +116,118 @@ test_that("adjustForLLOQMatch works", {
     geomAttributes = list()
   )
 
-  expect_equal(names(lloqMapping), expected = c("colour", "linetype", "yintercept"))
+  expect_equal(
+    names(lloqMapping),
+    expected = c("colour", "linetype", "yintercept")
+  )
+
+  expect_no_error(
+    ggplot(obsDataMatch$data, mapping = obsDataMatch$mapping) +
+      geom_hline(inherit.aes = TRUE)
+  )
+
+  # use string for lloq mapping
+  obsAes <- aes(
+    x = time,
+    y = values,
+    groupby = caption,
+    error_relative = error_relative,
+    lloq = get('lloq')
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    groupAesthetics = c("colour", "fill", "linetype", "shape")
+  )
+
+  expect_no_error(
+    ggplot(obsDataMatch$data, mapping = obsDataMatch$mapping) +
+      geom_hline(inherit.aes = TRUE)
+  )
+
+  # use function for lloq mapping
+  obsAes <- aes(
+    x = time,
+    y = values,
+    groupby = caption,
+    error_relative = error_relative,
+    lloq = 0.1 * values
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    groupAesthetics = c("colour", "fill", "linetype", "shape")
+  )
+
+  expect_no_error(
+    ggplot(obsDataMatch$data, mapping = obsDataMatch$mapping) +
+      geom_hline(inherit.aes = TRUE)
+  )
+})
+
+
+test_that("translateErrorAesthetics works with error_relative", {
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
+    dplyr::select(c("time", "values", "caption", "error_relative"))
+
+  obsAes <- aes(
+    x = time,
+    y = values,
+    groupby = caption,
+    error_relative = error_relative
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    groupAesthetics = c("colour", "fill", "linetype", "shape")
+  )
+
+  expect_true("error.min" %in% names(obsDataMatch$data))
+  expect_true("error.max" %in% names(obsDataMatch$data))
+  expect_true("ymin" %in% names(obsDataMatch$mapping))
+  expect_true("ymax" %in% names(obsDataMatch$mapping))
+})
+
+
+test_that("translateErrorAesthetics works with absolute error", {
+  testData <- data.frame(
+    time = c(1, 2, 3, 4, 5),
+    values = c(10, 8, 6, 5, 4),
+    error = c(1, 0.8, 0.6, 0.5, 0.4),
+    caption = rep("Test", 5)
+  )
+
+  testAes <- aes(
+    x = time,
+    y = values,
+    groupby = caption,
+    error = error
+  )
+
+  dataMatch <- MappedData$new(
+    data = testData,
+    mapping = testAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    groupAesthetics = c("colour", "fill", "linetype", "shape")
+  )
+
+  expect_true("error.min" %in% names(dataMatch$data))
+  expect_true("error.max" %in% names(dataMatch$data))
+  expect_true("ymin" %in% names(dataMatch$mapping))
+  expect_true("ymax" %in% names(dataMatch$mapping))
 })
 
 
@@ -129,7 +239,6 @@ test_that("adjustDataForMDV works", {
     dplyr::filter(dimension == "concentration") |>
     dplyr::select(c("time", "values", "caption"))
 
-
   obsData$mdv <- obsData$values > 2
 
   # Define Data Mapping
@@ -138,7 +247,6 @@ test_that("adjustDataForMDV works", {
     y = values,
     mdv = mdv
   )
-
 
   obsDataMatch <- MappedData$new(
     data = obsData,
@@ -165,24 +273,21 @@ test_that("adjust secondary y axis scaling works lin to lin", {
     y2axis = as.logical(y2axis)
   )
 
-
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
     data = obsData,
     xScale = AxisScales$linear,
-    scaleOfPrimaryAxis = AxisScales$linear, scaleOfSecondaryAxis = AxisScales$linear
+    scaleOfPrimaryAxis = AxisScales$linear,
+    scaleOfSecondaryAxis = AxisScales$linear
   )
   expect_true(dataMatch$requireDualAxis)
-  expect_equal(dataMatch$ylimits,
-    expected = range(obsData[y2axis == 0]$y)
-  )
-  expect_equal(dataMatch$y2limits,
-    expected = range(obsData[y2axis == 1]$y)
-  )
+  expect_equal(dataMatch$ylimits, expected = range(obsData[y2axis == 0]$y))
+  expect_equal(dataMatch$y2limits, expected = range(obsData[y2axis == 1]$y))
 
   dataMatch <- dataMatch$scaleDataForSecondaryAxis()
 
-  expect_equal(dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 1, ]$y,
+  expect_equal(
+    dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 1, ]$y,
     expected = dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 0, ]$y
   )
 })
@@ -194,30 +299,27 @@ test_that("adjust secondary y axis scaling works log to log", {
     y2axis = c(0, 0, 0, 1, 1, 1)
   )
 
-
   mapping <- aes(
     x = x,
     y = y,
     y2axis = as.logical(y2axis)
   )
 
-
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, xScale = AxisScales$linear, scaleOfPrimaryAxis = AxisScales$log, scaleOfSecondaryAxis = AxisScales$log
+    data = obsData,
+    xScale = AxisScales$linear,
+    scaleOfPrimaryAxis = AxisScales$log,
+    scaleOfSecondaryAxis = AxisScales$log
   )
   expect_true(dataMatch$requireDualAxis)
-  expect_equal(dataMatch$ylimits,
-    expected = range(obsData[y2axis == 0]$y)
-  )
-  expect_equal(dataMatch$y2limits,
-    expected = range(obsData[y2axis == 1]$y)
-  )
-
+  expect_equal(dataMatch$ylimits, expected = range(obsData[y2axis == 0]$y))
+  expect_equal(dataMatch$y2limits, expected = range(obsData[y2axis == 1]$y))
 
   dataMatch <- dataMatch$scaleDataForSecondaryAxis()
 
-  expect_equal(dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 1, ]$y,
+  expect_equal(
+    dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 1, ]$y,
     expected = dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 0, ]$y
   )
 })
@@ -229,31 +331,27 @@ test_that("adjust secondary y axis scaling works lin to log", {
     y2axis = c(0, 0, 0, 1, 1, 1)
   )
 
-
   mapping <- aes(
     x = x,
     y = y,
     y2axis = as.logical(y2axis)
   )
 
-
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
     xScale = AxisScales$linear,
-    data = obsData, scaleOfPrimaryAxis = AxisScales$log, scaleOfSecondaryAxis = AxisScales$linear
+    data = obsData,
+    scaleOfPrimaryAxis = AxisScales$log,
+    scaleOfSecondaryAxis = AxisScales$linear
   )
   expect_true(dataMatch$requireDualAxis)
-  expect_equal(dataMatch$ylimits,
-    expected = range(obsData[y2axis == 0]$y)
-  )
-  expect_equal(dataMatch$y2limits,
-    expected = range(obsData[y2axis == 1]$y)
-  )
-
+  expect_equal(dataMatch$ylimits, expected = range(obsData[y2axis == 0]$y))
+  expect_equal(dataMatch$y2limits, expected = range(obsData[y2axis == 1]$y))
 
   dataMatch <- dataMatch$scaleDataForSecondaryAxis()
 
-  expect_equal(dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 1, ]$y,
+  expect_equal(
+    dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 1, ]$y,
     expected = dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 0, ]$y
   )
 })
@@ -265,30 +363,27 @@ test_that("adjust secondary y axis scaling works log to lin", {
     y2axis = c(0, 0, 0, 1, 1, 1)
   )
 
-
   mapping <- aes(
     x = x,
     y = y,
     y2axis = as.logical(y2axis)
   )
 
-
   dataMatch <- MappedDataTimeProfile$new(
     mapping = mapping,
-    data = obsData, xScale = AxisScales$linear, scaleOfPrimaryAxis = AxisScales$linear, scaleOfSecondaryAxis = AxisScales$log
+    data = obsData,
+    xScale = AxisScales$linear,
+    scaleOfPrimaryAxis = AxisScales$linear,
+    scaleOfSecondaryAxis = AxisScales$log
   )
   expect_true(dataMatch$requireDualAxis)
-  expect_equal(dataMatch$ylimits,
-    expected = range(obsData[y2axis == 0]$y)
-  )
-  expect_equal(dataMatch$y2limits,
-    expected = range(obsData[y2axis == 1]$y)
-  )
-
+  expect_equal(dataMatch$ylimits, expected = range(obsData[y2axis == 0]$y))
+  expect_equal(dataMatch$y2limits, expected = range(obsData[y2axis == 1]$y))
 
   dataMatch <- dataMatch$scaleDataForSecondaryAxis()
 
-  expect_equal(dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 1, ]$y,
+  expect_equal(
+    dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 1, ]$y,
     expected = dataMatch$dataForPlot[dataMatch$dataForPlot$y2axis == 0, ]$y
   )
 })
@@ -297,7 +392,14 @@ test_that("grouping for simulation and observed works", {
   simData <- exampleDataTimeProfile |>
     dplyr::filter(Type == "simulated") |>
     dplyr::filter(SetID %in% c("DataSet1", "DataSet2", "DataSet3")) |>
-    dplyr::select(c("time", "values", "minValues", "maxValues", "caption", "dimension"))
+    dplyr::select(c(
+      "time",
+      "values",
+      "minValues",
+      "maxValues",
+      "caption",
+      "dimension"
+    ))
 
   simMappedData <- MappedDataTimeProfile$new(
     data = simData,
@@ -319,7 +421,9 @@ test_that("grouping for simulation and observed works", {
 
   expect_true(is.factor(simMappedData$dataForPlot$groupBy.i))
   expect_equal(
-    object = as.character(rlang::quo_get_expr(simMappedData$mapping[["group"]])),
+    object = as.character(rlang::quo_get_expr(simMappedData$mapping[[
+      "group"
+    ]])),
     expected = "groupBy.i"
   )
 
@@ -345,7 +449,6 @@ test_that("grouping for simulation and observed works", {
     fixed = TRUE
   )
 
-
   simMappedData <- MappedDataTimeProfile$new(
     data = simData[],
     mapping = mapping <- aes(
@@ -356,7 +459,12 @@ test_that("grouping for simulation and observed works", {
     groupAesthetics = c("colour", "fill", "linetype", "shape"),
     direction = "y",
     isObserved = FALSE,
-    groupOrder = c("Simulated Data 2.concentration", "Simulated Data 1.concentration", "simulated.concentration", "simulated.fraction"),
+    groupOrder = c(
+      "Simulated Data 2.concentration",
+      "Simulated Data 1.concentration",
+      "simulated.concentration",
+      "simulated.fraction"
+    ),
     scaleOfPrimaryAxis = AxisScales$linear,
     scaleOfSecondaryAxis = AxisScales$linear,
     ylimits = list(),
@@ -422,7 +530,10 @@ test_that("updateScaleArgumentsForTimeUnit works", {
   simDataMatch$dimensions$x <- "time"
   simDataMatch$units$x <- "h"
 
-  updatedScaleArgs <- simDataMatch$updateScaleArgumentsForTimeUnit(scaleArgs = list(), "x")
+  updatedScaleArgs <- simDataMatch$updateScaleArgumentsForTimeUnit(
+    scaleArgs = list(),
+    "x"
+  )
 
   expect_true("breaks" %in% names(updatedScaleArgs))
 })
@@ -462,4 +573,153 @@ test_that("adjustForResidualMatch works", {
 
   expect_true(obsDataMatch$hasResidualMapping)
   expect_true("residuals.i" %in% names(obsDataMatch$data))
+})
+
+test_that("adjustForLLOQMatch works for direction='x' (xintercept mapping)", {
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
+    dplyr::select(c("time", "values", "caption", "lloq"))
+
+  obsAes <- aes(
+    y = time,
+    x = values,
+    lloq = lloq
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    direction = "x"
+  )
+
+  expect_true("isLLOQ.i" %in% names(obsDataMatch$data))
+  expect_true(obsDataMatch$hasLLOQMatch)
+
+  # xintercept (not yintercept) must be in the hvline aesthetics
+  lloqMapping <- obsDataMatch$getAestheticsForGeom(
+    geom = "hvline",
+    geomAttributes = list()
+  )
+  expect_true("xintercept" %in% names(lloqMapping))
+})
+
+test_that("translateErrorAestethics creates ymin/ymax for absolute error", {
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
+    dplyr::select(c("time", "values", "caption")) |>
+    dplyr::mutate(err = abs(values) * 0.1)
+
+  obsAes <- aes(
+    x = time,
+    y = values,
+    error = err
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear
+  )
+
+  # error columns should be created
+  expect_true("error.min" %in% names(obsDataMatch$data))
+  expect_true("error.max" %in% names(obsDataMatch$data))
+
+  # ymin / ymax mappings must exist
+  expect_true("ymin" %in% names(obsDataMatch$mapping))
+  expect_true("ymax" %in% names(obsDataMatch$mapping))
+})
+
+test_that("translateErrorAestethics creates xmin/xmax for direction='x'", {
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
+    dplyr::select(c("time", "values", "caption")) |>
+    dplyr::mutate(err = abs(values) * 0.1)
+
+  obsAes <- aes(
+    y = time,
+    x = values,
+    error = err
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    direction = "x"
+  )
+
+  expect_true("xmin" %in% names(obsDataMatch$mapping))
+  expect_true("xmax" %in% names(obsDataMatch$mapping))
+})
+
+test_that("adjustForResidualMatch maps residuals to a custom aesthetic", {
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration")
+
+  obsAes <- aes(
+    x = time,
+    observed = values,
+    predicted = values
+  )
+
+  obsDataMatch <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    residualScale = ResidualScales$linear,
+    residualAesthetic = "y"
+  )
+
+  expect_true(obsDataMatch$hasResidualMapping)
+  expect_true("residuals.i" %in% names(obsDataMatch$data))
+  expect_true("y" %in% names(obsDataMatch$mapping))
+  expect_equal(
+    as.character(rlang::quo_get_expr(obsDataMatch$mapping[["y"]])),
+    "residuals.i"
+  )
+})
+
+test_that("checkForCallAesthetics in MappedDataTimeProfile resolves call aesthetics", {
+  obsData <- data.table::data.table(
+    x = c(1, 2, 3, 4),
+    conc = c(10, 20, 30, 40),
+    dose = c(2, 2, 2, 2),
+    y2axis = c(FALSE, FALSE, FALSE, FALSE)
+  )
+
+  # Use a call expression (conc / dose) as the y aesthetic
+  mapping <- aes(
+    x = x,
+    y = conc / dose,
+    y2axis = y2axis
+  )
+
+  dataMatch <- MappedDataTimeProfile$new(
+    data = obsData,
+    mapping = mapping,
+    xScale = AxisScales$linear,
+    scaleOfPrimaryAxis = AxisScales$linear,
+    scaleOfSecondaryAxis = AxisScales$linear
+  )
+
+  # The call aesthetic should have been materialised into a new column y.i
+  expect_true("y.i" %in% names(dataMatch$data))
+  expect_equal(
+    as.character(rlang::quo_get_expr(dataMatch$mapping[["y"]])),
+    "y.i"
+  )
 })

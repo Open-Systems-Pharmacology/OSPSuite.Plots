@@ -35,9 +35,7 @@
 #'     unit = "h"
 #'   )
 #' addXScale(plotObject = ggplot(), xScale = "linear", xScaleArgs = xScaleArgs)
-updateScaleArgumentsForTimeUnit <- function(scaleArgs,
-                                            dimension,
-                                            unit) {
+updateScaleArgumentsForTimeUnit <- function(scaleArgs, dimension, unit) {
   ## Validation
   checkmate::assertList(scaleArgs, null.ok = TRUE)
 
@@ -49,17 +47,14 @@ updateScaleArgumentsForTimeUnit <- function(scaleArgs,
   checkmate::assertCharacter(dimension, max.len = 1, null.ok = TRUE)
   checkmate::assertCharacter(unit, max.len = 1, null.ok = TRUE)
 
-
   if (is.null(dimension) | is.null(unit)) {
     return(scaleArgs)
   }
-
 
   # if x has no time Unit return
   if (tolower(dimension) != "time") {
     return(scaleArgs)
   }
-
 
   timeBreaks <- function(width) {
     function(x) {
@@ -74,7 +69,8 @@ updateScaleArgumentsForTimeUnit <- function(scaleArgs,
     }
   }
 
-  scaleArgs$breaks <- switch(tolower(unit),
+  scaleArgs$breaks <- switch(
+    tolower(unit),
     "s" = timeBreaks(15),
     "min" = timeBreaks(15),
     "h" = timeBreaks(6),
@@ -83,10 +79,8 @@ updateScaleArgumentsForTimeUnit <- function(scaleArgs,
     "month(s)" = timeBreaks(6)
   )
 
-
   # use minor steps 1
   scaleArgs$minor_breaks <- scales::breaks_width(1)
-
 
   return(scaleArgs)
 }
@@ -124,26 +118,39 @@ createDefaultPlotLabels <- function(mappedData) {
   # match mapping to axis
   matchList <- list(
     x = "x",
-    y = listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic,
+    y = listOfAesthetics[
+      which(listOfAesthetics$scalingRelevant >= 1),
+    ]$aesthetic,
     y2 = "y2"
   )
 
   # get Labels
-  plotLabels <- list()
-  for (labelEntry in names(matchList)) {
-    mapEntry <- intersect(
-      matchList[[labelEntry]],
-      names(mappedData$mapping)
-    )
-
-    for (aesthetic in mapEntry) {
-      dimension <- mappedData$dimensions[[aesthetic]]
-      unit <- mappedData$units[[aesthetic]]
-      if (!is.null(dimension)) {
-        plotLabels[[labelEntry]] <- constructLabelWithUnit(label = dimension, unit = unit)
+  # For each label entry, find the last aesthetic with a non-null dimension
+  # (later aesthetics in mapEntry override earlier ones, matching the original loop behavior)
+  plotLabels <- Filter(
+    Negate(is.null),
+    lapply(
+      setNames(names(matchList), names(matchList)),
+      function(labelEntry) {
+        mapEntry <- intersect(
+          matchList[[labelEntry]],
+          names(mappedData$mapping)
+        )
+        validDimensions <- Filter(
+          Negate(is.null),
+          mappedData$dimensions[mapEntry]
+        )
+        if (length(validDimensions) == 0) {
+          return(NULL)
+        }
+        aesthetic <- names(validDimensions)[length(validDimensions)]
+        constructLabelWithUnit(
+          label = validDimensions[[aesthetic]],
+          unit = mappedData$units[[aesthetic]]
+        )
       }
-    }
-  }
+    )
+  )
 
   return(plotLabels)
 }
@@ -167,15 +174,22 @@ createDefaultPlotLabels <- function(mappedData) {
 #' @export
 constructLabelWithUnit <- function(label, unit) {
   # Validate input arguments
-  if (is.factor(label)) label <- as.character(label)
-  if (is.double(label)) label <- as.character(label)
+  if (is.factor(label)) {
+    label <- as.character(label)
+  }
+  if (is.double(label)) {
+    label <- as.character(label)
+  }
   checkmate::assertCharacter(label, len = 1, null.ok = TRUE)
-  if (is.factor(unit)) unit <- as.character(unit)
+  if (is.factor(unit)) {
+    unit <- as.character(unit)
+  }
   checkmate::assertCharacter(unit, len = 1, null.ok = TRUE)
 
   if (!is.null(label) & !is.null(unit)) {
-    if (trimws(unit) != "") {
-      label <- paste0(trimws(label), " [", trimws(unit), "]")
+    trimmedUnit <- trimws(unit)
+    if (trimmedUnit != "") {
+      label <- paste0(trimws(label), " [", trimmedUnit, "]")
     } else {
       label <- trimws(label)
     }
@@ -199,20 +213,18 @@ metaData2DataFrame <- function(metaData) {
     return(metaDF)
   }
 
-  for (element in c("dimension", "unit")) {
-    tmp <- lapply(metaData, getElement, element) |>
-      lapply(function(x) {
-        ifelse(is.null(x), "", x)
-      }) |>
-      as.data.frame()
-    rownames(tmp) <- element
-
-    metaDF <- rbind(
-      metaDF,
+  metaDF <- do.call(
+    rbind,
+    lapply(c("dimension", "unit"), function(element) {
+      tmp <- lapply(metaData, getElement, element) |>
+        lapply(function(x) {
+          ifelse(is.null(x), "", x)
+        }) |>
+        as.data.frame()
+      rownames(tmp) <- element
       tmp
-    )
-  }
-
+    })
+  )
 
   return(metaDF)
 }
@@ -227,12 +239,13 @@ metaData2DataFrame <- function(metaData) {
 #'
 #' @return named list with fold distances
 #' @export
-getFoldDistanceList <- function(folds = c(1.5, 2),
-                                includeIdentity = TRUE) {
+getFoldDistanceList <- function(folds = c(1.5, 2), includeIdentity = TRUE) {
   checkmate::assertDouble(folds, null.ok = TRUE)
   if (!is.null(folds) && any(folds <= 1)) {
     stop(messages$errorFoldDistanceMustBeGreaterThanOne(folds[folds <= 1]))
   }
+  # make sure folds is unique
+  folds <- unique(folds)
 
   foldDistance <- list()
 
@@ -240,9 +253,13 @@ getFoldDistanceList <- function(folds = c(1.5, 2),
     foldDistance[["identity"]] <- 1
   }
 
-  for (fd in folds) {
-    foldDistance[[paste(fd, "fold")]] <- c(fd, 1 / fd)
-  }
+  foldDistance <- c(
+    foldDistance,
+    setNames(
+      lapply(folds, function(fd) c(fd, 1 / fd)),
+      paste(folds, "fold")
+    )
+  )
 
   return(foldDistance)
 }

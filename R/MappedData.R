@@ -2,8 +2,9 @@
 #' @description  R6 class for mapping  variables to `data`
 #' @export
 #' @family MappedData classes
+# nolint start
 MappedData <- R6::R6Class(
-  # nolint
+  # nolint end
   "MappedData",
   public = list(
     #' @field data data.frame used for mapping
@@ -455,28 +456,30 @@ MappedData <- R6::R6Class(
     },
     #' copy aesthetics `groupby`, but only if not explicit set
     adjustGroupAesthetics = function() {
-      if (!is.null(private$groupAesthetics)) {
-        newMapping <- list()
-        for (aesthetic in private$groupAesthetics) {
-          if (!private$aestheticExists(aesthetic)) {
-            newMapping[[aesthetic]] <- self$mapping$groupby
+      if (is.null(self$mapping$groupby)) {
+        return(invisible(self))
+      }
 
-            tmp <- private$getDataForAesthetic(aesthetic, stopIfNull = FALSE)
-            if (
-              !is.null(tmp) &&
-                !is.factor(tmp)
-            ) {
-              self$data |>
-                dplyr::mutate(
-                  !!self$mapping[[aesthetic]] := factor(
-                    !!self$mapping[[aesthetic]]
-                  )
+      newMapping <- list()
+      for (aesthetic in private$groupAesthetics) {
+        if (!private$aestheticExists(aesthetic)) {
+          newMapping[[aesthetic]] <- self$mapping$groupby
+
+          tmp <- private$getDataForAesthetic(aesthetic, stopIfNull = FALSE)
+          if (
+            !is.null(tmp) &&
+              !is.factor(tmp)
+          ) {
+            self$data <- self$data |>
+              dplyr::mutate(
+                !!self$mapping[[aesthetic]] := factor(
+                  !!self$mapping[[aesthetic]]
                 )
-            }
+              )
           }
         }
-        private$addOverwriteAes(newMapping)
       }
+      private$addOverwriteAes(newMapping)
       self$mapping$groupby <- NULL
 
       return(invisible(self))

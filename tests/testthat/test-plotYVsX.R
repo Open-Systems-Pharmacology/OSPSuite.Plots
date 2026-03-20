@@ -105,6 +105,33 @@ test_that("plotRatioVsCov works", {
   )
 })
 
+test_that("getCountsWithin returns NULL for NULL data early", {
+  expect_null(
+    ospsuite.plots:::getCountsWithin(
+      data = NULL,
+      mapping = aes(x = x, y = y),
+      comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
+      addGuestLimits = FALSE,
+      deltaGuest = 1,
+      yDisplayAsAbsolute = FALSE
+    )
+  )
+})
+
+test_that("getCountsWithin returns NULL for empty data early", {
+  emptyData <- data.frame(x = numeric(0), y = numeric(0))
+  expect_null(
+    ospsuite.plots:::getCountsWithin(
+      data = emptyData,
+      mapping = aes(x = x, y = y),
+      comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
+      addGuestLimits = FALSE,
+      deltaGuest = 1,
+      yDisplayAsAbsolute = FALSE
+    )
+  )
+})
+
 test_that("getCountsWithin works for Ratio", {
   pkRatioData <- exampleDataCovariates |>
     dplyr::filter(SetID == "DataSet1") |>
@@ -205,7 +232,7 @@ test_that("getCountsWithin works for Guest Criteria", {
 
   expect_equal(plotObjectUngrouped$countsWithin$Fraction, c(1, 0.6, 1))
 })
-test_that("adjust lines works withot error", {
+test_that("adjust lines works without error", {
   data <- exampleDataCovariates |>
     dplyr::filter(SetID == "DataSet2") |>
     dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex"))

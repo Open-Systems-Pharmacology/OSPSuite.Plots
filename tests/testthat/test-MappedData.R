@@ -24,6 +24,34 @@ test_that("adjustGroupAesthetics works", {
   )
 })
 
+test_that("adjustGroupAesthetics clears groupby when groupAesthetics is NULL", {
+  simData1 <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet1") |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "maxValues", "minValues", "caption"))
+
+  # When groupAesthetics = NULL is passed, the constructor always adds "group",
+  # so groupby is transferred to the group aesthetic and then cleared
+  mappingWithGroupby <- aes(
+    x = time,
+    y = values,
+    groupby = caption
+  )
+
+  simDataNoExtra <- MappedData$new(
+    data = simData1,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    mapping = mappingWithGroupby,
+    groupAesthetics = NULL
+  )
+
+  # groupby should be cleared from the mapping after adjustGroupAesthetics
+  expect_null(simDataNoExtra$mapping$groupby)
+  # group aesthetic should be present
+  expect_true("group" %in% names(simDataNoExtra$mapping))
+})
+
 
 test_that("getAestheticsForGeom works", {
   simData1 <- exampleDataTimeProfile |>
@@ -104,7 +132,7 @@ test_that("adjustForLLOQMatch works", {
     y = values,
     groupby = caption,
     error_relative = error_relative,
-    lloq = get('lloq')
+    lloq = get("lloq")
   )
 
   obsDataMatch <- MappedData$new(
@@ -579,7 +607,7 @@ test_that("adjustForLLOQMatch works for direction='x' (xintercept mapping)", {
   expect_true("xintercept" %in% names(lloqMapping))
 })
 
-test_that("translateErrorAestethics creates ymin/ymax for absolute error", {
+test_that("translateErrorAesthetics creates ymin/ymax for absolute error", {
   obsData <- exampleDataTimeProfile |>
     dplyr::filter(SetID == "DataSet3") |>
     dplyr::filter(Type == "observed") |>
@@ -609,7 +637,7 @@ test_that("translateErrorAestethics creates ymin/ymax for absolute error", {
   expect_true("ymax" %in% names(obsDataMatch$mapping))
 })
 
-test_that("translateErrorAestethics creates xmin/xmax for direction='x'", {
+test_that("translateErrorAesthetics creates xmin/xmax for direction='x'", {
   obsData <- exampleDataTimeProfile |>
     dplyr::filter(SetID == "DataSet3") |>
     dplyr::filter(Type == "observed") |>

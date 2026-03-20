@@ -367,86 +367,41 @@ MappedData <- R6::R6Class(
     #' adds new columns `ymin` and `ymax` if required
     translateErrorAesthetics = function() {
       if (
-        !private$aestheticExists(paste(private$direction, "min")) |
-          !private$aestheticExists(paste(private$direction, "max"))
+        private$aestheticExists(paste(private$direction, "min")) &&
+          private$aestheticExists(paste(private$direction, "max"))
       ) {
-        errorType <-
-          intersect(names(self$mapping), c("error", "error_relative"))
-        if (length(errorType) > 1) {
-          stop(messages$errorObservedDataMultipleErrorDefinitions(errorType))
-        }
-
-        if (
-          length(errorType) == 1 &&
-            !is.null(private$getDataForAesthetic(errorType, stopIfNull = FALSE))
-        ) {
-          newMapping <- list()
-
-          checkmate::assertNames(
-            names(self$data),
-            disjunct.from = c("error.min", "error.max"),
-            .var.name = "column names of data"
-          )
-
-          if (!private$aestheticExists(paste(private$direction, "min"))) {
-            if (errorType == "error") {
-              self$data <- self$data |>
-                dplyr::mutate(
-                  "error.min" = ifelse(
-                    !!self$mapping[[private$direction]] >
-                      !!self$mapping[[errorType]],
-                    !!self$mapping[[private$direction]] -
-                      !!self$mapping[[errorType]],
-                    !!self$mapping[[private$direction]]
-                  )
-                )
-            } else if (private$aestheticExists("error_relative")) {
-              self$data <- self$data |>
-                dplyr::mutate(
-                  "error.min" = !!self$mapping[[private$direction]] /
-                    !!self$mapping[[errorType]]
-                )
-            }
-            aesList <- list()
-            aesList[[paste0(private$direction, "min")]] <- rlang::sym(
-              "error.min"
-            )
-            newMapping <-
-              c(newMapping, do.call(ggplot2::aes, aesList))
-          }
-
-          if (!private$aestheticExists(paste(private$direction, "max"))) {
-            if (errorType == "error") {
-              self$data <- self$data |>
-                dplyr::mutate(
-                  "error.max" = !!self$mapping[[private$direction]] +
-                    !!self$mapping[[errorType]]
-                )
-            } else if (private$aestheticExists("error_relative")) {
-              self$data <- self$data |>
-                dplyr::mutate(
-                  "error.max" = !!self$mapping[[private$direction]] *
-                    !!self$mapping[[errorType]]
-                )
-            }
-
-            aesList <- list()
-            aesList[[paste0(private$direction, "max")]] <- rlang::sym(
-              "error.max"
-            )
-            newMapping <-
-              c(newMapping, do.call(ggplot2::aes, aesList))
-          }
-          private$addOverwriteAes(newMapping)
-
-          if (private$aestheticExists("error")) {
-            self$mapping$error <- NULL
-          }
-          if (private$aestheticExists("error_relative")) {
-            self$mapping$error_relative <- NULL
-          }
-        }
+        return(invisible(self))
       }
+
+      errorType <- intersect(names(self$mapping), c("error", "error_relative"))
+      if (length(errorType) > 1) {
+        stop(messages$errorObservedDataMultipleErrorDefinitions(errorType))
+      }
+
+      if (
+        length(errorType) != 1 ||
+          is.null(private$getDataForAesthetic(errorType, stopIfNull = FALSE))
+      ) {
+        return(invisible(self))
+      }
+
+      checkmate::assertNames(
+        names(self$data),
+        disjunct.from = c("error.min", "error.max"),
+        .var.name = "column names of data"
+      )
+
+      newMapping <- list()
+      if (!private$aestheticExists(paste(private$direction, "min"))) {
+        newMapping <- c(newMapping, private$computeMinErrorBound(errorType))
+      }
+      if (!private$aestheticExists(paste(private$direction, "max"))) {
+        newMapping <- c(newMapping, private$computeMaxErrorBound(errorType))
+      }
+      private$addOverwriteAes(newMapping)
+
+      if (private$aestheticExists("error")) self$mapping$error <- NULL
+      if (private$aestheticExists("error_relative")) self$mapping$error_relative <- NULL
 
       return(invisible(self))
     },
@@ -648,6 +603,55 @@ MappedData <- R6::R6Class(
       }
 
       return(invisible(self))
+    },
+    #' computes `error.min` column and returns mapping entry for direction min
+    #'
+    #' @param errorType character, either "error" or "error_relative"
+    #' @return named list with one mapping entry for the direction min aesthetic
+    computeMinErrorBound = function(errorType) {
+      if (errorType == "error") {
+        self$data <- self$data |>
+          dplyr::mutate(
+            "error.min" = ifelse(
+              !!self$mapping[[private$direction]] >
+                !!self$mapping[[errorType]],
+              !!self$mapping[[private$direction]] -
+                !!self$mapping[[errorType]],
+              !!self$mapping[[private$direction]]
+            )
+          )
+      } else if (private$aestheticExists("error_relative")) {
+        self$data <- self$data |>
+          dplyr::mutate(
+            "error.min" = !!self$mapping[[private$direction]] /
+              !!self$mapping[[errorType]]
+          )
+      }
+      aesList <- list()
+      aesList[[paste0(private$direction, "min")]] <- rlang::sym("error.min")
+      return(do.call(ggplot2::aes, aesList))
+    },
+    #' computes `error.max` column and returns mapping entry for direction max
+    #'
+    #' @param errorType character, either "error" or "error_relative"
+    #' @return named list with one mapping entry for the direction max aesthetic
+    computeMaxErrorBound = function(errorType) {
+      if (errorType == "error") {
+        self$data <- self$data |>
+          dplyr::mutate(
+            "error.max" = !!self$mapping[[private$direction]] +
+              !!self$mapping[[errorType]]
+          )
+      } else if (private$aestheticExists("error_relative")) {
+        self$data <- self$data |>
+          dplyr::mutate(
+            "error.max" = !!self$mapping[[private$direction]] *
+              !!self$mapping[[errorType]]
+          )
+      }
+      aesList <- list()
+      aesList[[paste0(private$direction, "max")]] <- rlang::sym("error.max")
+      return(do.call(ggplot2::aes, aesList))
     }
   )
 )

@@ -336,40 +336,22 @@ plotYVsX <- function(
 
   # add lloq lines
   if (mappedData$hasLLOQMatch) {
-    lloqDirs <- if (lloqOnBothAxes) {
-      c("y", "x")
-    } else {
-      observedDataDirection
-    }
-    for (dir in lloqDirs) {
-      lloqMappedData <- if (dir == observedDataDirection) {
-        mappedData
-      } else {
-        secondaryMapped <- MappedData$new(
-          data = data,
-          mapping = mapping,
-          xlimits = xScaleArgs$limits,
-          ylimits = yScaleArgs$limits,
-          direction = dir,
-          isObserved = TRUE,
-          groupAesthetics = groupAesthetics,
-          residualScale = residualScale,
-          residualAesthetic = "y",
-          xScale = xScale,
-          yScale = yScale
-        )
-        # isLLOQ.i is based on the observed-data axis
-        secondaryMapped$data$isLLOQ.i <- mappedData$data$isLLOQ.i
-        secondaryMapped
-      }
-      plotObject <- addLLOQLayer(
-        plotObject = plotObject,
-        mappedData = lloqMappedData,
-        layerToCall = if (dir == "x") geom_vline else geom_hline,
-        useLinetypeAsAttribute = "lloq" %in% names(mappedData$mapping),
-        geomLLOQAttributes = geomLLOQAttributes
-      )
-    }
+    lloqDirs <- if (lloqOnBothAxes) c("y", "x") else observedDataDirection
+    plotObject <- addLLOQLayers(
+      plotObject = plotObject,
+      mappedData = mappedData,
+      data = data,
+      mapping = mapping,
+      lloqDirs = lloqDirs,
+      observedDataDirection = observedDataDirection,
+      xScaleArgs = xScaleArgs,
+      yScaleArgs = yScaleArgs,
+      xScale = xScale,
+      yScale = yScale,
+      groupAesthetics = groupAesthetics,
+      residualScale = residualScale,
+      geomLLOQAttributes = geomLLOQAttributes
+    )
   }
 
   if (asSquarePlot) {
@@ -399,38 +381,13 @@ plotYVsX <- function(
   plotObject <- plotObject +
     guides(linetype = guide_legend(title = NULL, order = 1))
 
-  # fix order of linetype,
-
-  # first comparsion lines, then guest criteria, then any other
-  plotObjectBuild <- ggplot_build(plotObject)
-
-  if (any(plotObjectBuild$plot$scales$find("linetype"))) {
-    iScale <- which(plotObjectBuild$plot$scales$find("linetype"))
-    linetypeLabels <- plotObjectBuild$plot$scales$scales[[iScale]]$get_labels()
-
-    linetypes <- plotObjectBuild$plot$scales$scales[[iScale]]$palette(length(
-      linetypeLabels
-    ))
-
-    lineTypeNames <- names(comparisonLineVector)
-    if (addGuestLimits) {
-      lineTypeNames <- c(lineTypeNames, labelGuestCriteria)
-    }
-    lineTypeNames <- c(
-      lineTypeNames,
-      setdiff(
-        linetypeLabels,
-        lineTypeNames
-      )
-    )
-    names(linetypes) <- lineTypeNames
-    plotObject <- plotObject +
-      scale_linetype_manual(
-        values = linetypes,
-        breaks = names(linetypes),
-        guide = guide_legend(order = 10, title = NULL)
-      )
-  }
+  # fix order of linetype: first comparison lines, then guest criteria, then any other
+  plotObject <- adjustLinetypeScale(
+    plotObject = plotObject,
+    comparisonLineVector = comparisonLineVector,
+    addGuestLimits = addGuestLimits,
+    labelGuestCriteria = labelGuestCriteria
+  )
 
   # do quantification
   if (requireNamespace("data.table", quietly = TRUE)) {
@@ -443,6 +400,106 @@ plotYVsX <- function(
       yDisplayAsAbsolute = yDisplayAsAbsolute
     )
   }
+
+  return(plotObject)
+}
+#' Add LLOQ Lines to Plot
+#'
+#' Adds lower-limit-of-quantification (LLOQ) reference lines to the plot for
+#' each direction in `lloqDirs`. For the observed-data direction the existing
+#' `mappedData` is reused; for the opposite direction a new `MappedData` object
+#' is constructed and its `isLLOQ.i` column is synchronised from the primary one.
+#'
+#' @inheritParams plotYVsX
+#' @param mappedData MappedData object for observed direction
+#' @param lloqDirs character vector of directions to draw LLOQ lines for
+#' @param observedDataDirection direction of observed data, "x" or "y"
+#' @param xScaleArgs list of arguments for x scale
+#' @param yScaleArgs list of arguments for y scale
+#'
+#' @return updated `ggplot` object
+#' @keywords internal
+addLLOQLayers <- function(
+  plotObject,
+  mappedData,
+  data,
+  mapping,
+  lloqDirs,
+  observedDataDirection,
+  xScaleArgs,
+  yScaleArgs,
+  xScale,
+  yScale,
+  groupAesthetics,
+  residualScale,
+  geomLLOQAttributes
+) {
+  for (dir in lloqDirs) {
+    if (dir == observedDataDirection) {
+      lloqMappedData <- mappedData
+    } else {
+      lloqMappedData <- MappedData$new(
+        data = data,
+        mapping = mapping,
+        xlimits = xScaleArgs$limits,
+        ylimits = yScaleArgs$limits,
+        direction = dir,
+        isObserved = TRUE,
+        groupAesthetics = groupAesthetics,
+        residualScale = residualScale,
+        residualAesthetic = "y",
+        xScale = xScale,
+        yScale = yScale
+      )
+      # isLLOQ.i is based on the observed-data axis
+      lloqMappedData$data$isLLOQ.i <- mappedData$data$isLLOQ.i
+    }
+    plotObject <- addLLOQLayer(
+      plotObject = plotObject,
+      mappedData = lloqMappedData,
+      layerToCall = if (dir == "x") geom_vline else geom_hline,
+      useLinetypeAsAttribute = "lloq" %in% names(mappedData$mapping),
+      geomLLOQAttributes = geomLLOQAttributes
+    )
+  }
+  return(plotObject)
+}
+#' Adjust Linetype Scale Order in Plot
+#'
+#' Ensures comparison lines appear first, then guest criteria, then any
+#' other linetype labels in the legend.
+#'
+#' @inheritParams plotYVsX
+#' @param plotObject ggplot object to update
+#'
+#' @return updated `ggplot` object
+#' @keywords internal
+adjustLinetypeScale <- function(
+  plotObject,
+  comparisonLineVector,
+  addGuestLimits,
+  labelGuestCriteria
+) {
+  plotObjectBuild <- ggplot_build(plotObject)
+  if (!any(plotObjectBuild$plot$scales$find("linetype"))) {
+    return(plotObject)
+  }
+
+  iScale <- which(plotObjectBuild$plot$scales$find("linetype"))
+  linetypeLabels <- plotObjectBuild$plot$scales$scales[[iScale]]$get_labels()
+  linetypes <- plotObjectBuild$plot$scales$scales[[iScale]]$palette(length(linetypeLabels))
+
+  lineTypeNames <- names(comparisonLineVector)
+  if (addGuestLimits) lineTypeNames <- c(lineTypeNames, labelGuestCriteria)
+  lineTypeNames <- c(lineTypeNames, setdiff(linetypeLabels, lineTypeNames))
+
+  names(linetypes) <- lineTypeNames
+  plotObject <- plotObject +
+    scale_linetype_manual(
+      values = linetypes,
+      breaks = names(linetypes),
+      guide = guide_legend(order = 10, title = NULL)
+    )
 
   return(plotObject)
 }

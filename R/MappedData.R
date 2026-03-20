@@ -2,9 +2,9 @@
 #' @description  R6 class for mapping  variables to `data`
 #' @export
 #' @family MappedData classes
-#nolint start
+# nolint start
 MappedData <- R6::R6Class(
-  #nolint end
+  # nolint end
   "MappedData",
   public = list(
     #' @field data data.frame used for mapping
@@ -123,7 +123,7 @@ MappedData <- R6::R6Class(
         private$adjustForLLOQMatch()
       }
       # add ymin ymax aesthetic error and error_relative
-      private$translateErrorAestethics()
+      private$translateErrorAesthetics()
 
       # convert non factor integers to double
       private$convertIntegerToDouble()
@@ -369,7 +369,7 @@ MappedData <- R6::R6Class(
       return(invisible(self))
     },
     #' adds new columns `ymin` and `ymax` if required
-    translateErrorAestethics = function() {
+    translateErrorAesthetics = function() {
       if (
         !private$aestheticExists(paste(private$direction, "min")) |
           !private$aestheticExists(paste(private$direction, "max"))
@@ -456,8 +456,7 @@ MappedData <- R6::R6Class(
     },
     #' copy aesthetics `groupby`, but only if not explicit set
     adjustGroupAesthetics = function() {
-      if (is.null(private$groupAesthetics)) {
-        self$mapping$groupby <- NULL
+      if (is.null(self$mapping$groupby)) {
         return(invisible(self))
       }
 
@@ -471,7 +470,7 @@ MappedData <- R6::R6Class(
             !is.null(tmp) &&
               !is.factor(tmp)
           ) {
-            self$data |>
+            self$data <- self$data |>
               dplyr::mutate(
                 !!self$mapping[[aesthetic]] := factor(
                   !!self$mapping[[aesthetic]]

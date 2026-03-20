@@ -607,7 +607,7 @@ test_that("adjustForLLOQMatch works for direction='x' (xintercept mapping)", {
   expect_true("xintercept" %in% names(lloqMapping))
 })
 
-test_that("translateErrorAestethics creates ymin/ymax for absolute error", {
+test_that("translateErrorAesthetics creates ymin/ymax for absolute error", {
   obsData <- exampleDataTimeProfile |>
     dplyr::filter(SetID == "DataSet3") |>
     dplyr::filter(Type == "observed") |>
@@ -637,7 +637,7 @@ test_that("translateErrorAestethics creates ymin/ymax for absolute error", {
   expect_true("ymax" %in% names(obsDataMatch$mapping))
 })
 
-test_that("translateErrorAestethics creates xmin/xmax for direction='x'", {
+test_that("translateErrorAesthetics creates xmin/xmax for direction='x'", {
   obsData <- exampleDataTimeProfile |>
     dplyr::filter(SetID == "DataSet3") |>
     dplyr::filter(Type == "observed") |>

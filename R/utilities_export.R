@@ -162,14 +162,12 @@ calculatePlotDimensions <- function(plotObject, width) {
   # if legend is numeric, it is assumed the legend is within the panel
   if (plotDim$legendHeight > 0) {
     legendPosition <- themeOfPlot$legend.position
-    legendAddsToHeight <- as.numeric(any(
-      grepl(pattern = "Top", x = legendPosition, ignore.case = TRUE),
-      grepl(pattern = "Bottom", x = legendPosition, ignore.case = TRUE)
-    ))
-    legendAddsToWidth <- as.numeric(any(
-      grepl(pattern = "Left", x = legendPosition, ignore.case = TRUE),
-      grepl(pattern = "Right", x = legendPosition, ignore.case = TRUE)
-    ))
+    legendAddsToHeight <- as.numeric(
+      grepl(pattern = "top|bottom", x = legendPosition, ignore.case = TRUE)
+    )
+    legendAddsToWidth <- as.numeric(
+      grepl(pattern = "left|right", x = legendPosition, ignore.case = TRUE)
+    )
   } else {
     legendAddsToHeight <- 0
     legendAddsToWidth <- 0
@@ -327,11 +325,7 @@ validateFilename <- function(filename, device) {
   filename <- gsub("\u00B5", "u", filename, fixed = TRUE)
 
   # Replace forbidden characters with the replacement character
-  forbiddenChars <- c(":", "*", "?", "<", ">", "|", "\\", "/")
-  replacementChar <- "_"
-  for (char in forbiddenChars) {
-    filename <- gsub(char, replacementChar, filename, fixed = TRUE)
-  }
+  filename <- gsub("[*?<>|:\\\\/]", "_", filename)
 
   return(filename)
 }

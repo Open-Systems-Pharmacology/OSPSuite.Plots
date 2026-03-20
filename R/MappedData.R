@@ -152,11 +152,7 @@ MappedData <- R6::R6Class(
         geom,
         subset.of = setdiff(
           unique(
-            gsub(
-              "_y",
-              "",
-              gsub("_x", "", names(listOfAesthetics))
-            )
+            gsub("_[xy]", "", names(listOfAesthetics))
           ),
           c("aesthetic", "source", "scalingRelevant")
         )

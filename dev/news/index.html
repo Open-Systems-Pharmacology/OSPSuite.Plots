@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9012</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9013</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="minor-improvements-and-bug-fixes-development-version">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-development-version"></a></h3>
-<ul><li>Fixed <code><a href="../reference/plotYVsX.html">plotYVsX()</a></code> LLOQ layer using wrong geom when <code>observedDataDirection = "y"</code>. The LLOQ line now correctly uses <code>geom_hline</code> for y-direction and <code>geom_vline</code> for x-direction (#78).</li>
+<ul><li>Added <code>DefaultPercentiles</code> option key (<code>OptionKeys$DefaultPercentiles</code>, default <code>c(0.05, 0.5, 0.95)</code>) as the canonical default for plot functions that use three percentiles. <code><a href="../reference/plotRangeDistribution.html">plotRangeDistribution()</a></code> now uses this key instead of indexing into <code>OptionKeys$Percentiles</code> (#101).</li>
+<li>Fixed <code><a href="../reference/plotYVsX.html">plotYVsX()</a></code> LLOQ layer using wrong geom when <code>observedDataDirection = "y"</code>. The LLOQ line now correctly uses <code>geom_hline</code> for y-direction and <code>geom_vline</code> for x-direction (#78).</li>
 <li>Added <code>lloqOnBothAxes</code> parameter to <code><a href="../reference/plotYVsX.html">plotYVsX()</a></code> to optionally draw LLOQ lines on both axes (#78).</li>
 <li>Fixed duplicate legend in <code><a href="../reference/plotTimeProfile.html">plotTimeProfile()</a></code> when mixing observed and simulated data. Shape and fill guides are now suppressed only when they were autoexpanded from <code>groupby</code>, preserving explicit user-defined mappings (#76).</li>
 </ul></div>

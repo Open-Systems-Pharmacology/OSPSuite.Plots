@@ -12,6 +12,12 @@
 
 ### Minor improvements and bug fixes
 
+- Added `DefaultPercentiles` option key
+  (`OptionKeys$DefaultPercentiles`, default `c(0.05, 0.5, 0.95)`) as the
+  canonical default for plot functions that use three percentiles.
+  [`plotRangeDistribution()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotRangeDistribution.md)
+  now uses this key instead of indexing into `OptionKeys$Percentiles`
+  (#101).
 - Fixed
   [`plotYVsX()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotYVsX.md)
   LLOQ layer using wrong geom when `observedDataDirection = "y"`. The

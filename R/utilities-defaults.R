@@ -294,6 +294,8 @@ getDefaultOptions <- function() {
     ospsuite.plots.LLOQLineType = "dashed",
     # percentiles
     ospsuite.plots.Percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+    # default percentiles (subset of Percentiles used as default in plot functions)
+    ospsuite.plots.DefaultPercentiles = c(0.05, 0.5, 0.95),
     # Type of geom_point
     ospsuite.plots.GeomPointUnicode = FALSE,
     # used for plot export

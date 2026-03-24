@@ -1,4 +1,5 @@
 #' List of functions and strings used to signal error messages and warnings
+#' @keywords internal
 messages <- list()
 
 messages$errorFoldDistanceMustBeGreaterThanOne <- function(folds) {

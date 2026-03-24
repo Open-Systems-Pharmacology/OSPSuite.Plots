@@ -7,6 +7,7 @@
 
 ## Minor improvements and bug fixes
 
+- Added `DefaultPercentiles` option key (`OptionKeys$DefaultPercentiles`, default `c(0.05, 0.5, 0.95)`) as the canonical default for plot functions that use three percentiles. `plotRangeDistribution()` now uses this key instead of indexing into `OptionKeys$Percentiles` (#101).
 - Fixed `plotYVsX()` LLOQ layer using wrong geom when `observedDataDirection = "y"`. The LLOQ line now correctly uses `geom_hline` for y-direction and `geom_vline` for x-direction (#78).
 - Added `lloqOnBothAxes` parameter to `plotYVsX()` to optionally draw LLOQ lines on both axes (#78).
 - Fixed duplicate legend in `plotTimeProfile()` when mixing observed and simulated data. Shape and fill guides are now suppressed only when they were autoexpanded from `groupby`, preserving explicit user-defined mappings (#76).

@@ -32,7 +32,7 @@ plotRangeDistribution <- function(data,
                                   breaks = NA,
                                   asStepPlot = FALSE,
                                   statFun = NULL,
-                                  percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles)[c(1, 3, 5)],
+                                  percentiles = getOspsuite.plots.option(optionKey = OptionKeys$DefaultPercentiles),
                                   yScale = "linear",
                                   yScaleArgs = list(), # nolint
                                   xScale = "linear",

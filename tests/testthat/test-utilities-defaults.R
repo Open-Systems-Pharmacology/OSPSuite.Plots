@@ -64,18 +64,34 @@ test_that("getDefaultOptions returns complete options list", {
   expect_type(optionsList, "list")
   expect_true(length(optionsList) > 0)
 
-  # Test presence of key options
+  # Test presence of all camelCase key options (verifies the renaming)
   expectedOptions <- c(
     "ospsuite.plots.watermarkLabel",
+    "ospsuite.plots.watermarkFormat",
     "ospsuite.plots.geomLineAttributes",
     "ospsuite.plots.geomPointAttributes",
-    "ospsuite.plots.alpha"
+    "ospsuite.plots.alpha",
+    "ospsuite.plots.lloqAlphaVector",
+    "ospsuite.plots.lloqLineType",
+    "ospsuite.plots.percentiles",
+    "ospsuite.plots.geomPointUnicode",
+    "ospsuite.plots.exportWidth",
+    "ospsuite.plots.exportUnits",
+    "ospsuite.plots.exportDevice",
+    "ospsuite.plots.exportDpi"
   )
   expect_true(all(expectedOptions %in% names(optionsList)))
 
-  # Test specific default values
+  # Test specific default values for the renamed keys
   expect_equal(optionsList$ospsuite.plots.watermarkLabel, "preliminary analysis")
   expect_equal(optionsList$ospsuite.plots.alpha, 0.5)
+  expect_equal(optionsList$ospsuite.plots.lloqLineType, "dashed")
+  expect_equal(optionsList$ospsuite.plots.percentiles, c(0.05, 0.25, 0.5, 0.75, 0.95))
+  expect_false(optionsList$ospsuite.plots.geomPointUnicode)
+  expect_equal(optionsList$ospsuite.plots.exportWidth, 16)
+  expect_equal(optionsList$ospsuite.plots.exportUnits, "cm")
+  expect_equal(optionsList$ospsuite.plots.exportDevice, "png")
+  expect_equal(optionsList$ospsuite.plots.exportDpi, 300)
 })
 
 test_that("setDefaultColorMapDistinct works correctly", {

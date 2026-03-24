@@ -13,7 +13,7 @@ plotRangeDistribution(
   breaks = NA,
   asStepPlot = FALSE,
   statFun = NULL,
-  percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles)[c(1, 3, 5)],
+  percentiles = getOspsuite.plots.option(optionKey = OptionKeys$percentiles)[c(1, 3, 5)],
   yScale = "linear",
   yScaleArgs = list(),
   xScale = "linear",

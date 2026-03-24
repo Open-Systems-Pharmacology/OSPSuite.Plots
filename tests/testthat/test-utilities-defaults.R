@@ -22,12 +22,12 @@ test_that("getDefaultGeomAttributes works correctly", {
 test_that("getOspsuite.plots.option works correctly", {
   # Test getting watermark option when it's set
   # Set it first since it's no longer in defaults
-  setOspsuite.plots.option("watermark_enabled", TRUE)
-  watermarkEnabled <- getOspsuite.plots.option("watermark_enabled")
+  setOspsuite.plots.option("watermarkEnabled", TRUE)
+  watermarkEnabled <- getOspsuite.plots.option("watermarkEnabled")
   expect_type(watermarkEnabled, "logical")
 
   # Test getting watermark label
-  watermarkLabel <- getOspsuite.plots.option("watermark_label")
+  watermarkLabel <- getOspsuite.plots.option("watermarkLabel")
   expect_type(watermarkLabel, "character")
   expect_equal(watermarkLabel, "preliminary analysis")
 
@@ -37,23 +37,23 @@ test_that("getOspsuite.plots.option works correctly", {
 
 test_that("setOspsuite.plots.option works correctly", {
   # Test setting a valid option
-  setOspsuite.plots.option("watermark_enabled", TRUE)
-  originalValue <- getOspsuite.plots.option("watermark_enabled")
-  setOspsuite.plots.option("watermark_enabled", FALSE)
-  newValue <- getOspsuite.plots.option("watermark_enabled")
+  setOspsuite.plots.option("watermarkEnabled", TRUE)
+  originalValue <- getOspsuite.plots.option("watermarkEnabled")
+  setOspsuite.plots.option("watermarkEnabled", FALSE)
+  newValue <- getOspsuite.plots.option("watermarkEnabled")
   expect_false(newValue)
 
   # Reset to original value
-  setOspsuite.plots.option("watermark_enabled", originalValue)
+  setOspsuite.plots.option("watermarkEnabled", originalValue)
 
   # Test setting NULL value clears the option
-  setOspsuite.plots.option("watermark_enabled", NULL)
-  clearedValue <- getOspsuite.plots.option("watermark_enabled")
-  # watermark_enabled has no default, so cleared value should be NULL
+  setOspsuite.plots.option("watermarkEnabled", NULL)
+  clearedValue <- getOspsuite.plots.option("watermarkEnabled")
+  # watermarkEnabled has no default, so cleared value should be NULL
   expect_null(clearedValue)
 
   # Reset for other tests
-  setOspsuite.plots.option("watermark_enabled", TRUE)
+  setOspsuite.plots.option("watermarkEnabled", TRUE)
 
   # Test error for invalid option key
   expect_error(setOspsuite.plots.option("invalid_option", TRUE))
@@ -66,16 +66,30 @@ test_that("getDefaultOptions returns complete options list", {
 
   # Test presence of key options
   expectedOptions <- c(
-    "ospsuite.plots.watermark_label",
+    "ospsuite.plots.watermarkLabel",
     "ospsuite.plots.geomLineAttributes",
     "ospsuite.plots.geomPointAttributes",
-    "ospsuite.plots.Alpha"
+    "ospsuite.plots.alpha",
+    "ospsuite.plots.legendPosition"
   )
   expect_true(all(expectedOptions %in% names(optionsList)))
 
   # Test specific default values
-  expect_equal(optionsList$ospsuite.plots.watermark_label, "preliminary analysis")
-  expect_equal(optionsList$ospsuite.plots.Alpha, 0.5)
+  expect_equal(optionsList$ospsuite.plots.watermarkLabel, "preliminary analysis")
+  expect_equal(optionsList$ospsuite.plots.alpha, 0.5)
+  expect_equal(optionsList$ospsuite.plots.legendPosition, "right")
+})
+
+test_that("legendPosition option affects the theme", {
+  # Test default legend position
+  expect_equal(getOspsuite.plots.option("legendPosition"), "right")
+
+  # Test that setting legendPosition works
+  setOspsuite.plots.option("legendPosition", "top")
+  expect_equal(getOspsuite.plots.option("legendPosition"), "top")
+
+  # Reset
+  setOspsuite.plots.option("legendPosition", "right")
 })
 
 test_that("setDefaultColorMapDistinct works correctly", {

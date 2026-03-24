@@ -3,8 +3,8 @@
 OptionKeys <- enum(c( # nolint
   gsub("ospsuite.plots.", "", names(getDefaultOptions())),
   "shapeValues",
-  # Manually include watermark_enabled because it has no default value
-  "watermark_enabled"
+  # Manually include watermarkEnabled because it has no default value
+  "watermarkEnabled"
 ))
 
 #' @title enumeration keys for OSPSuite.plots scaling options for axis scalings

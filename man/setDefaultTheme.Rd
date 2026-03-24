@@ -16,7 +16,7 @@ This function applies a custom theme based on theme_bw() with OSPSuite-specific 
 \examples{
 \dontrun{
 # Set watermark option first (required)
-options(ospsuite.plots.watermark_enabled = TRUE)
+options(ospsuite.plots.watermarkEnabled = TRUE)
 
 # Save current theme and set OSPSuite default
 oldTheme <- setDefaultTheme()

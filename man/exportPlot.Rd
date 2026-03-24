@@ -25,7 +25,7 @@ exportPlot(
 
 \item{height}{A numeric value specifying the height of the plot. If NULL, it is calculated based on the plot dimensions.}
 
-\item{device}{Export device, if NULL (default) the device set by ospsuite.plots.export.device is used.}
+\item{device}{Export device, if NULL (default) the device set by ospsuite.plots.exportDevice is used.}
 
 \item{...}{Additional arguments passed to \code{ggsave}.}
 }
@@ -46,10 +46,10 @@ The function ensures that the height is adjusted to maintain the correct aspect 
 
 Options available for plot export with default values:
 \itemize{
-\item \code{ospsuite.plots.export.width}: Width of the exported plot (default = 16).
-\item \code{ospsuite.plots.export.units}: Units of the exported plot (default = "cm").
-\item \code{ospsuite.plots.export.device}: File format of the exported plot (default = "png").
-\item \code{ospsuite.plots.export.dpi}: Resolution of the exported plot (default = 300).
+\item \code{ospsuite.plots.exportWidth}: Width of the exported plot (default = 16).
+\item \code{ospsuite.plots.exportUnits}: Units of the exported plot (default = "cm").
+\item \code{ospsuite.plots.exportDevice}: File format of the exported plot (default = "png").
+\item \code{ospsuite.plots.exportDpi}: Resolution of the exported plot (default = 300).
 }
 
 For more details and examples see the vignettes:
@@ -60,7 +60,7 @@ For more details and examples see the vignettes:
 \examples{
 \dontrun{
 # Set watermark option first (required)
-options(ospsuite.plots.watermark_enabled = TRUE)
+options(ospsuite.plots.watermarkEnabled = TRUE)
 
 # Basic usage
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +

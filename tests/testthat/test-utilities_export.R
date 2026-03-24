@@ -231,7 +231,7 @@ test_that("exportPlot uses export options correctly", {
   width <- dim(img)[2]
   height <- dim(img)[1]
 
-  setOspsuite.plots.option(optionKey = OptionKeys$export.units, value = "mm")
+  setOspsuite.plots.option(optionKey = OptionKeys$exportUnits, value = "mm")
 
   expect_silent(exportPlot(testPlot,
     filepath = tempDir,
@@ -247,12 +247,12 @@ test_that("exportPlot uses export options correctly", {
   expect_equal(heightmm, expected = height)
 
   setOspsuite.plots.option(
-    optionKey = OptionKeys$export.units,
-    value = getDefaultOptions()[[OptionKeys$export.width]]
+    optionKey = OptionKeys$exportUnits,
+    value = getDefaultOptions()[[OptionKeys$exportWidth]]
   )
 
   # test dpi
-  setOspsuite.plots.option(optionKey = OptionKeys$export.dpi, value = 150)
+  setOspsuite.plots.option(optionKey = OptionKeys$exportDpi, value = 150)
 
   expect_silent(exportPlot(testPlot,
     filepath = tempDir,
@@ -264,12 +264,12 @@ test_that("exportPlot uses export options correctly", {
 
   expect_equal(width / widthdpi, expected = 2, tolerance = 0.01)
   setOspsuite.plots.option(
-    optionKey = OptionKeys$export.dpi,
-    value = getDefaultOptions()[[OptionKeys$export.dpi]]
+    optionKey = OptionKeys$exportDpi,
+    value = getDefaultOptions()[[OptionKeys$exportDpi]]
   )
 
   # Check if the file was created with correct device
-  options(ospsuite.plots.export.device = "pdf")
+  options(ospsuite.plots.exportDevice = "pdf")
   expect_silent(exportPlot(testPlot,
     filepath = tempDir,
     filename = filename
@@ -281,8 +281,8 @@ test_that("exportPlot uses export options correctly", {
   )))
 
   setOspsuite.plots.option(
-    optionKey = OptionKeys$export.device,
-    value = getDefaultOptions()[[OptionKeys$export.device]]
+    optionKey = OptionKeys$exportDevice,
+    value = getDefaultOptions()[[OptionKeys$exportDevice]]
   )
 
   # Clean up

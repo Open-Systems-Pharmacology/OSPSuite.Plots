@@ -74,6 +74,7 @@ test_that("getDefaultOptions returns complete options list", {
     "ospsuite.plots.lloqAlphaVector",
     "ospsuite.plots.lloqLineType",
     "ospsuite.plots.percentiles",
+    "ospsuite.plots.defaultPercentiles",
     "ospsuite.plots.geomPointUnicode",
     "ospsuite.plots.exportWidth",
     "ospsuite.plots.exportUnits",
@@ -92,6 +93,10 @@ test_that("getDefaultOptions returns complete options list", {
   expect_equal(
     optionsList$ospsuite.plots.percentiles,
     c(0.05, 0.25, 0.5, 0.75, 0.95)
+  )
+  expect_equal(
+    optionsList$ospsuite.plots.defaultPercentiles,
+    c(0.05, 0.5, 0.95)
   )
   expect_false(optionsList$ospsuite.plots.geomPointUnicode)
   expect_equal(optionsList$ospsuite.plots.exportWidth, 16)

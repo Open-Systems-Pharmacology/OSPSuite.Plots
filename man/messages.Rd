@@ -13,4 +13,4 @@ messages
 \description{
 List of functions and strings used to signal error messages and warnings
 }
-\keyword{datasets}
+\keyword{internal}

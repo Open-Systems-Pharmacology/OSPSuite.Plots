@@ -69,27 +69,13 @@ test_that("getDefaultOptions returns complete options list", {
     "ospsuite.plots.watermarkLabel",
     "ospsuite.plots.geomLineAttributes",
     "ospsuite.plots.geomPointAttributes",
-    "ospsuite.plots.alpha",
-    "ospsuite.plots.legendPosition"
+    "ospsuite.plots.alpha"
   )
   expect_true(all(expectedOptions %in% names(optionsList)))
 
   # Test specific default values
   expect_equal(optionsList$ospsuite.plots.watermarkLabel, "preliminary analysis")
   expect_equal(optionsList$ospsuite.plots.alpha, 0.5)
-  expect_equal(optionsList$ospsuite.plots.legendPosition, "right")
-})
-
-test_that("legendPosition option affects the theme", {
-  # Test default legend position
-  expect_equal(getOspsuite.plots.option("legendPosition"), "right")
-
-  # Test that setting legendPosition works
-  setOspsuite.plots.option("legendPosition", "top")
-  expect_equal(getOspsuite.plots.option("legendPosition"), "top")
-
-  # Reset
-  setOspsuite.plots.option("legendPosition", "right")
 })
 
 test_that("setDefaultColorMapDistinct works correctly", {

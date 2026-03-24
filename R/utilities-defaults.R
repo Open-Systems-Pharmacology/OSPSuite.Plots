@@ -25,7 +25,7 @@
 setDefaultTheme <- function() {
   themeNew <- theme_bw() +
     theme(
-      legend.position = getOspsuite.plots.option(optionKey = OptionKeys$legendPosition),
+      legend.position = "right",
       legend.direction = "vertical",
       legend.justification = 0.5,
       plot.title = element_text(
@@ -294,8 +294,6 @@ getDefaultOptions <- function() {
     ospsuite.plots.percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
     # Type of geom_point
     ospsuite.plots.geomPointUnicode = FALSE,
-    # legend position
-    ospsuite.plots.legendPosition = "right",
     # used for plot export
     ospsuite.plots.exportWidth = 16,
     ospsuite.plots.exportUnits = "cm",

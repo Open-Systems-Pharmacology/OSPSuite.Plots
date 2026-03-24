@@ -64,7 +64,7 @@ test_that("getDefaultOptions returns complete options list", {
   expect_type(optionsList, "list")
   expect_true(length(optionsList) > 0)
 
-  # Test presence of all camelCase key options (verifies the renaming)
+  # Test presence of all key options (verifies the renaming)
   expectedOptions <- c(
     "ospsuite.plots.watermarkLabel",
     "ospsuite.plots.watermarkFormat",
@@ -83,15 +83,25 @@ test_that("getDefaultOptions returns complete options list", {
   expect_true(all(expectedOptions %in% names(optionsList)))
 
   # Test specific default values for the renamed keys
-  expect_equal(optionsList$ospsuite.plots.watermarkLabel, "preliminary analysis")
+  expect_equal(
+    optionsList$ospsuite.plots.watermarkLabel,
+    "preliminary analysis"
+  )
   expect_equal(optionsList$ospsuite.plots.alpha, 0.5)
   expect_equal(optionsList$ospsuite.plots.lloqLineType, "dashed")
-  expect_equal(optionsList$ospsuite.plots.percentiles, c(0.05, 0.25, 0.5, 0.75, 0.95))
+  expect_equal(
+    optionsList$ospsuite.plots.percentiles,
+    c(0.05, 0.25, 0.5, 0.75, 0.95)
+  )
   expect_false(optionsList$ospsuite.plots.geomPointUnicode)
   expect_equal(optionsList$ospsuite.plots.exportWidth, 16)
   expect_equal(optionsList$ospsuite.plots.exportUnits, "cm")
   expect_equal(optionsList$ospsuite.plots.exportDevice, "png")
   expect_equal(optionsList$ospsuite.plots.exportDpi, 300)
+  expect_equal(
+    optionsList$ospsuite.plots.lloqAlphaVector,
+    c('TRUE' = 0.3, 'FALSE' = 1)
+  )
 })
 
 test_that("setDefaultColorMapDistinct works correctly", {

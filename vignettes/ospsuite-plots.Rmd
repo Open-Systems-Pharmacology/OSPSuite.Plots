@@ -311,7 +311,7 @@ With default options:
 
 ## 2.5.3 Options to Set Defaults for Aesthetics
 
-Options to set the face alpha of ribbons filled points and options to set the filled points for values below and above LLOQ.
+Options to set the face alpha of ribbons, filled points and options to set the filled points for values below and above LLOQ.
 
 ```{r default-aesthetics, eval=FALSE}
 # Default alpha = 0.5
@@ -326,7 +326,35 @@ getOspsuite.plots.option(optionKey = "lloqAlphaVector")
 getOspsuite.plots.option(optionKey = "lloqLineType")
 ```
 
-## 2.5.4 Options to Define Export Format
+## 2.5.4 Options for Box-Whisker Percentiles
+
+The default percentiles used by `plotBoxWhisker()` are stored as an option and can be changed globally:
+
+- `percentiles`: A numeric vector of five quantiles defining the lower whisker, lower box, median, upper box, and upper whisker (default = `c(0.05, 0.25, 0.5, 0.75, 0.95)`).
+
+```{r default-percentiles, eval=FALSE}
+# Get current default percentiles
+getOspsuite.plots.option(optionKey = OptionKeys$percentiles)
+
+# Change default percentiles globally
+setOspsuite.plots.option(optionKey = OptionKeys$percentiles, value = c(0.1, 0.25, 0.5, 0.75, 0.9))
+```
+
+## 2.5.5 Option for Unicode Point Mode
+
+The `geomPointUnicode` option controls whether `ospsuite.plots` functions use the Unicode-aware `geomPointUnicode()` geom instead of the standard `geom_point()` when plotting points. This is set internally when calling `setDefaults(pointAsUnicode = TRUE/FALSE)`.
+
+- `geomPointUnicode`: Logical, default `FALSE`. When `TRUE`, Unicode symbols are used for plot points (requires the `{showtext}` package; see Section 6.2).
+
+```{r geom-point-unicode-option, eval=FALSE}
+# Check current mode
+getOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode)
+
+# Enable Unicode point mode globally (equivalent to setDefaults(pointAsUnicode = TRUE))
+setOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode, value = TRUE)
+```
+
+## 2.5.6 Options to Define Export Format
 
 There are options to define the export format using the function `exportPlot` (see details below):
 

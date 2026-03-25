@@ -50,6 +50,15 @@ test_that("addLayer adds a layer to the ggplot object", {
   expect_contains(names(updatedPlot@layers), "geom_point")
 })
 
+test_that("addLayer with LLOQ data adds alpha scale using lloqAlphaVector option", {
+  plotObject <- ggplot() +
+    geom_blank()
+  # addLayer with point geom and LLOQ data exercises OptionKeys$lloqAlphaVector
+  updatedPlot <- addLayer(mappedDataLLOQ, geomAttributes = list(), geom = "point", plotObject, layerToCall = geom_point)
+  expect_contains(names(updatedPlot@layers), "geom_point")
+  expect_no_error(print(updatedPlot))
+})
+
 # Test for addLLOQLayer
 test_that("addLLOQLayer adds LLOQ lines to the ggplot object", {
   plotObject <- ggplot() +
@@ -59,8 +68,17 @@ test_that("addLLOQLayer adds LLOQ lines to the ggplot object", {
   expect_length(names(updatedPlot@layers), 1)
   expect_no_error(print(updatedPlot))
 
-  # mappedData with LLOQ adds lloq line
+  # mappedData with LLOQ adds lloq line (exercises OptionKeys$lloqLineType via scale_linetype_manual)
   updatedPlot <- addLLOQLayer(plotObject, mappedDataLLOQ, layerToCall = geom_hline, useLinetypeAsAttribute = FALSE, geomLLOQAttributes = list())
+  expect_contains(names(updatedPlot@layers), "geom_hline")
+  expect_no_error(print(updatedPlot))
+})
+
+test_that("addLLOQLayer with useLinetypeAsAttribute=TRUE exercises lloqLineType option", {
+  plotObject <- ggplot() +
+    geom_blank()
+  # useLinetypeAsAttribute = TRUE exercises OptionKeys$lloqLineType in the attribute path
+  updatedPlot <- addLLOQLayer(plotObject, mappedDataLLOQ, layerToCall = geom_hline, useLinetypeAsAttribute = TRUE, geomLLOQAttributes = list())
   expect_contains(names(updatedPlot@layers), "geom_hline")
   expect_no_error(print(updatedPlot))
 })

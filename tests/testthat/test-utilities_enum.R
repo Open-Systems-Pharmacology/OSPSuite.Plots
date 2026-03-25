@@ -11,8 +11,12 @@ test_that("OptionKeys enum works correctly", {
   # Names and values should be identical for enum structure
   expect_equal(names(OptionKeys), unlist(OptionKeys, use.names = FALSE))
 
-  # Should include shapeValues as mentioned in the code
+  # Should include shapeValues and watermarkEnabled as mentioned in the code
   expect_true("shapeValues" %in% names(OptionKeys))
+  expect_true("watermarkEnabled" %in% names(OptionKeys))
+
+  # All keys should be camelCase (no underscores or dots)
+  expect_false(any(grepl("[_.]", names(OptionKeys))))
 })
 
 test_that("AxisScales enum works correctly", {

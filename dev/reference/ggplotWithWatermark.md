@@ -31,9 +31,9 @@ determined by options set in the Ospsuite plotting configuration.
 
 The following options can be used to customize the watermark:
 
-- `watermark_label`: Text to be displayed as the watermark.
+- `watermarkLabel`: Text to be displayed as the watermark.
 
-- `watermark_format`: A list with the following entries:
+- `watermarkFormat`: A list with the following entries:
 
   - `x`: The x-coordinate for the watermark's position on the plot.
 
@@ -61,7 +61,7 @@ Other watermark:
 
 ``` r
 # Set watermark option first (required)
-options(ospsuite.plots.watermark_enabled = TRUE)
+options(ospsuite.plots.watermarkEnabled = TRUE)
 
 # Example usage with watermark enabled
 plotWithWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
@@ -70,30 +70,30 @@ print(plotWithWatermark)
 
 
 # Example usage with watermark disabled
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = FALSE)
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = FALSE)
 plotWithoutWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
   geom_point()
 print(plotWithoutWatermark)
 
 # Reset options
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 
 # Example usage with customized watermark
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "Custom Label")
-watermark_format <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
-watermark_format$color <- "red"
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = watermark_format)
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = "Custom Label")
+watermarkFormat <- getOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat)
+watermarkFormat$color <- "red"
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat, value = watermarkFormat)
 plotWithCustomizedWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
   geom_point()
 print(plotWithCustomizedWatermark)
 
 # Reset options
 setOspsuite.plots.option(
-  optionKey = OptionKeys$watermark_format,
-  value = getDefaultOptions()[[OptionKeys$watermark_format]]
+  optionKey = OptionKeys$watermarkFormat,
+  value = getDefaultOptions()[[OptionKeys$watermarkFormat]]
 )
 setOspsuite.plots.option(
-  optionKey = OptionKeys$watermark_label,
-  value = getDefaultOptions()[[OptionKeys$watermark_label]]
+  optionKey = OptionKeys$watermarkLabel,
+  value = getDefaultOptions()[[OptionKeys$watermarkLabel]]
 )
 ```

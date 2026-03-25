@@ -15,7 +15,7 @@ plotBoxWhisker(
   mapping,
   metaData = NULL,
   plotObject = NULL,
-  percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles),
+  percentiles = getOspsuite.plots.option(optionKey = OptionKeys$percentiles),
   yScale = AxisScales$linear,
   yScaleArgs = list(),
   xScale = "auto",
@@ -140,7 +140,7 @@ Other plot functions:
 ``` r
 if (FALSE) { # \dontrun{
 # Set watermark option first (required)
-options(ospsuite.plots.watermark_enabled = TRUE)
+options(ospsuite.plots.watermarkEnabled = TRUE)
 
 # Basic box-whisker plot
 plotBoxWhisker(

@@ -38,9 +38,7 @@ Other setDefault functions:
 ``` r
 if (FALSE) { # \dontrun{
 # Set watermark option first (required)
-options(ospsuite.plots.watermark_enabled = TRUE)
-
-# Save current theme and set OSPSuite default
+options(ospsuite.plots.watermarkEnabled = TRUE)
 oldTheme <- setDefaultTheme()
 
 # Create a plot with the new theme

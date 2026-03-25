@@ -44,7 +44,7 @@ exportPlot(
 - device:
 
   Export device, if NULL (default) the device set by
-  ospsuite.plots.export.device is used.
+  ospsuite.plots.exportDevice is used.
 
 - ...:
 
@@ -70,17 +70,17 @@ The calculation takes into account:
 
 Options available for plot export with default values:
 
-- `ospsuite.plots.export.width`: Width of the exported plot (default =
+- `ospsuite.plots.exportWidth`: Width of the exported plot (default =
   16).
 
-- `ospsuite.plots.export.units`: Units of the exported plot (default =
+- `ospsuite.plots.exportUnits`: Units of the exported plot (default =
   "cm").
 
-- `ospsuite.plots.export.device`: File format of the exported plot
+- `ospsuite.plots.exportDevice`: File format of the exported plot
   (default = "png").
 
-- `ospsuite.plots.export.dpi`: Resolution of the exported plot (default
-  = 300).
+- `ospsuite.plots.exportDpi`: Resolution of the exported plot (default =
+  300).
 
 For more details and examples see the vignettes:
 
@@ -91,7 +91,7 @@ For more details and examples see the vignettes:
 ``` r
 if (FALSE) { # \dontrun{
 # Set watermark option first (required)
-options(ospsuite.plots.watermark_enabled = TRUE)
+options(ospsuite.plots.watermarkEnabled = TRUE)
 
 # Basic usage
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +

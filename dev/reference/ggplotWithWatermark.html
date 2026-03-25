@@ -9,7 +9,7 @@ The watermark can be customized with various options such as position, angle, fo
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9013</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9014</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,8 +75,8 @@ The watermark can be customized with various options such as position, angle, fo
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>If the watermark feature is enabled, the resulting ggplot object will include a watermark overlay when printed.
 The watermark's properties are determined by options set in the Ospsuite plotting configuration.</p>
-<p>The following options can be used to customize the watermark:</p><ul><li><p><code>watermark_label</code>: Text to be displayed as the watermark.</p></li>
-<li><p><code>watermark_format</code>: A list with the following entries:</p><ul><li><p><code>x</code>: The x-coordinate for the watermark's position on the plot.</p></li>
+<p>The following options can be used to customize the watermark:</p><ul><li><p><code>watermarkLabel</code>: Text to be displayed as the watermark.</p></li>
+<li><p><code>watermarkFormat</code>: A list with the following entries:</p><ul><li><p><code>x</code>: The x-coordinate for the watermark's position on the plot.</p></li>
 <li><p><code>y</code>: The y-coordinate for the watermark's position on the plot.</p></li>
 <li><p><code>angle</code>: The angle at which the watermark text is displayed (in degrees).</p></li>
 <li><p><code>fontsize</code>: The size of the font for the watermark text.</p></li>
@@ -95,7 +95,7 @@ The watermark's properties are determined by options set in the Ospsuite plottin
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Set watermark option first (required)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermark_enabled <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermarkEnabled <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example usage with watermark enabled</span></span></span>
 <span class="r-in"><span><span class="va">plotWithWatermark</span> <span class="op">&lt;-</span> <span class="fu">ggplotWithWatermark</span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
@@ -104,31 +104,31 @@ The watermark's properties are determined by options set in the Ospsuite plottin
 <span class="r-plt img"><img src="ggplotWithWatermark-1.png" alt="" width="960" height="593"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example usage with watermark disabled</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_enabled</span>, value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkEnabled</span>, value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">plotWithoutWatermark</span> <span class="op">&lt;-</span> <span class="fu">ggplotWithWatermark</span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plotWithoutWatermark</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="ggplotWithWatermark-2.png" alt="" width="960" height="593"></span>
 <span class="r-in"><span><span class="co"># Reset options</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_enabled</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkEnabled</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example usage with customized watermark</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_label</span>, value <span class="op">=</span> <span class="st">"Custom Label"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">watermark_format</span> <span class="op">&lt;-</span> <span class="fu"><a href="getOspsuite.plots.option.html">getOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_format</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">watermark_format</span><span class="op">$</span><span class="va">color</span> <span class="op">&lt;-</span> <span class="st">"red"</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_format</span>, value <span class="op">=</span> <span class="va">watermark_format</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkLabel</span>, value <span class="op">=</span> <span class="st">"Custom Label"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">watermarkFormat</span> <span class="op">&lt;-</span> <span class="fu"><a href="getOspsuite.plots.option.html">getOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkFormat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">watermarkFormat</span><span class="op">$</span><span class="va">color</span> <span class="op">&lt;-</span> <span class="st">"red"</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkFormat</span>, value <span class="op">=</span> <span class="va">watermarkFormat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">plotWithCustomizedWatermark</span> <span class="op">&lt;-</span> <span class="fu">ggplotWithWatermark</span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plotWithCustomizedWatermark</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="ggplotWithWatermark-3.png" alt="" width="960" height="593"></span>
 <span class="r-in"><span><span class="co"># Reset options</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_format</span>,</span></span>
-<span class="r-in"><span>  value <span class="op">=</span> <span class="fu"><a href="getDefaultOptions.html">getDefaultOptions</a></span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_format</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkFormat</span>,</span></span>
+<span class="r-in"><span>  value <span class="op">=</span> <span class="fu"><a href="getDefaultOptions.html">getDefaultOptions</a></span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkFormat</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_label</span>,</span></span>
-<span class="r-in"><span>  value <span class="op">=</span> <span class="fu"><a href="getDefaultOptions.html">getDefaultOptions</a></span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_label</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkLabel</span>,</span></span>
+<span class="r-in"><span>  value <span class="op">=</span> <span class="fu"><a href="getDefaultOptions.html">getDefaultOptions</a></span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkLabel</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>

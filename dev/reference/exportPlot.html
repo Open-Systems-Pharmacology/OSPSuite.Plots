@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9013</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9014</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,7 +89,7 @@
 
 
 <dt id="arg-device">device<a class="anchor" aria-label="anchor" href="#arg-device"></a></dt>
-<dd><p>Export device, if NULL (default) the device set by ospsuite.plots.export.device is used.</p></dd>
+<dd><p>Export device, if NULL (default) the device set by ospsuite.plots.exportDevice is used.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -106,10 +106,10 @@
 <li><p>The number of rows and columns in the plot layout.</p></li>
 <li><p>The dimensions of plot components such as axes, legends, and margins.
 The function ensures that the height is adjusted to maintain the correct aspect ratio based on the specified width.</p></li>
-</ul><p>Options available for plot export with default values:</p><ul><li><p><code>ospsuite.plots.export.width</code>: Width of the exported plot (default = 16).</p></li>
-<li><p><code>ospsuite.plots.export.units</code>: Units of the exported plot (default = "cm").</p></li>
-<li><p><code>ospsuite.plots.export.device</code>: File format of the exported plot (default = "png").</p></li>
-<li><p><code>ospsuite.plots.export.dpi</code>: Resolution of the exported plot (default = 300).</p></li>
+</ul><p>Options available for plot export with default values:</p><ul><li><p><code>ospsuite.plots.exportWidth</code>: Width of the exported plot (default = 16).</p></li>
+<li><p><code>ospsuite.plots.exportUnits</code>: Units of the exported plot (default = "cm").</p></li>
+<li><p><code>ospsuite.plots.exportDevice</code>: File format of the exported plot (default = "png").</p></li>
+<li><p><code>ospsuite.plots.exportDpi</code>: Resolution of the exported plot (default = 300).</p></li>
 </ul><p>For more details and examples see the vignettes:</p><ul><li><p><code>vignette("ospsuite.plots", package = "ospsuite.plots")</code></p></li>
 </ul></div>
 
@@ -117,7 +117,7 @@ The function ensures that the height is adjusted to maintain the correct aspect 
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># Set watermark option first (required)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermark_enabled <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermarkEnabled <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Basic usage</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>

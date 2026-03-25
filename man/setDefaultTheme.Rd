@@ -17,8 +17,6 @@ This function applies a custom theme based on theme_bw() with OSPSuite-specific 
 \dontrun{
 # Set watermark option first (required)
 options(ospsuite.plots.watermarkEnabled = TRUE)
-
-# Save current theme and set OSPSuite default
 oldTheme <- setDefaultTheme()
 
 # Create a plot with the new theme

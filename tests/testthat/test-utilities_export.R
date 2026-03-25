@@ -301,7 +301,7 @@ test_that("exportPlot uses export options correctly", {
   )
 
   # Check if the file was created with correct device
-  options(ospsuite.plots.exportDevice = "pdf")
+  setOspsuite.plots.option(optionKey = OptionKeys$exportDevice, value = "pdf")
   expect_silent(exportPlot(testPlot, filepath = tempDir, filename = filename))
 
   expect_true(file.exists(file.path(

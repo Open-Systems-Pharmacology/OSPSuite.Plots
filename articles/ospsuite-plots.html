@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,8 +99,8 @@ scales.</p>
 <p>Examples within this vignette are plotted using the following test
 data:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">testData</span> <span class="op">&lt;-</span> <span class="va">exampleDataCovariates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SetID</span> <span class="op">==</span> <span class="st">"DataSet1"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">testData</span> <span class="op">&lt;-</span> <span class="va">exampleDataCovariates</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SetID</span> <span class="op">==</span> <span class="st">"DataSet1"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Age"</span>, <span class="st">"Obs"</span>, <span class="st">"Pred"</span>, <span class="st">"Sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">testData</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
@@ -176,7 +176,7 @@ data:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>tag <span class="op">=</span> <span class="st">"B"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/default-layout-comparison-1.png" alt="Two plots comparing default ggplot styling (A) versus ospsuite.plots styling (B). Plot A shows a histogram with default ggplot formatting. Plot B shows a scatter plot with customized colors, shapes, and legend positioning demonstrating enhanced styling capabilities." width="80%" style="display: block; margin: auto;"><img src="ospsuite-plots_files/figure-html/default-layout-comparison-2.png" alt="Two plots comparing default ggplot styling (A) versus ospsuite.plots styling (B). Plot A shows a histogram with default ggplot formatting. Plot B shows a scatter plot with customized colors, shapes, and legend positioning demonstrating enhanced styling capabilities." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/default-layout-comparison-1.png" class="r-plt" alt="Two plots comparing default ggplot styling (A) versus ospsuite.plots styling (B). Plot A shows a histogram with default ggplot formatting. Plot B shows a scatter plot with customized colors, shapes, and legend positioning demonstrating enhanced styling capabilities." width="80%" style="display: block; margin: auto;"><img src="ospsuite-plots_files/figure-html/default-layout-comparison-2.png" class="r-plt" alt="Two plots comparing default ggplot styling (A) versus ospsuite.plots styling (B). Plot A shows a histogram with default ggplot formatting. Plot B shows a scatter plot with customized colors, shapes, and legend positioning demonstrating enhanced styling capabilities." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="set-ospsuite-plots-layout">2.1.2 Set ospsuite.plots Layout<a class="anchor" aria-label="anchor" href="#set-ospsuite-plots-layout"></a>
@@ -199,7 +199,7 @@ described below.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>tag <span class="op">=</span> <span class="st">"B"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/set-ospsuite-defaults-1.png" alt="Two plots showing the effect of setting ospsuite.plots defaults. Plot A shows a histogram with ospsuite.plots styling applied. Plot B shows a scatter plot that now automatically adopts the ospsuite.plots theme, colors, shapes, and formatting after setDefaults() is called." width="80%" style="display: block; margin: auto;"><img src="ospsuite-plots_files/figure-html/set-ospsuite-defaults-2.png" alt="Two plots showing the effect of setting ospsuite.plots defaults. Plot A shows a histogram with ospsuite.plots styling applied. Plot B shows a scatter plot that now automatically adopts the ospsuite.plots theme, colors, shapes, and formatting after setDefaults() is called." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/set-ospsuite-defaults-1.png" class="r-plt" alt="Two plots showing the effect of setting ospsuite.plots defaults. Plot A shows a histogram with ospsuite.plots styling applied. Plot B shows a scatter plot that now automatically adopts the ospsuite.plots theme, colors, shapes, and formatting after setDefaults() is called." width="80%" style="display: block; margin: auto;"><img src="ospsuite-plots_files/figure-html/set-ospsuite-defaults-2.png" class="r-plt" alt="Two plots showing the effect of setting ospsuite.plots defaults. Plot A shows a histogram with ospsuite.plots styling applied. Plot B shows a scatter plot that now automatically adopts the ospsuite.plots theme, colors, shapes, and formatting after setDefaults() is called." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="reset-to-previously-saved-layout">2.1.3 Reset to Previously Saved Layout<a class="anchor" aria-label="anchor" href="#reset-to-previously-saved-layout"></a>
@@ -216,7 +216,7 @@ described below.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>tag <span class="op">=</span> <span class="st">"B"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/reset-to-previous-defaults-1.png" alt="Two plots demonstrating resetting to previously saved layout defaults. Plot A shows the histogram reverting to original default styling after resetDefaults() is called. Plot B shows the scatter plot also returning to the original ggplot defaults, confirming that the layout reset worked correctly." width="80%" style="display: block; margin: auto;"><img src="ospsuite-plots_files/figure-html/reset-to-previous-defaults-2.png" alt="Two plots demonstrating resetting to previously saved layout defaults. Plot A shows the histogram reverting to original default styling after resetDefaults() is called. Plot B shows the scatter plot also returning to the original ggplot defaults, confirming that the layout reset worked correctly." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/reset-to-previous-defaults-1.png" class="r-plt" alt="Two plots demonstrating resetting to previously saved layout defaults. Plot A shows the histogram reverting to original default styling after resetDefaults() is called. Plot B shows the scatter plot also returning to the original ggplot defaults, confirming that the layout reset worked correctly." width="80%" style="display: block; margin: auto;"><img src="ospsuite-plots_files/figure-html/reset-to-previous-defaults-2.png" class="r-plt" alt="Two plots demonstrating resetting to previously saved layout defaults. Plot A shows the histogram reverting to original default styling after resetDefaults() is called. Plot B shows the scatter plot also returning to the original ggplot defaults, confirming that the layout reset worked correctly." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level3">
@@ -273,13 +273,13 @@ and <code>colour</code>.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Default settings for up to 6 different colors"</span>, tag <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>, axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/default-color-settings-6colors-1.png" alt="Tile plot demonstrating default color settings for up to 6 different colors. The plot shows a 3x2 grid of colored tiles, each representing a different discrete color from the default ospsuite.plots color palette for small categorical datasets." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/default-color-settings-6colors-1.png" class="r-plt" alt="Tile plot demonstrating default color settings for up to 6 different colors. The plot shows a 3x2 grid of colored tiles, each representing a different discrete color from the default ospsuite.plots color palette for small categorical datasets." width="80%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">7</span><span class="op">)</span>, <span class="fl">7</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">7</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">7</span><span class="op">)</span>, <span class="fl">8</span>, <span class="fl">8</span><span class="op">)</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">51</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Default settings for more than 6 different colors"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>, axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/default-color-settings-many-colors-1.png" alt="Tile plot demonstrating default color settings for more than 6 different colors. The plot shows a 7x7 grid plus 2 additional tiles (51 total), illustrating how ospsuite.plots handles large categorical datasets by cycling through and extending the color palette." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/default-color-settings-many-colors-1.png" class="r-plt" alt="Tile plot demonstrating default color settings for more than 6 different colors. The plot shows a 7x7 grid plus 2 additional tiles (51 total), illustrating how ospsuite.plots handles large categorical datasets by cycling through and extending the color palette." width="80%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Customize colors: set to gray colors</span></span>
 <span><span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/setDefaultColorMapDistinct.html">setDefaultColorMapDistinct</a></span><span class="op">(</span><span class="va">colorMaps</span><span class="op">[[</span><span class="st">"grays"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
@@ -288,14 +288,14 @@ and <code>colour</code>.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>, axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"colorMaps gray"</span>, tag <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/customize-colors-gray-1.png" alt="Tile plot demonstrating customized gray color palette. The plot shows a 3x3 grid of tiles using grayscale colors from the ospsuite.plots colorMaps gray palette, illustrating how to apply monochromatic color schemes for accessibility or publication requirements." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/customize-colors-gray-1.png" class="r-plt" alt="Tile plot demonstrating customized gray color palette. The plot shows a 3x3 grid of tiles using grayscale colors from the ospsuite.plots colorMaps gray palette, illustrating how to apply monochromatic color schemes for accessibility or publication requirements." width="80%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>, axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_grey.html" class="external-link">scale_fill_grey</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"scale_fill_grey"</span>, tag <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/ggplot-scale-fill-grey-1.png" alt="Tile plot using ggplot2's built-in scale_fill_grey() function. The plot shows a 3x3 grid of tiles demonstrating how to override ospsuite.plots defaults with standard ggplot2 gray scale functions for individual plots." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/ggplot-scale-fill-grey-1.png" class="r-plt" alt="Tile plot using ggplot2's built-in scale_fill_grey() function. The plot shows a 3x3 grid of tiles demonstrating how to override ospsuite.plots defaults with standard ggplot2 gray scale functions for individual plots." width="80%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set to color palettes inspired by plots in Lancet journals</span></span>
 <span><span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/setDefaultColorMapDistinct.html">setDefaultColorMapDistinct</a></span><span class="op">(</span><span class="fu">ggsci</span><span class="fu">::</span><span class="fu"><a href="https://nanx.me/ggsci/reference/pal_lancet.html" class="external-link">pal_lancet</a></span><span class="op">(</span><span class="op">)</span><span class="op">(</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
@@ -304,7 +304,7 @@ and <code>colour</code>.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>, axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"ggsci::pal_lancet"</span>, tag <span class="op">=</span> <span class="st">"E"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/ggsci-lancet-colors-1.png" alt="Tile plot using ggsci Lancet journal color palette. The plot shows a 3x3 grid of tiles demonstrating how to set ospsuite.plots defaults to use professional journal color schemes inspired by The Lancet publication style." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/ggsci-lancet-colors-1.png" class="r-plt" alt="Tile plot using ggsci Lancet journal color palette. The plot shows a 3x3 grid of tiles demonstrating how to set ospsuite.plots defaults to use professional journal color schemes inspired by The Lancet publication style." width="80%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set to color palettes inspired by plots in Lancet journals</span></span>
 <span><span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/setDefaultColorMapDistinct.html">setDefaultColorMapDistinct</a></span><span class="op">(</span><span class="fu">ggsci</span><span class="fu">::</span><span class="fu"><a href="https://nanx.me/ggsci/reference/pal_lancet.html" class="external-link">pal_lancet</a></span><span class="op">(</span><span class="op">)</span><span class="op">(</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
@@ -314,7 +314,7 @@ and <code>colour</code>.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>, axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggsci</span><span class="fu">::</span><span class="fu"><a href="https://nanx.me/ggsci/reference/scale_lancet.html" class="external-link">scale_color_lancet</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"ggsci::scale_color_lancet"</span>, tag <span class="op">=</span> <span class="st">"F"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/ggsci-color-lancet-override-1.png" alt="Tile plot using ggsci Lancet color palette with scale override. The plot shows a 3x3 grid of tiles demonstrating how to use ggsci::scale_color_lancet() to override the default color mapping for individual plots while maintaining the Lancet color scheme." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/ggsci-color-lancet-override-1.png" class="r-plt" alt="Tile plot using ggsci Lancet color palette with scale override. The plot shows a 3x3 grid of tiles demonstrating how to use ggsci::scale_color_lancet() to override the default color mapping for individual plots while maintaining the Lancet color scheme." width="80%" style="display: block; margin: auto;"></p>
 <div class="section level4">
 <h4 id="reset-to-previously-saved-color-map">Reset to Previously Saved Color Map<a class="anchor" aria-label="anchor" href="#reset-to-previously-saved-color-map"></a>
 </h4>
@@ -334,7 +334,7 @@ are called by <code><a href="../reference/setDefaults.html">setDefaults()</a></c
 <code>ospsuite.plots.shapeValues</code>, which is then used to set the
 discrete scale of shapes for all <code>ospsuite.plots</code> functions.
 For customized functions, add
-<code>scale_shape_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$ospsuite.plots.shapeValues))</code>.</p>
+<code>scale_shape_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$shapeValues))</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="default-options">2.5 Default Options<a class="anchor" aria-label="anchor" href="#default-options"></a>
@@ -356,8 +356,19 @@ are two helper functions (<code>setOspsuite.plots.option</code> and
 </h3>
 <p>All plots in this packages are created with the function
 <code><a href="../reference/ggplotWithWatermark.html">ggplotWithWatermark()</a></code> instead of <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot()</a></code>.
-This function creates a normal <code>ggplot</code> object only if
-printed, a watermark is added.</p>
+This function creates a <code>ggplot</code> with a customized print
+function which adds a watermark.</p>
+<p><strong>Important:</strong> The <code>watermarkEnabled</code> option
+must be explicitly set before using one of the plot functions. Add it to
+your <code>.Rprofile</code>:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Enable watermarks</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermarkEnabled <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or disable watermarks</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermarkEnabled <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>You can edit your <code>.Rprofile</code> with
+<code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_profile()</a></code>.</p>
 <p>Attention! If you combine plots e.g. with
 <code>cowplot:plot_grid</code> the default print function without
 watermark is called. In this case you have to add the watermark with the
@@ -365,12 +376,14 @@ function <code>addwatermark(plotObject)</code> before the print.</p>
 <p>The watermark can by customized by this options:</p>
 <ul>
 <li>Switch the watermark on and off (option key =
-<code>watermark_enabled</code>, default = <code>TRUE</code>)</li>
-<li>Select the label (option key = <code>watermark_label</code>, default
+<code>watermarkEnabled</code>, <strong>no default value - must be
+explicitly set by the user before using watermark
+features</strong>)</li>
+<li>Select the label (option key = <code>watermarkLabel</code>, default
 = “preliminary analysis”)</li>
-<li>Customize format (option key = <code>watermark_format</code>,
-default =
-<code>list(x = 0.5, y = 0.5, color = "grey20", angle = 30, fontsize = 12, alpha = 0.7)</code>)</li>
+<li>Customize format (option key = <code>watermarkFormat</code>, default
+=
+<code>list(x = 0.5, y = 0.5, color = "lightgrey", angle = 30, fontsize = 12, alpha = 0.7)</code>)</li>
 </ul>
 <div class="section level4">
 <h4 id="examples-to-customize-watermark">Examples to Customize Watermark<a class="anchor" aria-label="anchor" href="#examples-to-customize-watermark"></a>
@@ -380,30 +393,30 @@ default =
 <li>B: Disable watermark</li>
 <li>C: Reset to default</li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Change format and label of watermark</span></span>
-<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_format</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0.2</span>, y <span class="op">=</span> <span class="fl">0.6</span>, color <span class="op">=</span> <span class="st">"red"</span>, angle <span class="op">=</span> <span class="fl">90</span>, fontsize <span class="op">=</span> <span class="fl">24</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_label</span>, value <span class="op">=</span> <span class="st">"NEW"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkFormat</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0.2</span>, y <span class="op">=</span> <span class="fl">0.6</span>, color <span class="op">=</span> <span class="st">"red"</span>, angle <span class="op">=</span> <span class="fl">90</span>, fontsize <span class="op">=</span> <span class="fl">24</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkLabel</span>, value <span class="op">=</span> <span class="st">"NEW"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Initialize plot</span></span>
 <span><span class="fu"><a href="../reference/ggplotWithWatermark.html">ggplotWithWatermark</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Changed Watermark"</span>, tag <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/customize-watermark-1.png" alt="Plot demonstrating customized watermark formatting. The plot shows a blank coordinate system with a red watermark rotated 90 degrees, positioned at specific coordinates with increased font size and reduced transparency, labeled 'NEW' instead of the default text." width="80%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<p><img src="ospsuite-plots_files/figure-html/customize-watermark-1.png" class="r-plt" alt="Plot demonstrating customized watermark formatting. The plot shows a blank coordinate system with a red watermark rotated 90 degrees, positioned at specific coordinates with increased font size and reduced transparency, labeled 'NEW' instead of the default text." width="80%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Disable watermark</span></span>
-<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_enabled</span>, value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkEnabled</span>, value <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Initialize plot</span></span>
 <span><span class="fu"><a href="../reference/ggplotWithWatermark.html">ggplotWithWatermark</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"No Watermark"</span>, tag <span class="op">=</span> <span class="st">"B"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/disable-watermark-1.png" alt="Plot demonstrating disabled watermark functionality. The plot shows a clean blank coordinate system with no watermark text overlay, illustrating how the watermark_enabled option can be set to FALSE for clean publication-ready plots." width="80%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p><img src="ospsuite-plots_files/figure-html/disable-watermark-1.png" class="r-plt" alt="Plot demonstrating disabled watermark functionality. The plot shows a clean blank coordinate system with no watermark text overlay, illustrating how the watermarkEnabled option can be set to FALSE for clean publication-ready plots." width="80%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Reset to default</span></span>
-<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_format</span>, value <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_label</span>, value <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermark_enabled</span>, value <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkFormat</span>, value <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkLabel</span>, value <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">watermarkEnabled</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Initialize plot</span></span>
 <span><span class="fu"><a href="../reference/ggplotWithWatermark.html">ggplotWithWatermark</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Default Watermark"</span>, tag <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/reset-watermark-default-1.png" alt="Plot demonstrating reset watermark to default settings. The plot shows a blank coordinate system with the default watermark restored - gray text reading 'preliminary analysis' at 30-degree angle in the center with standard transparency and font size." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/reset-watermark-default-1.png" class="r-plt" alt="Plot demonstrating reset watermark to default settings. The plot shows a blank coordinate system with the default watermark restored - gray text reading 'preliminary analysis' at 30-degree angle in the center with standard transparency and font size." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level3">
@@ -529,34 +542,84 @@ defaults of the input variables can be set by options.</p>
 <div class="section level3">
 <h3 id="options-to-set-defaults-for-aesthetics">2.5.3 Options to Set Defaults for Aesthetics<a class="anchor" aria-label="anchor" href="#options-to-set-defaults-for-aesthetics"></a>
 </h3>
-<p>Options to set the face alpha of ribbons filled points and options to
-set the filled points for values below and above LLOQ.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<p>Options to set the face alpha of ribbons, filled points and options
+to set the filled points for values below and above LLOQ.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Default alpha = 0.5</span></span>
-<span><span class="fu"><a href="../reference/getOspsuite.plots.option.html">getOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="st">"Alpha"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/getOspsuite.plots.option.html">getOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="st">"alpha"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Alpha of LLOQ values</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TRUE"</span> <span class="op">=</span> <span class="fl">0.3</span>, <span class="st">"FALSE"</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/getOspsuite.plots.option.html">getOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="st">"LLOQAlphaVector"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/getOspsuite.plots.option.html">getOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="st">"lloqAlphaVector"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Linetype LLOQ comparison lines</span></span>
 <span><span class="st">"dashed"</span></span>
-<span><span class="fu"><a href="../reference/getOspsuite.plots.option.html">getOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="st">"LLOQLineType"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/getOspsuite.plots.option.html">getOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="st">"lloqLineType"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="options-to-define-export-format">2.5.4 Options to Define Export Format<a class="anchor" aria-label="anchor" href="#options-to-define-export-format"></a>
+<h3 id="options-for-percentiles">2.5.4 Options for Percentiles<a class="anchor" aria-label="anchor" href="#options-for-percentiles"></a>
+</h3>
+<p>There are two percentile-related options controlling default
+behavior:</p>
+<ul>
+<li>
+<code>percentiles</code>: A numeric vector of five quantiles
+defining the lower whisker, lower box, median, upper box, and upper
+whisker used by <code><a href="../reference/plotBoxWhisker.html">plotBoxWhisker()</a></code> (default =
+<code>c(0.05, 0.25, 0.5, 0.75, 0.95)</code>).</li>
+<li>
+<code>defaultPercentiles</code>: A numeric vector of three quantiles
+used as the default for <code><a href="../reference/plotRangeDistribution.html">plotRangeDistribution()</a></code> (default =
+<code>c(0.05, 0.5, 0.95)</code>).</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get current box-whisker percentiles (5 values)</span></span>
+<span><span class="fu"><a href="../reference/getOspsuite.plots.option.html">getOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">percentiles</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Change box-whisker percentiles globally</span></span>
+<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">percentiles</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Get current range-plot percentiles (3 values)</span></span>
+<span><span class="fu"><a href="../reference/getOspsuite.plots.option.html">getOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">defaultPercentiles</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Change range-plot default percentiles globally</span></span>
+<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">defaultPercentiles</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="option-for-unicode-point-mode">2.5.5 Option for Unicode Point Mode<a class="anchor" aria-label="anchor" href="#option-for-unicode-point-mode"></a>
+</h3>
+<p>The <code>geomPointUnicode</code> option controls whether
+<code>ospsuite.plots</code> functions use the Unicode-aware
+<code><a href="../reference/geomPointUnicode.html">geomPointUnicode()</a></code> geom instead of the standard
+<code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point()</a></code> when plotting points. This is set internally
+when calling <code>setDefaults(pointAsUnicode = TRUE/FALSE)</code>.</p>
+<ul>
+<li>
+<code>geomPointUnicode</code>: Logical, default <code>FALSE</code>.
+When <code>TRUE</code>, Unicode symbols are used for plot points
+(requires the <a href="https://github.com/yixuan/showtext" class="external-link">showtext</a> package; see Section 6.2).</li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Check current mode</span></span>
+<span><span class="fu"><a href="../reference/getOspsuite.plots.option.html">getOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">geomPointUnicode</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Enable Unicode point mode globally (equivalent to setDefaults(pointAsUnicode = TRUE))</span></span>
+<span><span class="fu"><a href="../reference/setOspsuite.plots.option.html">setOspsuite.plots.option</a></span><span class="op">(</span>optionKey <span class="op">=</span> <span class="va">OptionKeys</span><span class="op">$</span><span class="va">geomPointUnicode</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="options-to-define-export-format">2.5.6 Options to Define Export Format<a class="anchor" aria-label="anchor" href="#options-to-define-export-format"></a>
 </h3>
 <p>There are options to define the export format using the function
 <code>exportPlot</code> (see details below):</p>
 <ul>
 <li>
-<code>export.width</code>: Width of the exported file</li>
+<code>exportWidth</code>: Width of the exported file</li>
 <li>
-<code>export.units</code>: Units for width and height</li>
+<code>exportUnits</code>: Units for width and height</li>
 <li>
-<code>export.device</code>: Device for plot export</li>
+<code>exportDevice</code>: Device for plot export</li>
 <li>
-<code>export.dpi</code>: Plot resolution</li>
+<code>exportDpi</code>: Plot resolution</li>
 </ul>
 <p>The latter options are used directly as input for
 <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggplot2::ggsave</a></code>, so check the help for available
@@ -630,7 +693,7 @@ more than one LLOQ.</li>
 standard deviation); error bars are plotted. This is a shortcut to map
 <code>ymin</code> and <code>ymax</code> directly
 (<code>ymin = y - error</code> and <code>ymax = y + error</code>).
-Additionally, if <code>yscale</code> is set, <code>ymin</code> values
+Additionally, if <code>yScale</code> is set, <code>ymin</code> values
 below 0 are set to <code>y</code>.</li>
 <li>
 <code>error_relative</code>: Mapped to a column with relative error
@@ -656,10 +719,10 @@ method:
 <ul>
 <li>
 <code>residualScale = "log"</code>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">log(observed) - log(predicted)</annotation></semantics></math>,</li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">log(predicted) - log(observed)</annotation></semantics></math>,</li>
 <li>
 <code>residualScale = "linear"</code>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi><mo>−</mo><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">observed - predicted</annotation></semantics></math>,</li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi><mo>−</mo><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">predicted - observed</annotation></semantics></math>,</li>
 <li>
 <code>residualScale = "ratio"</code>:
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi><mi>/</mi><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">observed / predicted</annotation></semantics></math>.</li>
@@ -782,14 +845,14 @@ presentation.</p>
 <p>To export a plot, you need a ggplot object. Here’s a basic
 example:</p>
 <p>Create a simple ggplot object:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plotObject</span> <span class="op">&lt;-</span> <span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/plotHistogram.html">plotHistogram</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">testData</span>, mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Age</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Exporting the Plot: Using the <code>exportPlot</code> function, you
 can easily save this plot to a file:</p>
 <p>Replace “path/to/save” with the actual directory path where you want
 to save the plot, and adjust the width and height parameters as
 needed.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/exportPlot.html">exportPlot</a></span><span class="op">(</span>plotObject <span class="op">=</span> <span class="va">plotObject</span>, filepath <span class="op">=</span> <span class="st">"path/to/save"</span>, filename <span class="op">=</span> <span class="st">"myplot"</span>, width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -802,12 +865,12 @@ needed.</p>
 plot dimensions based on its content, such as the presence of a legend
 or the aspect ratio.</p>
 <p>Assuming <code>plotObject</code> is your ggplot object:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/exportPlot.html">exportPlot</a></span><span class="op">(</span>plotObject <span class="op">=</span> <span class="va">plotObject</span>, filepath <span class="op">=</span> <span class="st">"path/to/save"</span>, filename <span class="op">=</span> <span class="st">"adjusted_plot.png"</span><span class="op">)</span></span></code></pre></div>
 <p>In this case, you don’t need to specify the width and height
 explicitly; the function calculates them for you. The default width
 value saved in the <code>ospsuite.plots</code> option
-<code>export.width</code> is used. If an aspect ratio is defined in the
+<code>exportWidth</code> is used. If an aspect ratio is defined in the
 theme of the plot, height will be adjusted accordingly; otherwise, the
 function exports square figures.</p>
 </div>
@@ -819,7 +882,7 @@ function exports square figures.</p>
 <div class="section level3">
 <h3 id="default-shapes-1">6.1 Default Shapes<a class="anchor" aria-label="anchor" href="#default-shapes-1"></a>
 </h3>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">shapeNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"circle"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"circle"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open"</span>, <span class="st">"filled"</span>, <span class="st">"cross"</span>, <span class="st">"plus"</span>, <span class="st">"small"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"bullet"</span>, <span class="st">"square"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"square"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open"</span>, <span class="st">"filled"</span>, <span class="st">"cross"</span>, <span class="st">"plus"</span>, <span class="st">"triangle"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"diamond"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"diamond"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open"</span>, <span class="st">"filled"</span>, <span class="st">"plus"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"triangle"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"triangle"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open"</span>, <span class="st">"filled"</span>, <span class="st">"square"</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"triangle down"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open"</span>, <span class="st">"filled"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"plus"</span>, <span class="st">"cross"</span>, <span class="st">"asterisk"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">shapes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>shapeNames <span class="op">=</span> <span class="va">shapeNames</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">6</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, y <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">6</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -829,7 +892,7 @@ function exports square figures.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">shapeNames</span><span class="op">)</span>, nudge_y <span class="op">=</span> <span class="op">-</span><span class="fl">0.3</span>, size <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_identity.html" class="external-link">scale_shape_identity</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/default-shapes-1.png" alt="Chart displaying all default shape types available in ospsuite.plots. Shows various point shapes including circles, squares, diamonds, triangles in different styles (open, filled, cross, plus) arranged in a grid with labels, demonstrating the visual appearance of each shape option." width="90%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/default-shapes-1.png" class="r-plt" alt="Chart displaying all default shape types available in ospsuite.plots. Shows various point shapes including circles, squares, diamonds, triangles in different styles (open, filled, cross, plus) arranged in a grid with labels, demonstrating the visual appearance of each shape option." width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="use-unicode-symbols-with-showtext">6.2 Use Unicode Symbols with <code>{showtext}</code><a class="anchor" aria-label="anchor" href="#use-unicode-symbols-with-showtext"></a>
@@ -837,7 +900,7 @@ function exports square figures.</p>
 <p>Attention: The use of <a href="https://github.com/yixuan/showtext" class="external-link">showtext</a> has side effects - a
 customized <code>geom_Point</code> function
 <code>geomPointUnicode</code> has to be used.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">shapes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>shapeNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">Shapes</span><span class="op">)</span>, shape_symbols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">Shapes</span><span class="op">)</span><span class="op">)</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, <span class="fl">8</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">showtext</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html" class="external-link">showtext_auto</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -847,7 +910,7 @@ customized <code>geom_Point</code> function
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_identity.html" class="external-link">scale_shape_identity</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu">showtext</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html" class="external-link">showtext_auto</a></span><span class="op">(</span>enable <span class="op">=</span> <span class="st">"off"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/unicode-shapes-1.png" alt="Chart displaying Unicode symbol shapes available in ospsuite.plots with showtext package. Shows various Unicode symbols arranged in a grid with their corresponding shape names, demonstrating enhanced typography options for point symbols in plots." width="90%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/unicode-shapes-1.png" class="r-plt" alt="Chart displaying Unicode symbol shapes available in ospsuite.plots with showtext package. Shows various Unicode symbols arranged in a grid with their corresponding shape names, demonstrating enhanced typography options for point symbols in plots." width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="switch-between-modes">6.3 Switch Between Modes<a class="anchor" aria-label="anchor" href="#switch-between-modes"></a>
@@ -858,22 +921,22 @@ input variable <code>pointAsUnicode = TRUE</code>. To switch back, use
 <code>resetDefaults(oldDefaults)</code>. However, it is recommended to
 produce all plots of one workflow either with Unicode mode or without.
 Otherwise, the plots may have different fonts.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oldDefaults</span> <span class="op">&lt;-</span> <span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/setDefaults.html">setDefaults</a></span><span class="op">(</span>pointAsUnicode <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pig"</span>, <span class="st">"dog"</span>, <span class="st">"mouse"</span>, <span class="st">"rat"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">plotObject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotYVsX.html">plotYVsX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dt</span>, mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, groupby <span class="op">=</span> <span class="va">species</span><span class="op">)</span>, xscale <span class="op">=</span> <span class="st">"linear"</span>, xscale.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">2.5</span><span class="op">)</span><span class="op">)</span>, yscale <span class="op">=</span> <span class="st">"linear"</span>, yscale.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">2.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">plotObject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotYVsX.html">plotYVsX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dt</span>, mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, groupby <span class="op">=</span> <span class="va">species</span><span class="op">)</span>, xScale <span class="op">=</span> <span class="st">"linear"</span>, xScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">2.5</span><span class="op">)</span><span class="op">)</span>, yScale <span class="op">=</span> <span class="st">"linear"</span>, yScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">2.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">plotObject</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/unicode-mode-demo-1.png" alt="Scatter plot demonstrating Unicode point symbols in ospsuite.plots. Shows four data points representing different species (pig, dog, mouse, rat) using Unicode symbols instead of standard ggplot shapes, with each species having a distinct symbol and color." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/unicode-mode-demo-1.png" class="r-plt" alt="Scatter plot demonstrating Unicode point symbols in ospsuite.plots. Shows four data points representing different species (pig, dog, mouse, rat) using Unicode symbols instead of standard ggplot shapes, with each species having a distinct symbol and color." width="80%" style="display: block; margin: auto;"></p>
 <div class="section level4">
 <h4 id="use-non-default-icons">Use Non-Default Icons<a class="anchor" aria-label="anchor" href="#use-non-default-icons"></a>
 </h4>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">plotObject</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_shape_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>pig <span class="op">=</span> <span class="st">"pig"</span>, dog <span class="op">=</span> <span class="st">"dog"</span>, mouse <span class="op">=</span> <span class="st">"mouse"</span>, rat <span class="op">=</span> <span class="st">"rat"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ospsuite-plots_files/figure-html/export-non-default-icons-1.png" alt="Scatter plot demonstrating the use of non-default icons in ospsuite.plots. The plot displays four data points representing different species (pig, dog, mouse, rat) using custom shapes for each species instead of standard ggplot shapes, showcasing the ability to personalize plot aesthetics with unique icons." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="ospsuite-plots_files/figure-html/export-non-default-icons-1.png" class="r-plt" alt="Scatter plot demonstrating the use of non-default icons in ospsuite.plots. The plot displays four data points representing different species (pig, dog, mouse, rat) using custom shapes for each species instead of standard ggplot shapes, showcasing the ability to personalize plot aesthetics with unique icons." width="80%" style="display: block; margin: auto;"></p>
 <p>```</p>
 </div>
 </div>
@@ -889,7 +952,7 @@ Otherwise, the plots may have different fonts.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

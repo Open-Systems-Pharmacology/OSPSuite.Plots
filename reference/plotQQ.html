@@ -15,7 +15,7 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,9 +66,9 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
 <span>  <span class="va">data</span>,</span>
 <span>  <span class="va">mapping</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  xscale.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  xScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  residualScale <span class="op">=</span> <span class="va">ResidualScales</span><span class="op">$</span><span class="va">log</span>,</span>
-<span>  yscale.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  yScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  geomQQAttributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  geomQQLineAttributes <span class="op">=</span> <span class="va">geomQQAttributes</span>,</span>
 <span>  groupAesthetics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"colour"</span>, <span class="st">"fill"</span>, <span class="st">"shape"</span><span class="op">)</span></span>
@@ -93,17 +93,17 @@ see vignettes for more details and examples</p></dd>
 <dd><p>A named list of information about <code>data</code> such as the <code>dimension</code> and <code>unit</code> of its variables.</p></dd>
 
 
-<dt id="arg-xscale-args">xscale.args<a class="anchor" aria-label="anchor" href="#arg-xscale-args"></a></dt>
+<dt id="arg-xscaleargs">xScaleArgs<a class="anchor" aria-label="anchor" href="#arg-xscaleargs"></a></dt>
 <dd><p>list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_continuous()</a></code> or <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_log10()</a></code></p></dd>
 
 
 <dt id="arg-residualscale">residualScale<a class="anchor" aria-label="anchor" href="#arg-residualscale"></a></dt>
 <dd><p>Either <code>"linear"</code> or <code>"log"</code> for scaling residuals.
-For linear: residuals = observed - predicted. For log: residuals = log(observed) - log(predicted).
+For linear: residuals = predicted - observed. For log: residuals = log(predicted) - log(observed).
 The y-axis scale remains linear in both cases.</p></dd>
 
 
-<dt id="arg-yscale-args">yscale.args<a class="anchor" aria-label="anchor" href="#arg-yscale-args"></a></dt>
+<dt id="arg-yscaleargs">yScaleArgs<a class="anchor" aria-label="anchor" href="#arg-yscaleargs"></a></dt>
 <dd><p>list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_continuous()</a></code> or <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_log10()</a></code></p></dd>
 
 
@@ -127,15 +127,15 @@ Common options include <code>"colour"</code>, <code>"fill"</code>, <code>"shape"
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other plot functions:
-<code><a href="plotBoxWhisker.html">plotBoxWhisker</a>()</code>,
-<code><a href="plotForest.html">plotForest</a>()</code>,
-<code><a href="plotHistogram.html">plotHistogram</a>()</code>,
-<code><a href="plotPredVsObs.html">plotPredVsObs</a>()</code>,
-<code><a href="plotRangeDistribution.html">plotRangeDistribution</a>()</code>,
-<code><a href="plotRatioVsCov.html">plotRatioVsCov</a>()</code>,
-<code><a href="plotResVsCov.html">plotResVsCov</a>()</code>,
-<code><a href="plotTimeProfile.html">plotTimeProfile</a>()</code>,
-<code><a href="plotYVsX.html">plotYVsX</a>()</code></p></div>
+<code><a href="plotBoxWhisker.html">plotBoxWhisker()</a></code>,
+<code><a href="plotForest.html">plotForest()</a></code>,
+<code><a href="plotHistogram.html">plotHistogram()</a></code>,
+<code><a href="plotPredVsObs.html">plotPredVsObs()</a></code>,
+<code><a href="plotRangeDistribution.html">plotRangeDistribution()</a></code>,
+<code><a href="plotRatioVsCov.html">plotRatioVsCov()</a></code>,
+<code><a href="plotResVsCov.html">plotResVsCov()</a></code>,
+<code><a href="plotTimeProfile.html">plotTimeProfile()</a></code>,
+<code><a href="plotYVsX.html">plotYVsX()</a></code></p></div>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -147,7 +147,7 @@ Common options include <code>"colour"</code>, <code>"fill"</code>, <code>"shape"
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,8 +59,8 @@
 <span>  <span class="va">xLabel</span>,</span>
 <span>  yFacetColumns <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  xFacetColumn <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  xscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"linear"</span>, <span class="st">"log"</span><span class="op">)</span>,</span>
-<span>  xscale.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  xScale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"linear"</span>, <span class="st">"log"</span><span class="op">)</span>,</span>
+<span>  xScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  groupAesthetics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"color"</span>, <span class="st">"fill"</span>, <span class="st">"shape"</span><span class="op">)</span>,</span>
 <span>  tableColumns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yValues"</span>, <span class="st">"yErrorValues"</span><span class="op">)</span>,</span>
 <span>  tableLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"Variance"</span><span class="op">)</span>,</span>
@@ -98,11 +98,11 @@
 <dd><p>A character string specifying the column name for the x-axis facet. Must be of length 1 or NULL.</p></dd>
 
 
-<dt id="arg-xscale">xscale<a class="anchor" aria-label="anchor" href="#arg-xscale"></a></dt>
+<dt id="arg-xscale">xScale<a class="anchor" aria-label="anchor" href="#arg-xscale"></a></dt>
 <dd><p>A character string indicating the scale type for the x-axis. Options are "linear" or "log".</p></dd>
 
 
-<dt id="arg-xscale-args">xscale.args<a class="anchor" aria-label="anchor" href="#arg-xscale-args"></a></dt>
+<dt id="arg-xscaleargs">xScaleArgs<a class="anchor" aria-label="anchor" href="#arg-xscaleargs"></a></dt>
 <dd><p>A list of additional arguments for customizing the x-axis scale.</p></dd>
 
 
@@ -153,15 +153,15 @@
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other plot functions:
-<code><a href="plotBoxWhisker.html">plotBoxWhisker</a>()</code>,
-<code><a href="plotHistogram.html">plotHistogram</a>()</code>,
-<code><a href="plotPredVsObs.html">plotPredVsObs</a>()</code>,
-<code><a href="plotQQ.html">plotQQ</a>()</code>,
-<code><a href="plotRangeDistribution.html">plotRangeDistribution</a>()</code>,
-<code><a href="plotRatioVsCov.html">plotRatioVsCov</a>()</code>,
-<code><a href="plotResVsCov.html">plotResVsCov</a>()</code>,
-<code><a href="plotTimeProfile.html">plotTimeProfile</a>()</code>,
-<code><a href="plotYVsX.html">plotYVsX</a>()</code></p></div>
+<code><a href="plotBoxWhisker.html">plotBoxWhisker()</a></code>,
+<code><a href="plotHistogram.html">plotHistogram()</a></code>,
+<code><a href="plotPredVsObs.html">plotPredVsObs()</a></code>,
+<code><a href="plotQQ.html">plotQQ()</a></code>,
+<code><a href="plotRangeDistribution.html">plotRangeDistribution()</a></code>,
+<code><a href="plotRatioVsCov.html">plotRatioVsCov()</a></code>,
+<code><a href="plotResVsCov.html">plotResVsCov()</a></code>,
+<code><a href="plotTimeProfile.html">plotTimeProfile()</a></code>,
+<code><a href="plotYVsX.html">plotYVsX()</a></code></p></div>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -173,7 +173,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

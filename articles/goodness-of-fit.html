@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,7 +121,12 @@ section 7).</p>
 <a href="https://www.open-systems-pharmacology.org/OSPSuite.Plots/">ospsuite.plots</a> (see vignette(“ospsuite.plots”, package =
 “ospsuite.plots”)).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.open-systems-pharmacology.org/OSPSuite.Plots/">ospsuite.plots</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>rmarkdown.html_vignette.check_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Set watermark option required for ospsuite.plots functionality</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermarkEnabled <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.open-systems-pharmacology.org/OSPSuite.Plots/">ospsuite.plots</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">oldDefaults</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setDefaults.html">setDefaults</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -135,8 +140,8 @@ by the package.</p>
 <h4 id="dataset-with-predicted-and-observed-data">1.2.1 Dataset with Predicted and Observed Data<a class="anchor" aria-label="anchor" href="#dataset-with-predicted-and-observed-data"></a>
 </h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">exampleDataCovariates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SetID</span> <span class="op">==</span> <span class="st">"DataSet2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">exampleDataCovariates</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SetID</span> <span class="op">==</span> <span class="st">"DataSet2"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Age"</span>, <span class="st">"Obs"</span>, <span class="st">"gsd"</span>, <span class="st">"Pred"</span>, <span class="st">"Sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">3</span>, caption <span class="op">=</span> <span class="st">"First rows of example data."</span><span class="op">)</span></span></code></pre></div>
@@ -234,9 +239,9 @@ by the package.</p>
 <h4 id="dataset-for-examples-with-ddi-prediction">1.2.2 Dataset for Examples with DDI Prediction<a class="anchor" aria-label="anchor" href="#dataset-for-examples-with-ddi-prediction"></a>
 </h4>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dDIdata</span> <span class="op">&lt;-</span> <span class="va">exampleDataCovariates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SetID</span> <span class="op">==</span> <span class="st">"DataSet3"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Obs"</span>, <span class="st">"Pred"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">dDIdata</span> <span class="op">&lt;-</span> <span class="va">exampleDataCovariates</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SetID</span> <span class="op">==</span> <span class="st">"DataSet3"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Obs"</span>, <span class="st">"Pred"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Study <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Study"</span>, <span class="va">ID</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">dDIdata</span><span class="op">$</span><span class="va">Study</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">dDIdata</span><span class="op">$</span><span class="va">Study</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dDIdata</span><span class="op">$</span><span class="va">Study</span><span class="op">)</span><span class="op">)</span></span>
@@ -322,9 +327,9 @@ by the package.</p>
 <h4 id="dataset-for-ratio-comparison">1.2.3 Dataset for Ratio Comparison<a class="anchor" aria-label="anchor" href="#dataset-for-ratio-comparison"></a>
 </h4>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pkRatioData</span> <span class="op">&lt;-</span> <span class="va">exampleDataCovariates</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SetID</span> <span class="op">==</span> <span class="st">"DataSet1"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SetID"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">pkRatioData</span> <span class="op">&lt;-</span> <span class="va">exampleDataCovariates</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SetID</span> <span class="op">==</span> <span class="st">"DataSet1"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SetID"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>gsd <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pkRatiometaData</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">exampleDataCovariates</span>, <span class="st">"metaData"</span><span class="op">)</span></span>
@@ -474,14 +479,14 @@ aesthetic <code>groupby</code> can be used to group observations.</p>
 <span>  <span class="op">)</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/basic-examples-1.png" alt="Scatter plot showing predicted versus observed values with log-log scale. Points are colored by sex groups, with a unity line indicating perfect prediction. Most points cluster around the unity line indicating good model performance." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/basic-examples-1.png" class="r-plt" alt="Scatter plot showing predicted versus observed values with log-log scale. Points are colored by sex groups, with a unity line indicating perfect prediction. Most points cluster around the unity line indicating good model performance." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="basic-example-linear-scale">2.1.2 Basic Example: Linear Scale<a class="anchor" aria-label="anchor" href="#basic-example-linear-scale"></a>
 </h4>
 <p>The scale for the x and y axes is set to linear. It is not intended
 to use different scales for the x and y axes. Therefore, only one
-variable <code>xyscale</code> exists for both axes.</p>
+variable <code>xyScale</code> exists for both axes.</p>
 <p>Predicted and observed data are mapped with <code>x</code> and
 <code>y</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -493,9 +498,9 @@ variable <code>xyscale</code> exists for both axes.</p>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span>,</span>
-<span>  xyscale <span class="op">=</span> <span class="st">"linear"</span></span>
+<span>  xyScale <span class="op">=</span> <span class="st">"linear"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/basic-examples-linear-1.png" alt="Scatter plot showing predicted versus observed values with linear scale on both axes. Points are colored by sex groups with a unity line for reference. The linear scale allows for easier interpretation of absolute differences between predictions and observations." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/basic-examples-linear-1.png" class="r-plt" alt="Scatter plot showing predicted versus observed values with linear scale on both axes. Points are colored by sex groups with a unity line for reference. The linear scale allows for easier interpretation of absolute differences between predictions and observations." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="error-bars-for-observed-data">2.1.3 Error Bars for Observed Data<a class="anchor" aria-label="anchor" href="#error-bars-for-observed-data"></a>
@@ -515,7 +520,7 @@ error or mapping <code>xmin</code> and <code>xmax</code> explicitly.</p>
 <span>  <span class="op">)</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/basic-examples-errorbar-1.png" alt="Scatter plot showing predicted versus observed values with horizontal error bars representing relative error in observed data. Points are colored by sex groups, and error bars show the uncertainty in the observed measurements." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/basic-examples-errorbar-1.png" class="r-plt" alt="Scatter plot showing predicted versus observed values with horizontal error bars representing relative error in observed data. Points are colored by sex groups, and error bars show the uncertainty in the observed measurements." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="error-bars-for-observed-and-predicted-data">2.1.4 Error Bars for Observed and Predicted Data<a class="anchor" aria-label="anchor" href="#error-bars-for-observed-and-predicted-data"></a>
@@ -535,7 +540,7 @@ must also be mapped explicitly.</p>
 <span>  <span class="op">)</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/basic-examples-error-y-1.png" alt="Scatter plot showing predicted versus observed values with both horizontal error bars (for observed data uncertainty) and vertical error bars (for predicted data uncertainty). Points are colored by sex groups, demonstrating how to display uncertainty in both measurements." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/basic-examples-error-y-1.png" class="r-plt" alt="Scatter plot showing predicted versus observed values with both horizontal error bars (for observed data uncertainty) and vertical error bars (for predicted data uncertainty). Points are colored by sex groups, demonstrating how to display uncertainty in both measurements." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="example-with-lloq">2.1.5 Example with LLOQ<a class="anchor" aria-label="anchor" href="#example-with-lloq"></a>
@@ -547,8 +552,8 @@ horizontal line for the LLOQ is added.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lloqData</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">signif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">Obs</span>, probs <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">dataLLOQ</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>lloq <span class="op">=</span> <span class="va">lloqData</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">dataLLOQ</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>lloq <span class="op">=</span> <span class="va">lloqData</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">Obs</span> <span class="op">&lt;=</span> <span class="va">lloq</span>, <span class="va">lloq</span> <span class="op">/</span> <span class="fl">2</span>, <span class="va">Obs</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plotPredVsObs.html">plotPredVsObs</a></span><span class="op">(</span></span>
@@ -561,7 +566,26 @@ horizontal line for the LLOQ is added.</p>
 <span>  <span class="op">)</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/basic-examples-lloq-1.png" alt="Scatter plot showing predicted versus observed values with lower limit of quantification (LLOQ) handling. Values below the LLOQ are displayed with reduced transparency and marked with a horizontal LLOQ line. Data points below LLOQ are set to LLOQ/2 for visualization." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/basic-examples-lloq-1.png" class="r-plt" alt="Scatter plot showing predicted versus observed values with lower limit of quantification (LLOQ) handling. Values below the LLOQ are displayed with reduced transparency and marked with a horizontal LLOQ line. Data points below LLOQ are set to LLOQ/2 for visualization." width="80%" style="display: block; margin: auto;"></p>
+<p>By default (<code>lloqOnBothAxes = FALSE</code>), the LLOQ line is
+drawn only for the observed-data axis—i.e., horizontal when observations
+are on the y-axis and vertical when observations are on the x-axis.
+Setting <code>lloqOnBothAxes = TRUE</code> draws LLOQ lines on both the
+x and y axes. This is quite useful, as it makes it clear if the
+simulated results should be considered as “quantifiable” or not.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotPredVsObs.html">plotPredVsObs</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">dataLLOQ</span>,</span>
+<span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">Obs</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">Pred</span>,</span>
+<span>    lloq <span class="op">=</span> <span class="va">lloq</span>,</span>
+<span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  metaData <span class="op">=</span> <span class="va">metaData</span>,</span>
+<span>  lloqOnBothAxes <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="goodness-of-fit_files/figure-html/basic-examples-lloq-both-1.png" class="r-plt" alt="Scatter plot showing predicted versus observed values with LLOQ lines drawn on both axes. Vertical and horizontal LLOQ lines are displayed, and values below the LLOQ are shown with reduced transparency." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level3">
@@ -577,7 +601,7 @@ which is a named list with default values
 <p>A fold distance list can be generated by the helper function
 <code>?getFoldDistanceList()</code>.</p>
 <p>Below, the 1.2 and 1.5 distances are displayed:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotPredVsObs.html">plotPredVsObs</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -588,7 +612,7 @@ which is a named list with default values
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span>,</span>
 <span>  comparisonLineVector <span class="op">=</span> <span class="fu"><a href="../reference/getFoldDistanceList.html">getFoldDistanceList</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fl">1.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/examples-changeOfFold-1.png" alt="Scatter plot showing predicted versus observed values with custom fold distance lines. The plot includes 1.2-fold and 1.5-fold comparison lines around the unity line, helping to assess the degree of prediction accuracy. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/examples-changeOfFold-1.png" class="r-plt" alt="Scatter plot showing predicted versus observed values with custom fold distance lines. The plot includes 1.2-fold and 1.5-fold comparison lines around the unity line, helping to assess the degree of prediction accuracy. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="adjust-display-of-lines">2.2.2 Adjust Display of Lines<a class="anchor" aria-label="anchor" href="#adjust-display-of-lines"></a>
@@ -599,7 +623,7 @@ type, and they are not included in the legend. The line type used is
 settable by the variable <code>geomComparisonLineAttributes</code>.</p>
 <p>If the variable <code>comparisonLineVector</code> is NULL, no lines
 will be displayed.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotPredVsObs.html">plotPredVsObs</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -611,7 +635,7 @@ will be displayed.</p>
 <span>  comparisonLineVector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu"><a href="../reference/getFoldDistanceList.html">getFoldDistanceList</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fl">1.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  geomComparisonLineAttributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/examples-adjustFoldlegend-1.png" alt="Scatter plot showing predicted versus observed values with unnamed fold distance lines displayed as dotted lines. The fold lines are shown without legend entries and all use the same dotted line style for a cleaner appearance. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/examples-adjustFoldlegend-1.png" class="r-plt" alt="Scatter plot showing predicted versus observed values with unnamed fold distance lines displayed as dotted lines. The fold lines are shown without legend entries and all use the same dotted line style for a cleaner appearance. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level3">
@@ -623,7 +647,7 @@ lines, the package <a href="https://rpkgs.datanovia.com/ggpubr/" class="external
 <code>stat_regline_equation</code> to add statistics of the regression
 as labels (B). To use other functions, e.g., local polynomial
 regression, use <code><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">ggplot2::geom_smooth</a></code> directly (C).</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># A</span></span>
 <span><span class="va">plotObject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotPredVsObs.html">plotPredVsObs</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
@@ -638,12 +662,12 @@ regression, use <code><a href="https://ggplot2.tidyverse.org/reference/geom_smoo
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Regression Line"</span>, tag <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">plotObject</span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/example-regression-1.png" alt="Scatter plot showing predicted versus observed values with linear regression line overlay. Points are colored by sex groups, and a fitted regression line shows the overall trend with confidence intervals. The plot demonstrates the relationship between predicted and observed values beyond the unity line." width="80%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<p><img src="goodness-of-fit_files/figure-html/example-regression-1.png" class="r-plt" alt="Scatter plot showing predicted versus observed values with linear regression line overlay. Points are colored by sex groups, and a fitted regression line shows the overall trend with confidence intervals. The plot demonstrates the relationship between predicted and observed values beyond the unity line." width="80%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># B</span></span>
 <span><span class="va">plotObject</span> <span class="op">+</span> <span class="fu">ggpubr</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_regline_equation.html" class="external-link">stat_regline_equation</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">rr.label</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"With RR as Label"</span>, tag <span class="op">=</span> <span class="st">"B"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/example-regression-withRR-1.png" alt="Scatter plot showing predicted versus observed values with linear regression line and R-squared statistics displayed. The plot includes the regression line with confidence intervals and an overlaid R-squared label showing the goodness of fit. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p><img src="goodness-of-fit_files/figure-html/example-regression-withRR-1.png" class="r-plt" alt="Scatter plot showing predicted versus observed values with linear regression line and R-squared statistics displayed. The plot includes the regression line with confidence intervals and an overlaid R-squared label showing the goodness of fit. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># C Local Polynomial Regression Fitting</span></span>
 <span><span class="fu"><a href="../reference/plotPredVsObs.html">plotPredVsObs</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
@@ -657,14 +681,14 @@ regression, use <code><a href="https://ggplot2.tidyverse.org/reference/geom_smoo
 <span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"loess"</span>, formula <span class="op">=</span> <span class="st">"y ~ x"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Local Polynomial Regression Fitting"</span>, tag <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/example-regression-loess-1.png" alt="Scatter plot showing predicted versus observed values with local polynomial regression (LOESS) smoothing. The curved fitted line with confidence intervals captures non-linear patterns in the data that a linear regression might miss. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/example-regression-loess-1.png" class="r-plt" alt="Scatter plot showing predicted versus observed values with local polynomial regression (LOESS) smoothing. The curved fitted line with confidence intervals captures non-linear patterns in the data that a linear regression might miss. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="add-guest-criteria-lines">2.4 Add Guest Criteria Lines<a class="anchor" aria-label="anchor" href="#add-guest-criteria-lines"></a>
 </h3>
 <p>To compare DDI ratios, set the variable <code>addGuestLimits</code>
 to TRUE and set the variable <code>deltaGuest</code>:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotPredVsObs.html">plotPredVsObs</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">dDIdata</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -677,7 +701,7 @@ to TRUE and set the variable <code>deltaGuest</code>:</p>
 <span>  comparisonLineVector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>identity <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  deltaGuest <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/predVsObs_Guest-1.png" alt="Square scatter plot showing predicted versus observed DDI ratios with Guest criteria lines for drug-drug interaction assessment. The plot includes Guest limit lines that define acceptable ranges for DDI predictions, with different studies shown in different colors. The square format ensures equal scaling for both axes." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/predVsObs_Guest-1.png" class="r-plt" alt="Square scatter plot showing predicted versus observed DDI ratios with Guest criteria lines for drug-drug interaction assessment. The plot includes Guest limit lines that define acceptable ranges for DDI predictions, with different studies shown in different colors. The square format ensures equal scaling for both axes." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="use-non-square-format">2.5 Use Non-Square Format<a class="anchor" aria-label="anchor" href="#use-non-square-format"></a>
@@ -687,8 +711,8 @@ an aspect ratio of 1 and the same limits for the x and y axes. In the
 example below, the Predicted values are set to 1/2 of the original
 values. A square plot does not make sense anymore; therefore, the
 variable <code>asSquarePlot</code> is set to <code>FALSE</code>.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dataNonSquare</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dataNonSquare</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Pred <span class="op">=</span> <span class="va">Pred</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plotPredVsObs.html">plotPredVsObs</a></span><span class="op">(</span></span>
@@ -701,7 +725,7 @@ variable <code>asSquarePlot</code> is set to <code>FALSE</code>.</p>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span>,</span>
 <span>  asSquarePlot <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/example-nonsquare-1.png" alt="Non-square scatter plot showing predicted versus observed values where predicted values have been scaled to half of observed values. The plot demonstrates how to handle cases where data ranges differ significantly between axes, using non-square format for better visualization. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/example-nonsquare-1.png" class="r-plt" alt="Non-square scatter plot showing predicted versus observed values where predicted values have been scaled to half of observed values. The plot demonstrates how to handle cases where data ranges differ significantly between axes, using non-square format for better visualization. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -718,10 +742,10 @@ using the aesthetics <code>observed</code> and
 </h4>
 <p>The default value for the variable <code>residualScale</code> is
 “log”. Residuals will then be calculated by
-<code>log(observed) - log(predicted)</code>. A horizontal comparison
+<code>log(predicted) - log(observed)</code>. A horizontal comparison
 line with the value 0 is displayed. The aesthetic <code>groupby</code>
 can be used to group observations.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -731,17 +755,17 @@ can be used to group observations.</p>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/reVsObs-default-1.png" alt="Scatter plot showing log residuals versus age with default settings. Residuals are calculated as log(observed) - log(predicted), displayed as points colored by sex groups. A horizontal reference line at zero indicates perfect prediction. Points scattered around zero suggest good model performance." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/reVsObs-default-1.png" class="r-plt" alt="Scatter plot showing log residuals versus age with default settings. Residuals are calculated as log(predicted) - log(observed), displayed as points colored by sex groups. A horizontal reference line at zero indicates perfect prediction. Points scattered around zero suggest good model performance." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="linear-scale-for-residuals">3.1.2 Linear Scale for Residuals<a class="anchor" aria-label="anchor" href="#linear-scale-for-residuals"></a>
 </h3>
 <p>If the variable <code>residualScale</code> is set to “linear”,
-residuals will be calculated by #<span class="math inline">$# observed -
-predicted #$</span>#.</p>
+residuals will be calculated by #<span class="math inline">$# predicted
+- observed #$</span>#.</p>
 <p>Below, the line type of the comparison line is set to ‘solid’.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -753,14 +777,14 @@ predicted #$</span>#.</p>
 <span>  residualScale <span class="op">=</span> <span class="st">"linear"</span>,</span>
 <span>  geomComparisonLineAttributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="st">"solid"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/resVsCov-basic-linear-1.png" alt="Scatter plot showing linear residuals versus age with a solid horizontal reference line. Residuals are calculated as observed - predicted on a linear scale, with points colored by sex groups. The solid reference line at zero provides a clear visual reference for assessing prediction accuracy." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/resVsCov-basic-linear-1.png" class="r-plt" alt="Scatter plot showing linear residuals versus age with a solid horizontal reference line. Residuals are calculated as predicted - observed on a linear scale, with points colored by sex groups. The solid reference line at zero provides a clear visual reference for assessing prediction accuracy." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="map-residuals-directly">3.1.3 Map Residuals Directly<a class="anchor" aria-label="anchor" href="#map-residuals-directly"></a>
 </h3>
 <p>It is also possible to use already calculated residuals or formulas
 by using the aesthetic ‘y’.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -769,12 +793,12 @@ by using the aesthetic ‘y’.</p>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/resVsCov-basic-mappedToY-1.png" alt="Scatter plot showing directly calculated residuals (observed minus predicted) versus age. Residuals are manually calculated and mapped to the y-axis, with points colored by sex groups. This demonstrates how to use pre-calculated residuals instead of automatic calculation." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/resVsCov-basic-mappedToY-1.png" class="r-plt" alt="Scatter plot showing directly calculated residuals (observed minus predicted) versus age. Residuals are manually calculated and mapped to the y-axis, with points colored by sex groups. This demonstrates how to use pre-calculated residuals instead of automatic calculation." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="adjusting-comparison-lines">3.2 Adjusting Comparison Lines<a class="anchor" aria-label="anchor" href="#adjusting-comparison-lines"></a>
 </h3>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -785,7 +809,7 @@ by using the aesthetic ‘y’.</p>
 <span>  <span class="op">)</span>,</span>
 <span>  comparisonLineVector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>zero <span class="op">=</span> <span class="fl">0</span>, <span class="st">"lower limit"</span> <span class="op">=</span> <span class="op">-</span><span class="fl">0.25</span>, <span class="st">"upper limit"</span> <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/resVsCov-comparisonlines-1.png" alt="Scatter plot showing residuals versus age with custom comparison lines. The plot includes a zero reference line and additional upper and lower limit lines at ±0.25, providing multiple reference points for evaluating prediction accuracy. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/resVsCov-comparisonlines-1.png" class="r-plt" alt="Scatter plot showing residuals versus age with custom comparison lines. The plot includes a zero reference line and additional upper and lower limit lines at ±0.25, providing multiple reference points for evaluating prediction accuracy. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="adding-a-regression-line-1">3.3 Adding a Regression Line<a class="anchor" aria-label="anchor" href="#adding-a-regression-line-1"></a>
@@ -795,7 +819,7 @@ by using the aesthetic ‘y’.</p>
 the package <a href="https://rpkgs.datanovia.com/ggpubr/" class="external-link">ggpubr</a> has a nice function
 <code>stat_regline_equation</code> to add statistics of the regression
 as labels.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -807,7 +831,7 @@ as labels.</p>
 <span>  addRegression <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggpubr</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_regline_equation.html" class="external-link">stat_regline_equation</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">eq.label</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/unnamed-chunk-2-1.png" alt="Scatter plot showing residuals versus age with linear regression line and equation overlay. The plot includes both a fitted regression line and the regression equation statistics, helping to identify any systematic bias in residuals with respect to age. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="Scatter plot showing residuals versus age with linear regression line and equation overlay. The plot includes both a fitted regression line and the regression equation statistics, helping to identify any systematic bias in residuals with respect to age. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -821,9 +845,9 @@ as labels.</p>
 </h4>
 <p><code><a href="../reference/plotRatioVsCov.html">plotRatioVsCov()</a></code> is used to evaluate ratios versus a
 covariate. By default, the identity and 1.5 and 2 point lines are added,
-and the default for <code>yscale</code> is ‘log’. The aesthetic
+and the default for <code>yScale</code> is ‘log’. The aesthetic
 <code>groupby</code> can be used to group observations.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotRatioVsCov.html">plotRatioVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -833,7 +857,7 @@ and the default for <code>yscale</code> is ‘log’. The aesthetic
 <span>  <span class="op">)</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/ratio-defaults-1.png" alt="Log-scale scatter plot showing ratio values versus age with default comparison lines. The plot displays ratios with identity line at 1 and fold-distance lines at 1.5 and 2. Points are colored by sex groups, with the log scale helping to visualize multiplicative relationships." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/ratio-defaults-1.png" class="r-plt" alt="Log-scale scatter plot showing ratio values versus age with default comparison lines. The plot displays ratios with identity line at 1 and fold-distance lines at 1.5 and 2. Points are colored by sex groups, with the log scale helping to visualize multiplicative relationships." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="compare-residuals-as-ratio">4.1.2 Compare Residuals as Ratio<a class="anchor" aria-label="anchor" href="#compare-residuals-as-ratio"></a>
@@ -842,7 +866,7 @@ and the default for <code>yscale</code> is ‘log’. The aesthetic
 <code>residualScale</code> is fixed to “ratio”, and the ratio of the
 residuals is calculated as $ observed / predicted $. Below, the
 comparison line is set to a 1.2 fold distance.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotRatioVsCov.html">plotRatioVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -853,7 +877,7 @@ comparison line is set to a 1.2 fold distance.</p>
 <span>  <span class="op">)</span>,</span>
 <span>  comparisonLineVector <span class="op">=</span> <span class="fu"><a href="../reference/getFoldDistanceList.html">getFoldDistanceList</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/ratio-residuals-1.png" alt="Scatter plot showing residual ratios (observed/predicted) versus age with 1.2-fold comparison lines. The plot demonstrates ratio-based residual analysis, where ratios above or below the comparison lines indicate systematic over- or under-prediction. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/ratio-residuals-1.png" class="r-plt" alt="Scatter plot showing residual ratios (observed/predicted) versus age with 1.2-fold comparison lines. The plot demonstrates ratio-based residual analysis, where ratios above or below the comparison lines indicate systematic over- or under-prediction. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="using-ospsuite-plots-specific-aesthetics-like-mdv-and-error_relative">4.1.3 Using <code>{ospsuite.plots}</code> Specific Aesthetics like
@@ -864,7 +888,7 @@ logical column to the aesthetic <code>mdv</code>. Below, we exclude data
 with Age less than 20.</p>
 <p>Additional error bars are displayed by mapping the column “gsd” to
 the aesthetic <code>error_relative</code>.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotRatioVsCov.html">plotRatioVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -875,7 +899,7 @@ the aesthetic <code>error_relative</code>.</p>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.box <span class="op">=</span> <span class="st">"horizontal"</span>, legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/ratio-error-1.png" alt="Scatter plot showing ratio values versus age with error bars and missing data exclusion. Data points with age less than 20 are excluded (MDV flag), and relative error bars show uncertainty in the measurements. Points are colored by sex groups with horizontal legend layout." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/ratio-error-1.png" class="r-plt" alt="Scatter plot showing ratio values versus age with error bars and missing data exclusion. Data points with age less than 20 are excluded (MDV flag), and relative error bars show uncertainty in the measurements. Points are colored by sex groups with horizontal legend layout." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level3">
@@ -887,7 +911,7 @@ variable <code>comparisonLineVector</code> is a named list, the
 an additional entry <code>countsWithin</code>, which contains a
 <code>data.frame</code> with the fractions within the specific ranges
 given by the variable <code>comparisonLineVector</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plotObject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRatioVsCov.html">plotRatioVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -946,14 +970,14 @@ given by the variable <code>comparisonLineVector</code>.</p>
 </tr>
 </tbody>
 </table>
-<p><img src="goodness-of-fit_files/figure-html/qualification-plot-1.png" alt="Scatter plot showing ratio values versus age with qualification analysis. The plot generates both the visualization and a statistical summary table showing the fraction of data points within specified comparison ranges. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/qualification-plot-1.png" class="r-plt" alt="Scatter plot showing ratio values versus age with qualification analysis. The plot generates both the visualization and a statistical summary table showing the fraction of data points within specified comparison ranges. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="add-guest-criteria-lines-1">4.3 Add Guest Criteria Lines<a class="anchor" aria-label="anchor" href="#add-guest-criteria-lines-1"></a>
 </h3>
 <p>To compare DDI ratios, set the variable <code>addGuestLimits</code>
 to TRUE and set the variable <code>deltaGuest</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plotObject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRatioVsCov.html">plotRatioVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">dDIdata</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -1051,7 +1075,7 @@ to TRUE and set the variable <code>deltaGuest</code>.</p>
 </tr>
 </tbody>
 </table>
-<p><img src="goodness-of-fit_files/figure-html/ratio-Guest-1.png" alt="Scatter plot showing predicted versus observed DDI ratios with Guest criteria lines indicating acceptable ranges for drug-drug interaction assessment. Different studies are represented in different colors, and the plot effectively visualizes the prediction accuracy against the Guest criteria." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/ratio-Guest-1.png" class="r-plt" alt="Scatter plot showing predicted versus observed DDI ratios with Guest criteria lines indicating acceptable ranges for drug-drug interaction assessment. Different studies are represented in different colors, and the plot effectively visualizes the prediction accuracy against the Guest criteria." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -1061,7 +1085,7 @@ to TRUE and set the variable <code>deltaGuest</code>.</p>
 aesthetics <code>predicted</code> and <code>observed</code>, residuals
 will be calculated according to the variable <code>residualScale</code>.
 In the example below, the default value log is used.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotQQ.html">plotQQ</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -1070,10 +1094,10 @@ In the example below, the default value log is used.</p>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/qq-log-1.png" alt="Quantile-quantile plot showing the distribution of log residuals compared to a normal distribution. Points follow the diagonal reference line if residuals are normally distributed. Deviations from the line indicate non-normal distribution patterns. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/qq-log-1.png" class="r-plt" alt="Quantile-quantile plot showing the distribution of log residuals compared to a normal distribution. Points follow the diagonal reference line if residuals are normally distributed. Deviations from the line indicate non-normal distribution patterns. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 <p>The aesthetic ‘sample’ columns with already calculated residuals or
 formulas can be mapped directly.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotQQ.html">plotQQ</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -1083,7 +1107,7 @@ formulas can be mapped directly.</p>
 <span>  <span class="op">)</span>,</span>
 <span>  residualScale <span class="op">=</span> <span class="st">"linear"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/qqplot-1.png" alt="Quantile-quantile plot with sample data mapped directly to observed values and linear residual scale. This demonstrates mapping pre-calculated values directly using the sample aesthetic instead of automatic residual calculation. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/qqplot-1.png" class="r-plt" alt="Quantile-quantile plot with sample data mapped directly to observed values and linear residual scale. This demonstrates mapping pre-calculated values directly using the sample aesthetic instead of automatic residual calculation. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="usage-of-aesthetics-predicted-and-observed-in-other-functions">6 Usage of Aesthetics <code>predicted</code> and
@@ -1096,7 +1120,7 @@ defined by the variable <code>residualScale</code>.</p>
 <div class="section level3">
 <h3 id="residuals-as-histogram">6.1 Residuals as Histogram<a class="anchor" aria-label="anchor" href="#residuals-as-histogram"></a>
 </h3>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotHistogram.html">plotHistogram</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span>,</span>
@@ -1109,12 +1133,12 @@ defined by the variable <code>residualScale</code>.</p>
 <span>  plotAsFrequency <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  distribution <span class="op">=</span> <span class="st">"normal"</span></span>
 <span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/histogram-residuals-1.png" alt="Histogram showing the distribution of log residuals with normal distribution overlay curve. The frequency-based histogram includes a dashed vertical line at zero and a fitted normal distribution curve to assess whether residuals follow a normal distribution. Histograms are stratified by sex groups." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/histogram-residuals-1.png" class="r-plt" alt="Histogram showing the distribution of log residuals with normal distribution overlay curve. The frequency-based histogram includes a dashed vertical line at zero and a fitted normal distribution curve to assess whether residuals follow a normal distribution. Histograms are stratified by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="stratify-residuals-with-a-box-whisker-plot">6.2 Stratify Residuals with a Box-Whisker Plot<a class="anchor" aria-label="anchor" href="#stratify-residuals-with-a-box-whisker-plot"></a>
 </h3>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxWhisker.html">plotBoxWhisker</a></span><span class="op">(</span></span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
 <span>    predicted <span class="op">=</span> <span class="va">Pred</span>,</span>
@@ -1125,7 +1149,7 @@ defined by the variable <code>residualScale</code>.</p>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span>,</span>
 <span>  residualScale <span class="op">=</span> <span class="st">"linear"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/boxwhisker-residuals-1.png" alt="Box plots showing the distribution of linear residuals stratified by sex. The box plots display quartiles and whiskers for residuals calculated as observed minus predicted, allowing comparison of residual distributions between male and female groups." width="80%" style="display: block; margin: auto;"></p>
+<p><img src="goodness-of-fit_files/figure-html/boxwhisker-residuals-1.png" class="r-plt" alt="Box plots showing the distribution of linear residuals stratified by sex. The box plots display quartiles and whiskers for residuals calculated as observed minus predicted, allowing comparison of residual distributions between male and female groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -1139,7 +1163,7 @@ defined by the variable <code>residualScale</code>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

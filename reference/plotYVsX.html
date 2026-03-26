@@ -17,7 +17,7 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,11 +82,12 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
 <span>  labelGuestCriteria <span class="op">=</span> <span class="st">"guest criteria"</span>,</span>
 <span>  residualScale <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  asSquarePlot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  xscale <span class="op">=</span> <span class="va">AxisScales</span><span class="op">$</span><span class="va">linear</span>,</span>
-<span>  xscale.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  yscale <span class="op">=</span> <span class="va">AxisScales</span><span class="op">$</span><span class="va">log</span>,</span>
-<span>  yscale.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  xScale <span class="op">=</span> <span class="va">AxisScales</span><span class="op">$</span><span class="va">linear</span>,</span>
+<span>  xScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  yScale <span class="op">=</span> <span class="va">AxisScales</span><span class="op">$</span><span class="va">log</span>,</span>
+<span>  yScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  observedDataDirection <span class="op">=</span> <span class="st">"y"</span>,</span>
+<span>  lloqOnBothAxes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  yDisplayAsAbsolute <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -161,24 +162,30 @@ and proportions within comparison lines. Common grouping aesthetics include <cod
 <dd><p>A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.</p></dd>
 
 
-<dt id="arg-xscale">xscale<a class="anchor" aria-label="anchor" href="#arg-xscale"></a></dt>
+<dt id="arg-xscale">xScale<a class="anchor" aria-label="anchor" href="#arg-xscale"></a></dt>
 <dd><p>either 'linear' then <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_continuous()</a></code> or 'log' then <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_log10()</a></code> is used</p></dd>
 
 
-<dt id="arg-xscale-args">xscale.args<a class="anchor" aria-label="anchor" href="#arg-xscale-args"></a></dt>
+<dt id="arg-xscaleargs">xScaleArgs<a class="anchor" aria-label="anchor" href="#arg-xscaleargs"></a></dt>
 <dd><p>list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_continuous()</a></code> or <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_log10()</a></code></p></dd>
 
 
-<dt id="arg-yscale">yscale<a class="anchor" aria-label="anchor" href="#arg-yscale"></a></dt>
+<dt id="arg-yscale">yScale<a class="anchor" aria-label="anchor" href="#arg-yscale"></a></dt>
 <dd><p>either 'linear' then <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_continuous()</a></code> or 'log' then <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_log10()</a></code> is used</p></dd>
 
 
-<dt id="arg-yscale-args">yscale.args<a class="anchor" aria-label="anchor" href="#arg-yscale-args"></a></dt>
+<dt id="arg-yscaleargs">yScaleArgs<a class="anchor" aria-label="anchor" href="#arg-yscaleargs"></a></dt>
 <dd><p>list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_continuous()</a></code> or <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_log10()</a></code></p></dd>
 
 
 <dt id="arg-observeddatadirection">observedDataDirection<a class="anchor" aria-label="anchor" href="#arg-observeddatadirection"></a></dt>
-<dd><p>Either 'x' or 'y', defining the direction of observed data.</p></dd>
+<dd><p>Either "x" or "y", defining the direction of observed data.</p></dd>
+
+
+<dt id="arg-lloqonbothaxes">lloqOnBothAxes<a class="anchor" aria-label="anchor" href="#arg-lloqonbothaxes"></a></dt>
+<dd><p>A boolean; if <code>TRUE</code>, LLOQ lines are drawn on both axes. If <code>FALSE</code> (default),
+the LLOQ line is drawn for the observed-data axis only.
+(<code>geom_vline</code> when <code>observedDataDirection = "x"</code>, <code>geom_hline</code> when <code>observedDataDirection = "y"</code>).</p></dd>
 
 
 <dt id="arg-ydisplayasabsolute">yDisplayAsAbsolute<a class="anchor" aria-label="anchor" href="#arg-ydisplayasabsolute"></a></dt>
@@ -192,15 +199,15 @@ and proportions within comparison lines. Common grouping aesthetics include <cod
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other plot functions:
-<code><a href="plotBoxWhisker.html">plotBoxWhisker</a>()</code>,
-<code><a href="plotForest.html">plotForest</a>()</code>,
-<code><a href="plotHistogram.html">plotHistogram</a>()</code>,
-<code><a href="plotPredVsObs.html">plotPredVsObs</a>()</code>,
-<code><a href="plotQQ.html">plotQQ</a>()</code>,
-<code><a href="plotRangeDistribution.html">plotRangeDistribution</a>()</code>,
-<code><a href="plotRatioVsCov.html">plotRatioVsCov</a>()</code>,
-<code><a href="plotResVsCov.html">plotResVsCov</a>()</code>,
-<code><a href="plotTimeProfile.html">plotTimeProfile</a>()</code></p></div>
+<code><a href="plotBoxWhisker.html">plotBoxWhisker()</a></code>,
+<code><a href="plotForest.html">plotForest()</a></code>,
+<code><a href="plotHistogram.html">plotHistogram()</a></code>,
+<code><a href="plotPredVsObs.html">plotPredVsObs()</a></code>,
+<code><a href="plotQQ.html">plotQQ()</a></code>,
+<code><a href="plotRangeDistribution.html">plotRangeDistribution()</a></code>,
+<code><a href="plotRatioVsCov.html">plotRatioVsCov()</a></code>,
+<code><a href="plotResVsCov.html">plotResVsCov()</a></code>,
+<code><a href="plotTimeProfile.html">plotTimeProfile()</a></code></p></div>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -212,7 +219,7 @@ and proportions within comparison lines. Common grouping aesthetics include <cod
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

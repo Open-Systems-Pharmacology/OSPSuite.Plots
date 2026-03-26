@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,7 +90,12 @@ different binning strategies and statistical summaries.</p>
 <a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a> libraries. We will also utilize the
 <code>ggplot2</code> package for plotting.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.open-systems-pharmacology.org/OSPSuite.Plots/">ospsuite.plots</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>rmarkdown.html_vignette.check_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Set watermark option required for ospsuite.plots functionality</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermarkEnabled <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.open-systems-pharmacology.org/OSPSuite.Plots/">ospsuite.plots</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: ggplot2</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
@@ -111,7 +116,7 @@ indicating group membership.</p>
 <code class="sourceCode R"><span><span class="co"># Simulating example data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
-<span><span class="va">exampleData</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span></span>
+<span><span class="va">exampleData</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></span><span class="op">(</span></span>
 <span>  IndividualId <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>,</span>
 <span>  Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n</span>, min <span class="op">=</span> <span class="fl">2</span>, max <span class="op">=</span> <span class="fl">18</span><span class="op">)</span>,</span>
 <span>  Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, <span class="va">n</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -187,7 +192,7 @@ groups.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plotObject</span><span class="op">)</span></span></code></pre></div>
-<p><img src="range-plot-visualization_files/figure-html/basic-range-plot-1.png" alt="A range plot showing the distribution of values across groups A and B."></p>
+<p><img src="range-plot-visualization_files/figure-html/basic-range-plot-1.png" class="r-plt" alt="A range plot showing the distribution of values across groups A and B."></p>
 <div class="section level5">
 <h5 id="explanation">Explanation:<a class="anchor" aria-label="anchor" href="#explanation"></a>
 </h5>
@@ -226,7 +231,7 @@ breaks.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plotObject</span><span class="op">)</span></span></code></pre></div>
-<p><img src="range-plot-visualization_files/figure-html/custom-binning-range-plot-1.png" alt="A range plot showing the distribution of values with custom binning."></p>
+<p><img src="range-plot-visualization_files/figure-html/custom-binning-range-plot-1.png" class="r-plt" alt="A range plot showing the distribution of values with custom binning."></p>
 <div class="section level5">
 <h5 id="explanation-1">Explanation:<a class="anchor" aria-label="anchor" href="#explanation-1"></a>
 </h5>
@@ -259,7 +264,7 @@ variable and use it in the range plot.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plotObject</span><span class="op">)</span></span></code></pre></div>
-<p><img src="range-plot-visualization_files/figure-html/custom-aggregation-function-1.png" alt="A range plot showing the distribution of values using a custom aggregation function."></p>
+<p><img src="range-plot-visualization_files/figure-html/custom-aggregation-function-1.png" class="r-plt" alt="A range plot showing the distribution of values using a custom aggregation function."></p>
 <div class="section level5">
 <h5 id="explanation-2">Explanation:<a class="anchor" aria-label="anchor" href="#explanation-2"></a>
 </h5>
@@ -288,7 +293,7 @@ option enabled.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plotObject</span><span class="op">)</span></span></code></pre></div>
-<p><img src="range-plot-visualization_files/figure-html/step-plot-range-plot-1.png" alt="A step range plot showing the distribution of values across groups A and B."></p>
+<p><img src="range-plot-visualization_files/figure-html/step-plot-range-plot-1.png" class="r-plt" alt="A step range plot showing the distribution of values across groups A and B."></p>
 <div class="section level5">
 <h5 id="explanation-3">Explanation:<a class="anchor" aria-label="anchor" href="#explanation-3"></a>
 </h5>
@@ -313,7 +318,7 @@ lines.</li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

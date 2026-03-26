@@ -30,9 +30,9 @@
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/addLabels.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/addLayer.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/addWatermark.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/addXScale.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/addXYScale.html</loc></url>
-<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/addXscale.html</loc></url>
-<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/addYscale.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/addYScale.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/calculatePlotDimensions.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/colorMaps.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/combinePlots.html</loc></url>
@@ -42,7 +42,7 @@
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/createPlotObject.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/createTableData.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/createTableObject.html</loc></url>
-<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/dot-addCommonLimitsAndYscaleArguments.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/dot-addCommonLimitsAndYScaleArguments.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/dot-addLayersForObserveddData.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/dot-addLayersForSimulatedData.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/dot-adjustLimits.html</loc></url>
@@ -66,6 +66,7 @@
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/ggplotWithWatermark.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/index.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/initializePlot.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/messages.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/metaData2DataFrame.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/ospsuite.plots-package.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plot.ggWatermark.html</loc></url>

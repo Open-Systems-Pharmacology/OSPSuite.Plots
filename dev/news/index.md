@@ -2,6 +2,8 @@
 
 ## ospsuite.plots (development version)
 
+## ospsuite.plots 1.1.0
+
 ### Breaking Changes
 
 - Residuals are now calculated as `predicted - observed` (linear) and

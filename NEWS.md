@@ -1,4 +1,4 @@
-# ospsuite.plots (development version)
+# ospsuite.plots 1.1.0
 
 ## Breaking Changes
 

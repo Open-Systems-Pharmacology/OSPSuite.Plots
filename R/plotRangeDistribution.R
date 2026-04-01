@@ -24,22 +24,26 @@
 #' @return A ggplot object representing the range plot. The returned object can be further customized or rendered using `print()` or similar functions.
 #' @export
 #' @family plot functions
-plotRangeDistribution <- function(data,
-                                  mapping,
-                                  metaData = NULL,
-                                  modeOfBinning = BINNINGMODE$number,
-                                  numberOfBins = 20,
-                                  breaks = NA,
-                                  asStepPlot = FALSE,
-                                  statFun = NULL,
-                                  percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles)[c(1, 3, 5)],
-                                  yScale = "linear",
-                                  yScaleArgs = list(), # nolint
-                                  xScale = "linear",
-                                  xScaleArgs = list(), # nolint
-                                  geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
-                                  geomLineAttributes = getDefaultGeomAttributes("Line"),
-                                  identifier = "IndividualId") {
+plotRangeDistribution <- function(
+  data,
+  mapping,
+  metaData = NULL,
+  modeOfBinning = BINNINGMODE$number,
+  numberOfBins = 20,
+  breaks = NA,
+  asStepPlot = FALSE,
+  statFun = NULL,
+  percentiles = getOspsuite.plots.option(
+    optionKey = OptionKeys$defaultPercentiles
+  ),
+  yScale = "linear",
+  yScaleArgs = list(), # nolint
+  xScale = "linear",
+  xScaleArgs = list(), # nolint
+  geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
+  geomLineAttributes = getDefaultGeomAttributes("Line"),
+  identifier = "IndividualId"
+) {
   ## Validation -----------
   checkmate::assertDataFrame(data, min.rows = 1)
   checkmate::assertChoice(xScale, choices = c("linear", "log"), null.ok = FALSE)
@@ -59,7 +63,6 @@ plotRangeDistribution <- function(data,
     len = 3,
     null.ok = !is.null(statFun)
   )
-
 
   ## map Data ----------
   mappedData <- MappedDataRangeDistribution$new(
@@ -96,7 +99,6 @@ plotRangeDistribution <- function(data,
     yScale = yScale,
     yScaleArgs = yScaleArgs
   )
-
 
   plotObject <- plotObject +
     do.call(

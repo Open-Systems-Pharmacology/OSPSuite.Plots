@@ -12,8 +12,8 @@
 #' The watermark's properties are determined by options set in the Ospsuite plotting configuration.
 #'
 #' The following options can be used to customize the watermark:
-#' - `watermark_label`: Text to be displayed as the watermark.
-#' - `watermark_format`: A list with the following entries:
+#' - `watermarkLabel`: Text to be displayed as the watermark.
+#' - `watermarkFormat`: A list with the following entries:
 #'   - `x`: The x-coordinate for the watermark's position on the plot.
 #'   - `y`: The y-coordinate for the watermark's position on the plot.
 #'   - `angle`: The angle at which the watermark text is displayed (in degrees).
@@ -23,7 +23,7 @@
 #'
 #' @examples
 #' # Set watermark option first (required)
-#' options(ospsuite.plots.watermark_enabled = TRUE)
+#' options(ospsuite.plots.watermarkEnabled = TRUE)
 #'
 #' # Example usage with watermark enabled
 #' plotWithWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
@@ -31,29 +31,29 @@
 #' print(plotWithWatermark)
 #'
 #' # Example usage with watermark disabled
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = FALSE)
+#' setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = FALSE)
 #' plotWithoutWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
 #'   geom_point()
 #' print(plotWithoutWatermark)
 #' # Reset options
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
+#' setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 #'
 #' # Example usage with customized watermark
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "Custom Label")
-#' watermark_format <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
-#' watermark_format$color <- "red"
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = watermark_format)
+#' setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = "Custom Label")
+#' watermarkFormat <- getOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat)
+#' watermarkFormat$color <- "red"
+#' setOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat, value = watermarkFormat)
 #' plotWithCustomizedWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
 #'   geom_point()
 #' print(plotWithCustomizedWatermark)
 #' # Reset options
 #' setOspsuite.plots.option(
-#'   optionKey = OptionKeys$watermark_format,
-#'   value = getDefaultOptions()[[OptionKeys$watermark_format]]
+#'   optionKey = OptionKeys$watermarkFormat,
+#'   value = getDefaultOptions()[[OptionKeys$watermarkFormat]]
 #' )
 #' setOspsuite.plots.option(
-#'   optionKey = OptionKeys$watermark_label,
-#'   value = getDefaultOptions()[[OptionKeys$watermark_label]]
+#'   optionKey = OptionKeys$watermarkLabel,
+#'   value = getDefaultOptions()[[OptionKeys$watermarkLabel]]
 #' )
 #' @family watermark
 #' @export
@@ -70,13 +70,13 @@ ggplotWithWatermark <- function(...) {
 # Helper function to get watermark enabled status and validate it's set
 # @keywords internal
 .getWatermarkEnabled <- function() {
-  watermarkEnabled <- getOption("ospsuite.plots.watermark_enabled")
+  watermarkEnabled <- getOption("ospsuite.plots.watermarkEnabled")
   if (is.null(watermarkEnabled)) {
     stop(
-      "The option 'ospsuite.plots.watermark_enabled' is not set.\n",
+      "The option 'ospsuite.plots.watermarkEnabled' is not set.\n",
       "Please set it in your .Rprofile or use:\n",
-      "  options(ospsuite.plots.watermark_enabled = TRUE)  # to enable\n",
-      "  options(ospsuite.plots.watermark_enabled = FALSE) # to disable"
+      "  options(ospsuite.plots.watermarkEnabled = TRUE)  # to enable\n",
+      "  options(ospsuite.plots.watermarkEnabled = FALSE) # to disable"
     )
   }
   return(watermarkEnabled)
@@ -115,7 +115,7 @@ print.ggWatermark <- function(x, ...) {
 #' @examples
 #' \dontrun{
 #' # Set watermark option first (required)
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
+#' setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 #'
 #' # Example usage
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
@@ -124,15 +124,15 @@ print.ggWatermark <- function(x, ...) {
 #' print(p_with_watermark)
 #'
 #' # Example of customizing the watermark
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "Custom Watermark")
-#' watermark_format <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
-#' watermark_format$x <- 0.5 # Centered horizontally
-#' watermark_format$y <- 0.5 # Centered vertically
-#' watermark_format$angle <- 45 # Rotated 45 degrees
-#' watermark_format$fontsize <- 6 # Font size 6
-#' watermark_format$color <- "blue" # Blue color
-#' watermark_format$alpha <- 0.5 # 50% transparency
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = watermark_format)
+#' setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = "Custom Watermark")
+#' watermarkFormat <- getOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat)
+#' watermarkFormat$x <- 0.5 # Centered horizontally
+#' watermarkFormat$y <- 0.5 # Centered vertically
+#' watermarkFormat$angle <- 45 # Rotated 45 degrees
+#' watermarkFormat$fontsize <- 6 # Font size 6
+#' watermarkFormat$color <- "blue" # Blue color
+#' watermarkFormat$alpha <- 0.5 # 50% transparency
+#' setOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat, value = watermarkFormat)
 #'
 #' # Create plot with customized watermark
 #' p_custom <- addWatermark(p)
@@ -148,7 +148,7 @@ addWatermark <- function(plotObject) {
 
   checkmate::assert_class(plotObject, classes = "gg")
 
-  # Check if watermark_enabled option is set and get its value
+  # Check if watermarkEnabled option is set and get its value
   watermarkEnabled <- .getWatermarkEnabled()
 
   # if watermark is not enabled return unchanged object
@@ -156,8 +156,8 @@ addWatermark <- function(plotObject) {
     return(plotObject)
   }
 
-  watermarkLabel <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_label)
-  watermarkOptions <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
+  watermarkLabel <- getOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel)
+  watermarkOptions <- getOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat)
 
   # Validate watermark options
   checkmate::assertCharacter(watermarkLabel, len = 1, null.ok = FALSE)

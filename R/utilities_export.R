@@ -10,10 +10,10 @@
 #' The function ensures that the height is adjusted to maintain the correct aspect ratio based on the specified width.
 #'
 #' Options available for plot export with default values:
-#' - `ospsuite.plots.export.width`: Width of the exported plot (default = 16).
-#' - `ospsuite.plots.export.units`: Units of the exported plot (default = "cm").
-#' - `ospsuite.plots.export.device`: File format of the exported plot (default = "png").
-#' - `ospsuite.plots.export.dpi`: Resolution of the exported plot (default = 300).
+#' - `ospsuite.plots.exportWidth`: Width of the exported plot (default = 16).
+#' - `ospsuite.plots.exportUnits`: Units of the exported plot (default = "cm").
+#' - `ospsuite.plots.exportDevice`: File format of the exported plot (default = "png").
+#' - `ospsuite.plots.exportDpi`: Resolution of the exported plot (default = 300).
 #'
 #' For more details and examples see the vignettes:
 #' * \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
@@ -23,7 +23,7 @@
 #' @param filename A character string specifying the name of the file (without path).
 #' @param width A numeric value specifying the width of the plot. If NULL, the default option is used.
 #' @param height A numeric value specifying the height of the plot. If NULL, it is calculated based on the plot dimensions.
-#' @param device Export device, if NULL (default) the device set by ospsuite.plots.export.device is used.
+#' @param device Export device, if NULL (default) the device set by ospsuite.plots.exportDevice is used.
 #' @param ... Additional arguments passed to `ggsave`.
 #'
 #' @return NULL, the function saves the plot to the specified file.
@@ -31,7 +31,7 @@
 #' @examples
 #' \dontrun{
 #' # Set watermark option first (required)
-#' options(ospsuite.plots.watermark_enabled = TRUE)
+#' options(ospsuite.plots.watermarkEnabled = TRUE)
 #'
 #' # Basic usage
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
@@ -77,7 +77,7 @@ exportPlot <- function(plotObject,
   )
   filename <- validateFilename(filename = filename, device = device)
 
-  if (is.null(width)) width <- getOspsuite.plots.option(optionKey = OptionKeys$export.width)
+  if (is.null(width)) width <- getOspsuite.plots.option(optionKey = OptionKeys$exportWidth)
 
   if (is.null(height)) {
     dimensions <- calculatePlotDimensions(plotObject, width)
@@ -89,8 +89,8 @@ exportPlot <- function(plotObject,
     plot = plotObject,
     width = width,
     height = height,
-    dpi = getOspsuite.plots.option(optionKey = OptionKeys$export.dpi),
-    units = getOspsuite.plots.option(optionKey = OptionKeys$export.units),
+    dpi = getOspsuite.plots.option(optionKey = OptionKeys$exportDpi),
+    units = getOspsuite.plots.option(optionKey = OptionKeys$exportUnits),
     ...
   )
 }
@@ -139,7 +139,7 @@ validateInputsExportPlot <- function(plotObject,
 #' @keywords internal
 calculatePlotDimensions <- function(plotObject, width) {
   themeOfPlot <- utils::modifyList(theme_get(), plotObject$theme)
-  exportunits <- getOspsuite.plots.option(optionKey = OptionKeys$export.units)
+  exportunits <- getOspsuite.plots.option(optionKey = OptionKeys$exportUnits)
 
   aspect.ratio <- themeOfPlot$aspect.ratio
   if (is.null(aspect.ratio)) aspect.ratio <- 1
@@ -309,7 +309,7 @@ validateFilename <- function(filename, device) {
 
   # if  option is set overwrite file extension.
   if (is.null(device)) {
-    device <- getOspsuite.plots.option(optionKey = OptionKeys$export.device)
+    device <- getOspsuite.plots.option(optionKey = OptionKeys$exportDevice)
   }
 
   # Validate that device is a supported format

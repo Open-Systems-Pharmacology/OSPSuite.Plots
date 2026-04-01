@@ -57,7 +57,7 @@ addLayer <- function(mappedData,
   )
 
   # check for geomUnicodeMode
-  geomUnicodeMode <- getOspsuite.plots.option(optionKey = OptionKeys$GeomPointUnicode)
+  geomUnicodeMode <- getOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode)
   if (geomUnicodeMode &&
     geom == "point") {
     layerToCall <- geomPointUnicode
@@ -82,7 +82,7 @@ addLayer <- function(mappedData,
 
   if (geom == "point" & mappedData$hasLLOQMatch) {
     plotObject <- plotObject +
-      scale_alpha_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$LLOQAlphaVector)) +
+      scale_alpha_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$lloqAlphaVector)) +
       guides(alpha = "none")
   }
 
@@ -116,7 +116,7 @@ addLLOQLayer <-
     if (useLinetypeAsAttribute) {
       # When using linetype as attribute: no legend entry, direct styling
       geomLLOQAttributes <- utils::modifyList(
-        list(linetype = getOspsuite.plots.option(optionKey = OptionKeys$LLOQLineType)),
+        list(linetype = getOspsuite.plots.option(optionKey = OptionKeys$lloqLineType)),
         geomLLOQAttributes
       )
     }
@@ -157,7 +157,7 @@ addLLOQLayer <-
       # Add manual scale for legend: maps "LLOQ" label to specified line type
       plotObject <- plotObject +
         scale_linetype_manual(
-          values = c(LLOQ = getOspsuite.plots.option(optionKey = OptionKeys$LLOQLineType)),
+          values = c(LLOQ = getOspsuite.plots.option(optionKey = OptionKeys$lloqLineType)),
           guide = guide_legend(
             title = NULL,
             order = 10,

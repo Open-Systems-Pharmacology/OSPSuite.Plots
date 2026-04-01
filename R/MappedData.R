@@ -379,7 +379,7 @@ MappedData <- R6::R6Class(
       }
 
       if (
-        length(errorType) != 1 ||
+        length(errorType) == 0 ||
           is.null(private$getDataForAesthetic(errorType, stopIfNull = FALSE))
       ) {
         return(invisible(self))
@@ -400,8 +400,12 @@ MappedData <- R6::R6Class(
       }
       private$addOverwriteAes(newMapping)
 
-      if (private$aestheticExists("error")) self$mapping$error <- NULL
-      if (private$aestheticExists("error_relative")) self$mapping$error_relative <- NULL
+      if (private$aestheticExists("error")) {
+        self$mapping$error <- NULL
+      }
+      if (private$aestheticExists("error_relative")) {
+        self$mapping$error_relative <- NULL
+      }
 
       return(invisible(self))
     },
@@ -613,8 +617,7 @@ MappedData <- R6::R6Class(
         self$data <- self$data |>
           dplyr::mutate(
             "error.min" = ifelse(
-              !!self$mapping[[private$direction]] >
-                !!self$mapping[[errorType]],
+              !!self$mapping[[private$direction]] > !!self$mapping[[errorType]],
               !!self$mapping[[private$direction]] -
                 !!self$mapping[[errorType]],
               !!self$mapping[[private$direction]]

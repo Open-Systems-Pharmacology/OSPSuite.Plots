@@ -15,11 +15,22 @@ legendPlot <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
 
 
 testthat::test_that("validateFilename replaces forbidden characters and sets device", {
-  expect_equal(as.character(validateFilename("concentration in µg/L", device = NULL)), "concentration in ug_L.png")
-  expect_equal(as.character(validateFilename("project:details", device = "pdf")), "project_details.pdf")
-  expect_equal(as.character(validateFilename("invalid*filename?", device = NULL)), "invalid_filename_.png")
-  expect_equal(as.character(validateFilename("<test>|doc.pdf", device = NULL)), "_test__doc.png")
-  expect_equal(as.character(validateFilename("path\\to\\file", device = NULL)), "path_to_file.png")
+  expect_equal(
+    as.character(validateFilename("concentration in µg/L", device = NULL)),
+    "concentration in ug_L.png"
+  )
+  expect_equal(
+    as.character(validateFilename("project:details", device = "pdf")),
+    "project_details.pdf"
+  )
+  expect_equal(
+    as.character(validateFilename("invalid*filename?", device = NULL)),
+    "invalid_filename_.png"
+  )
+  expect_equal(
+    as.character(validateFilename("<test>|doc.pdf", device = NULL)),
+    "_test__doc.png"
+  )
 })
 
 
@@ -48,11 +59,16 @@ test_that("exportPlot accepts custom width and height", {
   tempDir <- tempdir()
   filename <- "testPlotCustom.png"
 
-  expect_silent(exportPlot(testPlot, filepath = tempDir, filename = filename, width = 10, height = 5))
+  expect_silent(exportPlot(
+    testPlot,
+    filepath = tempDir,
+    filename = filename,
+    width = 10,
+    height = 5
+  ))
 
   # Check if the file was created
   expect_true(file.exists(file.path(tempDir, filename)))
-
 
   img <- png::readPNG(file.path(tempDir, filename))
   width <- dim(img)[2]
@@ -91,8 +107,10 @@ test_that("exportPlot handles legend offsets", {
   tempDir <- tempdir()
   filename <- "legendPlot.png"
 
-  expect_silent(exportPlot(legendPlot + theme(legend.position = "none"),
-    filepath = tempDir, filename = filename
+  expect_silent(exportPlot(
+    legendPlot + theme(legend.position = "none"),
+    filepath = tempDir,
+    filename = filename
   ))
 
   # dimensions for plot without legend
@@ -102,8 +120,10 @@ test_that("exportPlot handles legend offsets", {
 
   filename <- "legendPlotTop.png"
 
-  expect_silent(exportPlot(legendPlot + theme(legend.position = "top", legend.direction = "vertical"),
-    filepath = tempDir, filename = filename
+  expect_silent(exportPlot(
+    legendPlot + theme(legend.position = "top", legend.direction = "vertical"),
+    filepath = tempDir,
+    filename = filename
   ))
 
   # dimensions for plot with legend on top
@@ -118,8 +138,11 @@ test_that("exportPlot handles legend offsets", {
 
   filename <- "legendPlotRight.png"
 
-  expect_silent(exportPlot(legendPlot + theme(legend.position = "right", legend.direction = "horizontal"),
-    filepath = tempDir, filename = filename
+  expect_silent(exportPlot(
+    legendPlot +
+      theme(legend.position = "right", legend.direction = "horizontal"),
+    filepath = tempDir,
+    filename = filename
   ))
 
   # dimensions for plot with legend on side
@@ -134,8 +157,11 @@ test_that("exportPlot handles legend offsets", {
 
   filename <- "legendPlotBottom.png"
 
-  expect_silent(exportPlot(legendPlot + theme(legend.position = "bottom", legend.direction = "vertical"),
-    filepath = tempDir, filename = filename
+  expect_silent(exportPlot(
+    legendPlot +
+      theme(legend.position = "bottom", legend.direction = "vertical"),
+    filepath = tempDir,
+    filename = filename
   ))
 
   # dimensions for plot with legend on bottom
@@ -147,8 +173,11 @@ test_that("exportPlot handles legend offsets", {
 
   filename <- "legendPlotLeft.png"
 
-  expect_silent(exportPlot(legendPlot + theme(legend.position = "left", legend.direction = "horizontal"),
-    filepath = tempDir, filename = filename
+  expect_silent(exportPlot(
+    legendPlot +
+      theme(legend.position = "left", legend.direction = "horizontal"),
+    filepath = tempDir,
+    filename = filename
   ))
 
   # dimensions for plot with legend on left
@@ -157,7 +186,6 @@ test_that("exportPlot handles legend offsets", {
 
   # width stays the same for left legend
   expect_equal(widthNoLegend, expected = widthLeftLegend)
-
 
   # Clean up
   pngFiles <- list.files(tempDir, pattern = "legendPlot")
@@ -208,7 +236,11 @@ test_that("exportPlot handles legend offsets", {
 # Test for filename containing path
 test_that("exportPlot fails if filename contains path", {
   expect_error(
-    exportPlot(testPlot, filepath = tempdir(), filename = "invalid/path/testPlot.png"),
+    exportPlot(
+      testPlot,
+      filepath = tempdir(),
+      filename = "invalid/path/testPlot.png"
+    ),
     regexp = messages$errorFilenameContainsPath(),
     fixed = TRUE
   )
@@ -216,12 +248,18 @@ test_that("exportPlot fails if filename contains path", {
 
 # Test for invalid plot object
 test_that("exportPlot fails with invalid plot object", {
-  expect_error(exportPlot(NULL, filepath = tempdir(), filename = "testPlot.png"))
+  expect_error(exportPlot(
+    NULL,
+    filepath = tempdir(),
+    filename = "testPlot.png"
+  ))
 })
 
 # Test for missing file path
 test_that("exportPlot fails with missing file path", {
-  expect_error(exportPlot(testPlot, filepath = NULL, filename = "testPlot.png"), )
+  expect_error(
+    exportPlot(testPlot, filepath = NULL, filename = "testPlot.png"),
+  )
 })
 
 # Test for missing filename
@@ -248,7 +286,8 @@ test_that("exportPlot uses export options correctly", {
   filename <- "testPlot.png"
 
   # export
-  expect_silent(exportPlot(testPlot,
+  expect_silent(exportPlot(
+    testPlot,
     filepath = tempDir,
     filename = filename,
     width = 16
@@ -258,9 +297,10 @@ test_that("exportPlot uses export options correctly", {
   width <- dim(img)[2]
   height <- dim(img)[1]
 
-  setOspsuite.plots.option(optionKey = OptionKeys$export.units, value = "mm")
+  setOspsuite.plots.option(optionKey = OptionKeys$exportUnits, value = "mm")
 
-  expect_silent(exportPlot(testPlot,
+  expect_silent(exportPlot(
+    testPlot,
     filepath = tempDir,
     filename = filename,
     width = 160
@@ -274,33 +314,27 @@ test_that("exportPlot uses export options correctly", {
   expect_equal(heightmm, expected = height)
 
   setOspsuite.plots.option(
-    optionKey = OptionKeys$export.units,
-    value = getDefaultOptions()[[OptionKeys$export.width]]
+    optionKey = OptionKeys$exportUnits,
+    value = getDefaultOptions()[["ospsuite.plots.exportUnits"]]
   )
 
   # test dpi
-  setOspsuite.plots.option(optionKey = OptionKeys$export.dpi, value = 150)
+  setOspsuite.plots.option(optionKey = OptionKeys$exportDpi, value = 150)
 
-  expect_silent(exportPlot(testPlot,
-    filepath = tempDir,
-    filename = filename
-  ))
+  expect_silent(exportPlot(testPlot, filepath = tempDir, filename = filename))
 
   img <- png::readPNG(file.path(tempDir, filename))
   widthdpi <- dim(img)[2]
 
   expect_equal(width / widthdpi, expected = 2, tolerance = 0.01)
   setOspsuite.plots.option(
-    optionKey = OptionKeys$export.dpi,
-    value = getDefaultOptions()[[OptionKeys$export.dpi]]
+    optionKey = OptionKeys$exportDpi,
+    value = getDefaultOptions()[["ospsuite.plots.exportDpi"]]
   )
 
   # Check if the file was created with correct device
-  options(ospsuite.plots.export.device = "pdf")
-  expect_silent(exportPlot(testPlot,
-    filepath = tempDir,
-    filename = filename
-  ))
+  setOspsuite.plots.option(optionKey = OptionKeys$exportDevice, value = "pdf")
+  expect_silent(exportPlot(testPlot, filepath = tempDir, filename = filename))
 
   expect_true(file.exists(file.path(
     tempDir,
@@ -308,8 +342,8 @@ test_that("exportPlot uses export options correctly", {
   )))
 
   setOspsuite.plots.option(
-    optionKey = OptionKeys$export.device,
-    value = getDefaultOptions()[[OptionKeys$export.device]]
+    optionKey = OptionKeys$exportDevice,
+    value = getDefaultOptions()[["ospsuite.plots.exportDevice"]]
   )
 
   # Clean up

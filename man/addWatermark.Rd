@@ -18,7 +18,7 @@ This function adds a customizable watermark to a ggplot object. The watermark ca
 \examples{
 \dontrun{
 # Set watermark option first (required)
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 
 # Example usage
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
@@ -27,15 +27,15 @@ p_with_watermark <- addWatermark(p)
 print(p_with_watermark)
 
 # Example of customizing the watermark
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "Custom Watermark")
-watermark_format <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_format)
-watermark_format$x <- 0.5 # Centered horizontally
-watermark_format$y <- 0.5 # Centered vertically
-watermark_format$angle <- 45 # Rotated 45 degrees
-watermark_format$fontsize <- 6 # Font size 6
-watermark_format$color <- "blue" # Blue color
-watermark_format$alpha <- 0.5 # 50\% transparency
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = watermark_format)
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = "Custom Watermark")
+watermarkFormat <- getOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat)
+watermarkFormat$x <- 0.5 # Centered horizontally
+watermarkFormat$y <- 0.5 # Centered vertically
+watermarkFormat$angle <- 45 # Rotated 45 degrees
+watermarkFormat$fontsize <- 6 # Font size 6
+watermarkFormat$color <- "blue" # Blue color
+watermarkFormat$alpha <- 0.5 # 50\% transparency
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat, value = watermarkFormat)
 
 # Create plot with customized watermark
 p_custom <- addWatermark(p)

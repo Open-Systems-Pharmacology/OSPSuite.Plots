@@ -1,7 +1,7 @@
 Package: ospsuite.plots
 Type: Package
 Title: Library for standardized graphs
-Version: 1.0.1.9009
+Version: 1.1.0.9001
 Authors@R: 
     c(person(given = "Open-Systems-Pharmacology Community",
              role = "cph"),
@@ -59,7 +59,8 @@ Vignette:
   inst/doc/forest-plots.Rmd
   inst/doc/range-plot-visualization.Rmd
 Config/testthat/edition: 3
-Collate: 'utilities-defaults.R'
+Collate: 'messages.R'
+         'utilities-defaults.R'
          'utilities_enum.R'
          'add_Layer.R'
          'ggplotWithWatermark.R'

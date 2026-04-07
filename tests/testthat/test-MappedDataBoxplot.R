@@ -92,13 +92,17 @@ test_that("MappedDataBoxplot doAdjustmentsWithMetaData works correctly", {
   )
 
   # Test with linear scale for numeric data
-  expect_warning({
-    mappedDataNumeric$doAdjustmentsWithMetaData(
-      originalmapping = ggplot2::aes(x = x, y = y),
-      xScale = "linear",
-      xScaleArgs = list()
-    )
-  })
+  expect_warning(
+    {
+      mappedDataNumeric$doAdjustmentsWithMetaData(
+        originalmapping = ggplot2::aes(x = x, y = y),
+        xScale = "linear",
+        xScaleArgs = list()
+      )
+    },
+    regexp = messages$warningNoMetaDataForXAxis(),
+    fixed = TRUE
+  )
 
   mappedDataNumeric$addMetaData(
     metaData = list(x = list(
@@ -169,13 +173,17 @@ test_that("MappedDataBoxplot scale validation works correctly", {
     ))
   )
 
-  expect_error({
-    mappedDataFactor$doAdjustmentsWithMetaData(
-      originalmapping = ggplot2::aes(x = x, y = y),
-      xScale = "linear", # This should fail for factor data
-      xScaleArgs = list()
-    )
-  })
+  expect_error(
+    {
+      mappedDataFactor$doAdjustmentsWithMetaData(
+        originalmapping = ggplot2::aes(x = x, y = y),
+        xScale = "linear", # This should fail for factor data
+        xScaleArgs = list()
+      )
+    },
+    regexp = messages$errorContinuousXScaleNotPossibleForFactors(AxisScales$discrete),
+    fixed = TRUE
+  )
 
   # Test error when trying to use discrete scale with numeric data
   testDataNumeric <- data.frame(
@@ -194,13 +202,17 @@ test_that("MappedDataBoxplot scale validation works correctly", {
     ))
   )
 
-  expect_error({
-    mappedDataNumeric$doAdjustmentsWithMetaData(
-      originalmapping = ggplot2::aes(x = x, y = y),
-      xScale = "discrete", # This should fail for numeric data
-      xScaleArgs = list()
-    )
-  })
+  expect_error(
+    {
+      mappedDataNumeric$doAdjustmentsWithMetaData(
+        originalmapping = ggplot2::aes(x = x, y = y),
+        xScale = "discrete", # This should fail for numeric data
+        xScaleArgs = list()
+      )
+    },
+    regexp = messages$errorDiscreteXScaleNotPossibleForContinuous(AxisScales$linear, AxisScales$log),
+    fixed = TRUE
+  )
 })
 
 test_that("MappedDataBoxplot input validation works", {

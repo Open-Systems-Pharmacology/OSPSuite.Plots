@@ -7,7 +7,6 @@
 plotResVsCov(
   data,
   mapping,
-  residualScale = ResidualScales$log,
   comparisonLineVector = 0,
   yScale = AxisScales$linear,
   ...
@@ -17,8 +16,6 @@ plotResVsCov(
 \item{data}{A \code{data.frame} containing the data to plot.}
 
 \item{mapping}{A list of aesthetic mappings to use for the plot.}
-
-\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
 
 \item{comparisonLineVector}{A vector defining the comparison lines.}
 
@@ -35,7 +32,10 @@ plotResVsCov(
     \item{\code{deltaGuest}}{Numeric value parameter for the Guest function.}
     \item{\code{labelGuestCriteria}}{Label used in the legend for guest criteria (default: "guest criteria").}
     \item{\code{asSquarePlot}}{A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.}
-    \item{\code{observedDataDirection}}{Either 'x' or 'y', defining the direction of observed data.}
+    \item{\code{observedDataDirection}}{Either "x" or "y", defining the direction of observed data.}
+    \item{\code{lloqOnBothAxes}}{A boolean; if \code{TRUE}, LLOQ lines are drawn on both axes. If \code{FALSE} (default),
+the LLOQ line is drawn for the observed-data axis only.
+(\code{geom_vline} when \code{observedDataDirection = "x"}, \code{geom_hline} when \code{observedDataDirection = "y"}).}
     \item{\code{groupAesthetics}}{A character vector of aesthetic names used for grouping data points when calculating
 comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
 and proportions within comparison lines. Common grouping aesthetics include \code{"colour"}, \code{"fill"}, \code{"shape"}.}
@@ -56,8 +56,8 @@ This function is a wrapper for \code{plotYVsX} with adjusted input parameters.
 
 The following parameters are fixed and cannot be set:
 \itemize{
-\item \code{observedDataDirection = 'y'}
-\item \code{yDisplayAsAbsolute = TRUE}
+\item \code{observedDataDirection = "y"}
+\item \code{yDisplayAsAbsolute = FALSE}
 \item \code{addGuestLimits = FALSE} (use \code{plotRatio()} if needed)
 }
 

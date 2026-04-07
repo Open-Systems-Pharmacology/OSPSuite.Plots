@@ -5,7 +5,7 @@ test_that("Change watermark", {
   skip_if(getRversion() < "4.1")
 
   setOspsuite.plots.option(
-    optionKey = OptionKeys$watermark_format,
+    optionKey = OptionKeys$watermarkFormat,
     value = list(
       x = 0.2,
       y = 0.9,
@@ -16,7 +16,7 @@ test_that("Change watermark", {
     )
   )
   setOspsuite.plots.option(
-    optionKey = OptionKeys$watermark_label,
+    optionKey = OptionKeys$watermarkLabel,
     value = "NEW"
   )
 
@@ -26,7 +26,7 @@ test_that("Change watermark", {
   )
 
   setOspsuite.plots.option(
-    optionKey = OptionKeys$watermark_enabled,
+    optionKey = OptionKeys$watermarkEnabled,
     value = FALSE
   )
 
@@ -36,16 +36,16 @@ test_that("Change watermark", {
   )
 
   setOspsuite.plots.option(
-    optionKey = OptionKeys$watermark_format,
+    optionKey = OptionKeys$watermarkFormat,
     value = NULL
   )
   setOspsuite.plots.option(
-    optionKey = OptionKeys$watermark_label,
+    optionKey = OptionKeys$watermarkLabel,
     value = NULL
   )
-  # Reset watermark_enabled to TRUE instead of NULL since there's no default
+  # Reset watermarkEnabled to TRUE instead of NULL since there's no default
   setOspsuite.plots.option(
-    optionKey = OptionKeys$watermark_enabled,
+    optionKey = OptionKeys$watermarkEnabled,
     value = TRUE
   )
 
@@ -77,7 +77,7 @@ test_that("saves plot with watermark in SVG", {
   svgContent <- readLines(tempSvg)
 
   # Retrieve the watermark label from the plotting options
-  watermarkLabel <- getOspsuite.plots.option(optionKey = OptionKeys$watermark_label)
+  watermarkLabel <- getOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel)
 
   # Check if the watermark label is present in the SVG content
   expect_true(any(grepl(watermarkLabel, svgContent)),
@@ -141,44 +141,44 @@ test_that("cowplot::plot_list works correctly", {
 
 test_that("addWatermark throws error when watermark option is not set", {
   # Save current option value
-  oldValue <- getOption("ospsuite.plots.watermark_enabled")
-  
+  oldValue <- getOption("ospsuite.plots.watermarkEnabled")
+
   # Clear the option
-  options(ospsuite.plots.watermark_enabled = NULL)
-  
+  options(ospsuite.plots.watermarkEnabled = NULL)
+
   # Create a simple plot
   p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point()
-  
+
   # Test that addWatermark throws an error
   expect_error(
     addWatermark(p),
-    "ospsuite.plots.watermark_enabled.*not set"
+    "ospsuite.plots.watermarkEnabled.*not set"
   )
-  
+
   # Restore option
-  options(ospsuite.plots.watermark_enabled = oldValue)
+  options(ospsuite.plots.watermarkEnabled = oldValue)
 })
 
 test_that("print.ggWatermark throws error when watermark option is not set", {
   # Save current option value
-  oldValue <- getOption("ospsuite.plots.watermark_enabled")
-  
+  oldValue <- getOption("ospsuite.plots.watermarkEnabled")
+
   # Clear the option
-  options(ospsuite.plots.watermark_enabled = NULL)
-  
+  options(ospsuite.plots.watermarkEnabled = NULL)
+
   # Create a plot with watermark class
   p <- ggplotWithWatermark(mtcars, aes(x = wt, y = mpg)) +
     geom_point()
-  
+
   # Test that printing throws an error
   expect_error(
     print(p),
-    "ospsuite.plots.watermark_enabled.*not set"
+    "ospsuite.plots.watermarkEnabled.*not set"
   )
-  
+
   # Restore option
-  options(ospsuite.plots.watermark_enabled = oldValue)
+  options(ospsuite.plots.watermarkEnabled = oldValue)
 })
 
 

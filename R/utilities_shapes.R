@@ -201,7 +201,7 @@ geomPointUnicode <- function(mapping = NULL, data = NULL, stat = "identity",
     }
     # Validate that the shape is a valid Unicode character
     if (!is.character(ggplotShape) || nchar(ggplotShape) == 0) {
-      warning("Invalid shape code: ", shape, ". Using default square.")
+      warning(messages$warningInvalidShapeCode(shape))
       ggplotShape <- Shapes[["square"]]
     }
     ggplotShapes <- c(ggplotShapes, ggplotShape)

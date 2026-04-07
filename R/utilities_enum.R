@@ -3,8 +3,8 @@
 OptionKeys <- enum(c( # nolint
   gsub("ospsuite.plots.", "", names(getDefaultOptions())),
   "shapeValues",
-  # Manually include watermark_enabled because it has no default value
-  "watermark_enabled"
+  # Manually include watermarkEnabled because it has no default value
+  "watermarkEnabled"
 ))
 
 #' @title enumeration keys for OSPSuite.plots scaling options for axis scalings
@@ -13,14 +13,6 @@ AxisScales <- enum(c( # nolint
   linear = "linear",
   log = "log",
   discrete = "discrete"
-))
-
-#' @title enumeration keys for OSPSuite.plots scaling options for residual calculations
-#' @export
-ResidualScales <- enum(c( # nolint
-  linear = "linear",
-  log = "log",
-  ratio = "ratio"
 ))
 
 #' @title enumeration keys for mode of Binning

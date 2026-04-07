@@ -20,11 +20,6 @@ MappedData <- R6::R6Class(
     xlimits = NULL,
     #' @field ylimits double vector limits of primary y axis
     ylimits = NULL,
-    #' @field hasResidualMapping flag to indicate if residual mapping is used
-    hasResidualMapping = FALSE,
-    #' @field residualLabel label for residuals
-    residualLabel = NULL,
-
     #' @param data data.frame used for mapping
     #' @param mapping list of aesthetic mappings
     #' @param xScale scale of x-axis either 'linear' or 'log'
@@ -35,8 +30,6 @@ MappedData <- R6::R6Class(
     #' @param isObserved A `boolean `if TRUE mappings mdv, lloq
     #' @param xlimits limits for x-axis (may be NULL)
     #' @param ylimits limits for y-axis (may be NULL)
-    #' @param residualScale scale of x residuals
-    #' @param residualAesthetic aesthetic used for mapping residuals
     #'
     #' @description Create a new `MappedData` object
     #' @return A new `MappedData` object
@@ -50,9 +43,7 @@ MappedData <- R6::R6Class(
       direction = "y",
       isObserved = TRUE,
       xlimits = NULL,
-      ylimits = NULL,
-      residualScale = NULL,
-      residualAesthetic = "y"
+      ylimits = NULL
     ) {
       # Validation
       checkmate::assertClass(data, classes = "data.frame", null.ok = FALSE)
@@ -129,11 +120,6 @@ MappedData <- R6::R6Class(
 
       # transfer groupby to group aesthetics
       private$adjustGroupAesthetics()
-
-      private$adjustForResidualMatch(
-        residualScale = residualScale,
-        residualAesthetic = residualAesthetic
-      )
 
       # setLimits
       private$setLimits(xScale, yScale)
@@ -294,7 +280,7 @@ MappedData <- R6::R6Class(
         },
         error = function(cond) {
           if (stopIfNull) {
-            stop(paste("evaluation of aesthetic", aesthetic, "failed:", cond))
+            stop(messages$errorEvaluationOfAestheticFailed(aesthetic, cond))
           } else {
             NULL
           }
@@ -379,10 +365,7 @@ MappedData <- R6::R6Class(
         errorType <-
           intersect(names(self$mapping), c("error", "error_relative"))
         if (length(errorType) > 1) {
-          stop(paste(
-            "observed data mapping contains more then one error definition:",
-            paste0(errorType, collapse = ", ")
-          ))
+          stop(messages$errorObservedDataMultipleErrorDefinitions(errorType))
         }
 
         if (
@@ -565,64 +548,6 @@ MappedData <- R6::R6Class(
 
       return(invisible(self))
     },
-    #' adds new column `residuals.i`
-    adjustForResidualMatch = function(residualScale, residualAesthetic) {
-      if (is.null(residualScale)) {
-        return(invisible(self))
-      }
-      if (
-        private$aestheticExists("predicted") &
-          private$aestheticExists("observed")
-      ) {
-        checkmate::assertNames(
-          names(self$data),
-          disjunct.from = c("residuals.i"),
-          .var.name = "column names of observed data"
-        )
-
-        if (!residualAesthetic %in% names(self$mapping)) {
-          # Extract predicted and observed values
-          predictedValues <- private$getDataForAesthetic("predicted")
-          observedValues <- private$getDataForAesthetic("observed")
-
-          residualValues <- computeResiduals(
-            predicted = predictedValues,
-            observed = observedValues,
-            scaling = residualScale
-          )
-
-          # Add residuals column to data
-          self$data <- self$data |>
-            dplyr::mutate(residuals.i = residualValues)
-
-          # add mapping for residuals
-          private$addOverwriteAes(eval(parse(
-            text = paste0(
-              "aes(",
-              residualAesthetic,
-              "= residuals.i)"
-            )
-          )))
-
-          # set boolean
-          self$hasResidualMapping <- TRUE
-
-          self$residualLabel <-
-            switch(
-              residualScale,
-              linear = "residuals\npredicted - observed",
-              log = "residuals\nlog(predicted) - log(observed)",
-              ratio = "predicted/observed"
-            )
-        }
-      }
-
-      # clean up
-      self$mapping[["observed"]] <- NULL
-      self$mapping[["predicted"]] <- NULL
-
-      return(invisible(self))
-    },
     #' factorize column for group to factor
     addGroupOrder = function(groupOrder) {
       if (is.null(groupOrder)) {
@@ -631,9 +556,7 @@ MappedData <- R6::R6Class(
       if (
         !private$aestheticExists("group") & !private$aestheticExists("groupby")
       ) {
-        stop(
-          'for mapping of observed to simulated aesthetic "group" or "groupby" is needed'
-        )
+        stop(messages$errorGroupAestheticNeeded())
       }
 
       aesthetics <- intersect(names(self$mapping), c("group", "groupby"))

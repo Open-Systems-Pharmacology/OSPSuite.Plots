@@ -9,7 +9,6 @@ plotQQ(
   mapping,
   metaData = NULL,
   xScaleArgs = list(),
-  residualScale = ResidualScales$log,
   yScaleArgs = list(),
   geomQQAttributes = list(),
   geomQQLineAttributes = geomQQAttributes,
@@ -26,10 +25,6 @@ see vignettes for more details and examples}
 \item{metaData}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
 
 \item{xScaleArgs}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
-
-\item{residualScale}{Either \code{"linear"} or \code{"log"} for scaling residuals.
-For linear: residuals = predicted - observed. For log: residuals = log(predicted) - log(observed).
-The y-axis scale remains linear in both cases.}
 
 \item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 

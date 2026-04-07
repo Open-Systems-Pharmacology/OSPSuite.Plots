@@ -16,7 +16,7 @@ Set OSPSuite plots option with a given key and value.
 }
 \examples{
 \dontrun{
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 }
 }
 \seealso{

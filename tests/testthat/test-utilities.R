@@ -110,8 +110,22 @@ test_that("getFoldDistanceList works correctly", {
   expect_equal(result$`2.5 fold`, c(2.5, 0.4))
 
   # Test error for invalid folds (should be > 1)
-  expect_error(getFoldDistanceList(folds = 0.5))
-  expect_error(getFoldDistanceList(folds = c(1.5, 0.8)))
+  expect_error(
+    getFoldDistanceList(folds = 0.5),
+    regexp = messages$errorFoldDistanceMustBeGreaterThanOne(0.5),
+    fixed = TRUE
+  )
+  expect_error(
+    getFoldDistanceList(folds = c(1.5, 0.8)),
+    regexp = messages$errorFoldDistanceMustBeGreaterThanOne(0.8),
+    fixed = TRUE
+  )
+  # Test error for fold = 1 (exactly 1 should also fail)
+  expect_error(
+    getFoldDistanceList(folds = 1),
+    regexp = messages$errorFoldDistanceMustBeGreaterThanOne(1),
+    fixed = TRUE
+  )
 })
 
 test_that("metaData2DataFrame works correctly", {

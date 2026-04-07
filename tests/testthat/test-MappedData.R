@@ -312,7 +312,9 @@ test_that("grouping for simulation and observed works", {
       scaleOfSecondaryAxis = AxisScales$linear,
       ylimits = list(),
       y2limits = list()
-    )
+    ),
+    regexp = messages$errorGroupAestheticNeeded(),
+    fixed = TRUE
   )
 
 
@@ -397,39 +399,3 @@ test_that("updateScaleArgumentsForTimeUnit works", {
   expect_true("breaks" %in% names(updatedScaleArgs))
 })
 
-test_that("adjustForResidualMatch works", {
-  obsData <- exampleDataTimeProfile |>
-    dplyr::filter(SetID == "DataSet3") |>
-    dplyr::filter(Type == "observed") |>
-    dplyr::filter(dimension == "concentration")
-  obsAes <- aes(
-    x = time,
-    observed = values,
-    groupby = caption,
-    predicted = values
-  )
-
-  obsDataMatch <- MappedData$new(
-    data = obsData,
-    mapping = obsAes,
-    xScale = AxisScales$linear,
-    yScale = AxisScales$linear,
-    groupAesthetics = c("colour", "fill", "linetype", "shape")
-  )
-
-  # Adjust for residual match without specifying scale
-  expect_false(obsDataMatch$hasResidualMapping)
-
-  # Now with a specified scale
-  obsDataMatch <- MappedData$new(
-    data = obsData,
-    mapping = obsAes,
-    xScale = AxisScales$linear,
-    yScale = AxisScales$linear,
-    groupAesthetics = c("colour", "fill", "linetype", "shape"),
-    residualScale = ResidualScales$ratio
-  )
-
-  expect_true(obsDataMatch$hasResidualMapping)
-  expect_true("residuals.i" %in% names(obsDataMatch$data))
-})

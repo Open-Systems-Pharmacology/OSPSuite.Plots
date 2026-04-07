@@ -16,8 +16,7 @@ plotHistogram(
   yScale = AxisScales$linear,
   yScaleArgs = list(),
   distribution = "none",
-  meanFunction = "auto",
-  residualScale = ResidualScales$log
+  meanFunction = "auto"
 )
 }
 \arguments{
@@ -50,8 +49,6 @@ Shortcuts: \code{"normal"} (same as \code{"norm"}), \code{"lognormal"} (same as 
 
 \item{meanFunction}{Function selection for the display of a vertical line. Options: \code{'none'}, \code{'mean'}, \code{'geomean'}, \code{'median'}, \code{'auto'} (default).
 \code{'auto'} selects \code{'mean'} for normal distribution, \code{'geomean'} for lognormal, \code{'median'} for other distributions, and \code{'none'} when no distribution fit.}
-
-\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
 }
 \value{
 A \code{ggplot} object.

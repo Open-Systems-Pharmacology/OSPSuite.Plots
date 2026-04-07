@@ -217,12 +217,12 @@
 <rect x='395.81' y='44.18' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <line x1='397.53' y1='52.82' x2='411.36' y2='52.82' style='stroke-width: 2.67; stroke: #0078D7; stroke-linecap: butt;' />
 <line x1='397.53' y1='52.82' x2='411.36' y2='52.82' style='stroke-width: 1.07; stroke: #0078D7; stroke-linecap: butt;' />
-<circle cx='404.45' cy='52.82' r='1.95' style='stroke-width: 0.71; stroke: #0078D7; fill: #0078D7;' />
+<circle cx='404.45' cy='52.82' r='1.95' style='stroke-width: 0.71; stroke: #0078D7;' />
 <line x1='397.53' y1='52.82' x2='411.36' y2='52.82' style='stroke-width: 1.07; stroke: #0078D7; stroke-linecap: butt;' />
 <rect x='395.81' y='61.46' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <line x1='397.53' y1='70.10' x2='411.36' y2='70.10' style='stroke-width: 2.67; stroke: #D83B01; stroke-linecap: butt;' />
 <line x1='397.53' y1='70.10' x2='411.36' y2='70.10' style='stroke-width: 1.07; stroke: #D83B01; stroke-linecap: butt;' />
-<circle cx='404.45' cy='70.10' r='1.95' style='stroke-width: 0.71; stroke: #D83B01; fill: #D83B01;' />
+<circle cx='404.45' cy='70.10' r='1.95' style='stroke-width: 0.71; stroke: #D83B01;' />
 <line x1='397.53' y1='70.10' x2='411.36' y2='70.10' style='stroke-width: 1.07; stroke: #D83B01; stroke-linecap: butt;' />
 <text x='418.57' y='55.85' style='font-size: 8.80px; font-family: sans;' textLength='52.84px' lengthAdjust='spacingAndGlyphs'>concentration</text>
 <text x='418.57' y='73.13' style='font-size: 8.80px; font-family: sans;' textLength='28.86px' lengthAdjust='spacingAndGlyphs'>fraction</text>

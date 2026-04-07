@@ -35,12 +35,14 @@ plotRatioVsCov(
   \describe{
     \item{\code{geomComparisonLineAttributes}}{A \code{list} of arguments passed to \code{ggplot2::hline} or \code{ggplot2::abline} to display comparison lines.}
     \item{\code{geomGuestLineAttributes}}{A \code{list} of arguments passed to \code{ggplot2::geom_function} to display guest criteria.}
-    \item{\code{residualScale}}{Either "linear", "log", or "ratio" scale for residuals.}
     \item{\code{yDisplayAsAbsolute}}{A boolean that defines the direction of comparison lines.}
     \item{\code{addRegression}}{A boolean that activates the insertion of a regression line.}
     \item{\code{labelGuestCriteria}}{Label used in the legend for guest criteria (default: "guest criteria").}
     \item{\code{asSquarePlot}}{A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.}
-    \item{\code{observedDataDirection}}{Either 'x' or 'y', defining the direction of observed data.}
+    \item{\code{observedDataDirection}}{Either "x" or "y", defining the direction of observed data.}
+    \item{\code{lloqOnBothAxes}}{A boolean; if \code{TRUE}, LLOQ lines are drawn on both axes. If \code{FALSE} (default),
+the LLOQ line is drawn for the observed-data axis only.
+(\code{geom_vline} when \code{observedDataDirection = "x"}, \code{geom_hline} when \code{observedDataDirection = "y"}).}
     \item{\code{groupAesthetics}}{A character vector of aesthetic names used for grouping data points when calculating
 comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
 and proportions within comparison lines. Common grouping aesthetics include \code{"colour"}, \code{"fill"}, \code{"shape"}.}
@@ -60,8 +62,7 @@ This function is a wrapper for \code{plotYVsX} with adjusted input parameters.
 
 The following parameters are fixed and cannot be set:
 \itemize{
-\item \code{residualScale = "ratio"}
-\item \code{observedDataDirection = 'y'}
+\item \code{observedDataDirection = "y"}
 \item \code{yDisplayAsAbsolute = FALSE}
 }
 

@@ -17,13 +17,13 @@
   addRegression,
   addGuestLimits,
   deltaGuest,
-  residualScale,
   asSquarePlot,
   xScale,
   xScaleArgs,
   yScale,
   yScaleArgs,
-  observedDataDirection
+  observedDataDirection,
+  lloqOnBothAxes
 )
 }
 \arguments{
@@ -53,8 +53,6 @@ and proportions within comparison lines. Common grouping aesthetics include \cod
 
 \item{deltaGuest}{Numeric value parameter for the Guest function.}
 
-\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
-
 \item{asSquarePlot}{A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.}
 
 \item{xScale}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
@@ -65,7 +63,11 @@ and proportions within comparison lines. Common grouping aesthetics include \cod
 
 \item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
-\item{observedDataDirection}{Either 'x' or 'y', defining the direction of observed data.}
+\item{observedDataDirection}{Either "x" or "y", defining the direction of observed data.}
+
+\item{lloqOnBothAxes}{A boolean; if \code{TRUE}, LLOQ lines are drawn on both axes. If \code{FALSE} (default),
+the LLOQ line is drawn for the observed-data axis only.
+(\code{geom_vline} when \code{observedDataDirection = "x"}, \code{geom_hline} when \code{observedDataDirection = "y"}).}
 }
 \value{
 Invisible NULL if validation is successful; otherwise, an error is raised.

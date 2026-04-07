@@ -417,4 +417,192 @@ test_that("plotTimeProfile works with different observedMapping", {
   )
 })
 
+test_that("plotTimeProfile suppresses duplicate shape and fill legends with mixed obs+sim data", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  metaData <- attr(exampleDataTimeProfile, "metaData")
+
+  fig <- plotTimeProfile(
+    data = simData,
+    observedData = obsData,
+    metaData = metaData,
+    mapping = aes(
+      x = time,
+      y = values,
+      groupby = caption
+    )
+  )
+
+  # shape and fill guides should be suppressed (auto-expanded from groupby)
+  expect_null(ggplot2::get_guide_data(fig, "shape"))
+  expect_null(ggplot2::get_guide_data(fig, "fill"))
+  # colour guide must remain (suppression must not touch it)
+  expect_false(is.null(ggplot2::get_guide_data(fig, "colour")))
+})
+
+test_that("plotTimeProfile preserves user-explicit fill mapping in legend", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::mutate(fillVar = caption) |>
+    dplyr::select(c("time", "values", "caption", "fillVar"))
+
+  metaData <- attr(exampleDataTimeProfile, "metaData")
+
+  fig <- plotTimeProfile(
+    data = simData,
+    observedData = obsData,
+    metaData = metaData,
+    mapping = aes(
+      x = time,
+      y = values,
+      groupby = caption
+    ),
+    observedMapping = aes(
+      x = time,
+      y = values,
+      groupby = caption,
+      fill = fillVar
+    )
+  )
+
+  # shape should be suppressed (same as colour from groupby)
+  expect_null(ggplot2::get_guide_data(fig, "shape"))
+  # fill should NOT be suppressed (user-explicit, maps to different variable)
+  expect_false(is.null(ggplot2::get_guide_data(fig, "fill")))
+})
+
+test_that("plotTimeProfile preserves user-explicit shape mapping in legend", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::mutate(shapeVar = caption) |>
+    dplyr::select(c("time", "values", "caption", "shapeVar"))
+
+  metaData <- attr(exampleDataTimeProfile, "metaData")
+
+  fig <- plotTimeProfile(
+    data = simData,
+    observedData = obsData,
+    metaData = metaData,
+    mapping = aes(
+      x = time,
+      y = values,
+      groupby = caption
+    ),
+    observedMapping = aes(
+      x = time,
+      y = values,
+      groupby = caption,
+      shape = shapeVar
+    )
+  )
+
+  # fill should be suppressed (same as colour from groupby)
+  expect_null(ggplot2::get_guide_data(fig, "fill"))
+  # shape should NOT be suppressed (user-explicit, maps to different variable)
+  expect_false(is.null(ggplot2::get_guide_data(fig, "shape")))
+})
+
+test_that("plotTimeProfile does not suppress guides for sim-only data", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  fig <- plotTimeProfile(
+    data = simData,
+    mapping = aes(x = time, y = values, groupby = caption)
+  )
+
+  # obsMappedData NULL: no suppression, colour guide active
+  expect_false(is.null(ggplot2::get_guide_data(fig, "colour")))
+})
+
+test_that("plotTimeProfile does not suppress guides for obs-only data", {
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  fig <- plotTimeProfile(
+    observedData = obsData,
+    mapping = aes(x = time, y = values, groupby = caption)
+  )
+
+  # simMappedData NULL: no suppression, all point guides active
+  expect_false(is.null(ggplot2::get_guide_data(fig, "colour")))
+  expect_false(is.null(ggplot2::get_guide_data(fig, "fill")))
+  expect_false(is.null(ggplot2::get_guide_data(fig, "shape")))
+})
+
+test_that("plotTimeProfile does not suppress guides when mapSimulatedAndObserved is set", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  mapSimulatedAndObserved <- data.frame(
+    simulated = unique(simData$caption),
+    observed = unique(obsData$caption)
+  )
+
+  fig <- plotTimeProfile(
+    data = simData,
+    observedData = obsData,
+    mapping = aes(x = time, y = values, groupby = caption),
+    mapSimulatedAndObserved = mapSimulatedAndObserved
+  )
+
+  # mapSimulatedAndObserved set: no suppression, point guides active
+  expect_false(is.null(ggplot2::get_guide_data(fig, "shape")))
+  expect_false(is.null(ggplot2::get_guide_data(fig, "fill")))
+})
+
+test_that("plotTimeProfile does not suppress guides when colour is not in groupAesthetics", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  fig <- plotTimeProfile(
+    data = simData,
+    observedData = obsData,
+    mapping = aes(x = time, y = values, groupby = caption),
+    groupAesthetics = c("fill", "shape")
+  )
+
+  # colour not in groupAesthetics: no suppression, point guides active
+  expect_false(is.null(ggplot2::get_guide_data(fig, "fill")))
+  expect_false(is.null(ggplot2::get_guide_data(fig, "shape")))
+})
+
 ospsuite.plots::resetDefaults(oldDefaults)

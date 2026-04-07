@@ -9,7 +9,7 @@ plotBoxWhisker(
   mapping,
   metaData = NULL,
   plotObject = NULL,
-  percentiles = getOspsuite.plots.option(optionKey = OptionKeys$Percentiles),
+  percentiles = getOspsuite.plots.option(optionKey = OptionKeys$percentiles),
   yScale = AxisScales$linear,
   yScaleArgs = list(),
   xScale = "auto",
@@ -18,8 +18,7 @@ plotBoxWhisker(
   outliers = FALSE,
   statFunOutlier = NULL,
   geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
-  geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
-  residualScale = ResidualScales$log
+  geomPointAttributes = getDefaultGeomAttributes("Boxplot")
 )
 }
 \arguments{
@@ -57,8 +56,6 @@ which overwrites the default calculation if provided.}
 \item{geomBoxplotAttributes}{A \code{list} of arguments passed to the \code{geom_boxplot} call.}
 
 \item{geomPointAttributes}{A \code{list} of arguments passed to the \code{ggplot2::geom_point} call.}
-
-\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
 }
 \value{
 A \code{ggplot} object representing the box-whisker plot.
@@ -74,7 +71,7 @@ For more details and examples, see the vignettes:
 \examples{
 \dontrun{
 # Set watermark option first (required)
-options(ospsuite.plots.watermark_enabled = TRUE)
+options(ospsuite.plots.watermarkEnabled = TRUE)
 
 # Basic box-whisker plot
 plotBoxWhisker(

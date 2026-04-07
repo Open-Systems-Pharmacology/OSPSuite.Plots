@@ -32,14 +32,11 @@ The `ospsuite.plots` library provides functions to compare predicted and observe
 - `plotRatioVsCov()` (see section 4): plot ratios as points versus a covariate (e.g., Time, observed values, or Age).
 - `plotQQ()` (see section 5): Quantile-Quantile plot.
 
-In these functions, the aesthetics `observed` and `predicted` can be used. These aesthetics are also available in other functions of the `ospsuite.plots` library:
-
-- `plotBoxwhisker()` (see section 6.1): aggregate residuals and display aggregated values versus covariate.
-- `plotHistogram()` (see section 6.2): generates histograms of residuals.
-
-The functions `plotPredVsObs()`, `plotResVsCov()`, and `plotRatioVsCov()` are mainly wrappers around the function `plotXVsY()`, using different defaults for input variables. So, use `?plotXvsY` to get more details.
-
 For DDI comparison, the functions `plotPredVsObs()` and `plotResVsObs()` can be overlaid with lines indicating the limits of the Guest Criteria (<https://dmd.aspetjournals.org/content/39/2/170>) (see section 7).
+
+> **Note:** Residual calculation is not performed within `ospsuite.plots`. Residuals and ratios need to be pre-calculated before passing them to the plotting functions. If you are using the `{ospsuite}` package, you can use `ospsuite::addResidualColumn()` to add a residual column to your data.
+
+The functions `plotPredVsObs()`, `plotResVsCov()`, and `plotRatioVsCov()` are mainly wrappers around the function `plotYVsX()`, using different defaults for input variables. So, use `?plotYVsX` to get more details.
 
 ## 1.1 Setup
 
@@ -49,7 +46,7 @@ This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. We will use t
 options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Set watermark option required for ospsuite.plots functionality
-options(ospsuite.plots.watermark_enabled = TRUE)
+options(ospsuite.plots.watermarkEnabled = TRUE)
 
 library(ospsuite.plots)
 library(tidyr)
@@ -208,6 +205,22 @@ plotPredVsObs(
 )
 ```
 
+By default (`lloqOnBothAxes = FALSE`), the LLOQ line is drawn only for the observed-data axis—i.e., horizontal when observations are on the y-axis and vertical when observations are on the x-axis. Setting `lloqOnBothAxes = TRUE` draws LLOQ lines on both the x and y axes. This is quite useful, as it makes it clear if the simulated results should be considered as "quantifiable" or not.
+
+```{r basic-examples-lloq-both, fig.alt="Scatter plot showing predicted versus observed values with LLOQ lines drawn on both axes. Vertical and horizontal LLOQ lines are displayed, and values below the LLOQ are shown with reduced transparency."}
+plotPredVsObs(
+  data = dataLLOQ,
+  mapping = aes(
+    x = Obs,
+    y = Pred,
+    lloq = lloq,
+    groupby = Sex
+  ),
+  metaData = metaData,
+  lloqOnBothAxes = TRUE
+)
+```
+
 ## 2.2 Adjust Comparison Lines
 
 ### 2.2.1 Adjust Fold Distance
@@ -338,19 +351,21 @@ plotPredVsObs(
 
 ## 3.1 Basic Examples
 
-The function `plotResVsCov()` calculates the residuals using the aesthetics `observed` and `predicted`.
+Residuals must be pre-calculated before passing them to `plotResVsCov()`. If you are using the `{ospsuite}` package, you can use `ospsuite::addResidualColumn()` to add a residual column to your data. Alternatively, calculate residuals directly in your data frame.
 
 ### 3.1.1 Default Settings
 
-The default value for the variable `residualScale` is "log". Residuals will then be calculated by `log(predicted) - log(observed)`. A horizontal comparison line with the value 0 is displayed. The aesthetic `groupby` can be used to group observations.
+In the example below, log residuals are calculated as `log(Pred) - log(Obs)` and mapped to the `y` aesthetic. A horizontal comparison line with the value 0 is displayed. The aesthetic `groupby` can be used to group observations.
 
 ```{r reVsObs-default, fig.alt="Scatter plot showing log residuals versus age with default settings. Residuals are calculated as log(predicted) - log(observed), displayed as points colored by sex groups. A horizontal reference line at zero indicates perfect prediction. Points scattered around zero suggest good model performance."}
+data <- data |>
+  dplyr::mutate(logResiduals = log(Pred) - log(Obs))
+
 plotResVsCov(
   data = data,
   mapping = aes(
     x = Age,
-    predicted = Pred,
-    observed = Obs,
+    y = logResiduals,
     groupby = Sex
   )
 )
@@ -358,27 +373,28 @@ plotResVsCov(
 
 ## 3.1.2 Linear Scale for Residuals
 
-If the variable `residualScale` is set to "linear", residuals will be calculated by #$# predicted - observed #$#.
+For linear residuals, calculate `Pred - Obs` before plotting.
 
 Below, the line type of the comparison line is set to 'solid'.
 
 ```{r resVsCov-basic-linear, fig.alt="Scatter plot showing linear residuals versus age with a solid horizontal reference line. Residuals are calculated as predicted - observed on a linear scale, with points colored by sex groups. The solid reference line at zero provides a clear visual reference for assessing prediction accuracy."}
+data <- data |>
+  dplyr::mutate(linearResiduals = Pred - Obs)
+
 plotResVsCov(
   data = data,
   mapping = aes(
     x = Age,
-    predicted = Pred,
-    observed = Obs,
+    y = linearResiduals,
     groupby = Sex
   ),
-  residualScale = "linear",
   geomComparisonLineAttributes = list(linetype = "solid")
 )
 ```
 
-## 3.1.3 Map Residuals Directly
+## 3.1.3 Use Inline Formula
 
-It is also possible to use already calculated residuals or formulas by using the aesthetic 'y'.
+Residuals can also be calculated inline using a formula in the aesthetic mapping.
 
 ```{r resVsCov-basic-mappedToY, fig.alt="Scatter plot showing directly calculated residuals (observed minus predicted) versus age. Residuals are manually calculated and mapped to the y-axis, with points colored by sex groups. This demonstrates how to use pre-calculated residuals instead of automatic calculation."}
 plotResVsCov(
@@ -398,8 +414,7 @@ plotResVsCov(
   data = data,
   mapping = aes(
     x = Age,
-    predicted = Pred,
-    observed = Obs,
+    y = logResiduals,
     groupby = Sex
   ),
   comparisonLineVector = list(zero = 0, "lower limit" = -0.25, "upper limit" = 0.25)
@@ -415,8 +430,7 @@ plotResVsCov(
   data = data,
   mapping = aes(
     x = Age,
-    predicted = Pred,
-    observed = Obs,
+    y = logResiduals,
     groupby = Sex
   ),
   addRegression = TRUE
@@ -446,15 +460,17 @@ plotRatioVsCov(
 
 ### 4.1.2 Compare Residuals as Ratio
 
-Within the function `plotRatioVsCov()`, the variable `residualScale` is fixed to "ratio", and the ratio of the residuals is calculated as $ predicted / observed $. Below, the comparison line is set to a 1.2 fold distance.
+The ratio of observed to predicted is calculated as $observed / predicted$. Pre-calculate this column before passing to `plotRatioVsCov()`. Below, the comparison line is set to a 1.2 fold distance.
 
-```{r ratio-residuals, fig.alt="Scatter plot showing residual ratios (predicted/observed) versus age with 1.2-fold comparison lines. The plot demonstrates ratio-based residual analysis, where ratios above or below the comparison lines indicate systematic over- or under-prediction. Points are colored by sex groups."}
+```{r ratio-residuals, fig.alt="Scatter plot showing residual ratios (observed/predicted) versus age with 1.2-fold comparison lines. The plot demonstrates ratio-based residual analysis, where ratios above or below the comparison lines indicate systematic over- or under-prediction. Points are colored by sex groups."}
+data <- data |>
+  dplyr::mutate(Ratio = Obs / Pred)
+
 plotRatioVsCov(
   data = data,
   mapping = aes(
     x = Age,
-    predicted = Pred,
-    observed = Obs,
+    y = Ratio,
     groupby = Sex
   ),
   comparisonLineVector = getFoldDistanceList(c(1.2))
@@ -506,12 +522,14 @@ knitr::kable(plotObject$countsWithin, caption = "Counts and fraction within rang
 To compare DDI ratios, set the variable `addGuestLimits` to TRUE and set the variable `deltaGuest`.
 
 ```{r ratio-Guest, fig.alt="Scatter plot showing predicted versus observed DDI ratios with Guest criteria lines indicating acceptable ranges for drug-drug interaction assessment. Different studies are represented in different colors, and the plot effectively visualizes the prediction accuracy against the Guest criteria."}
+dDIdata <- dDIdata |>
+  dplyr::mutate(Ratio = Obs / Pred)
+
 plotObject <- plotRatioVsCov(
   data = dDIdata,
   mapping = aes(
     x = Obs,
-    predicted = Pred,
-    observed = Obs,
+    y = Ratio,
     groupby = Study
   ),
   metaData = dDImetaData,
@@ -525,36 +543,38 @@ knitr::kable(plotObject$countsWithin)
 
 # 5. Quantile Plot (`plotQQ()`)
 
-`plotQQ()` produces a Quantile-Quantile plot. If using the aesthetics `predicted` and `observed`, residuals will be calculated according to the variable `residualScale`. In the example below, the default value log is used.
+`plotQQ()` produces a Quantile-Quantile plot. Residuals must be pre-calculated and mapped to the `sample` aesthetic.
+
+> **Note:** If you are using the `{ospsuite}` package, you can use `ospsuite::addResidualColumn()` to add a residual column to your data.
 
 ```{r qq-log, fig.alt="Quantile-quantile plot showing the distribution of log residuals compared to a normal distribution. Points follow the diagonal reference line if residuals are normally distributed. Deviations from the line indicate non-normal distribution patterns. Points are colored by sex groups."}
+data <- data |>
+  dplyr::mutate(logResiduals = log(Pred) - log(Obs))
+
 plotQQ(
   data = data,
   mapping = aes(
-    predicted = Pred,
-    observed = Obs,
+    sample = logResiduals,
     groupby = Sex
   )
 )
 ```
 
-The aesthetic 'sample' columns with already calculated residuals or formulas can be mapped directly.
+A column with already calculated residuals or formulas can be mapped directly to `sample`.
 
-```{r qqplot, fig.alt="Quantile-quantile plot with sample data mapped directly to observed values and linear residual scale. This demonstrates mapping pre-calculated values directly using the sample aesthetic instead of automatic residual calculation. Points are colored by sex groups."}
+```{r qqplot, fig.alt="Quantile-quantile plot with sample data mapped directly to linear residuals. This demonstrates mapping pre-calculated values directly using the sample aesthetic. Points are colored by sex groups."}
 plotQQ(
   data = data,
   mapping = aes(
-    sample = Obs,
-    predicted = Pred,
+    sample = linearResiduals,
     groupby = Sex
-  ),
-  residualScale = "linear"
+  )
 )
 ```
 
-# 6 Usage of Aesthetics `predicted` and `observed` in Other Functions
+# 6 Residuals in Other Plot Functions
 
-The aesthetics `observed` and `predicted` can also be used in the functions `plotHistogram()` and `plotBoxWhisker()`. The residuals will be calculated as defined by the variable `residualScale`.
+Pre-calculated residuals can be used in `plotHistogram()` and `plotBoxWhisker()` by mapping the residual column to the appropriate aesthetic.
 
 ## 6.1 Residuals as Histogram
 
@@ -563,11 +583,9 @@ plotHistogram(
   data = data,
   metaData = metaData,
   mapping = aes(
-    predicted = Pred,
-    observed = Obs,
+    x = logResiduals,
     groupby = Sex
   ),
-  residualScale = "log",
   plotAsFrequency = TRUE,
   distribution = "normal"
 ) + geom_vline(xintercept = 0, linetype = "dashed")
@@ -576,15 +594,16 @@ plotHistogram(
 ## 6.2 Stratify Residuals with a Box-Whisker Plot
 
 ```{r boxwhisker-residuals, fig.alt="Box plots showing the distribution of linear residuals stratified by sex. The box plots display quartiles and whiskers for residuals calculated as observed minus predicted, allowing comparison of residual distributions between male and female groups."}
+pkRatioData <- pkRatioData |>
+  dplyr::mutate(linearResiduals = Obs - Pred)
+
 plotBoxWhisker(
   mapping = aes(
-    predicted = Pred,
-    observed = Obs,
+    y = linearResiduals,
     x = Sex
   ),
   data = pkRatioData,
-  metaData = metaData,
-  residualScale = "linear"
+  metaData = metaData
 )
 ```
 

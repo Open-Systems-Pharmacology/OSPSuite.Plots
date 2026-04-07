@@ -25,7 +25,7 @@ test_that("Package namespace is properly structured", {
 
   # Test that some key functions are exported (available in namespace)
   expectedFunctions <- c(
-    "AxisScales", "ResidualScales", "OptionKeys", "Shapes"
+    "AxisScales", "OptionKeys", "Shapes"
   )
 
   for (func in expectedFunctions) {

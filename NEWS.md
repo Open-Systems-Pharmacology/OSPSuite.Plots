@@ -1,30 +1,20 @@
 # ospsuite.plots (development version)
 
+# ospsuite.plots 1.1.0
+
 ## Breaking Changes
 
-* The `ospsuite.plots.watermark_enabled` option no longer has a default value. Users must now explicitly set this option before using any plotting functions. This ensures conscious decision-making about watermark usage.
-  
-  To use the package, add one of the following to your `.Rprofile`:
-  ```r
-  # Enable watermarks
-  options(ospsuite.plots.watermark_enabled = TRUE)
-  
-  # Or disable watermarks
-  options(ospsuite.plots.watermark_enabled = FALSE)
-  ```
-  
-  You can edit your `.Rprofile` with `usethis::edit_r_profile()`.
+- Residuals are now calculated as `predicted - observed` (linear) and `log(predicted) - log(observed)` (log scale) to be consistent with PK-Sim (#71).
+- `ospsuite.plots.watermarkEnabled` option must now be set explicitly before using any plotting functions (#68).
+- All `OptionKeys` standardized to camelCase (#102).
 
-## Changes
+## Minor improvements and bug fixes
 
-* Added startup message when `ospsuite.plots.watermark_enabled` is not set, providing instructions on how to configure it
-* `addWatermark()` and `print.ggWatermark()` now throw an error if the watermark option is not set
-* Added comprehensive test coverage for watermark option validation
-* Updated all vignettes and examples to explicitly set the watermark option
-* Added `computeResiduals()` function to provide a consistent method for calculating residuals across the Open Systems Pharmacology ecosystem. This function uses the same calculation logic as the internal residual calculations in plotting functions like `plotResVsCov()` and `plotRatioVsCov()`. This aligns residual calculations between `ospsuite.plots` and `ospsuite` packages. The function name was chosen to avoid confusion with `ospsuite::calculateResiduals()`. (#1713)
+- Added `defaultPercentiles` option key (`OptionKeys$defaultPercentiles`, default `c(0.05, 0.5, 0.95)`) as the canonical default for plot functions that use three percentiles. `plotRangeDistribution()` now uses this key instead of indexing into `OptionKeys$Percentiles` (#101).
+- Fixed `plotYVsX()` LLOQ layer using wrong geom when `observedDataDirection = "y"`. The LLOQ line now correctly uses `geom_hline` for y-direction and `geom_vline` for x-direction (#78).
+- Added `lloqOnBothAxes` parameter to `plotYVsX()` to optionally draw LLOQ lines on both axes (#78).
+- Fixed duplicate legend in `plotTimeProfile()` when mixing observed and simulated data. Shape and fill guides are now suppressed only when they were autoexpanded from `groupby`, preserving explicit user-defined mappings (#76).
 
 # ospsuite.plots 1.0.1
 
-  - Initial Release of beta version
-
-
+- Initial Release of beta version

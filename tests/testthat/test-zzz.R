@@ -13,38 +13,38 @@ test_that(".onLoad function exists and can be called", {
 
 test_that(".onLoad displays message when watermark option is not set", {
   # Save current option value
-  oldValue <- getOption("ospsuite.plots.watermark_enabled")
-  
+  oldValue <- getOption("ospsuite.plots.watermarkEnabled")
+
   # Clear the option
-  options(ospsuite.plots.watermark_enabled = NULL)
-  
+  options(ospsuite.plots.watermarkEnabled = NULL)
+
   # Test that .onLoad produces a message when watermark option is not set
   expect_message(
     .onLoad("ospsuite.plots", "ospsuite.plots"),
-    "ospsuite.plots.watermark_enabled.*not set"
+    "ospsuite.plots.watermarkEnabled.*not set"
   )
-  
+
   # Restore option
-  options(ospsuite.plots.watermark_enabled = oldValue)
+  options(ospsuite.plots.watermarkEnabled = oldValue)
 })
 
 test_that(".onLoad does not display message when watermark option is set", {
   # Save current option value
-  oldValue <- getOption("ospsuite.plots.watermark_enabled")
-  
+  oldValue <- getOption("ospsuite.plots.watermarkEnabled")
+
   # Set the option
-  options(ospsuite.plots.watermark_enabled = TRUE)
-  
+  options(ospsuite.plots.watermarkEnabled = TRUE)
+
   # Test that .onLoad does not produce a message when option is set
   # We can't use expect_no_message directly, so we capture messages
   messages <- capture.output(.onLoad("ospsuite.plots", "ospsuite.plots"), type = "message")
-  
+
   # Check that there's no watermark-related message
-  watermarkMessages <- grep("ospsuite.plots.watermark_enabled", messages, value = TRUE)
+  watermarkMessages <- grep("ospsuite.plots.watermarkEnabled", messages, value = TRUE)
   expect_equal(length(watermarkMessages), 0)
-  
+
   # Restore option
-  options(ospsuite.plots.watermark_enabled = oldValue)
+  options(ospsuite.plots.watermarkEnabled = oldValue)
 })
 
 test_that("Font files exist in package", {

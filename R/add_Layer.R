@@ -7,8 +7,7 @@
 #'
 #' @return A `ggplot` object.
 #' @export
-initializePlot <- function(mappedData = NULL,
-                           setMapping = TRUE) {
+initializePlot <- function(mappedData = NULL, setMapping = TRUE) {
   # Validation
   checkmate::assertClass(mappedData, classes = "MappedData", null.ok = TRUE)
   checkmate::assertFlag(setMapping)
@@ -39,11 +38,13 @@ initializePlot <- function(mappedData = NULL,
 #'
 #' @return The updated `ggplot` object.
 #' @keywords internal
-addLayer <- function(mappedData,
-                     geomAttributes,
-                     geom,
-                     plotObject,
-                     layerToCall) {
+addLayer <- function(
+  mappedData,
+  geomAttributes,
+  geom,
+  plotObject,
+  layerToCall
+) {
   # Validate input attributes
   checkmate::assertClass(mappedData, "MappedData")
   checkmate::assertClass(plotObject, "gg")
@@ -57,9 +58,13 @@ addLayer <- function(mappedData,
   )
 
   # check for geomUnicodeMode
-  geomUnicodeMode <- getOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode)
-  if (geomUnicodeMode &&
-    geom == "point") {
+  geomUnicodeMode <- getOspsuite.plots.option(
+    optionKey = OptionKeys$geomPointUnicode
+  )
+  if (
+    geomUnicodeMode &&
+      geom == "point"
+  ) {
     layerToCall <- geomPointUnicode
   }
 
@@ -82,7 +87,11 @@ addLayer <- function(mappedData,
 
   if (geom == "point" & mappedData$hasLLOQMatch) {
     plotObject <- plotObject +
-      scale_alpha_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$lloqAlphaVector)) +
+      scale_alpha_manual(
+        values = getOspsuite.plots.option(
+          optionKey = OptionKeys$lloqAlphaVector
+        )
+      ) +
       guides(alpha = "none")
   }
 
@@ -102,11 +111,13 @@ addLayer <- function(mappedData,
 #' @return The updated `ggplot` object.
 #' @export
 addLLOQLayer <-
-  function(plotObject,
-           mappedData,
-           layerToCall,
-           useLinetypeAsAttribute,
-           geomLLOQAttributes) {
+  function(
+    plotObject,
+    mappedData,
+    layerToCall,
+    useLinetypeAsAttribute,
+    geomLLOQAttributes
+  ) {
     # Early return if no LLOQ data is present
     if (!mappedData$hasLLOQMatch) {
       return(plotObject)
@@ -116,7 +127,11 @@ addLLOQLayer <-
     if (useLinetypeAsAttribute) {
       # When using linetype as attribute: no legend entry, direct styling
       geomLLOQAttributes <- utils::modifyList(
-        list(linetype = getOspsuite.plots.option(optionKey = OptionKeys$lloqLineType)),
+        list(
+          linetype = getOspsuite.plots.option(
+            optionKey = OptionKeys$lloqLineType
+          )
+        ),
         geomLLOQAttributes
       )
     }
@@ -157,7 +172,9 @@ addLLOQLayer <-
       # Add manual scale for legend: maps "LLOQ" label to specified line type
       plotObject <- plotObject +
         scale_linetype_manual(
-          values = c(LLOQ = getOspsuite.plots.option(optionKey = OptionKeys$lloqLineType)),
+          values = c(
+            LLOQ = getOspsuite.plots.option(optionKey = OptionKeys$lloqLineType)
+          ),
           guide = guide_legend(
             title = NULL,
             order = 10,
@@ -180,21 +197,25 @@ addLLOQLayer <-
 #'
 #' @return The updated `ggplot` object.
 #' @export
-addXYScale <- function(plotObject,
-                       xScale = NULL,
-                       xScaleArgs = list(),
-                       yScale = NULL,
-                       yScaleArgs = list(),
-                       secAxis = waiver()) {
+addXYScale <- function(
+  plotObject,
+  xScale = NULL,
+  xScaleArgs = list(),
+  yScale = NULL,
+  yScaleArgs = list(),
+  secAxis = waiver()
+) {
   if (!is.null(xScale)) {
-    plotObject <- addXScale(plotObject,
+    plotObject <- addXScale(
+      plotObject,
       xScale = xScale,
       xScaleArgs = xScaleArgs
     )
   }
 
   if (!is.null(yScale)) {
-    plotObject <- addYScale(plotObject,
+    plotObject <- addYScale(
+      plotObject,
       yScale = yScale,
       yScaleArgs = yScaleArgs,
       secAxis = secAxis
@@ -214,6 +235,7 @@ addXYScale <- function(plotObject,
 #'
 #' @return updated `scaleArgs` list
 #' @keywords internal
+#' @noRd
 .buildContinuousScaleArgs <- function(scaleArgs, isLog) {
   if (isLog) {
     scaleArgs[["transform"]] <- "log10"
@@ -235,16 +257,17 @@ addXYScale <- function(plotObject,
 #'
 #' @return The updated `ggplot` object
 #' @export
-addXScale <- function(plotObject,
-                      xScale,
-                      xScaleArgs = list()) {
+addXScale <- function(plotObject, xScale, xScaleArgs = list()) {
   checkmate::assertChoice(xScale, choices = unlist(AxisScales), null.ok = TRUE)
 
   if (xScale == AxisScales$discrete) {
     scaleFunction <- scale_x_discrete
   } else {
     scaleFunction <- scale_x_continuous
-    xScaleArgs <- .buildContinuousScaleArgs(xScaleArgs, isLog = xScale == AxisScales$log)
+    xScaleArgs <- .buildContinuousScaleArgs(
+      xScaleArgs,
+      isLog = xScale == AxisScales$log
+    )
   }
 
   plotObject <- plotObject +
@@ -261,13 +284,22 @@ addXScale <- function(plotObject,
 #'
 #' @return The updated `ggplot` object
 #' @export
-addYScale <- function(plotObject,
-                      yScale,
-                      yScaleArgs = list(),
-                      secAxis = waiver()) {
-  checkmate::assertChoice(yScale, choices = unlist(AxisScales[c("linear", "log")]), null.ok = TRUE)
+addYScale <- function(
+  plotObject,
+  yScale,
+  yScaleArgs = list(),
+  secAxis = waiver()
+) {
+  checkmate::assertChoice(
+    yScale,
+    choices = unlist(AxisScales[c("linear", "log")]),
+    null.ok = TRUE
+  )
 
-  yScaleArgs <- .buildContinuousScaleArgs(yScaleArgs, isLog = yScale == AxisScales$log)
+  yScaleArgs <- .buildContinuousScaleArgs(
+    yScaleArgs,
+    isLog = yScale == AxisScales$log
+  )
 
   plotObject <- plotObject +
     do.call(

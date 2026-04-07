@@ -71,8 +71,7 @@ plotBoxWhisker <- function(data,
                            outliers = FALSE,
                            statFunOutlier = NULL,
                            geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
-                           geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
-                           residualScale = ResidualScales$log) {
+                           geomPointAttributes = getDefaultGeomAttributes("Boxplot")) {
   ## Validation -----------
   checkmate::assertClass(plotObject, classes = "ggplot", null.ok = TRUE)
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
@@ -105,9 +104,7 @@ plotBoxWhisker <- function(data,
     xScale = xScale,
     yScale = yScale,
     groupAesthetics = "fill",
-    isObserved = TRUE,
-    residualScale = residualScale,
-    residualAesthetic = "y"
+    isObserved = TRUE
   )
   mappedData$addMetaData(metaData)
   mappedData$doAdjustmentsWithMetaData(
@@ -122,12 +119,6 @@ plotBoxWhisker <- function(data,
     if (!mappedData$hasXmapping) {
       plotObject$labels[["x"]] <-
         plotObject$labels[["x"]] %||% " "
-    }
-
-    if (mappedData$hasResidualMapping) {
-      plotObject <-
-        plotObject +
-        labs(y = mappedData$residualLabel)
     }
   }
 

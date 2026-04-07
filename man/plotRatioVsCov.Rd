@@ -35,7 +35,6 @@ plotRatioVsCov(
   \describe{
     \item{\code{geomComparisonLineAttributes}}{A \code{list} of arguments passed to \code{ggplot2::hline} or \code{ggplot2::abline} to display comparison lines.}
     \item{\code{geomGuestLineAttributes}}{A \code{list} of arguments passed to \code{ggplot2::geom_function} to display guest criteria.}
-    \item{\code{residualScale}}{Either "linear", "log", or "ratio" scale for residuals.}
     \item{\code{yDisplayAsAbsolute}}{A boolean that defines the direction of comparison lines.}
     \item{\code{addRegression}}{A boolean that activates the insertion of a regression line.}
     \item{\code{labelGuestCriteria}}{Label used in the legend for guest criteria (default: "guest criteria").}
@@ -63,7 +62,6 @@ This function is a wrapper for \code{plotYVsX} with adjusted input parameters.
 
 The following parameters are fixed and cannot be set:
 \itemize{
-\item \code{residualScale = "ratio"}
 \item \code{observedDataDirection = "y"}
 \item \code{yDisplayAsAbsolute = FALSE}
 }

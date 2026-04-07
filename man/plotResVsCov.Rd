@@ -7,7 +7,6 @@
 plotResVsCov(
   data,
   mapping,
-  residualScale = ResidualScales$log,
   comparisonLineVector = 0,
   yScale = AxisScales$linear,
   ...
@@ -17,8 +16,6 @@ plotResVsCov(
 \item{data}{A \code{data.frame} containing the data to plot.}
 
 \item{mapping}{A list of aesthetic mappings to use for the plot.}
-
-\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
 
 \item{comparisonLineVector}{A vector defining the comparison lines.}
 

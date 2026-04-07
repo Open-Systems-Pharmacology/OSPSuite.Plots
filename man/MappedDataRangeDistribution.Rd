@@ -65,8 +65,6 @@ Create a new \code{MappedDataRangeDistribution} object
   ylimits = NULL,
   xScale = "linear",
   yScale = "linear",
-  residualScale = NULL,
-  residualAesthetic = "y",
   modeOfBinning = NA,
   numberOfBins = NA,
   breaks = NA
@@ -93,10 +91,6 @@ Create a new \code{MappedDataRangeDistribution} object
 \item{\code{xScale}}{scale of x-axis either 'linear' or 'log'}
 
 \item{\code{yScale}}{scale of y-axis either 'linear' or 'log'}
-
-\item{\code{residualScale}}{scale of x residuals}
-
-\item{\code{residualAesthetic}}{aesthetic used for mapping residuals}
 
 \item{\code{modeOfBinning}}{method of binning (e.g., 'breaks', 'number', 'interval')}
 

@@ -7,9 +7,6 @@
 #'
 #' @inheritParams plotTimeProfile
 #' @param data  ´data.frame` with data to plot
-#' @param residualScale Either `"linear"` or `"log"` for scaling residuals.
-#'   For linear: residuals = predicted - observed. For log: residuals = log(predicted) - log(observed).
-#'   The y-axis scale remains linear in both cases.
 #' @param geomQQAttributes A list of arguments passed to `ggplot2::stat_qq()`.
 #' @param geomQQLineAttributes A list of arguments passed to `ggplot2::stat_qq_line()`.
 #' @param groupAesthetics A character vector of aesthetic names used for grouping data points in the Q-Q plot.
@@ -23,7 +20,6 @@ plotQQ <- function(data,
                    mapping,
                    metaData = NULL,
                    xScaleArgs = list(),
-                   residualScale = ResidualScales$log,
                    yScaleArgs = list(),
                    geomQQAttributes = list(),
                    geomQQLineAttributes = geomQQAttributes,
@@ -31,7 +27,6 @@ plotQQ <- function(data,
   # Check validity
   checkmate::assertDataFrame(data)
 
-  checkmate::assertChoice(residualScale, choices = c(ResidualScales$linear, ResidualScales$log), null.ok = TRUE)
   checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
 
@@ -51,9 +46,7 @@ plotQQ <- function(data,
     xlimits = xScaleArgs$limits,
     ylimits = yScaleArgs$limits,
     isObserved = TRUE,
-    groupAesthetics = groupAesthetics,
-    residualScale = residualScale,
-    residualAesthetic = "sample"
+    groupAesthetics = groupAesthetics
   )
   mappedData$addMetaData(metaData = metaData)
 
@@ -63,10 +56,6 @@ plotQQ <- function(data,
     theme(aspect.ratio = 1)
   plotObject <- plotObject +
     labs(x = "Standard normal quantiles")
-  if (mappedData$hasResidualMapping) {
-    plotObject <- plotObject +
-      labs(y = mappedData$residualLabel)
-  }
 
 
   #----- Build layers -----

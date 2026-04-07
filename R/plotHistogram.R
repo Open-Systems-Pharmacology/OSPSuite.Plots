@@ -34,8 +34,7 @@ plotHistogram <- function(data,
                           yScale = AxisScales$linear,
                           yScaleArgs = list(),
                           distribution = "none",
-                          meanFunction = "auto",
-                          residualScale = ResidualScales$log) {
+                          meanFunction = "auto") {
   #----- Validation and formatting of input arguments
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
 
@@ -49,7 +48,6 @@ plotHistogram <- function(data,
   checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
   checkmate::assertChoice(yScale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(residualScale, choices = c(ResidualScales$linear, ResidualScales$log, ResidualScales$ratio), null.ok = TRUE)
 
 
   #-  map Data
@@ -58,9 +56,7 @@ plotHistogram <- function(data,
     mapping = mapping,
     groupAesthetics = "fill",
     xScale = xScale,
-    yScale = yScale,
-    residualScale = residualScale,
-    residualAesthetic = "x"
+    yScale = yScale
   )
   mappedData$addMetaData(metaData)
 
@@ -87,12 +83,6 @@ plotHistogram <- function(data,
   if (plotAsFrequency) {
     plotObject <-
       plotObject + labs(y = "Relative Frequency")
-  }
-
-  if (mappedData$hasResidualMapping) {
-    plotObject <-
-      plotObject +
-      labs(x = mappedData$residualLabel)
   }
 
   # adds histogram

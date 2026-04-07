@@ -19,11 +19,6 @@ MappedData <- R6::R6Class( # nolint
     xlimits = NULL,
     #' @field ylimits double vector limits of primary y axis
     ylimits = NULL,
-    #' @field hasResidualMapping flag to indicate if residual mapping is used
-    hasResidualMapping = FALSE,
-    #' @field residualLabel label for residuals
-    residualLabel = NULL,
-
     #' @param data data.frame used for mapping
     #' @param mapping list of aesthetic mappings
     #' @param xScale scale of x-axis either 'linear' or 'log'
@@ -34,8 +29,6 @@ MappedData <- R6::R6Class( # nolint
     #' @param isObserved A `boolean `if TRUE mappings mdv, lloq
     #' @param xlimits limits for x-axis (may be NULL)
     #' @param ylimits limits for y-axis (may be NULL)
-    #' @param residualScale scale of x residuals
-    #' @param residualAesthetic aesthetic used for mapping residuals
     #'
     #' @description Create a new `MappedData` object
     #' @return A new `MappedData` object
@@ -48,9 +41,7 @@ MappedData <- R6::R6Class( # nolint
                           direction = "y",
                           isObserved = TRUE,
                           xlimits = NULL,
-                          ylimits = NULL,
-                          residualScale = NULL,
-                          residualAesthetic = "y") {
+                          ylimits = NULL) {
       # Validation
       checkmate::assertClass(data, classes = "data.frame", null.ok = FALSE)
       checkmate::assertList(mapping,
@@ -127,11 +118,6 @@ MappedData <- R6::R6Class( # nolint
 
       # transfer groupby to group aesthetics
       private$adjustGroupAesthetics()
-
-      private$adjustForResidualMatch(
-        residualScale = residualScale,
-        residualAesthetic = residualAesthetic
-      )
 
       # setLimits
       private$setLimits(xScale, yScale)
@@ -507,62 +493,6 @@ MappedData <- R6::R6Class( # nolint
           }
         }
       }
-
-      return(invisible(self))
-    },
-    #' adds new column `residuals.i`
-    adjustForResidualMatch = function(residualScale,
-                                      residualAesthetic) {
-      if (is.null(residualScale)) {
-        return(invisible(self))
-      }
-      if (private$aestheticExists("predicted") &
-        private$aestheticExists("observed")) {
-        checkmate::assertNames(
-          names(self$data),
-          disjunct.from = c("residuals.i"),
-          .var.name = "column names of observed data"
-        )
-
-        if (!residualAesthetic %in% names(self$mapping)) {
-          ## add new column
-          if (residualScale == ResidualScales$log) {
-            self$data <- self$data |>
-              dplyr::mutate(residuals.i = log(!!self$mapping[["predicted"]]) - log(!!self$mapping[["observed"]]))
-          } else if (residualScale == ResidualScales$linear) {
-            self$data <- self$data |>
-              dplyr::mutate(residuals.i = !!self$mapping[["predicted"]] - !!self$mapping[["observed"]])
-          } else if (residualScale == ResidualScales$ratio) {
-            self$data <- self$data |>
-              dplyr::mutate(residuals.i = !!self$mapping[["observed"]] / !!self$mapping[["predicted"]])
-          }
-
-
-          # add mapping for residuals
-          private$addOverwriteAes(eval(parse(
-            text = paste0(
-              "aes(",
-              residualAesthetic,
-              "= residuals.i)"
-            )
-          )))
-
-          # set boolean
-          self$hasResidualMapping <- TRUE
-
-          self$residualLabel <-
-            switch(residualScale,
-              linear = "residuals\npredicted - observed",
-              log = "residuals\nlog(predicted) - log(observed)",
-              ratio = "observed/predicted"
-            )
-        }
-      }
-
-      # clean up
-      self$mapping[["observed"]] <- NULL
-      self$mapping[["predicted"]] <- NULL
-
 
       return(invisible(self))
     },

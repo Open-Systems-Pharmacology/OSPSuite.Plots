@@ -7,7 +7,8 @@ test_that("plot Residuals vs Covariate works", {
 
   data <- exampleDataCovariates |>
     dplyr::filter(SetID == "DataSet2") |>
-    dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex"))
+    dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex")) |>
+    dplyr::mutate(logResiduals = log(Pred) - log(Obs))
 
   metaData <- attr(exampleDataCovariates, "metaData")
   metaData <- metaData[intersect(names(data), names(metaData))]
@@ -16,8 +17,7 @@ test_that("plot Residuals vs Covariate works", {
     data = data,
     mapping = aes(
       x = Age,
-      predicted = Pred,
-      observed = Obs,
+      y = logResiduals,
       groupby = Sex
     ),
     addRegression = TRUE
@@ -73,7 +73,8 @@ test_that("plotRatioVsCov works", {
 
   dDIdata <- exampleDataCovariates |>
     dplyr::filter(SetID == "DataSet3") |>
-    dplyr::select(c("ID", "Obs", "Pred"))
+    dplyr::select(c("ID", "Obs", "Pred")) |>
+    dplyr::mutate(Ratio = Obs / Pred)
 
   dDImetaData <- list(
     Obs = list(
@@ -90,8 +91,7 @@ test_that("plotRatioVsCov works", {
     data = dDIdata,
     mapping = aes(
       x = Obs,
-      predicted = Pred,
-      observed = Obs,
+      y = Ratio,
       groupby = as.character(ID)
     ),
     metaData = dDImetaData,
@@ -147,7 +147,8 @@ test_that("getCountsWithin works for Guest Criteria", {
   dDIdata <- exampleDataCovariates |>
     dplyr::filter(SetID == "DataSet3") |>
     dplyr::select(c("ID", "Obs", "Pred")) |>
-    dplyr::mutate(Type = ifelse(ID <= 5, "A", "B"))
+    dplyr::mutate(Type = ifelse(ID <= 5, "A", "B")) |>
+    dplyr::mutate(Ratio = Obs / Pred)
 
   dDImetaData <- list(
     Obs = list(
@@ -164,8 +165,7 @@ test_that("getCountsWithin works for Guest Criteria", {
     data = dDIdata,
     mapping = aes(
       x = Obs,
-      predicted = Pred,
-      observed = Obs,
+      y = Ratio,
       groupby = Type
     ),
     addGuestLimits = TRUE,
@@ -208,15 +208,15 @@ test_that("getCountsWithin works for Guest Criteria", {
 test_that("adjust lines works withot error", {
   data <- exampleDataCovariates |>
     dplyr::filter(SetID == "DataSet2") |>
-    dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex"))
+    dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex")) |>
+    dplyr::mutate(logResiduals = log(Pred) - log(Obs))
 
   # case with lines which are no interval
   expect_no_error(plotResVsCov(
     data = data,
     mapping = aes(
       x = Age,
-      predicted = Pred,
-      observed = Obs,
+      y = logResiduals,
       groupby = Sex
     ),
     comparisonLineVector = list(

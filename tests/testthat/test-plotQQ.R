@@ -13,7 +13,8 @@ test_that("plot Observed vs Predicted works", {
 
   data <- data |>
     dplyr::mutate(lloq = lloqData) |>
-    dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
+    dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs)) |>
+    dplyr::mutate(residuals = Obs - Pred)
 
   metaData <- attr(exampleDataCovariates, "metaData")
   metaData <- metaData[intersect(names(data), names(metaData))]
@@ -23,11 +24,9 @@ test_that("plot Observed vs Predicted works", {
     fig = plotQQ(
       data = data,
       mapping = aes(
-        predicted = Pred,
-        observed = Obs,
+        sample = residuals,
         groupby = Sex
-      ),
-      residualScale = AxisScales$linear
+      )
     )
   )
 })

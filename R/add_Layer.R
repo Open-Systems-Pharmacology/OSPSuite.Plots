@@ -203,6 +203,32 @@ addXYScale <- function(plotObject,
 
   return(plotObject)
 }
+#' Build scale args for continuous axes
+#'
+#' Shared helper that applies log-scale settings and sets the default
+#' out-of-bounds handler to `scales::oob_keep` (zoom-style behaviour).
+#' Users can override `oob` by including it in the `scaleArgs` list.
+#'
+#' @param scaleArgs list of arguments to be passed to a `scale_*_continuous` function
+#' @param isLog logical; `TRUE` when the axis uses a log10 transform
+#'
+#' @return updated `scaleArgs` list
+#' @keywords internal
+.buildContinuousScaleArgs <- function(scaleArgs, isLog) {
+  if (isLog) {
+    scaleArgs[["transform"]] <- "log10"
+    if (is.null(scaleArgs$guide)) {
+      scaleArgs[["guide"]] <- "axis_logticks"
+    }
+  }
+
+  # Default to zoom-style out-of-bounds handling unless user overrides
+  if (is.null(scaleArgs$oob)) {
+    scaleArgs[["oob"]] <- scales::oob_keep
+  }
+
+  return(scaleArgs)
+}
 #' add X-scale
 #'
 #' @inheritParams addXYScale
@@ -218,13 +244,7 @@ addXScale <- function(plotObject,
     scaleFunction <- scale_x_discrete
   } else {
     scaleFunction <- scale_x_continuous
-  }
-
-  if (xScale == AxisScales$log) {
-    xScaleArgs[["transform"]] <- "log10"
-    if (is.null(xScaleArgs$guide)) {
-      xScaleArgs[["guide"]] <- "axis_logticks"
-    }
+    xScaleArgs <- .buildContinuousScaleArgs(xScaleArgs, isLog = xScale == AxisScales$log)
   }
 
   plotObject <- plotObject +
@@ -247,12 +267,7 @@ addYScale <- function(plotObject,
                       secAxis = waiver()) {
   checkmate::assertChoice(yScale, choices = unlist(AxisScales[c("linear", "log")]), null.ok = TRUE)
 
-  if (yScale == AxisScales$log) {
-    yScaleArgs[["transform"]] <- "log10"
-    if (is.null(yScaleArgs$guide)) {
-      yScaleArgs[["guide"]] <- "axis_logticks"
-    }
-  }
+  yScaleArgs <- .buildContinuousScaleArgs(yScaleArgs, isLog = yScale == AxisScales$log)
 
   plotObject <- plotObject +
     do.call(

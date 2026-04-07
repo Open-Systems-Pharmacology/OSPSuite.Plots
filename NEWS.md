@@ -1,7 +1,6 @@
 # ospsuite.plots (development version)
 
-- The default width of error bars is now set to ggplot2's default (0.5), showing horizontal whiskers. The previous default was `width = 0`, which suppressed whiskers (#107).
-
+- The default width of error bars is now set to `width = 0.2`, showing horizontal whiskers. The previous default was `width = 0`, which suppressed whiskers (#107). 
 # ospsuite.plots 1.1.0
 
 ## Breaking Changes

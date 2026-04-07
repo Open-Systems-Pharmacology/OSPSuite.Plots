@@ -342,7 +342,7 @@ getDefaultOptions <- function() {
     ospsuite.plots.geomLineAttributes = list(),
     ospsuite.plots.geomRibbonAttributes = list(color = NA),
     ospsuite.plots.geomPointAttributes = list(),
-    ospsuite.plots.geomErrorbarAttributes = list(),
+    ospsuite.plots.geomErrorbarAttributes = list(width = 0.2),
     ospsuite.plots.geomLLOQAttributes = list(),
     ospsuite.plots.geomComparisonLineAttributes = list(linetype = "dashed"),
     ospsuite.plots.geomGuestLineAttributes = list(linetype = "dashed"),

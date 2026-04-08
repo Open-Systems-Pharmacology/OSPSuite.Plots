@@ -418,7 +418,7 @@ For more details, see the examples within the vignettes for the respective funct
 - `mdv`: Mapped to a logical column. Rows where this column has entries set to TRUE are not plotted (MDV = missing data value, taken from NONMEM notation).
 - `observed` / `predicted`: For the function `plotPredVsObs()`, `observed` is mapped to `x` and `predicted` is mapped to `y`.
 
-> **Note:** Residual calculation has been moved out of `ospsuite.plots`. Residuals and ratios must be pre-calculated before passing them to the plotting functions. If you are using the `{ospsuite}` package, use `ospsuite::addResidualColumn()` to add a residual column to your data.
+Residuals and ratios must be pre-calculated before passing them to the plotting functions. If you are using the `{ospsuite}` package, use `ospsuite::addResidualColumn()` to add a residual column to your data.
 
 See `vignette("Goodness of Fit", package = "ospsuite.plots")` for examples.
 

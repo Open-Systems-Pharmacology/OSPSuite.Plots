@@ -74,7 +74,6 @@ reference:
     contents:
       - matches("AxisScales")
       - matches("OptionKeys")
-      - matches("ResidualScales")
       - matches("BINNINGMODE")
   - title: "Data"
     desc: "Data used within the vignette examples"

@@ -2,6 +2,10 @@
 
 ## ospsuite.plots (development version)
 
+- Changed default out-of-bounds handling for continuous axes. Ribbons
+  and error bars that extend beyond axis limits are now clipped at the
+  panel boundary rather than being silently dropped.
+
 ## ospsuite.plots 1.1.0
 
 ### Breaking Changes

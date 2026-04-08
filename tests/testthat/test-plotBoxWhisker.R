@@ -10,21 +10,30 @@ test_that("plotWhisker works", {
 
   pkRatioMetaData <- attr(exampleDataCovariates, "metaData")
   pkRatioMetaData[["meanAge"]] <- pkRatioMetaData[["Age"]]
-  pkRatioMetaData <- pkRatioMetaData[intersect(names(pkRatioData), names(pkRatioMetaData))]
-
+  pkRatioMetaData <- pkRatioMetaData[intersect(
+    names(pkRatioData),
+    names(pkRatioMetaData)
+  )]
 
   myStatFun <- function(y) {
-    r <- stats::quantile(y, probs = c(0.1, 0.25, 0.5, 0.75, 0.9), names = FALSE, na.rm = TRUE)
+    r <- stats::quantile(
+      y,
+      probs = c(0.1, 0.25, 0.5, 0.75, 0.9),
+      names = FALSE,
+      na.rm = TRUE
+    )
     names(r) <- c("ymin", "lower", "middle", "upper", "ymax")
     return(r)
   }
 
-
   myStatFunOutlier <-
     function(x) {
       q <- stats::quantile(x, probs = c(0.1, 0.9), names = FALSE, na.rm = TRUE)
-      pp <- subset(x, x < q[1] |
-        x > q[2])
+      pp <- subset(
+        x,
+        x < q[1] |
+          x > q[2]
+      )
       if (length(pp) < 1) {
         return(as.double(NA))
       } else {
@@ -78,7 +87,6 @@ test_that("plotWhisker works", {
        and outlier indicate all measurements outside whiskers"
       )
   )
-
 
   vdiffr::expect_doppelganger(
     title = "numeric",

@@ -378,7 +378,6 @@ plotYVsX <- function(
     plotObject <- plotObject +
       theme(aspect.ratio = 1) +
       coord_fixed(ratio = 1)
-    #      coord_cartesian(xlim = xyLimits, ylim = xyLimits)
 
     # keep user limits
     xScaleArgs <- utils::modifyList(list(limits = xyLimits), xScaleArgs)

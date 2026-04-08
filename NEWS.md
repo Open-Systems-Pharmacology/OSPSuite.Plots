@@ -1,6 +1,6 @@
 # ospsuite.plots (development version)
 
-- Changed default out-of-bounds handling for continuous axes in `addXScale()` and `addYScale()` from `oob_censor` to `scales::oob_keep` (zoom-style behaviour). Ribbons and error bars that extend beyond axis limits are now clipped at the panel boundary rather than being silently dropped. The old behaviour can be restored by passing `oob = scales::oob_censor` in `xScaleArgs` or `yScaleArgs`. Shared logic was extracted into a new internal helper `.buildContinuousScaleArgs()` to reduce duplication (#107).
+- Changed default out-of-bounds handling for continuous axes. Ribbons and error bars that extend beyond axis limits are now clipped at the panel boundary rather than being silently dropped. 
 
 # ospsuite.plots 1.1.0
 

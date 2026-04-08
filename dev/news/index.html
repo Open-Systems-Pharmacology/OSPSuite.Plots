@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9002</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,6 +49,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="ospsuiteplots-development-version">ospsuite.plots (development version)<a class="anchor" aria-label="anchor" href="#ospsuiteplots-development-version"></a></h2>
 <ul><li>Changed default out-of-bounds handling for continuous axes. Ribbons and error bars that extend beyond axis limits are now clipped at the panel boundary rather than being silently dropped.</li>
+<li>The default width of error bars is now set to <code>width = 0.2</code>, showing horizontal whiskers. The previous default was <code>width = 0</code>, which suppressed whiskers (#107).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0" id="ospsuiteplots-110">ospsuite.plots 1.1.0<a class="anchor" aria-label="anchor" href="#ospsuiteplots-110"></a></h2>

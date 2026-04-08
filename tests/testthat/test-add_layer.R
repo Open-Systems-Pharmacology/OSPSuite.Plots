@@ -46,7 +46,13 @@ test_that("initializePlot handles NULL mappedData", {
 test_that("addLayer adds a layer to the ggplot object", {
   plotObject <- ggplot() +
     geom_blank() # Start with an empty ggplot object
-  updatedPlot <- addLayer(mappedData, geomAttributes = list(), geom = "point", plotObject, layerToCall = geom_point)
+  updatedPlot <- addLayer(
+    mappedData,
+    geomAttributes = list(),
+    geom = "point",
+    plotObject,
+    layerToCall = geom_point
+  )
   expect_contains(names(updatedPlot@layers), "geom_point")
 })
 
@@ -54,7 +60,13 @@ test_that("addLayer with LLOQ data adds alpha scale using lloqAlphaVector option
   plotObject <- ggplot() +
     geom_blank()
   # addLayer with point geom and LLOQ data exercises OptionKeys$lloqAlphaVector
-  updatedPlot <- addLayer(mappedDataLLOQ, geomAttributes = list(), geom = "point", plotObject, layerToCall = geom_point)
+  updatedPlot <- addLayer(
+    mappedDataLLOQ,
+    geomAttributes = list(),
+    geom = "point",
+    plotObject,
+    layerToCall = geom_point
+  )
   expect_contains(names(updatedPlot@layers), "geom_point")
   expect_no_error(print(updatedPlot))
 })
@@ -64,12 +76,24 @@ test_that("addLLOQLayer adds LLOQ lines to the ggplot object", {
   plotObject <- ggplot() +
     geom_blank()
   # mappedData without LLOQ does nothing
-  updatedPlot <- addLLOQLayer(plotObject, mappedData, layerToCall = geom_hline, useLinetypeAsAttribute = FALSE, geomLLOQAttributes = list())
+  updatedPlot <- addLLOQLayer(
+    plotObject,
+    mappedData,
+    layerToCall = geom_hline,
+    useLinetypeAsAttribute = FALSE,
+    geomLLOQAttributes = list()
+  )
   expect_length(names(updatedPlot@layers), 1)
   expect_no_error(print(updatedPlot))
 
   # mappedData with LLOQ adds lloq line (exercises OptionKeys$lloqLineType via scale_linetype_manual)
-  updatedPlot <- addLLOQLayer(plotObject, mappedDataLLOQ, layerToCall = geom_hline, useLinetypeAsAttribute = FALSE, geomLLOQAttributes = list())
+  updatedPlot <- addLLOQLayer(
+    plotObject,
+    mappedDataLLOQ,
+    layerToCall = geom_hline,
+    useLinetypeAsAttribute = FALSE,
+    geomLLOQAttributes = list()
+  )
   expect_contains(names(updatedPlot@layers), "geom_hline")
   expect_no_error(print(updatedPlot))
 })
@@ -78,7 +102,13 @@ test_that("addLLOQLayer with useLinetypeAsAttribute=TRUE exercises lloqLineType 
   plotObject <- ggplot() +
     geom_blank()
   # useLinetypeAsAttribute = TRUE exercises OptionKeys$lloqLineType in the attribute path
-  updatedPlot <- addLLOQLayer(plotObject, mappedDataLLOQ, layerToCall = geom_hline, useLinetypeAsAttribute = TRUE, geomLLOQAttributes = list())
+  updatedPlot <- addLLOQLayer(
+    plotObject,
+    mappedDataLLOQ,
+    layerToCall = geom_hline,
+    useLinetypeAsAttribute = TRUE,
+    geomLLOQAttributes = list()
+  )
   expect_contains(names(updatedPlot@layers), "geom_hline")
   expect_no_error(print(updatedPlot))
 })
@@ -97,7 +127,11 @@ test_that("addXYScale adds scales to the ggplot object", {
 test_that("addXScale adds x-scale to the ggplot object", {
   plotObject <- ggplot(mtcars, aes(mpg, wt)) +
     geom_point()
-  updatedPlot <- addXScale(plotObject, xScale = "log", xScaleArgs = list(breaks = c(10, 15, 20, 30)))
+  updatedPlot <- addXScale(
+    plotObject,
+    xScale = "log",
+    xScaleArgs = list(breaks = c(10, 15, 20, 30))
+  )
   expect_no_error(print(updatedPlot))
   expect_false(is.null(updatedPlot@scales$get_scales("x")))
   expect_true(is.null(updatedPlot@scales$get_scales("y")))
@@ -107,7 +141,8 @@ test_that("addXScale adds x-scale to the ggplot object", {
 test_that("addYScale adds y-scale to the ggplot object", {
   plotObject <- ggplot(mtcars, aes(mpg, wt)) +
     geom_point()
-  updatedPlot <- addYScale(plotObject,
+  updatedPlot <- addYScale(
+    plotObject,
     yScale = "log",
     yScaleArgs = list(limits = c(1, 10)),
     secAxis = sec_axis(~ . * 2, name = "Secondary Axis")
@@ -115,4 +150,13 @@ test_that("addYScale adds y-scale to the ggplot object", {
   expect_no_error(print(updatedPlot))
   expect_true(is.null(updatedPlot@scales$get_scales("x")))
   expect_false(is.null(updatedPlot@scales$get_scales("y")))
+})
+
+
+test_that("addXScale does not set oob for discrete scale", {
+  # discrete scale does not use oob - should render without error
+  data <- data.frame(x = c("a", "b", "c"), y = c(1, 2, 3))
+  plotObject <- ggplot(data, aes(x, y)) +
+    geom_point()
+  expect_no_error(addXScale(plotObject, xScale = "discrete"))
 })

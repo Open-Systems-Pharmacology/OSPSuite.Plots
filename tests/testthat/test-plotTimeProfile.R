@@ -37,6 +37,54 @@ test_that("plotTimeProfile works basic", {
     title = "basic",
     fig = fig,
   )
+
+  fig <- plotTimeProfile(
+    data = simData,
+    observedData = obsData,
+    metaData = metaData,
+    mapping = aes(
+      x = time,
+      y = values,
+      ymin = minValues,
+      ymax = maxValues,
+      groupby = caption
+    ),
+    yScale = "log",
+    yScaleArgs = list(limits = c(3, 16)),
+    xScaleArgs = list(limits = c(2, 18), expand = expansion())
+  ) +
+    theme(
+      legend.position = "top"
+    )
+
+  vdiffr::expect_doppelganger(
+    title = "with Limits",
+    fig = fig,
+  )
+
+  fig <- plotTimeProfile(
+    data = simData,
+    observedData = obsData,
+    metaData = metaData,
+    mapping = aes(
+      x = time,
+      y = values,
+      ymin = minValues,
+      ymax = maxValues,
+      groupby = caption
+    ),
+    yScale = "log",
+    yScaleArgs = list(limits = c(3, 16), oob = scales::oob_censor),
+    xScaleArgs = list(limits = c(2, 18), expand = expansion())
+  ) +
+    theme(
+      legend.position = "top"
+    )
+
+  vdiffr::expect_doppelganger(
+    title = "with Limits censor",
+    fig = fig,
+  )
 })
 
 
@@ -92,7 +140,14 @@ test_that("plotTimeProfile works mapping observed plot", {
   obsData <- exampleDataTimeProfile |>
     dplyr::filter(SetID %in% c("DataSet1", "DataSet2")) |>
     dplyr::filter(Type == "observed") |>
-    dplyr::select(c("time", "values", "sd", "maxValues", "minValues", "caption"))
+    dplyr::select(c(
+      "time",
+      "values",
+      "sd",
+      "maxValues",
+      "minValues",
+      "caption"
+    ))
 
   metaData <- attr(exampleDataTimeProfile, "metaData")
 
@@ -169,7 +224,6 @@ test_that("plotTimeProfile works lloq", {
     fig
   )
 
-
   fig <- plotTimeProfile(
     data = simData,
     observedData = obsData,
@@ -195,7 +249,6 @@ test_that("plotTimeProfile works lloq", {
       legend.position = "top",
       legend.title = element_blank()
     )
-
 
   vdiffr::expect_doppelganger(
     title = "with lloq and dashed lines",
@@ -227,12 +280,17 @@ test_that("plotTimeProfile works secondary axis", {
     dplyr::filter(Type == "simulated") |>
     dplyr::select(c("time", "values", "dimension", "caption"))
 
-
   obsData <- exampleDataTimeProfile |>
     dplyr::filter(SetID == "DataSet3") |>
     dplyr::filter(Type == "observed") |>
-    dplyr::select(c("time", "values", "dimension", "caption", "lloq", "error_relative"))
-
+    dplyr::select(c(
+      "time",
+      "values",
+      "dimension",
+      "caption",
+      "lloq",
+      "error_relative"
+    ))
 
   fig <- plotTimeProfile(
     data = simData,
@@ -335,7 +393,6 @@ test_that("plotTimeProfile works secondary axis", {
       legend.title = element_blank()
     )
 
-
   vdiffr::expect_doppelganger(
     title = "secAxis logLin",
     fig = fig
@@ -355,7 +412,6 @@ test_that("plotTimeProfile works with formula as aesthic", {
     y = y / dose,
     color = as.factor(dose)
   )
-
 
   expect_no_error(plotTimeProfile(
     data = obsData,

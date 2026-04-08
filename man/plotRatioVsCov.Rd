@@ -12,6 +12,7 @@ plotRatioVsCov(
   xScale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
   comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
   deltaGuest = 1,
+  residualScale = NULL,
   ...
 )
 }
@@ -29,6 +30,9 @@ plotRatioVsCov(
 \item{comparisonLineVector}{A vector defining the comparison lines.}
 
 \item{deltaGuest}{Numeric value parameter for the Guest function.}
+
+\item{residualScale}{Deprecated. Has no effect. Residual calculation has been moved to ospsuite-R.
+Please pre-calculate residuals and map them directly to the \code{y} aesthetic.}
 
 \item{...}{
   Arguments passed on to \code{\link[=plotYVsX]{plotYVsX}}

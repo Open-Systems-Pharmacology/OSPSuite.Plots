@@ -34,7 +34,11 @@ plotHistogram <- function(data,
                           yScale = AxisScales$linear,
                           yScaleArgs = list(),
                           distribution = "none",
-                          meanFunction = "auto") {
+                          meanFunction = "auto",
+                          residualScale = NULL) {
+  if (!is.null(residualScale)) {
+    warning(messages$warningResidualScaleDeprecated())
+  }
   #----- Validation and formatting of input arguments
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
 

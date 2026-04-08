@@ -18,7 +18,8 @@ plotBoxWhisker(
   outliers = FALSE,
   statFunOutlier = NULL,
   geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
-  geomPointAttributes = getDefaultGeomAttributes("Boxplot")
+  geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
+  residualScale = NULL
 )
 }
 \arguments{
@@ -56,6 +57,9 @@ which overwrites the default calculation if provided.}
 \item{geomBoxplotAttributes}{A \code{list} of arguments passed to the \code{geom_boxplot} call.}
 
 \item{geomPointAttributes}{A \code{list} of arguments passed to the \code{ggplot2::geom_point} call.}
+
+\item{residualScale}{Deprecated. Has no effect. Residual calculation has been moved to ospsuite-R.
+Please pre-calculate residuals and map them directly to the \code{y} aesthetic.}
 }
 \value{
 A \code{ggplot} object representing the box-whisker plot.

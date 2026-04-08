@@ -340,4 +340,44 @@ test_that("plotYVsX with LLOQ works for lloqOnBothAxes = TRUE", {
 })
 
 
+test_that("residualScale deprecation warning is issued", {
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
+    dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex")) |>
+    dplyr::mutate(logResiduals = log(Pred) - log(Obs))
+
+  expect_warning(
+    plotResVsCov(
+      data = data,
+      mapping = aes(x = Age, y = logResiduals, groupby = Sex),
+      residualScale = "log"
+    ),
+    regexp = "residualScale.*deprecated"
+  )
+
+  expect_warning(
+    plotRatioVsCov(
+      data = data,
+      mapping = aes(x = Age, y = logResiduals, groupby = Sex),
+      residualScale = "ratio"
+    ),
+    regexp = "residualScale.*deprecated"
+  )
+})
+
+test_that("observed + predicted mapping raises an error", {
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
+    dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex"))
+
+  expect_error(
+    plotResVsCov(
+      data = data,
+      mapping = aes(x = Age, observed = Obs, predicted = Pred, groupby = Sex)
+    ),
+    regexp = "observed.*predicted"
+  )
+})
+
+
 ospsuite.plots::resetDefaults(oldDefaults)

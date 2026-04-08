@@ -23,9 +23,12 @@ plotResVsCov <- function(
   mapping,
   comparisonLineVector = 0,
   yScale = AxisScales$linear,
+  residualScale = NULL,
   ...
 ) {
-  # Validation
+  if (!is.null(residualScale)) {
+    warning(messages$warningResidualScaleDeprecated())
+  }
 
   plotObject <- plotYVsX(
     data = data,
@@ -66,8 +69,13 @@ plotRatioVsCov <- function(
   xScale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
   comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
   deltaGuest = 1,
+  residualScale = NULL,
   ...
 ) {
+  if (!is.null(residualScale)) {
+    warning(messages$warningResidualScaleDeprecated())
+  }
+
   yDisplayAsAbsolute <- FALSE
 
   plotObject <- plotYVsX(
@@ -183,6 +191,7 @@ plotYVsX <- function(
   addGuestLimits = FALSE,
   deltaGuest = 1,
   labelGuestCriteria = "guest criteria",
+  residualScale = NULL,
   asSquarePlot = FALSE,
   xScale = AxisScales$linear,
   xScaleArgs = list(),
@@ -192,6 +201,9 @@ plotYVsX <- function(
   lloqOnBothAxes = FALSE,
   yDisplayAsAbsolute = TRUE
 ) {
+  if (!is.null(residualScale)) {
+    warning(messages$warningResidualScaleDeprecated())
+  }
   if (is.double(comparisonLineVector)) {
     comparisonLineVector <- as.list(comparisonLineVector)
   }

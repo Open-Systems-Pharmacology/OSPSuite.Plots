@@ -23,7 +23,11 @@ plotQQ <- function(data,
                    yScaleArgs = list(),
                    geomQQAttributes = list(),
                    geomQQLineAttributes = geomQQAttributes,
-                   groupAesthetics = c("colour", "fill", "shape")) {
+                   groupAesthetics = c("colour", "fill", "shape"),
+                   residualScale = NULL) {
+  if (!is.null(residualScale)) {
+    warning(messages$warningResidualScaleDeprecated())
+  }
   # Check validity
   checkmate::assertDataFrame(data)
 

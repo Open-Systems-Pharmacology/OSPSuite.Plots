@@ -12,7 +12,8 @@ plotQQ(
   yScaleArgs = list(),
   geomQQAttributes = list(),
   geomQQLineAttributes = geomQQAttributes,
-  groupAesthetics = c("colour", "fill", "shape")
+  groupAesthetics = c("colour", "fill", "shape"),
+  residualScale = NULL
 )
 }
 \arguments{
@@ -34,6 +35,9 @@ see vignettes for more details and examples}
 
 \item{groupAesthetics}{A character vector of aesthetic names used for grouping data points in the Q-Q plot.
 Common options include \code{"colour"}, \code{"fill"}, \code{"shape"}, \code{"linetype"}, and \code{"size"}.}
+
+\item{residualScale}{Deprecated. Has no effect. Residual calculation has been moved to ospsuite-R.
+Please pre-calculate residuals and map them directly to the \code{sample} aesthetic.}
 }
 \value{
 A \code{ggplot} object

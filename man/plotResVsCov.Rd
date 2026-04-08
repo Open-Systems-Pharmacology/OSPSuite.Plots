@@ -9,6 +9,7 @@ plotResVsCov(
   mapping,
   comparisonLineVector = 0,
   yScale = AxisScales$linear,
+  residualScale = NULL,
   ...
 )
 }
@@ -20,6 +21,9 @@ plotResVsCov(
 \item{comparisonLineVector}{A vector defining the comparison lines.}
 
 \item{yScale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
+
+\item{residualScale}{Deprecated. Has no effect. Residual calculation has been moved to ospsuite-R.
+Please pre-calculate residuals and map them directly to the \code{y} aesthetic.}
 
 \item{...}{
   Arguments passed on to \code{\link[=plotYVsX]{plotYVsX}}

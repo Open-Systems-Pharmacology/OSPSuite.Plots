@@ -53,6 +53,11 @@ MappedData <- R6::R6Class(
         x = names(mapping),
         subset.of = listOfAesthetics$aesthetic
       )
+
+      # Catch old-style residual mapping (observed + predicted)
+      if ("observed" %in% names(mapping) && "predicted" %in% names(mapping)) {
+        stop(messages$errorObservedPredictedNoResidualAesthetic())
+      }
       checkmate::assertCharacter(
         groupAesthetics,
         any.missing = FALSE,

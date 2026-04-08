@@ -71,7 +71,11 @@ plotBoxWhisker <- function(data,
                            outliers = FALSE,
                            statFunOutlier = NULL,
                            geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
-                           geomPointAttributes = getDefaultGeomAttributes("Boxplot")) {
+                           geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
+                           residualScale = NULL) {
+  if (!is.null(residualScale)) {
+    warning(messages$warningResidualScaleDeprecated())
+  }
   ## Validation -----------
   checkmate::assertClass(plotObject, classes = "ggplot", null.ok = TRUE)
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)

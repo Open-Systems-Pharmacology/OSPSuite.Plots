@@ -88,6 +88,23 @@ messages$warningCouldNotDeriveDataWithMapping <- function() {
   "It was not possible to derive the data with the mapping"
 }
 
+messages$warningResidualScaleDeprecated <- function() {
+  paste0(
+    "The 'residualScale' parameter is deprecated and has no effect. ",
+    "Residual calculation has been moved to ospsuite-R. ",
+    "Please pre-calculate residuals (e.g. using ospsuite::addResidualColumn()) ",
+    "and map them directly to the appropriate aesthetic ('y', 'x', or 'sample')."
+  )
+}
+
+messages$errorObservedPredictedNoResidualAesthetic <- function() {
+  paste0(
+    "Mapping both 'observed' and 'predicted' is no longer supported for automatic residual calculation. ",
+    "Please pre-calculate residuals (e.g. using ospsuite::addResidualColumn()) ",
+    "and map them directly to the appropriate aesthetic ('y', 'x', or 'sample')."
+  )
+}
+
 messages$warningInvalidShapeCode <- function(shape) {
   paste0("Invalid shape code: ", shape, ". Using default square.")
 }

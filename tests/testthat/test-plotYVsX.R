@@ -10,8 +10,10 @@ test_that("plot Residuals vs Covariate works", {
     dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex")) |>
     dplyr::mutate(logResiduals = log(Pred) - log(Obs))
 
-  metaData <- attr(exampleDataCovariates, "metaData")
-  metaData <- metaData[intersect(names(data), names(metaData))]
+  attr(
+    x = data$logResiduals,
+    which = "label"
+  ) <- "residuals\nlog(predicted) - log(observed)"
 
   fig <- plotResVsCov(
     data = data,
@@ -76,12 +78,13 @@ test_that("plotRatioVsCov works", {
     dplyr::select(c("ID", "Obs", "Pred")) |>
     dplyr::mutate(Ratio = Obs / Pred)
 
+  attr(
+    x = dDIdata$Ratio,
+    which = "label"
+  ) <- "residuals\nobserved / predicted"
+
   dDImetaData <- list(
     Obs = list(
-      dimension = "DDI AUC Ratio",
-      unit = ""
-    ),
-    Pred = list(
       dimension = "DDI AUC Ratio",
       unit = ""
     )
@@ -150,12 +153,13 @@ test_that("getCountsWithin works for Guest Criteria", {
     dplyr::mutate(Type = ifelse(ID <= 5, "A", "B")) |>
     dplyr::mutate(Ratio = Obs / Pred)
 
+  attr(
+    x = dDIdata$Ratio,
+    which = "label"
+  ) <- "residuals\nobserved / predicted"
+
   dDImetaData <- list(
     Obs = list(
-      dimension = "DDI AUC Ratio",
-      unit = ""
-    ),
-    Pred = list(
       dimension = "DDI AUC Ratio",
       unit = ""
     )
@@ -210,6 +214,11 @@ test_that("adjust lines works withot error", {
     dplyr::filter(SetID == "DataSet2") |>
     dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex")) |>
     dplyr::mutate(logResiduals = log(Pred) - log(Obs))
+
+  attr(
+    x = data$logResiduals,
+    which = "label"
+  ) <- "residuals\nlog(predicted) - log(observed)"
 
   # case with lines which are no interval
   expect_no_error(plotResVsCov(

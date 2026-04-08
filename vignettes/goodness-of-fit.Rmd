@@ -368,7 +368,8 @@ plotResVsCov(
     y = logResiduals,
     groupby = Sex
   )
-)
+) +
+  labs(y = "residuals\nlog(predicted) - log(observed)")
 ```
 
 ## 3.1.2 Linear Scale for Residuals
@@ -389,23 +390,10 @@ plotResVsCov(
     groupby = Sex
   ),
   geomComparisonLineAttributes = list(linetype = "solid")
-)
+) +
+  labs(y = "residuals\npredicted - observed")
 ```
 
-## 3.1.3 Use Inline Formula
-
-Residuals can also be calculated inline using a formula in the aesthetic mapping.
-
-```{r resVsCov-basic-mappedToY, fig.alt="Scatter plot showing directly calculated residuals (observed minus predicted) versus age. Residuals are manually calculated and mapped to the y-axis, with points colored by sex groups. This demonstrates how to use pre-calculated residuals instead of automatic calculation."}
-plotResVsCov(
-  data = data,
-  mapping = aes(
-    x = Age,
-    y = Obs - Pred,
-    groupby = Sex
-  )
-)
-```
 
 ## 3.2 Adjusting Comparison Lines
 
@@ -418,7 +406,8 @@ plotResVsCov(
     groupby = Sex
   ),
   comparisonLineVector = list(zero = 0, "lower limit" = -0.25, "upper limit" = 0.25)
-)
+) +
+  labs(y = "residuals\nlog(predicted) - log(observed)")
 ```
 
 ## 3.3 Adding a Regression Line
@@ -435,6 +424,7 @@ plotResVsCov(
   ),
   addRegression = TRUE
 ) +
+  labs(y = "residuals\nlog(predicted) - log(observed)") +
   ggpubr::stat_regline_equation(aes(label = after_stat(eq.label)))
 ```
 
@@ -557,19 +547,8 @@ plotQQ(
     sample = logResiduals,
     groupby = Sex
   )
-)
-```
-
-A column with already calculated residuals or formulas can be mapped directly to `sample`.
-
-```{r qqplot, fig.alt="Quantile-quantile plot with sample data mapped directly to linear residuals. This demonstrates mapping pre-calculated values directly using the sample aesthetic. Points are colored by sex groups."}
-plotQQ(
-  data = data,
-  mapping = aes(
-    sample = linearResiduals,
-    groupby = Sex
-  )
-)
+) +
+  labs(y = "residuals\nlog(predicted) - log(observed)")
 ```
 
 # 6 Residuals in Other Plot Functions
@@ -588,7 +567,8 @@ plotHistogram(
   ),
   plotAsFrequency = TRUE,
   distribution = "normal"
-) + geom_vline(xintercept = 0, linetype = "dashed")
+) + geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(x = "residuals\nlog(predicted) - log(observed)")
 ```
 
 ## 6.2 Stratify Residuals with a Box-Whisker Plot
@@ -604,7 +584,8 @@ plotBoxWhisker(
   ),
   data = pkRatioData,
   metaData = metaData
-)
+) +
+  labs(y = "residuals\nlog(predicted) - log(observed)")
 ```
 
 ```{r cleanup, echo=FALSE}

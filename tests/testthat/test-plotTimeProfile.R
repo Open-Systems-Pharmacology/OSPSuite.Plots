@@ -49,7 +49,7 @@ test_that("plotTimeProfile works basic", {
       ymax = maxValues,
       groupby = caption
     ),
-    yScale = 'log',
+    yScale = "log",
     yScaleArgs = list(limits = c(3, 16)),
     xScaleArgs = list(limits = c(2, 18), expand = expansion())
   ) +
@@ -73,7 +73,7 @@ test_that("plotTimeProfile works basic", {
       ymax = maxValues,
       groupby = caption
     ),
-    yScale = 'log',
+    yScale = "log",
     yScaleArgs = list(limits = c(3, 16), oob = scales::oob_censor),
     xScaleArgs = list(limits = c(2, 18), expand = expansion())
   ) +

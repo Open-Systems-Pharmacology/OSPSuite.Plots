@@ -58,7 +58,8 @@ test_that("plot Observed vs Predicted works", {
       ymax = Pred * 1.1
     ),
     metaData = metaData,
-    addRegression = TRUE
+    addRegression = TRUE,
+    geomErrorbarAttributes = list(width = 0.02)
   )
 
   vdiffr::expect_doppelganger(

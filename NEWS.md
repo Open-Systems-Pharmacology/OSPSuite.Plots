@@ -1,6 +1,7 @@
 # ospsuite.plots (development version)
 
 - Changed default out-of-bounds handling for continuous axes. Ribbons and error bars that extend beyond axis limits are now clipped at the panel boundary rather than being silently dropped. 
+- The default width of error bars is now set to `width = 0.2`, showing horizontal whiskers. The previous default was `width = 0`, which suppressed whiskers (#107). 
 
 # ospsuite.plots 1.1.0
 

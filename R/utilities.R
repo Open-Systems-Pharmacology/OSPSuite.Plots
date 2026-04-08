@@ -35,9 +35,7 @@
 #'     unit = "h"
 #'   )
 #' addXScale(plotObject = ggplot(), xScale = "linear", xScaleArgs = xScaleArgs)
-updateScaleArgumentsForTimeUnit <- function(scaleArgs,
-                                            dimension,
-                                            unit) {
+updateScaleArgumentsForTimeUnit <- function(scaleArgs, dimension, unit) {
   ## Validation
   checkmate::assertList(scaleArgs, null.ok = TRUE)
 
@@ -49,17 +47,14 @@ updateScaleArgumentsForTimeUnit <- function(scaleArgs,
   checkmate::assertCharacter(dimension, max.len = 1, null.ok = TRUE)
   checkmate::assertCharacter(unit, max.len = 1, null.ok = TRUE)
 
-
   if (is.null(dimension) | is.null(unit)) {
     return(scaleArgs)
   }
-
 
   # if x has no time Unit return
   if (tolower(dimension) != "time") {
     return(scaleArgs)
   }
-
 
   timeBreaks <- function(width) {
     function(x) {
@@ -74,7 +69,8 @@ updateScaleArgumentsForTimeUnit <- function(scaleArgs,
     }
   }
 
-  scaleArgs$breaks <- switch(tolower(unit),
+  scaleArgs$breaks <- switch(
+    tolower(unit),
     "s" = timeBreaks(15),
     "min" = timeBreaks(15),
     "h" = timeBreaks(6),
@@ -83,10 +79,8 @@ updateScaleArgumentsForTimeUnit <- function(scaleArgs,
     "month(s)" = timeBreaks(6)
   )
 
-
   # use minor steps 1
   scaleArgs$minor_breaks <- scales::breaks_width(1)
-
 
   return(scaleArgs)
 }
@@ -124,7 +118,9 @@ createDefaultPlotLabels <- function(mappedData) {
   # match mapping to axis
   matchList <- list(
     x = "x",
-    y = listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic,
+    y = listOfAesthetics[
+      which(listOfAesthetics$scalingRelevant >= 1),
+    ]$aesthetic,
     y2 = "y2"
   )
 
@@ -140,7 +136,10 @@ createDefaultPlotLabels <- function(mappedData) {
       dimension <- mappedData$dimensions[[aesthetic]]
       unit <- mappedData$units[[aesthetic]]
       if (!is.null(dimension)) {
-        plotLabels[[labelEntry]] <- constructLabelWithUnit(label = dimension, unit = unit)
+        plotLabels[[labelEntry]] <- constructLabelWithUnit(
+          label = dimension,
+          unit = unit
+        )
       }
     }
   }
@@ -167,10 +166,16 @@ createDefaultPlotLabels <- function(mappedData) {
 #' @export
 constructLabelWithUnit <- function(label, unit) {
   # Validate input arguments
-  if (is.factor(label)) label <- as.character(label)
-  if (is.double(label)) label <- as.character(label)
+  if (is.factor(label)) {
+    label <- as.character(label)
+  }
+  if (is.double(label)) {
+    label <- as.character(label)
+  }
   checkmate::assertCharacter(label, len = 1, null.ok = TRUE)
-  if (is.factor(unit)) unit <- as.character(unit)
+  if (is.factor(unit)) {
+    unit <- as.character(unit)
+  }
   checkmate::assertCharacter(unit, len = 1, null.ok = TRUE)
 
   if (!is.null(label) & !is.null(unit)) {
@@ -213,7 +218,6 @@ metaData2DataFrame <- function(metaData) {
     )
   }
 
-
   return(metaDF)
 }
 
@@ -227,8 +231,7 @@ metaData2DataFrame <- function(metaData) {
 #'
 #' @return named list with fold distances
 #' @export
-getFoldDistanceList <- function(folds = c(1.5, 2),
-                                includeIdentity = TRUE) {
+getFoldDistanceList <- function(folds = c(1.5, 2), includeIdentity = TRUE) {
   checkmate::assertDouble(folds, null.ok = TRUE)
   if (!is.null(folds) && any(folds <= 1)) {
     stop(messages$errorFoldDistanceMustBeGreaterThanOne(folds[folds <= 1]))
@@ -245,157 +248,4 @@ getFoldDistanceList <- function(folds = c(1.5, 2),
   }
 
   return(foldDistance)
-}
-
-#' Compute Residuals
-#'
-#' This function computes residuals from predicted and observed values using different scaling methods.
-#' The calculation method is consistent with the residual calculation used in `plotResVsCov()` and other
-#' plotting functions in the ospsuite.plots package.
-#'
-#' @param predicted A numeric vector of predicted values. Must have the same length as `observed`.
-#' @param observed A numeric vector of observed values. Must have the same length as `predicted`.
-#' @param scaling A character string specifying the scaling method. Must be one of:
-#'   * `"log"` (default): Residuals are calculated as `log(predicted) - log(observed)`.
-#'     Invalid values (non-positive) or NA values are set to NA with a warning.
-#'   * `"linear"`: Residuals are calculated as `predicted - observed`.
-#'     NA values are set to NA with a warning.
-#'   * `"ratio"`: Residuals are calculated as `predicted / observed`.
-#'     Invalid values (zero observed values) or NA values are set to NA with a warning.
-#'
-#' @return A numeric vector of residuals with the same length as the input vectors.
-#'   Invalid calculations and NA values are returned as NA.
-#'
-#' @details
-#' This function implements the same residual calculation logic used internally by
-#' the ospsuite.plots package when creating residual plots with `plotResVsCov()` and
-#' `plotRatioVsCov()`. It is provided as a standalone function to enable consistent
-#' residual calculations across different packages in the Open Systems Pharmacology ecosystem.
-#'
-#' **Calculation Details:**
-#'
-#' * **Log scaling**: `log(predicted) - log(observed)`
-#'   - NA values are set to NA with a warning
-#'   - Non-positive values are set to NA with a warning
-#'   - Symmetric for over- and under-prediction on log scale
-#'   - Commonly used for pharmacokinetic data
-#'
-#' * **Linear scaling**: `predicted - observed`
-#'   - NA values are set to NA with a warning
-#'   - Standard residual calculation
-#'   - Positive values indicate over-prediction
-#'   - Negative values indicate under-prediction
-#'
-#' * **Ratio scaling**: `predicted / observed`
-#'   - Returns ratios instead of differences
-#'   - NA values are set to NA with a warning
-#'   - Zero observed values are set to NA with a warning
-#'   - Values > 1 indicate over-prediction
-#'   - Values < 1 indicate under-prediction
-#'   - Value of 1 indicates perfect prediction
-#'
-#' @examples
-#' # Example data
-#' predicted <- c(1.5, 2.0, 3.5, 5.0, 7.5)
-#' observed <- c(1.2, 2.1, 3.0, 5.5, 7.0)
-#'
-#' # Compute residuals with different scaling methods
-#' residualsLog <- computeResiduals(predicted, observed, scaling = "log")
-#' residualsLinear <- computeResiduals(predicted, observed, scaling = "linear")
-#' residualsRatio <- computeResiduals(predicted, observed, scaling = "ratio")
-#'
-#' # Compare results
-#' data.frame(
-#'   predicted = predicted,
-#'   observed = observed,
-#'   logResiduals = residualsLog,
-#'   linearResiduals = residualsLinear,
-#'   ratioResiduals = residualsRatio
-#' )
-#'
-#' # Example with invalid values
-#' predictedInvalid <- c(1.5, -2.0, 3.5)
-#' observedInvalid <- c(1.2, 2.1, 0)
-#'
-#' # Log scaling warns about non-positive values and returns NA
-#' residualsLogInvalid <- computeResiduals(predictedInvalid, observedInvalid, scaling = "log")
-#'
-#' # Ratio scaling warns about zero observed values and returns NA
-#' residualsRatioInvalid <- computeResiduals(predictedInvalid, observedInvalid, scaling = "ratio")
-#'
-#' @export
-computeResiduals <- function(predicted,
-                              observed,
-                              scaling = ResidualScales$log) {
-  # Validation
-  checkmate::assertNumeric(predicted, any.missing = TRUE, min.len = 1)
-  checkmate::assertNumeric(observed, any.missing = TRUE, min.len = 1)
-  checkmate::assertChoice(scaling, choices = c(
-    ResidualScales$linear,
-    ResidualScales$log,
-    ResidualScales$ratio
-  ))
-
-  # Check that vectors have the same length
-  if (length(predicted) != length(observed)) {
-    stop("predicted and observed must have the same length")
-  }
-
-  # Check for NA values and warn
-  naPredicted <- is.na(predicted)
-  naObserved <- is.na(observed)
-  naValues <- naPredicted | naObserved
-
-  if (any(naValues)) {
-    nNa <- sum(naValues)
-    warning(sprintf(
-      "%d residual value%s set to NA: NA values found in predicted or observed",
-      nNa,
-      ifelse(nNa == 1, "", "s")
-    ))
-  }
-
-  # Initialize residuals vector
-  residuals <- rep(NA_real_, length(predicted))
-
-  # Calculate residuals based on scaling method
-  if (scaling == ResidualScales$log) {
-    # Check for positive values
-    invalidPredicted <- predicted <= 0 & !is.na(predicted)
-    invalidObserved <- observed <= 0 & !is.na(observed)
-    invalidIndices <- invalidPredicted | invalidObserved
-
-    if (any(invalidIndices)) {
-      nInvalid <- sum(invalidIndices)
-      warning(sprintf(
-        "%d residual value%s set to NA: non-positive values found for log scaling",
-        nInvalid,
-        ifelse(nInvalid == 1, "", "s")
-      ))
-    }
-
-    # Calculate residuals for valid values
-    validIndices <- !invalidIndices & !naValues
-    residuals[validIndices] <- log(predicted[validIndices]) - log(observed[validIndices])
-  } else if (scaling == ResidualScales$linear) {
-    residuals <- predicted - observed
-  } else if (scaling == ResidualScales$ratio) {
-    # Check for zero observed values
-    invalidObserved <- observed == 0 & !is.na(observed)
-
-    if (any(invalidObserved)) {
-      nInvalid <- sum(invalidObserved)
-      warning(sprintf(
-        "%d residual value%s set to NA: zero observed values found for ratio scaling",
-        nInvalid,
-        ifelse(nInvalid == 1, "", "s")
-      ))
-    }
-
-    # Calculate residuals for valid values
-    validIndices <- !invalidObserved & !naValues
-    residuals[validIndices] <- predicted[validIndices] / observed[validIndices]
-  }
-
-  return(residuals)
 }

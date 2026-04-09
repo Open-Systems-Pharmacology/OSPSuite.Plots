@@ -185,28 +185,30 @@ MappedData <- R6::R6Class(
     #' @return  updated `MappedData` object
     addMetaData = function(metaData) {
       for (aesthetic in names(self$mapping)) {
-        tmp <- private$getDataForAesthetic(
+        tmpData <- private$getDataForAesthetic(
+          aesthetic = aesthetic,
+          stopIfNull = FALSE
+        )
+
+        if (!is.null(tmpData)) {
+          if (is.factor(tmpData)) {
+            self$columnClasses[[aesthetic]] <- "factor"
+          } else {
+            self$columnClasses[[aesthetic]] <- class(tmpData)
+          }
+          self$dimensions[[aesthetic]] <- attr(tmpData, 'label')
+          self$units[[aesthetic]] <- attr(tmpData, 'unit')
+        }
+
+        # if available use Metadata for dimension and unit
+        tmpMD <- private$getDataForAesthetic(
           aesthetic = aesthetic,
           data = metaData2DataFrame(metaData),
           stopIfNull = FALSE
         )
-
-        if (!is.null(tmp) & !is.function(tmp) & length(tmp) == 2) {
-          self$dimensions[[aesthetic]] <- tmp[1]
-          self$units[[aesthetic]] <- tmp[2]
-        }
-
-        tmp <- private$getDataForAesthetic(
-          aesthetic = aesthetic,
-          stopIfNull = FALSE
-        )
-
-        if (!is.null(tmp)) {
-          if (is.factor(tmp)) {
-            self$columnClasses[[aesthetic]] <- "factor"
-          } else {
-            self$columnClasses[[aesthetic]] <- class(tmp)
-          }
+        if (!is.null(tmpMD) & !is.function(tmpMD) & length(tmpMD) == 2) {
+          self$dimensions[[aesthetic]] <- tmpMD[1]
+          self$units[[aesthetic]] <- tmpMD[2]
         }
       }
       return(invisible(self))
@@ -455,29 +457,15 @@ MappedData <- R6::R6Class(
     },
     #' copy aesthetics `groupby`, but only if not explicit set
     adjustGroupAesthetics = function() {
+      newMapping <- list()
       if (!is.null(private$groupAesthetics)) {
-        newMapping <- list()
         for (aesthetic in private$groupAesthetics) {
           if (!private$aestheticExists(aesthetic)) {
             newMapping[[aesthetic]] <- self$mapping$groupby
-
-            # Check the groupby column (the source being copied) for factor status.
-            # self$mapping has not been updated yet so we must look up groupby directly.
-            tmp <- private$getDataForAesthetic("groupby", stopIfNull = FALSE)
-            if (
-              !is.null(tmp) &&
-                !is.factor(tmp)
-            ) {
-              groupbyColName <- rlang::as_name(self$mapping$groupby)
-              self$data <- self$data |>
-                dplyr::mutate(
-                  !!groupbyColName := factor(!!rlang::sym(groupbyColName))
-                )
-            }
           }
         }
-        private$addOverwriteAes(newMapping)
       }
+      private$addOverwriteAes(newMapping)
       self$mapping$groupby <- NULL
 
       return(invisible(self))

@@ -118,9 +118,12 @@ createDefaultPlotLabels <- function(mappedData) {
   # match mapping to axis
   matchList <- list(
     x = "x",
-    y = listOfAesthetics[
-      which(listOfAesthetics$scalingRelevant >= 1),
-    ]$aesthetic,
+    y = c(
+      listOfAesthetics[
+        which(listOfAesthetics$scalingRelevant >= 1),
+      ]$aesthetic,
+      "sample"
+    ),
     y2 = "y2"
   )
 

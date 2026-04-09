@@ -153,4 +153,19 @@ test_that("plot histogram works for categoricalData", {
   )
 })
 
+test_that("plotHistogram validates asBarPlot at function entry", {
+  myData <- data.frame(x = c(1.0, 2.0, 3.0, 4.0))
+
+  # NULL should be allowed (default)
+  expect_no_error(plotHistogram(data = myData, mapping = aes(x = x), asBarPlot = NULL))
+
+  # TRUE/FALSE should be allowed
+  expect_no_error(plotHistogram(data = myData, mapping = aes(x = x), asBarPlot = FALSE))
+  expect_no_error(plotHistogram(data = myData, mapping = aes(x = x), asBarPlot = TRUE))
+
+  # Non-flag value should throw an error before any expensive computation
+  expect_error(plotHistogram(data = myData, mapping = aes(x = x), asBarPlot = "yes"))
+  expect_error(plotHistogram(data = myData, mapping = aes(x = x), asBarPlot = 1))
+})
+
 ospsuite.plots::resetDefaults(oldDefaults)

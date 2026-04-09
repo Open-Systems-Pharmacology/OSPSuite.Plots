@@ -172,6 +172,12 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         checkmate::assertDouble(log(y2limits), finite = TRUE)
       }
 
+      # Early return if data is empty - no filtering or scaling needed
+      if (nrow(self$data) == 0) {
+        private$dataScaled <- self$data
+        return(invisible(self))
+      }
+
       # Split data based on y2axis mapping: FALSE = primary axis, TRUE = secondary axis
       dataUnscaled <- self$data |>
         dplyr::filter(!!self$mapping[["y2axis"]] == FALSE)
@@ -249,16 +255,18 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         intersect(names(self$mapping))
 
 
-      for (aesthetic in scalingRelevantMappings) {
-        tmp <- private$getDataForAesthetic(
-          aesthetic = aesthetic,
-          stopIfNull = FALSE
-        )
+      if (length(scalingRelevantMappings) > 0) {
+        for (aesthetic in scalingRelevantMappings) {
+          tmp <- private$getDataForAesthetic(
+            aesthetic = aesthetic,
+            stopIfNull = FALSE
+          )
 
-        if (!is.null(tmp) && is.numeric(tmp)) {
-          dataScaled <- dataScaled |>
-            dplyr::mutate(!!self$mapping[[aesthetic]] :=
-              funScale(!!self$mapping[[aesthetic]]))
+          if (!is.null(tmp) && is.numeric(tmp)) {
+            dataScaled <- dataScaled |>
+              dplyr::mutate(!!self$mapping[[aesthetic]] :=
+                funScale(!!self$mapping[[aesthetic]]))
+          }
         }
       }
 

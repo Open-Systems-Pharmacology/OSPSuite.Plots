@@ -237,3 +237,33 @@ test_that("MappedDataTimeProfile input validation works", {
     )
   })
 })
+
+test_that("MappedDataTimeProfile scaleDataForSecondaryAxis handles empty data", {
+  skip_if_not_installed("ggplot2")
+
+  testData <- data.frame(
+    time = c(0, 1, 2, 0, 1, 2),
+    concentration = c(1, 10, 8, 0.1, 1, 0.8),
+    y2axis = c(FALSE, FALSE, FALSE, TRUE, TRUE, TRUE)
+  )
+
+  mappedData <- MappedDataTimeProfile$new(
+    data = testData,
+    mapping = ggplot2::aes(x = time, y = concentration, y2axis = y2axis),
+    scaleOfPrimaryAxis = "linear",
+    scaleOfSecondaryAxis = "linear",
+    ylimits = c(0, 10),
+    y2limits = c(0, 1)
+  )
+
+  # Override data with empty frame to test early return
+  mappedData$data <- testData[integer(0), ]
+
+  # Should return without error even with empty data
+  expect_no_error({
+    mappedData$scaleDataForSecondaryAxis(
+      ylimits = c(0, 10),
+      y2limits = c(0, 1)
+    )
+  })
+})

@@ -1,5 +1,4 @@
 #' List of functions and strings used to signal error messages and warnings
-#' @keywords internal
 messages <- list()
 
 messages$errorFoldDistanceMustBeGreaterThanOne <- function(folds) {
@@ -51,13 +50,23 @@ messages$warningNoMetaDataForXAxis <- function() {
 }
 
 messages$errorContinuousXScaleNotPossibleForFactors <- function(discreteScale) {
-  paste0('continuous x scale is not possible for factors, please select "', discreteScale, '"')
+  paste0(
+    'continuous x scale is not possible for factors, please select "',
+    discreteScale,
+    '"'
+  )
 }
 
-messages$errorDiscreteXScaleNotPossibleForContinuous <- function(linearScale, logScale) {
+messages$errorDiscreteXScaleNotPossibleForContinuous <- function(
+  linearScale,
+  logScale
+) {
   paste0(
     'discrete x scale is not possible for continuous data. Select "',
-    linearScale, '" or "', logScale, '" or convert data to factor'
+    linearScale,
+    '" or "',
+    logScale,
+    '" or convert data to factor'
   )
 }
 

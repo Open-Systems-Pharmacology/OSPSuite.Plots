@@ -342,7 +342,7 @@ getDefaultOptions <- function() {
     ospsuite.plots.geomLineAttributes = list(),
     ospsuite.plots.geomRibbonAttributes = list(color = NA),
     ospsuite.plots.geomPointAttributes = list(),
-    ospsuite.plots.geomErrorbarAttributes = list(width = 0),
+    ospsuite.plots.geomErrorbarAttributes = list(width = 0.2),
     ospsuite.plots.geomLLOQAttributes = list(),
     ospsuite.plots.geomComparisonLineAttributes = list(linetype = "dashed"),
     ospsuite.plots.geomGuestLineAttributes = list(linetype = "dashed"),
@@ -418,8 +418,9 @@ getDefaultGeomAttributes <- function(geom) {
 #' options(ospsuite.plots.watermarkEnabled = TRUE)
 #' getOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled)
 #' }
+# noLint start
 getOspsuite.plots.option <- function(optionKey) {
-  # nolint
+  # noLint end
   checkmate::assert_choice(optionKey, choices = names(OptionKeys))
 
   return(getOption(
@@ -442,8 +443,9 @@ getOspsuite.plots.option <- function(optionKey) {
 #' \dontrun{
 #' setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 #' }
+# noLint start
 setOspsuite.plots.option <- function(optionKey, value) {
-  # nolint
+  # noLint end
   checkmate::assert_choice(optionKey, choices = names(OptionKeys))
 
   if (is.null(value)) {

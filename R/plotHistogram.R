@@ -37,6 +37,7 @@ plotHistogram <- function(data,
                           meanFunction = "auto",
                           residualScale = ResidualScales$log) {
   #----- Validation and formatting of input arguments
+  checkmate::assertFlag(asBarPlot, null.ok = TRUE)
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
 
   checkmate::assertFlag(plotAsFrequency)

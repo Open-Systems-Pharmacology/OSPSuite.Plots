@@ -723,3 +723,41 @@ test_that("checkForCallAesthetics in MappedDataTimeProfile resolves call aesthet
     "y.i"
   )
 })
+
+test_that("MappedData initialize handles empty data frame (no columns) without error", {
+  emptyData <- data.frame()
+
+  # Should not error even with empty data frame (no columns)
+  expect_no_error({
+    MappedData$new(
+      data = emptyData,
+      mapping = list(),
+      xScale = AxisScales$linear,
+      yScale = AxisScales$linear
+    )
+  })
+})
+
+test_that("MappedData addMetaData validates metaData input", {
+  simData1 <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet1") |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  mappedObj <- MappedData$new(
+    data = simData1,
+    mapping = aes(x = time, y = values),
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear
+  )
+
+  # NULL metaData should succeed
+  expect_no_error(mappedObj$addMetaData(NULL))
+
+  # Valid list metaData should succeed
+  expect_no_error(mappedObj$addMetaData(list()))
+
+  # Non-list metaData should throw error
+  expect_error(mappedObj$addMetaData("invalid"))
+  expect_error(mappedObj$addMetaData(123))
+})

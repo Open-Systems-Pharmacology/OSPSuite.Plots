@@ -94,9 +94,11 @@ MappedData <- R6::R6Class(
         null.ok = TRUE
       )
 
-      # delete columns with NA
-      data <- data |>
-        dplyr::select(names(data)[sapply(data, function(x) !all(is.na(x)))])
+      # delete columns with NA (skip if data has no columns to avoid issues with empty data frames)
+      if (ncol(data) > 0) {
+        data <- data |>
+          dplyr::select(names(data)[sapply(data, function(x) !all(is.na(x)))])
+      }
 
       self$data <- data.frame(data) ## creates a copy
       self$mapping <- mapping
@@ -194,6 +196,7 @@ MappedData <- R6::R6Class(
     #'
     #' @return  updated `MappedData` object
     addMetaData = function(metaData) {
+      checkmate::assertList(metaData, null.ok = TRUE)
       for (aesthetic in names(self$mapping)) {
         tmp <- private$getDataForAesthetic(
           aesthetic = aesthetic,

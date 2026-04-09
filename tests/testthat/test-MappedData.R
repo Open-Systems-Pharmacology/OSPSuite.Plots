@@ -24,6 +24,38 @@ test_that("adjustGroupAesthetics works", {
   )
 })
 
+test_that("adjustGroupAesthetics factorizes the copied groupby column in self$data", {
+  simData1 <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet1") |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  # Ensure caption is a plain character (not already a factor)
+  simData1$caption <- as.character(simData1$caption)
+  expect_false(is.factor(simData1$caption))
+
+  mapping <- aes(
+    x = time,
+    y = values,
+    groupby = caption
+  )
+
+  simDataMatch <- MappedData$new(
+    data = simData1,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    mapping = mapping,
+    groupAesthetics = c("colour", "fill", "linetype", "shape")
+  )
+
+  # After construction the groupby column must be a factor in self$data
+  expect_true(is.factor(simDataMatch$data$caption))
+  # Aesthetics must have been copied from groupby
+  expect_named(simDataMatch$mapping,
+    expected = c("x", "y", "colour", "fill", "linetype", "shape", "group")
+  )
+})
+
 
 test_that("getAestheticsForGeom works", {
   simData1 <- exampleDataTimeProfile |>

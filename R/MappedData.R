@@ -465,16 +465,17 @@ MappedData <- R6::R6Class(
           if (!private$aestheticExists(aesthetic)) {
             newMapping[[aesthetic]] <- self$mapping$groupby
 
-            tmp <- private$getDataForAesthetic(aesthetic, stopIfNull = FALSE)
+            # Check the groupby column (the source being copied) for factor status.
+            # self$mapping has not been updated yet so we must look up groupby directly.
+            tmp <- private$getDataForAesthetic("groupby", stopIfNull = FALSE)
             if (
               !is.null(tmp) &&
                 !is.factor(tmp)
             ) {
-              self$data |>
+              groupbyColName <- rlang::as_name(self$mapping$groupby)
+              self$data <- self$data |>
                 dplyr::mutate(
-                  !!self$mapping[[aesthetic]] := factor(
-                    !!self$mapping[[aesthetic]]
-                  )
+                  !!groupbyColName := factor(!!rlang::sym(groupbyColName))
                 )
             }
           }

@@ -8,9 +8,7 @@
 #' @examples
 #' \dontrun{
 #' # Set watermark option first (required)
-#' options(ospsuite.plots.watermark_enabled = TRUE)
-#'
-#' # Save current theme and set OSPSuite default
+#' options(ospsuite.plots.watermarkEnabled = TRUE)
 #' oldTheme <- setDefaultTheme()
 #'
 #' # Create a plot with the new theme
@@ -75,24 +73,82 @@ resetDefaultTheme <- function(oldTheme) {
 #'
 #' @family setDefault functions
 #' @export
-colorMaps <- list( # nolint: object_name_linter
+colorMaps <- list(
+  # nolint: object_name_linter
   default = c("#0078D7", "#D83B01", "#107C10", "#A80000", "#002050", "#B4009E"),
   grays = paste("gray", seq(0, 100, 10), sep = ""),
-  prism = c("#FF0000", "#FF7F00", "#FFFF00", "#00FF00", "#0000FF", "#4B0082", "#8F00FF"),
+  prism = c(
+    "#FF0000",
+    "#FF7F00",
+    "#FFFF00",
+    "#00FF00",
+    "#0000FF",
+    "#4B0082",
+    "#8F00FF"
+  ),
   blot = c("blue", "magenta", "cyan", "green", "yellow", "red"),
-  temperature = c("#262A76", "#234990", "#2F8AC3", "#26B0D2", "#FFC1CB", "#EB559", "#AE3535", "8E1F20"),
+  temperature = c(
+    "#262A76",
+    "#234990",
+    "#2F8AC3",
+    "#26B0D2",
+    "#FFC1CB",
+    "#EB559",
+    "#AE3535",
+    "8E1F20"
+  ),
   ospDefault = c(
-    "#5050FFFF", "#CE3D32FF", "#749B58FF", "#F0E685FF",
-    "#466983FF", "#BA6338FF", "#5DB1DDFF", "#802268FF", "#6BD76BFF",
-    "#D595A7FF", "#924822FF", "#837B8DFF", "#C75127FF", "#D58F5CFF",
-    "#7A65A5FF", "#E4AF69FF", "#3B1B53FF", "#CDDEB7FF", "#612A79FF",
-    "#AE1F63FF", "#E7C76FFF", "#5A655EFF", "#CC9900FF", "#99CC00FF",
-    "#A9A9A9FF", "#CC9900FF", "#99CC00FF", "#33CC00FF", "#00CC33FF",
-    "#00CC99FF", "#0099CCFF", "#0A47FFFF", "#4775FFFF", "#FFC20AFF",
-    "#FFD147FF", "#990033FF", "#991A00FF", "#996600FF", "#809900FF",
-    "#339900FF", "#00991AFF", "#009966FF", "#008099FF", "#003399FF",
-    "#1A0099FF", "#660099FF", "#990080FF", "#D60047FF", "#FF1463FF",
-    "#00D68FFF", "#14FFB1FF"
+    "#5050FFFF",
+    "#CE3D32FF",
+    "#749B58FF",
+    "#F0E685FF",
+    "#466983FF",
+    "#BA6338FF",
+    "#5DB1DDFF",
+    "#802268FF",
+    "#6BD76BFF",
+    "#D595A7FF",
+    "#924822FF",
+    "#837B8DFF",
+    "#C75127FF",
+    "#D58F5CFF",
+    "#7A65A5FF",
+    "#E4AF69FF",
+    "#3B1B53FF",
+    "#CDDEB7FF",
+    "#612A79FF",
+    "#AE1F63FF",
+    "#E7C76FFF",
+    "#5A655EFF",
+    "#CC9900FF",
+    "#99CC00FF",
+    "#A9A9A9FF",
+    "#CC9900FF",
+    "#99CC00FF",
+    "#33CC00FF",
+    "#00CC33FF",
+    "#00CC99FF",
+    "#0099CCFF",
+    "#0A47FFFF",
+    "#4775FFFF",
+    "#FFC20AFF",
+    "#FFD147FF",
+    "#990033FF",
+    "#991A00FF",
+    "#996600FF",
+    "#809900FF",
+    "#339900FF",
+    "#00991AFF",
+    "#009966FF",
+    "#008099FF",
+    "#003399FF",
+    "#1A0099FF",
+    "#660099FF",
+    "#990080FF",
+    "#D60047FF",
+    "#FF1463FF",
+    "#00D68FFF",
+    "#14FFB1FF"
   )
 )
 
@@ -140,7 +196,8 @@ setDefaultColorMapDistinct <- function(colorMapList = NULL) {
     checkmate::assertList(colorMapList, min.len = 1)
     # Validate that each element is a character vector of colors
     for (i in seq_along(colorMapList)) {
-      checkmate::assertCharacter(colorMapList[[i]],
+      checkmate::assertCharacter(
+        colorMapList[[i]],
         min.len = 1,
         .var.name = paste0("colorMapList[[", i, "]]")
       )
@@ -213,15 +270,24 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 #' @family setDefault functions
 setDefaultShapeDiscrete <- function(shapeValues = NULL) {
   if (is.null(shapeValues)) {
-    if (getOspsuite.plots.option(optionKey = OptionKeys$GeomPointUnicode)) {
+    if (getOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode)) {
       shapeValues <- unlist(unname(Shapes))
     } else {
       shapeValues <-
         c(
-          "circle filled", "diamond filled", "triangle filled", "square filled", "triangle down filled",
-          "plus", "cross", "asterisk",
-          "circle cross", "square cross",
-          "circle plus", "square plus", "diamond plus",
+          "circle filled",
+          "diamond filled",
+          "triangle filled",
+          "square filled",
+          "triangle down filled",
+          "plus",
+          "cross",
+          "asterisk",
+          "circle cross",
+          "square cross",
+          "circle plus",
+          "square plus",
+          "diamond plus",
           "square triangle"
         )
     }
@@ -232,7 +298,9 @@ setDefaultShapeDiscrete <- function(shapeValues = NULL) {
   )
   update_theme(palette.shape.discrete = shapeValues)
 
-  return(invisible(getOspsuite.plots.option(optionKey = OptionKeys$shapeValues)))
+  return(invisible(getOspsuite.plots.option(
+    optionKey = OptionKeys$shapeValues
+  )))
 }
 
 
@@ -261,8 +329,8 @@ resetDefaultShapeDiscrete <- function(oldShapeValues = NULL) {
 getDefaultOptions <- function() {
   optionList <- list(
     # watermark
-    ospsuite.plots.watermark_label = "preliminary analysis",
-    ospsuite.plots.watermark_format = list(
+    ospsuite.plots.watermarkLabel = "preliminary analysis",
+    ospsuite.plots.watermarkFormat = list(
       x = 0.5,
       y = 0.5,
       color = "lightgrey",
@@ -274,7 +342,7 @@ getDefaultOptions <- function() {
     ospsuite.plots.geomLineAttributes = list(),
     ospsuite.plots.geomRibbonAttributes = list(color = NA),
     ospsuite.plots.geomPointAttributes = list(),
-    ospsuite.plots.geomErrorbarAttributes = list(width = 0),
+    ospsuite.plots.geomErrorbarAttributes = list(width = 0.2),
     ospsuite.plots.geomLLOQAttributes = list(),
     ospsuite.plots.geomComparisonLineAttributes = list(linetype = "dashed"),
     ospsuite.plots.geomGuestLineAttributes = list(linetype = "dashed"),
@@ -287,20 +355,22 @@ getDefaultOptions <- function() {
       position = ggplot2::position_nudge()
     ),
     # default alpha
-    ospsuite.plots.Alpha = 0.5,
+    ospsuite.plots.alpha = 0.5,
     # alpha of LLOQ values
-    ospsuite.plots.LLOQAlphaVector = c("TRUE" = 0.3, "FALSE" = 1),
+    ospsuite.plots.lloqAlphaVector = c("TRUE" = 0.3, "FALSE" = 1),
     # linetype of LLOQ
-    ospsuite.plots.LLOQLineType = "dashed",
+    ospsuite.plots.lloqLineType = "dashed",
     # percentiles
-    ospsuite.plots.Percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+    ospsuite.plots.percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+    # default percentiles (subset of percentiles used as default in plot functions)
+    ospsuite.plots.defaultPercentiles = c(0.05, 0.5, 0.95),
     # Type of geom_point
-    ospsuite.plots.GeomPointUnicode = FALSE,
+    ospsuite.plots.geomPointUnicode = FALSE,
     # used for plot export
-    ospsuite.plots.export.width = 16,
-    ospsuite.plots.export.units = "cm",
-    ospsuite.plots.export.device = "png",
-    ospsuite.plots.export.dpi = 300
+    ospsuite.plots.exportWidth = 16,
+    ospsuite.plots.exportUnits = "cm",
+    ospsuite.plots.exportDevice = "png",
+    ospsuite.plots.exportDpi = 300
   )
 
   return(optionList)
@@ -345,13 +415,13 @@ getDefaultGeomAttributes <- function(geom) {
 #' @examples
 #' \dontrun{
 #' # Set the option first before getting it
-#' options(ospsuite.plots.watermark_enabled = TRUE)
-#' getOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled)
+#' options(ospsuite.plots.watermarkEnabled = TRUE)
+#' getOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled)
 #' }
-getOspsuite.plots.option <- function(optionKey) { # nolint
-  checkmate::assert_choice(optionKey,
-    choices = names(OptionKeys)
-  )
+# noLint start
+getOspsuite.plots.option <- function(optionKey) {
+  # noLint end
+  checkmate::assert_choice(optionKey, choices = names(OptionKeys))
 
   return(getOption(
     paste0("ospsuite.plots.", optionKey),
@@ -371,16 +441,18 @@ getOspsuite.plots.option <- function(optionKey) { # nolint
 #'
 #' @examples
 #' \dontrun{
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
+#' setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 #' }
-setOspsuite.plots.option <- function(optionKey, value) { # nolint
-  checkmate::assert_choice(optionKey,
-    choices = names(OptionKeys)
-  )
-
+# noLint start
+setOspsuite.plots.option <- function(optionKey, value) {
+  # noLint end
+  checkmate::assert_choice(optionKey, choices = names(OptionKeys))
 
   if (is.null(value)) {
-    newOption <- stats::setNames(list(NULL), paste0("ospsuite.plots.", optionKey))
+    newOption <- stats::setNames(
+      list(NULL),
+      paste0("ospsuite.plots.", optionKey)
+    )
     options(newOption)
   } else {
     newOption <- list()
@@ -410,10 +482,12 @@ setOspsuite.plots.option <- function(optionKey, value) { # nolint
 #'
 #' @family setDefault functions
 #' @export
-setDefaults <- function(defaultOptions = list(),
-                        colorMapList = NULL,
-                        shapeValues = NULL,
-                        pointAsUnicode = FALSE) {
+setDefaults <- function(
+  defaultOptions = list(),
+  colorMapList = NULL,
+  shapeValues = NULL,
+  pointAsUnicode = FALSE
+) {
   checkmate::assertList(colorMapList, null.ok = TRUE)
   checkmate::assertList(shapeValues, null.ok = TRUE)
   checkmate::assertList(defaultOptions, null.ok = TRUE)
@@ -430,11 +504,11 @@ setDefaults <- function(defaultOptions = list(),
 
   # switch between UniCodeMode and ggplot defaults
   pointAsUnicode <- pointAsUnicode |
-    defaultOptions$ospsuite.plots.GeomPointUnicode
+    defaultOptions$ospsuite.plots.geomPointUnicode
   if (pointAsUnicode) {
     defaultOptions <- utils::modifyList(
       defaultOptions,
-      list(ospsuite.plots.GeomPointUnicode = TRUE)
+      list(ospsuite.plots.geomPointUnicode = TRUE)
     )
 
     if (!("size" %in% defaultOptions$ospsuite.plots.geomPointAttributes)) {
@@ -447,17 +521,19 @@ setDefaults <- function(defaultOptions = list(),
 
     showtext::showtext_auto()
   } else {
-    if (getOption(
-      x = "ospsuite.plots.GeomPointUnicode",
-      default = getDefaultOptions()[["ospsuite.plots.GeomPointUnicode"]]
-    )) {
+    if (
+      getOption(
+        x = "ospsuite.plots.geomPointUnicode",
+        default = getDefaultOptions()[["ospsuite.plots.geomPointUnicode"]]
+      )
+    ) {
       showtext::showtext_auto(enable = "off")
     }
   }
   oldDefaults$pointAsUnicode <-
     getOption(
-      x = "ospsuite.plots.GeomPointUnicode",
-      default = getDefaultOptions()[["ospsuite.plots.GeomPointUnicode"]]
+      x = "ospsuite.plots.geomPointUnicode",
+      default = getDefaultOptions()[["ospsuite.plots.geomPointUnicode"]]
     )
 
   # options
@@ -466,7 +542,10 @@ setDefaults <- function(defaultOptions = list(),
 
   options(defaultOptions)
 
-  defaultAlpha <- getOption("ospsuite.plots.Alpha", getDefaultOptions()[["ospsuite.plots.Alpha"]])
+  defaultAlpha <- getOption(
+    "ospsuite.plots.alpha",
+    getDefaultOptions()[["ospsuite.plots.alpha"]]
+  )
 
   # get old settings of defaults for geoms
   nsenv <- asNamespace("ggplot2")
@@ -480,36 +559,53 @@ setDefaults <- function(defaultOptions = list(),
   # set theme, color and shapes
 
   oldDefaults[["theme"]] <- setDefaultTheme()
-  oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(colorMapList = colorMapList)
+  oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(
+    colorMapList = colorMapList
+  )
 
-  oldDefaults[["shapeValues"]] <- setDefaultShapeDiscrete(shapeValues = shapeValues)
+  oldDefaults[["shapeValues"]] <- setDefaultShapeDiscrete(
+    shapeValues = shapeValues
+  )
   shapeValues <- getOption("ospsuite.plots.shapeValues")
-
 
   # set geoms
   if (!pointAsUnicode) {
-    update_geom_defaults("point", list(
-      shape = shapeValues[1]
-    ))
+    update_geom_defaults(
+      "point",
+      list(
+        shape = shapeValues[1]
+      )
+    )
   }
-  update_geom_defaults("boxplot", list(
-    fill = getOption("ggplot2.discrete.fill")[[1]][[1]],
-    alpha = defaultAlpha
-  ))
-  update_geom_defaults("bar", list(
-    fill =  getOption("ggplot2.discrete.fill")[[1]][[1]],
-    alpha = defaultAlpha,
-    color = "black"
-  ))
-  update_geom_defaults("ribbon", list(
-    fill = getOption("ggplot2.discrete.fill")[[1]][[1]],
-    alpha = defaultAlpha
-  ))
-  update_geom_defaults("line", list(
-    linewidth = 1.25,
-    fill = getOption("ggplot2.discrete.fill")[[1]][[1]]
-  ))
-
+  update_geom_defaults(
+    "boxplot",
+    list(
+      fill = getOption("ggplot2.discrete.fill")[[1]][[1]],
+      alpha = defaultAlpha
+    )
+  )
+  update_geom_defaults(
+    "bar",
+    list(
+      fill = getOption("ggplot2.discrete.fill")[[1]][[1]],
+      alpha = defaultAlpha,
+      color = "black"
+    )
+  )
+  update_geom_defaults(
+    "ribbon",
+    list(
+      fill = getOption("ggplot2.discrete.fill")[[1]][[1]],
+      alpha = defaultAlpha
+    )
+  )
+  update_geom_defaults(
+    "line",
+    list(
+      linewidth = 1.25,
+      fill = getOption("ggplot2.discrete.fill")[[1]][[1]]
+    )
+  )
 
   return(invisible(oldDefaults))
 }
@@ -527,7 +623,7 @@ resetDefaults <- function(oldDefaults) {
 
   # switch between UniCodeMode and ggplot defaults
   currentPointAsUnicode <-
-    getOspsuite.plots.option(optionKey = OptionKeys$GeomPointUnicode)
+    getOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode)
 
   if (oldDefaults$pointAsUnicode & !currentPointAsUnicode) {
     showtext::showtext_auto()

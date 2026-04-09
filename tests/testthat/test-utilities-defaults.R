@@ -22,12 +22,12 @@ test_that("getDefaultGeomAttributes works correctly", {
 test_that("getOspsuite.plots.option works correctly", {
   # Test getting watermark option when it's set
   # Set it first since it's no longer in defaults
-  setOspsuite.plots.option("watermark_enabled", TRUE)
-  watermarkEnabled <- getOspsuite.plots.option("watermark_enabled")
+  setOspsuite.plots.option("watermarkEnabled", TRUE)
+  watermarkEnabled <- getOspsuite.plots.option("watermarkEnabled")
   expect_type(watermarkEnabled, "logical")
 
   # Test getting watermark label
-  watermarkLabel <- getOspsuite.plots.option("watermark_label")
+  watermarkLabel <- getOspsuite.plots.option("watermarkLabel")
   expect_type(watermarkLabel, "character")
   expect_equal(watermarkLabel, "preliminary analysis")
 
@@ -37,23 +37,23 @@ test_that("getOspsuite.plots.option works correctly", {
 
 test_that("setOspsuite.plots.option works correctly", {
   # Test setting a valid option
-  setOspsuite.plots.option("watermark_enabled", TRUE)
-  originalValue <- getOspsuite.plots.option("watermark_enabled")
-  setOspsuite.plots.option("watermark_enabled", FALSE)
-  newValue <- getOspsuite.plots.option("watermark_enabled")
+  setOspsuite.plots.option("watermarkEnabled", TRUE)
+  originalValue <- getOspsuite.plots.option("watermarkEnabled")
+  setOspsuite.plots.option("watermarkEnabled", FALSE)
+  newValue <- getOspsuite.plots.option("watermarkEnabled")
   expect_false(newValue)
 
   # Reset to original value
-  setOspsuite.plots.option("watermark_enabled", originalValue)
+  setOspsuite.plots.option("watermarkEnabled", originalValue)
 
   # Test setting NULL value clears the option
-  setOspsuite.plots.option("watermark_enabled", NULL)
-  clearedValue <- getOspsuite.plots.option("watermark_enabled")
-  # watermark_enabled has no default, so cleared value should be NULL
+  setOspsuite.plots.option("watermarkEnabled", NULL)
+  clearedValue <- getOspsuite.plots.option("watermarkEnabled")
+  # watermarkEnabled has no default, so cleared value should be NULL
   expect_null(clearedValue)
 
   # Reset for other tests
-  setOspsuite.plots.option("watermark_enabled", TRUE)
+  setOspsuite.plots.option("watermarkEnabled", TRUE)
 
   # Test error for invalid option key
   expect_error(setOspsuite.plots.option("invalid_option", TRUE))
@@ -64,18 +64,49 @@ test_that("getDefaultOptions returns complete options list", {
   expect_type(optionsList, "list")
   expect_true(length(optionsList) > 0)
 
-  # Test presence of key options
+  # Test presence of all key options (verifies the renaming)
   expectedOptions <- c(
-    "ospsuite.plots.watermark_label",
+    "ospsuite.plots.watermarkLabel",
+    "ospsuite.plots.watermarkFormat",
     "ospsuite.plots.geomLineAttributes",
     "ospsuite.plots.geomPointAttributes",
-    "ospsuite.plots.Alpha"
+    "ospsuite.plots.alpha",
+    "ospsuite.plots.lloqAlphaVector",
+    "ospsuite.plots.lloqLineType",
+    "ospsuite.plots.percentiles",
+    "ospsuite.plots.defaultPercentiles",
+    "ospsuite.plots.geomPointUnicode",
+    "ospsuite.plots.exportWidth",
+    "ospsuite.plots.exportUnits",
+    "ospsuite.plots.exportDevice",
+    "ospsuite.plots.exportDpi"
   )
   expect_true(all(expectedOptions %in% names(optionsList)))
 
-  # Test specific default values
-  expect_equal(optionsList$ospsuite.plots.watermark_label, "preliminary analysis")
-  expect_equal(optionsList$ospsuite.plots.Alpha, 0.5)
+  # Test specific default values for the renamed keys
+  expect_equal(
+    optionsList$ospsuite.plots.watermarkLabel,
+    "preliminary analysis"
+  )
+  expect_equal(optionsList$ospsuite.plots.alpha, 0.5)
+  expect_equal(optionsList$ospsuite.plots.lloqLineType, "dashed")
+  expect_equal(
+    optionsList$ospsuite.plots.percentiles,
+    c(0.05, 0.25, 0.5, 0.75, 0.95)
+  )
+  expect_equal(
+    optionsList$ospsuite.plots.defaultPercentiles,
+    c(0.05, 0.5, 0.95)
+  )
+  expect_false(optionsList$ospsuite.plots.geomPointUnicode)
+  expect_equal(optionsList$ospsuite.plots.exportWidth, 16)
+  expect_equal(optionsList$ospsuite.plots.exportUnits, "cm")
+  expect_equal(optionsList$ospsuite.plots.exportDevice, "png")
+  expect_equal(optionsList$ospsuite.plots.exportDpi, 300)
+  expect_equal(
+    optionsList$ospsuite.plots.lloqAlphaVector,
+    c('TRUE' = 0.3, 'FALSE' = 1)
+  )
 })
 
 test_that("setDefaultColorMapDistinct works correctly", {

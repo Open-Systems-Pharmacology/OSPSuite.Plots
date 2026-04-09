@@ -373,16 +373,18 @@ plotYVsX <- function(
   }
 
   if (asSquarePlot) {
+    xyLimits <- range(mappedData$xlimits, mappedData$ylimits)
+
     plotObject <- plotObject +
       theme(aspect.ratio = 1) +
       coord_fixed(ratio = 1)
 
-    xScaleArgs$limits <- range(mappedData$xlimits, mappedData$ylimits)
-    yScaleArgs$limits <- range(mappedData$xlimits, mappedData$ylimits)
+    # keep user limits
+    xScaleArgs <- utils::modifyList(list(limits = xyLimits), xScaleArgs)
+    yScaleArgs <- utils::modifyList(list(limits = xyLimits), yScaleArgs)
   }
 
   # set scales
-
   xScaleArgs <- mappedData$updateScaleArgumentsForTimeUnit(
     scaleArgs = xScaleArgs,
     scaleDirection = "x"

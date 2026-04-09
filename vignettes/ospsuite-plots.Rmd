@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Set watermark option required for ospsuite.plots functionality
-options(ospsuite.plots.watermark_enabled = TRUE)
+options(ospsuite.plots.watermarkEnabled = TRUE)
 
 library(ospsuite.plots)
 library(tidyr)
@@ -205,7 +205,7 @@ ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
 
 ## 2.4 Default Shapes
 
-Functions to set the `ospsuite.plots` default shapes only are `setDefaultShapeDistinct(shapeValues)` and `resetDefaultShapeDistinct(oldShapeValue)`. These functions are called by `setDefaults()` and `resetDefaults()`. The scales are set to the option `ospsuite.plots.shapeValues`, which is then used to set the discrete scale of shapes for all `ospsuite.plots` functions. For customized functions, add `scale_shape_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$ospsuite.plots.shapeValues))`.
+Functions to set the `ospsuite.plots` default shapes only are `setDefaultShapeDistinct(shapeValues)` and `resetDefaultShapeDistinct(oldShapeValue)`. These functions are called by `setDefaults()` and `resetDefaults()`. The scales are set to the option `ospsuite.plots.shapeValues`, which is then used to set the discrete scale of shapes for all `ospsuite.plots` functions. For customized functions, add `scale_shape_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$shapeValues))`.
 
 ## 2.5 Default Options
 
@@ -221,14 +221,14 @@ The names of all options defined by this package start with the package name `os
 
 All plots in this packages are created with the function `ggplotWithWatermark()` instead of `ggplot()`. This function creates a `ggplot` with a customized print function which adds a watermark. 
 
-**Important:** The `watermark_enabled` option must be explicitly set before using one of the plot functions. Add it to your `.Rprofile`:
+**Important:** The `watermarkEnabled` option must be explicitly set before using one of the plot functions. Add it to your `.Rprofile`:
 
 ```r
 # Enable watermarks
-options(ospsuite.plots.watermark_enabled = TRUE)
+options(ospsuite.plots.watermarkEnabled = TRUE)
 
 # Or disable watermarks
-options(ospsuite.plots.watermark_enabled = FALSE)
+options(ospsuite.plots.watermarkEnabled = FALSE)
 ```
 
 You can edit your `.Rprofile` with `usethis::edit_r_profile()`.
@@ -237,9 +237,9 @@ Attention! If you combine plots e.g. with `cowplot:plot_grid` the default print 
 
 The watermark can by customized by this options:
 
-- Switch the watermark on and off (option key = `watermark_enabled`, **no default value - must be explicitly set by the user before using watermark features**)
-- Select the label (option key = `watermark_label`, default = "preliminary analysis")
-- Customize format (option key = `watermark_format`, default = `list(x = 0.5, y = 0.5, color = "lightgrey", angle = 30, fontsize = 12, alpha = 0.7)`)
+- Switch the watermark on and off (option key = `watermarkEnabled`, **no default value - must be explicitly set by the user before using watermark features**)
+- Select the label (option key = `watermarkLabel`, default = "preliminary analysis")
+- Customize format (option key = `watermarkFormat`, default = `list(x = 0.5, y = 0.5, color = "lightgrey", angle = 30, fontsize = 12, alpha = 0.7)`)
 
 ### Examples to Customize Watermark
 
@@ -249,16 +249,16 @@ The watermark can by customized by this options:
 
 ```{r customize-watermark, fig.alt="Plot demonstrating customized watermark formatting. The plot shows a blank coordinate system with a red watermark rotated 90 degrees, positioned at specific coordinates with increased font size and reduced transparency, labeled 'NEW' instead of the default text."}
 # Change format and label of watermark
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = list(x = 0.2, y = 0.6, color = "red", angle = 90, fontsize = 24, alpha = 0.2))
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = "NEW")
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat, value = list(x = 0.2, y = 0.6, color = "red", angle = 90, fontsize = 24, alpha = 0.2))
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = "NEW")
 
 # Initialize plot
 ggplotWithWatermark() + labs(title = "Changed Watermark", tag = "A")
 ```
 
-```{r disable-watermark, fig.alt="Plot demonstrating disabled watermark functionality. The plot shows a clean blank coordinate system with no watermark text overlay, illustrating how the watermark_enabled option can be set to FALSE for clean publication-ready plots."}
+```{r disable-watermark, fig.alt="Plot demonstrating disabled watermark functionality. The plot shows a clean blank coordinate system with no watermark text overlay, illustrating how the watermarkEnabled option can be set to FALSE for clean publication-ready plots."}
 # Disable watermark
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = FALSE)
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = FALSE)
 
 # Initialize plot
 ggplotWithWatermark() + labs(title = "No Watermark", tag = "B")
@@ -266,9 +266,9 @@ ggplotWithWatermark() + labs(title = "No Watermark", tag = "B")
 
 ```{r reset-watermark-default, fig.alt="Plot demonstrating reset watermark to default settings. The plot shows a blank coordinate system with the default watermark restored - gray text reading 'preliminary analysis' at 30-degree angle in the center with standard transparency and font size."}
 # Reset to default
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_format, value = NULL)
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_label, value = NULL)
-setOspsuite.plots.option(optionKey = OptionKeys$watermark_enabled, value = TRUE)
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat, value = NULL)
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = NULL)
+setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 
 # Initialize plot
 ggplotWithWatermark() + labs(title = "Default Watermark", tag = "C")
@@ -311,29 +311,64 @@ With default options:
 
 ## 2.5.3 Options to Set Defaults for Aesthetics
 
-Options to set the face alpha of ribbons filled points and options to set the filled points for values below and above LLOQ.
+Options to set the face alpha of ribbons, filled points and options to set the filled points for values below and above LLOQ.
 
 ```{r default-aesthetics, eval=FALSE}
 # Default alpha = 0.5
-getOspsuite.plots.option(optionKey = "Alpha")
+getOspsuite.plots.option(optionKey = "alpha")
 
 # Alpha of LLOQ values
 c("TRUE" = 0.3, "FALSE" = 1)
-getOspsuite.plots.option(optionKey = "LLOQAlphaVector")
+getOspsuite.plots.option(optionKey = "lloqAlphaVector")
 
 # Linetype LLOQ comparison lines
 "dashed"
-getOspsuite.plots.option(optionKey = "LLOQLineType")
+getOspsuite.plots.option(optionKey = "lloqLineType")
 ```
 
-## 2.5.4 Options to Define Export Format
+## 2.5.4 Options for Percentiles
+
+There are two percentile-related options controlling default behavior:
+
+- `percentiles`: A numeric vector of five quantiles defining the lower whisker, lower box, median, upper box, and upper whisker used by `plotBoxWhisker()` (default = `c(0.05, 0.25, 0.5, 0.75, 0.95)`).
+- `defaultPercentiles`: A numeric vector of three quantiles used as the default for `plotRangeDistribution()` (default = `c(0.05, 0.5, 0.95)`).
+
+```{r default-percentiles, eval=FALSE}
+# Get current box-whisker percentiles (5 values)
+getOspsuite.plots.option(optionKey = OptionKeys$percentiles)
+
+# Change box-whisker percentiles globally
+setOspsuite.plots.option(optionKey = OptionKeys$percentiles, value = c(0.1, 0.25, 0.5, 0.75, 0.9))
+
+# Get current range-plot percentiles (3 values)
+getOspsuite.plots.option(optionKey = OptionKeys$defaultPercentiles)
+
+# Change range-plot default percentiles globally
+setOspsuite.plots.option(optionKey = OptionKeys$defaultPercentiles, value = c(0.1, 0.5, 0.9))
+```
+
+## 2.5.5 Option for Unicode Point Mode
+
+The `geomPointUnicode` option controls whether `ospsuite.plots` functions use the Unicode-aware `geomPointUnicode()` geom instead of the standard `geom_point()` when plotting points. This is set internally when calling `setDefaults(pointAsUnicode = TRUE/FALSE)`.
+
+- `geomPointUnicode`: Logical, default `FALSE`. When `TRUE`, Unicode symbols are used for plot points (requires the `{showtext}` package; see Section 6.2).
+
+```{r geom-point-unicode-option, eval=FALSE}
+# Check current mode
+getOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode)
+
+# Enable Unicode point mode globally (equivalent to setDefaults(pointAsUnicode = TRUE))
+setOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode, value = TRUE)
+```
+
+## 2.5.6 Options to Define Export Format
 
 There are options to define the export format using the function `exportPlot` (see details below):
 
-- `export.width`: Width of the exported file
-- `export.units`: Units for width and height
-- `export.device`: Device for plot export
-- `export.dpi`: Plot resolution
+- `exportWidth`: Width of the exported file
+- `exportUnits`: Units for width and height
+- `exportDevice`: Device for plot export
+- `exportDpi`: Plot resolution
 
 The latter options are used directly as input for `ggplot2::ggsave`, so check the help for available values.
 
@@ -438,7 +473,7 @@ Assuming `plotObject` is your ggplot object:
 exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "adjusted_plot.png")
 ```
 
-In this case, you don't need to specify the width and height explicitly; the function calculates them for you. The default width value saved in the `ospsuite.plots` option `export.width` is used. If an aspect ratio is defined in the theme of the plot, height will be adjusted accordingly; otherwise, the function exports square figures.
+In this case, you don't need to specify the width and height explicitly; the function calculates them for you. The default width value saved in the `ospsuite.plots` option `exportWidth` is used. If an aspect ratio is defined in the theme of the plot, height will be adjusted accordingly; otherwise, the function exports square figures.
 
 # 6. Shapes
 

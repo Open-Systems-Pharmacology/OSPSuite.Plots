@@ -58,8 +58,8 @@ which overwrites the default calculation if provided.}
 
 \item{geomPointAttributes}{A \code{list} of arguments passed to the \code{ggplot2::geom_point} call.}
 
-\item{residualScale}{Deprecated. Has no effect. Residual calculation has been moved to ospsuite-R.
-Please pre-calculate residuals and map them directly to the \code{y} aesthetic.}
+\item{residualScale}{Deprecated. Retained for backward compatibility only.
+Non-\code{NULL} values trigger a warning and have no effect.}
 }
 \value{
 A \code{ggplot} object representing the box-whisker plot.

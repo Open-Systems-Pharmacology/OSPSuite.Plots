@@ -22,8 +22,8 @@ plotResVsCov(
 
 \item{yScale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
-\item{residualScale}{Deprecated. Has no effect. Residual calculation has been moved to ospsuite-R.
-Please pre-calculate residuals and map them directly to the \code{y} aesthetic.}
+\item{residualScale}{Deprecated. Retained for backward compatibility only.
+Non-\code{NULL} values trigger a warning and have no effect.}
 
 \item{...}{
   Arguments passed on to \code{\link[=plotYVsX]{plotYVsX}}

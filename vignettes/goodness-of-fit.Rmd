@@ -32,7 +32,7 @@ The `ospsuite.plots` library provides functions to compare predicted and observe
 - `plotRatioVsCov()` (see section 4): plot ratios as points versus a covariate (e.g., Time, observed values, or Age).
 - `plotQQ()` (see section 5): Quantile-Quantile plot.
 
-For DDI comparison, the functions `plotPredVsObs()` and `plotResVsObs()` can be overlaid with lines indicating the limits of the Guest Criteria (<https://dmd.aspetjournals.org/content/39/2/170>) (see section 7).
+For DDI comparison, the functions `plotPredVsObs()` and `plotResVsObs()` can be overlaid with lines indicating the limits of the Guest Criteria (<https://dmd.aspetjournals.org/content/39/2/170>) (see section 2.4 and 4.3).
 
 > **Note:** Residual calculation is not performed within `ospsuite.plots`. Residuals and ratios need to be pre-calculated before passing them to the plotting functions. If you are using the `{ospsuite}` package, you can use `ospsuite::addResidualColumn()` to add a residual column to your data.
 
@@ -575,7 +575,7 @@ plotHistogram(
 
 ```{r boxwhisker-residuals, fig.alt="Box plots showing the distribution of linear residuals stratified by sex. The box plots display quartiles and whiskers for residuals calculated as observed minus predicted, allowing comparison of residual distributions between male and female groups."}
 pkRatioData <- pkRatioData |>
-  dplyr::mutate(linearResiduals = Obs - Pred)
+  dplyr::mutate(linearResiduals = Pred - Obs)
 
 plotBoxWhisker(
   mapping = aes(

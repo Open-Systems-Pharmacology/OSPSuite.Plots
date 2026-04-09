@@ -41,6 +41,8 @@ the LLOQ line is drawn for the observed-data axis only.
     \item{\code{groupAesthetics}}{A character vector of aesthetic names used for grouping data points when calculating
 comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
 and proportions within comparison lines. Common grouping aesthetics include \code{"colour"}, \code{"fill"}, \code{"shape"}.}
+    \item{\code{residualScale}}{Deprecated. Retained for backward compatibility only.
+Non-\code{NULL} values trigger a warning and have no effect.}
     \item{\code{metaData}}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
     \item{\code{geomPointAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
     \item{\code{geomErrorbarAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}

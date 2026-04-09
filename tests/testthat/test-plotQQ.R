@@ -14,7 +14,7 @@ test_that("plot Observed vs Predicted works", {
   data <- data |>
     dplyr::mutate(lloq = lloqData) |>
     dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs)) |>
-    dplyr::mutate(residuals = Obs - Pred)
+    dplyr::mutate(residuals = Pred - Obs)
 
   metaData <- attr(exampleDataCovariates, "metaData")
   metaData <- metaData[intersect(names(data), names(metaData))]

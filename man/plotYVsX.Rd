@@ -61,8 +61,8 @@ and proportions within comparison lines. Common grouping aesthetics include \cod
 
 \item{labelGuestCriteria}{Label used in the legend for guest criteria (default: "guest criteria").}
 
-\item{residualScale}{Deprecated. Has no effect. Residual calculation has been moved to ospsuite-R.
-Please pre-calculate residuals and map them directly to the appropriate aesthetic (\code{y}, \code{x}, or \code{sample}).}
+\item{residualScale}{Deprecated. Retained for backward compatibility only.
+Non-\code{NULL} values trigger a warning and have no effect.}
 
 \item{asSquarePlot}{A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.}
 

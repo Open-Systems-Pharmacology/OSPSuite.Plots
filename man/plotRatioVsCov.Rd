@@ -31,8 +31,8 @@ plotRatioVsCov(
 
 \item{deltaGuest}{Numeric value parameter for the Guest function.}
 
-\item{residualScale}{Deprecated. Has no effect. Residual calculation has been moved to ospsuite-R.
-Please pre-calculate residuals and map them directly to the \code{y} aesthetic.}
+\item{residualScale}{Deprecated. Retained for backward compatibility only.
+Non-\code{NULL} values trigger a warning and have no effect.}
 
 \item{...}{
   Arguments passed on to \code{\link[=plotYVsX]{plotYVsX}}

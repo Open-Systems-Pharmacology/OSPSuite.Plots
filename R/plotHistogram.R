@@ -18,24 +18,27 @@
 #'   Shortcuts: `"normal"` (same as `"norm"`), `"lognormal"` (same as `"lnorm"`).
 #' @param meanFunction Function selection for the display of a vertical line. Options: `'none'`, `'mean'`, `'geomean'`, `'median'`, `'auto'` (default).
 #'   `'auto'` selects `'mean'` for normal distribution, `'geomean'` for lognormal, `'median'` for other distributions, and `'none'` when no distribution fit.
+#' @param residualScale Deprecated. Retained for backward compatibility only.
+#'   Non-`NULL` values trigger a warning and have no effect.
 #'
 #' @return A `ggplot` object.
 #' @export
 #' @family plot functions
-plotHistogram <- function(data,
-                          mapping,
-                          metaData = NULL,
-                          asBarPlot = NULL,
-                          geomHistAttributes =
-                            getDefaultGeomAttributes("Hist"),
-                          plotAsFrequency = FALSE,
-                          xScale = AxisScales$linear,
-                          xScaleArgs = list(),
-                          yScale = AxisScales$linear,
-                          yScaleArgs = list(),
-                          distribution = "none",
-                          meanFunction = "auto",
-                          residualScale = NULL) {
+plotHistogram <- function(
+  data,
+  mapping,
+  metaData = NULL,
+  asBarPlot = NULL,
+  geomHistAttributes = getDefaultGeomAttributes("Hist"),
+  plotAsFrequency = FALSE,
+  xScale = AxisScales$linear,
+  xScaleArgs = list(),
+  yScale = AxisScales$linear,
+  yScaleArgs = list(),
+  distribution = "none",
+  meanFunction = "auto",
+  residualScale = NULL
+) {
   if (!is.null(residualScale)) {
     warning(messages$warningResidualScaleDeprecated())
   }
@@ -43,16 +46,24 @@ plotHistogram <- function(data,
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
 
   checkmate::assertFlag(plotAsFrequency)
-  checkmate::assertFlag(plotAsFrequency)
-  if (plotAsFrequency & "y" %in% names(mapping)) warning(messages$warningPlotAsFrequencyOverwritesY())
+  if (plotAsFrequency & "y" %in% names(mapping)) {
+    warning(messages$warningPlotAsFrequencyOverwritesY())
+  }
 
   checkmate::assertList(geomHistAttributes, null.ok = FALSE, min.len = 0)
 
-  checkmate::assertChoice(xScale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
+  checkmate::assertChoice(
+    xScale,
+    choices = c(AxisScales$linear, AxisScales$log),
+    null.ok = TRUE
+  )
   checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yScale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
+  checkmate::assertChoice(
+    yScale,
+    choices = c(AxisScales$linear, AxisScales$log),
+    null.ok = TRUE
+  )
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
-
 
   #-  map Data
   mappedData <- MappedData$new(
@@ -67,7 +78,9 @@ plotHistogram <- function(data,
   if (is.null(asBarPlot)) {
     asBarPlot <- !(mappedData$columnClasses[["x"]] %in% c("numeric"))
   }
-  if (asBarPlot) geomHistAttributes$bins <- NULL
+  if (asBarPlot) {
+    geomHistAttributes$bins <- NULL
+  }
 
   plotHelper <- plotHelperHistogram$new(
     xScale = xScale,
@@ -83,7 +96,6 @@ plotHistogram <- function(data,
     mappedData
   )
 
-
   if (plotAsFrequency) {
     plotObject <-
       plotObject + labs(y = "Relative Frequency")
@@ -92,7 +104,8 @@ plotHistogram <- function(data,
   # adds histogram
   plotObject <- plotObject +
     do.call(
-      what = ifelse(plotHelper$asBarPlot,
+      what = ifelse(
+        plotHelper$asBarPlot,
         ggplot2::geom_bar,
         ggplot2::geom_histogram
       ),
@@ -104,7 +117,6 @@ plotHistogram <- function(data,
         geomHistAttributes
       )
     )
-
 
   # add x-axis before distribution fit
   if (!plotHelper$asBarPlot) {
@@ -157,7 +169,6 @@ plotHistogram <- function(data,
   plotObject <- plotObject +
     labs(y = ylabel)
 
-
   return(plotObject)
 }
 
@@ -166,7 +177,8 @@ plotHistogram <- function(data,
 #' @title class to support `plotHistogram`
 #' @description  R6 class container for functions and properties used in `plotHistogram`
 #' @keywords internal
-plotHelperHistogram <- R6::R6Class( # nolint
+plotHelperHistogram <- R6::R6Class(
+  # nolint
   "plotHelperHistogram",
   public = list(
     #' @field plotAsFrequency `boolean` to decide if data should be displayed as frequency
@@ -189,12 +201,14 @@ plotHelperHistogram <- R6::R6Class( # nolint
     #'
     #' @description Create a new `MappedData` object
     #' @return A new `plotHelperHistogram` object
-    initialize = function(xScale,
-                          plotAsFrequency,
-                          asBarPlot,
-                          geomHistAttributes,
-                          distribution,
-                          meanFunction) {
+    initialize = function(
+      xScale,
+      plotAsFrequency,
+      asBarPlot,
+      geomHistAttributes,
+      distribution,
+      meanFunction
+    ) {
       self$plotAsFrequency <- plotAsFrequency
 
       self$distribution <- private$validateDistribution(distribution)
@@ -220,7 +234,6 @@ plotHelperHistogram <- R6::R6Class( # nolint
         }
       }
 
-
       return(invisible(self))
     },
     #' generates mapping for distribution
@@ -239,7 +252,9 @@ plotHelperHistogram <- R6::R6Class( # nolint
         newMapping <- aes(y = after_stat(count * binWidth))
       }
       newMapping$x <- mappedData$mapping$x
-      if (!self$isStacked) newMapping$colour <- mappedData$mapping$fill
+      if (!self$isStacked) {
+        newMapping$colour <- mappedData$mapping$fill
+      }
       return(newMapping)
     },
     #' generates mapping for display of mean
@@ -250,7 +265,9 @@ plotHelperHistogram <- R6::R6Class( # nolint
     getMeanMapping = function(mappedData) {
       meanMapping <- aes(xintercept = after_stat(x), y = 0)
       meanMapping$x <- mappedData$mapping$x
-      if (!self$isStacked) meanMapping$colour <- mappedData$mapping$fill
+      if (!self$isStacked) {
+        meanMapping$colour <- mappedData$mapping$fill
+      }
       return(meanMapping)
     }
   ),
@@ -260,7 +277,9 @@ plotHelperHistogram <- R6::R6Class( # nolint
       newMapping <- aes()
       if (self$plotAsFrequency) {
         if (self$isStacked) {
-          newMapping <- aes(y = after_stat(count) / sum(count) / after_stat(width))
+          newMapping <- aes(
+            y = after_stat(count) / sum(count) / after_stat(width)
+          )
         } else {
           newMapping <- aes(y = after_stat(density))
         }
@@ -296,14 +315,25 @@ plotHelperHistogram <- R6::R6Class( # nolint
 
       binwidth <- c()
       for (iLayer in seq_len(length(plotBuild$data))) {
-        if (all(c("xmin", "xmax", "count", "y") %in% names(plotBuild$data[[iLayer]]))) {
+        if (
+          all(
+            c("xmin", "xmax", "count", "y") %in% names(plotBuild$data[[iLayer]])
+          )
+        ) {
           binwidth <- unique(diff(plotBuild$data[[iLayer]]$x))
           binwidth <- binwidth[binwidth > 0]
         }
       }
 
-      if (length(binwidth) == 0) stop(messages$errorBinWidthNoBinwidthFound())
-      if (abs(diff(range(binwidth, na.rm = TRUE)) / mean(binwidth, na.rm = TRUE)) > 1e-5) {
+      if (length(binwidth) == 0) {
+        stop(messages$errorBinWidthNoBinwidthFound())
+      }
+      if (
+        abs(
+          diff(range(binwidth, na.rm = TRUE)) / mean(binwidth, na.rm = TRUE)
+        ) >
+          1e-5
+      ) {
         stop(messages$errorBinWidthBinsNotUnique())
       }
 
@@ -313,12 +343,14 @@ plotHelperHistogram <- R6::R6Class( # nolint
     },
     #' check if input is valid and returns function for vertical line
     selectMeanFunction = function(meanFunction, xScale) {
-      checkmate::assertChoice(meanFunction,
+      checkmate::assertChoice(
+        meanFunction,
         choices = c("none", "mean", "geomean", "median", "auto"),
         null.ok = FALSE
       )
       if (meanFunction == "auto") {
-        meanFunction <- switch(self$distribution,
+        meanFunction <- switch(
+          self$distribution,
           "norm" = "mean",
           "lnorm" = "geomean",
           "none" = "none",
@@ -328,7 +360,8 @@ plotHelperHistogram <- R6::R6Class( # nolint
       if (meanFunction == "none") {
         meanFun <- NULL
       } else {
-        meanFun <- switch(meanFunction,
+        meanFun <- switch(
+          meanFunction,
           "mean" = function(x) {
             mean(x, na.rm = TRUE)
           },

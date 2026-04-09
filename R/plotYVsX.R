@@ -129,7 +129,8 @@ plotPredVsObs <- function(
   plotObject <- plotYVsX(
     data = data,
     mapping = mapping,
-    comparisonLineVector = comparisonLineVector,    xScale = xyScale,
+    comparisonLineVector = comparisonLineVector,
+    xScale = xyScale,
     yScale = xyScale,
     observedDataDirection = "x",
     yDisplayAsAbsolute = TRUE,
@@ -172,6 +173,8 @@ plotPredVsObs <- function(
 #' @param groupAesthetics A character vector of aesthetic names used for grouping data points when calculating
 #'   comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
 #'   and proportions within comparison lines. Common grouping aesthetics include `"colour"`, `"fill"`, `"shape"`.
+#' @param residualScale Deprecated. Retained for backward compatibility only.
+#'   Non-`NULL` values trigger a warning and have no effect.
 #'
 #' @return A `ggplot` object representing the plotted data.
 #' @export

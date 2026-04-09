@@ -11,20 +11,24 @@
 #' @param geomQQLineAttributes A list of arguments passed to `ggplot2::stat_qq_line()`.
 #' @param groupAesthetics A character vector of aesthetic names used for grouping data points in the Q-Q plot.
 #'   Common options include `"colour"`, `"fill"`, `"shape"`, `"linetype"`, and `"size"`.
+#' @param residualScale Deprecated. Retained for backward compatibility only.
+#'   Non-`NULL` values trigger a warning and have no effect.
 #'
 #'
 #' @return A `ggplot` object
 #' @export
 #' @family plot functions
-plotQQ <- function(data,
-                   mapping,
-                   metaData = NULL,
-                   xScaleArgs = list(),
-                   yScaleArgs = list(),
-                   geomQQAttributes = list(),
-                   geomQQLineAttributes = geomQQAttributes,
-                   groupAesthetics = c("colour", "fill", "shape"),
-                   residualScale = NULL) {
+plotQQ <- function(
+  data,
+  mapping,
+  metaData = NULL,
+  xScaleArgs = list(),
+  yScaleArgs = list(),
+  geomQQAttributes = list(),
+  geomQQLineAttributes = geomQQAttributes,
+  groupAesthetics = c("colour", "fill", "shape"),
+  residualScale = NULL
+) {
   if (!is.null(residualScale)) {
     warning(messages$warningResidualScaleDeprecated())
   }
@@ -54,13 +58,11 @@ plotQQ <- function(data,
   )
   mappedData$addMetaData(metaData = metaData)
 
-
   #-  initialize plot
   plotObject <- initializePlot(mappedData = mappedData) +
     theme(aspect.ratio = 1)
   plotObject <- plotObject +
     labs(x = "Standard normal quantiles")
-
 
   #----- Build layers -----
 
@@ -79,7 +81,6 @@ plotQQ <- function(data,
     plotObject = plotObject,
     layerToCall = stat_qq_line
   )
-
 
   # set scales ----
 

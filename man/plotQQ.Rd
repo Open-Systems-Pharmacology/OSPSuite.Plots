@@ -36,8 +36,8 @@ see vignettes for more details and examples}
 \item{groupAesthetics}{A character vector of aesthetic names used for grouping data points in the Q-Q plot.
 Common options include \code{"colour"}, \code{"fill"}, \code{"shape"}, \code{"linetype"}, and \code{"size"}.}
 
-\item{residualScale}{Deprecated. Has no effect. Residual calculation has been moved to ospsuite-R.
-Please pre-calculate residuals and map them directly to the \code{sample} aesthetic.}
+\item{residualScale}{Deprecated. Retained for backward compatibility only.
+Non-\code{NULL} values trigger a warning and have no effect.}
 }
 \value{
 A \code{ggplot} object

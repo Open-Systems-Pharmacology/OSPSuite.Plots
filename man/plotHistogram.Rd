@@ -51,8 +51,8 @@ Shortcuts: \code{"normal"} (same as \code{"norm"}), \code{"lognormal"} (same as 
 \item{meanFunction}{Function selection for the display of a vertical line. Options: \code{'none'}, \code{'mean'}, \code{'geomean'}, \code{'median'}, \code{'auto'} (default).
 \code{'auto'} selects \code{'mean'} for normal distribution, \code{'geomean'} for lognormal, \code{'median'} for other distributions, and \code{'none'} when no distribution fit.}
 
-\item{residualScale}{Deprecated. Has no effect. Residual calculation has been moved to ospsuite-R.
-Please pre-calculate residuals and map them directly to the \code{x} aesthetic.}
+\item{residualScale}{Deprecated. Retained for backward compatibility only.
+Non-\code{NULL} values trigger a warning and have no effect.}
 }
 \value{
 A \code{ggplot} object.

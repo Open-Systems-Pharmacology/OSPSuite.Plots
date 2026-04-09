@@ -430,7 +430,7 @@ df <- rbind(
   data.frame(aesthetic = "`error_relative`", functions = c("plotTimeProfile()", "plotRatioVsCov()", "plotPredVsObs()", "plotResVsCov()")),
   data.frame(aesthetic = "`y2axis`", functions = "plotTimeProfile()"),
   data.frame(aesthetic = "`mdv`", functions = c("plotTimeProfile()", "plotBoxWhisker()", "plotHistogram()", "plotPredVsObs()", "plotResVsCov()", "plotRatioVsCov()", "plotQQ()")),
-  data.frame(aesthetic = "`observed` / `predicted`", functions = c("plotBoxWhisker()", "plotHistogram()", "plotPredVsObs()", "plotResVsCov()", "plotRatioVsCov()", "plotQQ()"))
+  data.frame(aesthetic = "`observed` / `predicted`", functions = c("plotPredVsObs()"))
 ) |>
   dplyr::mutate(used = "X") |>
   tidyr::pivot_wider(names_from = aesthetic, values_from = used, values_fill = " ")

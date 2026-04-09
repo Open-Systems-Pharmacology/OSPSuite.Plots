@@ -51,13 +51,23 @@ messages$warningNoMetaDataForXAxis <- function() {
 }
 
 messages$errorContinuousXScaleNotPossibleForFactors <- function(discreteScale) {
-  paste0('continuous x scale is not possible for factors, please select "', discreteScale, '"')
+  paste0(
+    'continuous x scale is not possible for factors, please select "',
+    discreteScale,
+    '"'
+  )
 }
 
-messages$errorDiscreteXScaleNotPossibleForContinuous <- function(linearScale, logScale) {
+messages$errorDiscreteXScaleNotPossibleForContinuous <- function(
+  linearScale,
+  logScale
+) {
   paste0(
     'discrete x scale is not possible for continuous data. Select "',
-    linearScale, '" or "', logScale, '" or convert data to factor'
+    linearScale,
+    '" or "',
+    logScale,
+    '" or convert data to factor'
   )
 }
 
@@ -97,13 +107,6 @@ messages$warningResidualScaleDeprecated <- function() {
   )
 }
 
-messages$errorObservedPredictedNoResidualAesthetic <- function() {
-  paste0(
-    "Mapping both 'observed' and 'predicted' is no longer supported for automatic residual calculation. ",
-    "Please pre-calculate residuals (e.g. using ospsuite::addResidualColumn()) ",
-    "and map them directly to the appropriate aesthetic ('y', 'x', or 'sample')."
-  )
-}
 
 messages$warningInvalidShapeCode <- function(shape) {
   paste0("Invalid shape code: ", shape, ". Using default square.")

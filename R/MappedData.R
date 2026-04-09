@@ -54,10 +54,6 @@ MappedData <- R6::R6Class(
         subset.of = listOfAesthetics$aesthetic
       )
 
-      # Catch old-style residual mapping (observed + predicted)
-      if ("observed" %in% names(mapping) && "predicted" %in% names(mapping)) {
-        stop(messages$errorObservedPredictedNoResidualAesthetic())
-      }
       checkmate::assertCharacter(
         groupAesthetics,
         any.missing = FALSE,
@@ -364,8 +360,8 @@ MappedData <- R6::R6Class(
     #' adds new columns `ymin` and `ymax` if required
     translateErrorAestethics = function() {
       if (
-        !private$aestheticExists(paste(private$direction, "min")) |
-          !private$aestheticExists(paste(private$direction, "max"))
+        !private$aestheticExists(paste0(private$direction, "min")) |
+          !private$aestheticExists(paste0(private$direction, "max"))
       ) {
         errorType <-
           intersect(names(self$mapping), c("error", "error_relative"))

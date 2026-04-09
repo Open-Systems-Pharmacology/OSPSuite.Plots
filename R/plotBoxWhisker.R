@@ -23,6 +23,8 @@
 #' Auto selects linear for continuous data and discrete for categorical data.
 #' @param xScaleArgs A list of arguments passed to `ggplot2::scale_x_continuous()`,
 #' `ggplot2::scale_x_log10()`, or `ggplot2::scale_x_discrete()`.
+#' @param residualScale Deprecated. Retained for backward compatibility only.
+#'   Non-`NULL` values trigger a warning and have no effect.
 #'
 #' @return A `ggplot` object representing the box-whisker plot.
 #' @references McGill, R., Tukey, J. W., & Larsen, W. A. (1978). Variations of box plots.
@@ -58,21 +60,23 @@
 #' }
 #' @export
 #' @family plot functions
-plotBoxWhisker <- function(data,
-                           mapping,
-                           metaData = NULL,
-                           plotObject = NULL,
-                           percentiles = getOspsuite.plots.option(optionKey = OptionKeys$percentiles),
-                           yScale = AxisScales$linear,
-                           yScaleArgs = list(),
-                           xScale = "auto",
-                           xScaleArgs = list(),
-                           statFun = NULL,
-                           outliers = FALSE,
-                           statFunOutlier = NULL,
-                           geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
-                           geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
-                           residualScale = NULL) {
+plotBoxWhisker <- function(
+  data,
+  mapping,
+  metaData = NULL,
+  plotObject = NULL,
+  percentiles = getOspsuite.plots.option(optionKey = OptionKeys$percentiles),
+  yScale = AxisScales$linear,
+  yScaleArgs = list(),
+  xScale = "auto",
+  xScaleArgs = list(),
+  statFun = NULL,
+  outliers = FALSE,
+  statFunOutlier = NULL,
+  geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
+  geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
+  residualScale = NULL
+) {
   if (!is.null(residualScale)) {
     warning(messages$warningResidualScaleDeprecated())
   }
@@ -90,15 +94,22 @@ plotBoxWhisker <- function(data,
     null.ok = !is.null(statFun)
   )
 
-  checkmate::assertChoice(xScale, choices = c("auto", AxisScales$discrete, AxisScales$linear, AxisScales$log), null.ok = FALSE)
+  checkmate::assertChoice(
+    xScale,
+    choices = c("auto", AxisScales$discrete, AxisScales$linear, AxisScales$log),
+    null.ok = FALSE
+  )
   checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yScale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
+  checkmate::assertChoice(
+    yScale,
+    choices = c(AxisScales$linear, AxisScales$log),
+    null.ok = TRUE
+  )
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
 
   checkmate::assertFunction(statFun, null.ok = !is.null(percentiles))
   checkmate::assertFlag(outliers)
   checkmate::assertFunction(statFunOutlier, null.ok = TRUE)
-
 
   ## map Data ----------
 
@@ -126,7 +137,6 @@ plotBoxWhisker <- function(data,
     }
   }
 
-
   # set aggregation function ---------
 
   if (is.null(statFun)) {
@@ -139,8 +149,16 @@ plotBoxWhisker <- function(data,
     # add names of box whisker limits to ggplot for use in function getBoxWhiskerLimits
     statFunExport <- function(y) {
       y <- y[!is.na(y)]
-      rQuantiles <- stats::quantile(y, probs = percentiles, names = FALSE, na.rm = TRUE)
-      names(rQuantiles) <- paste(scales::label_ordinal()(x = percentiles * 100), "percentile")
+      rQuantiles <- stats::quantile(
+        y,
+        probs = percentiles,
+        names = FALSE,
+        na.rm = TRUE
+      )
+      names(rQuantiles) <- paste(
+        scales::label_ordinal()(x = percentiles * 100),
+        "percentile"
+      )
 
       r <- c(
         N = length(y),
@@ -190,10 +208,18 @@ plotBoxWhisker <- function(data,
     if (is.null(statFunOutlier)) {
       statFunOutlier <-
         function(x) {
-          q <- stats::quantile(x, probs = c(0.25, 0.75), names = FALSE, na.rm = TRUE)
+          q <- stats::quantile(
+            x,
+            probs = c(0.25, 0.75),
+            names = FALSE,
+            na.rm = TRUE
+          )
           iqr <- diff(range(q))
-          pp <- subset(x, x < (q[1] - (1.5 * iqr)) |
-            x > (q[2] + (1.5 * iqr)))
+          pp <- subset(
+            x,
+            x < (q[1] - (1.5 * iqr)) |
+              x > (q[2] + (1.5 * iqr))
+          )
           if (length(pp) < 1) {
             return(as.double(NA))
           } else {
@@ -202,7 +228,6 @@ plotBoxWhisker <- function(data,
         }
     }
     plotObject$statFunOutlier <- statFunOutlier
-
 
     plotObject <- plotObject +
       do.call(

@@ -224,7 +224,7 @@ MappedData <- R6::R6Class(
       }
       return(invisible(self))
     },
-    #' check if unit of scale direction i s time and sets the breaks accordingly
+    #' check if unit of scale direction is time and sets the breaks accordingly
     #'
     #' @param scaleArgs additional arguments passed on to scale function
     #' @param scaleDirection direction of axis either 'x' or 'y'

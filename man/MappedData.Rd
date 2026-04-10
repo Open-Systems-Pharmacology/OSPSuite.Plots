@@ -29,10 +29,6 @@ Other MappedData classes:
 \item{\code{xlimits}}{double vector limits of primary y axis}
 
 \item{\code{ylimits}}{double vector limits of primary y axis}
-
-\item{\code{hasResidualMapping}}{flag to indicate if residual mapping is used}
-
-\item{\code{residualLabel}}{label for residuals}
 }
 \if{html}{\out{</div>}}
 }
@@ -52,7 +48,6 @@ adds new column \code{isLLOQ.i} and updates boolean \code{LLOQMatch}
 adds new columns \code{ymin} and \code{ymax} if required
 copy aesthetics \code{groupby}, but only if not explicit set
 converts Integer columns, which are no factors to double
-adds new column \code{residuals.i}
 factorize column for group to factor}
 }
 \if{html}{\out{</div>}}
@@ -83,9 +78,7 @@ Create a new \code{MappedData} object
   direction = "y",
   isObserved = TRUE,
   xlimits = NULL,
-  ylimits = NULL,
-  residualScale = NULL,
-  residualAesthetic = "y"
+  ylimits = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -111,10 +104,6 @@ Create a new \code{MappedData} object
 \item{\code{xlimits}}{limits for x-axis (may be NULL)}
 
 \item{\code{ylimits}}{limits for y-axis (may be NULL)}
-
-\item{\code{residualScale}}{scale of x residuals}
-
-\item{\code{residualAesthetic}}{aesthetic used for mapping residuals}
 }
 \if{html}{\out{</div>}}
 }

@@ -35,9 +35,7 @@
 #'     unit = "h"
 #'   )
 #' addXScale(plotObject = ggplot(), xScale = "linear", xScaleArgs = xScaleArgs)
-updateScaleArgumentsForTimeUnit <- function(scaleArgs,
-                                            dimension,
-                                            unit) {
+updateScaleArgumentsForTimeUnit <- function(scaleArgs, dimension, unit) {
   ## Validation
   checkmate::assertList(scaleArgs, null.ok = TRUE)
 
@@ -49,17 +47,14 @@ updateScaleArgumentsForTimeUnit <- function(scaleArgs,
   checkmate::assertCharacter(dimension, max.len = 1, null.ok = TRUE)
   checkmate::assertCharacter(unit, max.len = 1, null.ok = TRUE)
 
-
   if (is.null(dimension) | is.null(unit)) {
     return(scaleArgs)
   }
-
 
   # if x has no time Unit return
   if (tolower(dimension) != "time") {
     return(scaleArgs)
   }
-
 
   timeBreaks <- function(width) {
     function(x) {
@@ -74,7 +69,8 @@ updateScaleArgumentsForTimeUnit <- function(scaleArgs,
     }
   }
 
-  scaleArgs$breaks <- switch(tolower(unit),
+  scaleArgs$breaks <- switch(
+    tolower(unit),
     "s" = timeBreaks(15),
     "min" = timeBreaks(15),
     "h" = timeBreaks(6),
@@ -83,10 +79,8 @@ updateScaleArgumentsForTimeUnit <- function(scaleArgs,
     "month(s)" = timeBreaks(6)
   )
 
-
   # use minor steps 1
   scaleArgs$minor_breaks <- scales::breaks_width(1)
-
 
   return(scaleArgs)
 }
@@ -124,7 +118,12 @@ createDefaultPlotLabels <- function(mappedData) {
   # match mapping to axis
   matchList <- list(
     x = "x",
-    y = listOfAesthetics[which(listOfAesthetics$scalingRelevant >= 1), ]$aesthetic,
+    y = c(
+      listOfAesthetics[
+        which(listOfAesthetics$scalingRelevant >= 1),
+      ]$aesthetic,
+      "sample"
+    ),
     y2 = "y2"
   )
 
@@ -140,7 +139,10 @@ createDefaultPlotLabels <- function(mappedData) {
       dimension <- mappedData$dimensions[[aesthetic]]
       unit <- mappedData$units[[aesthetic]]
       if (!is.null(dimension)) {
-        plotLabels[[labelEntry]] <- constructLabelWithUnit(label = dimension, unit = unit)
+        plotLabels[[labelEntry]] <- constructLabelWithUnit(
+          label = dimension,
+          unit = unit
+        )
       }
     }
   }
@@ -167,10 +169,16 @@ createDefaultPlotLabels <- function(mappedData) {
 #' @export
 constructLabelWithUnit <- function(label, unit) {
   # Validate input arguments
-  if (is.factor(label)) label <- as.character(label)
-  if (is.double(label)) label <- as.character(label)
+  if (is.factor(label)) {
+    label <- as.character(label)
+  }
+  if (is.double(label)) {
+    label <- as.character(label)
+  }
   checkmate::assertCharacter(label, len = 1, null.ok = TRUE)
-  if (is.factor(unit)) unit <- as.character(unit)
+  if (is.factor(unit)) {
+    unit <- as.character(unit)
+  }
   checkmate::assertCharacter(unit, len = 1, null.ok = TRUE)
 
   if (!is.null(label) & !is.null(unit)) {
@@ -213,7 +221,6 @@ metaData2DataFrame <- function(metaData) {
     )
   }
 
-
   return(metaDF)
 }
 
@@ -227,8 +234,7 @@ metaData2DataFrame <- function(metaData) {
 #'
 #' @return named list with fold distances
 #' @export
-getFoldDistanceList <- function(folds = c(1.5, 2),
-                                includeIdentity = TRUE) {
+getFoldDistanceList <- function(folds = c(1.5, 2), includeIdentity = TRUE) {
   checkmate::assertDouble(folds, null.ok = TRUE)
   if (!is.null(folds) && any(folds <= 1)) {
     stop(messages$errorFoldDistanceMustBeGreaterThanOne(folds[folds <= 1]))

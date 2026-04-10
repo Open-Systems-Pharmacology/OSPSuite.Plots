@@ -9,11 +9,11 @@ plotQQ(
   mapping,
   metaData = NULL,
   xScaleArgs = list(),
-  residualScale = ResidualScales$log,
   yScaleArgs = list(),
   geomQQAttributes = list(),
   geomQQLineAttributes = geomQQAttributes,
-  groupAesthetics = c("colour", "fill", "shape")
+  groupAesthetics = c("colour", "fill", "shape"),
+  residualScale = NULL
 )
 }
 \arguments{
@@ -27,10 +27,6 @@ see vignettes for more details and examples}
 
 \item{xScaleArgs}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
 
-\item{residualScale}{Either \code{"linear"} or \code{"log"} for scaling residuals.
-For linear: residuals = predicted - observed. For log: residuals = log(predicted) - log(observed).
-The y-axis scale remains linear in both cases.}
-
 \item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
 \item{geomQQAttributes}{A list of arguments passed to \code{ggplot2::stat_qq()}.}
@@ -39,6 +35,9 @@ The y-axis scale remains linear in both cases.}
 
 \item{groupAesthetics}{A character vector of aesthetic names used for grouping data points in the Q-Q plot.
 Common options include \code{"colour"}, \code{"fill"}, \code{"shape"}, \code{"linetype"}, and \code{"size"}.}
+
+\item{residualScale}{Deprecated. Retained for backward compatibility only.
+Non-\code{NULL} values trigger a warning and have no effect.}
 }
 \value{
 A \code{ggplot} object

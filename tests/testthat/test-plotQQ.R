@@ -13,21 +13,25 @@ test_that("plot Observed vs Predicted works", {
 
   data <- data |>
     dplyr::mutate(lloq = lloqData) |>
-    dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
+    dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs)) |>
+    dplyr::mutate(residuals = Pred - Obs)
 
   metaData <- attr(exampleDataCovariates, "metaData")
   metaData <- metaData[intersect(names(data), names(metaData))]
+
+  attr(
+    x = data$residuals,
+    which = "label"
+  ) <- "residuals\npredicted - observed"
 
   vdiffr::expect_doppelganger(
     title = "plotQQ",
     fig = plotQQ(
       data = data,
       mapping = aes(
-        predicted = Pred,
-        observed = Obs,
+        sample = residuals,
         groupby = Sex
-      ),
-      residualScale = AxisScales$linear
+      )
     )
   )
 })

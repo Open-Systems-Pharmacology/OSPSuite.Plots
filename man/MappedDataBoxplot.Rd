@@ -85,9 +85,7 @@ Create a new \code{MappedDataBoxplot} object
   xlimits = NULL,
   ylimits = NULL,
   xScale = AxisScales$linear,
-  yScale = AxisScales$linear,
-  residualScale = NULL,
-  residualAesthetic = "y"
+  yScale = AxisScales$linear
 )}\if{html}{\out{</div>}}
 }
 
@@ -111,10 +109,6 @@ Create a new \code{MappedDataBoxplot} object
 \item{\code{xScale}}{scale of x-axis either 'linear' or 'log'}
 
 \item{\code{yScale}}{scale of y-axis either 'linear' or 'log'}
-
-\item{\code{residualScale}}{scale of x residuals}
-
-\item{\code{residualAesthetic}}{aesthetic used for mapping residuals}
 }
 \if{html}{\out{</div>}}
 }

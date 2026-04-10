@@ -17,7 +17,7 @@ plotHistogram(
   yScaleArgs = list(),
   distribution = "none",
   meanFunction = "auto",
-  residualScale = ResidualScales$log
+  residualScale = NULL
 )
 }
 \arguments{
@@ -51,7 +51,8 @@ Shortcuts: \code{"normal"} (same as \code{"norm"}), \code{"lognormal"} (same as 
 \item{meanFunction}{Function selection for the display of a vertical line. Options: \code{'none'}, \code{'mean'}, \code{'geomean'}, \code{'median'}, \code{'auto'} (default).
 \code{'auto'} selects \code{'mean'} for normal distribution, \code{'geomean'} for lognormal, \code{'median'} for other distributions, and \code{'none'} when no distribution fit.}
 
-\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
+\item{residualScale}{Deprecated. Retained for backward compatibility only.
+Non-\code{NULL} values trigger a warning and have no effect.}
 }
 \value{
 A \code{ggplot} object.

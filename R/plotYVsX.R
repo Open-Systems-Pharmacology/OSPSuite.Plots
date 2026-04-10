@@ -21,18 +21,19 @@
 plotResVsCov <- function(
   data,
   mapping,
-  residualScale = ResidualScales$log,
   comparisonLineVector = 0,
   yScale = AxisScales$linear,
+  residualScale = NULL,
   ...
 ) {
-  # Validation
+  if (!is.null(residualScale)) {
+    warning(messages$warningResidualScaleDeprecated())
+  }
 
   plotObject <- plotYVsX(
     data = data,
     mapping = mapping,
     addGuestLimits = FALSE,
-    residualScale = residualScale,
     yScale = yScale,
     comparisonLineVector = comparisonLineVector,
     observedDataDirection = "y",
@@ -47,7 +48,6 @@ plotResVsCov <- function(
 #' This function is a wrapper for `plotYVsX` with adjusted input parameters.
 #'
 #' The following parameters are fixed and cannot be set:
-#' * `residualScale = "ratio"`
 #' * `observedDataDirection = "y"`
 #' * `yDisplayAsAbsolute = FALSE`
 #'
@@ -69,8 +69,13 @@ plotRatioVsCov <- function(
   xScale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
   comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
   deltaGuest = 1,
+  residualScale = NULL,
   ...
 ) {
+  if (!is.null(residualScale)) {
+    warning(messages$warningResidualScaleDeprecated())
+  }
+
   yDisplayAsAbsolute <- FALSE
 
   plotObject <- plotYVsX(
@@ -83,7 +88,6 @@ plotRatioVsCov <- function(
     deltaGuest = deltaGuest,
     observedDataDirection = "y",
     yDisplayAsAbsolute = yDisplayAsAbsolute,
-    residualScale = ResidualScales$ratio,
     ...
   )
 
@@ -94,7 +98,6 @@ plotRatioVsCov <- function(
 #' This function is a wrapper for `plotYVsX` with adjusted input parameters.
 #'
 #' The following parameters are fixed and cannot be set:
-#' * `residualScale = NULL`
 #' * `observedDataDirection = "x"`
 #'
 #' For details and examples, see the vignettes:
@@ -126,7 +129,6 @@ plotPredVsObs <- function(
   plotObject <- plotYVsX(
     data = data,
     mapping = mapping,
-    residualScale = NULL,
     comparisonLineVector = comparisonLineVector,
     xScale = xyScale,
     yScale = xyScale,
@@ -157,7 +159,6 @@ plotPredVsObs <- function(
 #' @param mapping A list of aesthetic mappings to use for the plot.
 #' @param geomComparisonLineAttributes A `list` of arguments passed to `ggplot2::hline` or `ggplot2::abline` to display comparison lines.
 #' @param geomGuestLineAttributes A `list` of arguments passed to `ggplot2::geom_function` to display guest criteria.
-#' @param residualScale Either "linear", "log", or "ratio" scale for residuals.
 #' @param comparisonLineVector A vector defining the comparison lines.
 #' @param yDisplayAsAbsolute A boolean that defines the direction of comparison lines.
 #' @param addRegression A boolean that activates the insertion of a regression line.
@@ -172,6 +173,8 @@ plotPredVsObs <- function(
 #' @param groupAesthetics A character vector of aesthetic names used for grouping data points when calculating
 #'   comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
 #'   and proportions within comparison lines. Common grouping aesthetics include `"colour"`, `"fill"`, `"shape"`.
+#' @param residualScale Deprecated. Retained for backward compatibility only.
+#'   Non-`NULL` values trigger a warning and have no effect.
 #'
 #' @return A `ggplot` object representing the plotted data.
 #' @export
@@ -201,6 +204,9 @@ plotYVsX <- function(
   lloqOnBothAxes = FALSE,
   yDisplayAsAbsolute = TRUE
 ) {
+  if (!is.null(residualScale)) {
+    warning(messages$warningResidualScaleDeprecated())
+  }
   if (is.double(comparisonLineVector)) {
     comparisonLineVector <- as.list(comparisonLineVector)
   }
@@ -217,7 +223,6 @@ plotYVsX <- function(
     addRegression = addRegression,
     addGuestLimits = addGuestLimits,
     deltaGuest = deltaGuest,
-    residualScale = residualScale,
     asSquarePlot = asSquarePlot,
     xScale = xScale,
     xScaleArgs = xScaleArgs,
@@ -235,8 +240,6 @@ plotYVsX <- function(
     direction = observedDataDirection,
     isObserved = TRUE,
     groupAesthetics = groupAesthetics,
-    residualScale = residualScale,
-    residualAesthetic = "y",
     xScale = xScale,
     yScale = yScale
   )
@@ -244,10 +247,6 @@ plotYVsX <- function(
 
   #-  initialize plot
   plotObject <- initializePlot(mappedData = mappedData)
-  if (mappedData$hasResidualMapping) {
-    plotObject <- plotObject +
-      labs(y = mappedData$residualLabel)
-  }
 
   #----- Build layers
   # Each new layer is added on top of previous
@@ -353,8 +352,6 @@ plotYVsX <- function(
           direction = dir,
           isObserved = TRUE,
           groupAesthetics = groupAesthetics,
-          residualScale = residualScale,
-          residualAesthetic = "y",
           xScale = xScale,
           yScale = yScale
         )
@@ -868,7 +865,6 @@ countEntriesInBetween <- function(
   addRegression,
   addGuestLimits,
   deltaGuest,
-  residualScale,
   asSquarePlot,
   xScale,
   xScaleArgs,
@@ -915,26 +911,16 @@ countEntriesInBetween <- function(
     null.ok = !addGuestLimits
   )
 
-  checkmate::assertChoice(
-    residualScale,
-    choices = c(
-      ResidualScales$linear,
-      ResidualScales$log,
-      ResidualScales$ratio
-    ),
-    null.ok = TRUE
-  )
-
   checkmate::assertFlag(asSquarePlot)
   checkmate::assertChoice(
     xScale,
-    choices = c(ResidualScales$linear, ResidualScales$log),
+    choices = c(AxisScales$linear, AxisScales$log),
     null.ok = TRUE
   )
   checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
   checkmate::assertChoice(
     yScale,
-    choices = c(ResidualScales$linear, ResidualScales$log),
+    choices = c(AxisScales$linear, AxisScales$log),
     null.ok = TRUE
   )
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)

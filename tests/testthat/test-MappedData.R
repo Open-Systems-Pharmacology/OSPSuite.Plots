@@ -56,6 +56,21 @@ test_that("adjustGroupAesthetics factorizes the copied groupby column in self$da
 })
 
 
+test_that("MappedData errors when observed and predicted are mapped without a display aesthetic", {
+  data <- data.frame(x = 1:3, obs = c(1, 2, 3), pred = c(1.1, 1.9, 3.1))
+
+  expect_error(
+    MappedData$new(
+      data = data,
+      mapping = aes(x = x, observed = obs, predicted = pred),
+      xScale = AxisScales$linear,
+      yScale = AxisScales$linear
+    ),
+    regexp = "observed.*predicted"
+  )
+})
+
+
 test_that("getAestheticsForGeom works", {
   simData1 <- exampleDataTimeProfile |>
     dplyr::filter(SetID == "DataSet1") |>

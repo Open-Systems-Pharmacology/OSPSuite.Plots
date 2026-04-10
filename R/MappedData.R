@@ -92,6 +92,17 @@ MappedData <- R6::R6Class(
       self$data <- data.frame(data) ## creates a copy
       self$mapping <- mapping
 
+      # Error if observed+predicted are both mapped without a display aesthetic.
+      # Residual calculation has been removed; callers must pre-compute residuals.
+      if (
+        private$aestheticExists("observed") &&
+          private$aestheticExists("predicted") &&
+          !private$aestheticExists("y") &&
+          !private$aestheticExists("sample")
+      ) {
+        stop(messages$errorObservedPredictedMissingDisplayAesthetic())
+      }
+
       # add group order
       private$addGroupOrder(groupOrder)
 

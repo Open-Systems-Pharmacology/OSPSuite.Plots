@@ -314,7 +314,7 @@ plotHelperHistogram <- R6::R6Class(
       plotBuild <- ggplot_build(plotObject)
 
       binwidth <- c()
-      for (iLayer in seq_len(length(plotBuild$data))) {
+      for (iLayer in seq_along(plotBuild$data)) {
         if (
           all(
             c("xmin", "xmax", "count", "y") %in% names(plotBuild$data[[iLayer]])

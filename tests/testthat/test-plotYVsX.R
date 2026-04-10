@@ -91,12 +91,14 @@ test_that("plotRatioVsCov works", {
     )
   )
 
+  dDIdata$ID <- factor(dDIdata$ID, levels = unique(dDIdata$ID))
+
   fig <- plotRatioVsCov(
     data = dDIdata,
     mapping = aes(
       x = Obs,
       y = Ratio,
-      groupby = as.character(ID)
+      groupby = ID
     ),
     metaData = dDImetaData,
     addGuestLimits = TRUE,

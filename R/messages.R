@@ -107,6 +107,16 @@ messages$warningResidualScaleDeprecated <- function() {
   )
 }
 
+messages$errorObservedPredictedMissingDisplayAesthetic <- function() {
+  paste0(
+    "Mapping contains both 'observed' and 'predicted' aesthetics without a display aesthetic ('y' or 'sample'). ",
+    "Residual calculation has been moved to ospsuite-R. ",
+    "Please pre-calculate residuals (e.g. using ospsuite::addResidualColumn()) ",
+    "and map them directly to the appropriate aesthetic ('y', 'x', or 'sample'). ",
+    "Remove 'observed' and 'predicted' from the mapping."
+  )
+}
+
 
 messages$warningInvalidShapeCode <- function(shape) {
   paste0("Invalid shape code: ", shape, ". Using default square.")

@@ -18,8 +18,6 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
     #' @param ylimits limits for y-axis (may be NULL)
     #' @param xScale scale of x-axis either 'linear' or 'log'
     #' @param yScale scale of y-axis either 'linear' or 'log'
-    #' @param residualScale scale of x residuals
-    #' @param residualAesthetic aesthetic used for mapping residuals
     #' @param modeOfBinning method of binning (e.g., 'breaks', 'number', 'interval')
     #' @param numberOfBins number of bins to use for binning
     #' @param breaks breaks for binning if `modeOfBinning` is 'breaks'
@@ -34,8 +32,6 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
                           ylimits = NULL,
                           xScale = "linear",
                           yScale = "linear",
-                          residualScale = NULL,
-                          residualAesthetic = "y",
                           modeOfBinning = NA,
                           numberOfBins = NA,
                           breaks = NA) {
@@ -48,9 +44,7 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
         xlimits = xlimits,
         ylimits = ylimits,
         xScale = xScale,
-        yScale = yScale,
-        residualScale = residualScale,
-        residualAesthetic = residualAesthetic
+        yScale = yScale
       )
 
       # add specifics for rangeplots

@@ -15,14 +15,6 @@ AxisScales <- enum(c( # nolint
   discrete = "discrete"
 ))
 
-#' @title enumeration keys for OSPSuite.plots scaling options for residual calculations
-#' @export
-ResidualScales <- enum(c( # nolint
-  linear = "linear",
-  log = "log",
-  ratio = "ratio"
-))
-
 #' @title enumeration keys for mode of Binning
 #' @export
 BINNINGMODE <- ospsuite.utils::enum(c( # nolint

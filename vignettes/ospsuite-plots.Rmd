@@ -416,10 +416,9 @@ For more details, see the examples within the vignettes for the respective funct
 - `error_relative`: Mapped to a column with relative error (e.g., geometric standard deviation); error bars are plotted. This is a shortcut to map `ymin` and `ymax` directly (`ymin = y / error_relative` and `ymax = y * error_relative`).
 - `y2axis`: Creates a plot with 2 y axes. It is used to map to a column with a logical value. Values where this column has a TRUE entry will be displayed with a secondary axis.
 - `mdv`: Mapped to a logical column. Rows where this column has entries set to TRUE are not plotted (MDV = missing data value, taken from NONMEM notation).
-- `observed` / `predicted`: For the function `plotPredVsObs()`, `observed` is mapped to `x` and `predicted` is mapped to `y`. For all other functions, residuals are calculated if both aesthetics are mapped. The variable `residualScale` defines the calculation method:
-  - `residualScale = "log"`: $log(predicted) - log(observed)$,
-  - `residualScale = "linear"`: $predicted - observed$,
-  - `residualScale = "ratio"`: $observed / predicted$.
+- `observed` / `predicted`: For the function `plotPredVsObs()`, `observed` is mapped to `x` and `predicted` is mapped to `y`.
+
+Residuals and ratios must be pre-calculated before passing them to the plotting functions. If you are using the `{ospsuite}` package, use `ospsuite::addResidualColumn()` to add a residual column to your data.
 
 See `vignette("Goodness of Fit", package = "ospsuite.plots")` for examples.
 
@@ -431,7 +430,7 @@ df <- rbind(
   data.frame(aesthetic = "`error_relative`", functions = c("plotTimeProfile()", "plotRatioVsCov()", "plotPredVsObs()", "plotResVsCov()")),
   data.frame(aesthetic = "`y2axis`", functions = "plotTimeProfile()"),
   data.frame(aesthetic = "`mdv`", functions = c("plotTimeProfile()", "plotBoxWhisker()", "plotHistogram()", "plotPredVsObs()", "plotResVsCov()", "plotRatioVsCov()", "plotQQ()")),
-  data.frame(aesthetic = "`observed` / `predicted`", functions = c("plotBoxWhisker()", "plotHistogram()", "plotPredVsObs()", "plotResVsCov()", "plotRatioVsCov()", "plotQQ()"))
+  data.frame(aesthetic = "`observed` / `predicted`", functions = c("plotPredVsObs()"))
 ) |>
   dplyr::mutate(used = "X") |>
   tidyr::pivot_wider(names_from = aesthetic, values_from = used, values_fill = " ")

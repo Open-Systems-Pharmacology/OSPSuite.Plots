@@ -41,8 +41,6 @@ MappedDataBoxplot <- R6::R6Class( # nolint
     #' @param yScale scale of y-axis either 'linear' or 'log'
     #' @param xlimits limits for x-axis (may be NULL)
     #' @param ylimits limits for y-axis (may be NULL)
-    #' @param residualScale scale of x residuals
-    #' @param residualAesthetic aesthetic used for mapping residuals
     #'
     #' @description Create a new `MappedDataBoxplot` object
     #'
@@ -55,9 +53,7 @@ MappedDataBoxplot <- R6::R6Class( # nolint
                           xlimits = NULL,
                           ylimits = NULL,
                           xScale = AxisScales$linear,
-                          yScale = AxisScales$linear,
-                          residualScale = NULL,
-                          residualAesthetic = "y") {
+                          yScale = AxisScales$linear) {
       super$initialize(
         data = data,
         mapping = mapping,
@@ -67,9 +63,7 @@ MappedDataBoxplot <- R6::R6Class( # nolint
         xlimits = xlimits,
         ylimits = ylimits,
         xScale = xScale,
-        yScale = yScale,
-        residualScale = residualScale,
-        residualAesthetic = residualAesthetic
+        yScale = yScale
       )
       # check if one dimensional in x
       self$hasXmapping <- ("x" %in% names(self$mapping))

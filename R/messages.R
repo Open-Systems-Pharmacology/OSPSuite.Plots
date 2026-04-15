@@ -51,13 +51,23 @@ messages$warningNoMetaDataForXAxis <- function() {
 }
 
 messages$errorContinuousXScaleNotPossibleForFactors <- function(discreteScale) {
-  paste0('continuous x scale is not possible for factors, please select "', discreteScale, '"')
+  paste0(
+    'continuous x scale is not possible for factors, please select "',
+    discreteScale,
+    '"'
+  )
 }
 
-messages$errorDiscreteXScaleNotPossibleForContinuous <- function(linearScale, logScale) {
+messages$errorDiscreteXScaleNotPossibleForContinuous <- function(
+  linearScale,
+  logScale
+) {
   paste0(
     'discrete x scale is not possible for continuous data. Select "',
-    linearScale, '" or "', logScale, '" or convert data to factor'
+    linearScale,
+    '" or "',
+    logScale,
+    '" or convert data to factor'
   )
 }
 
@@ -87,6 +97,26 @@ messages$errorDataOrObservedDataRequired <- function() {
 messages$warningCouldNotDeriveDataWithMapping <- function() {
   "It was not possible to derive the data with the mapping"
 }
+
+messages$warningResidualScaleDeprecated <- function() {
+  paste0(
+    "The 'residualScale' parameter is deprecated and has no effect. ",
+    "Residual calculation has been moved to ospsuite-R. ",
+    "Please pre-calculate residuals (e.g. using ospsuite::addResidualColumn()) ",
+    "and map them directly to the appropriate aesthetic ('y', 'x', or 'sample')."
+  )
+}
+
+messages$errorObservedPredictedMissingDisplayAesthetic <- function() {
+  paste0(
+    "Mapping contains both 'observed' and 'predicted' aesthetics without a display aesthetic ('y' or 'sample'). ",
+    "Residual calculation has been moved to ospsuite-R. ",
+    "Please pre-calculate residuals (e.g. using ospsuite::addResidualColumn()) ",
+    "and map them directly to the appropriate aesthetic ('y', 'x', or 'sample'). ",
+    "Remove 'observed' and 'predicted' from the mapping."
+  )
+}
+
 
 messages$warningInvalidShapeCode <- function(shape) {
   paste0("Invalid shape code: ", shape, ". Using default square.")

@@ -17,7 +17,6 @@
   addRegression,
   addGuestLimits,
   deltaGuest,
-  residualScale,
   asSquarePlot,
   xScale,
   xScaleArgs,
@@ -53,8 +52,6 @@ and proportions within comparison lines. Common grouping aesthetics include \cod
 \item{addGuestLimits}{A boolean that activates the insertion of guest limits.}
 
 \item{deltaGuest}{Numeric value parameter for the Guest function.}
-
-\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
 
 \item{asSquarePlot}{A boolean; if true, the plot is returned as a square plot with aspect ratio = 1 and fixed ratios.}
 

@@ -19,7 +19,7 @@ plotBoxWhisker(
   statFunOutlier = NULL,
   geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
   geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
-  residualScale = ResidualScales$log
+  residualScale = NULL
 )
 }
 \arguments{
@@ -58,7 +58,8 @@ which overwrites the default calculation if provided.}
 
 \item{geomPointAttributes}{A \code{list} of arguments passed to the \code{ggplot2::geom_point} call.}
 
-\item{residualScale}{Either "linear", "log", or "ratio" scale for residuals.}
+\item{residualScale}{Deprecated. Retained for backward compatibility only.
+Non-\code{NULL} values trigger a warning and have no effect.}
 }
 \value{
 A \code{ggplot} object representing the box-whisker plot.

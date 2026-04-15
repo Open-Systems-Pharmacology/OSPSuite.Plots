@@ -23,9 +23,9 @@ For details and examples, see the vignettes:
 plotResVsCov(
   data,
   mapping,
-  residualScale = ResidualScales$log,
   comparisonLineVector = 0,
   yScale = AxisScales$linear,
+  residualScale = NULL,
   ...
 )
 ```
@@ -40,10 +40,6 @@ plotResVsCov(
 
   A list of aesthetic mappings to use for the plot.
 
-- residualScale:
-
-  Either "linear", "log", or "ratio" scale for residuals.
-
 - comparisonLineVector:
 
   A vector defining the comparison lines.
@@ -55,6 +51,11 @@ plotResVsCov(
   or 'log' then
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   is used
+
+- residualScale:
+
+  Deprecated. Retained for backward compatibility only. Non-`NULL`
+  values trigger a warning and have no effect.
 
 - ...:
 

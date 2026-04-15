@@ -588,12 +588,11 @@ respective functions.
   NONMEM notation).
 - `observed` / `predicted`: For the function
   [`plotPredVsObs()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotPredVsObs.md),
-  `observed` is mapped to `x` and `predicted` is mapped to `y`. For all
-  other functions, residuals are calculated if both aesthetics are
-  mapped. The variable `residualScale` defines the calculation method:
-  - `residualScale = "log"`: $log(predicted) - log(observed)$,
-  - `residualScale = "linear"`: $predicted - observed$,
-  - `residualScale = "ratio"`: $observed/predicted$.
+  `observed` is mapped to `x` and `predicted` is mapped to `y`.
+
+Residuals and ratios must be pre-calculated before passing them to the
+plotting functions. If you are using the `{ospsuite}` package, use
+`ospsuite::addResidualColumn()` to add a residual column to your data.
 
 See `vignette("Goodness of Fit", package = "ospsuite.plots")` for
 examples.
@@ -601,12 +600,12 @@ examples.
 |     functions     | `groupby` | `lloq` | `error` | `error_relative` | `y2axis` | `mdv` | `observed` / `predicted` |
 |:-----------------:|:---------:|:------:|:-------:|:----------------:|:--------:|:-----:|:------------------------:|
 | plotTimeProfile() |     X     |   X    |    X    |        X         |    X     |   X   |                          |
-|  plotHistogram()  |     X     |        |         |                  |          |   X   |            X             |
+|  plotHistogram()  |     X     |        |         |                  |          |   X   |                          |
 |  plotPredVsObs()  |     X     |   X    |    X    |        X         |          |   X   |            X             |
-|  plotResVsCov()   |     X     |        |    X    |        X         |          |   X   |            X             |
-| plotRatioVsCov()  |     X     |        |    X    |        X         |          |   X   |            X             |
-|     plotQQ()      |     X     |        |         |                  |          |   X   |            X             |
-| plotBoxWhisker()  |           |        |         |                  |          |   X   |            X             |
+|  plotResVsCov()   |     X     |        |    X    |        X         |          |   X   |                          |
+| plotRatioVsCov()  |     X     |        |    X    |        X         |          |   X   |                          |
+|     plotQQ()      |     X     |        |         |                  |          |   X   |                          |
+| plotBoxWhisker()  |           |        |         |                  |          |   X   |                          |
 
 Applicability of additional aesthetics in functions
 

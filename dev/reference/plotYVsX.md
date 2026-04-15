@@ -114,7 +114,8 @@ plotYVsX(
 
 - residualScale:
 
-  Either "linear", "log", or "ratio" scale for residuals.
+  Deprecated. Retained for backward compatibility only. Non-`NULL`
+  values trigger a warning and have no effect.
 
 - asSquarePlot:
 

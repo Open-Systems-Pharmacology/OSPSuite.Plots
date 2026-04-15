@@ -70,9 +70,7 @@ Create a new `MappedDataBoxplot` object
       xlimits = NULL,
       ylimits = NULL,
       xScale = AxisScales$linear,
-      yScale = AxisScales$linear,
-      residualScale = NULL,
-      residualAesthetic = "y"
+      yScale = AxisScales$linear
     )
 
 #### Arguments
@@ -114,14 +112,6 @@ Create a new `MappedDataBoxplot` object
 - `yScale`:
 
   scale of y-axis either 'linear' or 'log'
-
-- `residualScale`:
-
-  scale of x residuals
-
-- `residualAesthetic`:
-
-  aesthetic used for mapping residuals
 
 #### Returns
 

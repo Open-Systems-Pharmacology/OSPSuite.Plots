@@ -15,7 +15,7 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,11 +67,11 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
 <span>  <span class="va">mapping</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  xScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  residualScale <span class="op">=</span> <span class="va">ResidualScales</span><span class="op">$</span><span class="va">log</span>,</span>
 <span>  yScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  geomQQAttributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  geomQQLineAttributes <span class="op">=</span> <span class="va">geomQQAttributes</span>,</span>
-<span>  groupAesthetics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"colour"</span>, <span class="st">"fill"</span>, <span class="st">"shape"</span><span class="op">)</span></span>
+<span>  groupAesthetics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"colour"</span>, <span class="st">"fill"</span>, <span class="st">"shape"</span><span class="op">)</span>,</span>
+<span>  residualScale <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -97,12 +97,6 @@ see vignettes for more details and examples</p></dd>
 <dd><p>list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_continuous()</a></code> or <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_log10()</a></code></p></dd>
 
 
-<dt id="arg-residualscale">residualScale<a class="anchor" aria-label="anchor" href="#arg-residualscale"></a></dt>
-<dd><p>Either <code>"linear"</code> or <code>"log"</code> for scaling residuals.
-For linear: residuals = predicted - observed. For log: residuals = log(predicted) - log(observed).
-The y-axis scale remains linear in both cases.</p></dd>
-
-
 <dt id="arg-yscaleargs">yScaleArgs<a class="anchor" aria-label="anchor" href="#arg-yscaleargs"></a></dt>
 <dd><p>list of arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_continuous()</a></code> or <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_log10()</a></code></p></dd>
 
@@ -118,6 +112,11 @@ The y-axis scale remains linear in both cases.</p></dd>
 <dt id="arg-groupaesthetics">groupAesthetics<a class="anchor" aria-label="anchor" href="#arg-groupaesthetics"></a></dt>
 <dd><p>A character vector of aesthetic names used for grouping data points in the Q-Q plot.
 Common options include <code>"colour"</code>, <code>"fill"</code>, <code>"shape"</code>, <code>"linetype"</code>, and <code>"size"</code>.</p></dd>
+
+
+<dt id="arg-residualscale">residualScale<a class="anchor" aria-label="anchor" href="#arg-residualscale"></a></dt>
+<dd><p>Deprecated. Retained for backward compatibility only.
+Non-<code>NULL</code> values trigger a warning and have no effect.</p></dd>
 
 </dl></div>
     <div class="section level2">

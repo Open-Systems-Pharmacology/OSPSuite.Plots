@@ -5,8 +5,6 @@ parameters.
 
 The following parameters are fixed and cannot be set:
 
-- `residualScale = "ratio"`
-
 - `observedDataDirection = "y"`
 
 - `yDisplayAsAbsolute = FALSE`
@@ -28,6 +26,7 @@ plotRatioVsCov(
   xScale = ifelse(addGuestLimits, AxisScales$log, AxisScales$linear),
   comparisonLineVector = getFoldDistanceList(c(1.5, 2)),
   deltaGuest = 1,
+  residualScale = NULL,
   ...
 )
 ```
@@ -70,6 +69,11 @@ plotRatioVsCov(
 
   Numeric value parameter for the Guest function.
 
+- residualScale:
+
+  Deprecated. Retained for backward compatibility only. Non-`NULL`
+  values trigger a warning and have no effect.
+
 - ...:
 
   Arguments passed on to
@@ -85,10 +89,6 @@ plotRatioVsCov(
   :   A `list` of arguments passed to
       [`ggplot2::geom_function`](https://ggplot2.tidyverse.org/reference/geom_function.html)
       to display guest criteria.
-
-  `residualScale`
-
-  :   Either "linear", "log", or "ratio" scale for residuals.
 
   `yDisplayAsAbsolute`
 

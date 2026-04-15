@@ -39,14 +39,6 @@ Other MappedData classes:
 
   double vector limits of primary y axis
 
-- `hasResidualMapping`:
-
-  flag to indicate if residual mapping is used
-
-- `residualLabel`:
-
-  label for residuals
-
 ## Active bindings
 
 - `hasLLOQMatch`:
@@ -63,8 +55,7 @@ Other MappedData classes:
   adds new column `isLLOQ.i` and updates boolean `LLOQMatch` adds new
   columns `ymin` and `ymax` if required copy aesthetics `groupby`, but
   only if not explicit set converts Integer columns, which are no
-  factors to double adds new column `residuals.i` factorize column for
-  group to factor
+  factors to double factorize column for group to factor
 
 ## Methods
 
@@ -98,9 +89,7 @@ Create a new `MappedData` object
       direction = "y",
       isObserved = TRUE,
       xlimits = NULL,
-      ylimits = NULL,
-      residualScale = NULL,
-      residualAesthetic = "y"
+      ylimits = NULL
     )
 
 #### Arguments
@@ -144,14 +133,6 @@ Create a new `MappedData` object
 - `ylimits`:
 
   limits for y-axis (may be NULL)
-
-- `residualScale`:
-
-  scale of x residuals
-
-- `residualAesthetic`:
-
-  aesthetic used for mapping residuals
 
 #### Returns
 

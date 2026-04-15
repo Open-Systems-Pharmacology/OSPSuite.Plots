@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,26 +94,23 @@ versus a covariate (e.g., Time, observed values, or Age).</li>
 <li>
 <code><a href="../reference/plotQQ.html">plotQQ()</a></code> (see section 5): Quantile-Quantile plot.</li>
 </ul>
-<p>In these functions, the aesthetics <code>observed</code> and
-<code>predicted</code> can be used. These aesthetics are also available
-in other functions of the <code>ospsuite.plots</code> library:</p>
-<ul>
-<li>
-<code>plotBoxwhisker()</code> (see section 6.1): aggregate residuals
-and display aggregated values versus covariate.</li>
-<li>
-<code><a href="../reference/plotHistogram.html">plotHistogram()</a></code> (see section 6.2): generates histograms
-of residuals.</li>
-</ul>
-<p>The functions <code><a href="../reference/plotPredVsObs.html">plotPredVsObs()</a></code>,
-<code><a href="../reference/plotResVsCov.html">plotResVsCov()</a></code>, and <code><a href="../reference/plotRatioVsCov.html">plotRatioVsCov()</a></code> are
-mainly wrappers around the function <code>plotXVsY()</code>, using
-different defaults for input variables. So, use <code>?plotXvsY</code>
-to get more details.</p>
 <p>For DDI comparison, the functions <code><a href="../reference/plotPredVsObs.html">plotPredVsObs()</a></code> and
 <code>plotResVsObs()</code> can be overlaid with lines indicating the
 limits of the Guest Criteria (<a href="https://dmd.aspetjournals.org/content/39/2/170" class="external-link uri">https://dmd.aspetjournals.org/content/39/2/170</a>) (see
-section 7).</p>
+section 2.4 and 4.3).</p>
+<blockquote>
+<p><strong>Note:</strong> Residual calculation is not performed within
+<code>ospsuite.plots</code>. Residuals and ratios need to be
+pre-calculated before passing them to the plotting functions. If you are
+using the <code>{ospsuite}</code> package, you can use
+<code>ospsuite::addResidualColumn()</code> to add a residual column to
+your data.</p>
+</blockquote>
+<p>The functions <code><a href="../reference/plotPredVsObs.html">plotPredVsObs()</a></code>,
+<code><a href="../reference/plotResVsCov.html">plotResVsCov()</a></code>, and <code><a href="../reference/plotRatioVsCov.html">plotRatioVsCov()</a></code> are
+mainly wrappers around the function <code><a href="../reference/plotYVsX.html">plotYVsX()</a></code>, using
+different defaults for input variables. So, use <code><a href="../reference/plotYVsX.html">?plotYVsX</a></code>
+to get more details.</p>
 <div class="section level3">
 <h3 id="setup">1.1 Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h3>
@@ -735,81 +732,72 @@ variable <code>asSquarePlot</code> is set to <code>FALSE</code>.</p>
 <div class="section level3">
 <h3 id="basic-examples-1">3.1 Basic Examples<a class="anchor" aria-label="anchor" href="#basic-examples-1"></a>
 </h3>
-<p>The function <code><a href="../reference/plotResVsCov.html">plotResVsCov()</a></code> calculates the residuals
-using the aesthetics <code>observed</code> and
-<code>predicted</code>.</p>
+<p>Residuals must be pre-calculated before passing them to
+<code><a href="../reference/plotResVsCov.html">plotResVsCov()</a></code>. If you are using the
+<code>{ospsuite}</code> package, you can use
+<code>ospsuite::addResidualColumn()</code> to add a residual column to
+your data. Alternatively, calculate residuals directly in your data
+frame.</p>
 <div class="section level4">
 <h4 id="default-settings-1">3.1.1 Default Settings<a class="anchor" aria-label="anchor" href="#default-settings-1"></a>
 </h4>
-<p>The default value for the variable <code>residualScale</code> is
-“log”. Residuals will then be calculated by
-<code>log(predicted) - log(observed)</code>. A horizontal comparison
-line with the value 0 is displayed. The aesthetic <code>groupby</code>
-can be used to group observations.</p>
+<p>In the example below, log residuals are calculated as
+<code>log(Pred) - log(Obs)</code> and mapped to the <code>y</code>
+aesthetic. A horizontal comparison line with the value 0 is displayed.
+The aesthetic <code>groupby</code> can be used to group
+observations.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>logResiduals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">Pred</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">Obs</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">Age</span>,</span>
-<span>    predicted <span class="op">=</span> <span class="va">Pred</span>,</span>
-<span>    observed <span class="op">=</span> <span class="va">Obs</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">logResiduals</span>,</span>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"residuals\nlog(predicted) - log(observed)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="goodness-of-fit_files/figure-html/reVsObs-default-1.png" class="r-plt" alt="Scatter plot showing log residuals versus age with default settings. Residuals are calculated as log(predicted) - log(observed), displayed as points colored by sex groups. A horizontal reference line at zero indicates perfect prediction. Points scattered around zero suggest good model performance." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="linear-scale-for-residuals">3.1.2 Linear Scale for Residuals<a class="anchor" aria-label="anchor" href="#linear-scale-for-residuals"></a>
 </h3>
-<p>If the variable <code>residualScale</code> is set to “linear”,
-residuals will be calculated by #<span class="math inline">$# predicted
-- observed #$</span>#.</p>
+<p>For linear residuals, calculate <code>Pred - Obs</code> before
+plotting.</p>
 <p>Below, the line type of the comparison line is set to ‘solid’.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>linearResiduals <span class="op">=</span> <span class="va">Pred</span> <span class="op">-</span> <span class="va">Obs</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">Age</span>,</span>
-<span>    predicted <span class="op">=</span> <span class="va">Pred</span>,</span>
-<span>    observed <span class="op">=</span> <span class="va">Obs</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">linearResiduals</span>,</span>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span>,</span>
-<span>  residualScale <span class="op">=</span> <span class="st">"linear"</span>,</span>
 <span>  geomComparisonLineAttributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="st">"solid"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"residuals\npredicted - observed"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="goodness-of-fit_files/figure-html/resVsCov-basic-linear-1.png" class="r-plt" alt="Scatter plot showing linear residuals versus age with a solid horizontal reference line. Residuals are calculated as predicted - observed on a linear scale, with points colored by sex groups. The solid reference line at zero provides a clear visual reference for assessing prediction accuracy." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
-<h3 id="map-residuals-directly">3.1.3 Map Residuals Directly<a class="anchor" aria-label="anchor" href="#map-residuals-directly"></a>
+<h3 id="adjusting-comparison-lines">3.2 Adjusting Comparison Lines<a class="anchor" aria-label="anchor" href="#adjusting-comparison-lines"></a>
 </h3>
-<p>It is also possible to use already calculated residuals or formulas
-by using the aesthetic ‘y’.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">Age</span>,</span>
-<span>    y <span class="op">=</span> <span class="va">Obs</span> <span class="op">-</span> <span class="va">Pred</span>,</span>
-<span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/resVsCov-basic-mappedToY-1.png" class="r-plt" alt="Scatter plot showing directly calculated residuals (observed minus predicted) versus age. Residuals are manually calculated and mapped to the y-axis, with points colored by sex groups. This demonstrates how to use pre-calculated residuals instead of automatic calculation." width="80%" style="display: block; margin: auto;"></p>
-</div>
-<div class="section level3">
-<h3 id="adjusting-comparison-lines">3.2 Adjusting Comparison Lines<a class="anchor" aria-label="anchor" href="#adjusting-comparison-lines"></a>
-</h3>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">data</span>,</span>
-<span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">Age</span>,</span>
-<span>    predicted <span class="op">=</span> <span class="va">Pred</span>,</span>
-<span>    observed <span class="op">=</span> <span class="va">Obs</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">logResiduals</span>,</span>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  comparisonLineVector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>zero <span class="op">=</span> <span class="fl">0</span>, <span class="st">"lower limit"</span> <span class="op">=</span> <span class="op">-</span><span class="fl">0.25</span>, <span class="st">"upper limit"</span> <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"residuals\nlog(predicted) - log(observed)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="goodness-of-fit_files/figure-html/resVsCov-comparisonlines-1.png" class="r-plt" alt="Scatter plot showing residuals versus age with custom comparison lines. The plot includes a zero reference line and additional upper and lower limit lines at ±0.25, providing multiple reference points for evaluating prediction accuracy. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
@@ -820,17 +808,17 @@ by using the aesthetic ‘y’.</p>
 the package <a href="https://rpkgs.datanovia.com/ggpubr/" class="external-link">ggpubr</a> has a nice function
 <code>stat_regline_equation</code> to add statistics of the regression
 as labels.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotResVsCov.html">plotResVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">Age</span>,</span>
-<span>    predicted <span class="op">=</span> <span class="va">Pred</span>,</span>
-<span>    observed <span class="op">=</span> <span class="va">Obs</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">logResiduals</span>,</span>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  addRegression <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"residuals\nlog(predicted) - log(observed)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggpubr</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_regline_equation.html" class="external-link">stat_regline_equation</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">eq.label</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="goodness-of-fit_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="Scatter plot showing residuals versus age with linear regression line and equation overlay. The plot includes both a fitted regression line and the regression equation statistics, helping to identify any systematic bias in residuals with respect to age. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
@@ -848,7 +836,7 @@ as labels.</p>
 covariate. By default, the identity and 1.5 and 2 point lines are added,
 and the default for <code>yScale</code> is ‘log’. The aesthetic
 <code>groupby</code> can be used to group observations.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotRatioVsCov.html">plotRatioVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -863,17 +851,20 @@ and the default for <code>yScale</code> is ‘log’. The aesthetic
 <div class="section level4">
 <h4 id="compare-residuals-as-ratio">4.1.2 Compare Residuals as Ratio<a class="anchor" aria-label="anchor" href="#compare-residuals-as-ratio"></a>
 </h4>
-<p>Within the function <code><a href="../reference/plotRatioVsCov.html">plotRatioVsCov()</a></code>, the variable
-<code>residualScale</code> is fixed to “ratio”, and the ratio of the
-residuals is calculated as $ observed / predicted $. Below, the
-comparison line is set to a 1.2 fold distance.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotRatioVsCov.html">plotRatioVsCov</a></span><span class="op">(</span></span>
+<p>The ratio of observed to predicted is calculated as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi><mi>/</mi><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">observed / predicted</annotation></semantics></math>.
+Pre-calculate this column before passing to
+<code><a href="../reference/plotRatioVsCov.html">plotRatioVsCov()</a></code>. Below, the comparison line is set to a
+1.2 fold distance.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Ratio <span class="op">=</span> <span class="va">Obs</span> <span class="op">/</span> <span class="va">Pred</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/plotRatioVsCov.html">plotRatioVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">Age</span>,</span>
-<span>    predicted <span class="op">=</span> <span class="va">Pred</span>,</span>
-<span>    observed <span class="op">=</span> <span class="va">Obs</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">Ratio</span>,</span>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  comparisonLineVector <span class="op">=</span> <span class="fu"><a href="../reference/getFoldDistanceList.html">getFoldDistanceList</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.2</span><span class="op">)</span><span class="op">)</span></span>
@@ -889,7 +880,7 @@ logical column to the aesthetic <code>mdv</code>. Below, we exclude data
 with Age less than 20.</p>
 <p>Additional error bars are displayed by mapping the column “gsd” to
 the aesthetic <code>error_relative</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotRatioVsCov.html">plotRatioVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -912,7 +903,7 @@ variable <code>comparisonLineVector</code> is a named list, the
 an additional entry <code>countsWithin</code>, which contains a
 <code>data.frame</code> with the fractions within the specific ranges
 given by the variable <code>comparisonLineVector</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plotObject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRatioVsCov.html">plotRatioVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -978,13 +969,15 @@ given by the variable <code>comparisonLineVector</code>.</p>
 </h3>
 <p>To compare DDI ratios, set the variable <code>addGuestLimits</code>
 to TRUE and set the variable <code>deltaGuest</code>.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plotObject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRatioVsCov.html">plotRatioVsCov</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dDIdata</span> <span class="op">&lt;-</span> <span class="va">dDIdata</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Ratio <span class="op">=</span> <span class="va">Obs</span> <span class="op">/</span> <span class="va">Pred</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plotObject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRatioVsCov.html">plotRatioVsCov</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">dDIdata</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">Obs</span>,</span>
-<span>    predicted <span class="op">=</span> <span class="va">Pred</span>,</span>
-<span>    observed <span class="op">=</span> <span class="va">Obs</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">Ratio</span>,</span>
 <span>    groupby <span class="op">=</span> <span class="va">Study</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">dDImetaData</span>,</span>
@@ -1082,74 +1075,67 @@ to TRUE and set the variable <code>deltaGuest</code>.</p>
 <div class="section level2">
 <h2 id="quantile-plot-plotqq">5. Quantile Plot (<code>plotQQ()</code>)<a class="anchor" aria-label="anchor" href="#quantile-plot-plotqq"></a>
 </h2>
-<p><code><a href="../reference/plotQQ.html">plotQQ()</a></code> produces a Quantile-Quantile plot. If using the
-aesthetics <code>predicted</code> and <code>observed</code>, residuals
-will be calculated according to the variable <code>residualScale</code>.
-In the example below, the default value log is used.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotQQ.html">plotQQ</a></span><span class="op">(</span></span>
+<p><code><a href="../reference/plotQQ.html">plotQQ()</a></code> produces a Quantile-Quantile plot. Residuals
+must be pre-calculated and mapped to the <code>sample</code>
+aesthetic.</p>
+<blockquote>
+<p><strong>Note:</strong> If you are using the <code>{ospsuite}</code>
+package, you can use <code>ospsuite::addResidualColumn()</code> to add a
+residual column to your data.</p>
+</blockquote>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>logResiduals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">Pred</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">Obs</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/plotQQ.html">plotQQ</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
-<span>    predicted <span class="op">=</span> <span class="va">Pred</span>,</span>
-<span>    observed <span class="op">=</span> <span class="va">Obs</span>,</span>
+<span>    sample <span class="op">=</span> <span class="va">logResiduals</span>,</span>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"residuals\nlog(predicted) - log(observed)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="goodness-of-fit_files/figure-html/qq-log-1.png" class="r-plt" alt="Quantile-quantile plot showing the distribution of log residuals compared to a normal distribution. Points follow the diagonal reference line if residuals are normally distributed. Deviations from the line indicate non-normal distribution patterns. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
-<p>The aesthetic ‘sample’ columns with already calculated residuals or
-formulas can be mapped directly.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotQQ.html">plotQQ</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">data</span>,</span>
-<span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
-<span>    sample <span class="op">=</span> <span class="va">Obs</span>,</span>
-<span>    predicted <span class="op">=</span> <span class="va">Pred</span>,</span>
-<span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  residualScale <span class="op">=</span> <span class="st">"linear"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="goodness-of-fit_files/figure-html/qqplot-1.png" class="r-plt" alt="Quantile-quantile plot with sample data mapped directly to observed values and linear residual scale. This demonstrates mapping pre-calculated values directly using the sample aesthetic instead of automatic residual calculation. Points are colored by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
-<h2 id="usage-of-aesthetics-predicted-and-observed-in-other-functions">6 Usage of Aesthetics <code>predicted</code> and
-<code>observed</code> in Other Functions<a class="anchor" aria-label="anchor" href="#usage-of-aesthetics-predicted-and-observed-in-other-functions"></a>
+<h2 id="residuals-in-other-plot-functions">6 Residuals in Other Plot Functions<a class="anchor" aria-label="anchor" href="#residuals-in-other-plot-functions"></a>
 </h2>
-<p>The aesthetics <code>observed</code> and <code>predicted</code> can
-also be used in the functions <code><a href="../reference/plotHistogram.html">plotHistogram()</a></code> and
-<code><a href="../reference/plotBoxWhisker.html">plotBoxWhisker()</a></code>. The residuals will be calculated as
-defined by the variable <code>residualScale</code>.</p>
+<p>Pre-calculated residuals can be used in <code><a href="../reference/plotHistogram.html">plotHistogram()</a></code>
+and <code><a href="../reference/plotBoxWhisker.html">plotBoxWhisker()</a></code> by mapping the residual column to the
+appropriate aesthetic.</p>
 <div class="section level3">
 <h3 id="residuals-as-histogram">6.1 Residuals as Histogram<a class="anchor" aria-label="anchor" href="#residuals-as-histogram"></a>
 </h3>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotHistogram.html">plotHistogram</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  metaData <span class="op">=</span> <span class="va">metaData</span>,</span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
-<span>    predicted <span class="op">=</span> <span class="va">Pred</span>,</span>
-<span>    observed <span class="op">=</span> <span class="va">Obs</span>,</span>
+<span>    x <span class="op">=</span> <span class="va">logResiduals</span>,</span>
 <span>    groupby <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span>,</span>
-<span>  residualScale <span class="op">=</span> <span class="st">"log"</span>,</span>
 <span>  plotAsFrequency <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  distribution <span class="op">=</span> <span class="st">"normal"</span></span>
-<span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"residuals\nlog(predicted) - log(observed)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="goodness-of-fit_files/figure-html/histogram-residuals-1.png" class="r-plt" alt="Histogram showing the distribution of log residuals with normal distribution overlay curve. The frequency-based histogram includes a dashed vertical line at zero and a fitted normal distribution curve to assess whether residuals follow a normal distribution. Histograms are stratified by sex groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="stratify-residuals-with-a-box-whisker-plot">6.2 Stratify Residuals with a Box-Whisker Plot<a class="anchor" aria-label="anchor" href="#stratify-residuals-with-a-box-whisker-plot"></a>
 </h3>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxWhisker.html">plotBoxWhisker</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pkRatioData</span> <span class="op">&lt;-</span> <span class="va">pkRatioData</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>linearResiduals <span class="op">=</span> <span class="va">Pred</span> <span class="op">-</span> <span class="va">Obs</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/plotBoxWhisker.html">plotBoxWhisker</a></span><span class="op">(</span></span>
 <span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
-<span>    predicted <span class="op">=</span> <span class="va">Pred</span>,</span>
-<span>    observed <span class="op">=</span> <span class="va">Obs</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">linearResiduals</span>,</span>
 <span>    x <span class="op">=</span> <span class="va">Sex</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">pkRatioData</span>,</span>
-<span>  metaData <span class="op">=</span> <span class="va">metaData</span>,</span>
-<span>  residualScale <span class="op">=</span> <span class="st">"linear"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  metaData <span class="op">=</span> <span class="va">metaData</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"residuals\nlog(predicted) - log(observed)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="goodness-of-fit_files/figure-html/boxwhisker-residuals-1.png" class="r-plt" alt="Box plots showing the distribution of linear residuals stratified by sex. The box plots display quartiles and whiskers for residuals calculated as observed minus predicted, allowing comparison of residual distributions between male and female groups." width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>

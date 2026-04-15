@@ -19,7 +19,6 @@ ensure proper data format and parameter values.
   addRegression,
   addGuestLimits,
   deltaGuest,
-  residualScale,
   asSquarePlot,
   xScale,
   xScaleArgs,
@@ -90,10 +89,6 @@ ensure proper data format and parameter values.
 - deltaGuest:
 
   Numeric value parameter for the Guest function.
-
-- residualScale:
-
-  Either "linear", "log", or "ratio" scale for residuals.
 
 - asSquarePlot:
 

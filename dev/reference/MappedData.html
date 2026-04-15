@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,14 +89,6 @@
 <dd><p>double vector limits of primary y axis</p></dd>
 
 
-<dt><code>hasResidualMapping</code></dt>
-<dd><p>flag to indicate if residual mapping is used</p></dd>
-
-
-<dt><code>residualLabel</code></dt>
-<dd><p>label for residuals</p></dd>
-
-
 </dl><p></p></div>
     </div>
     <div class="section level2">
@@ -116,7 +108,6 @@ deletes data where mdv is 1</p>
 adds new columns <code>ymin</code> and <code>ymax</code> if required
 copy aesthetics <code>groupby</code>, but only if not explicit set
 converts Integer columns, which are no factors to double
-adds new column <code>residuals.i</code>
 factorize column for group to factor</p></dd>
 
 
@@ -147,9 +138,7 @@ factorize column for group to factor</p></dd>
 <span>  direction <span class="op">=</span> <span class="st">"y"</span>,</span>
 <span>  isObserved <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  xlimits <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  ylimits <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  residualScale <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  residualAesthetic <span class="op">=</span> <span class="st">"y"</span></span>
+<span>  ylimits <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -193,14 +182,6 @@ factorize column for group to factor</p></dd>
 
 <dt><code>ylimits</code></dt>
 <dd><p>limits for y-axis (may be NULL)</p></dd>
-
-
-<dt><code>residualScale</code></dt>
-<dd><p>scale of x residuals</p></dd>
-
-
-<dt><code>residualAesthetic</code></dt>
-<dd><p>aesthetic used for mapping residuals</p></dd>
 
 
 </dl><p></p></div>

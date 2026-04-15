@@ -64,8 +64,6 @@ Create a new `MappedDataRangeDistribution` object
       ylimits = NULL,
       xScale = "linear",
       yScale = "linear",
-      residualScale = NULL,
-      residualAesthetic = "y",
       modeOfBinning = NA,
       numberOfBins = NA,
       breaks = NA
@@ -110,14 +108,6 @@ Create a new `MappedDataRangeDistribution` object
 - `yScale`:
 
   scale of y-axis either 'linear' or 'log'
-
-- `residualScale`:
-
-  scale of x residuals
-
-- `residualAesthetic`:
-
-  aesthetic used for mapping residuals
 
 - `modeOfBinning`:
 

@@ -14,11 +14,11 @@ plotQQ(
   mapping,
   metaData = NULL,
   xScaleArgs = list(),
-  residualScale = ResidualScales$log,
   yScaleArgs = list(),
   geomQQAttributes = list(),
   geomQQLineAttributes = geomQQAttributes,
-  groupAesthetics = c("colour", "fill", "shape")
+  groupAesthetics = c("colour", "fill", "shape"),
+  residualScale = NULL
 )
 ```
 
@@ -47,13 +47,6 @@ plotQQ(
   or
   [`ggplot2::scale_x_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 
-- residualScale:
-
-  Either `"linear"` or `"log"` for scaling residuals. For linear:
-  residuals = predicted - observed. For log: residuals =
-  log(predicted) - log(observed). The y-axis scale remains linear in
-  both cases.
-
 - yScaleArgs:
 
   list of arguments passed to
@@ -76,6 +69,11 @@ plotQQ(
   A character vector of aesthetic names used for grouping data points in
   the Q-Q plot. Common options include `"colour"`, `"fill"`, `"shape"`,
   `"linetype"`, and `"size"`.
+
+- residualScale:
+
+  Deprecated. Retained for backward compatibility only. Non-`NULL`
+  values trigger a warning and have no effect.
 
 ## Value
 

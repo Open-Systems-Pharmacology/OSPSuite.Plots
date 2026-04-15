@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -713,23 +713,13 @@ from NONMEM notation).</li>
 <li>
 <code>observed</code> / <code>predicted</code>: For the function
 <code><a href="../reference/plotPredVsObs.html">plotPredVsObs()</a></code>, <code>observed</code> is mapped to
-<code>x</code> and <code>predicted</code> is mapped to <code>y</code>.
-For all other functions, residuals are calculated if both aesthetics are
-mapped. The variable <code>residualScale</code> defines the calculation
-method:
-<ul>
-<li>
-<code>residualScale = "log"</code>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">log(predicted) - log(observed)</annotation></semantics></math>,</li>
-<li>
-<code>residualScale = "linear"</code>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi><mo>−</mo><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">predicted - observed</annotation></semantics></math>,</li>
-<li>
-<code>residualScale = "ratio"</code>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>b</mi><mi>s</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>d</mi><mi>/</mi><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>t</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">observed / predicted</annotation></semantics></math>.</li>
+<code>x</code> and <code>predicted</code> is mapped to
+<code>y</code>.</li>
 </ul>
-</li>
-</ul>
+<p>Residuals and ratios must be pre-calculated before passing them to
+the plotting functions. If you are using the <code>{ospsuite}</code>
+package, use <code>ospsuite::addResidualColumn()</code> to add a
+residual column to your data.</p>
 <p>See
 <code>vignette("Goodness of Fit", package = "ospsuite.plots")</code> for
 examples.</p>
@@ -776,7 +766,7 @@ examples.</p>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center">X</td>
-<td align="center">X</td>
+<td align="center"></td>
 </tr>
 <tr class="odd">
 <td align="center">plotPredVsObs()</td>
@@ -796,7 +786,7 @@ examples.</p>
 <td align="center">X</td>
 <td align="center"></td>
 <td align="center">X</td>
-<td align="center">X</td>
+<td align="center"></td>
 </tr>
 <tr class="odd">
 <td align="center">plotRatioVsCov()</td>
@@ -806,7 +796,7 @@ examples.</p>
 <td align="center">X</td>
 <td align="center"></td>
 <td align="center">X</td>
-<td align="center">X</td>
+<td align="center"></td>
 </tr>
 <tr class="even">
 <td align="center">plotQQ()</td>
@@ -816,7 +806,7 @@ examples.</p>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center">X</td>
-<td align="center">X</td>
+<td align="center"></td>
 </tr>
 <tr class="odd">
 <td align="center">plotBoxWhisker()</td>
@@ -826,7 +816,7 @@ examples.</p>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center">X</td>
-<td align="center">X</td>
+<td align="center"></td>
 </tr>
 </tbody>
 </table>

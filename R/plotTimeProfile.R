@@ -244,11 +244,8 @@ plotTimeProfile <- function(data = NULL, # nolint
     checkmate::assertClass(plotObject, classes = "ggplot", null.ok = TRUE)
     checkmate::assertList(metaData, types = "list", null.ok = TRUE)
 
-    checkmate::assertChoice(xScale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
     checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
-    checkmate::assertChoice(yScale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
     checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
-    checkmate::assertChoice(y2Scale, choices = c(AxisScales$linear, AxisScales$log), null.ok = TRUE)
     checkmate::assertList(y2ScaleArgs, null.ok = FALSE, min.len = 0)
 
     checkmate::assertList(geomLineAttributes, null.ok = FALSE, min.len = 0)

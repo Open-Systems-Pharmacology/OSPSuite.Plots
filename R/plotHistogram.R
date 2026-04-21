@@ -55,17 +55,7 @@ plotHistogram <- function(
   if (!is.null(xScale)) xScale <- match.arg(xScale, c("linear", "log"))
   if (!is.null(yScale)) yScale <- match.arg(yScale, c("linear", "log"))
 
-  checkmate::assertChoice(
-    xScale,
-    choices = c(AxisScales$linear, AxisScales$log),
-    null.ok = TRUE
-  )
   checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(
-    yScale,
-    choices = c(AxisScales$linear, AxisScales$log),
-    null.ok = TRUE
-  )
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
 
   #-  map Data

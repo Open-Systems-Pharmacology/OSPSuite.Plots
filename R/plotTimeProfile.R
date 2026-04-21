@@ -83,6 +83,9 @@ plotTimeProfile <- function(data = NULL, # nolint
                             groupAesthetics = c("colour", "fill", "shape")) {
 
   groupAesthetics <- ggplot2::standardise_aes_names(groupAesthetics)
+  if (!is.null(xScale)) xScale <- match.arg(xScale, c("linear", "log"))
+  if (!is.null(yScale)) yScale <- match.arg(yScale, c("linear", "log"))
+  if (!is.null(y2Scale)) y2Scale <- match.arg(y2Scale, c("linear", "log"))
   .validatePlotTimeProfileInputs(
     data = data,
     observedData = observedData,

@@ -52,6 +52,9 @@ plotHistogram <- function(
 
   checkmate::assertList(geomHistAttributes, null.ok = FALSE, min.len = 0)
 
+  if (!is.null(xScale)) xScale <- match.arg(xScale, c("linear", "log"))
+  if (!is.null(yScale)) yScale <- match.arg(yScale, c("linear", "log"))
+
   checkmate::assertChoice(
     xScale,
     choices = c(AxisScales$linear, AxisScales$log),

@@ -661,4 +661,20 @@ test_that("plotTimeProfile does not suppress guides when colour is not in groupA
   expect_false(is.null(ggplot2::get_guide_data(fig, "shape")))
 })
 
+test_that("'lin' is accepted as shorthand for 'linear' in plotTimeProfile", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet1") |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  expect_no_error(
+    plotTimeProfile(
+      data = simData,
+      mapping = aes(x = time, y = values, groupby = caption),
+      xScale = "lin",
+      yScale = "lin"
+    )
+  )
+})
+
 ospsuite.plots::resetDefaults(oldDefaults)

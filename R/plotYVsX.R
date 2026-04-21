@@ -30,6 +30,8 @@ plotResVsCov <- function(
     warning(messages$warningResidualScaleDeprecated())
   }
 
+  if (!is.null(yScale)) yScale <- match.arg(yScale, c("linear", "log"))
+
   plotObject <- plotYVsX(
     data = data,
     mapping = mapping,
@@ -75,6 +77,9 @@ plotRatioVsCov <- function(
   if (!is.null(residualScale)) {
     warning(messages$warningResidualScaleDeprecated())
   }
+
+  if (!is.null(xScale)) xScale <- match.arg(xScale, c("linear", "log"))
+  if (!is.null(yScale)) yScale <- match.arg(yScale, c("linear", "log"))
 
   yDisplayAsAbsolute <- FALSE
 
@@ -125,6 +130,8 @@ plotPredVsObs <- function(
   if (!("y" %in% names(mapping)) & "predicted" %in% names(mapping)) {
     names(mapping)[names(mapping) == "predicted"] <- "y"
   }
+
+  xyScale <- match.arg(xyScale, c("linear", "log"))
 
   plotObject <- plotYVsX(
     data = data,
@@ -210,6 +217,8 @@ plotYVsX <- function(
   if (is.double(comparisonLineVector)) {
     comparisonLineVector <- as.list(comparisonLineVector)
   }
+  if (!is.null(xScale)) xScale <- match.arg(xScale, c("linear", "log"))
+  if (!is.null(yScale)) yScale <- match.arg(yScale, c("linear", "log"))
   .validatePlotYXsXInputs(
     data = data,
     metaData = metaData,

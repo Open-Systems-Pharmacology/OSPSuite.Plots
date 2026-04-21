@@ -359,5 +359,35 @@ test_that("residualScale deprecation warning is issued", {
   )
 })
 
+test_that("'lin' is accepted as shorthand for 'linear' in plotYVsX", {
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
+    dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex")) |>
+    dplyr::mutate(logResiduals = log(Pred) - log(Obs))
+
+  expect_no_error(
+    plotYVsX(
+      data = data,
+      mapping = aes(x = Age, y = logResiduals, groupby = Sex),
+      xScale = "lin",
+      yScale = "lin"
+    )
+  )
+})
+
+test_that("'lin' is accepted as shorthand for 'linear' in plotPredVsObs", {
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
+    dplyr::select(c("ID", "Obs", "Pred", "Sex"))
+
+  expect_no_error(
+    plotPredVsObs(
+      data = data,
+      mapping = aes(x = Obs, y = Pred),
+      xyScale = "lin"
+    )
+  )
+})
+
 
 ospsuite.plots::resetDefaults(oldDefaults)

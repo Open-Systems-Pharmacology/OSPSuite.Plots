@@ -262,7 +262,6 @@ addXYScale <- function(
 #' @export
 addXScale <- function(plotObject, xScale, xScaleArgs = list()) {
   if (!is.null(xScale)) xScale <- match.arg(xScale, c("linear", "log", "discrete"))
-  checkmate::assertChoice(xScale, choices = unlist(AxisScales), null.ok = TRUE)
 
   if (xScale == AxisScales$discrete) {
     scaleFunction <- scale_x_discrete
@@ -295,11 +294,6 @@ addYScale <- function(
   secAxis = waiver()
 ) {
   if (!is.null(yScale)) yScale <- match.arg(yScale, c("linear", "log"))
-  checkmate::assertChoice(
-    yScale,
-    choices = unlist(AxisScales[c("linear", "log")]),
-    null.ok = TRUE
-  )
 
   yScaleArgs <- .buildContinuousScaleArgs(
     yScaleArgs,

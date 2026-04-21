@@ -97,17 +97,7 @@ plotBoxWhisker <- function(
   xScale <- match.arg(xScale, c("auto", "discrete", "linear", "log"))
   if (!is.null(yScale)) yScale <- match.arg(yScale, c("linear", "log"))
 
-  checkmate::assertChoice(
-    xScale,
-    choices = c("auto", AxisScales$discrete, AxisScales$linear, AxisScales$log),
-    null.ok = FALSE
-  )
   checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(
-    yScale,
-    choices = c(AxisScales$linear, AxisScales$log),
-    null.ok = TRUE
-  )
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
 
   checkmate::assertFunction(statFun, null.ok = !is.null(percentiles))

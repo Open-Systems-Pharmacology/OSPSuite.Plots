@@ -94,8 +94,8 @@ plotBoxWhisker <- function(
     null.ok = !is.null(statFun)
   )
 
-  xScale <- match.arg(xScale, c("auto", "discrete", "linear", "log"))
-  if (!is.null(yScale)) yScale <- match.arg(yScale, c("linear", "log"))
+  xScale <- match.arg(xScale, c("auto", AxisScales$discrete, AxisScales$linear, AxisScales$log))
+  if (!is.null(yScale)) yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
 
   checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)

@@ -52,8 +52,8 @@ plotHistogram <- function(
 
   checkmate::assertList(geomHistAttributes, null.ok = FALSE, min.len = 0)
 
-  if (!is.null(xScale)) xScale <- match.arg(xScale, c("linear", "log"))
-  if (!is.null(yScale)) yScale <- match.arg(yScale, c("linear", "log"))
+  if (!is.null(xScale)) xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(yScale)) yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
 
   checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)

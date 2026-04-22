@@ -69,6 +69,13 @@ reference:
     desc: "Classes combining data and Mapping"
     contents:
       - starts_with("MappedData")
+  - title: "Shapes"
+    desc: "OSP shape system for custom point rendering"
+    contents:
+      - ospShapeNames
+      - GeomPointOsp
+      - geom_point_osp
+      - starts_with("scale_shape_osp")
   - title: "Constants"
     desc: "Enumeration constants for OSPSuite.plots options and scaling."
     contents:

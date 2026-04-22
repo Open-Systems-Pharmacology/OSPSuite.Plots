@@ -46,9 +46,9 @@ plotRangeDistribution <- function(
 ) {
   ## Validation -----------
   checkmate::assertDataFrame(data, min.rows = 1)
-  checkmate::assertChoice(xScale, choices = c("linear", "log"), null.ok = FALSE)
+  xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(yScale)) yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
   checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
-  checkmate::assertChoice(yScale, choices = c("linear", "log"), null.ok = TRUE)
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
   checkmate::assertList(geomRibbonAttributes, names = "named")
   checkmate::assertList(geomLineAttributes, names = "named")

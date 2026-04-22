@@ -160,3 +160,21 @@ test_that("addXScale does not set oob for discrete scale", {
     geom_point()
   expect_no_error(addXScale(plotObject, xScale = "discrete"))
 })
+
+test_that("'lin' is accepted as shorthand for 'linear' in addXScale", {
+  plotObject <- ggplot(mtcars, aes(mpg, wt)) +
+    geom_point()
+  expect_no_error(addXScale(plotObject, xScale = "lin"))
+})
+
+test_that("'lin' is accepted as shorthand for 'linear' in addYScale", {
+  plotObject <- ggplot(mtcars, aes(mpg, wt)) +
+    geom_point()
+  expect_no_error(addYScale(plotObject, yScale = "lin"))
+})
+
+test_that("'lin' is accepted as shorthand for 'linear' in addXYScale", {
+  plotObject <- ggplot(mtcars, aes(mpg, wt)) +
+    geom_point()
+  expect_no_error(addXYScale(plotObject, xScale = "lin", yScale = "lin"))
+})

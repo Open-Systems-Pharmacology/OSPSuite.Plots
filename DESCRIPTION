@@ -40,10 +40,8 @@ Suggests:
     png,
     rex,
     rmarkdown,
-    showtext,
     spelling,
     svglite,
-    sysfonts,
     testthat (>= 3.0.3),
     vdiffr (>= 1.0.0)
 Encoding: UTF-8

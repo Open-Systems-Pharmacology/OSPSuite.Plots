@@ -4,12 +4,7 @@
 \alias{setDefaults}
 \title{sets the defaults for the OSPSuite.plots package}
 \usage{
-setDefaults(
-  defaultOptions = list(),
-  colorMapList = NULL,
-  shapeValues = NULL,
-  pointAsUnicode = FALSE
-)
+setDefaults(defaultOptions = list(), colorMapList = NULL, shapeValues = NULL)
 }
 \arguments{
 \item{defaultOptions}{list of options}
@@ -17,8 +12,6 @@ setDefaults(
 \item{colorMapList}{list of color maps}
 
 \item{shapeValues}{list of Shapes}
-
-\item{pointAsUnicode}{A \code{flag} to switch between mode for geom_point, if TRUE points will be plotted as unicode labels}
 }
 \value{
 list of old settings which can be used to reset defaults with \code{resetDefaults()}
@@ -34,7 +27,7 @@ for detailed information see
 Other setDefault functions: 
 \code{\link{Shapes}},
 \code{\link{colorMaps}},
-\code{\link{geomPointUnicode}()},
+\code{\link{geom_point_osp}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
 \code{\link{getOspsuite.plots.option}()},
@@ -42,6 +35,9 @@ Other setDefault functions:
 \code{\link{resetDefaultShapeDiscrete}()},
 \code{\link{resetDefaultTheme}()},
 \code{\link{resetDefaults}()},
+\code{\link{scale_shape_osp}()},
+\code{\link{scale_shape_osp_identity}()},
+\code{\link{scale_shape_osp_manual}()},
 \code{\link{setDefaultColorMapDistinct}()},
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},

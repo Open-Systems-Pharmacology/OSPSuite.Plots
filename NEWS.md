@@ -1,7 +1,24 @@
 # ospsuite.plots (development version)
 
+## Breaking Changes
+
+- Replaced showtext/Unicode-based shape rendering with native grid-based `geom_point_osp()`. The `Shapes` list now contains 22 geometric shapes instead of 44 shapes including emojis. Removed shapes: `male`, `female`, `man`, `woman`, `baby`, `mouse`, `cat`, `rat`, `rabbit`, `dog`, `pig`, `sheep`, `cow`, `monkey`, `human`, `pill`, `syringe`, `hazard`, and emoji variants. Code using these removed shapes will need to be updated to use available geometric shapes from `ospShapeNames`.
+
+## New Features
+  
+- Added `geom_point_osp()` for custom scientific plot shapes without font dependencies. The geom automatically applies `scale_shape_osp()` when added to a plot.
+- Added shape scale functions following ggplot2 conventions:
+  - `scale_shape_osp()`: auto-assigns shapes from `ospShapeNames` in order
+  - `scale_shape_osp_manual(values = ...)`: explicit mapping of factor levels to shapes
+  - `scale_shape_osp_identity()`: for data already containing shape names
+- When more groups exist than available shapes (21, excluding "blank"), shapes are recycled with a warning.
+- Added `ospShapeNames` vector listing all available shape names.
+
+## Minor improvements and bug fixes
+
 - Changed default out-of-bounds handling for continuous axes. Ribbons and error bars that extend beyond axis limits are now clipped at the panel boundary rather than being silently dropped. 
-- The default width of error bars is now set to `width = 0.2`, showing horizontal whiskers. The previous default was `width = 0`, which suppressed whiskers (#107). 
+- The default width of error bars is now set to `width = 0.2`, showing horizontal whiskers. The previous default was `width = 0`, which suppressed whiskers (#107).
+- Removed `showtext` and `sysfonts` from package dependencies. 
 
 # ospsuite.plots 1.1.0
 

@@ -2,29 +2,29 @@
 #' @description Character vector of all available OSP shape names.
 #' @export
 ospShapeNames <- c(
-  # Filled shapes first (for distinct visual differentiation)
   "circle",
   "diamond",
-  "square",
   "triangle",
+  "square",
   "invertedTriangle",
+  "cross",
+  "plus",
+  "asterisk",
+  "star",
   "pentagon",
   "hexagon",
-  "star",
-  "plus",
-  "cross",
-  "asterisk",
+  # Thin shapes
+  "thinCross",
+  "thinPlus",
   # Open shapes
   "circleOpen",
   "diamondOpen",
-  "squareOpen",
   "triangleOpen",
+  "squareOpen",
   "invertedTriangleOpen",
+  "starOpen",
   "pentagonOpen",
   "hexagonOpen",
-  "starOpen",
-  "thinPlus",
-  "thinCross",
   "blank"
 )
 
@@ -76,18 +76,82 @@ Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames)
 .ospShapeSpec <- list(
   circle = list(kind = "polygon", n = 64, angle = 0, open = FALSE),
   circleOpen = list(kind = "polygon", n = 64, angle = 0, open = TRUE),
-  square = list(kind = "polygon", n = 4, angle = 45, open = FALSE, scale = 1.41),
-  squareOpen = list(kind = "polygon", n = 4, angle = 45, open = TRUE, scale = 1.41),
+  square = list(
+    kind = "polygon",
+    n = 4,
+    angle = 45,
+    open = FALSE,
+    scale = 1.41
+  ),
+  squareOpen = list(
+    kind = "polygon",
+    n = 4,
+    angle = 45,
+    open = TRUE,
+    scale = 1.41
+  ),
   diamond = list(kind = "polygon", n = 4, angle = 0, open = FALSE),
   diamondOpen = list(kind = "polygon", n = 4, angle = 0, open = TRUE),
-  triangle = list(kind = "polygon", n = 3, angle = 90, open = FALSE, scale = 1.23, yOffset = -0.25),
-  triangleOpen = list(kind = "polygon", n = 3, angle = 90, open = TRUE, scale = 1.23, yOffset = -0.25),
-  invertedTriangle = list(kind = "polygon", n = 3, angle = -90, open = FALSE, scale = 1.23, yOffset = 0.25),
-  invertedTriangleOpen = list(kind = "polygon", n = 3, angle = -90, open = TRUE, scale = 1.23, yOffset = 0.25),
-  pentagon = list(kind = "polygon", n = 5, angle = 90, open = FALSE, scale = 1.08),
-  pentagonOpen = list(kind = "polygon", n = 5, angle = 90, open = TRUE, scale = 1.08),
-  hexagon = list(kind = "polygon", n = 6, angle = 90, open = FALSE, scale = 1.07),
-  hexagonOpen = list(kind = "polygon", n = 6, angle = 90, open = TRUE, scale = 1.07),
+  triangle = list(
+    kind = "polygon",
+    n = 3,
+    angle = 90,
+    open = FALSE,
+    scale = 1.23,
+    yOffset = -0.25
+  ),
+  triangleOpen = list(
+    kind = "polygon",
+    n = 3,
+    angle = 90,
+    open = TRUE,
+    scale = 1.23,
+    yOffset = -0.25
+  ),
+  invertedTriangle = list(
+    kind = "polygon",
+    n = 3,
+    angle = -90,
+    open = FALSE,
+    scale = 1.23,
+    yOffset = 0.25
+  ),
+  invertedTriangleOpen = list(
+    kind = "polygon",
+    n = 3,
+    angle = -90,
+    open = TRUE,
+    scale = 1.23,
+    yOffset = 0.25
+  ),
+  pentagon = list(
+    kind = "polygon",
+    n = 5,
+    angle = 90,
+    open = FALSE,
+    scale = 1.08
+  ),
+  pentagonOpen = list(
+    kind = "polygon",
+    n = 5,
+    angle = 90,
+    open = TRUE,
+    scale = 1.08
+  ),
+  hexagon = list(
+    kind = "polygon",
+    n = 6,
+    angle = 90,
+    open = FALSE,
+    scale = 1.07
+  ),
+  hexagonOpen = list(
+    kind = "polygon",
+    n = 6,
+    angle = 90,
+    open = TRUE,
+    scale = 1.07
+  ),
   star = list(kind = "star", points = 5, open = FALSE, scale = 1.08),
   starOpen = list(kind = "star", points = 5, open = TRUE, scale = 1.08),
   plus = list(kind = "stroke", glyph = "plus", thick = TRUE),
@@ -153,7 +217,12 @@ Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames)
     stroke = {
       # Thick strokes (plus, cross, asterisk) need heavier weight for visibility
       lwd <- if (isTRUE(spec$thick)) strokeLwd * 2.2 else strokeLwd
-      gpStroke <- grid::gpar(col = colour, lwd = lwd, alpha = alpha, lineend = "butt")
+      gpStroke <- grid::gpar(
+        col = colour,
+        lwd = lwd,
+        alpha = alpha,
+        lineend = "butt"
+      )
       switch(
         spec$glyph,
         plus = grid::segmentsGrob(
@@ -217,7 +286,8 @@ GeomPointOsp <- ggplot2::ggproto(
     unknownShapes <- setdiff(unique(as.character(coords$shape)), ospShapeNames)
     if (length(unknownShapes) > 0) {
       warning(
-        "Unknown shape(s): ", paste(shQuote(unknownShapes), collapse = ", "),
+        "Unknown shape(s): ",
+        paste(shQuote(unknownShapes), collapse = ", "),
         ". Using 'circle' instead.",
         call. = FALSE
       )
@@ -360,7 +430,11 @@ scale_shape_osp <- function(...) {
   nShapes <- length(visibleShapes)
   if (n > nShapes) {
     warning(
-      "Number of groups (", n, ") exceeds available shapes (", nShapes, "). ",
+      "Number of groups (",
+      n,
+      ") exceeds available shapes (",
+      nShapes,
+      "). ",
       "Shapes will be recycled.",
       call. = FALSE
     )
@@ -420,4 +494,3 @@ scale_shape_osp_identity <- function(guide = "none", ...) {
   values <- stats::setNames(ospShapeNames, ospShapeNames)
   ggplot2::scale_shape_manual(values = values, guide = guide, ...)
 }
-

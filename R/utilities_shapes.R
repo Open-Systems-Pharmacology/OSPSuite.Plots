@@ -191,6 +191,9 @@ scale_shape_osp_identity <- function(guide = "none", ...) {
 #' `geom_point`. This ensures QQ plots have visual consistency with other
 #' OSP plots.
 #'
+#' Unlike `ggplot2::stat_qq()`, this function does not expose a `geom` parameter
+#' as it always uses `GeomPointOsp` for rendering.
+#'
 #' @inheritParams ggplot2::stat_qq
 #' @return A ggplot2 layer that can be added to a plot.
 #' @export

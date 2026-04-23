@@ -185,6 +185,45 @@ scale_shape_osp_identity <- function(guide = "none", ...) {
   ggplot2::scale_shape_manual(values = values, guide = guide, ...)
 }
 
+#' @title OSP Q-Q Stat
+#' @description
+#' A stat_qq that uses OSP shapes via `GeomPointOsp` instead of standard
+#' `geom_point`. This ensures QQ plots have visual consistency with other
+#' OSP plots.
+#'
+#' @inheritParams ggplot2::stat_qq
+#' @return A ggplot2 layer that can be added to a plot.
+#' @export
+#' @family setDefault functions
+stat_qq_osp <- function(
+    mapping = NULL,
+    data = NULL,
+    position = "identity",
+    ...,
+    distribution = stats::qnorm,
+    dparams = list(),
+    na.rm = FALSE,
+    show.legend = NA,
+    inherit.aes = TRUE) {
+  layer <- ggplot2::layer(
+    stat = ggplot2::StatQq,
+    geom = GeomPointOsp,
+    mapping = mapping,
+    data = data,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(
+      distribution = distribution,
+      dparams = dparams,
+      na.rm = na.rm,
+      ...
+    )
+  )
+  class(layer) <- c("geom_point_osp_layer", class(layer))
+  layer
+}
+
 # ggproto object ----
 
 #' @title GeomPointOsp

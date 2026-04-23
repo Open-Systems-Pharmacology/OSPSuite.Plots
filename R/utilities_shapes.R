@@ -2,29 +2,29 @@
 #' @description Character vector of all available OSP shape names.
 #' @export
 ospShapeNames <- c(
-  # Filled shapes first (for distinct visual differentiation)
   "circle",
   "diamond",
-  "square",
   "triangle",
+  "square",
   "invertedTriangle",
+  "cross",
+  "plus",
+  "asterisk",
+  "star",
   "pentagon",
   "hexagon",
-  "star",
-  "plus",
-  "cross",
-  "asterisk",
+  # Thin shapes
+  "thinCross",
+  "thinPlus",
   # Open shapes
   "circleOpen",
   "diamondOpen",
-  "squareOpen",
   "triangleOpen",
+  "squareOpen",
   "invertedTriangleOpen",
+  "starOpen",
   "pentagonOpen",
   "hexagonOpen",
-  "starOpen",
-  "thinPlus",
-  "thinCross",
   "blank"
 )
 
@@ -253,7 +253,12 @@ Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames)
     stroke = {
       # Thick strokes (plus, cross, asterisk) need heavier weight for visibility
       lwd <- if (isTRUE(spec$thick)) strokeLwd * 2.2 else strokeLwd
-      gpStroke <- grid::gpar(col = colour, lwd = lwd, alpha = alpha, lineend = "butt")
+      gpStroke <- grid::gpar(
+        col = colour,
+        lwd = lwd,
+        alpha = alpha,
+        lineend = "butt"
+      )
       switch(
         spec$glyph,
         plus = grid::segmentsGrob(
@@ -317,7 +322,8 @@ GeomPointOsp <- ggplot2::ggproto(
     unknownShapes <- setdiff(unique(as.character(coords$shape)), ospShapeNames)
     if (length(unknownShapes) > 0) {
       warning(
-        "Unknown shape(s): ", paste(shQuote(unknownShapes), collapse = ", "),
+        "Unknown shape(s): ",
+        paste(shQuote(unknownShapes), collapse = ", "),
         ". Using 'circle' instead.",
         call. = FALSE
       )
@@ -460,7 +466,11 @@ scale_shape_osp <- function(...) {
   nShapes <- length(visibleShapes)
   if (n > nShapes) {
     warning(
-      "Number of groups (", n, ") exceeds available shapes (", nShapes, "). ",
+      "Number of groups (",
+      n,
+      ") exceeds available shapes (",
+      nShapes,
+      "). ",
       "Shapes will be recycled.",
       call. = FALSE
     )
@@ -520,4 +530,3 @@ scale_shape_osp_identity <- function(guide = "none", ...) {
   values <- stats::setNames(ospShapeNames, ospShapeNames)
   ggplot2::scale_shape_manual(values = values, guide = guide, ...)
 }
-

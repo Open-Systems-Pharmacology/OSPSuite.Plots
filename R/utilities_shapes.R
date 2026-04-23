@@ -273,7 +273,8 @@ GeomPointOsp <- ggplot2::ggproto(
 #' library(ggplot2)
 #' df <- data.frame(x = 1:5, y = 1:5, shape = ospShapeNames[1:5])
 #' ggplot(df, aes(x, y, shape = shape)) +
-#'   geom_point_osp(size = 4)
+#'   geom_point_osp(size = 4) +
+#'   scale_shape_osp_identity()
 geom_point_osp <- function(
   mapping = NULL,
   data = NULL,

@@ -473,7 +473,7 @@ shapes <- data.frame(
 
 ggplot(shapes, aes(x, y, shape = shapeNames)) +
   geom_point_osp(size = 5, color = "blue", fill = "red") +
-  scale_shape_osp() +
+  scale_shape_osp_identity() +
   geom_text(aes(label = shapeNames), nudge_y = -0.3, size = 3) +
   theme_void()
 ```

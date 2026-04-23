@@ -459,7 +459,7 @@ setOspsuite.plots.option <- function(optionKey, value) {
 #'
 #' @param colorMapList list of color maps
 #' @param defaultOptions list of options
-#' @param shapeValues list of Shapes
+#' @param shapeValues character vector of OSP shape names (see `ospShapeNames`)
 #'
 #' @return list of old settings which can be used to reset defaults with `resetDefaults()`
 #'
@@ -471,7 +471,7 @@ setDefaults <- function(
   shapeValues = NULL
 ) {
   checkmate::assertList(colorMapList, null.ok = TRUE)
-  checkmate::assertList(shapeValues, null.ok = TRUE)
+  checkmate::assertCharacter(shapeValues, null.ok = TRUE)
   checkmate::assertList(defaultOptions, null.ok = TRUE)
 
   # initialize return value

@@ -127,7 +127,7 @@ Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames)
     spec$kind,
 
     polygon = {
-      # Filled shapes: use colour for fill; Open shapes: use fill aesthetic
+      # Solid shapes: fill with colour; Open shapes: fill with fill aesthetic
       fg <- if (isTRUE(spec$open)) fill else colour
       v <- .polyVertices(spec$n, spec$angle)
       # Apply y-offset for shapes that need bounding-box centering (e.g., triangles)
@@ -140,7 +140,7 @@ Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames)
     },
 
     star = {
-      # Filled shapes: use colour for fill; Open shapes: use fill aesthetic
+      # Solid shapes: fill with colour; Open shapes: fill with fill aesthetic
       fg <- if (isTRUE(spec$open)) fill else colour
       v <- .starVertices(spec$points)
       grid::polygonGrob(
@@ -210,7 +210,7 @@ GeomPointOsp <- ggplot2::ggproto(
     shape = "circle"
   ),
 
-  draw_panel = function(data, panel_params, coord, na.rm = FALSE) {
+  draw_panel = function(data, panel_params, coord) {
     coords <- coord$transform(data, panel_params)
 
     # Warn once per unique unknown shape
@@ -267,6 +267,7 @@ GeomPointOsp <- ggplot2::ggproto(
 #' @inheritParams ggplot2::geom_point
 #' @param na.rm If `FALSE` (default), missing values are removed with a warning.
 #'   If `TRUE`, missing values are silently removed.
+#' @return A ggplot2 layer that can be added to a plot.
 #' @export
 #' @family setDefault functions
 #' @examples
@@ -333,6 +334,7 @@ ggplot_build.osp_ggplot <- function(plot, ...) {
 #' and a warning is issued.
 #'
 #' @param ... Passed to `ggplot2::discrete_scale`.
+#' @return A ggplot2 scale that can be added to a plot.
 #' @export
 #' @family setDefault functions
 #' @examples
@@ -374,6 +376,7 @@ scale_shape_osp <- function(...) {
 #' @param values Named character vector. Names are factor levels;
 #'   values are entries from `ospShapeNames`.
 #' @param ... Passed to `ggplot2::scale_shape_manual`.
+#' @return A ggplot2 scale that can be added to a plot.
 #' @export
 #' @family setDefault functions
 #' @examples
@@ -404,6 +407,7 @@ scale_shape_osp_manual <- function(values, ...) {
 #' @param guide Guide for the legend. Use `"legend"` to show a legend,
 #'   or `"none"` to hide it.
 #' @param ... Passed to `ggplot2::scale_shape_manual`.
+#' @return A ggplot2 scale that can be added to a plot.
 #' @export
 #' @family setDefault functions
 #' @examples

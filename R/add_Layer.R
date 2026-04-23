@@ -57,15 +57,9 @@ addLayer <- function(
     geomAttributes = geomAttributes
   )
 
-  # check for geomUnicodeMode
-  geomUnicodeMode <- getOspsuite.plots.option(
-    optionKey = OptionKeys$geomPointUnicode
-  )
-  if (
-    geomUnicodeMode &&
-      geom == "point"
-  ) {
-    layerToCall <- geomPointUnicode
+  # Always use geom_point_osp for point geoms
+  if (geom == "point") {
+    layerToCall <- geom_point_osp
   }
 
   if (!is.null(filteredMapping)) {

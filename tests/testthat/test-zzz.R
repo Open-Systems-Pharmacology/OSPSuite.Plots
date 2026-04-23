@@ -47,34 +47,10 @@ test_that(".onLoad does not display message when watermark option is set", {
   options(ospsuite.plots.watermarkEnabled = oldValue)
 })
 
-test_that("Font files exist in package", {
-  # Test that the font files referenced in .onLoad exist
-  symbolaPath <- system.file("extdata", "Symbola.ttf", package = "ospsuite.plots")
-  notosansPath <- system.file("extdata", "NotoSans-Regular.ttf", package = "ospsuite.plots")
 
-  # Files should exist (even if they might be empty in test environment)
-  expect_type(symbolaPath, "character")
-  expect_type(notosansPath, "character")
-
-  # The system.file should return non-empty string if file exists, empty if not
-  # We expect at least the path structure to be present
-  expect_true(nchar(symbolaPath) >= 0)
-  expect_true(nchar(notosansPath) >= 0)
-})
-
-test_that(".onLoad handles missing showtext gracefully", {
-  # Test behavior when showtext package is not available
-  # This is tested by checking that .onLoad doesn't fail even if fonts can't be loaded
+test_that(".onLoad runs without error", {
   expect_no_error({
-    # Temporarily mask showtext if it exists
-    if ("showtext" %in% loadedNamespaces()) {
-      # We can't easily unload showtext during test, but we can verify
-      # that the function doesn't crash
-      .onLoad("ospsuite.plots", "ospsuite.plots")
-    } else {
-      # If showtext is not loaded, .onLoad should handle this gracefully
-      .onLoad("ospsuite.plots", "ospsuite.plots")
-    }
+    .onLoad("ospsuite.plots", "ospsuite.plots")
   })
 })
 

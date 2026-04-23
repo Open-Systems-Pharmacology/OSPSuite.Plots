@@ -33,7 +33,7 @@ resetDefaultTheme(oldTheme)
 Other setDefault functions: 
 \code{\link{Shapes}},
 \code{\link{colorMaps}},
-\code{\link{geomPointUnicode}()},
+\code{\link{geom_point_osp}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},
 \code{\link{getOspsuite.plots.option}()},
@@ -41,6 +41,9 @@ Other setDefault functions:
 \code{\link{resetDefaultShapeDiscrete}()},
 \code{\link{resetDefaultTheme}()},
 \code{\link{resetDefaults}()},
+\code{\link{scale_shape_osp}()},
+\code{\link{scale_shape_osp_identity}()},
+\code{\link{scale_shape_osp_manual}()},
 \code{\link{setDefaultColorMapDistinct}()},
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaults}()},

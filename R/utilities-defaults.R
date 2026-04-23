@@ -270,27 +270,7 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 #' @family setDefault functions
 setDefaultShapeDiscrete <- function(shapeValues = NULL) {
   if (is.null(shapeValues)) {
-    if (getOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode)) {
-      shapeValues <- unlist(unname(Shapes))
-    } else {
-      shapeValues <-
-        c(
-          "circle filled",
-          "diamond filled",
-          "triangle filled",
-          "square filled",
-          "triangle down filled",
-          "plus",
-          "cross",
-          "asterisk",
-          "circle cross",
-          "square cross",
-          "circle plus",
-          "square plus",
-          "diamond plus",
-          "square triangle"
-        )
-    }
+    shapeValues <- ospShapeNames
   }
   setOspsuite.plots.option(
     optionKey = OptionKeys$shapeValues,
@@ -364,8 +344,6 @@ getDefaultOptions <- function() {
     ospsuite.plots.percentiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
     # default percentiles (subset of percentiles used as default in plot functions)
     ospsuite.plots.defaultPercentiles = c(0.05, 0.5, 0.95),
-    # Type of geom_point
-    ospsuite.plots.geomPointUnicode = FALSE,
     # used for plot export
     ospsuite.plots.exportWidth = 16,
     ospsuite.plots.exportUnits = "cm",
@@ -481,8 +459,7 @@ setOspsuite.plots.option <- function(optionKey, value) {
 #'
 #' @param colorMapList list of color maps
 #' @param defaultOptions list of options
-#' @param shapeValues list of Shapes
-#' @param pointAsUnicode A `flag` to switch between mode for geom_point, if TRUE points will be plotted as unicode labels
+#' @param shapeValues character vector of OSP shape names (see `ospShapeNames`)
 #'
 #' @return list of old settings which can be used to reset defaults with `resetDefaults()`
 #'
@@ -491,13 +468,11 @@ setOspsuite.plots.option <- function(optionKey, value) {
 setDefaults <- function(
   defaultOptions = list(),
   colorMapList = NULL,
-  shapeValues = NULL,
-  pointAsUnicode = FALSE
+  shapeValues = NULL
 ) {
   checkmate::assertList(colorMapList, null.ok = TRUE)
-  checkmate::assertList(shapeValues, null.ok = TRUE)
+  checkmate::assertCharacter(shapeValues, null.ok = TRUE)
   checkmate::assertList(defaultOptions, null.ok = TRUE)
-  checkmate::assertFlag(pointAsUnicode, null.ok = TRUE)
 
   # initialize return value
   oldDefaults <- list()
@@ -507,40 +482,6 @@ setDefaults <- function(
     getDefaultOptions(),
     defaultOptions
   )
-
-  # switch between UniCodeMode and ggplot defaults
-  pointAsUnicode <- pointAsUnicode |
-    defaultOptions$ospsuite.plots.geomPointUnicode
-  if (pointAsUnicode) {
-    defaultOptions <- utils::modifyList(
-      defaultOptions,
-      list(ospsuite.plots.geomPointUnicode = TRUE)
-    )
-
-    if (!("size" %in% defaultOptions$ospsuite.plots.geomPointAttributes)) {
-      defaultOptions$ospsuite.plots.geomPointAttributes <-
-        utils::modifyList(
-          defaultOptions$ospsuite.plots.geomPointAttributes,
-          list(size = 4)
-        )
-    }
-
-    showtext::showtext_auto()
-  } else {
-    if (
-      getOption(
-        x = "ospsuite.plots.geomPointUnicode",
-        default = getDefaultOptions()[["ospsuite.plots.geomPointUnicode"]]
-      )
-    ) {
-      showtext::showtext_auto(enable = "off")
-    }
-  }
-  oldDefaults$pointAsUnicode <-
-    getOption(
-      x = "ospsuite.plots.geomPointUnicode",
-      default = getDefaultOptions()[["ospsuite.plots.geomPointUnicode"]]
-    )
 
   # options
   oldDefaults$options <- lapply(names(getDefaultOptions()), getOption)
@@ -574,15 +515,15 @@ setDefaults <- function(
   )
   shapeValues <- getOption("ospsuite.plots.shapeValues")
 
+  # Set geom_point to use shape 1 (open circle) for backwards compatibility
+  # when raw geom_point() is used. Our custom shape names from ospShapeNames
+  # only work with geom_point_osp.
+  update_geom_defaults(
+    "point",
+    list(shape = 1)
+  )
+
   # set geoms
-  if (!pointAsUnicode) {
-    update_geom_defaults(
-      "point",
-      list(
-        shape = shapeValues[1]
-      )
-    )
-  }
   update_geom_defaults(
     "boxplot",
     list(
@@ -626,17 +567,6 @@ setDefaults <- function(
 #'
 resetDefaults <- function(oldDefaults) {
   ggplot2::theme_set(oldDefaults$theme)
-
-  # switch between UniCodeMode and ggplot defaults
-  currentPointAsUnicode <-
-    getOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode)
-
-  if (oldDefaults$pointAsUnicode & !currentPointAsUnicode) {
-    showtext::showtext_auto()
-  }
-  if (!oldDefaults$pointAsUnicode & currentPointAsUnicode) {
-    showtext::showtext_auto(enable = "off")
-  }
 
   options(oldDefaults$options)
 

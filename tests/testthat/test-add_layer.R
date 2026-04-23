@@ -53,7 +53,7 @@ test_that("addLayer adds a layer to the ggplot object", {
     plotObject,
     layerToCall = geom_point
   )
-  expect_contains(names(updatedPlot@layers), "geom_point")
+  expect_contains(names(updatedPlot@layers), "geom_point_osp")
 })
 
 test_that("addLayer with LLOQ data adds alpha scale using lloqAlphaVector option", {
@@ -67,7 +67,7 @@ test_that("addLayer with LLOQ data adds alpha scale using lloqAlphaVector option
     plotObject,
     layerToCall = geom_point
   )
-  expect_contains(names(updatedPlot@layers), "geom_point")
+  expect_contains(names(updatedPlot@layers), "geom_point_osp")
   expect_no_error(print(updatedPlot))
 })
 

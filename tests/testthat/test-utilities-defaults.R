@@ -75,7 +75,6 @@ test_that("getDefaultOptions returns complete options list", {
     "ospsuite.plots.lloqLineType",
     "ospsuite.plots.percentiles",
     "ospsuite.plots.defaultPercentiles",
-    "ospsuite.plots.geomPointUnicode",
     "ospsuite.plots.exportWidth",
     "ospsuite.plots.exportUnits",
     "ospsuite.plots.exportDevice",
@@ -98,7 +97,6 @@ test_that("getDefaultOptions returns complete options list", {
     optionsList$ospsuite.plots.defaultPercentiles,
     c(0.05, 0.5, 0.95)
   )
-  expect_false(optionsList$ospsuite.plots.geomPointUnicode)
   expect_equal(optionsList$ospsuite.plots.exportWidth, 16)
   expect_equal(optionsList$ospsuite.plots.exportUnits, "cm")
   expect_equal(optionsList$ospsuite.plots.exportDevice, "png")

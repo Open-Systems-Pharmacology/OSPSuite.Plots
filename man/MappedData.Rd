@@ -152,7 +152,7 @@ adds list with dimension, units and column classes
 }
 \subsection{Returns}{
 updated \code{MappedData} object
-check if unit of scale direction i s time and sets the breaks accordingly
+check if unit of scale direction is time and sets the breaks accordingly
 }
 }
 \if{html}{\out{<hr>}}

@@ -228,7 +228,7 @@ plotBoxWhisker <- function(
         args = c(
           list(
             fun = statFunOutlier,
-            geom = "point",
+            geom = GeomPointOsp,
             na.rm = TRUE
           ),
           geomPointAttributes

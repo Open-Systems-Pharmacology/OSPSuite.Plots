@@ -1,210 +1,423 @@
+#' @title OSP Shape Names
+#' @description Character vector of all available OSP shape names.
+#' @export
+ospShapeNames <- c(
+  # Filled shapes first (for distinct visual differentiation)
+  "circle",
+  "diamond",
+  "square",
+  "triangle",
+  "invertedTriangle",
+  "pentagon",
+  "hexagon",
+  "star",
+  "plus",
+  "cross",
+  "asterisk",
+  # Open shapes
+  "circleOpen",
+  "diamondOpen",
+  "squareOpen",
+  "triangleOpen",
+  "invertedTriangleOpen",
+  "pentagonOpen",
+  "hexagonOpen",
+  "starOpen",
+  "thinPlus",
+  "thinCross",
+  "blank"
+)
+
 #' @title Shapes
-#' @description List of some `ggplot2` shapes.
-#' The shapes from this list are unicode characters
-#' corresponding to their appropriate shapes.
+#' @description Named list of OSP shape names for backward compatibility.
+#' Use `Shapes$circle` to get the shape name "circle".
 #' @family setDefault functions
-#'
 #' @export
-Shapes <- list( # nolint: object_name_linter
-  # Usual symbols
-  "circle" = "\u25cf",
-  "diamond" = "\u25c6",
-  "triangle" = "\u25b2",
-  "square" = "\u25a0",
-  "invertedTriangle" = "\u25bc",
-  "cross" = "\ud83d\udfad",
-  "thinCross" = "\ud83d\udfa9",
-  "plus" = "\ud83d\udfa6",
-  "thinPlus" = "\ud83d\udfa2",
-  "asterisk" = "\ud83d\udfbc",
-  "star" = "\ud83d\udfca",
-  "pentagon" = "\u2b1f",
-  "hexagon" = "\u2b22",
-  # open shapes
-  "circleOpen" = "\ud83d\udf85",
-  "diamondOpen" = "\u25c7",
-  "triangleOpen" = "\u25b3",
-  "squareOpen" = "\u25A1", # "\ud83d\udf90",
-  "invertedTriangleOpen" = "\u25bd",
-  "starOpen" = "\u2729", # "\u2606",
-  "pentagonOpen" = "\u2b20",
-  "hexagonOpen" = "\u2b21",
-  # Emojis
-  "male" = "\u2642",
-  "female" = "\u2640",
-  "man" = "\ud83d\udeb9",
-  "woman" = "\ud83d\udeba",
-  "baby" = "\ud83d\udebc",
-  "mouse" = "\ud83d\udc01",
-  "cat" = "\ud83d\udc08",
-  "rat" = "\ud83d\udc00",
-  "rabbit" = "\ud83d\udc07",
-  "dog" = "\ud83d\udc15",
-  "pig" = "\ud83d\udc16",
-  "sheep" = "\ud83d\udc11",
-  "cow" = "\ud83d\udc04",
-  "monkey" = "\ud83d\udc12",
-  "human" = "\ud83d\udeb6",
-  "pill" = "\ud83d\udc8a",
-  "syringe" = "\ud83d\udc89",
-  "hazard" = "\u2622",
-  # No shape displayed
-  "blank" = " "
-)
+Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames)
+
+# Calibration constants (visually matched against ggplot2::geom_point pch=21)
+.kSizeMultiplier <- 0.92
+.kStrokeLwdMultiplier <- 1.9
 
 
-#' @title Geom to point unicode as shapes
-#' @description
-#' Define a Geom using `ggplot2::ggproto()` and based on GeomPoint.
-#' The Geom internally uses `textGrob` instead of `pointsGrob` so that fonts leverage for drawing shapes.
-#' Custom ggproto for Unicode Point Shapes
-#'
-#' @description A custom ggproto object that extends GeomPoint to use Unicode characters
-#' as plot symbols instead of standard R plotting symbols. This allows for more diverse
-#' and visually appealing point shapes in ggplot2 graphics.
-#'
-#' @details This geom uses Unicode characters to render points, providing access to
-#' a wider variety of shapes than standard R plotting symbols. The shapes are rendered
-#' as text using grid::textGrob, which allows for better scaling and appearance.
-#'
-#' Key features:
-#' - Uses Unicode characters for point rendering
-#' - Supports color, fill, size, and alpha aesthetics
-#' - Default shape is a filled square (\\u2588)
-#' - Compatible with all standard ggplot2 aesthetics and scales
-#'
-#' @section Shape Validation:
-#' Shape codes are validated to ensure they are valid Unicode points. Invalid
-#' codes will fall back to default shapes or generate warnings.
-#'
-#' The `grid` and `scales` packages are supposed to be required by `ggplot2`.
-#' So there should not be any issue as installing `ggplot2` should install those 2 packages.
+#' Validate shape name, falling back to "circle" for unknown shapes
+#' @param name shape name to validate
+#' @return valid shape name (original if known, "circle" otherwise)
 #' @keywords internal
-#'
-GeomPointUnicodeProto <- ggplot2::ggproto( # nolint: object_name_linter
-  "GeomPointUnicodeProto",
-  GeomPoint,
-  # This will correspond to the default property displayed in legend
-  # if property not used in data mapping
-  # this replaces displayed "19" by a colored square
-  default_aes = ggplot2::aes(
-    shape = "\u2588", colour = "black", size = 1.5, fill = NA,
-    alpha = NA, stroke = 0.5
-  ),
-  draw_panel = function(data, panel_params, coord) { # nolint: object_name_linter
-    coords <- coord$transform(data, panel_params)
-    # Replace grid::pointsGrob from geom_point accounting for font family
-    grid::textGrob(
-      # If shape is included in plot dictionary, use it
-      label = .asPlotShape(coords$shape),
-      x = coords$x, y = coords$y,
-      default.units = "native",
-      gp = grid::gpar(
-        col = scales::alpha(coords$colour %||% "black", coords$alpha),
-        fill = scales::alpha(coords$fill %||% "black", coords$alpha),
-        fontsize = coords$size * ggplot2::.pt,
-        fontfamily = .selectFontFamily()
-      )
-    )
-  },
-  draw_key = function(data, params, size) {
-    if (is.null(data$shape)) {
-      data$shape <- Shapes$blank
-    }
-    # NULL means the default stroke size, and NA means no stroke.
-    stroke_size <- data$stroke %||% 0.5 # nolint: object_name_linter
-    stroke_size[is.na(stroke_size)] <- 0 # nolint: object_name_linter
+.validateShapeName <- function(name) {
+  name <- as.character(name)
+  if (!name %in% ospShapeNames) "circle" else name
+}
 
-    # Replace grid::pointsGrob from geom_point accounting for font family
-    grid::textGrob(
-      # If shape is included in plot dictionary, use it in legend
-      # Prevents having "circle" instead of its shape displayed in the legend
-      label = .asPlotShape(data$shape),
-      x = 0.5, y = 0.5,
-      # Code copied from ggplot2 except for font family
-      gp = grid::gpar(
-        col = scales::alpha(data$colour %||% "black", data$alpha),
-        fill = scales::alpha(data$fill %||% "black", data$alpha),
-        fontsize = (data$size %||% 1.5) * .pt + stroke_size * .stroke / 2,
-        lwd = stroke_size * .stroke / 2,
-        fontfamily = .selectFontFamily()
-      )
-    )
-  }
+#' Regular n-gon vertices on unit circle
+#' @param n number of vertices
+#' @param angleDeg angle of first vertex in degrees
+#' @return list with x and y coordinate vectors
+#' @keywords internal
+.polyVertices <- function(n, angleDeg = 0) {
+  theta <- seq(0, 2 * pi, length.out = n + 1)[-(n + 1)] + angleDeg * pi / 180
+  list(x = cos(theta), y = sin(theta))
+}
+
+#' Star vertices with alternating outer/inner radius
+#' @param points number of star points
+#' @param innerRatio ratio of inner to outer radius
+#' @return list with x and y coordinate vectors
+#' @keywords internal
+.starVertices <- function(points = 5, innerRatio = 0.4) {
+  n <- 2 * points
+  theta <- seq(pi / 2, pi / 2 + 2 * pi, length.out = n + 1)[-(n + 1)]
+  r <- rep(c(1, innerRatio), length.out = n)
+  list(x = r * cos(theta), y = r * sin(theta))
+}
+
+#' Shape specifications for OSP shapes
+#' @keywords internal
+.ospShapeSpec <- list(
+  circle = list(kind = "polygon", n = 64, angle = 0, open = FALSE),
+  circleOpen = list(kind = "polygon", n = 64, angle = 0, open = TRUE),
+  square = list(kind = "polygon", n = 4, angle = 45, open = FALSE, scale = 1.41),
+  squareOpen = list(kind = "polygon", n = 4, angle = 45, open = TRUE, scale = 1.41),
+  diamond = list(kind = "polygon", n = 4, angle = 0, open = FALSE),
+  diamondOpen = list(kind = "polygon", n = 4, angle = 0, open = TRUE),
+  triangle = list(kind = "polygon", n = 3, angle = 90, open = FALSE, scale = 1.23, yOffset = -0.25),
+  triangleOpen = list(kind = "polygon", n = 3, angle = 90, open = TRUE, scale = 1.23, yOffset = -0.25),
+  invertedTriangle = list(kind = "polygon", n = 3, angle = -90, open = FALSE, scale = 1.23, yOffset = 0.25),
+  invertedTriangleOpen = list(kind = "polygon", n = 3, angle = -90, open = TRUE, scale = 1.23, yOffset = 0.25),
+  pentagon = list(kind = "polygon", n = 5, angle = 90, open = FALSE, scale = 1.08),
+  pentagonOpen = list(kind = "polygon", n = 5, angle = 90, open = TRUE, scale = 1.08),
+  hexagon = list(kind = "polygon", n = 6, angle = 90, open = FALSE, scale = 1.07),
+  hexagonOpen = list(kind = "polygon", n = 6, angle = 90, open = TRUE, scale = 1.07),
+  star = list(kind = "star", points = 5, open = FALSE, scale = 1.08),
+  starOpen = list(kind = "star", points = 5, open = TRUE, scale = 1.08),
+  plus = list(kind = "stroke", glyph = "plus", thick = TRUE),
+  thinPlus = list(kind = "stroke", glyph = "plus", thick = FALSE),
+  cross = list(kind = "stroke", glyph = "cross", thick = TRUE),
+  thinCross = list(kind = "stroke", glyph = "cross", thick = FALSE),
+  asterisk = list(kind = "stroke", glyph = "asterisk", thick = TRUE),
+  blank = list(kind = "blank")
 )
 
-#' @title layer to point unicode as shapes
-#' @description
-#' geom similar to `geom_point()` but that leverage fonts to draw its shapes
-#' @param mapping mapping from `ggplot2` package as provided by `aes()`
-#' @param data data.frame
-#' @param stat stat name from `ggplot2`
-#' @param position position name from `ggplot2`
-#' @param show.legend = NA,
-#' @param na.rm a logical value indicating
-#' @param inherit.aes a logical value indicating if aesthetics are inherited
-#' @param ... other arguments.
-#' @export
-#' @family setDefault functions
-#'
-geomPointUnicode <- function(mapping = NULL, data = NULL, stat = "identity",
-                             position = "identity", na.rm = FALSE, show.legend = NA,
-                             inherit.aes = TRUE, ...) {
-  ggplot2::layer(
-    geom = GeomPointUnicodeProto, mapping = mapping, data = data, stat = stat,
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, ...)
+#' Build grid grob for OSP shape
+#' @param name shape name
+#' @param cx center x (grid unit)
+#' @param cy center y (grid unit)
+#' @param half half-size (grid unit)
+#' @param fill fill color
+#' @param colour stroke color
+#' @param stroke stroke width
+#' @param alpha alpha value
+#' @return grid grob
+#' @keywords internal
+.ospGrob <- function(name, cx, cy, half, fill, colour, stroke, alpha) {
+  spec <- .ospShapeSpec[[name]]
+  if (is.null(spec)) {
+    return(grid::nullGrob())
+  }
+
+  # Convert stroke to lwd matching ggplot2's geom_point rendering
+  # (calibrated visually against geom_point pch=21 at stroke=0.5)
+  strokeLwd <- stroke * .kStrokeLwdMultiplier
+
+  # Apply shape-specific scaling factor (some shapes need to be larger to match ggplot2)
+  shapeScale <- spec$scale %||% 1
+  scaledHalf <- half * shapeScale
+
+  switch(
+    spec$kind,
+
+    polygon = {
+      # Solid shapes: fill with colour; Open shapes: fill with fill aesthetic
+      fg <- if (isTRUE(spec$open)) fill else colour
+      v <- .polyVertices(spec$n, spec$angle)
+      # Apply y-offset for shapes that need bounding-box centering (e.g., triangles)
+      yOff <- (spec$yOffset %||% 0) * scaledHalf
+      grid::polygonGrob(
+        x = cx + v$x * scaledHalf,
+        y = cy + v$y * scaledHalf + yOff,
+        gp = grid::gpar(fill = fg, col = colour, lwd = strokeLwd, alpha = alpha)
+      )
+    },
+
+    star = {
+      # Solid shapes: fill with colour; Open shapes: fill with fill aesthetic
+      fg <- if (isTRUE(spec$open)) fill else colour
+      v <- .starVertices(spec$points)
+      grid::polygonGrob(
+        x = cx + v$x * scaledHalf,
+        y = cy + v$y * scaledHalf,
+        gp = grid::gpar(fill = fg, col = colour, lwd = strokeLwd, alpha = alpha)
+      )
+    },
+
+    stroke = {
+      # Thick strokes (plus, cross, asterisk) need heavier weight for visibility
+      lwd <- if (isTRUE(spec$thick)) strokeLwd * 2.2 else strokeLwd
+      gpStroke <- grid::gpar(col = colour, lwd = lwd, alpha = alpha, lineend = "butt")
+      switch(
+        spec$glyph,
+        plus = grid::segmentsGrob(
+          x0 = grid::unit.c(cx - scaledHalf, cx),
+          y0 = grid::unit.c(cy, cy - scaledHalf),
+          x1 = grid::unit.c(cx + scaledHalf, cx),
+          y1 = grid::unit.c(cy, cy + scaledHalf),
+          gp = gpStroke
+        ),
+        cross = grid::segmentsGrob(
+          x0 = grid::unit.c(cx - scaledHalf, cx - scaledHalf),
+          y0 = grid::unit.c(cy - scaledHalf, cy + scaledHalf),
+          x1 = grid::unit.c(cx + scaledHalf, cx + scaledHalf),
+          y1 = grid::unit.c(cy + scaledHalf, cy - scaledHalf),
+          gp = gpStroke
+        ),
+        asterisk = {
+          theta <- c(pi / 2, pi / 2 + pi / 3, pi / 2 + 2 * pi / 3)
+          grid::segmentsGrob(
+            x0 = cx - cos(theta) * scaledHalf,
+            y0 = cy - sin(theta) * scaledHalf,
+            x1 = cx + cos(theta) * scaledHalf,
+            y1 = cy + sin(theta) * scaledHalf,
+            gp = gpStroke
+          )
+        },
+        grid::nullGrob()
+      )
+    },
+
+    blank = grid::nullGrob(),
+
+    grid::nullGrob()
   )
 }
 
-#' @title select font family
+#' @title GeomPointOsp
+#' @description ggproto object for OSP point shapes.
+#' @format NULL
+#' @usage NULL
+#' @export
+GeomPointOsp <- ggplot2::ggproto(
+  "GeomPointOsp",
+  ggplot2::Geom,
+
+  required_aes = c("x", "y"),
+
+  default_aes = ggplot2::aes(
+    colour = "black",
+    fill = NA,
+    size = 1.5,
+    stroke = 0.5,
+    alpha = NA,
+    shape = "circle"
+  ),
+
+  draw_panel = function(data, panel_params, coord) {
+    coords <- coord$transform(data, panel_params)
+
+    # Warn once per unique unknown shape
+    unknownShapes <- setdiff(unique(as.character(coords$shape)), ospShapeNames)
+    if (length(unknownShapes) > 0) {
+      warning(
+        "Unknown shape(s): ", paste(shQuote(unknownShapes), collapse = ", "),
+        ". Using 'circle' instead.",
+        call. = FALSE
+      )
+    }
+
+    grobs <- lapply(seq_len(nrow(coords)), function(i) {
+      name <- .validateShapeName(coords$shape[i])
+      .ospGrob(
+        name = name,
+        cx = grid::unit(coords$x[i], "native"),
+        cy = grid::unit(coords$y[i], "native"),
+        half = grid::unit(coords$size[i] * .kSizeMultiplier / 2, "mm"),
+        fill = scales::alpha(coords$fill[i], coords$alpha[i] %||% 1),
+        colour = scales::alpha(coords$colour[i], coords$alpha[i] %||% 1),
+        stroke = coords$stroke[i],
+        alpha = 1
+      )
+    })
+
+    do.call(grid::grobTree, grobs)
+  },
+
+  draw_key = function(data, params, size) {
+    name <- .validateShapeName(data$shape %||% "circle")
+    pointSize <- data$size %||% 1.5
+    keyAlpha <- if (is.na(data$alpha)) 1 else data$alpha %||% 1
+    .ospGrob(
+      name = name,
+      cx = grid::unit(0.5, "npc"),
+      cy = grid::unit(0.5, "npc"),
+      half = grid::unit(pointSize * .kSizeMultiplier / 2, "mm"),
+      fill = scales::alpha(data$fill %||% NA, keyAlpha),
+      colour = scales::alpha(data$colour %||% "black", keyAlpha),
+      stroke = data$stroke %||% 0.5,
+      alpha = 1
+    )
+  }
+)
+
+#' @title OSP Point Layer
 #' @description
-#' Select appropriate font family based on font and `{showtext}` package availability
-#' @param fontfamily default font family
-#' @keywords internal
+#' A geom that renders OSP shapes using grid primitives.
+#' Uses shape names from `ospShapeNames`. Automatically applies
+#' `scale_shape_osp()` when added to a plot (unless a shape scale
+#' is already present).
 #'
-.selectFontFamily <- function(fontfamily = "sans") {
-  if (!requireNamespace("showtext", quietly = TRUE)) {
-    return(fontfamily)
-  }
-  # sysfonts is required by showtext
-  # thus, installing showtext also installs sysfonts
-  # when loading the tlf package,
-  # the Symbola font family is added to the sysfont font families
-  # however in some environments such as devtools::check(),
-  # it seems that the family is removed from that list
-  # consequently, this line perform a last check
-  # of font availability before displaying the grob
-  if (!isIncluded("Symbola", sysfonts::font_families())) {
-    return(fontfamily)
-  }
-  return("Symbola")
+#' @inheritParams ggplot2::geom_point
+#' @param na.rm If `FALSE` (default), missing values are removed with a warning.
+#'   If `TRUE`, missing values are silently removed.
+#' @return A ggplot2 layer that can be added to a plot.
+#' @export
+#' @family setDefault functions
+#' @examples
+#' library(ggplot2)
+#' df <- data.frame(x = 1:5, y = 1:5, shape = ospShapeNames[1:5])
+#' ggplot(df, aes(x, y, shape = shape)) +
+#'   geom_point_osp(size = 4) +
+#'   scale_shape_osp_identity()
+geom_point_osp <- function(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  ...,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+) {
+  layer <- ggplot2::layer(
+    geom = GeomPointOsp,
+    mapping = mapping,
+    data = data,
+    stat = stat,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+  class(layer) <- c("geom_point_osp_layer", class(layer))
+  layer
 }
 
-
-#' converts shape name to value
-#'
-#' @param shapes  shape may be valid shape or name entry of list Shapes
-#' @keywords internal
-#'
-#' @return  shape value
-.asPlotShape <- function(shapes) {
-  # Validate input shapes
-  checkmate::assertCharacter(shapes, min.len = 1, null.ok = FALSE)
-
-  ggplotShapes <- NULL
-  for (shape in shapes) {
-    ggplotShape <- as.character(shape)
-    # Convert named shapes to Unicode characters
-    if (isIncluded(ggplotShape, names(Shapes))) {
-      ggplotShape <- Shapes[[shape]]
-    }
-    # Validate that the shape is a valid Unicode character
-    if (!is.character(ggplotShape) || nchar(ggplotShape) == 0) {
-      warning(messages$warningInvalidShapeCode(shape))
-      ggplotShape <- Shapes[["square"]]
-    }
-    ggplotShapes <- c(ggplotShapes, ggplotShape)
-  }
-  return(ggplotShapes)
+#' @export
+#' @method ggplot_add geom_point_osp_layer
+ggplot_add.geom_point_osp_layer <- function(object, plot, ...) {
+  class(object) <- setdiff(class(object), "geom_point_osp_layer")
+  plot <- plot + object
+  class(plot) <- unique(c("osp_ggplot", class(plot)))
+  plot
 }
+
+#' @export
+#' @method ggplot_build osp_ggplot
+ggplot_build.osp_ggplot <- function(plot, ...) {
+  hasShapeScale <- any(vapply(
+    plot$scales$scales,
+    function(s) "shape" %in% s$aesthetics,
+    logical(1)
+  ))
+  if (!hasShapeScale) {
+    plot <- plot + scale_shape_osp()
+  }
+  class(plot) <- setdiff(class(plot), "osp_ggplot")
+  ggplot2::ggplot_build(plot)
+}
+
+#' @title OSP Shape Scale
+#' @description
+#' Discrete shape scale that automatically assigns shapes from
+#' `ospShapeNames` in order based on the number of factor levels.
+#' Equivalent to `ggplot2::scale_shape()`.
+#'
+#' If there are more levels than available shapes, shapes are recycled
+#' and a warning is issued.
+#'
+#' @param ... Passed to `ggplot2::discrete_scale`.
+#' @return A ggplot2 scale that can be added to a plot.
+#' @export
+#' @family setDefault functions
+#' @examples
+#' library(ggplot2)
+#' df <- data.frame(x = 1:3, y = 1:3, group = c("A", "B", "C"))
+#' ggplot(df, aes(x, y, shape = group)) +
+#'   geom_point_osp(size = 4) +
+#'   scale_shape_osp()
+scale_shape_osp <- function(...) {
+  ggplot2::discrete_scale(
+    aesthetics = "shape",
+    palette = .ospShapePalette,
+    ...
+  )
+}
+
+#' OSP shape palette function
+#' @param n Number of shapes needed
+#' @return Character vector of shape names
+#' @keywords internal
+.ospShapePalette <- function(n) {
+  visibleShapes <- setdiff(ospShapeNames, "blank")
+  nShapes <- length(visibleShapes)
+  if (n > nShapes) {
+    warning(
+      "Number of groups (", n, ") exceeds available shapes (", nShapes, "). ",
+      "Shapes will be recycled.",
+      call. = FALSE
+    )
+  }
+  visibleShapes[((seq_len(n) - 1) %% nShapes) + 1]
+}
+
+#' @title OSP Shape Manual Scale
+#' @description
+#' Manual shape scale for explicit mapping of factor levels to OSP shape names.
+#' Equivalent to `ggplot2::scale_shape_manual()`.
+#'
+#' @param values Named character vector. Names are factor levels;
+#'   values are entries from `ospShapeNames`.
+#' @param ... Passed to `ggplot2::scale_shape_manual`.
+#' @return A ggplot2 scale that can be added to a plot.
+#' @export
+#' @family setDefault functions
+#' @examples
+#' library(ggplot2)
+#' df <- data.frame(x = 1:3, y = 1:3, group = c("A", "B", "C"))
+#' ggplot(df, aes(x, y, shape = group)) +
+#'   geom_point_osp(size = 4) +
+#'   scale_shape_osp_manual(values = c(A = "circle", B = "diamond", C = "star"))
+scale_shape_osp_manual <- function(values, ...) {
+  bad <- setdiff(values, ospShapeNames)
+  if (length(bad) > 0) {
+    stop(
+      "Values not in ospShapeNames: ",
+      paste(shQuote(bad), collapse = ", "),
+      call. = FALSE
+    )
+  }
+  ggplot2::scale_shape_manual(values = values, ...)
+}
+
+#' @title OSP Shape Identity Scale
+#' @description
+#' Identity scale for when data already contains OSP shape names.
+#' Use this when your shape column contains values from `ospShapeNames`
+#' directly (e.g., "circle", "diamond", "star").
+#' Equivalent to `ggplot2::scale_shape_identity()`.
+#'
+#' @param guide Guide for the legend. Use `"legend"` to show a legend,
+#'   or `"none"` to hide it.
+#' @param ... Passed to `ggplot2::scale_shape_manual`.
+#' @return A ggplot2 scale that can be added to a plot.
+#' @export
+#' @family setDefault functions
+#' @examples
+#' library(ggplot2)
+#' df <- data.frame(x = 1:3, y = 1:3, shape = c("circle", "diamond", "star"))
+#' ggplot(df, aes(x, y, shape = shape)) +
+#'   geom_point_osp(size = 4) +
+#'   scale_shape_osp_identity(guide = "legend")
+scale_shape_osp_identity <- function(guide = "none", ...) {
+  values <- stats::setNames(ospShapeNames, ospShapeNames)
+  ggplot2::scale_shape_manual(values = values, guide = guide, ...)
+}
+

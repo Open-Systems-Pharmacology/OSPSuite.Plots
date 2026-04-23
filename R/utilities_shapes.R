@@ -71,25 +71,79 @@ Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames)
   list(x = r * cos(theta), y = r * sin(theta))
 }
 
-#' Shape specifications for OSP shapes
+#' Polygon area using shoelace formula
+#' @param x x-coordinates of vertices
+#' @param y y-coordinates of vertices
+#' @return area of polygon
 #' @keywords internal
-.ospShapeSpec <- list(
+.shoelaceArea <- function(x, y) {
+
+  0.5 * abs(sum(x * c(y[-1], y[1]) - c(x[-1], x[1]) * y))
+}
+
+#' Compute area-based scale factor for a shape
+#' @param spec shape specification from .ospShapeSpec
+#' @param circleArea area of reference circle (default: 64-gon approximation)
+#' @return scale factor to match circle area
+#' @keywords internal
+.computeAreaScale <- function(spec, circleArea = NULL) {
+  if (is.null(circleArea)) {
+    circleVerts <- .polyVertices(64, 0)
+    circleArea <- .shoelaceArea(circleVerts$x, circleVerts$y)
+  }
+
+  if (spec$kind == "polygon") {
+    v <- .polyVertices(spec$n, spec$angle)
+    shapeArea <- .shoelaceArea(v$x, v$y)
+  } else if (spec$kind == "star") {
+    v <- .starVertices(spec$points)
+    shapeArea <- .shoelaceArea(v$x, v$y)
+  } else {
+    return(1)
+  }
+
+  sqrt(circleArea / shapeArea)
+}
+
+# Manual adjustment factors for fine-tuning perceptual appearance
+# Applied on top of area-based scaling: final_scale = area_scale * adjustment
+# Set to 1.0 for pure area scaling, adjust empirically if needed
+#
+# For stroke shapes (plus, cross, asterisk): base scale is 1.0 (bounding-based)
+# since they have no fill area. Adjustments can tweak visual weight.
+.manualScaleAdjustments <- c(
+  circle           = 1.00,
+  diamond          = 1.00,
+  square           = 1.10,
+  triangle         = 0.90,
+  invertedTriangle = 0.90,
+  pentagon         = 1.00,
+  hexagon          = 1.00,
+  star             = 0.90,
+  plus             = 1.10,
+  cross            = 0.95,
+  asterisk         = 1.00
+)
+
+#' Shape specifications for OSP shapes (base definitions without scale)
+#' @keywords internal
+.ospShapeSpecBase <- list(
   circle = list(kind = "polygon", n = 64, angle = 0, open = FALSE),
   circleOpen = list(kind = "polygon", n = 64, angle = 0, open = TRUE),
-  square = list(kind = "polygon", n = 4, angle = 45, open = FALSE, scale = 1.41),
-  squareOpen = list(kind = "polygon", n = 4, angle = 45, open = TRUE, scale = 1.41),
+  square = list(kind = "polygon", n = 4, angle = 45, open = FALSE),
+  squareOpen = list(kind = "polygon", n = 4, angle = 45, open = TRUE),
   diamond = list(kind = "polygon", n = 4, angle = 0, open = FALSE),
   diamondOpen = list(kind = "polygon", n = 4, angle = 0, open = TRUE),
-  triangle = list(kind = "polygon", n = 3, angle = 90, open = FALSE, scale = 1.23, yOffset = -0.25),
-  triangleOpen = list(kind = "polygon", n = 3, angle = 90, open = TRUE, scale = 1.23, yOffset = -0.25),
-  invertedTriangle = list(kind = "polygon", n = 3, angle = -90, open = FALSE, scale = 1.23, yOffset = 0.25),
-  invertedTriangleOpen = list(kind = "polygon", n = 3, angle = -90, open = TRUE, scale = 1.23, yOffset = 0.25),
-  pentagon = list(kind = "polygon", n = 5, angle = 90, open = FALSE, scale = 1.08),
-  pentagonOpen = list(kind = "polygon", n = 5, angle = 90, open = TRUE, scale = 1.08),
-  hexagon = list(kind = "polygon", n = 6, angle = 90, open = FALSE, scale = 1.07),
-  hexagonOpen = list(kind = "polygon", n = 6, angle = 90, open = TRUE, scale = 1.07),
-  star = list(kind = "star", points = 5, open = FALSE, scale = 1.08),
-  starOpen = list(kind = "star", points = 5, open = TRUE, scale = 1.08),
+  triangle = list(kind = "polygon", n = 3, angle = 90, open = FALSE, yOffset = -0.22),
+  triangleOpen = list(kind = "polygon", n = 3, angle = 90, open = TRUE, yOffset = -0.22),
+  invertedTriangle = list(kind = "polygon", n = 3, angle = -90, open = FALSE, yOffset = 0.22),
+  invertedTriangleOpen = list(kind = "polygon", n = 3, angle = -90, open = TRUE, yOffset = 0.22),
+  pentagon = list(kind = "polygon", n = 5, angle = 90, open = FALSE),
+  pentagonOpen = list(kind = "polygon", n = 5, angle = 90, open = TRUE),
+  hexagon = list(kind = "polygon", n = 6, angle = 90, open = FALSE),
+  hexagonOpen = list(kind = "polygon", n = 6, angle = 90, open = TRUE),
+  star = list(kind = "star", points = 5, open = FALSE),
+  starOpen = list(kind = "star", points = 5, open = TRUE),
   plus = list(kind = "stroke", glyph = "plus", thick = TRUE),
   thinPlus = list(kind = "stroke", glyph = "plus", thick = FALSE),
   cross = list(kind = "stroke", glyph = "cross", thick = TRUE),
@@ -97,6 +151,52 @@ Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames)
   asterisk = list(kind = "stroke", glyph = "asterisk", thick = TRUE),
   blank = list(kind = "blank")
 )
+
+# Map variant names to base shape names for adjustment lookup
+.shapeBaseNames <- c(
+  circle = "circle", circleOpen = "circle",
+  diamond = "diamond", diamondOpen = "diamond",
+  square = "square", squareOpen = "square",
+  triangle = "triangle", triangleOpen = "triangle",
+  invertedTriangle = "invertedTriangle", invertedTriangleOpen = "invertedTriangle",
+  pentagon = "pentagon", pentagonOpen = "pentagon",
+  hexagon = "hexagon", hexagonOpen = "hexagon",
+  star = "star", starOpen = "star",
+  plus = "plus", thinPlus = "plus",
+  cross = "cross", thinCross = "cross",
+  asterisk = "asterisk",
+  blank = "blank"
+)
+
+#' Build shape specs with computed area-based scaling
+#' @return list of shape specifications with scale factors
+#' @keywords internal
+.buildOspShapeSpec <- function() {
+  circleVerts <- .polyVertices(64, 0)
+  circleArea <- .shoelaceArea(circleVerts$x, circleVerts$y)
+
+  specs <- .ospShapeSpecBase
+  for (name in names(specs)) {
+    spec <- specs[[name]]
+
+    # Compute area-based scale for polygon/star shapes
+    # Stroke shapes (plus, cross, asterisk) use base scale of 1.0
+    areaScale <- .computeAreaScale(spec, circleArea)
+
+    # Apply manual adjustment
+    baseName <- .shapeBaseNames[name]
+    adjustment <- if (!is.na(baseName)) .manualScaleAdjustments[baseName] else NA
+    if (is.na(adjustment)) adjustment <- 1
+
+    specs[[name]]$scale <- areaScale * adjustment
+  }
+
+  specs
+}
+
+#' Shape specifications for OSP shapes (with computed scale factors)
+#' @keywords internal
+.ospShapeSpec <- .buildOspShapeSpec()
 
 #' Build grid grob for OSP shape
 #' @param name shape name

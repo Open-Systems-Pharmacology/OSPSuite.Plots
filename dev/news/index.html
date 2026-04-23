@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,9 +48,31 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="ospsuiteplots-development-version">ospsuite.plots (development version)<a class="anchor" aria-label="anchor" href="#ospsuiteplots-development-version"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-development-version">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<ul><li>Replaced showtext/Unicode-based shape rendering with native grid-based <code><a href="../reference/geom_point_osp.html">geom_point_osp()</a></code>. The <code>Shapes</code> list now contains 22 geometric shapes instead of 44 shapes including emojis. Removed shapes: <code>male</code>, <code>female</code>, <code>man</code>, <code>woman</code>, <code>baby</code>, <code>mouse</code>, <code>cat</code>, <code>rat</code>, <code>rabbit</code>, <code>dog</code>, <code>pig</code>, <code>sheep</code>, <code>cow</code>, <code>monkey</code>, <code>human</code>, <code>pill</code>, <code>syringe</code>, <code>hazard</code>, and emoji variants. Code using these removed shapes will need to be updated to use available geometric shapes from <code>ospShapeNames</code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>Added <code><a href="../reference/geom_point_osp.html">geom_point_osp()</a></code> for custom scientific plot shapes without font dependencies. The geom automatically applies <code><a href="../reference/scale_shape_osp.html">scale_shape_osp()</a></code> when added to a plot.</li>
+<li>Added shape scale functions following ggplot2 conventions:
+<ul><li>
+<code><a href="../reference/scale_shape_osp.html">scale_shape_osp()</a></code>: auto-assigns shapes from <code>ospShapeNames</code> in order</li>
+<li>
+<code>scale_shape_osp_manual(values = ...)</code>: explicit mapping of factor levels to shapes</li>
+<li>
+<code><a href="../reference/scale_shape_osp_identity.html">scale_shape_osp_identity()</a></code>: for data already containing shape names</li>
+</ul></li>
+<li>When more groups exist than available shapes (21, excluding “blank”), shapes are recycled with a warning.</li>
+<li>Added <code>ospShapeNames</code> vector listing all available shape names.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-improvements-and-bug-fixes-development-version">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-development-version"></a></h3>
 <ul><li>Changed default out-of-bounds handling for continuous axes. Ribbons and error bars that extend beyond axis limits are now clipped at the panel boundary rather than being silently dropped.</li>
 <li>The default width of error bars is now set to <code>width = 0.2</code>, showing horizontal whiskers. The previous default was <code>width = 0</code>, which suppressed whiskers (#107).</li>
+<li>Removed <code>showtext</code> and <code>sysfonts</code> from package dependencies.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0" id="ospsuiteplots-110">ospsuite.plots 1.1.0<a class="anchor" aria-label="anchor" href="#ospsuiteplots-110"></a></h2>
 <div class="section level3">

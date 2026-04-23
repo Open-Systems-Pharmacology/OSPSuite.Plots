@@ -21,7 +21,7 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -206,21 +206,21 @@ use of <code>mapSimulatedAndObserved</code> triggers reset of aesthetic scales a
 <span class="r-in"><span><span class="co"># Basic time profile plot with simulated data</span></span></span>
 <span class="r-in"><span><span class="fu">plotTimeProfile</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">simulationData</span>,</span></span>
-<span class="r-in"><span>  mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, color <span class="op">=</span> <span class="va">compound</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, color <span class="op">=</span> <span class="va">compound</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Time profile with both simulated and observed data</span></span></span>
 <span class="r-in"><span><span class="fu">plotTimeProfile</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">simulationData</span>,</span></span>
 <span class="r-in"><span>  observedData <span class="op">=</span> <span class="va">observedData</span>,</span></span>
-<span class="r-in"><span>  mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, color <span class="op">=</span> <span class="va">treatment</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  observedMapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, color <span class="op">=</span> <span class="va">treatment</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, color <span class="op">=</span> <span class="va">treatment</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  observedMapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, color <span class="op">=</span> <span class="va">treatment</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Time profile with secondary y-axis</span></span></span>
 <span class="r-in"><span><span class="fu">plotTimeProfile</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">myData</span>,</span></span>
-<span class="r-in"><span>  mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, y2axis <span class="op">=</span> <span class="va">fraction_unbound</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, y2axis <span class="op">=</span> <span class="va">fraction_unbound</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>

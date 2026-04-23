@@ -15,8 +15,10 @@ ggplotWithWatermark(...)
 
 - ...:
 
-  Arguments to be passed to `ggplot()`, such as data and aesthetics.
-  This allows for flexibility in creating different types of plots.
+  Arguments to be passed to
+  [`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html),
+  such as data and aesthetics. This allows for flexibility in creating
+  different types of plots.
 
 ## Value
 

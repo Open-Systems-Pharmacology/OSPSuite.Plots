@@ -80,7 +80,7 @@ objects can also be set separately as described below.
 
 ``` r
 # Set default layout and save previous layout in variable oldDefaults
-oldDefaults <- ospsuite.plots::setDefaults(defaultOptions = list(), colorMapList = NULL, shapeValues = NULL, pointAsUnicode = FALSE)
+oldDefaults <- ospsuite.plots::setDefaults(defaultOptions = list(), colorMapList = NULL, shapeValues = NULL)
 
 # ospsuite.plots function
 ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
@@ -476,30 +476,7 @@ getOspsuite.plots.option(optionKey = OptionKeys$defaultPercentiles)
 setOspsuite.plots.option(optionKey = OptionKeys$defaultPercentiles, value = c(0.1, 0.5, 0.9))
 ```
 
-### 2.5.5 Option for Unicode Point Mode
-
-The `geomPointUnicode` option controls whether `ospsuite.plots`
-functions use the Unicode-aware
-[`geomPointUnicode()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geomPointUnicode.md)
-geom instead of the standard
-[`geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html)
-when plotting points. This is set internally when calling
-`setDefaults(pointAsUnicode = TRUE/FALSE)`.
-
-- `geomPointUnicode`: Logical, default `FALSE`. When `TRUE`, Unicode
-  symbols are used for plot points (requires the
-  [showtext](https://github.com/yixuan/showtext) package; see Section
-  6.2).
-
-``` r
-# Check current mode
-getOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode)
-
-# Enable Unicode point mode globally (equivalent to setDefaults(pointAsUnicode = TRUE))
-setOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode, value = TRUE)
-```
-
-### 2.5.6 Options to Define Export Format
+### 2.5.5 Options to Define Export Format
 
 There are options to define the export format using the function
 `exportPlot` (see details below):
@@ -662,84 +639,45 @@ otherwise, the function exports square figures.
 ### 6.1 Default Shapes
 
 ``` r
-shapeNames <- c("circle", paste("circle", c("open", "filled", "cross", "plus", "small")), "bullet", "square", paste("square", c("open", "filled", "cross", "plus", "triangle")), "diamond", paste("diamond", c("open", "filled", "plus")), "triangle", paste("triangle", c("open", "filled", "square")), paste("triangle down", c("open", "filled")), "plus", "cross", "asterisk")
+shapes <- data.frame(
+  shapeNames = ospShapeNames,
+  x = rep(1:6, length.out = length(ospShapeNames)),
+  y = rep(1:4, each = 6, length.out = length(ospShapeNames))
+)
 
-shapes <- data.frame(shapeNames = shapeNames, x = c(1:7, 1:6, 1:3, 5, 1:3, 6, 2:3, 1:3), y = -rep(1:6, c(7, 6, 4, 4, 2, 3)))
-
-ggplot(shapes, aes(x, y)) +
-  geom_point(aes(shape = shapeNames), color = "blue", fill = "red", size = 5, stroke = 1) +
-  geom_text(aes(label = shapeNames), nudge_y = -0.3, size = 3.5) +
-  scale_shape_identity() +
+ggplot(shapes, aes(x, y, shape = shapeNames)) +
+  geom_point_osp(size = 5, color = "blue", fill = "red") +
+  scale_shape_osp_identity() +
+  geom_text(aes(label = shapeNames), nudge_y = -0.3, size = 3) +
   theme_void()
 ```
 
-![Chart displaying all default shape types available in ospsuite.plots.
-Shows various point shapes including circles, squares, diamonds,
-triangles in different styles (open, filled, cross, plus) arranged in a
-grid with labels, demonstrating the visual appearance of each shape
+![Chart displaying all default OSP shape types available in
+ospsuite.plots. Shows various point shapes arranged in a grid with
+labels, demonstrating the visual appearance of each shape
 option.](ospsuite-plots_files/figure-html/default-shapes-1.png)
 
-### 6.2 Use Unicode Symbols with `{showtext}`
+### 6.2 Using OSP Shapes in Plot Functions
 
-Attention: The use of [showtext](https://github.com/yixuan/showtext) has
-side effects - a customized `geom_Point` function `geomPointUnicode` has
-to be used.
-
-``` r
-shapes <- data.frame(shapeNames = names(Shapes), shape_symbols = unlist(unname(Shapes)), x = rep(c(1:5), 8), y = rep(-c(1:8), each = 5))
-
-showtext::showtext_auto()
-ggplot(shapes, aes(x, y)) +
-  geomPointUnicode(aes(shape = shape_symbols), color = "blue", fill = "red", size = 5) +
-  geom_text(aes(label = shapeNames), nudge_y = -0.3, size = 3.5) +
-  scale_shape_identity() +
-  theme_void()
-showtext::showtext_auto(enable = "off")
-```
-
-![Chart displaying Unicode symbol shapes available in ospsuite.plots
-with showtext package. Shows various Unicode symbols arranged in a grid
-with their corresponding shape names, demonstrating enhanced typography
-options for point symbols in
-plots.](ospsuite-plots_files/figure-html/unicode-shapes-1.png)
-
-### 6.3 Switch Between Modes
-
-To switch to the Unicode mode, call `setDefaults` with the input
-variable `pointAsUnicode = TRUE`. To switch back, use
-`setDefaults(pointAsUnicode = FALSE)` or `resetDefaults(oldDefaults)`.
-However, it is recommended to produce all plots of one workflow either
-with Unicode mode or without. Otherwise, the plots may have different
-fonts.
+OSP shapes are available in all `ospsuite.plots` functions via the
+default shape scale set by
+[`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.md).
+You can also apply them directly with
+[`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.md).
 
 ``` r
-oldDefaults <- ospsuite.plots::setDefaults(pointAsUnicode = TRUE)
+oldDefaults <- ospsuite.plots::setDefaults()
 
-dt <- data.frame(x = c(1, 2, 1, 2), y = c(1, 1, 2, 2), species = c("pig", "dog", "mouse", "rat"))
+dt <- data.frame(x = c(1, 2, 1, 2), y = c(1, 1, 2, 2), species = c("dog", "cat", "mouse", "rat"))
 
 plotObject <- plotYVsX(data = dt, mapping = aes(x = x, y = y, groupby = species), xScale = "linear", xScaleArgs = list(limits = c(0.5, 2.5)), yScale = "linear", yScaleArgs = list(limits = c(0.5, 2.5)))
 
 plot(plotObject)
 ```
 
-![Scatter plot demonstrating Unicode point symbols in ospsuite.plots.
-Shows four data points representing different species (pig, dog, mouse,
-rat) using Unicode symbols instead of standard ggplot shapes, with each
-species having a distinct symbol and
-color.](ospsuite-plots_files/figure-html/unicode-mode-demo-1.png)
-
-#### Use Non-Default Icons
-
-``` r
-plot(plotObject +
-  scale_shape_manual(values = c(pig = "pig", dog = "dog", mouse = "mouse", rat = "rat")))
-```
-
-![Scatter plot demonstrating the use of non-default icons in
-ospsuite.plots. The plot displays four data points representing
-different species (pig, dog, mouse, rat) using custom shapes for each
-species instead of standard ggplot shapes, showcasing the ability to
-personalize plot aesthetics with unique
-icons.](ospsuite-plots_files/figure-html/export-non-default-icons-1.png)
+![Scatter plot demonstrating OSP shapes in ospsuite.plots. Shows four
+data points representing different species using distinct OSP shapes
+with each species having a distinct symbol and
+color.](ospsuite-plots_files/figure-html/osp-shapes-demo-1.png)
 
 \`\`\`

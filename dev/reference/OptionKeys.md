@@ -10,4 +10,4 @@ OptionKeys
 
 ## Format
 
-An object of class `list` of length 23.
+An object of class `list` of length 22.

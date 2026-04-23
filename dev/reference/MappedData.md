@@ -179,8 +179,8 @@ classes
 
 #### Returns
 
-updated `MappedData` object check if unit of scale direction i s time
-and sets the breaks accordingly
+updated `MappedData` object check if unit of scale direction is time and
+sets the breaks accordingly
 
 ------------------------------------------------------------------------
 

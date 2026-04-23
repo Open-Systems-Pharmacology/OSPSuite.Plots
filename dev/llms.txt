@@ -155,8 +155,8 @@ Functions to set and reset Settings for plot layout
 - [`colorMaps`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/colorMaps.md)
   : Color maps
 
-- [`geomPointUnicode()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geomPointUnicode.md)
-  : layer to point unicode as shapes
+- [`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_point_osp.md)
+  : OSP Point Layer
 
 - [`getDefaultGeomAttributes()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/getDefaultGeomAttributes.md)
   :
@@ -183,6 +183,15 @@ Functions to set and reset Settings for plot layout
 
 - [`resetDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaults.md)
   : restore to previously stored settings
+
+- [`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.md)
+  : OSP Shape Scale
+
+- [`scale_shape_osp_identity()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp_identity.md)
+  : OSP Shape Identity Scale
+
+- [`scale_shape_osp_manual()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp_manual.md)
+  : OSP Shape Manual Scale
 
 - [`setDefaultColorMapDistinct()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultColorMapDistinct.md)
   : set the default color-map for discrete colors
@@ -211,6 +220,23 @@ Classes combining data and Mapping
   : object to map data for rangeplots
 - [`MappedDataTimeProfile`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedDataTimeProfile.md)
   : MappedDataTimeProfile
+
+## Shapes
+
+OSP shape system for custom point rendering
+
+- [`ospShapeNames`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/ospShapeNames.md)
+  : OSP Shape Names
+- [`GeomPointOsp`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/GeomPointOsp.md)
+  : GeomPointOsp
+- [`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_point_osp.md)
+  : OSP Point Layer
+- [`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.md)
+  : OSP Shape Scale
+- [`scale_shape_osp_identity()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp_identity.md)
+  : OSP Shape Identity Scale
+- [`scale_shape_osp_manual()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp_manual.md)
+  : OSP Shape Manual Scale
 
 ## Constants
 

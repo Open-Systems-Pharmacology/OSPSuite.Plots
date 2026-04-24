@@ -11,7 +11,7 @@ setDefaults(defaultOptions = list(), colorMapList = NULL, shapeValues = NULL)
 
 \item{colorMapList}{list of color maps}
 
-\item{shapeValues}{list of Shapes}
+\item{shapeValues}{character vector of OSP shape names (see \code{ospShapeNames})}
 }
 \value{
 list of old settings which can be used to reset defaults with \code{resetDefaults()}
@@ -41,6 +41,7 @@ Other setDefault functions:
 \code{\link{setDefaultColorMapDistinct}()},
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},
-\code{\link{setOspsuite.plots.option}()}
+\code{\link{setOspsuite.plots.option}()},
+\code{\link{stat_qq_osp}()}
 }
 \concept{setDefault functions}

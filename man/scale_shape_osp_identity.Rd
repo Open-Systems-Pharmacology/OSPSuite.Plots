@@ -12,6 +12,9 @@ or \code{"none"} to hide it.}
 
 \item{...}{Passed to \code{ggplot2::scale_shape_manual}.}
 }
+\value{
+A ggplot2 scale that can be added to a plot.
+}
 \description{
 Identity scale for when data already contains OSP shape names.
 Use this when your shape column contains values from \code{ospShapeNames}
@@ -43,6 +46,7 @@ Other setDefault functions:
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},
 \code{\link{setDefaults}()},
-\code{\link{setOspsuite.plots.option}()}
+\code{\link{setOspsuite.plots.option}()},
+\code{\link{stat_qq_osp}()}
 }
 \concept{setDefault functions}

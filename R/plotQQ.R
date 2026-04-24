@@ -71,7 +71,7 @@ plotQQ <- function(
     geom = "qq",
     geomAttributes = geomQQAttributes,
     plotObject = plotObject,
-    layerToCall = stat_qq
+    layerToCall = stat_qq_osp # nolint: object_usage_linter
   )
 
   plotObject <- addLayer(

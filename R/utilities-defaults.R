@@ -400,9 +400,7 @@ getDefaultGeomAttributes <- function(geom) {
 #' options(ospsuite.plots.watermarkEnabled = TRUE)
 #' getOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled)
 #' }
-# noLint start
-getOspsuite.plots.option <- function(optionKey) {
-  # noLint end
+getOspsuite.plots.option <- function(optionKey) { # nolint: object_name_linter
   checkmate::assert_choice(optionKey, choices = names(OptionKeys))
 
   return(getOption(
@@ -425,9 +423,7 @@ getOspsuite.plots.option <- function(optionKey) {
 #' \dontrun{
 #' setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 #' }
-# noLint start
-setOspsuite.plots.option <- function(optionKey, value) {
-  # noLint end
+setOspsuite.plots.option <- function(optionKey, value) { # nolint: object_name_linter
   checkmate::assert_choice(optionKey, choices = names(OptionKeys))
 
   if (is.null(value)) {

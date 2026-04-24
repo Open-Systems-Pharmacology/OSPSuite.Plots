@@ -35,6 +35,7 @@ Other setDefault functions:
 \code{\link{setDefaultColorMapDistinct}()},
 \code{\link{setDefaultTheme}()},
 \code{\link{setDefaults}()},
-\code{\link{setOspsuite.plots.option}()}
+\code{\link{setOspsuite.plots.option}()},
+\code{\link{stat_qq_osp}()}
 }
 \concept{setDefault functions}

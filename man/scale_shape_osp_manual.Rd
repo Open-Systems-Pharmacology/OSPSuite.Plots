@@ -12,6 +12,9 @@ values are entries from \code{ospShapeNames}.}
 
 \item{...}{Passed to \code{ggplot2::scale_shape_manual}.}
 }
+\value{
+A ggplot2 scale that can be added to a plot.
+}
 \description{
 Manual shape scale for explicit mapping of factor levels to OSP shape names.
 Equivalent to \code{ggplot2::scale_shape_manual()}.
@@ -41,6 +44,7 @@ Other setDefault functions:
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},
 \code{\link{setDefaults}()},
-\code{\link{setOspsuite.plots.option}()}
+\code{\link{setOspsuite.plots.option}()},
+\code{\link{stat_qq_osp}()}
 }
 \concept{setDefault functions}

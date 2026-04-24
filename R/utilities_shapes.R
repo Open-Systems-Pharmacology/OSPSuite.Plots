@@ -35,7 +35,7 @@ ospShapeNames <- c(
 #' Use `Shapes$circle` to get the shape name "circle".
 #' @family setDefault functions
 #' @export
-Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames)
+Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames) # nolint: object_name_linter
 
 # User-facing functions ----
 
@@ -58,6 +58,7 @@ Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames)
 #' ggplot(df, aes(x, y, shape = shape)) +
 #'   geom_point_osp(size = 4) +
 #'   scale_shape_osp_identity()
+# nolint start: object_name_linter
 geom_point_osp <- function(
     mapping = NULL,
     data = NULL,
@@ -67,6 +68,7 @@ geom_point_osp <- function(
     na.rm = FALSE,
     show.legend = NA,
     inherit.aes = TRUE) {
+# nolint end
   layer <- ggplot2::layer(
     geom = GeomPointOsp,
     mapping = mapping,
@@ -124,7 +126,9 @@ ggplot_build.osp_ggplot <- function(plot, ...) {
 #' ggplot(df, aes(x, y, shape = group)) +
 #'   geom_point_osp(size = 4) +
 #'   scale_shape_osp()
+# nolint start: object_name_linter
 scale_shape_osp <- function(...) {
+# nolint end
   ggplot2::discrete_scale(
     aesthetics = "shape",
     palette = .ospShapePalette,
@@ -149,7 +153,9 @@ scale_shape_osp <- function(...) {
 #' ggplot(df, aes(x, y, shape = group)) +
 #'   geom_point_osp(size = 4) +
 #'   scale_shape_osp_manual(values = c(A = "circle", B = "diamond", C = "star"))
+# nolint start: object_name_linter
 scale_shape_osp_manual <- function(values, ...) {
+# nolint end
   bad <- setdiff(values, ospShapeNames)
   if (length(bad) > 0) {
     stop(
@@ -180,7 +186,9 @@ scale_shape_osp_manual <- function(values, ...) {
 #' ggplot(df, aes(x, y, shape = shape)) +
 #'   geom_point_osp(size = 4) +
 #'   scale_shape_osp_identity(guide = "legend")
+# nolint start: object_name_linter
 scale_shape_osp_identity <- function(guide = "none", ...) {
+# nolint end
   values <- stats::setNames(ospShapeNames, ospShapeNames)
   ggplot2::scale_shape_manual(values = values, guide = guide, ...)
 }
@@ -198,6 +206,7 @@ scale_shape_osp_identity <- function(guide = "none", ...) {
 #' @return A ggplot2 layer that can be added to a plot.
 #' @export
 #' @family setDefault functions
+# nolint start: object_name_linter
 stat_qq_osp <- function(
     mapping = NULL,
     data = NULL,
@@ -208,6 +217,7 @@ stat_qq_osp <- function(
     na.rm = FALSE,
     show.legend = NA,
     inherit.aes = TRUE) {
+# nolint end
   layer <- ggplot2::layer(
     stat = ggplot2::StatQq,
     geom = GeomPointOsp,
@@ -234,7 +244,9 @@ stat_qq_osp <- function(
 #' @format NULL
 #' @usage NULL
 #' @export
+# nolint start: object_name_linter
 GeomPointOsp <- ggplot2::ggproto(
+# nolint end
 
   "GeomPointOsp",
   ggplot2::Geom,
@@ -247,7 +259,9 @@ GeomPointOsp <- ggplot2::ggproto(
     alpha = NA,
     shape = "circle"
   ),
+# nolint start: object_name_linter
   draw_panel = function(data, panel_params, coord) {
+# nolint end
     coords <- coord$transform(data, panel_params)
 
     # Warn once per unique unknown shape

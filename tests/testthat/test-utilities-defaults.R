@@ -103,7 +103,7 @@ test_that("getDefaultOptions returns complete options list", {
   expect_equal(optionsList$ospsuite.plots.exportDpi, 300)
   expect_equal(
     optionsList$ospsuite.plots.lloqAlphaVector,
-    c('TRUE' = 0.3, 'FALSE' = 1)
+    c("TRUE" = 0.3, "FALSE" = 1)
   )
 })
 

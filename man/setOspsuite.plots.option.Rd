@@ -37,6 +37,7 @@ Other setDefault functions:
 \code{\link{setDefaultColorMapDistinct}()},
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},
-\code{\link{setDefaults}()}
+\code{\link{setDefaults}()},
+\code{\link{stat_qq_osp}()}
 }
 \concept{setDefault functions}

@@ -9,6 +9,9 @@ scale_shape_osp(...)
 \arguments{
 \item{...}{Passed to \code{ggplot2::discrete_scale}.}
 }
+\value{
+A ggplot2 scale that can be added to a plot.
+}
 \description{
 Discrete shape scale that automatically assigns shapes from
 \code{ospShapeNames} in order based on the number of factor levels.
@@ -42,6 +45,7 @@ Other setDefault functions:
 \code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},
 \code{\link{setDefaults}()},
-\code{\link{setOspsuite.plots.option}()}
+\code{\link{setOspsuite.plots.option}()},
+\code{\link{stat_qq_osp}()}
 }
 \concept{setDefault functions}

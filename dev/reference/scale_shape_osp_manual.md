@@ -22,6 +22,10 @@ scale_shape_osp_manual(values, ...)
   Passed to
   [`ggplot2::scale_shape_manual`](https://ggplot2.tidyverse.org/reference/scale_manual.html).
 
+## Value
+
+A ggplot2 scale that can be added to a plot.
+
 ## See also
 
 Other setDefault functions:
@@ -41,7 +45,8 @@ Other setDefault functions:
 [`setDefaultShapeDiscrete()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultShapeDiscrete.md),
 [`setDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultTheme.md),
 [`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.md),
-[`setOspsuite.plots.option()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setOspsuite.plots.option.md)
+[`setOspsuite.plots.option()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setOspsuite.plots.option.md),
+[`stat_qq_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/stat_qq_osp.md)
 
 ## Examples
 

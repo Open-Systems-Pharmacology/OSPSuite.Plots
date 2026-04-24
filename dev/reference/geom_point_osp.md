@@ -148,6 +148,10 @@ geom_point_osp(
   plot specification, e.g.
   [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
 
+## Value
+
+A ggplot2 layer that can be added to a plot.
+
 ## See also
 
 Other setDefault functions:
@@ -167,7 +171,8 @@ Other setDefault functions:
 [`setDefaultShapeDiscrete()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultShapeDiscrete.md),
 [`setDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultTheme.md),
 [`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.md),
-[`setOspsuite.plots.option()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setOspsuite.plots.option.md)
+[`setOspsuite.plots.option()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setOspsuite.plots.option.md),
+[`stat_qq_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/stat_qq_osp.md)
 
 ## Examples
 
@@ -175,5 +180,6 @@ Other setDefault functions:
 library(ggplot2)
 df <- data.frame(x = 1:5, y = 1:5, shape = ospShapeNames[1:5])
 ggplot(df, aes(x, y, shape = shape)) +
-  geom_point_osp(size = 4)
+  geom_point_osp(size = 4) +
+  scale_shape_osp_identity()
 ```

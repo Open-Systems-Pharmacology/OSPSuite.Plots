@@ -123,6 +123,9 @@ Functions to set and reset Settings for plot layout
 - [`setOspsuite.plots.option()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setOspsuite.plots.option.md)
   : Set OSPSuite plots option with a given key and value.
 
+- [`stat_qq_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/stat_qq_osp.md)
+  : OSP Q-Q Stat
+
 ## DataMapping Classes
 
 Classes combining data and Mapping

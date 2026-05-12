@@ -254,50 +254,6 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 }
 
 
-# Default Shapes --------------
-
-#' set the default shapes
-#'
-#' The scales are set to the option  `ospsuite.plots.shapeValues`, which is the used to
-#' set the discrete scale of shapes for all `ospsuite.plots` function
-#' for customized functions add scale_shape_manual(`values = getOspsuite.plots.option(optionKey = OptionKeys$shapeValues)`)
-#'
-#' @param shapeValues vector of shape values
-#'
-#' @export
-#' @return vector with `shapeValues` saved in option `ospsuite.plots.shapeValues` before function call
-#'
-#' @family setDefault functions
-setDefaultShapeDiscrete <- function(shapeValues = NULL) {
-  if (is.null(shapeValues)) {
-    shapeValues <- ospShapeNames
-  }
-  setOspsuite.plots.option(
-    optionKey = OptionKeys$shapeValues,
-    value = shapeValues
-  )
-  update_theme(palette.shape.discrete = shapeValues)
-
-  return(invisible(getOspsuite.plots.option(
-    optionKey = OptionKeys$shapeValues
-  )))
-}
-
-
-#' resets the scale for discrete shapes to ggplot default
-#'
-#' @param oldShapeValues shape values to set
-#'
-#' @family setDefault functions
-#' @export
-resetDefaultShapeDiscrete <- function(oldShapeValues = NULL) {
-  setOspsuite.plots.option(
-    optionKey = OptionKeys$shapeValues,
-    value = oldShapeValues
-  )
-}
-
-
 # Options ----------------
 
 #' get list of default options
@@ -400,6 +356,7 @@ getDefaultGeomAttributes <- function(geom) {
 #' options(ospsuite.plots.watermarkEnabled = TRUE)
 #' getOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled)
 #' }
+# fmt: skip
 getOspsuite.plots.option <- function(optionKey) { # nolint: object_name_linter
   checkmate::assert_choice(optionKey, choices = names(OptionKeys))
 
@@ -423,6 +380,7 @@ getOspsuite.plots.option <- function(optionKey) { # nolint: object_name_linter
 #' \dontrun{
 #' setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 #' }
+# fmt: skip
 setOspsuite.plots.option <- function(optionKey, value) { # nolint: object_name_linter
   checkmate::assert_choice(optionKey, choices = names(OptionKeys))
 
@@ -455,7 +413,6 @@ setOspsuite.plots.option <- function(optionKey, value) { # nolint: object_name_l
 #'
 #' @param colorMapList list of color maps
 #' @param defaultOptions list of options
-#' @param shapeValues character vector of OSP shape names (see `ospShapeNames`)
 #'
 #' @return list of old settings which can be used to reset defaults with `resetDefaults()`
 #'
@@ -463,11 +420,9 @@ setOspsuite.plots.option <- function(optionKey, value) { # nolint: object_name_l
 #' @export
 setDefaults <- function(
   defaultOptions = list(),
-  colorMapList = NULL,
-  shapeValues = NULL
+  colorMapList = NULL
 ) {
   checkmate::assertList(colorMapList, null.ok = TRUE)
-  checkmate::assertCharacter(shapeValues, null.ok = TRUE)
   checkmate::assertList(defaultOptions, null.ok = TRUE)
 
   # initialize return value
@@ -505,11 +460,6 @@ setDefaults <- function(
   oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(
     colorMapList = colorMapList
   )
-
-  oldDefaults[["shapeValues"]] <- setDefaultShapeDiscrete(
-    shapeValues = shapeValues
-  )
-  shapeValues <- getOption("ospsuite.plots.shapeValues")
 
   # Set geom_point to use shape 1 (open circle) for backwards compatibility
   # when raw geom_point() is used. Our custom shape names from ospShapeNames
@@ -583,6 +533,4 @@ resetDefaults <- function(oldDefaults) {
   }
 
   resetDefaultColorMapDistinct(oldColorMaps = oldDefaults$colorMaps)
-
-  resetDefaultShapeDiscrete(oldShapeValues = oldDefaults$shapeValues)
 }

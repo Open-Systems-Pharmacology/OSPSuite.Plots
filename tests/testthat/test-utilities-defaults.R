@@ -151,38 +151,18 @@ test_that("resetDefaultColorMapDistinct works correctly", {
   expect_error(resetDefaultColorMapDistinct("not_a_list"))
 })
 
-test_that("setDefaultShapeDiscrete works correctly", {
-  # Test with default shapes (NULL)
-  oldShapes <- setDefaultShapeDiscrete()
-  expect_type(oldShapes, "character")
-  expect_true(length(oldShapes) > 0)
+test_that("setDefaults does not break raw ggplot2::geom_point() with mapped shape (#118)", {
+  withr::defer(resetDefaults(oldDefaults))
+  oldDefaults <- setDefaults()
 
-  # Test with custom shapes
-  customShapes <- c("circle", "square", "triangle")
-  result <- setDefaultShapeDiscrete(customShapes)
-  currentShapes <- getOspsuite.plots.option("shapeValues")
-  expect_equal(currentShapes, customShapes)
+  df <- data.frame(x = 1:5, y = 1:5, g = letters[1:5])
+  p <- ggplot2::ggplot(
+    df,
+    ggplot2::aes(x = x, y = y, color = g, shape = g)
+  ) +
+    ggplot2::geom_point()
 
-  # Reset to original
-  resetDefaultShapeDiscrete(oldShapes)
-})
-
-test_that("resetDefaultShapeDiscrete works correctly", {
-  # Save original shapes
-  originalShapes <- getOspsuite.plots.option("shapeValues")
-
-  # Set new shapes
-  setDefaultShapeDiscrete(c("circle", "square"))
-
-  # Reset
-  resetDefaultShapeDiscrete(originalShapes)
-
-  # Verify reset
-  currentShapes <- getOspsuite.plots.option("shapeValues")
-  expect_equal(currentShapes, originalShapes)
-
-  # Test with NULL
-  expect_no_error(resetDefaultShapeDiscrete(NULL))
+  expect_no_error(ggplot2::ggplotGrob(p))
 })
 
 test_that("constructLabelWithUnit handles edge cases", {

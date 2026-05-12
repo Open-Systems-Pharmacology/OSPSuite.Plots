@@ -5,7 +5,7 @@
 \alias{OptionKeys}
 \title{enumeration keys for OSPSuite.plots options}
 \format{
-An object of class \code{list} of length 22.
+An object of class \code{list} of length 21.
 }
 \usage{
 OptionKeys

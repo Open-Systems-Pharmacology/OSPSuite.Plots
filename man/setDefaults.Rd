@@ -4,14 +4,12 @@
 \alias{setDefaults}
 \title{sets the defaults for the OSPSuite.plots package}
 \usage{
-setDefaults(defaultOptions = list(), colorMapList = NULL, shapeValues = NULL)
+setDefaults(defaultOptions = list(), colorMapList = NULL)
 }
 \arguments{
 \item{defaultOptions}{list of options}
 
 \item{colorMapList}{list of color maps}
-
-\item{shapeValues}{character vector of OSP shape names (see \code{ospShapeNames})}
 }
 \value{
 list of old settings which can be used to reset defaults with \code{resetDefaults()}
@@ -32,14 +30,12 @@ Other setDefault functions:
 \code{\link{getDefaultOptions}()},
 \code{\link{getOspsuite.plots.option}()},
 \code{\link{resetDefaultColorMapDistinct}()},
-\code{\link{resetDefaultShapeDiscrete}()},
 \code{\link{resetDefaultTheme}()},
 \code{\link{resetDefaults}()},
 \code{\link{scale_shape_osp}()},
 \code{\link{scale_shape_osp_identity}()},
 \code{\link{scale_shape_osp_manual}()},
 \code{\link{setDefaultColorMapDistinct}()},
-\code{\link{setDefaultShapeDiscrete}()},
 \code{\link{setDefaultTheme}()},
 \code{\link{setOspsuite.plots.option}()},
 \code{\link{stat_qq_osp}()}

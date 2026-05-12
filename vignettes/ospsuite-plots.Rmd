@@ -75,11 +75,11 @@ ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, shape = Se
 
 To set the default layout, we use the same logic as in `ggplot2::theme_set()`. The previous settings are returned invisibly, so you can easily save them and restore them later.
 
-`setDefaults()` sets the theme, discrete color palette, shapes, and various options. All objects can also be set separately as described below.
+`setDefaults()` sets the theme, discrete color palette, and various options. All objects can also be set separately as described below. Shape ordering for OSP-aware geoms is controlled per plot via `scale_shape_osp()` or `scale_shape_osp_manual()`.
 
 ```{r set-ospsuite-defaults, warning=FALSE, fig.show='hold', fig.alt="Two plots showing the effect of setting ospsuite.plots defaults. Plot A shows a histogram with ospsuite.plots styling applied. Plot B shows a scatter plot that now automatically adopts the ospsuite.plots theme, colors, shapes, and formatting after setDefaults() is called."}
 # Set default layout and save previous layout in variable oldDefaults
-oldDefaults <- ospsuite.plots::setDefaults(defaultOptions = list(), colorMapList = NULL, shapeValues = NULL)
+oldDefaults <- ospsuite.plots::setDefaults(defaultOptions = list(), colorMapList = NULL)
 
 # ospsuite.plots function
 ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
@@ -205,7 +205,7 @@ ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
 
 ## 2.4 Default Shapes
 
-Functions to set the `ospsuite.plots` default shapes only are `setDefaultShapeDistinct(shapeValues)` and `resetDefaultShapeDistinct(oldShapeValue)`. These functions are called by `setDefaults()` and `resetDefaults()`. The scales are set to the option `ospsuite.plots.shapeValues`, which is then used to set the discrete scale of shapes for all `ospsuite.plots` functions. For customized functions, add `scale_shape_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$shapeValues))`.
+OSP shape ordering is controlled per plot, not via a global option. Use `geom_point_osp()` together with `scale_shape_osp()` for automatic assignment from `ospShapeNames`, `scale_shape_osp_manual(values = c(level1 = "circle", level2 = "diamond", ...))` for an explicit mapping, or `scale_shape_osp_identity()` when the data already contains shape names. Raw `ggplot2::geom_point()` keeps using ggplot2's native pch shapes.
 
 ## 2.5 Default Options
 

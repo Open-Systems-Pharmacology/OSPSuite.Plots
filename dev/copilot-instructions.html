@@ -127,7 +127,7 @@
 <p>For each criterion above, create a Markdown subsection.<br>
 Within each subsection, provide a table of findings for <em>only those functions/methods with issues</em>.<br>
 Each table should have the following columns:</p>
-<table class="table"><thead><tr class="header"><th>Function/Method Name</th>
+<table class="table"><thead><tr><th>Function/Method Name</th>
 <th>Finding</th>
 <th>Suggestions</th>
 </tr></thead><tbody></tbody></table><ul><li>The last column (Suggestions) should provide specific, actionable guidance on how to resolve the issue.</li>
@@ -136,28 +136,28 @@ Each table should have the following columns:</p>
 <h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a></h3>
 <div class="section level4">
 <h4 id="a-syntactic-correctness-and-performance-1">a) Syntactic Correctness and Performance<a class="anchor" aria-label="anchor" href="#a-syntactic-correctness-and-performance-1"></a></h4>
-<table class="table"><colgroup><col width="50%"><col width="20%"><col width="29%"></colgroup><thead><tr class="header"><th>Function/Method Name</th>
+<table class="table"><colgroup><col width="50%"><col width="20%"><col width="29%"></colgroup><thead><tr><th>Function/Method Name</th>
 <th>Finding</th>
 <th>Suggestions</th>
-</tr></thead><tbody><tr class="odd"><td>calculateStats</td>
+</tr></thead><tbody><tr><td>calculateStats</td>
 <td>Unnecessary for-loop used for vectorized operation</td>
 <td>Replace loop with <code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code> or vectorized function.</td>
 </tr></tbody></table></div>
 <div class="section level4">
 <h4 id="c-cyclomatic-complexity-1">c) Cyclomatic Complexity<a class="anchor" aria-label="anchor" href="#c-cyclomatic-complexity-1"></a></h4>
-<table class="table"><colgroup><col width="50%"><col width="20%"><col width="29%"></colgroup><thead><tr class="header"><th>Function/Method Name</th>
+<table class="table"><colgroup><col width="50%"><col width="20%"><col width="29%"></colgroup><thead><tr><th>Function/Method Name</th>
 <th>Finding</th>
 <th>Suggestions</th>
-</tr></thead><tbody><tr class="odd"><td>processData</td>
+</tr></thead><tbody><tr><td>processData</td>
 <td>Cyclomatic complexity = 15 (exceeds 10)</td>
 <td>Refactor into smaller helper functions to reduce complexity.</td>
 </tr></tbody></table></div>
 <div class="section level4">
 <h4 id="h-error-handling-1">h) Error Handling<a class="anchor" aria-label="anchor" href="#h-error-handling-1"></a></h4>
-<table class="table"><colgroup><col width="50%"><col width="20%"><col width="29%"></colgroup><thead><tr class="header"><th>Function/Method Name</th>
+<table class="table"><colgroup><col width="50%"><col width="20%"><col width="29%"></colgroup><thead><tr><th>Function/Method Name</th>
 <th>Finding</th>
 <th>Suggestions</th>
-</tr></thead><tbody><tr class="odd"><td>loadData</td>
+</tr></thead><tbody><tr><td>loadData</td>
 <td>No error handling for missing files</td>
 <td>Use <code><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch()</a></code> to handle file loading errors and provide informative messages.</td>
 </tr></tbody></table><hr></div>

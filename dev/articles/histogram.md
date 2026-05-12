@@ -17,6 +17,7 @@ default settings of
 adjust the legend position.
 
 ``` r
+
 options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Set watermark option required for ospsuite.plots functionality
@@ -41,6 +42,7 @@ This vignette uses the following datasets:
 - **Data Set 1**:
 
 ``` r
+
 histData <- exampleDataCovariates |>
   dplyr::filter(SetID == "DataSet1") |>
   dplyr::select(c("ID", "Sex", "Age", "AgeBin", "Ratio"))
@@ -61,9 +63,10 @@ knitr::kable(head(histData), digits = 2, caption = "First rows of example data."
 |   5 | Male |   0 | Peds   |  2.69 |
 |   6 | Male |  48 | Adults |  2.16 |
 
-First rows of example data.
+First rows of example data. {.table}
 
 ``` r
+
 knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "List of meta data")
 ```
 
@@ -72,11 +75,12 @@ knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "List of meta d
 | dimension | Age | Ratio |
 | unit      | yrs |       |
 
-List of meta data
+List of meta data {.table}
 
 - **Data Set 2**:
 
 ``` r
+
 histDataDistr <- exampleDataCovariates |>
   dplyr::filter(SetID == "DataSet2") |>
   dplyr::select(c("ID", "AgeBin", "Sex", "Obs"))
@@ -97,9 +101,10 @@ knitr::kable(head(histDataDistr), digits = 2, caption = "First rows of distribut
 |   5 | adult  | Female | 30.48 |
 |   6 | adult  | Male   | 74.24 |
 
-First rows of distribution data.
+First rows of distribution data. {.table}
 
 ``` r
+
 knitr::kable(metaData2DataFrame(metaDataDistr), digits = 2, caption = "List of meta data for distribution data")
 ```
 
@@ -108,7 +113,7 @@ knitr::kable(metaData2DataFrame(metaDataDistr), digits = 2, caption = "List of m
 | dimension | Clearance |
 | unit      | dL/h/kg   |
 
-List of meta data for distribution data
+List of meta data for distribution data {.table}
 
 ## 2. Examples
 
@@ -120,6 +125,7 @@ Histogram of the “Ratio” column mapped to `x`, stratified by the “Sex”
 column mapped to `fill`.
 
 ``` r
+
 plotHistogram(
   data = histData,
   mapping = aes(x = Ratio, fill = Sex),
@@ -145,6 +151,7 @@ that the default value of `geomHistAttributes` contains the entry
 of 30 is used.
 
 ``` r
+
 plotHistogram(
   data = histData,
   mapping = aes(x = Ratio, groupby = Sex),
@@ -166,6 +173,7 @@ To preserve the default settings, we modified the variable with
 This changes the position but preserves the number of bins.
 
 ``` r
+
 plotHistogram(
   data = histData,
   mapping = aes(x = Ratio, groupby = Sex),
@@ -189,6 +197,7 @@ By setting the position to `identity` and setting `alpha` to a value
 below 1, an overlay of histograms is produced.
 
 ``` r
+
 plotHistogram(
   data = histData,
   mapping = aes(x = Ratio, fill = Sex),
@@ -213,6 +222,7 @@ boolean to the aesthetic `mdv`. Below, we exclude data above the value
 of 4:
 
 ``` r
+
 plotHistogram(
   data = histData,
   mapping = aes(x = Ratio, fill = Sex, mdv = Ratio > 4),
@@ -232,6 +242,7 @@ To stratify by a combination of columns, use the function `interaction`
 for the mapping to `groupby`:
 
 ``` r
+
 plotHistogram(
   data = histData,
   mapping = aes(x = Ratio, groupby = interaction(Sex, AgeBin, sep = "-")),
@@ -259,6 +270,7 @@ define the bin boundaries by adding the entry `breaks` to
 `geomHistAttributes`.
 
 ``` r
+
 plotHistogram(
   data = histData,
   mapping = aes(x = Ratio, fill = Sex),
@@ -279,6 +291,7 @@ is used to create 3 bins with equal numbers of observations. The data is
 now displayed as categorical data.
 
 ``` r
+
 plotHistogram(
   data = histData,
   mapping = aes(x = cut_number(Ratio, n = 3, labels = c("low", "mean", "high")), fill = Sex),
@@ -303,6 +316,7 @@ If the variable `plotAsFrequency` is set to TRUE and:
   per group (B)
 
 ``` r
+
 # A
 plotHistogram(
   data = histData,
@@ -343,6 +357,7 @@ mapping:
   per group (D)
 
 ``` r
+
 # C
 plotHistogram(
   data = histData,
@@ -401,6 +416,7 @@ Below are examples for:
 #### 3.1 Fit of a Normal Distribution with Mean as Vertical Line
 
 ``` r
+
 # Plot normal distribution
 plotHistogram(
   data = histDataDistr,
@@ -419,6 +435,7 @@ capabilities.](histogram_files/figure-html/example-distribution-1.png)
 #### 3.2 Fit of a Chi-Squared Distribution without Vertical Line
 
 ``` r
+
 plotHistogram(
   data = histDataDistr,
   mapping = aes(x = Obs, groupby = Sex),
@@ -440,6 +457,7 @@ With the option `stack`, it is also possible to get the distribution of
 the sum only.
 
 ``` r
+
 plotHistogram(
   data = histData,
   mapping = aes(x = Ratio, fill = Sex),
@@ -464,6 +482,7 @@ To fit a frequency, select a distribution (here “normal”) and set the
 variable `plotAsFrequency` to TRUE.
 
 ``` r
+
 plotHistogram(
   data = histDataDistr,
   mapping = aes(x = Obs, fill = Sex),
@@ -482,6 +501,7 @@ data.](histogram_files/figure-html/example-frequency-fit-1.png)
 #### 3.5 Fit with Frequency TRUE and Stacked Data
 
 ``` r
+
 plotHistogram(
   data = histData,
   mapping = aes(x = Ratio, fill = Sex),
@@ -508,6 +528,7 @@ scale has to be set before the distribution fit. Please use the variable
 `xScale = 'log'` and do not add a `{ggplot}` like `scale_x_log10`.
 
 ``` r
+
 plotHistogram(
   data = histDataDistr,
   mapping = aes(x = Obs, fill = Sex),
@@ -534,6 +555,7 @@ can also be done manually by setting the variable `asBarPlot` to TRUE
 (see plot B).
 
 ``` r
+
 # A Input is factor
 plotHistogram(
   data = histData,

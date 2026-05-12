@@ -16,6 +16,7 @@ and [tidyr](https://tidyr.tidyverse.org) libraries. We will also utilize
 the `ggplot2` package for plotting.
 
 ``` r
+
 options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Set watermark option required for ospsuite.plots functionality
@@ -25,6 +26,11 @@ library(ospsuite.plots)
 #> Loading required package: ggplot2
 library(tidyr)
 library(data.table)
+#> 
+#> Attaching package: 'data.table'
+#> The following object is masked from 'package:base':
+#> 
+#>     %notin%
 library(ggplot2)
 
 # Set Defaults
@@ -39,6 +45,7 @@ identifiers, the age of the individual, a numeric variable representing
 measurements, and a categorical variable indicating group membership.
 
 ``` r
+
 # Simulating example data
 set.seed(123)
 n <- 1000
@@ -98,6 +105,7 @@ In this example, we will create a basic range plot to visualize the
 distribution of the `Value` variable across different groups.
 
 ``` r
+
 plotObject <- plotRangeDistribution(
   data = exampleData,
   mapping = aes(x = Age, y = value, groupby = Group),
@@ -128,6 +136,7 @@ In this example, we will create a range plot using custom binning
 breaks.
 
 ``` r
+
 customBreaks <- c(2, 6, 12, 18)
 
 plotObject <- plotRangeDistribution(
@@ -158,6 +167,7 @@ calculates the mean and standard deviation for the `Value` variable and
 use it in the range plot.
 
 ``` r
+
 customStatFun <- function(y) {
   return(c(ymin = mean(y) - sd(y), y = mean(y), ymax = mean(y) + sd(y)))
 }
@@ -190,6 +200,7 @@ In this example, we will create a range plot with the step plot option
 enabled.
 
 ``` r
+
 plotObject <- plotRangeDistribution(
   data = exampleData,
   mapping = aes(x = Age, y = value, groupby = Group),

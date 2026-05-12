@@ -186,11 +186,13 @@ data:</p>
 <code><a href="https://ggplot2.tidyverse.org/reference/get_theme.html" class="external-link">ggplot2::theme_set()</a></code>. The previous settings are returned
 invisibly, so you can easily save them and restore them later.</p>
 <p><code><a href="../reference/setDefaults.html">setDefaults()</a></code> sets the theme, discrete color palette,
-shapes, and various options. All objects can also be set separately as
-described below.</p>
+and various options. All objects can also be set separately as described
+below. Shape ordering for OSP-aware geoms is controlled per plot via
+<code><a href="../reference/scale_shape_osp.html">scale_shape_osp()</a></code> or
+<code><a href="../reference/scale_shape_osp_manual.html">scale_shape_osp_manual()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set default layout and save previous layout in variable oldDefaults</span></span>
-<span><span class="va">oldDefaults</span> <span class="op">&lt;-</span> <span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/setDefaults.html">setDefaults</a></span><span class="op">(</span>defaultOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, colorMapList <span class="op">=</span> <span class="cn">NULL</span>, shapeValues <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="va">oldDefaults</span> <span class="op">&lt;-</span> <span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/setDefaults.html">setDefaults</a></span><span class="op">(</span>defaultOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, colorMapList <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># ospsuite.plots function</span></span>
 <span><span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/plotHistogram.html">plotHistogram</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">testData</span>, mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>tag <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></span>
@@ -327,15 +329,27 @@ and <code>colour</code>.</p>
 <div class="section level3">
 <h3 id="default-shapes">2.4 Default Shapes<a class="anchor" aria-label="anchor" href="#default-shapes"></a>
 </h3>
-<p>Functions to set the <code>ospsuite.plots</code> default shapes only
-are <code>setDefaultShapeDistinct(shapeValues)</code> and
-<code>resetDefaultShapeDistinct(oldShapeValue)</code>. These functions
-are called by <code><a href="../reference/setDefaults.html">setDefaults()</a></code> and
-<code><a href="../reference/resetDefaults.html">resetDefaults()</a></code>. The scales are set to the option
-<code>ospsuite.plots.shapeValues</code>, which is then used to set the
-discrete scale of shapes for all <code>ospsuite.plots</code> functions.
-For customized functions, add
-<code>scale_shape_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$shapeValues))</code>.</p>
+<p>All point layers produced by <code>ospsuite.plots</code> use
+<code><a href="../reference/geom_point_osp.html">geom_point_osp()</a></code>, which draws from the OSP shape palette
+defined in <code>ospShapeNames</code>. When you build your own plots and
+want them to combine consistently with <code>ospsuite.plots</code>
+outputs, prefer <code><a href="../reference/geom_point_osp.html">geom_point_osp()</a></code> over the raw
+<code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">ggplot2::geom_point()</a></code>.</p>
+<p>Shape ordering is controlled per plot, not via a global option:</p>
+<ul>
+<li>
+<code><a href="../reference/geom_point_osp.html">geom_point_osp()</a></code> paired with
+<code><a href="../reference/scale_shape_osp.html">scale_shape_osp()</a></code> assigns shapes automatically from
+<code>ospShapeNames</code>.</li>
+<li>
+<code>scale_shape_osp_manual(values = c(level1 = "circle", level2 = "diamond", ...))</code>
+sets an explicit mapping.</li>
+<li>
+<code><a href="../reference/scale_shape_osp_identity.html">scale_shape_osp_identity()</a></code> is the right choice when the
+data already contains shape names.</li>
+</ul>
+<p>Raw <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">ggplot2::geom_point()</a></code> keeps using ggplot2’s native
+pch shapes and is unaffected.</p>
 </div>
 <div class="section level3">
 <h3 id="default-options">2.5 Default Options<a class="anchor" aria-label="anchor" href="#default-options"></a>

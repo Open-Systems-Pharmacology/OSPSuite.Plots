@@ -90,9 +90,6 @@ Functions to set and reset Settings for plot layout
 - [`resetDefaultColorMapDistinct()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaultColorMapDistinct.md)
   : reset the default color map for discrete colors
 
-- [`resetDefaultShapeDiscrete()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaultShapeDiscrete.md)
-  : resets the scale for discrete shapes to ggplot default
-
 - [`resetDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaultTheme.md)
   : reset the default theme
 
@@ -110,9 +107,6 @@ Functions to set and reset Settings for plot layout
 
 - [`setDefaultColorMapDistinct()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultColorMapDistinct.md)
   : set the default color-map for discrete colors
-
-- [`setDefaultShapeDiscrete()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultShapeDiscrete.md)
-  : set the default shapes
 
 - [`setDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultTheme.md)
   : set the default theme

@@ -17,8 +17,6 @@ returns an option value for a option defined by the package OSPSuite.plots
 }
 \examples{
 \dontrun{
-# Set the option first before getting it
-options(ospsuite.plots.watermarkEnabled = TRUE)
 getOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled)
 }
 }

@@ -20,9 +20,7 @@ test_that("getDefaultGeomAttributes works correctly", {
 })
 
 test_that("getOspsuite.plots.option works correctly", {
-  # Test getting watermark option when it's set
-  # Set it first since it's no longer in defaults
-  setOspsuite.plots.option("watermarkEnabled", TRUE)
+  # watermarkEnabled defaults to TRUE — no manual set needed
   watermarkEnabled <- getOspsuite.plots.option("watermarkEnabled")
   expect_type(watermarkEnabled, "logical")
 
@@ -49,7 +47,7 @@ test_that("setOspsuite.plots.option works correctly", {
   # Test setting NULL value clears the option
   setOspsuite.plots.option("watermarkEnabled", NULL)
   clearedValue <- getOspsuite.plots.option("watermarkEnabled")
-  # watermarkEnabled has no default, so cleared value should be NULL
+  # watermarkEnabled has no getDefaultOptions() entry, so cleared value is NULL
   expect_null(clearedValue)
 
   # Reset for other tests

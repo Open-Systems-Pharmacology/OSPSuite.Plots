@@ -17,10 +17,7 @@ This function adds a customizable watermark to a ggplot object. The watermark ca
 }
 \examples{
 \dontrun{
-# Set watermark option first (required)
-setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
-
-# Example usage
+# Example usage (watermark enabled by default)
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point()
 p_with_watermark <- addWatermark(p)

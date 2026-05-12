@@ -352,8 +352,6 @@ getDefaultGeomAttributes <- function(geom) {
 #'
 #' @examples
 #' \dontrun{
-#' # Set the option first before getting it
-#' options(ospsuite.plots.watermarkEnabled = TRUE)
 #' getOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled)
 #' }
 # fmt: skip

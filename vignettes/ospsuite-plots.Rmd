@@ -205,7 +205,15 @@ ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
 
 ## 2.4 Default Shapes
 
-OSP shape ordering is controlled per plot, not via a global option. Use `geom_point_osp()` together with `scale_shape_osp()` for automatic assignment from `ospShapeNames`, `scale_shape_osp_manual(values = c(level1 = "circle", level2 = "diamond", ...))` for an explicit mapping, or `scale_shape_osp_identity()` when the data already contains shape names. Raw `ggplot2::geom_point()` keeps using ggplot2's native pch shapes.
+All point layers produced by `ospsuite.plots` use `geom_point_osp()`, which draws from the OSP shape palette defined in `ospShapeNames`. When you build your own plots and want them to combine consistently with `ospsuite.plots` outputs, prefer `geom_point_osp()` over the raw `ggplot2::geom_point()`.
+
+Shape ordering is controlled per plot, not via a global option:
+
+- `geom_point_osp()` paired with `scale_shape_osp()` assigns shapes automatically from `ospShapeNames`.
+- `scale_shape_osp_manual(values = c(level1 = "circle", level2 = "diamond", ...))` sets an explicit mapping.
+- `scale_shape_osp_identity()` is the right choice when the data already contains shape names.
+
+Raw `ggplot2::geom_point()` keeps using ggplot2's native pch shapes and is unaffected.
 
 ## 2.5 Default Options
 

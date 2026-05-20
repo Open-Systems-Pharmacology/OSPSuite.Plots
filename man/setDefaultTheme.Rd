@@ -15,8 +15,6 @@ This function applies a custom theme based on theme_bw() with OSPSuite-specific 
 }
 \examples{
 \dontrun{
-# Set watermark option first (required)
-options(ospsuite.plots.watermarkEnabled = TRUE)
 oldTheme <- setDefaultTheme()
 
 # Create a plot with the new theme

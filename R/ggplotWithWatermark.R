@@ -64,11 +64,12 @@ ggplotWithWatermark <- function(...) {
 }
 
 
-# Helper function to get watermark enabled status.
-# Returns TRUE by default (matching the package default set in .onLoad).
-# @keywords internal
+#' Helper function to get watermark enabled status.
+#' @keywords internal
 .getWatermarkEnabled <- function() {
-  isTRUE(getOption("ospsuite.plots.watermarkEnabled", default = TRUE))
+  watermarkStatus <- getOption("ospsuite.plots.watermarkEnabled", default = TRUE)
+  checkmate::assert_flag(watermarkStatus)
+  return(watermarkStatus)
 }
 
 #' Print method for ggWatermark objects

@@ -167,22 +167,40 @@ test_that("watermark is present when TRUE and absent when FALSE", {
 test_that("addWatermark silently treats NULL watermarkEnabled as TRUE", {
   oldValue <- getOption("ospsuite.plots.watermarkEnabled")
   on.exit(options(ospsuite.plots.watermarkEnabled = oldValue))
+  watermarkLabel <- getOspsuite.plots.option(OptionKeys$watermarkLabel)
 
   options(ospsuite.plots.watermarkEnabled = NULL)
+  expect_true(getOspsuite.plots.option(OptionKeys$watermarkEnabled))
+  
   p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
-
-  # NULL falls back to default (TRUE) — no error
-  expect_no_error(addWatermark(p))
+  expect_no_condition(addWatermark(p))
+  
+  tempSvg <- tempfile(fileext = ".svg")
+  suppressMessages(ggsave(tempSvg, plot = addWatermark(p), device = "svg"))
+  expect_true(
+    any(grepl(watermarkLabel, readLines(tempSvg), fixed = TRUE)),
+    info = "addWatermark silently treats NULL watermarkEnabled as TRUE"
+  )
 })
 
 test_that("print.ggWatermark silently treats NULL watermarkEnabled as TRUE", {
   oldValue <- getOption("ospsuite.plots.watermarkEnabled")
   on.exit(options(ospsuite.plots.watermarkEnabled = oldValue))
+  watermarkLabel <- getOspsuite.plots.option(OptionKeys$watermarkLabel)
 
   options(ospsuite.plots.watermarkEnabled = NULL)
+  expect_true(getOspsuite.plots.option(OptionKeys$watermarkEnabled))
+  
   p <- ggplotWithWatermark(mtcars, aes(x = wt, y = mpg)) + geom_point()
-
-  expect_no_error(print(p))
+  expect_no_condition(print(p))
+  
+  tempSvg <- tempfile(fileext = ".svg")
+  suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
+  expect_true(
+    any(grepl(watermarkLabel, readLines(tempSvg), fixed = TRUE)),
+    info = "print.ggWatermark silently treats NULL watermarkEnabled as TRUE"
+  )
+  
 })
 
 

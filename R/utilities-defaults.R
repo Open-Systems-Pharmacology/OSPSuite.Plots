@@ -7,8 +7,6 @@
 #' @return invisibly return the previous theme so you can easily save it, then later restore it.
 #' @examples
 #' \dontrun{
-#' # Set watermark option first (required)
-#' options(ospsuite.plots.watermarkEnabled = TRUE)
 #' oldTheme <- setDefaultTheme()
 #'
 #' # Create a plot with the new theme
@@ -265,6 +263,7 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 getDefaultOptions <- function() {
   optionList <- list(
     # watermark
+    ospsuite.plots.watermarkEnabled = TRUE,
     ospsuite.plots.watermarkLabel = "preliminary analysis",
     ospsuite.plots.watermarkFormat = list(
       x = 0.5,

@@ -239,7 +239,7 @@ options(ospsuite.plots.watermarkEnabled = FALSE)
 
 You can edit your `.Rprofile` with `usethis::edit_r_profile()`.
 
-**Attention!** If you combine plots e.g. with `cowplot:plot_grid` the default print function without watermark is called. In this case you have to add the watermark with the function `addwatermark(plotObject)` before the print.
+**Attention!** If you combine plots e.g. with `cowplot:plot_grid` the default print function without watermark is called. In this case you have to add the watermark with the function `addWatermark(plotObject)` before the print.
 
 The watermark can be customized by these options:
 

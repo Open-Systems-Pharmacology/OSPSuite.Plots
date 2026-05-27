@@ -24,9 +24,6 @@ knitr::opts_chunk$set(
 ```{r setup, echo=FALSE}
 options(rmarkdown.html_vignette.check_title = FALSE)
 
-# Set watermark option required for ospsuite.plots functionality
-options(ospsuite.plots.watermarkEnabled = TRUE)
-
 library(ospsuite.plots)
 library(tidyr)
 ```
@@ -229,24 +226,25 @@ The names of all options defined by this package start with the package name `os
 
 All plots in this packages are created with the function `ggplotWithWatermark()` instead of `ggplot()`. This function creates a `ggplot` with a customized print function which adds a watermark. 
 
-**Important:** The `watermarkEnabled` option must be explicitly set before using one of the plot functions. Add it to your `.Rprofile`:
+The watermark is **enabled by default** — plots produced without any configuration will already carry the watermark.
+Setting the option to `NULL` is treated the same as using the default, so the watermark will still appear.
+
+No opt-in is required; you only need to interact with these options if you want to customize or remove the watermark.
+To override this default in your `.Rprofile` (e.g., to disable watermarks globally):
 
 ```r
-# Enable watermarks
-options(ospsuite.plots.watermarkEnabled = TRUE)
-
-# Or disable watermarks
+# Disable watermarks globally
 options(ospsuite.plots.watermarkEnabled = FALSE)
 ```
 
 You can edit your `.Rprofile` with `usethis::edit_r_profile()`.
 
-Attention! If you combine plots e.g. with `cowplot:plot_grid` the default print function without watermark is called. In this case you have to add the watermark with the function `addwatermark(plotObject)` before the print.
+**Attention!** If you combine plots e.g. with `cowplot:plot_grid` the default print function without watermark is called. In this case you have to add the watermark with the function `addWatermark(plotObject)` before the print.
 
-The watermark can by customized by this options:
+The watermark can be customized by these options:
 
-- Switch the watermark on and off (option key = `watermarkEnabled`, **no default value - must be explicitly set by the user before using watermark features**)
-- Select the label (option key = `watermarkLabel`, default = "preliminary analysis")
+- Switch the watermark on and off (option key = `watermarkEnabled`, default = `TRUE`)
+- Define the label (option key = `watermarkLabel`, default = "preliminary analysis")
 - Customize format (option key = `watermarkFormat`, default = `list(x = 0.5, y = 0.5, color = "lightgrey", angle = 30, fontsize = 12, alpha = 0.7)`)
 
 ### Examples to Customize Watermark

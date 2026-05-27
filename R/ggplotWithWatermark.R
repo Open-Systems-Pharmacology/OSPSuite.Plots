@@ -22,10 +22,7 @@
 #'   - `alpha`: The transparency level of the watermark text, ranging from 0 (completely transparent) to 1 (completely opaque).
 #'
 #' @examples
-#' # Set watermark option first (required)
-#' options(ospsuite.plots.watermarkEnabled = TRUE)
-#'
-#' # Example usage with watermark enabled
+#' # Example usage with watermark enabled (watermark is enabled by default)
 #' plotWithWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
 #'   geom_point()
 #' print(plotWithWatermark)
@@ -67,19 +64,12 @@ ggplotWithWatermark <- function(...) {
 }
 
 
-# Helper function to get watermark enabled status and validate it's set
-# @keywords internal
+#' Helper function to get watermark enabled status.
+#' @keywords internal
 .getWatermarkEnabled <- function() {
-  watermarkEnabled <- getOption("ospsuite.plots.watermarkEnabled")
-  if (is.null(watermarkEnabled)) {
-    stop(
-      "The option 'ospsuite.plots.watermarkEnabled' is not set.\n",
-      "Please set it in your .Rprofile or use:\n",
-      "  options(ospsuite.plots.watermarkEnabled = TRUE)  # to enable\n",
-      "  options(ospsuite.plots.watermarkEnabled = FALSE) # to disable"
-    )
-  }
-  return(watermarkEnabled)
+  watermarkStatus <- getOption("ospsuite.plots.watermarkEnabled", default = TRUE)
+  checkmate::assert_flag(watermarkStatus)
+  return(watermarkStatus)
 }
 
 #' Print method for ggWatermark objects
@@ -114,10 +104,7 @@ print.ggWatermark <- function(x, ...) {
 #'
 #' @examples
 #' \dontrun{
-#' # Set watermark option first (required)
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
-#'
-#' # Example usage
+#' # Example usage (watermark enabled by default)
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'   geom_point()
 #' p_with_watermark <- addWatermark(p)

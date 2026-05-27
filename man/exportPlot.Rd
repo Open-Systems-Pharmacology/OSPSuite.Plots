@@ -59,9 +59,6 @@ For more details and examples see the vignettes:
 }
 \examples{
 \dontrun{
-# Set watermark option first (required)
-options(ospsuite.plots.watermarkEnabled = TRUE)
-
 # Basic usage
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point()

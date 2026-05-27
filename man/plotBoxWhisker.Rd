@@ -74,9 +74,6 @@ For more details and examples, see the vignettes:
 }
 \examples{
 \dontrun{
-# Set watermark option first (required)
-options(ospsuite.plots.watermarkEnabled = TRUE)
-
 # Basic box-whisker plot
 plotBoxWhisker(
   data = myData,

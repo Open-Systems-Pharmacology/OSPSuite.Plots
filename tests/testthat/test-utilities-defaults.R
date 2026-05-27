@@ -20,9 +20,7 @@ test_that("getDefaultGeomAttributes works correctly", {
 })
 
 test_that("getOspsuite.plots.option works correctly", {
-  # Test getting watermark option when it's set
-  # Set it first since it's no longer in defaults
-  setOspsuite.plots.option("watermarkEnabled", TRUE)
+  # watermarkEnabled defaults to TRUE — no manual set needed
   watermarkEnabled <- getOspsuite.plots.option("watermarkEnabled")
   expect_type(watermarkEnabled, "logical")
 
@@ -46,11 +44,10 @@ test_that("setOspsuite.plots.option works correctly", {
   # Reset to original value
   setOspsuite.plots.option("watermarkEnabled", originalValue)
 
-  # Test setting NULL value clears the option
+  # Test setting NULL value clears the option and go back to default as TRUE
   setOspsuite.plots.option("watermarkEnabled", NULL)
   clearedValue <- getOspsuite.plots.option("watermarkEnabled")
-  # watermarkEnabled has no default, so cleared value should be NULL
-  expect_null(clearedValue)
+  expect_true(clearedValue)
 
   # Reset for other tests
   setOspsuite.plots.option("watermarkEnabled", TRUE)
@@ -66,6 +63,7 @@ test_that("getDefaultOptions returns complete options list", {
 
   # Test presence of all key options (verifies the renaming)
   expectedOptions <- c(
+    "ospsuite.plots.watermarkEnabled",
     "ospsuite.plots.watermarkLabel",
     "ospsuite.plots.watermarkFormat",
     "ospsuite.plots.geomLineAttributes",
@@ -83,6 +81,7 @@ test_that("getDefaultOptions returns complete options list", {
   expect_true(all(expectedOptions %in% names(optionsList)))
 
   # Test specific default values for the renamed keys
+  expect_true(optionsList$ospsuite.plots.watermarkEnabled)
   expect_equal(
     optionsList$ospsuite.plots.watermarkLabel,
     "preliminary analysis"

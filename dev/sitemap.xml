@@ -47,6 +47,7 @@
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-buildOspShapeSpec.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-computeAreaScale.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-getMappedDataForTimeProfiles.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-getWatermarkEnabled.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-initialplotObjectForTimeProfile.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-ospGrob.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-ospShapePalette.html</loc></url>

@@ -170,9 +170,6 @@ Other plot functions:
 
 ``` r
 if (FALSE) { # \dontrun{
-# Set watermark option first (required)
-options(ospsuite.plots.watermarkEnabled = TRUE)
-
 # Basic time profile plot with simulated data
 plotTimeProfile(
   data = simulationData,

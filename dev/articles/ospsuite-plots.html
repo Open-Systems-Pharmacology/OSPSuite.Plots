@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Overview • ospsuite.plots</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Overview">
 <meta name="robots" content="noindex">
@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9009</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -373,28 +373,28 @@ are two helper functions (<code>setOspsuite.plots.option</code> and
 <code><a href="../reference/ggplotWithWatermark.html">ggplotWithWatermark()</a></code> instead of <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot()</a></code>.
 This function creates a <code>ggplot</code> with a customized print
 function which adds a watermark.</p>
-<p><strong>Important:</strong> The <code>watermarkEnabled</code> option
-must be explicitly set before using one of the plot functions. Add it to
-your <code>.Rprofile</code>:</p>
+<p>The watermark is <strong>enabled by default</strong> — plots produced
+without any configuration will already carry the watermark. Setting the
+option to <code>NULL</code> is treated the same as using the default, so
+the watermark will still appear.</p>
+<p>No opt-in is required; you only need to interact with these options
+if you want to customize or remove the watermark. To override this
+default in your <code>.Rprofile</code> (e.g., to disable watermarks
+globally):</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Enable watermarks</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermarkEnabled <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Or disable watermarks</span></span>
+<code class="sourceCode R"><span><span class="co"># Disable watermarks globally</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ospsuite.plots.watermarkEnabled <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>You can edit your <code>.Rprofile</code> with
 <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_profile()</a></code>.</p>
-<p>Attention! If you combine plots e.g. with
+<p><strong>Attention!</strong> If you combine plots e.g. with
 <code>cowplot:plot_grid</code> the default print function without
 watermark is called. In this case you have to add the watermark with the
-function <code>addwatermark(plotObject)</code> before the print.</p>
-<p>The watermark can by customized by this options:</p>
+function <code>addWatermark(plotObject)</code> before the print.</p>
+<p>The watermark can be customized by these options:</p>
 <ul>
 <li>Switch the watermark on and off (option key =
-<code>watermarkEnabled</code>, <strong>no default value - must be
-explicitly set by the user before using watermark
-features</strong>)</li>
-<li>Select the label (option key = <code>watermarkLabel</code>, default
+<code>watermarkEnabled</code>, default = <code>TRUE</code>)</li>
+<li>Define the label (option key = <code>watermarkLabel</code>, default
 = “preliminary analysis”)</li>
 <li>Customize format (option key = <code>watermarkFormat</code>, default
 =

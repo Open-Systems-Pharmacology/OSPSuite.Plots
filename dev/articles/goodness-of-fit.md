@@ -53,9 +53,6 @@ default settings of
 
 options(rmarkdown.html_vignette.check_title = FALSE)
 
-# Set watermark option required for ospsuite.plots functionality
-options(ospsuite.plots.watermarkEnabled = TRUE)
-
 library(ospsuite.plots)
 library(tidyr)
 

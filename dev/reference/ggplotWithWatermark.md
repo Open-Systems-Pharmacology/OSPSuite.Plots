@@ -62,10 +62,7 @@ Other watermark:
 ## Examples
 
 ``` r
-# Set watermark option first (required)
-options(ospsuite.plots.watermarkEnabled = TRUE)
-
-# Example usage with watermark enabled
+# Example usage with watermark enabled (watermark is enabled by default)
 plotWithWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
   geom_point()
 print(plotWithWatermark)

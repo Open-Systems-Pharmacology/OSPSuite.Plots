@@ -41,6 +41,11 @@
   horizontal whiskers. The previous default was `width = 0`, which
   suppressed whiskers (#107).
 - Removed `showtext` and `sysfonts` from package dependencies.
+- `ospsuite.plots.watermarkEnabled` is now `TRUE` by default and set
+  automatically at package load (#119). The startup message and runtime
+  error from version 1.1.0 are gone. To disable, set
+  `options(ospsuite.plots.watermarkEnabled = FALSE)` in your
+  `.Rprofile`.
 
 ## ospsuite.plots 1.1.0
 

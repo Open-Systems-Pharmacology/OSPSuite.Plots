@@ -22,9 +22,6 @@ adjust the legend position for better visibility.
 
 options(rmarkdown.html_vignette.check_title = FALSE)
 
-# Set watermark option required for ospsuite.plots functionality
-options(ospsuite.plots.watermarkEnabled = TRUE)
-
 library(ospsuite.plots)
 #> Loading required package: ggplot2
 library(tidyr)

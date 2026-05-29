@@ -288,7 +288,7 @@ plotYVsX <- function(
   if (all(c("xmin", "xmax") %in% names(mappedData$mapping))) {
     plotObject <- plotObject +
       do.call(
-        what = ggplot2::geom_errorbar,
+        what = geom_errorbar_osp,
         args = utils::modifyList(
           x = list(
             na.rm = TRUE,
@@ -302,7 +302,7 @@ plotYVsX <- function(
   if (all(c("ymin", "ymax") %in% names(mappedData$mapping))) {
     plotObject <- plotObject +
       do.call(
-        what = ggplot2::geom_errorbar,
+        what = geom_errorbar_osp,
         args = utils::modifyList(
           list(
             na.rm = TRUE,

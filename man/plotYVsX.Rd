@@ -39,7 +39,7 @@ plotYVsX(
 
 \item{geomPointAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
 
-\item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
+\item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the call \code{geom_errorbar_osp}}
 
 \item{geomGuestLineAttributes}{A \code{list} of arguments passed to \code{ggplot2::geom_function} to display guest criteria.}
 

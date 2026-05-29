@@ -25,6 +25,7 @@ for detailed information see
 Other setDefault functions: 
 \code{\link{Shapes}},
 \code{\link{colorMaps}},
+\code{\link{geom_errorbar_osp}()},
 \code{\link{geom_point_osp}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},

@@ -19,6 +19,7 @@ color palette from \code{{ggsci}} package.
 \seealso{
 Other setDefault functions: 
 \code{\link{Shapes}},
+\code{\link{geom_errorbar_osp}()},
 \code{\link{geom_point_osp}()},
 \code{\link{getDefaultGeomAttributes}()},
 \code{\link{getDefaultOptions}()},

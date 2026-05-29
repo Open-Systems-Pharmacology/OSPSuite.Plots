@@ -64,7 +64,7 @@ use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after s
 
 \item{geomPointAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
 
-\item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
+\item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the call \code{geom_errorbar_osp}}
 
 \item{geomLLOQAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
 
@@ -77,7 +77,7 @@ A \code{ggplot} object
 Produces time profiles for simulated and observed data.
 
 For the simulated data a \code{geom_line} and a \code{geom_ribbon} layer are added
-For the observed data a \code{geom_point} and a \code{geom_errorbar} layer are added
+For the observed data a \code{geom_point} and a \code{geom_errorbar_osp} layer are added
 
 For more details and examples see the vignettes:
 \itemize{

@@ -61,7 +61,8 @@ test_that("plot Observed vs Predicted works", {
     ),
     metaData = metaData,
     addRegression = TRUE,
-    geomErrorbarAttributes = list(width = 0.02)
+    # now width is independent from scale
+    geomErrorbarAttributes = list(width = 2)
   )
 
   vdiffr::expect_doppelganger(

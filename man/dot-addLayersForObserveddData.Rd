@@ -20,7 +20,7 @@
 
 \item{obsMappedData}{object of class \code{MappedDataTimeprofile} for observed data}
 
-\item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
+\item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the call \code{geom_errorbar_osp}}
 
 \item{geomPointAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
 

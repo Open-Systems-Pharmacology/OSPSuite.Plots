@@ -20,7 +20,6 @@
 #'   [ggplot2::geom_errorbar()] interface.
 #' @return A ggplot2 layer that can be added to a plot.
 #' @export
-#' @family setDefault functions
 #' @examples
 #' library(ggplot2)
 #' df <- data.frame(

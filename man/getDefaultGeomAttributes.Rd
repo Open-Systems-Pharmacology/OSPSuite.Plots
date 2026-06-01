@@ -21,7 +21,6 @@ see \code{vignette("ospsuite.plots", package = "ospsuite.plots")} how to change 
 Other setDefault functions:
 \code{\link{Shapes}},
 \code{\link{colorMaps}},
-\code{\link[=geom_errorbar_osp]{geom_errorbar_osp()}},
 \code{\link[=geom_point_osp]{geom_point_osp()}},
 \code{\link[=getDefaultOptions]{getDefaultOptions()}},
 \code{\link[=getOspsuite.plots.option]{getOspsuite.plots.option()}},

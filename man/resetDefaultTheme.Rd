@@ -16,7 +16,6 @@ wrapper for \code{ggplot2::theme_set(oldTheme)}
 Other setDefault functions:
 \code{\link{Shapes}},
 \code{\link{colorMaps}},
-\code{\link[=geom_errorbar_osp]{geom_errorbar_osp()}},
 \code{\link[=geom_point_osp]{geom_point_osp()}},
 \code{\link[=getDefaultGeomAttributes]{getDefaultGeomAttributes()}},
 \code{\link[=getDefaultOptions]{getDefaultOptions()}},

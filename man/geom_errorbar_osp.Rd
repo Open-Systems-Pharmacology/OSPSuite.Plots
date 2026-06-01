@@ -143,24 +143,3 @@ df <- data.frame(
 ggplot(df, aes(x, y, ymin = ymin, ymax = ymax)) +
   geom_errorbar_osp(width = 2, linewidth = 0.8)
 }
-\seealso{
-Other setDefault functions:
-\code{\link{Shapes}},
-\code{\link{colorMaps}},
-\code{\link[=geom_point_osp]{geom_point_osp()}},
-\code{\link[=getDefaultGeomAttributes]{getDefaultGeomAttributes()}},
-\code{\link[=getDefaultOptions]{getDefaultOptions()}},
-\code{\link[=getOspsuite.plots.option]{getOspsuite.plots.option()}},
-\code{\link[=resetDefaultColorMapDistinct]{resetDefaultColorMapDistinct()}},
-\code{\link[=resetDefaultTheme]{resetDefaultTheme()}},
-\code{\link[=resetDefaults]{resetDefaults()}},
-\code{\link[=scale_shape_osp]{scale_shape_osp()}},
-\code{\link[=scale_shape_osp_identity]{scale_shape_osp_identity()}},
-\code{\link[=scale_shape_osp_manual]{scale_shape_osp_manual()}},
-\code{\link[=setDefaultColorMapDistinct]{setDefaultColorMapDistinct()}},
-\code{\link[=setDefaultTheme]{setDefaultTheme()}},
-\code{\link[=setDefaults]{setDefaults()}},
-\code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}},
-\code{\link[=stat_qq_osp]{stat_qq_osp()}}
-}
-\concept{setDefault functions}

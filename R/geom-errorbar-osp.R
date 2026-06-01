@@ -1,8 +1,8 @@
 #' @title OSP Errorbar Layer
 #' @description
-#' A geom that renders error bars with cap `width` specified in **pt** units,
-#' keeping it visually consistent with the `linewidth` aesthetic — both are
-#' expressed in **mm**.  Unlike [ggplot2::geom_errorbar()],
+#' A geom that renders error bars with cap `width` specified in **mm** units,
+#' keeping it visually consistent with the `linewidth` aesthetic, which is
+#' also expressed in **mm**. Unlike [ggplot2::geom_errorbar()],
 #' the cap width is independent of the data coordinate range or axis scale.
 #'
 #' Vertical orientation (`aes(x, ymin, ymax)`) is used by default.
@@ -14,8 +14,10 @@
 #'   error bars (range along the x-axis). Any other value, including `NA`
 #'   (default) and `"y"`, produces vertical error bars (range along the
 #'   y-axis).
-#' @param na.rm If `FALSE` (default), missing values are removed with a
-#'   warning. If `TRUE`, they are silently removed.
+#' @param na.rm Missing values in the range aesthetics are dropped (the
+#'   affected cap is simply not drawn) for both `TRUE` and `FALSE`. No warning
+#'   is emitted in either case. The argument is kept for consistency with the
+#'   [ggplot2::geom_errorbar()] interface.
 #' @return A ggplot2 layer that can be added to a plot.
 #' @export
 #' @family setDefault functions
@@ -31,16 +33,18 @@
 #'   geom_errorbar_osp(width = 2, linewidth = 0.8)
 # nolint start: object_name_linter
 geom_errorbar_osp <- function(
-    mapping = NULL,
-    data = NULL,
-    stat = "identity",
-    position = "identity",
-    ...,
-    orientation = NA,
-    width = 1.5,
-    na.rm = FALSE,
-    show.legend = NA,
-    inherit.aes = TRUE) {
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  ...,
+  orientation = NA,
+  width = 1.5,
+  lineend = "butt",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+) {
   # nolint end
   ggplot2::layer(
     geom = GeomErrorbarOsp,
@@ -50,7 +54,13 @@ geom_errorbar_osp <- function(
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(orientation = orientation, width = width, na.rm = na.rm, ...)
+    params = list(
+      orientation = orientation,
+      width = width,
+      lineend = lineend,
+      na.rm = na.rm,
+      ...
+    )
   )
 }
 
@@ -58,7 +68,7 @@ geom_errorbar_osp <- function(
 
 #' @title GeomErrorbarOsp
 #' @description
-#' ggproto object for OSP error bars with cap width in pt units.
+#' ggproto object for OSP error bars with cap width in mm units.
 #' Use [geom_errorbar_osp()] to add this geom to a ggplot.
 #' @format NULL
 #' @usage NULL
@@ -76,28 +86,41 @@ GeomErrorbarOsp <- ggplot2::ggproto(
     alpha = NA
   ),
   draw_key = ggplot2::draw_key_path,
-  extra_params = c("na.rm", "orientation", "width"),
+  extra_params = c("na.rm", "orientation", "width", "lineend"),
   setup_data = function(data, params) {
     # Suppress rows where the bar has zero length to avoid orphan caps.
-    # Both range columns are set to NA_real_ so the row is dropped by na.rm.
+    # Both range columns are set to NA_real_ so the cap is drawn at an NA
+    # coordinate, i.e. not rendered.
     # Respect orientation when provided so only the relevant axis is checked.
     orientation <- params$orientation %||% NA
     horizontal <- identical(orientation, "x")
 
     if (!horizontal && all(c("ymin", "ymax") %in% names(data))) {
-      zeroRange <- !is.na(data$ymin) & !is.na(data$ymax) & data$ymin == data$ymax
+      zeroRange <- !is.na(data$ymin) &
+        !is.na(data$ymax) &
+        data$ymin == data$ymax
       data$ymin[zeroRange] <- NA_real_
       data$ymax[zeroRange] <- NA_real_
     }
     if (horizontal && all(c("xmin", "xmax") %in% names(data))) {
-      zeroRange <- !is.na(data$xmin) & !is.na(data$xmax) & data$xmin == data$xmax
+      zeroRange <- !is.na(data$xmin) &
+        !is.na(data$xmax) &
+        data$xmin == data$xmax
       data$xmin[zeroRange] <- NA_real_
       data$xmax[zeroRange] <- NA_real_
     }
     return(data)
   },
   # nolint start: object_name_linter
-  draw_panel = function(self, data, panel_params, coord, lineend = "butt", orientation = NA, width = 1.5) {
+  draw_panel = function(
+    self,
+    data,
+    panel_params,
+    coord,
+    lineend = "butt",
+    orientation = NA,
+    width = 1.5
+  ) {
     # nolint end
     if (nrow(data) == 0) return(grid::nullGrob())
     coords <- coord$transform(data, panel_params)
@@ -115,7 +138,11 @@ GeomErrorbarOsp <- ggplot2::ggproto(
     horizontal <- identical(orientation, "x")
 
     if (horizontal) {
-      if (length(coords$y) == 0 || length(coords$xmin) == 0 || length(coords$xmax) == 0) {
+      if (
+        length(coords$y) == 0 ||
+          length(coords$xmin) == 0 ||
+          length(coords$xmax) == 0
+      ) {
         return(grid::nullGrob())
       }
       center <- grid::unit(coords$y, "npc")
@@ -144,7 +171,11 @@ GeomErrorbarOsp <- ggplot2::ggproto(
         gp = grid::gpar(col = col, lwd = lwd, lty = lty, lineend = lineend)
       )
     } else {
-      if (length(coords$x) == 0 || length(coords$ymin) == 0 || length(coords$ymax) == 0) {
+      if (
+        length(coords$x) == 0 ||
+          length(coords$ymin) == 0 ||
+          length(coords$ymax) == 0
+      ) {
         return(grid::nullGrob())
       }
       center <- grid::unit(coords$x, "npc")

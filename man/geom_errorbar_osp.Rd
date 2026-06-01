@@ -12,6 +12,7 @@ geom_errorbar_osp(
   ...,
   orientation = NA,
   width = 1.5,
+  lineend = "butt",
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -99,8 +100,12 @@ y-axis).}
 
 \item{width}{Width of the error bar caps in mm units. Default: \code{1.5}.}
 
-\item{na.rm}{If \code{FALSE} (default), missing values are removed with a
-warning. If \code{TRUE}, they are silently removed.}
+\item{lineend}{Line end style (round, butt, square).}
+
+\item{na.rm}{Missing values in the range aesthetics are dropped (the
+affected cap is simply not drawn) for both \code{TRUE} and \code{FALSE}. No warning
+is emitted in either case. The argument is kept for consistency with the
+\code{\link[ggplot2:geom_errorbar]{ggplot2::geom_errorbar()}} interface.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
@@ -119,9 +124,9 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 A ggplot2 layer that can be added to a plot.
 }
 \description{
-A geom that renders error bars with cap \code{width} specified in \strong{pt} units,
-keeping it visually consistent with the \code{linewidth} aesthetic — both are
-expressed in \strong{mm}.  Unlike \code{\link[ggplot2:geom_linerange]{ggplot2::geom_errorbar()}},
+A geom that renders error bars with cap \code{width} specified in \strong{mm} units,
+keeping it visually consistent with the \code{linewidth} aesthetic, which is
+also expressed in \strong{mm}. Unlike \code{\link[ggplot2:geom_errorbar]{ggplot2::geom_errorbar()}},
 the cap width is independent of the data coordinate range or axis scale.
 
 Vertical orientation (\code{aes(x, ymin, ymax)}) is used by default.
@@ -139,23 +144,23 @@ ggplot(df, aes(x, y, ymin = ymin, ymax = ymax)) +
   geom_errorbar_osp(width = 2, linewidth = 0.8)
 }
 \seealso{
-Other setDefault functions: 
+Other setDefault functions:
 \code{\link{Shapes}},
 \code{\link{colorMaps}},
-\code{\link{geom_point_osp}()},
-\code{\link{getDefaultGeomAttributes}()},
-\code{\link{getDefaultOptions}()},
-\code{\link{getOspsuite.plots.option}()},
-\code{\link{resetDefaultColorMapDistinct}()},
-\code{\link{resetDefaultTheme}()},
-\code{\link{resetDefaults}()},
-\code{\link{scale_shape_osp}()},
-\code{\link{scale_shape_osp_identity}()},
-\code{\link{scale_shape_osp_manual}()},
-\code{\link{setDefaultColorMapDistinct}()},
-\code{\link{setDefaultTheme}()},
-\code{\link{setDefaults}()},
-\code{\link{setOspsuite.plots.option}()},
-\code{\link{stat_qq_osp}()}
+\code{\link[=geom_point_osp]{geom_point_osp()}},
+\code{\link[=getDefaultGeomAttributes]{getDefaultGeomAttributes()}},
+\code{\link[=getDefaultOptions]{getDefaultOptions()}},
+\code{\link[=getOspsuite.plots.option]{getOspsuite.plots.option()}},
+\code{\link[=resetDefaultColorMapDistinct]{resetDefaultColorMapDistinct()}},
+\code{\link[=resetDefaultTheme]{resetDefaultTheme()}},
+\code{\link[=resetDefaults]{resetDefaults()}},
+\code{\link[=scale_shape_osp]{scale_shape_osp()}},
+\code{\link[=scale_shape_osp_identity]{scale_shape_osp_identity()}},
+\code{\link[=scale_shape_osp_manual]{scale_shape_osp_manual()}},
+\code{\link[=setDefaultColorMapDistinct]{setDefaultColorMapDistinct()}},
+\code{\link[=setDefaultTheme]{setDefaultTheme()}},
+\code{\link[=setDefaults]{setDefaults()}},
+\code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}},
+\code{\link[=stat_qq_osp]{stat_qq_osp()}}
 }
 \concept{setDefault functions}

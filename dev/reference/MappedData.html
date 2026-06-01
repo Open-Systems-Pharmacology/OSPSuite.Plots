@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9010</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,27 +65,27 @@
 <dd><p>data.frame used for mapping</p></dd>
 
 
-<dt><code>mapping</code></dt>
+    <dt><code>mapping</code></dt>
 <dd><p>list of aesthetic mappings</p></dd>
 
 
-<dt><code>dimensions</code></dt>
+    <dt><code>dimensions</code></dt>
 <dd><p>list with dimensions of mapping</p></dd>
 
 
-<dt><code>units</code></dt>
+    <dt><code>units</code></dt>
 <dd><p>list with dimensions of mapping</p></dd>
 
 
-<dt><code>columnClasses</code></dt>
+    <dt><code>columnClasses</code></dt>
 <dd><p>list with class of mapped columns</p></dd>
 
 
-<dt><code>xlimits</code></dt>
+    <dt><code>xlimits</code></dt>
 <dd><p>double vector limits of primary y axis</p></dd>
 
 
-<dt><code>ylimits</code></dt>
+    <dt><code>ylimits</code></dt>
 <dd><p>double vector limits of primary y axis</p></dd>
 
 
@@ -97,7 +97,7 @@
 <dd><p><code>boolean</code> if TRUE data has matched lloq data</p></dd>
 
 
-<dt><code>dataForPlot</code></dt>
+    <dt><code>dataForPlot</code></dt>
 <dd><p>returns data used for plotting,
 may be adjusted in child classes (e.g. 2 axis in MappedDataTimeProfile)
 check if aesthetic is available in data
@@ -118,14 +118,13 @@ factorize column for group to factor</p></dd>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-MappedData-new"><code>MappedData$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-MappedData-initialize"><code>MappedData$new()</code></a></p></li>
 <li><p><a href="#method-MappedData-getAestheticsForGeom"><code>MappedData$getAestheticsForGeom()</code></a></p></li>
 <li><p><a href="#method-MappedData-addMetaData"><code>MappedData$addMetaData()</code></a></p></li>
 <li><p><a href="#method-MappedData-updateScaleArgumentsForTimeUnit"><code>MappedData$updateScaleArgumentsForTimeUnit()</code></a></p></li>
 <li><p><a href="#method-MappedData-clone"><code>MappedData$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-MappedData-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p></p><hr><a id="method-MappedData-initialize"></a><div class="section">
+<h3 id="mappeddata-new-"><code>MappedData$new()</code><a class="anchor" aria-label="anchor" href="#mappeddata-new-"></a></h3>
 <p>Create a new <code>MappedData</code> object</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/MappedData.html">MappedData</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
@@ -140,140 +139,120 @@ factorize column for group to factor</p></dd>
 <span>  xlimits <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ylimits <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>data</code></dt>
 <dd><p>data.frame used for mapping</p></dd>
 
-
-<dt><code>mapping</code></dt>
+      <dt><code>mapping</code></dt>
 <dd><p>list of aesthetic mappings</p></dd>
 
-
-<dt><code>xScale</code></dt>
+      <dt><code>xScale</code></dt>
 <dd><p>scale of x-axis either 'linear' or 'log'</p></dd>
 
-
-<dt><code>yScale</code></dt>
+      <dt><code>yScale</code></dt>
 <dd><p>scale of y-axis either 'linear' or 'log'</p></dd>
 
-
-<dt><code>groupAesthetics</code></dt>
+      <dt><code>groupAesthetics</code></dt>
 <dd><p>vector of aesthetics, which are used for columns mapped with <code>groupby</code></p></dd>
 
-
-<dt><code>groupOrder</code></dt>
+      <dt><code>groupOrder</code></dt>
 <dd><p>labels and order for group aesthetic</p></dd>
 
-
-<dt><code>direction</code></dt>
+      <dt><code>direction</code></dt>
 <dd><p>direction of plot either "x" or "y"</p></dd>
 
-
-<dt><code>isObserved</code></dt>
+      <dt><code>isObserved</code></dt>
 <dd><p>A <code>boolean </code>if TRUE mappings mdv, lloq</p></dd>
 
-
-<dt><code>xlimits</code></dt>
+      <dt><code>xlimits</code></dt>
 <dd><p>limits for x-axis (may be NULL)</p></dd>
 
-
-<dt><code>ylimits</code></dt>
+      <dt><code>ylimits</code></dt>
 <dd><p>limits for y-axis (may be NULL)</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>A new <code>MappedData</code> object
 filter possible aesthetics for a geom,
 check if mandatory are available</p>
 </div>
 
-</div><p></p><hr><a id="method-MappedData-getAestheticsForGeom"></a><div class="section">
-<h3 id="method-getaestheticsforgeom-">Method <code>getAestheticsForGeom()</code><a class="anchor" aria-label="anchor" href="#method-getaestheticsforgeom-"></a></h3>
-
-<div class="section">
-<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedData</span><span class="op">$</span><span class="fu">getAestheticsForGeom</span><span class="op">(</span><span class="va">geom</span>, <span class="va">geomAttributes</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
+<p></p><hr><a id="method-MappedData-getAestheticsForGeom"></a><div class="section">
+<h3 id="mappeddata-getaestheticsforgeom-"><code>MappedData$getAestheticsForGeom()</code><a class="anchor" aria-label="anchor" href="#mappeddata-getaestheticsforgeom-"></a></h3>
+<p></p><div class="section">
+<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedData</span><span class="op">$</span><span class="fu">getAestheticsForGeom</span><span class="op">(</span><span class="va">geom</span>, <span class="va">geomAttributes</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>geom</code></dt>
 <dd><p>type of geometric object</p></dd>
 
-
-<dt><code>geomAttributes</code></dt>
+      <dt><code>geomAttributes</code></dt>
 <dd><p>additionally arguments for geom layer, will overwrite aesthetics</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p>list of accepted mappings
 adds list with dimension, units and column classes</p>
 </div>
 
-</div><p></p><hr><a id="method-MappedData-addMetaData"></a><div class="section">
-<h3 id="method-addmetadata-">Method <code>addMetaData()</code><a class="anchor" aria-label="anchor" href="#method-addmetadata-"></a></h3>
-
-<div class="section">
-<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedData</span><span class="op">$</span><span class="fu">addMetaData</span><span class="op">(</span><span class="va">metaData</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
+<p></p><hr><a id="method-MappedData-addMetaData"></a><div class="section">
+<h3 id="mappeddata-addmetadata-"><code>MappedData$addMetaData()</code><a class="anchor" aria-label="anchor" href="#mappeddata-addmetadata-"></a></h3>
+<p></p><div class="section">
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedData</span><span class="op">$</span><span class="fu">addMetaData</span><span class="op">(</span><span class="va">metaData</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>metaData</code></dt>
 <dd><p>A named list of information about <code>data</code> such as the <code>dimension</code> and <code>unit</code> of its variables.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
 <p>updated <code>MappedData</code> object
 check if unit of scale direction is time and sets the breaks accordingly</p>
 </div>
 
-</div><p></p><hr><a id="method-MappedData-updateScaleArgumentsForTimeUnit"></a><div class="section">
-<h3 id="method-updatescaleargumentsfortimeunit-">Method <code><a href="updateScaleArgumentsForTimeUnit.html">updateScaleArgumentsForTimeUnit()</a></code><a class="anchor" aria-label="anchor" href="#method-updatescaleargumentsfortimeunit-"></a></h3>
-
-<div class="section">
-<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedData</span><span class="op">$</span><span class="fu">updateScaleArgumentsForTimeUnit</span><span class="op">(</span><span class="va">scaleArgs</span>, scaleDirection <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
+<p></p><hr><a id="method-MappedData-updateScaleArgumentsForTimeUnit"></a><div class="section">
+<h3 id="mappeddata-updatescaleargumentsfortimeunit-"><code>MappedData$updateScaleArgumentsForTimeUnit()</code><a class="anchor" aria-label="anchor" href="#mappeddata-updatescaleargumentsfortimeunit-"></a></h3>
+<p></p><div class="section">
+<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedData</span><span class="op">$</span><span class="fu">updateScaleArgumentsForTimeUnit</span><span class="op">(</span><span class="va">scaleArgs</span>, scaleDirection <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>scaleArgs</code></dt>
 <dd><p>additional arguments passed on to scale function</p></dd>
 
-
-<dt><code>scaleDirection</code></dt>
+      <dt><code>scaleDirection</code></dt>
 <dd><p>direction of axis either 'x' or 'y'</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
 <p><code>scaleArgs</code> with adjusted break function</p>
 </div>
 
-</div><p></p><hr><a id="method-MappedData-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-MappedData-clone"></a><div class="section">
+<h3 id="mappeddata-clone-"><code>MappedData$clone()</code><a class="anchor" aria-label="anchor" href="#mappeddata-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedData</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -283,6 +262,7 @@ check if unit of scale direction is time and sets the breaks accordingly</p>
 </div>
 
 </div>
+
 
     </div>
 

@@ -15,6 +15,7 @@
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/AxisScales.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/BINNINGMODE.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/CombinedPlot.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/GeomErrorbarOsp.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/GeomPointOsp.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedDataBoxplot.html</loc></url>
@@ -60,6 +61,7 @@
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/exampleDataCovariates.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/exampleDataTimeProfile.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/exportPlot.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_errorbar_osp.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_point_osp.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/getCountsWithin.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/getDefaultGeomAttributes.html</loc></url>

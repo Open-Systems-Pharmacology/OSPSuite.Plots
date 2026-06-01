@@ -14,7 +14,7 @@ Other MappedData classes:
 
 ## Super class
 
-[`ospsuite.plots::MappedData`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.md)
+[`MappedData`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.md)
 -\> `MappedDataBoxplot`
 
 ## Public fields
@@ -41,7 +41,7 @@ Other MappedData classes:
 
 ### Public methods
 
-- [`MappedDataBoxplot$new()`](#method-MappedDataBoxplot-new)
+- [`MappedDataBoxplot$new()`](#method-MappedDataBoxplot-initialize)
 
 - [`MappedDataBoxplot$doAdjustmentsWithMetaData()`](#method-MappedDataBoxplot-doAdjustmentsWithMetaData)
 
@@ -49,13 +49,13 @@ Other MappedData classes:
 
 Inherited methods
 
-- [`ospsuite.plots::MappedData$addMetaData()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html#method-addMetaData)
-- [`ospsuite.plots::MappedData$getAestheticsForGeom()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html#method-getAestheticsForGeom)
-- [`ospsuite.plots::MappedData$updateScaleArgumentsForTimeUnit()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html#method-updateScaleArgumentsForTimeUnit)
+- [`MappedData$addMetaData()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html#method-addMetaData)
+- [`MappedData$getAestheticsForGeom()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html#method-getAestheticsForGeom)
+- [`MappedData$updateScaleArgumentsForTimeUnit()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html#method-updateScaleArgumentsForTimeUnit)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `MappedDataBoxplot$new()`
 
 Create a new `MappedDataBoxplot` object
 
@@ -120,7 +120,7 @@ x-axis, and group aesthetic
 
 ------------------------------------------------------------------------
 
-### Method `doAdjustmentsWithMetaData()`
+### `MappedDataBoxplot$doAdjustmentsWithMetaData()`
 
 #### Usage
 
@@ -155,7 +155,7 @@ adjusted `MappedDataBoxplot` class object
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `MappedDataBoxplot$clone()`
 
 The objects of this class are cloneable with this method.
 

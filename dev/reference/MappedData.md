@@ -61,7 +61,7 @@ Other MappedData classes:
 
 ### Public methods
 
-- [`MappedData$new()`](#method-MappedData-new)
+- [`MappedData$new()`](#method-MappedData-initialize)
 
 - [`MappedData$getAestheticsForGeom()`](#method-MappedData-getAestheticsForGeom)
 
@@ -73,7 +73,7 @@ Other MappedData classes:
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `MappedData$new()`
 
 Create a new `MappedData` object
 
@@ -141,7 +141,7 @@ if mandatory are available
 
 ------------------------------------------------------------------------
 
-### Method `getAestheticsForGeom()`
+### `MappedData$getAestheticsForGeom()`
 
 #### Usage
 
@@ -164,7 +164,7 @@ classes
 
 ------------------------------------------------------------------------
 
-### Method `addMetaData()`
+### `MappedData$addMetaData()`
 
 #### Usage
 
@@ -184,7 +184,7 @@ sets the breaks accordingly
 
 ------------------------------------------------------------------------
 
-### Method [`updateScaleArgumentsForTimeUnit()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/updateScaleArgumentsForTimeUnit.md)
+### `MappedData$updateScaleArgumentsForTimeUnit()`
 
 #### Usage
 
@@ -206,7 +206,7 @@ sets the breaks accordingly
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `MappedData$clone()`
 
 The objects of this class are cloneable with this method.
 

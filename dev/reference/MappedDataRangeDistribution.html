@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9010</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
     </div>
     <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
-    <p><code><a href="MappedData.html">ospsuite.plots::MappedData</a></code> -&gt; <code>MappedDataRangeDistribution</code></p>
+    <p><code><a href="MappedData.html">MappedData</a></code> -&gt; <code>MappedDataRangeDistribution</code></p>
     </div>
     <div class="section level2">
     <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
@@ -84,17 +84,16 @@
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-MappedDataRangeDistribution-new"><code>MappedDataRangeDistribution$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-MappedDataRangeDistribution-initialize"><code>MappedDataRangeDistribution$new()</code></a></p></li>
 <li><p><a href="#method-MappedDataRangeDistribution-setBins"><code>MappedDataRangeDistribution$setBins()</code></a></p></li>
 <li><p><a href="#method-MappedDataRangeDistribution-setBorderDataTable"><code>MappedDataRangeDistribution$setBorderDataTable()</code></a></p></li>
 <li><p><a href="#method-MappedDataRangeDistribution-setXMapping"><code>MappedDataRangeDistribution$setXMapping()</code></a></p></li>
 <li><p><a href="#method-MappedDataRangeDistribution-clone"><code>MappedDataRangeDistribution$clone()</code></a></p></li>
-</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="addMetaData"><a href="MappedData.html#method-addMetaData"><code>ospsuite.plots::MappedData$addMetaData()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="getAestheticsForGeom"><a href="MappedData.html#method-getAestheticsForGeom"><code>ospsuite.plots::MappedData$getAestheticsForGeom()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="updateScaleArgumentsForTimeUnit"><a href="MappedData.html#method-updateScaleArgumentsForTimeUnit"><code>ospsuite.plots::MappedData$updateScaleArgumentsForTimeUnit()</code></a></span></li>
-</ul></details></p><hr><a id="method-MappedDataRangeDistribution-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="addMetaData"><a href="MappedData.html#method-addMetaData"><code>MappedData$addMetaData()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="getAestheticsForGeom"><a href="MappedData.html#method-getAestheticsForGeom"><code>MappedData$getAestheticsForGeom()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="updateScaleArgumentsForTimeUnit"><a href="MappedData.html#method-updateScaleArgumentsForTimeUnit"><code>MappedData$updateScaleArgumentsForTimeUnit()</code></a></span></li>
+</ul></details></p><hr><a id="method-MappedDataRangeDistribution-initialize"></a><div class="section">
+<h3 id="mappeddatarangedistribution-new-"><code>MappedDataRangeDistribution$new()</code><a class="anchor" aria-label="anchor" href="#mappeddatarangedistribution-new-"></a></h3>
 <p>Create a new <code>MappedDataRangeDistribution</code> object</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/MappedDataRangeDistribution.html">MappedDataRangeDistribution</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
@@ -111,88 +110,74 @@
 <span>  numberOfBins <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  breaks <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>data</code></dt>
 <dd><p>data.frame used for mapping</p></dd>
 
-
-<dt><code>mapping</code></dt>
+      <dt><code>mapping</code></dt>
 <dd><p>list of aesthetic mappings</p></dd>
 
-
-<dt><code>groupAesthetics</code></dt>
+      <dt><code>groupAesthetics</code></dt>
 <dd><p>vector of aesthetics, which are used for columns mapped with aesthetic <code>groupby</code></p></dd>
 
-
-<dt><code>direction</code></dt>
+      <dt><code>direction</code></dt>
 <dd><p>direction of plot either "x" or "y"</p></dd>
 
-
-<dt><code>isObserved</code></dt>
+      <dt><code>isObserved</code></dt>
 <dd><p>A <code>boolean</code> if TRUE mappings mdv, lloq, error and error_relative are evaluated</p></dd>
 
-
-<dt><code>xlimits</code></dt>
+      <dt><code>xlimits</code></dt>
 <dd><p>limits for x-axis (may be NULL)</p></dd>
 
-
-<dt><code>ylimits</code></dt>
+      <dt><code>ylimits</code></dt>
 <dd><p>limits for y-axis (may be NULL)</p></dd>
 
-
-<dt><code>xScale</code></dt>
+      <dt><code>xScale</code></dt>
 <dd><p>scale of x-axis either 'linear' or 'log'</p></dd>
 
-
-<dt><code>yScale</code></dt>
+      <dt><code>yScale</code></dt>
 <dd><p>scale of y-axis either 'linear' or 'log'</p></dd>
 
-
-<dt><code>modeOfBinning</code></dt>
+      <dt><code>modeOfBinning</code></dt>
 <dd><p>method of binning (e.g., 'breaks', 'number', 'interval')</p></dd>
 
-
-<dt><code>numberOfBins</code></dt>
+      <dt><code>numberOfBins</code></dt>
 <dd><p>number of bins to use for binning</p></dd>
 
-
-<dt><code>breaks</code></dt>
+      <dt><code>breaks</code></dt>
 <dd><p>breaks for binning if <code>modeOfBinning</code> is 'breaks'</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p><code>MappedDataRangeDistribution</code> class object
 Set binning columns</p>
 </div>
 
-</div><p></p><hr><a id="method-MappedDataRangeDistribution-setBins"></a><div class="section">
-<h3 id="method-setbins-">Method <code>setBins()</code><a class="anchor" aria-label="anchor" href="#method-setbins-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-MappedDataRangeDistribution-setBins"></a><div class="section">
+<h3 id="mappeddatarangedistribution-setbins-"><code>MappedDataRangeDistribution$setBins()</code><a class="anchor" aria-label="anchor" href="#mappeddatarangedistribution-setbins-"></a></h3>
 <p>This method sets the bins for the data based on the specified mode of binning.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedDataRangeDistribution</span><span class="op">$</span><span class="fu">setBins</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p>The object itself (invisible)
 Create a data table with bin border information</p>
 </div>
 
-</div><p></p><hr><a id="method-MappedDataRangeDistribution-setBorderDataTable"></a><div class="section">
-<h3 id="method-setborderdatatable-">Method <code>setBorderDataTable()</code><a class="anchor" aria-label="anchor" href="#method-setborderdatatable-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-MappedDataRangeDistribution-setBorderDataTable"></a><div class="section">
+<h3 id="mappeddatarangedistribution-setborderdatatable-"><code>MappedDataRangeDistribution$setBorderDataTable()</code><a class="anchor" aria-label="anchor" href="#mappeddatarangedistribution-setborderdatatable-"></a></h3>
 <p>This method sets up a data table containing border information for the bins.
 Set x mapping for the plot</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedDataRangeDistribution</span><span class="op">$</span><span class="fu">setBorderDataTable</span><span class="op">(</span>identifier <span class="op">=</span> <span class="st">"IndividualId"</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>identifier</code></dt>
 <dd><p>Identifier for the data table (default is 'IndividualId')</p></dd>
@@ -201,14 +186,14 @@ Set x mapping for the plot</p><div class="section">
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-MappedDataRangeDistribution-setXMapping"></a><div class="section">
-<h3 id="method-setxmapping-">Method <code>setXMapping()</code><a class="anchor" aria-label="anchor" href="#method-setxmapping-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-MappedDataRangeDistribution-setXMapping"></a><div class="section">
+<h3 id="mappeddatarangedistribution-setxmapping-"><code>MappedDataRangeDistribution$setXMapping()</code><a class="anchor" aria-label="anchor" href="#mappeddatarangedistribution-setxmapping-"></a></h3>
 <p>This method sets the x mapping for the plot based on the specified parameters.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedDataRangeDistribution</span><span class="op">$</span><span class="fu">setXMapping</span><span class="op">(</span><span class="va">asStepPlot</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>asStepPlot</code></dt>
 <dd><p>Logical indicating if the plot should be a step plot.</p></dd>
@@ -217,14 +202,14 @@ Set x mapping for the plot</p><div class="section">
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-MappedDataRangeDistribution-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-MappedDataRangeDistribution-clone"></a><div class="section">
+<h3 id="mappeddatarangedistribution-clone-"><code>MappedDataRangeDistribution$clone()</code><a class="anchor" aria-label="anchor" href="#mappeddatarangedistribution-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedDataRangeDistribution</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -234,6 +219,7 @@ Set x mapping for the plot</p><div class="section">
 </div>
 
 </div>
+
 
     </div>
 

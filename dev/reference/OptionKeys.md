@@ -7,7 +7,3 @@ enumeration keys for OSPSuite.plots options
 ``` r
 OptionKeys
 ```
-
-## Format
-
-An object of class `list` of length 21.

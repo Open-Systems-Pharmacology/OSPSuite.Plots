@@ -151,14 +151,8 @@ Functions to export plot
 
 Functions to set and reset Settings for plot layout
 
-- [`Shapes`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/Shapes.md)
-  : Shapes
-
 - [`colorMaps`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/colorMaps.md)
   : Color maps
-
-- [`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_point_osp.md)
-  : OSP Point Layer
 
 - [`getDefaultGeomAttributes()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/getDefaultGeomAttributes.md)
   :
@@ -183,15 +177,6 @@ Functions to set and reset Settings for plot layout
 - [`resetDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaults.md)
   : restore to previously stored settings
 
-- [`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.md)
-  : OSP Shape Scale
-
-- [`scale_shape_osp_identity()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp_identity.md)
-  : OSP Shape Identity Scale
-
-- [`scale_shape_osp_manual()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp_manual.md)
-  : OSP Shape Manual Scale
-
 - [`setDefaultColorMapDistinct()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultColorMapDistinct.md)
   : set the default color-map for discrete colors
 
@@ -203,9 +188,6 @@ Functions to set and reset Settings for plot layout
 
 - [`setOspsuite.plots.option()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setOspsuite.plots.option.md)
   : Set OSPSuite plots option with a given key and value.
-
-- [`stat_qq_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/stat_qq_osp.md)
-  : OSP Q-Q Stat
 
 ## DataMapping Classes
 
@@ -220,16 +202,29 @@ Classes combining data and Mapping
 - [`MappedDataTimeProfile`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedDataTimeProfile.md)
   : MappedDataTimeProfile
 
+## Layers
+
+Custom ggplot2 geoms and stats
+
+- [`GeomErrorbarOsp`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/GeomErrorbarOsp.md)
+  : GeomErrorbarOsp
+- [`GeomPointOsp`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/GeomPointOsp.md)
+  : GeomPointOsp
+- [`geom_errorbar_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_errorbar_osp.md)
+  : OSP Errorbar Layer
+- [`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_point_osp.md)
+  : OSP Point Layer
+- [`stat_qq_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/stat_qq_osp.md)
+  : OSP Q-Q Stat
+
 ## Shapes
 
 OSP shape system for custom point rendering
 
+- [`Shapes`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/Shapes.md)
+  : Shapes
 - [`ospShapeNames`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/ospShapeNames.md)
   : OSP Shape Names
-- [`GeomPointOsp`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/GeomPointOsp.md)
-  : GeomPointOsp
-- [`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_point_osp.md)
-  : OSP Point Layer
 - [`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.md)
   : OSP Shape Scale
 - [`scale_shape_osp_identity()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp_identity.md)
@@ -260,7 +255,7 @@ Data used within the vignette examples
 
 ## auxiliary functions
 
-Classes combining data and Mapping
+Helper functions and the combined plot/table class
 
 - [`metaData2DataFrame()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/metaData2DataFrame.md)
   : converts metaData List to a data frame row names specify properties

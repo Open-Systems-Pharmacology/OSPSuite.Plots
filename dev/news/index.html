@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9010</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,7 @@
 <div class="section level3">
 <h3 id="minor-improvements-and-bug-fixes-development-version">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-development-version"></a></h3>
 <ul><li>Changed default out-of-bounds handling for continuous axes. Ribbons and error bars that extend beyond axis limits are now clipped at the panel boundary rather than being silently dropped.</li>
-<li>The default width of error bars is now set to <code>width = 0.2</code>, showing horizontal whiskers. The previous default was <code>width = 0</code>, which suppressed whiskers (#107).</li>
+<li>Error bars now use the new <code><a href="../reference/geom_errorbar_osp.html">geom_errorbar_osp()</a></code>, whose cap <code>width</code> is given in millimetres and stays visually consistent regardless of the data range or axis scale. The default cap width is <code>width = 2</code>. <code><a href="../reference/plotTimeProfile.html">plotTimeProfile()</a></code>, <code><a href="../reference/plotYVsX.html">plotYVsX()</a></code> (and its wrappers), and <code><a href="../reference/plotForest.html">plotForest()</a></code> all draw their error bars with this geom (#107, #123).</li>
 <li>Removed <code>showtext</code> and <code>sysfonts</code> from package dependencies.</li>
 <li>
 <code>ospsuite.plots.watermarkEnabled</code> is now <code>TRUE</code> by default and set automatically at package load (#119). The startup message and runtime error from version 1.1.0 are gone. To disable, set <code>options(ospsuite.plots.watermarkEnabled = FALSE)</code> in your <code>.Rprofile</code>.</li>

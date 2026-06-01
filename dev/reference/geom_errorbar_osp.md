@@ -1,24 +1,26 @@
-# OSP Q-Q Stat
+# OSP Errorbar Layer
 
-A stat_qq that uses OSP shapes via `GeomPointOsp` instead of standard
-`geom_point`. This ensures QQ plots have visual consistency with other
-OSP plots.
+A geom that renders error bars with cap `width` specified in **mm**
+units, keeping it visually consistent with the `linewidth` aesthetic,
+which is also expressed in **mm**. Unlike
+[`ggplot2::geom_errorbar()`](https://ggplot2.tidyverse.org/reference/geom_linerange.html),
+the cap width is independent of the data coordinate range or axis scale.
 
-Unlike
-[`ggplot2::stat_qq()`](https://ggplot2.tidyverse.org/reference/geom_qq.html),
-this function does not expose a `geom` parameter as it always uses
-`GeomPointOsp` for rendering.
+Vertical orientation (`aes(x, ymin, ymax)`) is used by default. Pass
+`orientation = "x"` for horizontal error bars (`aes(y, xmin, xmax)`).
 
 ## Usage
 
 ``` r
-stat_qq_osp(
+geom_errorbar_osp(
   mapping = NULL,
   data = NULL,
+  stat = "identity",
   position = "identity",
   ...,
-  distribution = stats::qnorm,
-  dparams = list(),
+  orientation = NA,
+  width = 2,
+  lineend = "butt",
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -52,6 +54,25 @@ stat_qq_osp(
   return value must be a `data.frame`, and will be used as the layer
   data. A `function` can be created from a `formula` (e.g.
   `~ head(.x, 10)`).
+
+- stat:
+
+  The statistical transformation to use on the data for this layer. When
+  using a `geom_*()` function to construct a layer, the `stat` argument
+  can be used to override the default coupling between geoms and stats.
+  The `stat` argument accepts the following:
+
+  - A `Stat` ggproto subclass, for example `StatCount`.
+
+  - A string naming the stat. To give the stat as a string, strip the
+    function name of the `stat_` prefix. For example, to use
+    [`stat_count()`](https://ggplot2.tidyverse.org/reference/geom_bar.html),
+    give the stat as `"count"`.
+
+  - For more information and other ways to specify the stat, see the
+    [layer
+    stat](https://ggplot2.tidyverse.org/reference/layer_stats.html)
+    documentation.
 
 - position:
 
@@ -112,18 +133,27 @@ stat_qq_osp(
     glyphs](https://ggplot2.tidyverse.org/reference/draw_key.html), to
     change the display of the layer in the legend.
 
-- distribution:
+- orientation:
 
-  Distribution function to use, if x not specified
+  Orientation of the layer. `"x"` produces horizontal error bars (range
+  along the x-axis). Any other value, including `NA` (default) and
+  `"y"`, produces vertical error bars (range along the y-axis).
 
-- dparams:
+- width:
 
-  Additional parameters passed on to `distribution` function.
+  Width of the error bar caps in mm units. Default: `2`.
+
+- lineend:
+
+  Line end style (round, butt, square).
 
 - na.rm:
 
-  If `FALSE`, the default, missing values are removed with a warning. If
-  `TRUE`, missing values are silently removed.
+  Missing values in the range aesthetics are dropped (the affected cap
+  is simply not drawn) for both `TRUE` and `FALSE`. No warning is
+  emitted in either case. The argument is kept for consistency with the
+  [`ggplot2::geom_errorbar()`](https://ggplot2.tidyverse.org/reference/geom_linerange.html)
+  interface.
 
 - show.legend:
 
@@ -151,5 +181,19 @@ A ggplot2 layer that can be added to a plot.
 Other layers:
 [`GeomErrorbarOsp`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/GeomErrorbarOsp.md),
 [`GeomPointOsp`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/GeomPointOsp.md),
-[`geom_errorbar_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_errorbar_osp.md),
-[`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_point_osp.md)
+[`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_point_osp.md),
+[`stat_qq_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/stat_qq_osp.md)
+
+## Examples
+
+``` r
+library(ggplot2)
+df <- data.frame(
+  x    = 1:3,
+  y    = c(1, 2, 3),
+  ymin = c(0.5, 1.5, 2.5),
+  ymax = c(1.5, 2.5, 3.5)
+)
+ggplot(df, aes(x, y, ymin = ymin, ymax = ymax)) +
+  geom_errorbar_osp(width = 2, linewidth = 0.8)
+```

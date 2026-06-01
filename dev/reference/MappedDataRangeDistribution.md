@@ -11,7 +11,7 @@ Other MappedData classes:
 
 ## Super class
 
-[`ospsuite.plots::MappedData`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.md)
+[`MappedData`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.md)
 -\> `MappedDataRangeDistribution`
 
 ## Public fields
@@ -30,7 +30,7 @@ Other MappedData classes:
 
 ### Public methods
 
-- [`MappedDataRangeDistribution$new()`](#method-MappedDataRangeDistribution-new)
+- [`MappedDataRangeDistribution$new()`](#method-MappedDataRangeDistribution-initialize)
 
 - [`MappedDataRangeDistribution$setBins()`](#method-MappedDataRangeDistribution-setBins)
 
@@ -42,13 +42,13 @@ Other MappedData classes:
 
 Inherited methods
 
-- [`ospsuite.plots::MappedData$addMetaData()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html#method-addMetaData)
-- [`ospsuite.plots::MappedData$getAestheticsForGeom()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html#method-getAestheticsForGeom)
-- [`ospsuite.plots::MappedData$updateScaleArgumentsForTimeUnit()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html#method-updateScaleArgumentsForTimeUnit)
+- [`MappedData$addMetaData()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html#method-addMetaData)
+- [`MappedData$getAestheticsForGeom()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html#method-getAestheticsForGeom)
+- [`MappedData$updateScaleArgumentsForTimeUnit()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/MappedData.html#method-updateScaleArgumentsForTimeUnit)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `MappedDataRangeDistribution$new()`
 
 Create a new `MappedDataRangeDistribution` object
 
@@ -127,7 +127,7 @@ Create a new `MappedDataRangeDistribution` object
 
 ------------------------------------------------------------------------
 
-### Method `setBins()`
+### `MappedDataRangeDistribution$setBins()`
 
 This method sets the bins for the data based on the specified mode of
 binning.
@@ -143,7 +143,7 @@ information
 
 ------------------------------------------------------------------------
 
-### Method `setBorderDataTable()`
+### `MappedDataRangeDistribution$setBorderDataTable()`
 
 This method sets up a data table containing border information for the
 bins. Set x mapping for the plot
@@ -160,7 +160,7 @@ bins. Set x mapping for the plot
 
 ------------------------------------------------------------------------
 
-### Method `setXMapping()`
+### `MappedDataRangeDistribution$setXMapping()`
 
 This method sets the x mapping for the plot based on the specified
 parameters.
@@ -177,7 +177,7 @@ parameters.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `MappedDataRangeDistribution$clone()`
 
 The objects of this class are cloneable with this method.
 

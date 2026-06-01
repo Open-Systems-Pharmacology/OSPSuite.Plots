@@ -1,31 +1,31 @@
 # Test data ----------------------------------------------------
 
 dfVertical <- data.frame(
-  x    = 1:3,
-  y    = c(1, 2, 3),
+  x = 1:3,
+  y = c(1, 2, 3),
   ymin = c(0.5, 1.5, 2.5),
   ymax = c(1.5, 2.5, 3.5)
 )
 
 dfHorizontal <- data.frame(
-  x    = c(1, 2, 3),
-  y    = c(1, 2, 3),
+  x = c(1, 2, 3),
+  y = c(1, 2, 3),
   xmin = c(0.5, 1.5, 2.5),
   xmax = c(1.5, 2.5, 3.5)
 )
 
 dfZeroRange <- data.frame(
-  x    = c(1, 2),
-  y    = c(1, 2),
+  x = c(1, 2),
+  y = c(1, 2),
   ymin = c(0.5, 2),
   ymax = c(1.5, 2)
 )
 
 dfMultiGroup <- data.frame(
-  x     = rep(1:3, 2),
-  y     = c(1, 2, 3, 1.5, 2.5, 3.5),
-  ymin  = c(0.5, 1.5, 2.5, 1.0, 2.0, 3.0),
-  ymax  = c(1.5, 2.5, 3.5, 2.0, 3.0, 4.0),
+  x = rep(1:3, 2),
+  y = c(1, 2, 3, 1.5, 2.5, 3.5),
+  ymin = c(0.5, 1.5, 2.5, 1.0, 2.0, 3.0),
+  ymax = c(1.5, 2.5, 3.5, 2.0, 3.0, 4.0),
   group = rep(c("A", "B"), each = 3)
 )
 
@@ -84,7 +84,10 @@ test_that("multiple groups with colour mapping render correctly", {
     dfMultiGroup,
     ggplot2::aes(x = x, y = y, ymin = ymin, ymax = ymax, colour = group)
   ) +
-    geom_errorbar_osp(width = 2, position = ggplot2::position_dodge(width = 0.3))
+    geom_errorbar_osp(
+      width = 2,
+      position = ggplot2::position_dodge(width = 0.3)
+    )
 
   vdiffr::expect_doppelganger("vertical-errorbars-multi-group", p)
 })
@@ -104,7 +107,12 @@ test_that("zero-range row is suppressed and only valid bar renders", {
 test_that("log-scale vertical error bars render correctly", {
   skip_if_not_installed("vdiffr")
 
-  dfLog <- data.frame(x = 1:3, y = c(10, 100, 1000), ymin = c(5, 50, 500), ymax = c(20, 200, 2000))
+  dfLog <- data.frame(
+    x = 1:3,
+    y = c(10, 100, 1000),
+    ymin = c(5, 50, 500),
+    ymax = c(20, 200, 2000)
+  )
 
   p <- ggplot2::ggplot(
     dfLog,
@@ -167,6 +175,12 @@ test_that("orientation = NA defaults to vertical (same as 'y')", {
   vdiffr::expect_doppelganger("orientation-na-defaults-to-vertical", p)
 })
 
+test_that("width must be a single non-negative finite number", {
+  expect_snapshot(geom_errorbar_osp(width = -1), error = TRUE)
+  expect_snapshot(geom_errorbar_osp(width = c(1, 2)), error = TRUE)
+  expect_snapshot(geom_errorbar_osp(width = "wide"), error = TRUE)
+})
+
 test_that("orientation is passed through the layer params", {
   layer_y <- geom_errorbar_osp(orientation = "y")
   layer_x <- geom_errorbar_osp(orientation = "x")
@@ -179,8 +193,8 @@ test_that("orientation is passed through the layer params", {
 
 test_that("setup_data only suppresses ymin/ymax zero-ranges for horizontal orientation", {
   df <- data.frame(
-    x    = c(1, 2, 3),
-    y    = c(1, 2, 3),
+    x = c(1, 2, 3),
+    y = c(1, 2, 3),
     ymin = c(0.5, 2, 2.5),
     ymax = c(1.5, 2, 3.5),
     xmin = c(0.5, 2, 2.5),

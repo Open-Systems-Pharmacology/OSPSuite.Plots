@@ -46,6 +46,7 @@ geom_errorbar_osp <- function(
   inherit.aes = TRUE
 ) {
   # nolint end
+  checkmate::assertNumber(width, lower = 0, finite = TRUE)
   ggplot2::layer(
     geom = GeomErrorbarOsp,
     mapping = mapping,
@@ -133,78 +134,58 @@ GeomErrorbarOsp <- ggplot2::ggproto(
     lty <- coords$linetype
 
     halfWidthMm <- grid::unit(width / 2, "mm")
+    gp <- grid::gpar(col = col, lwd = lwd, lty = lty, lineend = lineend)
 
     # orientation = "x" → horizontal bars; everything else ("y", NA) → vertical.
     horizontal <- identical(orientation, "x")
 
+    # Pick the aesthetics for the chosen orientation: `along` runs the bar
+    # (range), `across` positions it (centre) and is where the caps extend.
     if (horizontal) {
-      if (
-        length(coords$y) == 0 ||
-          length(coords$xmin) == 0 ||
-          length(coords$xmax) == 0
-      ) {
-        return(grid::nullGrob())
-      }
-      center <- grid::unit(coords$y, "npc")
-      rangeMin <- grid::unit(coords$xmin, "npc")
-      rangeMax <- grid::unit(coords$xmax, "npc")
-
-      mainSeg <- grid::segmentsGrob(
-        x0 = rangeMin,
-        x1 = rangeMax,
-        y0 = center,
-        y1 = center,
-        gp = grid::gpar(col = col, lwd = lwd, lty = lty, lineend = lineend)
-      )
-      minCap <- grid::segmentsGrob(
-        x0 = rangeMin,
-        x1 = rangeMin,
-        y0 = center - halfWidthMm,
-        y1 = center + halfWidthMm,
-        gp = grid::gpar(col = col, lwd = lwd, lty = lty, lineend = lineend)
-      )
-      maxCap <- grid::segmentsGrob(
-        x0 = rangeMax,
-        x1 = rangeMax,
-        y0 = center - halfWidthMm,
-        y1 = center + halfWidthMm,
-        gp = grid::gpar(col = col, lwd = lwd, lty = lty, lineend = lineend)
-      )
+      along <- c("xmin", "xmax")
+      across <- "y"
     } else {
-      if (
-        length(coords$x) == 0 ||
-          length(coords$ymin) == 0 ||
-          length(coords$ymax) == 0
-      ) {
-        return(grid::nullGrob())
-      }
-      center <- grid::unit(coords$x, "npc")
-      rangeMin <- grid::unit(coords$ymin, "npc")
-      rangeMax <- grid::unit(coords$ymax, "npc")
-
-      mainSeg <- grid::segmentsGrob(
-        x0 = center,
-        x1 = center,
-        y0 = rangeMin,
-        y1 = rangeMax,
-        gp = grid::gpar(col = col, lwd = lwd, lty = lty, lineend = lineend)
-      )
-      minCap <- grid::segmentsGrob(
-        x0 = center - halfWidthMm,
-        x1 = center + halfWidthMm,
-        y0 = rangeMin,
-        y1 = rangeMin,
-        gp = grid::gpar(col = col, lwd = lwd, lty = lty, lineend = lineend)
-      )
-      maxCap <- grid::segmentsGrob(
-        x0 = center - halfWidthMm,
-        x1 = center + halfWidthMm,
-        y0 = rangeMax,
-        y1 = rangeMax,
-        gp = grid::gpar(col = col, lwd = lwd, lty = lty, lineend = lineend)
-      )
+      along <- c("ymin", "ymax")
+      across <- "x"
+    }
+    if (any(lengths(coords[c(across, along)]) == 0)) {
+      return(grid::nullGrob())
     }
 
-    grid::grobTree(mainSeg, minCap, maxCap)
+    center <- grid::unit(coords[[across]], "npc")
+    rangeMin <- grid::unit(coords[[along[1]]], "npc")
+    rangeMax <- grid::unit(coords[[along[2]]], "npc")
+
+    # A bar is the range segment plus a cap at each end. The orientation only
+    # decides which grid axis the range and centre map to, so resolve it once:
+    # for horizontal bars the range runs along x and caps extend in y, and for
+    # vertical bars it is mirrored.
+    segment <- if (horizontal) {
+      \(rangeFrom, rangeTo, centerFrom, centerTo) {
+        grid::segmentsGrob(
+          x0 = rangeFrom,
+          y0 = centerFrom,
+          x1 = rangeTo,
+          y1 = centerTo,
+          gp = gp
+        )
+      }
+    } else {
+      \(rangeFrom, rangeTo, centerFrom, centerTo) {
+        grid::segmentsGrob(
+          x0 = centerFrom,
+          y0 = rangeFrom,
+          x1 = centerTo,
+          y1 = rangeTo,
+          gp = gp
+        )
+      }
+    }
+
+    grid::grobTree(
+      segment(rangeMin, rangeMax, center, center),
+      segment(rangeMin, rangeMin, center - halfWidthMm, center + halfWidthMm),
+      segment(rangeMax, rangeMax, center - halfWidthMm, center + halfWidthMm)
+    )
   }
 )

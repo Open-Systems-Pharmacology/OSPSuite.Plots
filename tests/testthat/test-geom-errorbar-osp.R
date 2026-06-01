@@ -182,13 +182,13 @@ test_that("width must be a single non-negative finite number", {
 })
 
 test_that("orientation is passed through the layer params", {
-  layer_y <- geom_errorbar_osp(orientation = "y")
-  layer_x <- geom_errorbar_osp(orientation = "x")
-  layer_na <- geom_errorbar_osp(orientation = NA)
+  layerY <- geom_errorbar_osp(orientation = "y")
+  layerX <- geom_errorbar_osp(orientation = "x")
+  layerNA <- geom_errorbar_osp(orientation = NA)
 
-  expect_equal(layer_y$geom_params$orientation, "y")
-  expect_equal(layer_x$geom_params$orientation, "x")
-  expect_true(is.na(layer_na$geom_params$orientation))
+  expect_equal(layerY$geom_params$orientation, "y")
+  expect_equal(layerX$geom_params$orientation, "x")
+  expect_true(is.na(layerNA$geom_params$orientation))
 })
 
 test_that("setup_data only suppresses ymin/ymax zero-ranges for horizontal orientation", {

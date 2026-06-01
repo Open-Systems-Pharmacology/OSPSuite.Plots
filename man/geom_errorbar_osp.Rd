@@ -11,7 +11,7 @@ geom_errorbar_osp(
   position = "identity",
   ...,
   orientation = NA,
-  width = 1.5,
+  width = 2,
   lineend = "butt",
   na.rm = FALSE,
   show.legend = NA,
@@ -98,7 +98,7 @@ error bars (range along the x-axis). Any other value, including \code{NA}
 (default) and \code{"y"}, produces vertical error bars (range along the
 y-axis).}
 
-\item{width}{Width of the error bar caps in mm units. Default: \code{1.5}.}
+\item{width}{Width of the error bar caps in mm units. Default: \code{2}.}
 
 \item{lineend}{Line end style (round, butt, square).}
 

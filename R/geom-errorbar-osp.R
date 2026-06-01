@@ -9,7 +9,7 @@
 #' Pass `orientation = "x"` for horizontal error bars (`aes(y, xmin, xmax)`).
 #'
 #' @inheritParams ggplot2::geom_errorbar
-#' @param width Width of the error bar caps in mm units. Default: `1.5`.
+#' @param width Width of the error bar caps in mm units. Default: `2`.
 #' @param orientation Orientation of the layer. `"x"` produces horizontal
 #'   error bars (range along the x-axis). Any other value, including `NA`
 #'   (default) and `"y"`, produces vertical error bars (range along the
@@ -39,7 +39,7 @@ geom_errorbar_osp <- function(
   position = "identity",
   ...,
   orientation = NA,
-  width = 1.5,
+  width = 2,
   lineend = "butt",
   na.rm = FALSE,
   show.legend = NA,
@@ -120,7 +120,7 @@ GeomErrorbarOsp <- ggplot2::ggproto(
     coord,
     lineend = "butt",
     orientation = NA,
-    width = 1.5
+    width = 2
   ) {
     # nolint end
     if (nrow(data) == 0) return(grid::nullGrob())

@@ -27,22 +27,10 @@ ggplot(df, aes(x, y, shape = group)) +
   scale_shape_osp_manual(values = c(A = "circle", B = "diamond", C = "star"))
 }
 \seealso{
-Other setDefault functions: 
+Other shapes:
 \code{\link{Shapes}},
-\code{\link{colorMaps}},
-\code{\link{geom_point_osp}()},
-\code{\link{getDefaultGeomAttributes}()},
-\code{\link{getDefaultOptions}()},
-\code{\link{getOspsuite.plots.option}()},
-\code{\link{resetDefaultColorMapDistinct}()},
-\code{\link{resetDefaultTheme}()},
-\code{\link{resetDefaults}()},
-\code{\link{scale_shape_osp}()},
-\code{\link{scale_shape_osp_identity}()},
-\code{\link{setDefaultColorMapDistinct}()},
-\code{\link{setDefaultTheme}()},
-\code{\link{setDefaults}()},
-\code{\link{setOspsuite.plots.option}()},
-\code{\link{stat_qq_osp}()}
+\code{\link{ospShapeNames}},
+\code{\link[=scale_shape_osp]{scale_shape_osp()}},
+\code{\link[=scale_shape_osp_identity]{scale_shape_osp_identity()}}
 }
-\concept{setDefault functions}
+\concept{shapes}

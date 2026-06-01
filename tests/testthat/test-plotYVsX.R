@@ -61,7 +61,8 @@ test_that("plot Observed vs Predicted works", {
     ),
     metaData = metaData,
     addRegression = TRUE,
-    geomErrorbarAttributes = list(width = 0.02)
+    # now width is independent from scale
+    geomErrorbarAttributes = list(width = 2)
   )
 
   vdiffr::expect_doppelganger(
@@ -387,6 +388,52 @@ test_that("'lin' is accepted as shorthand for 'linear' in plotPredVsObs", {
       xyScale = "lin"
     )
   )
+})
+
+# Regression for the swapped-orientation bug in the error bar layers.
+#
+# `geom_errorbar_osp()` reads `xmin/xmax` when `orientation == "x"` and
+# `ymin/ymax` otherwise. `plotYVsX()` builds error from the observed-data
+# direction, so an x-direction error populates only `xmin/xmax` and a
+# y-direction error populates only `ymin/ymax`.
+#
+# Before the fix the branches passed the opposite orientation: the geom looked
+# for the range columns of the *other* axis, found none, and silently drew
+# nothing (no error bars, no warning). These snapshots show the bars present on
+# the correct axis; under the buggy code they would be empty.
+test_that("x-direction error bars render on the x-axis", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
+    dplyr::select(c("ID", "Obs", "gsd", "Pred", "Sex"))
+
+  fig <- plotPredVsObs(
+    data = data,
+    mapping = aes(x = Obs, y = Pred, groupby = Sex, error_relative = gsd),
+    geomErrorbarAttributes = list(width = 2)
+  )
+
+  vdiffr::expect_doppelganger("xdir-errorbars", fig)
+})
+
+test_that("y-direction error bars render on the y-axis", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
+    dplyr::select(c("ID", "Obs", "gsd", "Pred", "Sex"))
+
+  fig <- plotYVsX(
+    data = data,
+    mapping = aes(x = Obs, y = Pred, groupby = Sex, error_relative = gsd),
+    observedDataDirection = "y",
+    geomErrorbarAttributes = list(width = 2)
+  )
+
+  vdiffr::expect_doppelganger("ydir-errorbars", fig)
 })
 
 

@@ -29,22 +29,10 @@ ggplot(df, aes(x, y, shape = shape)) +
   scale_shape_osp_identity(guide = "legend")
 }
 \seealso{
-Other setDefault functions: 
+Other shapes:
 \code{\link{Shapes}},
-\code{\link{colorMaps}},
-\code{\link{geom_point_osp}()},
-\code{\link{getDefaultGeomAttributes}()},
-\code{\link{getDefaultOptions}()},
-\code{\link{getOspsuite.plots.option}()},
-\code{\link{resetDefaultColorMapDistinct}()},
-\code{\link{resetDefaultTheme}()},
-\code{\link{resetDefaults}()},
-\code{\link{scale_shape_osp}()},
-\code{\link{scale_shape_osp_manual}()},
-\code{\link{setDefaultColorMapDistinct}()},
-\code{\link{setDefaultTheme}()},
-\code{\link{setDefaults}()},
-\code{\link{setOspsuite.plots.option}()},
-\code{\link{stat_qq_osp}()}
+\code{\link{ospShapeNames}},
+\code{\link[=scale_shape_osp]{scale_shape_osp()}},
+\code{\link[=scale_shape_osp_manual]{scale_shape_osp_manual()}}
 }
-\concept{setDefault functions}
+\concept{shapes}

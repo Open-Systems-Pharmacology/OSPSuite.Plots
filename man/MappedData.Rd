@@ -7,37 +7,37 @@
 R6 class for mapping  variables to \code{data}
 }
 \seealso{
-Other MappedData classes: 
+Other MappedData classes:
 \code{\link{MappedDataBoxplot}},
 \code{\link{MappedDataRangeDistribution}},
 \code{\link{MappedDataTimeProfile}}
 }
 \concept{MappedData classes}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{data}}{data.frame used for mapping}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{data}}{data.frame used for mapping}
 
-\item{\code{mapping}}{list of aesthetic mappings}
+    \item{\code{mapping}}{list of aesthetic mappings}
 
-\item{\code{dimensions}}{list with dimensions of mapping}
+    \item{\code{dimensions}}{list with dimensions of mapping}
 
-\item{\code{units}}{list with dimensions of mapping}
+    \item{\code{units}}{list with dimensions of mapping}
 
-\item{\code{columnClasses}}{list with class of mapped columns}
+    \item{\code{columnClasses}}{list with class of mapped columns}
 
-\item{\code{xlimits}}{double vector limits of primary y axis}
+    \item{\code{xlimits}}{double vector limits of primary y axis}
 
-\item{\code{ylimits}}{double vector limits of primary y axis}
-}
-\if{html}{\out{</div>}}
+    \item{\code{ylimits}}{double vector limits of primary y axis}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{hasLLOQMatch}}{\code{boolean} if TRUE data has matched lloq data}
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{hasLLOQMatch}}{\code{boolean} if TRUE data has matched lloq data}
 
-\item{\code{dataForPlot}}{returns data used for plotting,
+    \item{\code{dataForPlot}}{returns data used for plotting,
 may be adjusted in child classes (e.g. 2 axis in MappedDataTimeProfile)
 check if aesthetic is available in data
 returns data column for aesthetic
@@ -49,26 +49,27 @@ adds new columns \code{ymin} and \code{ymax} if required
 copy aesthetics \code{groupby}, but only if not explicit set
 converts Integer columns, which are no factors to double
 factorize column for group to factor}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MappedData-new}{\code{MappedData$new()}}
-\item \href{#method-MappedData-getAestheticsForGeom}{\code{MappedData$getAestheticsForGeom()}}
-\item \href{#method-MappedData-addMetaData}{\code{MappedData$addMetaData()}}
-\item \href{#method-MappedData-updateScaleArgumentsForTimeUnit}{\code{MappedData$updateScaleArgumentsForTimeUnit()}}
-\item \href{#method-MappedData-clone}{\code{MappedData$clone()}}
-}
+  \itemize{
+    \item \href{#method-MappedData-initialize}{\code{MappedData$new()}}
+    \item \href{#method-MappedData-getAestheticsForGeom}{\code{MappedData$getAestheticsForGeom()}}
+    \item \href{#method-MappedData-addMetaData}{\code{MappedData$addMetaData()}}
+    \item \href{#method-MappedData-updateScaleArgumentsForTimeUnit}{\code{MappedData$updateScaleArgumentsForTimeUnit()}}
+    \item \href{#method-MappedData-clone}{\code{MappedData$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MappedData-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MappedData-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{MappedData} object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedData$new(
+\if{html}{\out{<a id="method-MappedData-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MappedData-initialize}{}}}
+\subsection{\code{MappedData$new()}}{
+  Create a new \code{MappedData} object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedData$new(
   data,
   mapping,
   xScale,
@@ -79,118 +80,116 @@ Create a new \code{MappedData} object
   isObserved = TRUE,
   xlimits = NULL,
   ylimits = NULL
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{data}}{data.frame used for mapping}
-
-\item{\code{mapping}}{list of aesthetic mappings}
-
-\item{\code{xScale}}{scale of x-axis either 'linear' or 'log'}
-
-\item{\code{yScale}}{scale of y-axis either 'linear' or 'log'}
-
-\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with \code{groupby}}
-
-\item{\code{groupOrder}}{labels and order for group aesthetic}
-
-\item{\code{direction}}{direction of plot either "x" or "y"}
-
-\item{\code{isObserved}}{A \code{boolean }if TRUE mappings mdv, lloq}
-
-\item{\code{xlimits}}{limits for x-axis (may be NULL)}
-
-\item{\code{ylimits}}{limits for y-axis (may be NULL)}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new \code{MappedData} object
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{data}}{data.frame used for mapping}
+      \item{\code{mapping}}{list of aesthetic mappings}
+      \item{\code{xScale}}{scale of x-axis either 'linear' or 'log'}
+      \item{\code{yScale}}{scale of y-axis either 'linear' or 'log'}
+      \item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with \code{groupby}}
+      \item{\code{groupOrder}}{labels and order for group aesthetic}
+      \item{\code{direction}}{direction of plot either "x" or "y"}
+      \item{\code{isObserved}}{A \code{boolean }if TRUE mappings mdv, lloq}
+      \item{\code{xlimits}}{limits for x-axis (may be NULL)}
+      \item{\code{ylimits}}{limits for y-axis (may be NULL)}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{MappedData} object
 filter possible aesthetics for a geom,
 check if mandatory are available
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MappedData-getAestheticsForGeom"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedData-getAestheticsForGeom}{}}}
-\subsection{Method \code{getAestheticsForGeom()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedData$getAestheticsForGeom(geom, geomAttributes)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{geom}}{type of geometric object}
-
-\item{\code{geomAttributes}}{additionally arguments for geom layer, will overwrite aesthetics}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-list of accepted mappings
+\subsection{\code{MappedData$getAestheticsForGeom()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedData$getAestheticsForGeom(geom, geomAttributes)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{geom}}{type of geometric object}
+      \item{\code{geomAttributes}}{additionally arguments for geom layer, will overwrite aesthetics}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    list of accepted mappings
 adds list with dimension, units and column classes
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MappedData-addMetaData"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedData-addMetaData}{}}}
-\subsection{Method \code{addMetaData()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedData$addMetaData(metaData)}\if{html}{\out{</div>}}
+\subsection{\code{MappedData$addMetaData()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedData$addMetaData(metaData)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{metaData}}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    updated \code{MappedData} object
+check if unit of scale direction is time and sets the breaks accordingly
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{metaData}}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-updated \code{MappedData} object
-check if unit of scale direction is time and sets the breaks accordingly
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MappedData-updateScaleArgumentsForTimeUnit"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedData-updateScaleArgumentsForTimeUnit}{}}}
-\subsection{Method \code{updateScaleArgumentsForTimeUnit()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedData$updateScaleArgumentsForTimeUnit(scaleArgs, scaleDirection = "x")}\if{html}{\out{</div>}}
+\subsection{\code{MappedData$updateScaleArgumentsForTimeUnit()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedData$updateScaleArgumentsForTimeUnit(scaleArgs, scaleDirection = "x")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{scaleArgs}}{additional arguments passed on to scale function}
+      \item{\code{scaleDirection}}{direction of axis either 'x' or 'y'}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{scaleArgs} with adjusted break function
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{scaleArgs}}{additional arguments passed on to scale function}
-
-\item{\code{scaleDirection}}{direction of axis either 'x' or 'y'}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{scaleArgs} with adjusted break function
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MappedData-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedData-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedData$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MappedData$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedData$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

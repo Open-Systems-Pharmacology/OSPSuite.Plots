@@ -26,7 +26,7 @@ plotResVsCov(
 Non-\code{NULL} values trigger a warning and have no effect.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=plotYVsX]{plotYVsX}}
+  Arguments passed on to \code{\link{plotYVsX}}
   \describe{
     \item{\code{geomComparisonLineAttributes}}{A \code{list} of arguments passed to \code{ggplot2::hline} or \code{ggplot2::abline} to display comparison lines.}
     \item{\code{geomGuestLineAttributes}}{A \code{list} of arguments passed to \code{ggplot2::geom_function} to display guest criteria.}
@@ -45,7 +45,7 @@ comparison statistics. Data will be grouped by combinations of these aesthetics 
 and proportions within comparison lines. Common grouping aesthetics include \code{"colour"}, \code{"fill"}, \code{"shape"}.}
     \item{\code{metaData}}{A named list of information about \code{data} such as the \code{dimension} and \code{unit} of its variables.}
     \item{\code{geomPointAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
-    \item{\code{geomErrorbarAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
+    \item{\code{geomErrorbarAttributes}}{A \code{list} with arguments which are passed on to the call \code{geom_errorbar_osp}}
     \item{\code{geomLLOQAttributes}}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
     \item{\code{xScale}}{either 'linear' then \code{ggplot2::scale_x_continuous()} or 'log' then \code{ggplot2::scale_x_log10()} is used}
     \item{\code{xScaleArgs}}{list of arguments passed to \code{ggplot2::scale_x_continuous()} or \code{ggplot2::scale_x_log10()}}
@@ -72,15 +72,15 @@ For details and examples, see the vignettes:
 }
 }
 \seealso{
-Other plot functions: 
-\code{\link{plotBoxWhisker}()},
-\code{\link{plotForest}()},
-\code{\link{plotHistogram}()},
-\code{\link{plotPredVsObs}()},
-\code{\link{plotQQ}()},
-\code{\link{plotRangeDistribution}()},
-\code{\link{plotRatioVsCov}()},
-\code{\link{plotTimeProfile}()},
-\code{\link{plotYVsX}()}
+Other plot functions:
+\code{\link[=plotBoxWhisker]{plotBoxWhisker()}},
+\code{\link[=plotForest]{plotForest()}},
+\code{\link[=plotHistogram]{plotHistogram()}},
+\code{\link[=plotPredVsObs]{plotPredVsObs()}},
+\code{\link[=plotQQ]{plotQQ()}},
+\code{\link[=plotRangeDistribution]{plotRangeDistribution()}},
+\code{\link[=plotRatioVsCov]{plotRatioVsCov()}},
+\code{\link[=plotTimeProfile]{plotTimeProfile()}},
+\code{\link[=plotYVsX]{plotYVsX()}}
 }
 \concept{plot functions}

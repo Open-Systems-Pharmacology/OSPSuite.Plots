@@ -30,7 +30,8 @@ plotResVsCov <- function(
     warning(messages$warningResidualScaleDeprecated())
   }
 
-  if (!is.null(yScale)) yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(yScale))
+    yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
 
   plotObject <- plotYVsX(
     data = data,
@@ -78,8 +79,10 @@ plotRatioVsCov <- function(
     warning(messages$warningResidualScaleDeprecated())
   }
 
-  if (!is.null(xScale)) xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
-  if (!is.null(yScale)) yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(xScale))
+    xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(yScale))
+    yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
 
   yDisplayAsAbsolute <- FALSE
 
@@ -217,8 +220,10 @@ plotYVsX <- function(
   if (is.double(comparisonLineVector)) {
     comparisonLineVector <- as.list(comparisonLineVector)
   }
-  if (!is.null(xScale)) xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
-  if (!is.null(yScale)) yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(xScale))
+    xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(yScale))
+    yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
   .validatePlotYXsXInputs(
     data = data,
     metaData = metaData,
@@ -288,11 +293,11 @@ plotYVsX <- function(
   if (all(c("xmin", "xmax") %in% names(mappedData$mapping))) {
     plotObject <- plotObject +
       do.call(
-        what = ggplot2::geom_errorbar,
+        what = geom_errorbar_osp,
         args = utils::modifyList(
           x = list(
             na.rm = TRUE,
-            orientation = "y"
+            orientation = "x"
           ),
           val = geomErrorbarAttributes
         )
@@ -302,11 +307,11 @@ plotYVsX <- function(
   if (all(c("ymin", "ymax") %in% names(mappedData$mapping))) {
     plotObject <- plotObject +
       do.call(
-        what = ggplot2::geom_errorbar,
+        what = geom_errorbar_osp,
         args = utils::modifyList(
           list(
             na.rm = TRUE,
-            orientation = "x"
+            orientation = "y"
           ),
           geomErrorbarAttributes
         )

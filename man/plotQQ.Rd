@@ -50,15 +50,15 @@ For details and examples see the vignettes:
 }
 }
 \seealso{
-Other plot functions: 
-\code{\link{plotBoxWhisker}()},
-\code{\link{plotForest}()},
-\code{\link{plotHistogram}()},
-\code{\link{plotPredVsObs}()},
-\code{\link{plotRangeDistribution}()},
-\code{\link{plotRatioVsCov}()},
-\code{\link{plotResVsCov}()},
-\code{\link{plotTimeProfile}()},
-\code{\link{plotYVsX}()}
+Other plot functions:
+\code{\link[=plotBoxWhisker]{plotBoxWhisker()}},
+\code{\link[=plotForest]{plotForest()}},
+\code{\link[=plotHistogram]{plotHistogram()}},
+\code{\link[=plotPredVsObs]{plotPredVsObs()}},
+\code{\link[=plotRangeDistribution]{plotRangeDistribution()}},
+\code{\link[=plotRatioVsCov]{plotRatioVsCov()}},
+\code{\link[=plotResVsCov]{plotResVsCov()}},
+\code{\link[=plotTimeProfile]{plotTimeProfile()}},
+\code{\link[=plotYVsX]{plotYVsX()}}
 }
 \concept{plot functions}

@@ -3,6 +3,7 @@
 #' @title OSP Shape Names
 #' @description Character vector of all available OSP shape names.
 #' @export
+#' @family shapes
 ospShapeNames <- c(
   "circle",
   "diamond",
@@ -33,7 +34,7 @@ ospShapeNames <- c(
 #' @title Shapes
 #' @description Named list of OSP shape names for backward compatibility.
 #' Use `Shapes$circle` to get the shape name "circle".
-#' @family setDefault functions
+#' @family shapes
 #' @export
 Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames) # nolint: object_name_linter
 
@@ -51,7 +52,7 @@ Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames) # nolint: objec
 #'   If `TRUE`, missing values are silently removed.
 #' @return A ggplot2 layer that can be added to a plot.
 #' @export
-#' @family setDefault functions
+#' @family layers
 #' @examples
 #' library(ggplot2)
 #' df <- data.frame(x = 1:5, y = 1:5, shape = ospShapeNames[1:5])
@@ -119,7 +120,7 @@ ggplot_build.osp_ggplot <- function(plot, ...) {
 #' @param ... Passed to `ggplot2::discrete_scale`.
 #' @return A ggplot2 scale that can be added to a plot.
 #' @export
-#' @family setDefault functions
+#' @family shapes
 #' @examples
 #' library(ggplot2)
 #' df <- data.frame(x = 1:3, y = 1:3, group = c("A", "B", "C"))
@@ -146,7 +147,7 @@ scale_shape_osp <- function(...) {
 #' @param ... Passed to `ggplot2::scale_shape_manual`.
 #' @return A ggplot2 scale that can be added to a plot.
 #' @export
-#' @family setDefault functions
+#' @family shapes
 #' @examples
 #' library(ggplot2)
 #' df <- data.frame(x = 1:3, y = 1:3, group = c("A", "B", "C"))
@@ -179,7 +180,7 @@ scale_shape_osp_manual <- function(values, ...) {
 #' @param ... Passed to `ggplot2::scale_shape_manual`.
 #' @return A ggplot2 scale that can be added to a plot.
 #' @export
-#' @family setDefault functions
+#' @family shapes
 #' @examples
 #' library(ggplot2)
 #' df <- data.frame(x = 1:3, y = 1:3, shape = c("circle", "diamond", "star"))
@@ -205,7 +206,7 @@ scale_shape_osp_identity <- function(guide = "none", ...) {
 #' @inheritParams ggplot2::stat_qq
 #' @return A ggplot2 layer that can be added to a plot.
 #' @export
-#' @family setDefault functions
+#' @family layers
 # nolint start: object_name_linter
 stat_qq_osp <- function(
     mapping = NULL,
@@ -244,6 +245,7 @@ stat_qq_osp <- function(
 #' @format NULL
 #' @usage NULL
 #' @export
+#' @family layers
 # nolint start: object_name_linter
 GeomPointOsp <- ggplot2::ggproto(
 # nolint end

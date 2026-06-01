@@ -2,7 +2,7 @@
 #' @description Produces time profiles for simulated and observed data.
 #'
 #' For the simulated data a `geom_line` and a `geom_ribbon` layer are added
-#' For the observed data a `geom_point` and a `geom_errorbar` layer are added
+#' For the observed data a `geom_point` and a `geom_errorbar_osp` layer are added
 #'
 #' For more details and examples see the vignettes:
 #' * \code{vignette("Time Profile Plots", package = "ospsuite.plots")}
@@ -24,7 +24,7 @@
 #' @param geomLineAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_line`
 #' @param geomRibbonAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_ribbon`
 #' @param geomPointAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_point`
-#' @param geomErrorbarAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_errorbar`
+#' @param geomErrorbarAttributes A `list` with arguments which are passed on to the call `geom_errorbar_osp`
 #' @param geomLLOQAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_hline`
 #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with `groupby`,
 #' @param xScale either 'linear' then `ggplot2::scale_x_continuous()` or 'log' then `ggplot2::scale_x_log10()` is used
@@ -606,7 +606,7 @@ plotTimeProfile <- function(data = NULL, # nolint
     geom = "errorbar",
     geomAttributes = geomErrorbarAttributes,
     plotObject = plotObject,
-    layerToCall = geom_errorbar
+    layerToCall = geom_errorbar_osp
   )
 
 

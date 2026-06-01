@@ -51,7 +51,7 @@
 
 \item{geomPointAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_point}}
 
-\item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_errorbar}}
+\item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the call \code{geom_errorbar_osp}}
 
 \item{geomLLOQAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
 

@@ -7,55 +7,54 @@
 R6 class for mapping variable to \code{data}
 }
 \seealso{
-Other MappedData classes: 
+Other MappedData classes:
 \code{\link{MappedData}},
 \code{\link{MappedDataBoxplot}},
 \code{\link{MappedDataTimeProfile}}
 }
 \concept{MappedData classes}
 \section{Super class}{
-\code{\link[ospsuite.plots:MappedData]{ospsuite.plots::MappedData}} -> \code{MappedDataRangeDistribution}
+\code{\link[ospsuite.plots:MappedData]{MappedData}} -> \code{MappedDataRangeDistribution}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{xScale}}{scale of x axis}
-}
-\if{html}{\out{</div>}}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{xScale}}{scale of x axis}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{border}}{borders of the binning.}
-}
-\if{html}{\out{</div>}}
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{border}}{borders of the binning.}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MappedDataRangeDistribution-new}{\code{MappedDataRangeDistribution$new()}}
-\item \href{#method-MappedDataRangeDistribution-setBins}{\code{MappedDataRangeDistribution$setBins()}}
-\item \href{#method-MappedDataRangeDistribution-setBorderDataTable}{\code{MappedDataRangeDistribution$setBorderDataTable()}}
-\item \href{#method-MappedDataRangeDistribution-setXMapping}{\code{MappedDataRangeDistribution$setXMapping()}}
-\item \href{#method-MappedDataRangeDistribution-clone}{\code{MappedDataRangeDistribution$clone()}}
+  \itemize{
+    \item \href{#method-MappedDataRangeDistribution-initialize}{\code{MappedDataRangeDistribution$new()}}
+    \item \href{#method-MappedDataRangeDistribution-setBins}{\code{MappedDataRangeDistribution$setBins()}}
+    \item \href{#method-MappedDataRangeDistribution-setBorderDataTable}{\code{MappedDataRangeDistribution$setBorderDataTable()}}
+    \item \href{#method-MappedDataRangeDistribution-setXMapping}{\code{MappedDataRangeDistribution$setXMapping()}}
+    \item \href{#method-MappedDataRangeDistribution-clone}{\code{MappedDataRangeDistribution$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="addMetaData"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-addMetaData'><code>ospsuite.plots::MappedData$addMetaData()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="getAestheticsForGeom"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-getAestheticsForGeom'><code>ospsuite.plots::MappedData$getAestheticsForGeom()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="updateScaleArgumentsForTimeUnit"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-updateScaleArgumentsForTimeUnit'><code>ospsuite.plots::MappedData$updateScaleArgumentsForTimeUnit()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="addMetaData"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-addMetaData'><code>MappedData$addMetaData()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="getAestheticsForGeom"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-getAestheticsForGeom'><code>MappedData$getAestheticsForGeom()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="updateScaleArgumentsForTimeUnit"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-updateScaleArgumentsForTimeUnit'><code>MappedData$updateScaleArgumentsForTimeUnit()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MappedDataRangeDistribution-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MappedDataRangeDistribution-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{MappedDataRangeDistribution} object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedDataRangeDistribution$new(
+\if{html}{\out{<a id="method-MappedDataRangeDistribution-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MappedDataRangeDistribution-initialize}{}}}
+\subsection{\code{MappedDataRangeDistribution$new()}}{
+  Create a new \code{MappedDataRangeDistribution} object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedDataRangeDistribution$new(
   data,
   mapping,
   groupAesthetics = NULL,
@@ -68,107 +67,105 @@ Create a new \code{MappedDataRangeDistribution} object
   modeOfBinning = NA,
   numberOfBins = NA,
   breaks = NA
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{data}}{data.frame used for mapping}
-
-\item{\code{mapping}}{list of aesthetic mappings}
-
-\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with aesthetic \code{groupby}}
-
-\item{\code{direction}}{direction of plot either "x" or "y"}
-
-\item{\code{isObserved}}{A \code{boolean} if TRUE mappings mdv, lloq, error and error_relative are evaluated}
-
-\item{\code{xlimits}}{limits for x-axis (may be NULL)}
-
-\item{\code{ylimits}}{limits for y-axis (may be NULL)}
-
-\item{\code{xScale}}{scale of x-axis either 'linear' or 'log'}
-
-\item{\code{yScale}}{scale of y-axis either 'linear' or 'log'}
-
-\item{\code{modeOfBinning}}{method of binning (e.g., 'breaks', 'number', 'interval')}
-
-\item{\code{numberOfBins}}{number of bins to use for binning}
-
-\item{\code{breaks}}{breaks for binning if \code{modeOfBinning} is 'breaks'}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{MappedDataRangeDistribution} class object
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{data}}{data.frame used for mapping}
+      \item{\code{mapping}}{list of aesthetic mappings}
+      \item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with aesthetic \code{groupby}}
+      \item{\code{direction}}{direction of plot either "x" or "y"}
+      \item{\code{isObserved}}{A \code{boolean} if TRUE mappings mdv, lloq, error and error_relative are evaluated}
+      \item{\code{xlimits}}{limits for x-axis (may be NULL)}
+      \item{\code{ylimits}}{limits for y-axis (may be NULL)}
+      \item{\code{xScale}}{scale of x-axis either 'linear' or 'log'}
+      \item{\code{yScale}}{scale of y-axis either 'linear' or 'log'}
+      \item{\code{modeOfBinning}}{method of binning (e.g., 'breaks', 'number', 'interval')}
+      \item{\code{numberOfBins}}{number of bins to use for binning}
+      \item{\code{breaks}}{breaks for binning if \code{modeOfBinning} is 'breaks'}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{MappedDataRangeDistribution} class object
 Set binning columns
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MappedDataRangeDistribution-setBins"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedDataRangeDistribution-setBins}{}}}
-\subsection{Method \code{setBins()}}{
-This method sets the bins for the data based on the specified mode of binning.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedDataRangeDistribution$setBins()}\if{html}{\out{</div>}}
+\subsection{\code{MappedDataRangeDistribution$setBins()}}{
+  This method sets the bins for the data based on the specified mode of binning.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedDataRangeDistribution$setBins()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The object itself (invisible)
+Create a data table with bin border information
+  }
 }
 
-\subsection{Returns}{
-The object itself (invisible)
-Create a data table with bin border information
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MappedDataRangeDistribution-setBorderDataTable"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedDataRangeDistribution-setBorderDataTable}{}}}
-\subsection{Method \code{setBorderDataTable()}}{
-This method sets up a data table containing border information for the bins.
+\subsection{\code{MappedDataRangeDistribution$setBorderDataTable()}}{
+  This method sets up a data table containing border information for the bins.
 Set x mapping for the plot
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedDataRangeDistribution$setBorderDataTable(identifier = "IndividualId")}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedDataRangeDistribution$setBorderDataTable(identifier = "IndividualId")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{identifier}}{Identifier for the data table (default is 'IndividualId')}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{identifier}}{Identifier for the data table (default is 'IndividualId')}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MappedDataRangeDistribution-setXMapping"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedDataRangeDistribution-setXMapping}{}}}
-\subsection{Method \code{setXMapping()}}{
-This method sets the x mapping for the plot based on the specified parameters.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedDataRangeDistribution$setXMapping(asStepPlot)}\if{html}{\out{</div>}}
+\subsection{\code{MappedDataRangeDistribution$setXMapping()}}{
+  This method sets the x mapping for the plot based on the specified parameters.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedDataRangeDistribution$setXMapping(asStepPlot)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{asStepPlot}}{Logical indicating if the plot should be a step plot.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{asStepPlot}}{Logical indicating if the plot should be a step plot.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MappedDataRangeDistribution-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedDataRangeDistribution-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedDataRangeDistribution$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MappedDataRangeDistribution$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedDataRangeDistribution$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

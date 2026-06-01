@@ -33,60 +33,59 @@ timeData <- MappedDataTimeProfile$new(
 }
 }
 \seealso{
-Other MappedData classes: 
+Other MappedData classes:
 \code{\link{MappedData}},
 \code{\link{MappedDataBoxplot}},
 \code{\link{MappedDataRangeDistribution}}
 }
 \concept{MappedData classes}
 \section{Super class}{
-\code{\link[ospsuite.plots:MappedData]{ospsuite.plots::MappedData}} -> \code{MappedDataTimeProfile}
+\code{\link[ospsuite.plots:MappedData]{MappedData}} -> \code{MappedDataTimeProfile}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{y2limits}}{double vector limits of secondary y axis}
-}
-\if{html}{\out{</div>}}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{y2limits}}{double vector limits of secondary y axis}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{requireDualAxis}}{boolean, If TRUE secondary axis is required}
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{requireDualAxis}}{boolean, If TRUE secondary axis is required}
 
-\item{\code{listOfGroups}}{character vector of groupings}
+    \item{\code{listOfGroups}}{character vector of groupings}
 
-\item{\code{secAxis}}{sec_axis() object}
+    \item{\code{secAxis}}{sec_axis() object}
 
-\item{\code{dataForPlot}}{scaled data used for plotting
+    \item{\code{dataForPlot}}{scaled data used for plotting
 adjust limits}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MappedDataTimeProfile-new}{\code{MappedDataTimeProfile$new()}}
-\item \href{#method-MappedDataTimeProfile-scaleDataForSecondaryAxis}{\code{MappedDataTimeProfile$scaleDataForSecondaryAxis()}}
-\item \href{#method-MappedDataTimeProfile-clone}{\code{MappedDataTimeProfile$clone()}}
+  \itemize{
+    \item \href{#method-MappedDataTimeProfile-initialize}{\code{MappedDataTimeProfile$new()}}
+    \item \href{#method-MappedDataTimeProfile-scaleDataForSecondaryAxis}{\code{MappedDataTimeProfile$scaleDataForSecondaryAxis()}}
+    \item \href{#method-MappedDataTimeProfile-clone}{\code{MappedDataTimeProfile$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="addMetaData"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-addMetaData'><code>ospsuite.plots::MappedData$addMetaData()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="getAestheticsForGeom"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-getAestheticsForGeom'><code>ospsuite.plots::MappedData$getAestheticsForGeom()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="updateScaleArgumentsForTimeUnit"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-updateScaleArgumentsForTimeUnit'><code>ospsuite.plots::MappedData$updateScaleArgumentsForTimeUnit()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="addMetaData"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-addMetaData'><code>MappedData$addMetaData()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="getAestheticsForGeom"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-getAestheticsForGeom'><code>MappedData$getAestheticsForGeom()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="ospsuite.plots" data-topic="MappedData" data-id="updateScaleArgumentsForTimeUnit"><a href='../../ospsuite.plots/html/MappedData.html#method-MappedData-updateScaleArgumentsForTimeUnit'><code>MappedData$updateScaleArgumentsForTimeUnit()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MappedDataTimeProfile-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MappedDataTimeProfile-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{MappedDataTimeProfile} object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedDataTimeProfile$new(
+\if{html}{\out{<a id="method-MappedDataTimeProfile-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MappedDataTimeProfile-initialize}{}}}
+\subsection{\code{MappedDataTimeProfile$new()}}{
+  Create a new \code{MappedDataTimeProfile} object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedDataTimeProfile$new(
   data,
   mapping,
   groupAesthetics = NULL,
@@ -99,90 +98,82 @@ Create a new \code{MappedDataTimeProfile} object
   scaleOfPrimaryAxis = AxisScales$linear,
   scaleOfSecondaryAxis = AxisScales$linear,
   y2limits = NULL
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{data}}{data.frame used for mapping}
-
-\item{\code{mapping}}{list of aesthetic mappings}
-
-\item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with aesthetic \code{groupby} ,
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{data}}{data.frame used for mapping}
+      \item{\code{mapping}}{list of aesthetic mappings}
+      \item{\code{groupAesthetics}}{vector of aesthetics, which are used for columns mapped with aesthetic \code{groupby} ,
 use of group aesthetics triggers second axis after simulation layers}
-
-\item{\code{groupOrder}}{labels and order for group aesthetic}
-
-\item{\code{direction}}{direction of plot either "x" or "y"}
-
-\item{\code{isObserved}}{A \code{boolean} if TRUE mappings mdv, lloq are evaluated}
-
-\item{\code{xlimits}}{limits for x-axis (may be NULL)}
-
-\item{\code{ylimits}}{limits for primary axis (may be NULL)}
-
-\item{\code{xScale}}{= scale of x-axis}
-
-\item{\code{scaleOfPrimaryAxis}}{scale of direction, either "linear" or "log"}
-
-\item{\code{scaleOfSecondaryAxis}}{either 'linear' or 'log'}
-
-\item{\code{y2limits}}{limits for secondary axis (may be NULL)}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new \code{MappedDataTimeProfile} object
+      \item{\code{groupOrder}}{labels and order for group aesthetic}
+      \item{\code{direction}}{direction of plot either "x" or "y"}
+      \item{\code{isObserved}}{A \code{boolean} if TRUE mappings mdv, lloq are evaluated}
+      \item{\code{xlimits}}{limits for x-axis (may be NULL)}
+      \item{\code{ylimits}}{limits for primary axis (may be NULL)}
+      \item{\code{xScale}}{= scale of x-axis}
+      \item{\code{scaleOfPrimaryAxis}}{scale of direction, either "linear" or "log"}
+      \item{\code{scaleOfSecondaryAxis}}{either 'linear' or 'log'}
+      \item{\code{y2limits}}{limits for secondary axis (may be NULL)}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{MappedDataTimeProfile} object
 Scale data for secondary axis and update secAxis transformation
 
 This method handles the complex logic of scaling data between primary and secondary axes
 with different scale types (linear/log combinations).
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MappedDataTimeProfile-scaleDataForSecondaryAxis"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedDataTimeProfile-scaleDataForSecondaryAxis}{}}}
-\subsection{Method \code{scaleDataForSecondaryAxis()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedDataTimeProfile$scaleDataForSecondaryAxis(
+\subsection{\code{MappedDataTimeProfile$scaleDataForSecondaryAxis()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedDataTimeProfile$scaleDataForSecondaryAxis(
   ylimits = NULL,
   y2limits = NULL,
   y2ScaleArgs = list()
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{ylimits}}{limits for primary axis (may be NULL)}
-
-\item{\code{y2limits}}{limits for secondary axis (may be NULL)}
-
-\item{\code{y2ScaleArgs}}{arguments for secondary axis}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-updated MappedDataTimeProfile
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{ylimits}}{limits for primary axis (may be NULL)}
+      \item{\code{y2limits}}{limits for secondary axis (may be NULL)}
+      \item{\code{y2ScaleArgs}}{arguments for secondary axis}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    updated MappedDataTimeProfile
 boolean for secondary axis
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MappedDataTimeProfile-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedDataTimeProfile-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MappedDataTimeProfile$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MappedDataTimeProfile$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MappedDataTimeProfile$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

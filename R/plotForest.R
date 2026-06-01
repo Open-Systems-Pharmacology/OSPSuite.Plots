@@ -23,27 +23,29 @@
 #' @return A combined plot object containing the forest plot and the table (if applicable).
 #' @export
 #' @family plot functions
-plotForest <- function(plotData,
-                       mapping = aes(
-                         y = y, # nolint
-                         x = x, # nolint
-                         groupby = dataType # nolint
-                       ),
-                       xLabel,
-                       yFacetColumns = NULL,
-                       xFacetColumn = NULL,
-                       xScale = c("linear", "log"),
-                       xScaleArgs = list(), # nolint
-                       groupAesthetics = c("color", "fill", "shape"),
-                       tableColumns = c("yValues", "yErrorValues"),
-                       tableLabels = c("M", "Variance"),
-                       labelWrapWidth = 10,
-                       digitsToRound = 2,
-                       digitsToShow = 2,
-                       withTable = is.null(xFacetColumn),
-                       geomPointAttributes = getDefaultGeomAttributes("Point"),
-                       geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
-                       facetScales = c("free_y", "free")) {
+plotForest <- function(
+  plotData,
+  mapping = aes(
+    y = y, # nolint
+    x = x, # nolint
+    groupby = dataType # nolint
+  ),
+  xLabel,
+  yFacetColumns = NULL,
+  xFacetColumn = NULL,
+  xScale = c("linear", "log"),
+  xScaleArgs = list(), # nolint
+  groupAesthetics = c("color", "fill", "shape"),
+  tableColumns = c("yValues", "yErrorValues"),
+  tableLabels = c("M", "Variance"),
+  labelWrapWidth = 10,
+  digitsToRound = 2,
+  digitsToShow = 2,
+  withTable = is.null(xFacetColumn),
+  geomPointAttributes = getDefaultGeomAttributes("Point"),
+  geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
+  facetScales = c("free_y", "free")
+) {
   # avoid warning for global variable
   x <- y <- dataType <- NULL
 
@@ -54,7 +56,8 @@ plotForest <- function(plotData,
   checkmate::assertCharacter(yFacetColumns, null.ok = TRUE, max.len = 2)
   checkmate::assertCharacter(tableColumns)
   checkmate::assertCharacter(tableLabels, len = length(tableColumns))
-  checkmate::assertNames(names(plotData),
+  checkmate::assertNames(
+    names(plotData),
     must.include = c(yFacetColumns, xFacetColumn, tableColumns)
   )
   checkmate::assertIntegerish(digitsToRound, lower = 0, len = 1)
@@ -123,22 +126,28 @@ plotForest <- function(plotData,
 #'
 #' @return A ggplot object representing the main plot.
 #' @keywords internal
-createPlotObject <- function(plotData,
-                             mapping,
-                             xScale,
-                             xScaleArgs, # nolint
-                             xLabel,
-                             groupAesthetics,
-                             yFacetColumns,
-                             xFacetColumn,
-                             labelWrapWidth,
-                             geomPointAttributes,
-                             geomErrorbarAttributes,
-                             facetScales = "free_y") {
+createPlotObject <- function(
+  plotData,
+  mapping,
+  xScale,
+  xScaleArgs, # nolint
+  xLabel,
+  groupAesthetics,
+  yFacetColumns,
+  xFacetColumn,
+  labelWrapWidth,
+  geomPointAttributes,
+  geomErrorbarAttributes,
+  facetScales = "free_y"
+) {
   # Generate the facet formula if yFacetColumns are provided
   facetFormula <- if (!is.null(yFacetColumns) && length(yFacetColumns) > 0) {
     if (!is.null(xFacetColumn) && length(xFacetColumn) > 0) {
-      stats::as.formula(paste(paste(yFacetColumns, collapse = " + "), "~", xFacetColumn))
+      stats::as.formula(paste(
+        paste(yFacetColumns, collapse = " + "),
+        "~",
+        xFacetColumn
+      ))
     } else {
       stats::as.formula(paste(paste(yFacetColumns, collapse = " + "), "~."))
     }
@@ -167,21 +176,26 @@ createPlotObject <- function(plotData,
     layerToCall = geom_point
   )
   # Bar
-  if ("xmin" %in% names(mappedData$mapping) & "xmax" %in% names(mappedData$mapping)) {
+  if (
+    "xmin" %in%
+      names(mappedData$mapping) &
+      "xmax" %in% names(mappedData$mapping)
+  ) {
     plotObject <- addLayer(
       mappedData = mappedData,
       geom = "errorbar",
       geomAttributes = utils::modifyList(
-        list(position = position_dodge(width = 1)),
+        list(position = position_dodge(width = 1), orientation = "x"),
         geomErrorbarAttributes
       ),
       plotObject = plotObject,
-      layerToCall = geom_errorbar
+      layerToCall = geom_errorbar_osp
     )
   }
   plotObject <- plotObject +
     (if (!is.null(facetFormula)) {
-      ggh4x::facet_nested(facetFormula,
+      ggh4x::facet_nested(
+        facetFormula,
         switch = "y",
         scales = facetScales,
         space = "free_y",
@@ -225,14 +239,16 @@ createTableData <- function(plotData, tableColumns, tableLabels) {
   # initialize variable to avoid messages
   .value <- .valueType <- NULL # nolint
 
-  tableData <- melt(plotData,
+  tableData <- melt(
+    plotData,
     measure.vars = tableColumns,
     variable.name = ".valueType",
     value.name = ".value"
   )
   tableData <- tableData[!is.na(.value)]
 
-  tableData$.valueType <- factor(tableData$.valueType,
+  tableData$.valueType <- factor(
+    tableData$.valueType,
     levels = tableColumns,
     labels = tableLabels,
     ordered = TRUE
@@ -252,7 +268,13 @@ createTableData <- function(plotData, tableColumns, tableLabels) {
 #'
 #' @return A ggplot object representing the table.
 #' @keywords internal
-createTableObject <- function(tableData, mapping, digitsToRound, digitsToShow, yFacetColumns) {
+createTableObject <- function(
+  tableData,
+  mapping,
+  digitsToRound,
+  digitsToShow,
+  yFacetColumns
+) {
   # initialize variable to avoid messages
   .value <- .valueType <- NULL # nolint
 
@@ -270,7 +292,11 @@ createTableObject <- function(tableData, mapping, digitsToRound, digitsToShow, y
   )
 
   facetFormula <- if (nTypes > 1) {
-    stats::as.formula(paste(paste(yFacetColumns, collapse = " + "), "~", rlang::get_expr(mapping$groupby)))
+    stats::as.formula(paste(
+      paste(yFacetColumns, collapse = " + "),
+      "~",
+      rlang::get_expr(mapping$groupby)
+    ))
   } else {
     stats::as.formula(paste(paste(yFacetColumns, collapse = " + "), "~."))
   }
@@ -279,10 +305,12 @@ createTableObject <- function(tableData, mapping, digitsToRound, digitsToShow, y
     mapping["y"],
     aes(
       x = .valueType,
-      label = sprintf(paste0("%.", digitsToShow, "f"), round(.value, digitsToRound))
+      label = sprintf(
+        paste0("%.", digitsToShow, "f"),
+        round(.value, digitsToRound)
+      )
     )
   )
-
 
   mappedData <- MappedData$new(
     data = tableData,
@@ -294,7 +322,13 @@ createTableObject <- function(tableData, mapping, digitsToRound, digitsToShow, y
   tableObject <- initializePlot(mappedData) +
     geom_text(size = 3) +
     (if (!is.null(facetFormula)) {
-      facet_grid(facetFormula, scales = "free", space = "free", switch = "x", drop = TRUE)
+      facet_grid(
+        facetFormula,
+        scales = "free",
+        space = "free",
+        switch = "x",
+        drop = TRUE
+      )
     }) +
     scale_x_discrete(position = "top") +
     labs(y = "", x = "") +

@@ -111,22 +111,10 @@ Unlike \code{ggplot2::stat_qq()}, this function does not expose a \code{geom} pa
 as it always uses \code{GeomPointOsp} for rendering.
 }
 \seealso{
-Other setDefault functions: 
-\code{\link{Shapes}},
-\code{\link{colorMaps}},
-\code{\link{geom_point_osp}()},
-\code{\link{getDefaultGeomAttributes}()},
-\code{\link{getDefaultOptions}()},
-\code{\link{getOspsuite.plots.option}()},
-\code{\link{resetDefaultColorMapDistinct}()},
-\code{\link{resetDefaultTheme}()},
-\code{\link{resetDefaults}()},
-\code{\link{scale_shape_osp}()},
-\code{\link{scale_shape_osp_identity}()},
-\code{\link{scale_shape_osp_manual}()},
-\code{\link{setDefaultColorMapDistinct}()},
-\code{\link{setDefaultTheme}()},
-\code{\link{setDefaults}()},
-\code{\link{setOspsuite.plots.option}()}
+Other layers:
+\code{\link{GeomErrorbarOsp}},
+\code{\link{GeomPointOsp}},
+\code{\link[=geom_errorbar_osp]{geom_errorbar_osp()}},
+\code{\link[=geom_point_osp]{geom_point_osp()}}
 }
-\concept{setDefault functions}
+\concept{layers}

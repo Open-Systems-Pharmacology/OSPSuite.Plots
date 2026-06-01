@@ -18,6 +18,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Katrin Coboeken \email{katrin.coboeken@bayer.com}
 
+Authors:
+\itemize{
+  \item Katrin Coboeken \email{katrin.coboeken@bayer.com}
+}
+
 Other contributors:
 \itemize{
   \item Open-Systems-Pharmacology Community [copyright holder]

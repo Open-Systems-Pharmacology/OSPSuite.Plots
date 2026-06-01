@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9011</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,13 +48,17 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="ospsuiteplots-development-version">ospsuite.plots (development version)<a class="anchor" aria-label="anchor" href="#ospsuiteplots-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.2.0" id="ospsuiteplots-120">ospsuite.plots 1.2.0<a class="anchor" aria-label="anchor" href="#ospsuiteplots-120"></a></h2>
 <div class="section level3">
-<h3 id="breaking-changes-development-version">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
-<ul><li>Replaced showtext/Unicode-based shape rendering with native grid-based <code><a href="../reference/geom_point_osp.html">geom_point_osp()</a></code>. The <code>Shapes</code> list now contains 22 geometric shapes instead of 44 shapes including emojis. Removed shapes: <code>male</code>, <code>female</code>, <code>man</code>, <code>woman</code>, <code>baby</code>, <code>mouse</code>, <code>cat</code>, <code>rat</code>, <code>rabbit</code>, <code>dog</code>, <code>pig</code>, <code>sheep</code>, <code>cow</code>, <code>monkey</code>, <code>human</code>, <code>pill</code>, <code>syringe</code>, <code>hazard</code>, and emoji variants. Code using these removed shapes will need to be updated to use available geometric shapes from <code>ospShapeNames</code>.</li>
+<h3 id="breaking-changes-1-2-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-2-0"></a></h3>
+<ul><li>Replaced showtext/Unicode-based shape rendering with native grid-based <code><a href="../reference/geom_point_osp.html">geom_point_osp()</a></code>. The <code>Shapes</code> list now contains 22 geometric shapes instead of 44 shapes including emojis. Removed shapes: <code>male</code>, <code>female</code>, <code>man</code>, <code>woman</code>, <code>baby</code>, <code>mouse</code>, <code>cat</code>, <code>rat</code>, <code>rabbit</code>, <code>dog</code>, <code>pig</code>, <code>sheep</code>, <code>cow</code>, <code>monkey</code>, <code>human</code>, <code>pill</code>, <code>syringe</code>, <code>hazard</code>, and emoji variants. Code using these removed shapes will need to be updated to use available geometric shapes from <code>ospShapeNames</code> (#10).</li>
+<li>Removed residual calculation from the package. The <code>ResidualScales</code> export is gone, <code>residualScale</code> is deprecated, and mapping both <code>observed</code> and <code>predicted</code> is no longer supported. Callers must pre-compute residuals before plotting (#74).</li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>Added <code><a href="../reference/geom_point_osp.html">geom_point_osp()</a></code> for custom scientific plot shapes without font dependencies. The geom automatically applies <code><a href="../reference/scale_shape_osp.html">scale_shape_osp()</a></code> when added to a plot.</li>
+<h3 id="new-features-1-2-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-2-0"></a></h3>
+<ul><li>Added <code><a href="../reference/geom_point_osp.html">geom_point_osp()</a></code> for custom scientific plot shapes without font dependencies. The geom automatically applies <code><a href="../reference/scale_shape_osp.html">scale_shape_osp()</a></code> when added to a plot (#10).</li>
 <li>Added shape scale functions following ggplot2 conventions:
 <ul><li>
 <code><a href="../reference/scale_shape_osp.html">scale_shape_osp()</a></code>: auto-assigns shapes from <code>ospShapeNames</code> in order</li>
@@ -67,12 +71,13 @@
 <li>Added <code>ospShapeNames</code> vector listing all available shape names.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="minor-improvements-and-bug-fixes-development-version">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-development-version"></a></h3>
-<ul><li>Changed default out-of-bounds handling for continuous axes. Ribbons and error bars that extend beyond axis limits are now clipped at the panel boundary rather than being silently dropped.</li>
-<li>Error bars now use the new <code><a href="../reference/geom_errorbar_osp.html">geom_errorbar_osp()</a></code>, whose cap <code>width</code> is given in millimetres and stays visually consistent regardless of the data range or axis scale. The default cap width is <code>width = 2</code>. <code><a href="../reference/plotTimeProfile.html">plotTimeProfile()</a></code>, <code><a href="../reference/plotYVsX.html">plotYVsX()</a></code> (and its wrappers), and <code><a href="../reference/plotForest.html">plotForest()</a></code> all draw their error bars with this geom (#107, #123).</li>
-<li>Removed <code>showtext</code> and <code>sysfonts</code> from package dependencies.</li>
+<h3 id="minor-improvements-and-bug-fixes-1-2-0">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-1-2-0"></a></h3>
+<ul><li>Changed default out-of-bounds handling for continuous axes. Ribbons and error bars that extend beyond axis limits are now clipped at the panel boundary rather than being silently dropped (#107).</li>
+<li>Error bars now use the new <code><a href="../reference/geom_errorbar_osp.html">geom_errorbar_osp()</a></code>, whose cap <code>width</code> is given in millimetres and stays visually consistent regardless of the data range or axis scale. The default cap width is <code>width = 2</code>. <code><a href="../reference/plotTimeProfile.html">plotTimeProfile()</a></code>, <code><a href="../reference/plotYVsX.html">plotYVsX()</a></code> (and its wrappers), and <code><a href="../reference/plotForest.html">plotForest()</a></code> all draw their error bars with this geom (#123).</li>
+<li>Removed <code>showtext</code> and <code>sysfonts</code> from package dependencies (#10).</li>
 <li>
 <code>ospsuite.plots.watermarkEnabled</code> is now <code>TRUE</code> by default and set automatically at package load (#119). The startup message and runtime error from version 1.1.0 are gone. To disable, set <code>options(ospsuite.plots.watermarkEnabled = FALSE)</code> in your <code>.Rprofile</code>.</li>
+<li>Axis scale parameters now accept <code>"lin"</code> as a shorthand for <code>"linear"</code> (#111).</li>
 </ul></div>
 </div>
     <div class="section level2">

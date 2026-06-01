@@ -2,6 +2,8 @@
 
 ## ospsuite.plots (development version)
 
+## ospsuite.plots 1.2.0
+
 ### Breaking Changes
 
 - Replaced showtext/Unicode-based shape rendering with native grid-based
@@ -11,7 +13,11 @@
   `woman`, `baby`, `mouse`, `cat`, `rat`, `rabbit`, `dog`, `pig`,
   `sheep`, `cow`, `monkey`, `human`, `pill`, `syringe`, `hazard`, and
   emoji variants. Code using these removed shapes will need to be
-  updated to use available geometric shapes from `ospShapeNames`.
+  updated to use available geometric shapes from `ospShapeNames` (#10).
+- Removed residual calculation from the package. The `ResidualScales`
+  export is gone, `residualScale` is deprecated, and mapping both
+  `observed` and `predicted` is no longer supported. Callers must
+  pre-compute residuals before plotting (#74).
 
 ### New Features
 
@@ -20,7 +26,7 @@
   for custom scientific plot shapes without font dependencies. The geom
   automatically applies
   [`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.md)
-  when added to a plot.
+  when added to a plot (#10).
 - Added shape scale functions following ggplot2 conventions:
   - [`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.md):
     auto-assigns shapes from `ospShapeNames` in order
@@ -36,7 +42,7 @@
 
 - Changed default out-of-bounds handling for continuous axes. Ribbons
   and error bars that extend beyond axis limits are now clipped at the
-  panel boundary rather than being silently dropped.
+  panel boundary rather than being silently dropped (#107).
 - Error bars now use the new
   [`geom_errorbar_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_errorbar_osp.md),
   whose cap `width` is given in millimetres and stays visually
@@ -46,13 +52,15 @@
   [`plotYVsX()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotYVsX.md)
   (and its wrappers), and
   [`plotForest()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotForest.md)
-  all draw their error bars with this geom (#107, \#123).
-- Removed `showtext` and `sysfonts` from package dependencies.
+  all draw their error bars with this geom (#123).
+- Removed `showtext` and `sysfonts` from package dependencies (#10).
 - `ospsuite.plots.watermarkEnabled` is now `TRUE` by default and set
   automatically at package load (#119). The startup message and runtime
   error from version 1.1.0 are gone. To disable, set
   `options(ospsuite.plots.watermarkEnabled = FALSE)` in your
   `.Rprofile`.
+- Axis scale parameters now accept `"lin"` as a shorthand for `"linear"`
+  (#111).
 
 ## ospsuite.plots 1.1.0
 

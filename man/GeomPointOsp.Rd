@@ -6,3 +6,11 @@
 \description{
 ggproto object for OSP point shapes.
 }
+\seealso{
+Other layers:
+\code{\link{GeomErrorbarOsp}},
+\code{\link[=geom_errorbar_osp]{geom_errorbar_osp()}},
+\code{\link[=geom_point_osp]{geom_point_osp()}},
+\code{\link[=stat_qq_osp]{stat_qq_osp()}}
+}
+\concept{layers}

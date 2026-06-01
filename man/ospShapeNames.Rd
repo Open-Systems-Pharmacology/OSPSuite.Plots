@@ -9,3 +9,11 @@ ospShapeNames
 \description{
 Character vector of all available OSP shape names.
 }
+\seealso{
+Other shapes:
+\code{\link{Shapes}},
+\code{\link[=scale_shape_osp]{scale_shape_osp()}},
+\code{\link[=scale_shape_osp_identity]{scale_shape_osp_identity()}},
+\code{\link[=scale_shape_osp_manual]{scale_shape_osp_manual()}}
+}
+\concept{shapes}

@@ -20,6 +20,7 @@
 #'   [ggplot2::geom_errorbar()] interface.
 #' @return A ggplot2 layer that can be added to a plot.
 #' @export
+#' @family layers
 #' @examples
 #' library(ggplot2)
 #' df <- data.frame(
@@ -73,6 +74,7 @@ geom_errorbar_osp <- function(
 #' @format NULL
 #' @usage NULL
 #' @export
+#' @family layers
 # nolint start: object_name_linter
 GeomErrorbarOsp <- ggplot2::ggproto(
   # nolint end

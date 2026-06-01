@@ -143,3 +143,11 @@ df <- data.frame(
 ggplot(df, aes(x, y, ymin = ymin, ymax = ymax)) +
   geom_errorbar_osp(width = 2, linewidth = 0.8)
 }
+\seealso{
+Other layers:
+\code{\link{GeomErrorbarOsp}},
+\code{\link{GeomPointOsp}},
+\code{\link[=geom_point_osp]{geom_point_osp()}},
+\code{\link[=stat_qq_osp]{stat_qq_osp()}}
+}
+\concept{layers}

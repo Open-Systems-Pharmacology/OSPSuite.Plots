@@ -70,17 +70,13 @@ reference:
     contents:
       - starts_with("MappedData")
   - title: "Layers"
-    desc: "Custom ggplot2 geoms"
+    desc: "Custom ggplot2 geoms and stats"
     contents:
-      - geom_point_osp
-      - GeomPointOsp
-      - geom_errorbar_osp
-      - GeomErrorbarOsp
+      - has_concept("layers")
   - title: "Shapes"
     desc: "OSP shape system for custom point rendering"
     contents:
-      - ospShapeNames
-      - starts_with("scale_shape_osp")
+      - has_concept("shapes")
   - title: "Constants"
     desc: "Enumeration constants for OSPSuite.plots options and scaling."
     contents:
@@ -92,7 +88,7 @@ reference:
     contents:
       - starts_with("exampleData")
   - title: "auxiliary functions"
-    desc: "Classes combining data and Mapping"
+    desc: "Helper functions and the combined plot/table class"
     contents:
       - matches("metaData2DataFrame")
       - matches("CombinedPlot")

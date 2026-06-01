@@ -7,3 +7,11 @@
 ggproto object for OSP error bars with cap width in mm units.
 Use \code{\link[=geom_errorbar_osp]{geom_errorbar_osp()}} to add this geom to a ggplot.
 }
+\seealso{
+Other layers:
+\code{\link{GeomPointOsp}},
+\code{\link[=geom_errorbar_osp]{geom_errorbar_osp()}},
+\code{\link[=geom_point_osp]{geom_point_osp()}},
+\code{\link[=stat_qq_osp]{stat_qq_osp()}}
+}
+\concept{layers}

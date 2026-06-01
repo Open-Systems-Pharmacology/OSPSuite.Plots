@@ -17,7 +17,7 @@
 ## Minor improvements and bug fixes
 
 - Changed default out-of-bounds handling for continuous axes. Ribbons and error bars that extend beyond axis limits are now clipped at the panel boundary rather than being silently dropped. 
-- The default width of error bars is now set to `width = 0.2`, showing horizontal whiskers. The previous default was `width = 0`, which suppressed whiskers (#107).
+- Error bars now use the new `geom_errorbar_osp()`, whose cap `width` is given in millimetres and stays visually consistent regardless of the data range or axis scale. The default cap width is `width = 2`. `plotTimeProfile()`, `plotYVsX()` (and its wrappers), and `plotForest()` all draw their error bars with this geom (#107, #123).
 - Removed `showtext` and `sysfonts` from package dependencies. 
 - `ospsuite.plots.watermarkEnabled` is now `TRUE` by default and set automatically at package load (#119). The startup message and runtime error from version 1.1.0 are gone. To disable, set `options(ospsuite.plots.watermarkEnabled = FALSE)` in your `.Rprofile`.
 

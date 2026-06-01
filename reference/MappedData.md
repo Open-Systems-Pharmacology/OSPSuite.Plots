@@ -39,14 +39,6 @@ Other MappedData classes:
 
   double vector limits of primary y axis
 
-- `hasResidualMapping`:
-
-  flag to indicate if residual mapping is used
-
-- `residualLabel`:
-
-  label for residuals
-
 ## Active bindings
 
 - `hasLLOQMatch`:
@@ -63,14 +55,13 @@ Other MappedData classes:
   adds new column `isLLOQ.i` and updates boolean `LLOQMatch` adds new
   columns `ymin` and `ymax` if required copy aesthetics `groupby`, but
   only if not explicit set converts Integer columns, which are no
-  factors to double adds new column `residuals.i` factorize column for
-  group to factor
+  factors to double factorize column for group to factor
 
 ## Methods
 
 ### Public methods
 
-- [`MappedData$new()`](#method-MappedData-new)
+- [`MappedData$new()`](#method-MappedData-initialize)
 
 - [`MappedData$getAestheticsForGeom()`](#method-MappedData-getAestheticsForGeom)
 
@@ -82,7 +73,7 @@ Other MappedData classes:
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `MappedData$new()`
 
 Create a new `MappedData` object
 
@@ -98,9 +89,7 @@ Create a new `MappedData` object
       direction = "y",
       isObserved = TRUE,
       xlimits = NULL,
-      ylimits = NULL,
-      residualScale = NULL,
-      residualAesthetic = "y"
+      ylimits = NULL
     )
 
 #### Arguments
@@ -145,14 +134,6 @@ Create a new `MappedData` object
 
   limits for y-axis (may be NULL)
 
-- `residualScale`:
-
-  scale of x residuals
-
-- `residualAesthetic`:
-
-  aesthetic used for mapping residuals
-
 #### Returns
 
 A new `MappedData` object filter possible aesthetics for a geom, check
@@ -160,7 +141,7 @@ if mandatory are available
 
 ------------------------------------------------------------------------
 
-### Method `getAestheticsForGeom()`
+### `MappedData$getAestheticsForGeom()`
 
 #### Usage
 
@@ -183,7 +164,7 @@ classes
 
 ------------------------------------------------------------------------
 
-### Method `addMetaData()`
+### `MappedData$addMetaData()`
 
 #### Usage
 
@@ -198,12 +179,12 @@ classes
 
 #### Returns
 
-updated `MappedData` object check if unit of scale direction i s time
-and sets the breaks accordingly
+updated `MappedData` object check if unit of scale direction is time and
+sets the breaks accordingly
 
 ------------------------------------------------------------------------
 
-### Method [`updateScaleArgumentsForTimeUnit()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/updateScaleArgumentsForTimeUnit.md)
+### `MappedData$updateScaleArgumentsForTimeUnit()`
 
 #### Usage
 
@@ -225,7 +206,7 @@ and sets the breaks accordingly
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `MappedData$clone()`
 
 The objects of this class are cloneable with this method.
 

@@ -15,8 +15,10 @@ ggplotWithWatermark(...)
 
 - ...:
 
-  Arguments to be passed to `ggplot()`, such as data and aesthetics.
-  This allows for flexibility in creating different types of plots.
+  Arguments to be passed to
+  [`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html),
+  such as data and aesthetics. This allows for flexibility in creating
+  different types of plots.
 
 ## Value
 
@@ -60,10 +62,7 @@ Other watermark:
 ## Examples
 
 ``` r
-# Set watermark option first (required)
-options(ospsuite.plots.watermarkEnabled = TRUE)
-
-# Example usage with watermark enabled
+# Example usage with watermark enabled (watermark is enabled by default)
 plotWithWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
   geom_point()
 print(plotWithWatermark)

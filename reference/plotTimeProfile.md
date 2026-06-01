@@ -3,7 +3,7 @@
 Produces time profiles for simulated and observed data.
 
 For the simulated data a `geom_line` and a `geom_ribbon` layer are added
-For the observed data a `geom_point` and a `geom_errorbar` layer are
+For the observed data a `geom_point` and a `geom_errorbar_osp` layer are
 added
 
 For more details and examples see the vignettes:
@@ -137,7 +137,7 @@ plotTimeProfile(
 - geomErrorbarAttributes:
 
   A `list` with arguments which are passed on to the call
-  [`ggplot2::geom_errorbar`](https://ggplot2.tidyverse.org/reference/geom_linerange.html)
+  `geom_errorbar_osp`
 
 - geomLLOQAttributes:
 
@@ -170,9 +170,6 @@ Other plot functions:
 
 ``` r
 if (FALSE) { # \dontrun{
-# Set watermark option first (required)
-options(ospsuite.plots.watermarkEnabled = TRUE)
-
 # Basic time profile plot with simulated data
 plotTimeProfile(
   data = simulationData,

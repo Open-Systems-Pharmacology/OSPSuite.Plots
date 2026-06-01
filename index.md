@@ -19,6 +19,7 @@ You can install the development version of
 from [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("Open-Systems-Pharmacology/ospsuite.plots")
 ```
@@ -45,6 +46,7 @@ Must be downloaded manually:
 To install manually, follow these instructions:
 
 ``` r
+
 # Install `{ospsuite.utils}` from local file 
 # (`pathTo_ospsuite.utils.zip` here should be replaced with the actual path to the `.zip` file)
 install.packages(pathTo_ospsuite.utils.zip, repos = NULL)

@@ -19,15 +19,18 @@ default settings of
 adjust the legend position for better visibility.
 
 ``` r
-options(rmarkdown.html_vignette.check_title = FALSE)
 
-# Set watermark option required for ospsuite.plots functionality
-options(ospsuite.plots.watermarkEnabled = TRUE)
+options(rmarkdown.html_vignette.check_title = FALSE)
 
 library(ospsuite.plots)
 #> Loading required package: ggplot2
 library(tidyr)
 library(data.table)
+#> 
+#> Attaching package: 'data.table'
+#> The following object is masked from 'package:base':
+#> 
+#>     %notin%
 
 # Set Defaults
 oldDefaults <- ospsuite.plots::setDefaults()
@@ -47,6 +50,7 @@ This vignette uses the following datasets:
   dataset will be filtered and reshaped to prepare it for plotting.
 
 ``` r
+
 histData <- exampleDataCovariates |>
   dplyr::filter(SetID == "DataSet1") |>
   dplyr::select(c("ID", "Country", "Age", "AgeBin", "Obs", "Pred")) |>
@@ -74,6 +78,7 @@ standard deviation of the data, faceted by `Country`. The plot will
 display the mean on the x-axis and the `AgeBin` on the y-axis.
 
 ``` r
+
 plotObject <-
   plotForest(
     plotData = plotData,
@@ -104,6 +109,7 @@ In this example, we will create a forest plot similar to the previous
 one but without including a summary table below the plot.
 
 ``` r
+
 plotObject <-
   plotForest(
     plotData = plotData,
@@ -134,6 +140,7 @@ In this example, we will facet the plot by `DataType` while still using
 data categorized by both `Country` and `DataType`.
 
 ``` r
+
 plotObject <-
   plotForest(
     plotData = plotData,

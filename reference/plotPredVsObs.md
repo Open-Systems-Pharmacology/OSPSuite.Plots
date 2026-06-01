@@ -5,8 +5,6 @@ parameters.
 
 The following parameters are fixed and cannot be set:
 
-- `residualScale = NULL`
-
 - `observedDataDirection = "x"`
 
 For details and examples, see the vignettes:
@@ -67,10 +65,6 @@ plotPredVsObs(
       [`ggplot2::geom_function`](https://ggplot2.tidyverse.org/reference/geom_function.html)
       to display guest criteria.
 
-  `residualScale`
-
-  :   Either "linear", "log", or "ratio" scale for residuals.
-
   `yDisplayAsAbsolute`
 
   :   A boolean that defines the direction of comparison lines.
@@ -111,6 +105,11 @@ plotPredVsObs(
       counts and proportions within comparison lines. Common grouping
       aesthetics include `"colour"`, `"fill"`, `"shape"`.
 
+  `residualScale`
+
+  :   Deprecated. Retained for backward compatibility only. Non-`NULL`
+      values trigger a warning and have no effect.
+
   `metaData`
 
   :   A named list of information about `data` such as the `dimension`
@@ -124,7 +123,7 @@ plotPredVsObs(
   `geomErrorbarAttributes`
 
   :   A `list` with arguments which are passed on to the call
-      [`ggplot2::geom_errorbar`](https://ggplot2.tidyverse.org/reference/geom_linerange.html)
+      `geom_errorbar_osp`
 
   `geomLLOQAttributes`
 

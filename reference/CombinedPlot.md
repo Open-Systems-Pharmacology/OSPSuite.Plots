@@ -23,7 +23,7 @@ objects, as well as to print the combined output.
 
 ### Public methods
 
-- [`CombinedPlot$new()`](#method-CombinedPlot-new)
+- [`CombinedPlot$new()`](#method-CombinedPlot-initialize)
 
 - [`CombinedPlot$combined()`](#method-CombinedPlot-combined)
 
@@ -33,7 +33,7 @@ objects, as well as to print the combined output.
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `CombinedPlot$new()`
 
 #### Usage
 
@@ -54,7 +54,7 @@ objects, as well as to print the combined output.
 
 ------------------------------------------------------------------------
 
-### Method `combined()`
+### `CombinedPlot$combined()`
 
 #### Usage
 
@@ -70,7 +70,7 @@ output.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `CombinedPlot$print()`
 
 #### Usage
 
@@ -82,7 +82,7 @@ Invisibly returns the combined ggplot object
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `CombinedPlot$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -100,9 +100,6 @@ The objects of this class are cloneable with this method.
 
 ``` r
 if (FALSE) { # \dontrun{
-
-# Set watermark option first (required)
-options(ospsuite.plots.watermarkEnabled = TRUE)
 
 # Create a new CombinedPlot instance
 combinedPlotInstance <- CombinedPlot$new(plotObject = myPlotObject, tableObject = myTableObject)

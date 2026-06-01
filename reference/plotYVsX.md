@@ -65,7 +65,7 @@ plotYVsX(
 - geomErrorbarAttributes:
 
   A `list` with arguments which are passed on to the call
-  [`ggplot2::geom_errorbar`](https://ggplot2.tidyverse.org/reference/geom_linerange.html)
+  `geom_errorbar_osp`
 
 - geomGuestLineAttributes:
 
@@ -114,7 +114,8 @@ plotYVsX(
 
 - residualScale:
 
-  Either "linear", "log", or "ratio" scale for residuals.
+  Deprecated. Retained for backward compatibility only. Non-`NULL`
+  values trigger a warning and have no effect.
 
 - asSquarePlot:
 

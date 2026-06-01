@@ -13,6 +13,10 @@ Useful links:
 
 **Maintainer**: Katrin Coboeken <katrin.coboeken@bayer.com>
 
+Authors:
+
+- Katrin Coboeken <katrin.coboeken@bayer.com>
+
 Other contributors:
 
 - Open-Systems-Pharmacology Community \[copyright holder\]

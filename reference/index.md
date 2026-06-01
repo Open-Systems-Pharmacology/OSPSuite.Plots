@@ -64,14 +64,8 @@ Functions to export plot
 
 Functions to set and reset Settings for plot layout
 
-- [`Shapes`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/Shapes.md)
-  : Shapes
-
 - [`colorMaps`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/colorMaps.md)
   : Color maps
-
-- [`geomPointUnicode()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/geomPointUnicode.md)
-  : layer to point unicode as shapes
 
 - [`getDefaultGeomAttributes()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/getDefaultGeomAttributes.md)
   :
@@ -90,9 +84,6 @@ Functions to set and reset Settings for plot layout
 - [`resetDefaultColorMapDistinct()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/resetDefaultColorMapDistinct.md)
   : reset the default color map for discrete colors
 
-- [`resetDefaultShapeDiscrete()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/resetDefaultShapeDiscrete.md)
-  : resets the scale for discrete shapes to ggplot default
-
 - [`resetDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/resetDefaultTheme.md)
   : reset the default theme
 
@@ -101,9 +92,6 @@ Functions to set and reset Settings for plot layout
 
 - [`setDefaultColorMapDistinct()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/setDefaultColorMapDistinct.md)
   : set the default color-map for discrete colors
-
-- [`setDefaultShapeDiscrete()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/setDefaultShapeDiscrete.md)
-  : set the default shapes
 
 - [`setDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/setDefaultTheme.md)
   : set the default theme
@@ -127,6 +115,36 @@ Classes combining data and Mapping
 - [`MappedDataTimeProfile`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/MappedDataTimeProfile.md)
   : MappedDataTimeProfile
 
+## Layers
+
+Custom ggplot2 geoms and stats
+
+- [`GeomErrorbarOsp`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/GeomErrorbarOsp.md)
+  : GeomErrorbarOsp
+- [`GeomPointOsp`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/GeomPointOsp.md)
+  : GeomPointOsp
+- [`geom_errorbar_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/geom_errorbar_osp.md)
+  : OSP Errorbar Layer
+- [`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/geom_point_osp.md)
+  : OSP Point Layer
+- [`stat_qq_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/stat_qq_osp.md)
+  : OSP Q-Q Stat
+
+## Shapes
+
+OSP shape system for custom point rendering
+
+- [`Shapes`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/Shapes.md)
+  : Shapes
+- [`ospShapeNames`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/ospShapeNames.md)
+  : OSP Shape Names
+- [`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/scale_shape_osp.md)
+  : OSP Shape Scale
+- [`scale_shape_osp_identity()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/scale_shape_osp_identity.md)
+  : OSP Shape Identity Scale
+- [`scale_shape_osp_manual()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/scale_shape_osp_manual.md)
+  : OSP Shape Manual Scale
+
 ## Constants
 
 Enumeration constants for OSPSuite.plots options and scaling.
@@ -136,9 +154,6 @@ Enumeration constants for OSPSuite.plots options and scaling.
   scalings
 - [`OptionKeys`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/OptionKeys.md)
   : enumeration keys for OSPSuite.plots options
-- [`ResidualScales`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/ResidualScales.md)
-  : enumeration keys for OSPSuite.plots scaling options for residual
-  calculations
 - [`BINNINGMODE`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/BINNINGMODE.md)
   : enumeration keys for mode of Binning
 
@@ -153,7 +168,7 @@ Data used within the vignette examples
 
 ## auxiliary functions
 
-Classes combining data and Mapping
+Helper functions and the combined plot/table class
 
 - [`metaData2DataFrame()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/metaData2DataFrame.md)
   : converts metaData List to a data frame row names specify properties

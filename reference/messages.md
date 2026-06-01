@@ -7,7 +7,3 @@ List of functions and strings used to signal error messages and warnings
 ``` r
 messages
 ```
-
-## Format
-
-An object of class `list` of length 20.

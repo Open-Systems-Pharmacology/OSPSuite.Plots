@@ -17,28 +17,28 @@ observed data and resulting residuals:
 - [`plotQQ()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotQQ.md)
   (see section 5): Quantile-Quantile plot.
 
-In these functions, the aesthetics `observed` and `predicted` can be
-used. These aesthetics are also available in other functions of the
-`ospsuite.plots` library:
+For DDI comparison, the functions
+[`plotPredVsObs()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotPredVsObs.md)
+and `plotResVsObs()` can be overlaid with lines indicating the limits of
+the Guest Criteria (<https://dmd.aspetjournals.org/content/39/2/170>)
+(see section 2.4 and 4.3).
 
-- `plotBoxwhisker()` (see section 6.1): aggregate residuals and display
-  aggregated values versus covariate.
-- [`plotHistogram()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotHistogram.md)
-  (see section 6.2): generates histograms of residuals.
+> **Note:** Residual calculation is not performed within
+> `ospsuite.plots`. Residuals and ratios need to be pre-calculated
+> before passing them to the plotting functions. If you are using the
+> `{ospsuite}` package, you can use `ospsuite::addResidualColumn()` to
+> add a residual column to your data.
 
 The functions
 [`plotPredVsObs()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotPredVsObs.md),
 [`plotResVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotResVsCov.md),
 and
 [`plotRatioVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotRatioVsCov.md)
-are mainly wrappers around the function `plotXVsY()`, using different
-defaults for input variables. So, use `?plotXvsY` to get more details.
-
-For DDI comparison, the functions
-[`plotPredVsObs()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotPredVsObs.md)
-and `plotResVsObs()` can be overlaid with lines indicating the limits of
-the Guest Criteria (<https://dmd.aspetjournals.org/content/39/2/170>)
-(see section 7).
+are mainly wrappers around the function
+[`plotYVsX()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotYVsX.md),
+using different defaults for input variables. So, use
+[`?plotYVsX`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotYVsX.md)
+to get more details.
 
 ### 1.1 Setup
 
@@ -50,10 +50,8 @@ default settings of
 (see vignette(“ospsuite.plots”, package = “ospsuite.plots”)).
 
 ``` r
-options(rmarkdown.html_vignette.check_title = FALSE)
 
-# Set watermark option required for ospsuite.plots functionality
-options(ospsuite.plots.watermarkEnabled = TRUE)
+options(rmarkdown.html_vignette.check_title = FALSE)
 
 library(ospsuite.plots)
 library(tidyr)
@@ -69,6 +67,7 @@ the package.
 #### 1.2.1 Dataset with Predicted and Observed Data
 
 ``` r
+
 data <- exampleDataCovariates |>
   dplyr::filter(SetID == "DataSet2") |>
   dplyr::select(c("ID", "Age", "Obs", "gsd", "Pred", "Sex"))
@@ -85,9 +84,10 @@ knitr::kable(head(data), digits = 3, caption = "First rows of example data.")
 |   5 |  21 | 30.475 | 1.045 | 29.751 | Female |
 |   6 |  48 | 74.238 | 0.989 | 67.357 | Male   |
 
-First rows of example data.
+First rows of example data. {.table}
 
 ``` r
+
 
 metaData <- attr(exampleDataCovariates, "metaData")
 metaData <- metaData[intersect(names(data), names(metaData))]
@@ -99,11 +99,12 @@ knitr::kable(metaData2DataFrame(metaData), digits = 2, caption = "List of meta d
 | dimension | Age | Clearance | Clearance |
 | unit      | yrs | dL/h/kg   | dL/h/kg   |
 
-List of meta data
+List of meta data {.table}
 
 #### 1.2.2 Dataset for Examples with DDI Prediction
 
 ``` r
+
 dDIdata <- exampleDataCovariates |>
   dplyr::filter(SetID == "DataSet3") |>
   dplyr::select(c("ID", "Obs", "Pred")) |>
@@ -123,9 +124,10 @@ knitr::kable(head(dDIdata), digits = 2, caption = "First rows of dataset used fo
 |   5 | 1.39 | 1.10 | Study 5 |
 |   6 | 0.44 | 0.39 | Study 6 |
 
-First rows of dataset used for DDI example.
+First rows of dataset used for DDI example. {.table}
 
 ``` r
+
 
 dDImetaData <- list(
   Obs = list(dimension = "DDI AUC Ratio", unit = ""),
@@ -140,11 +142,12 @@ knitr::kable(metaData2DataFrame(dDImetaData), digits = 2, caption = "List of met
 | dimension | DDI AUC Ratio | DDI AUC Ratio |
 | unit      |               |               |
 
-List of meta data
+List of meta data {.table}
 
 #### 1.2.3 Dataset for Ratio Comparison
 
 ``` r
+
 pkRatioData <- exampleDataCovariates |>
   dplyr::filter(SetID == "DataSet1") |>
   dplyr::select(!c("SetID")) |>
@@ -166,6 +169,7 @@ knitr::kable(head(pkRatioData), digits = 3)
 |   6 |  48 | 2.45 | 5.30 | 2.163 | Adults | Male | Canada  | 0.072 | 1.1 |
 
 ``` r
+
 knitr::kable(metaData2DataFrame(pkRatiometaData), digits = 3)
 ```
 
@@ -185,6 +189,7 @@ mapped with `predicted` and `observed`. The aesthetic `groupby` can be
 used to group observations.
 
 ``` r
+
 plotPredVsObs(
   data = data,
   mapping = aes(
@@ -211,6 +216,7 @@ use different scales for the x and y axes. Therefore, only one variable
 Predicted and observed data are mapped with `x` and `y`.
 
 ``` r
+
 plotPredVsObs(
   data = data,
   mapping = aes(
@@ -237,6 +243,7 @@ mapping `error` to a column with an additive error or mapping `xmin` and
 `xmax` explicitly.
 
 ``` r
+
 plotPredVsObs(
   data = data,
   mapping = aes(
@@ -261,6 +268,7 @@ To plot the prediction error, `ymin` and `ymax` must also be mapped
 explicitly.
 
 ``` r
+
 plotPredVsObs(
   data = data,
   mapping = aes(
@@ -289,6 +297,7 @@ the observed data. All values below are set to LLOQ/2. By mapping
 line for the LLOQ is added.
 
 ``` r
+
 lloqData <- signif(quantile(data$Obs, probs = 0.1), 1)
 
 dataLLOQ <- data |>
@@ -321,6 +330,7 @@ is quite useful, as it makes it clear if the simulated results should be
 considered as “quantifiable” or not.
 
 ``` r
+
 plotPredVsObs(
   data = dataLLOQ,
   mapping = aes(
@@ -355,6 +365,7 @@ A fold distance list can be generated by the helper function
 Below, the 1.2 and 1.5 distances are displayed:
 
 ``` r
+
 plotPredVsObs(
   data = data,
   mapping = aes(
@@ -385,6 +396,7 @@ If the variable `comparisonLineVector` is NULL, no lines will be
 displayed.
 
 ``` r
+
 plotPredVsObs(
   data = data,
   mapping = aes(
@@ -415,6 +427,7 @@ To add a regression line, set the input variable `addRegression` to
 directly (C).
 
 ``` r
+
 # A
 plotObject <- plotPredVsObs(
   data = data,
@@ -439,6 +452,7 @@ beyond the unity
 line.](goodness-of-fit_files/figure-html/example-regression-1.png)
 
 ``` r
+
 # B
 plotObject + ggpubr::stat_regline_equation(aes(label = after_stat(rr.label))) + labs(title = "With RR as Label", tag = "B")
 ```
@@ -450,6 +464,7 @@ label showing the goodness of fit. Points are colored by sex
 groups.](goodness-of-fit_files/figure-html/example-regression-withRR-1.png)
 
 ``` r
+
 # C Local Polynomial Regression Fitting
 plotPredVsObs(
   data = data,
@@ -477,6 +492,7 @@ To compare DDI ratios, set the variable `addGuestLimits` to TRUE and set
 the variable `deltaGuest`:
 
 ``` r
+
 plotPredVsObs(
   data = dDIdata,
   mapping = aes(
@@ -508,6 +524,7 @@ the x and y axes. In the example below, the Predicted values are set to
 therefore, the variable `asSquarePlot` is set to `FALSE`.
 
 ``` r
+
 dataNonSquare <- data |>
   dplyr::mutate(Pred = Pred / 2)
 
@@ -534,28 +551,33 @@ groups.](goodness-of-fit_files/figure-html/example-nonsquare-1.png)
 
 ### 3.1 Basic Examples
 
-The function
-[`plotResVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotResVsCov.md)
-calculates the residuals using the aesthetics `observed` and
-`predicted`.
+Residuals must be pre-calculated before passing them to
+[`plotResVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotResVsCov.md).
+If you are using the `{ospsuite}` package, you can use
+`ospsuite::addResidualColumn()` to add a residual column to your data.
+Alternatively, calculate residuals directly in your data frame.
 
 #### 3.1.1 Default Settings
 
-The default value for the variable `residualScale` is “log”. Residuals
-will then be calculated by `log(predicted) - log(observed)`. A
-horizontal comparison line with the value 0 is displayed. The aesthetic
-`groupby` can be used to group observations.
+In the example below, log residuals are calculated as
+`log(Pred) - log(Obs)` and mapped to the `y` aesthetic. A horizontal
+comparison line with the value 0 is displayed. The aesthetic `groupby`
+can be used to group observations.
 
 ``` r
+
+data <- data |>
+  dplyr::mutate(logResiduals = log(Pred) - log(Obs))
+
 plotResVsCov(
   data = data,
   mapping = aes(
     x = Age,
-    predicted = Pred,
-    observed = Obs,
+    y = logResiduals,
     groupby = Sex
   )
-)
+) +
+  labs(y = "residuals\nlog(predicted) - log(observed)")
 ```
 
 ![Scatter plot showing log residuals versus age with default settings.
@@ -567,23 +589,25 @@ performance.](goodness-of-fit_files/figure-html/reVsObs-default-1.png)
 
 ### 3.1.2 Linear Scale for Residuals
 
-If the variable `residualScale` is set to “linear”, residuals will be
-calculated by \#\$# predicted - observed \#\$\#.
+For linear residuals, calculate `Pred - Obs` before plotting.
 
 Below, the line type of the comparison line is set to ‘solid’.
 
 ``` r
+
+data <- data |>
+  dplyr::mutate(linearResiduals = Pred - Obs)
+
 plotResVsCov(
   data = data,
   mapping = aes(
     x = Age,
-    predicted = Pred,
-    observed = Obs,
+    y = linearResiduals,
     groupby = Sex
   ),
-  residualScale = "linear",
   geomComparisonLineAttributes = list(linetype = "solid")
-)
+) +
+  labs(y = "residuals\npredicted - observed")
 ```
 
 ![Scatter plot showing linear residuals versus age with a solid
@@ -593,41 +617,20 @@ reference line at zero provides a clear visual reference for assessing
 prediction
 accuracy.](goodness-of-fit_files/figure-html/resVsCov-basic-linear-1.png)
 
-### 3.1.3 Map Residuals Directly
-
-It is also possible to use already calculated residuals or formulas by
-using the aesthetic ‘y’.
-
-``` r
-plotResVsCov(
-  data = data,
-  mapping = aes(
-    x = Age,
-    y = Obs - Pred,
-    groupby = Sex
-  )
-)
-```
-
-![Scatter plot showing directly calculated residuals (observed minus
-predicted) versus age. Residuals are manually calculated and mapped to
-the y-axis, with points colored by sex groups. This demonstrates how to
-use pre-calculated residuals instead of automatic
-calculation.](goodness-of-fit_files/figure-html/resVsCov-basic-mappedToY-1.png)
-
 ### 3.2 Adjusting Comparison Lines
 
 ``` r
+
 plotResVsCov(
   data = data,
   mapping = aes(
     x = Age,
-    predicted = Pred,
-    observed = Obs,
+    y = logResiduals,
     groupby = Sex
   ),
   comparisonLineVector = list(zero = 0, "lower limit" = -0.25, "upper limit" = 0.25)
-)
+) +
+  labs(y = "residuals\nlog(predicted) - log(observed)")
 ```
 
 ![Scatter plot showing residuals versus age with custom comparison
@@ -644,16 +647,17 @@ To add a regression line, set the input variable `addRegression` to
 `stat_regline_equation` to add statistics of the regression as labels.
 
 ``` r
+
 plotResVsCov(
   data = data,
   mapping = aes(
     x = Age,
-    predicted = Pred,
-    observed = Obs,
+    y = logResiduals,
     groupby = Sex
   ),
   addRegression = TRUE
 ) +
+  labs(y = "residuals\nlog(predicted) - log(observed)") +
   ggpubr::stat_regline_equation(aes(label = after_stat(eq.label)))
 ```
 
@@ -675,6 +679,7 @@ and 1.5 and 2 point lines are added, and the default for `yScale` is
 ‘log’. The aesthetic `groupby` can be used to group observations.
 
 ``` r
+
 plotRatioVsCov(
   data = pkRatioData,
   mapping = aes(
@@ -694,19 +699,21 @@ relationships.](goodness-of-fit_files/figure-html/ratio-defaults-1.png)
 
 #### 4.1.2 Compare Residuals as Ratio
 
-Within the function
-[`plotRatioVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotRatioVsCov.md),
-the variable `residualScale` is fixed to “ratio”, and the ratio of the
-residuals is calculated as \$ observed / predicted \$. Below, the
-comparison line is set to a 1.2 fold distance.
+The ratio of observed to predicted is calculated as
+$`observed / predicted`$. Pre-calculate this column before passing to
+[`plotRatioVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotRatioVsCov.md).
+Below, the comparison line is set to a 1.2 fold distance.
 
 ``` r
+
+data <- data |>
+  dplyr::mutate(Ratio = Obs / Pred)
+
 plotRatioVsCov(
   data = data,
   mapping = aes(
     x = Age,
-    predicted = Pred,
-    observed = Obs,
+    y = Ratio,
     groupby = Sex
   ),
   comparisonLineVector = getFoldDistanceList(c(1.2))
@@ -729,6 +736,7 @@ Additional error bars are displayed by mapping the column “gsd” to the
 aesthetic `error_relative`.
 
 ``` r
+
 plotRatioVsCov(
   data = pkRatioData,
   mapping = aes(
@@ -756,6 +764,7 @@ object returned by `plotRatioVsCov` has an additional entry
 the specific ranges given by the variable `comparisonLineVector`.
 
 ``` r
+
 plotObject <- plotRatioVsCov(
   data = pkRatioData,
   mapping = aes(
@@ -771,13 +780,13 @@ plot(plotObject)
 knitr::kable(plotObject$countsWithin, caption = "Counts and fraction within ranges")
 ```
 
-| group      | Points total | 1.5 fold Number | 1.5 fold Fraction | 2 fold Number | 2 fold Fraction |
-|:-----------|-------------:|----------------:|------------------:|--------------:|----------------:|
-| all Groups |           50 |              24 |              0.48 |            32 |            0.64 |
-| Female     |           25 |              11 |              0.44 |            16 |            0.64 |
-| Male       |           25 |              13 |              0.52 |            16 |            0.64 |
+| group | Points total | 1.5 fold Number | 1.5 fold Fraction | 2 fold Number | 2 fold Fraction |
+|:---|---:|---:|---:|---:|---:|
+| all Groups | 50 | 24 | 0.48 | 32 | 0.64 |
+| Female | 25 | 11 | 0.44 | 16 | 0.64 |
+| Male | 25 | 13 | 0.52 | 16 | 0.64 |
 
-Counts and fraction within ranges
+Counts and fraction within ranges {.table}
 
 ![Scatter plot showing ratio values versus age with qualification
 analysis. The plot generates both the visualization and a statistical
@@ -791,12 +800,15 @@ To compare DDI ratios, set the variable `addGuestLimits` to TRUE and set
 the variable `deltaGuest`.
 
 ``` r
+
+dDIdata <- dDIdata |>
+  dplyr::mutate(Ratio = Obs / Pred)
+
 plotObject <- plotRatioVsCov(
   data = dDIdata,
   mapping = aes(
     x = Obs,
-    predicted = Pred,
-    observed = Obs,
+    y = Ratio,
     groupby = Study
   ),
   metaData = dDImetaData,
@@ -831,19 +843,25 @@ Guest criteria.](goodness-of-fit_files/figure-html/ratio-Guest-1.png)
 ## 5. Quantile Plot (`plotQQ()`)
 
 [`plotQQ()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotQQ.md)
-produces a Quantile-Quantile plot. If using the aesthetics `predicted`
-and `observed`, residuals will be calculated according to the variable
-`residualScale`. In the example below, the default value log is used.
+produces a Quantile-Quantile plot. Residuals must be pre-calculated and
+mapped to the `sample` aesthetic.
+
+> **Note:** If you are using the `{ospsuite}` package, you can use
+> `ospsuite::addResidualColumn()` to add a residual column to your data.
 
 ``` r
+
+data <- data |>
+  dplyr::mutate(logResiduals = log(Pred) - log(Obs))
+
 plotQQ(
   data = data,
   mapping = aes(
-    predicted = Pred,
-    observed = Obs,
+    sample = logResiduals,
     groupby = Sex
   )
-)
+) +
+  labs(y = "residuals\nlog(predicted) - log(observed)")
 ```
 
 ![Quantile-quantile plot showing the distribution of log residuals
@@ -852,52 +870,29 @@ line if residuals are normally distributed. Deviations from the line
 indicate non-normal distribution patterns. Points are colored by sex
 groups.](goodness-of-fit_files/figure-html/qq-log-1.png)
 
-The aesthetic ‘sample’ columns with already calculated residuals or
-formulas can be mapped directly.
+## 6 Residuals in Other Plot Functions
 
-``` r
-plotQQ(
-  data = data,
-  mapping = aes(
-    sample = Obs,
-    predicted = Pred,
-    groupby = Sex
-  ),
-  residualScale = "linear"
-)
-```
-
-![Quantile-quantile plot with sample data mapped directly to observed
-values and linear residual scale. This demonstrates mapping
-pre-calculated values directly using the sample aesthetic instead of
-automatic residual calculation. Points are colored by sex
-groups.](goodness-of-fit_files/figure-html/qqplot-1.png)
-
-## 6 Usage of Aesthetics `predicted` and `observed` in Other Functions
-
-The aesthetics `observed` and `predicted` can also be used in the
-functions
+Pre-calculated residuals can be used in
 [`plotHistogram()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotHistogram.md)
 and
-[`plotBoxWhisker()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotBoxWhisker.md).
-The residuals will be calculated as defined by the variable
-`residualScale`.
+[`plotBoxWhisker()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotBoxWhisker.md)
+by mapping the residual column to the appropriate aesthetic.
 
 ### 6.1 Residuals as Histogram
 
 ``` r
+
 plotHistogram(
   data = data,
   metaData = metaData,
   mapping = aes(
-    predicted = Pred,
-    observed = Obs,
+    x = logResiduals,
     groupby = Sex
   ),
-  residualScale = "log",
   plotAsFrequency = TRUE,
   distribution = "normal"
-) + geom_vline(xintercept = 0, linetype = "dashed")
+) + geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(x = "residuals\nlog(predicted) - log(observed)")
 ```
 
 ![Histogram showing the distribution of log residuals with normal
@@ -910,16 +905,19 @@ groups.](goodness-of-fit_files/figure-html/histogram-residuals-1.png)
 ### 6.2 Stratify Residuals with a Box-Whisker Plot
 
 ``` r
+
+pkRatioData <- pkRatioData |>
+  dplyr::mutate(linearResiduals = Pred - Obs)
+
 plotBoxWhisker(
   mapping = aes(
-    predicted = Pred,
-    observed = Obs,
+    y = linearResiduals,
     x = Sex
   ),
   data = pkRatioData,
-  metaData = metaData,
-  residualScale = "linear"
-)
+  metaData = metaData
+) +
+  labs(y = "residuals\nlog(predicted) - log(observed)")
 ```
 
 ![Box plots showing the distribution of linear residuals stratified by

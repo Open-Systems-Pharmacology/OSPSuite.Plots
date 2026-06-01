@@ -21,7 +21,7 @@ Other MappedData classes:
 
 ## Super class
 
-[`ospsuite.plots::MappedData`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/MappedData.md)
+[`MappedData`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/MappedData.md)
 -\> `MappedDataTimeProfile`
 
 ## Public fields
@@ -52,7 +52,7 @@ Other MappedData classes:
 
 ### Public methods
 
-- [`MappedDataTimeProfile$new()`](#method-MappedDataTimeProfile-new)
+- [`MappedDataTimeProfile$new()`](#method-MappedDataTimeProfile-initialize)
 
 - [`MappedDataTimeProfile$scaleDataForSecondaryAxis()`](#method-MappedDataTimeProfile-scaleDataForSecondaryAxis)
 
@@ -60,13 +60,13 @@ Other MappedData classes:
 
 Inherited methods
 
-- [`ospsuite.plots::MappedData$addMetaData()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/MappedData.html#method-addMetaData)
-- [`ospsuite.plots::MappedData$getAestheticsForGeom()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/MappedData.html#method-getAestheticsForGeom)
-- [`ospsuite.plots::MappedData$updateScaleArgumentsForTimeUnit()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/MappedData.html#method-updateScaleArgumentsForTimeUnit)
+- [`MappedData$addMetaData()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/MappedData.html#method-addMetaData)
+- [`MappedData$getAestheticsForGeom()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/MappedData.html#method-getAestheticsForGeom)
+- [`MappedData$updateScaleArgumentsForTimeUnit()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/MappedData.html#method-updateScaleArgumentsForTimeUnit)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `MappedDataTimeProfile$new()`
 
 Create a new `MappedDataTimeProfile` object
 
@@ -149,7 +149,7 @@ and secondary axes with different scale types (linear/log combinations).
 
 ------------------------------------------------------------------------
 
-### Method `scaleDataForSecondaryAxis()`
+### `MappedDataTimeProfile$scaleDataForSecondaryAxis()`
 
 #### Usage
 
@@ -179,7 +179,7 @@ updated MappedDataTimeProfile boolean for secondary axis
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `MappedDataTimeProfile$clone()`
 
 The objects of this class are cloneable with this method.
 

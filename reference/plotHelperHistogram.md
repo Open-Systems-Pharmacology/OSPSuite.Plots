@@ -37,7 +37,7 @@ R6 class container for functions and properties used in `plotHistogram`
 
 ### Public methods
 
-- [`plotHelperHistogram$new()`](#method-plotHelperHistogram-new)
+- [`plotHelperHistogram$new()`](#method-plotHelperHistogram-initialize)
 
 - [`plotHelperHistogram$getDistrMapping()`](#method-plotHelperHistogram-getDistrMapping)
 
@@ -47,7 +47,7 @@ R6 class container for functions and properties used in `plotHistogram`
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `plotHelperHistogram$new()`
 
 Create a new `MappedData` object
 
@@ -94,7 +94,7 @@ A new `plotHelperHistogram` object generates mapping for distribution
 
 ------------------------------------------------------------------------
 
-### Method `getDistrMapping()`
+### `plotHelperHistogram$getDistrMapping()`
 
 #### Usage
 
@@ -116,7 +116,7 @@ mapping generates mapping for display of mean
 
 ------------------------------------------------------------------------
 
-### Method `getMeanMapping()`
+### `plotHelperHistogram$getMeanMapping()`
 
 #### Usage
 
@@ -134,7 +134,7 @@ mapping
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `plotHelperHistogram$clone()`
 
 The objects of this class are cloneable with this method.
 

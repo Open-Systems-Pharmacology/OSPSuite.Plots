@@ -22,6 +22,7 @@ theme, geometric aesthetics, colors, and shapes for distinct scales.
 Examples within this vignette are plotted using the following test data:
 
 ``` r
+
 testData <- exampleDataCovariates |>
   dplyr::filter(SetID == "DataSet1") |>
   dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex"))
@@ -46,6 +47,7 @@ knitr::kable(head(testData), digits = 3)
 - B customized plot
 
 ``` r
+
 # ospsuite.plots function
 ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
 
@@ -75,12 +77,17 @@ The previous settings are returned invisibly, so you can easily save
 them and restore them later.
 
 [`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/setDefaults.md)
-sets the theme, discrete color palette, shapes, and various options. All
-objects can also be set separately as described below.
+sets the theme, discrete color palette, and various options. All objects
+can also be set separately as described below. Shape ordering for
+OSP-aware geoms is controlled per plot via
+[`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/scale_shape_osp.md)
+or
+[`scale_shape_osp_manual()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/scale_shape_osp_manual.md).
 
 ``` r
+
 # Set default layout and save previous layout in variable oldDefaults
-oldDefaults <- ospsuite.plots::setDefaults(defaultOptions = list(), colorMapList = NULL, shapeValues = NULL, pointAsUnicode = FALSE)
+oldDefaults <- ospsuite.plots::setDefaults(defaultOptions = list(), colorMapList = NULL)
 
 # ospsuite.plots function
 ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
@@ -106,6 +113,7 @@ called.](ospsuite-plots_files/figure-html/set-ospsuite-defaults-2.png)
 #### 2.1.3 Reset to Previously Saved Layout
 
 ``` r
+
 # Reset to previously saved layout options
 ospsuite.plots::resetDefaults(oldDefaults = oldDefaults)
 
@@ -142,6 +150,7 @@ and
 [`resetDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/resetDefaults.md).
 
 ``` r
+
 # Set ospsuite.plots Default Theme
 oldTheme <- ospsuite.plots::setDefaultTheme()
 
@@ -183,6 +192,7 @@ The example below shows plots with:
   [`ggsci::scale_color_lancet()`](https://nanx.me/ggsci/reference/scale_lancet.html)
 
 ``` r
+
 # Set ospsuite.plots Default Color
 oldColors <- ospsuite.plots::setDefaultColorMapDistinct()
 
@@ -199,6 +209,7 @@ for small categorical
 datasets.](ospsuite-plots_files/figure-html/default-color-settings-6colors-1.png)
 
 ``` r
+
 ggplot() +
   geom_tile(aes(x = c(rep(seq(1, 7), 7), 1, 2), y = c(rep(seq(1, 7), each = 7), 8, 8), fill = as.factor(seq(1, 51)))) +
   labs(title = "Default settings for more than 6 different colors") +
@@ -212,6 +223,7 @@ datasets by cycling through and extending the color
 palette.](ospsuite-plots_files/figure-html/default-color-settings-many-colors-1.png)
 
 ``` r
+
 # Customize colors: set to gray colors
 ospsuite.plots::setDefaultColorMapDistinct(colorMaps[["grays"]])
 
@@ -228,6 +240,7 @@ schemes for accessibility or publication
 requirements.](ospsuite-plots_files/figure-html/customize-colors-gray-1.png)
 
 ``` r
+
 ggplot() +
   geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
   theme(legend.position = "none", axis.title = element_blank()) +
@@ -242,6 +255,7 @@ individual
 plots.](ospsuite-plots_files/figure-html/ggplot-scale-fill-grey-1.png)
 
 ``` r
+
 # Set to color palettes inspired by plots in Lancet journals
 ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
 
@@ -258,6 +272,7 @@ publication
 style.](ospsuite-plots_files/figure-html/ggsci-lancet-colors-1.png)
 
 ``` r
+
 # Set to color palettes inspired by plots in Lancet journals
 ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
 
@@ -277,23 +292,36 @@ scheme.](ospsuite-plots_files/figure-html/ggsci-color-lancet-override-1.png)
 #### Reset to Previously Saved Color Map
 
 ``` r
+
 # Reset to the previously saved color map
 ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
 ```
 
 ### 2.4 Default Shapes
 
-Functions to set the `ospsuite.plots` default shapes only are
-`setDefaultShapeDistinct(shapeValues)` and
-`resetDefaultShapeDistinct(oldShapeValue)`. These functions are called
-by
-[`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/setDefaults.md)
-and
-[`resetDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/resetDefaults.md).
-The scales are set to the option `ospsuite.plots.shapeValues`, which is
-then used to set the discrete scale of shapes for all `ospsuite.plots`
-functions. For customized functions, add
-`scale_shape_manual(values = getOspsuite.plots.option(optionKey = OptionKeys$shapeValues))`.
+All point layers produced by `ospsuite.plots` use
+[`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/geom_point_osp.md),
+which draws from the OSP shape palette defined in `ospShapeNames`. When
+you build your own plots and want them to combine consistently with
+`ospsuite.plots` outputs, prefer
+[`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/geom_point_osp.md)
+over the raw
+[`ggplot2::geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html).
+
+Shape ordering is controlled per plot, not via a global option:
+
+- [`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/geom_point_osp.md)
+  paired with
+  [`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/scale_shape_osp.md)
+  assigns shapes automatically from `ospShapeNames`.
+- `scale_shape_osp_manual(values = c(level1 = "circle", level2 = "diamond", ...))`
+  sets an explicit mapping.
+- [`scale_shape_osp_identity()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/scale_shape_osp_identity.md)
+  is the right choice when the data already contains shape names.
+
+Raw
+[`ggplot2::geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html)
+keeps using ggplot2’s native pch shapes and is unaffected.
 
 ### 2.5 Default Options
 
@@ -304,6 +332,7 @@ the function
 via the variable `defaultOptions`.
 
 ``` r
+
 ospsuite.plots::setDefaults(defaultOptions = ospsuite.plots::getDefaultOptions())
 ```
 
@@ -322,31 +351,34 @@ instead of
 function creates a `ggplot` with a customized print function which adds
 a watermark.
 
-**Important:** The `watermarkEnabled` option must be explicitly set
-before using one of the plot functions. Add it to your `.Rprofile`:
+The watermark is **enabled by default** — plots produced without any
+configuration will already carry the watermark. Setting the option to
+`NULL` is treated the same as using the default, so the watermark will
+still appear.
+
+No opt-in is required; you only need to interact with these options if
+you want to customize or remove the watermark. To override this default
+in your `.Rprofile` (e.g., to disable watermarks globally):
 
 ``` r
-# Enable watermarks
-options(ospsuite.plots.watermarkEnabled = TRUE)
 
-# Or disable watermarks
+# Disable watermarks globally
 options(ospsuite.plots.watermarkEnabled = FALSE)
 ```
 
 You can edit your `.Rprofile` with
 [`usethis::edit_r_profile()`](https://usethis.r-lib.org/reference/edit.html).
 
-Attention! If you combine plots e.g. with `cowplot:plot_grid` the
+**Attention!** If you combine plots e.g. with `cowplot:plot_grid` the
 default print function without watermark is called. In this case you
-have to add the watermark with the function `addwatermark(plotObject)`
+have to add the watermark with the function `addWatermark(plotObject)`
 before the print.
 
-The watermark can by customized by this options:
+The watermark can be customized by these options:
 
-- Switch the watermark on and off (option key = `watermarkEnabled`, **no
-  default value - must be explicitly set by the user before using
-  watermark features**)
-- Select the label (option key = `watermarkLabel`, default =
+- Switch the watermark on and off (option key = `watermarkEnabled`,
+  default = `TRUE`)
+- Define the label (option key = `watermarkLabel`, default =
   “preliminary analysis”)
 - Customize format (option key = `watermarkFormat`, default =
   `list(x = 0.5, y = 0.5, color = "lightgrey", angle = 30, fontsize = 12, alpha = 0.7)`)
@@ -358,6 +390,7 @@ The watermark can by customized by this options:
 - C: Reset to default
 
 ``` r
+
 # Change format and label of watermark
 setOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat, value = list(x = 0.2, y = 0.6, color = "red", angle = 90, fontsize = 24, alpha = 0.2))
 setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = "NEW")
@@ -373,6 +406,7 @@ transparency, labeled 'NEW' instead of the default
 text.](ospsuite-plots_files/figure-html/customize-watermark-1.png)
 
 ``` r
+
 # Disable watermark
 setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = FALSE)
 
@@ -387,6 +421,7 @@ clean publication-ready
 plots.](ospsuite-plots_files/figure-html/disable-watermark-1.png)
 
 ``` r
+
 # Reset to default
 setOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat, value = NULL)
 setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = NULL)
@@ -408,16 +443,16 @@ All plot functions have input variables `geom*Attributes` which are
 passed as variables to the corresponding ggplot layer. The defaults of
 the input variables can be set by options.
 
-|     functions     |        Line        |        Ribbon        |        Point        |        Errorbar        |        LLOQ        |        Hist        |                  Boxplot                   |        ComparisonLine        |        GuestLine        |
-|:-----------------:|:------------------:|:--------------------:|:-------------------:|:----------------------:|:------------------:|:------------------:|:------------------------------------------:|:----------------------------:|:-----------------------:|
-| plotTimeProfile() | geomLineAttributes | geomRibbonAttributes | geomPointAttributes | geomErrorbarAttributes | geomLLOQAttributes |                    |                                            |                              |                         |
-|  plotResVsCov()   |                    |                      | geomPointAttributes | geomErrorbarAttributes | geomLLOQAttributes |                    |                                            | geomComparisonLineAttributes | geomGuestLineAttributes |
-| plotRatioVsCov()  |                    |                      | geomPointAttributes | geomErrorbarAttributes | geomLLOQAttributes |                    |                                            | geomComparisonLineAttributes | geomGuestLineAttributes |
-|  plotPredVsObs()  |                    |                      | geomPointAttributes | geomErrorbarAttributes | geomLLOQAttributes |                    |                                            | geomComparisonLineAttributes | geomGuestLineAttributes |
-|  plotHistogram()  |                    |                      |                     |                        |                    | geomHistAttributes |                                            |                              |                         |
-| plotBoxWhisker()  |                    |                      |                     |                        |                    |                    | geomBoxplotAttributes, geomPointAttributes |                              |                         |
+| functions | Line | Ribbon | Point | Errorbar | LLOQ | Hist | Boxplot | ComparisonLine | GuestLine |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| plotTimeProfile() | geomLineAttributes | geomRibbonAttributes | geomPointAttributes | geomErrorbarAttributes | geomLLOQAttributes |  |  |  |  |
+| plotResVsCov() |  |  | geomPointAttributes | geomErrorbarAttributes | geomLLOQAttributes |  |  | geomComparisonLineAttributes | geomGuestLineAttributes |
+| plotRatioVsCov() |  |  | geomPointAttributes | geomErrorbarAttributes | geomLLOQAttributes |  |  | geomComparisonLineAttributes | geomGuestLineAttributes |
+| plotPredVsObs() |  |  | geomPointAttributes | geomErrorbarAttributes | geomLLOQAttributes |  |  | geomComparisonLineAttributes | geomGuestLineAttributes |
+| plotHistogram() |  |  |  |  |  | geomHistAttributes |  |  |  |
+| plotBoxWhisker() |  |  |  |  |  |  | geomBoxplotAttributes, geomPointAttributes |  |  |
 
-Usage of options for geom attributes
+Usage of options for geom attributes {.table}
 
 With default options:
 
@@ -437,6 +472,7 @@ Options to set the face alpha of ribbons, filled points and options to
 set the filled points for values below and above LLOQ.
 
 ``` r
+
 # Default alpha = 0.5
 getOspsuite.plots.option(optionKey = "alpha")
 
@@ -463,6 +499,7 @@ There are two percentile-related options controlling default behavior:
   (default = `c(0.05, 0.5, 0.95)`).
 
 ``` r
+
 # Get current box-whisker percentiles (5 values)
 getOspsuite.plots.option(optionKey = OptionKeys$percentiles)
 
@@ -476,30 +513,7 @@ getOspsuite.plots.option(optionKey = OptionKeys$defaultPercentiles)
 setOspsuite.plots.option(optionKey = OptionKeys$defaultPercentiles, value = c(0.1, 0.5, 0.9))
 ```
 
-### 2.5.5 Option for Unicode Point Mode
-
-The `geomPointUnicode` option controls whether `ospsuite.plots`
-functions use the Unicode-aware
-[`geomPointUnicode()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/geomPointUnicode.md)
-geom instead of the standard
-[`geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html)
-when plotting points. This is set internally when calling
-`setDefaults(pointAsUnicode = TRUE/FALSE)`.
-
-- `geomPointUnicode`: Logical, default `FALSE`. When `TRUE`, Unicode
-  symbols are used for plot points (requires the
-  [showtext](https://github.com/yixuan/showtext) package; see Section
-  6.2).
-
-``` r
-# Check current mode
-getOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode)
-
-# Enable Unicode point mode globally (equivalent to setDefaults(pointAsUnicode = TRUE))
-setOspsuite.plots.option(optionKey = OptionKeys$geomPointUnicode, value = TRUE)
-```
-
-### 2.5.6 Options to Define Export Format
+### 2.5.5 Options to Define Export Format
 
 There are options to define the export format using the function
 `exportPlot` (see details below):
@@ -588,27 +602,27 @@ respective functions.
   NONMEM notation).
 - `observed` / `predicted`: For the function
   [`plotPredVsObs()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/plotPredVsObs.md),
-  `observed` is mapped to `x` and `predicted` is mapped to `y`. For all
-  other functions, residuals are calculated if both aesthetics are
-  mapped. The variable `residualScale` defines the calculation method:
-  - `residualScale = "log"`: $log(predicted) - log(observed)$,
-  - `residualScale = "linear"`: $predicted - observed$,
-  - `residualScale = "ratio"`: $observed/predicted$.
+  `observed` is mapped to `x` and `predicted` is mapped to `y`.
+
+Residuals and ratios must be pre-calculated before passing them to the
+plotting functions. If you are using the `{ospsuite}` package, use
+`ospsuite::addResidualColumn()` to add a residual column to your data.
 
 See `vignette("Goodness of Fit", package = "ospsuite.plots")` for
 examples.
 
-|     functions     | `groupby` | `lloq` | `error` | `error_relative` | `y2axis` | `mdv` | `observed` / `predicted` |
-|:-----------------:|:---------:|:------:|:-------:|:----------------:|:--------:|:-----:|:------------------------:|
-| plotTimeProfile() |     X     |   X    |    X    |        X         |    X     |   X   |                          |
-|  plotHistogram()  |     X     |        |         |                  |          |   X   |            X             |
-|  plotPredVsObs()  |     X     |   X    |    X    |        X         |          |   X   |            X             |
-|  plotResVsCov()   |     X     |        |    X    |        X         |          |   X   |            X             |
-| plotRatioVsCov()  |     X     |        |    X    |        X         |          |   X   |            X             |
-|     plotQQ()      |     X     |        |         |                  |          |   X   |            X             |
-| plotBoxWhisker()  |           |        |         |                  |          |   X   |            X             |
+| functions | `groupby` | `lloq` | `error` | `error_relative` | `y2axis` | `mdv` | `observed` / `predicted` |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| plotTimeProfile() | X | X | X | X | X | X |  |
+| plotHistogram() | X |  |  |  |  | X |  |
+| plotPredVsObs() | X | X | X | X |  | X | X |
+| plotResVsCov() | X |  | X | X |  | X |  |
+| plotRatioVsCov() | X |  | X | X |  | X |  |
+| plotQQ() | X |  |  |  |  | X |  |
+| plotBoxWhisker() |  |  |  |  |  | X |  |
 
-Applicability of additional aesthetics in functions
+Applicability of additional aesthetics in functions {.table
+style="width:100%;"}
 
 ## 5. Plot Export
 
@@ -625,6 +639,7 @@ To export a plot, you need a ggplot object. Here’s a basic example:
 Create a simple ggplot object:
 
 ``` r
+
 plotObject <- ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age))
 ```
 
@@ -635,6 +650,7 @@ Replace “path/to/save” with the actual directory path where you want to
 save the plot, and adjust the width and height parameters as needed.
 
 ``` r
+
 exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "myplot", width = 10, height = 8)
 ```
 
@@ -649,6 +665,7 @@ ratio.
 Assuming `plotObject` is your ggplot object:
 
 ``` r
+
 exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "adjusted_plot.png")
 ```
 
@@ -663,84 +680,47 @@ otherwise, the function exports square figures.
 ### 6.1 Default Shapes
 
 ``` r
-shapeNames <- c("circle", paste("circle", c("open", "filled", "cross", "plus", "small")), "bullet", "square", paste("square", c("open", "filled", "cross", "plus", "triangle")), "diamond", paste("diamond", c("open", "filled", "plus")), "triangle", paste("triangle", c("open", "filled", "square")), paste("triangle down", c("open", "filled")), "plus", "cross", "asterisk")
 
-shapes <- data.frame(shapeNames = shapeNames, x = c(1:7, 1:6, 1:3, 5, 1:3, 6, 2:3, 1:3), y = -rep(1:6, c(7, 6, 4, 4, 2, 3)))
+shapes <- data.frame(
+  shapeNames = ospShapeNames,
+  x = rep(1:6, length.out = length(ospShapeNames)),
+  y = rep(1:4, each = 6, length.out = length(ospShapeNames))
+)
 
-ggplot(shapes, aes(x, y)) +
-  geom_point(aes(shape = shapeNames), color = "blue", fill = "red", size = 5, stroke = 1) +
-  geom_text(aes(label = shapeNames), nudge_y = -0.3, size = 3.5) +
-  scale_shape_identity() +
+ggplot(shapes, aes(x, y, shape = shapeNames)) +
+  geom_point_osp(size = 5, color = "blue", fill = "red") +
+  scale_shape_osp_identity() +
+  geom_text(aes(label = shapeNames), nudge_y = -0.3, size = 3) +
   theme_void()
 ```
 
-![Chart displaying all default shape types available in ospsuite.plots.
-Shows various point shapes including circles, squares, diamonds,
-triangles in different styles (open, filled, cross, plus) arranged in a
-grid with labels, demonstrating the visual appearance of each shape
+![Chart displaying all default OSP shape types available in
+ospsuite.plots. Shows various point shapes arranged in a grid with
+labels, demonstrating the visual appearance of each shape
 option.](ospsuite-plots_files/figure-html/default-shapes-1.png)
 
-### 6.2 Use Unicode Symbols with `{showtext}`
+### 6.2 Using OSP Shapes in Plot Functions
 
-Attention: The use of [showtext](https://github.com/yixuan/showtext) has
-side effects - a customized `geom_Point` function `geomPointUnicode` has
-to be used.
-
-``` r
-shapes <- data.frame(shapeNames = names(Shapes), shape_symbols = unlist(unname(Shapes)), x = rep(c(1:5), 8), y = rep(-c(1:8), each = 5))
-
-showtext::showtext_auto()
-ggplot(shapes, aes(x, y)) +
-  geomPointUnicode(aes(shape = shape_symbols), color = "blue", fill = "red", size = 5) +
-  geom_text(aes(label = shapeNames), nudge_y = -0.3, size = 3.5) +
-  scale_shape_identity() +
-  theme_void()
-showtext::showtext_auto(enable = "off")
-```
-
-![Chart displaying Unicode symbol shapes available in ospsuite.plots
-with showtext package. Shows various Unicode symbols arranged in a grid
-with their corresponding shape names, demonstrating enhanced typography
-options for point symbols in
-plots.](ospsuite-plots_files/figure-html/unicode-shapes-1.png)
-
-### 6.3 Switch Between Modes
-
-To switch to the Unicode mode, call `setDefaults` with the input
-variable `pointAsUnicode = TRUE`. To switch back, use
-`setDefaults(pointAsUnicode = FALSE)` or `resetDefaults(oldDefaults)`.
-However, it is recommended to produce all plots of one workflow either
-with Unicode mode or without. Otherwise, the plots may have different
-fonts.
+OSP shapes are available in all `ospsuite.plots` functions via the
+default shape scale set by
+[`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/setDefaults.md).
+You can also apply them directly with
+[`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/reference/scale_shape_osp.md).
 
 ``` r
-oldDefaults <- ospsuite.plots::setDefaults(pointAsUnicode = TRUE)
 
-dt <- data.frame(x = c(1, 2, 1, 2), y = c(1, 1, 2, 2), species = c("pig", "dog", "mouse", "rat"))
+oldDefaults <- ospsuite.plots::setDefaults()
+
+dt <- data.frame(x = c(1, 2, 1, 2), y = c(1, 1, 2, 2), species = c("dog", "cat", "mouse", "rat"))
 
 plotObject <- plotYVsX(data = dt, mapping = aes(x = x, y = y, groupby = species), xScale = "linear", xScaleArgs = list(limits = c(0.5, 2.5)), yScale = "linear", yScaleArgs = list(limits = c(0.5, 2.5)))
 
 plot(plotObject)
 ```
 
-![Scatter plot demonstrating Unicode point symbols in ospsuite.plots.
-Shows four data points representing different species (pig, dog, mouse,
-rat) using Unicode symbols instead of standard ggplot shapes, with each
-species having a distinct symbol and
-color.](ospsuite-plots_files/figure-html/unicode-mode-demo-1.png)
-
-#### Use Non-Default Icons
-
-``` r
-plot(plotObject +
-  scale_shape_manual(values = c(pig = "pig", dog = "dog", mouse = "mouse", rat = "rat")))
-```
-
-![Scatter plot demonstrating the use of non-default icons in
-ospsuite.plots. The plot displays four data points representing
-different species (pig, dog, mouse, rat) using custom shapes for each
-species instead of standard ggplot shapes, showcasing the ability to
-personalize plot aesthetics with unique
-icons.](ospsuite-plots_files/figure-html/export-non-default-icons-1.png)
+![Scatter plot demonstrating OSP shapes in ospsuite.plots. Shows four
+data points representing different species using distinct OSP shapes
+with each species having a distinct symbol and
+color.](ospsuite-plots_files/figure-html/osp-shapes-demo-1.png)
 
 \`\`\`

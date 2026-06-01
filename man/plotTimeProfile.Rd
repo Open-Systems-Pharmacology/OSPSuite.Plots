@@ -109,15 +109,15 @@ plotTimeProfile(
 }
 }
 \seealso{
-Other plot functions: 
-\code{\link{plotBoxWhisker}()},
-\code{\link{plotForest}()},
-\code{\link{plotHistogram}()},
-\code{\link{plotPredVsObs}()},
-\code{\link{plotQQ}()},
-\code{\link{plotRangeDistribution}()},
-\code{\link{plotRatioVsCov}()},
-\code{\link{plotResVsCov}()},
-\code{\link{plotYVsX}()}
+Other plot functions:
+\code{\link[=plotBoxWhisker]{plotBoxWhisker()}},
+\code{\link[=plotForest]{plotForest()}},
+\code{\link[=plotHistogram]{plotHistogram()}},
+\code{\link[=plotPredVsObs]{plotPredVsObs()}},
+\code{\link[=plotQQ]{plotQQ()}},
+\code{\link[=plotRangeDistribution]{plotRangeDistribution()}},
+\code{\link[=plotRatioVsCov]{plotRatioVsCov()}},
+\code{\link[=plotResVsCov]{plotResVsCov()}},
+\code{\link[=plotYVsX]{plotYVsX()}}
 }
 \concept{plot functions}

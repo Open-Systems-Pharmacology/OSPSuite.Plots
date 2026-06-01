@@ -67,9 +67,9 @@ setOspsuite.plots.option(
 )
 }
 \seealso{
-Other watermark: 
-\code{\link{addWatermark}()},
-\code{\link{plot.ggWatermark}()},
-\code{\link{print.ggWatermark}()}
+Other watermark:
+\code{\link[=addWatermark]{addWatermark()}},
+\code{\link[=plot.ggWatermark]{plot.ggWatermark()}},
+\code{\link[=print.ggWatermark]{print.ggWatermark()}}
 }
 \concept{watermark}

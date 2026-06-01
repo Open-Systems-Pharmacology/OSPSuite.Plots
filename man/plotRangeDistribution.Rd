@@ -69,15 +69,15 @@ A ggplot object representing the range plot. The returned object can be further 
 Creates a range plot using specified data and mapping, allowing for different binning strategies and scaling options. This function provides a flexible way to visualize data distributions over specified ranges with optional statistical summaries.
 }
 \seealso{
-Other plot functions: 
-\code{\link{plotBoxWhisker}()},
-\code{\link{plotForest}()},
-\code{\link{plotHistogram}()},
-\code{\link{plotPredVsObs}()},
-\code{\link{plotQQ}()},
-\code{\link{plotRatioVsCov}()},
-\code{\link{plotResVsCov}()},
-\code{\link{plotTimeProfile}()},
-\code{\link{plotYVsX}()}
+Other plot functions:
+\code{\link[=plotBoxWhisker]{plotBoxWhisker()}},
+\code{\link[=plotForest]{plotForest()}},
+\code{\link[=plotHistogram]{plotHistogram()}},
+\code{\link[=plotPredVsObs]{plotPredVsObs()}},
+\code{\link[=plotQQ]{plotQQ()}},
+\code{\link[=plotRatioVsCov]{plotRatioVsCov()}},
+\code{\link[=plotResVsCov]{plotResVsCov()}},
+\code{\link[=plotTimeProfile]{plotTimeProfile()}},
+\code{\link[=plotYVsX]{plotYVsX()}}
 }
 \concept{plot functions}

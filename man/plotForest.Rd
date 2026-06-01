@@ -66,15 +66,15 @@ A combined plot object containing the forest plot and the table (if applicable).
 This function generates a forest plot with optional faceting and a corresponding table.
 }
 \seealso{
-Other plot functions: 
-\code{\link{plotBoxWhisker}()},
-\code{\link{plotHistogram}()},
-\code{\link{plotPredVsObs}()},
-\code{\link{plotQQ}()},
-\code{\link{plotRangeDistribution}()},
-\code{\link{plotRatioVsCov}()},
-\code{\link{plotResVsCov}()},
-\code{\link{plotTimeProfile}()},
-\code{\link{plotYVsX}()}
+Other plot functions:
+\code{\link[=plotBoxWhisker]{plotBoxWhisker()}},
+\code{\link[=plotHistogram]{plotHistogram()}},
+\code{\link[=plotPredVsObs]{plotPredVsObs()}},
+\code{\link[=plotQQ]{plotQQ()}},
+\code{\link[=plotRangeDistribution]{plotRangeDistribution()}},
+\code{\link[=plotRatioVsCov]{plotRatioVsCov()}},
+\code{\link[=plotResVsCov]{plotResVsCov()}},
+\code{\link[=plotTimeProfile]{plotTimeProfile()}},
+\code{\link[=plotYVsX]{plotYVsX()}}
 }
 \concept{plot functions}

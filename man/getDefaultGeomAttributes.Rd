@@ -18,23 +18,23 @@ get the defaults for the geom attributes used as defaults in plot functions
 see \code{vignette("ospsuite.plots", package = "ospsuite.plots")} how to change defaults
 }
 \seealso{
-Other setDefault functions: 
+Other setDefault functions:
 \code{\link{Shapes}},
 \code{\link{colorMaps}},
-\code{\link{geom_errorbar_osp}()},
-\code{\link{geom_point_osp}()},
-\code{\link{getDefaultOptions}()},
-\code{\link{getOspsuite.plots.option}()},
-\code{\link{resetDefaultColorMapDistinct}()},
-\code{\link{resetDefaultTheme}()},
-\code{\link{resetDefaults}()},
-\code{\link{scale_shape_osp}()},
-\code{\link{scale_shape_osp_identity}()},
-\code{\link{scale_shape_osp_manual}()},
-\code{\link{setDefaultColorMapDistinct}()},
-\code{\link{setDefaultTheme}()},
-\code{\link{setDefaults}()},
-\code{\link{setOspsuite.plots.option}()},
-\code{\link{stat_qq_osp}()}
+\code{\link[=geom_errorbar_osp]{geom_errorbar_osp()}},
+\code{\link[=geom_point_osp]{geom_point_osp()}},
+\code{\link[=getDefaultOptions]{getDefaultOptions()}},
+\code{\link[=getOspsuite.plots.option]{getOspsuite.plots.option()}},
+\code{\link[=resetDefaultColorMapDistinct]{resetDefaultColorMapDistinct()}},
+\code{\link[=resetDefaultTheme]{resetDefaultTheme()}},
+\code{\link[=resetDefaults]{resetDefaults()}},
+\code{\link[=scale_shape_osp]{scale_shape_osp()}},
+\code{\link[=scale_shape_osp_identity]{scale_shape_osp_identity()}},
+\code{\link[=scale_shape_osp_manual]{scale_shape_osp_manual()}},
+\code{\link[=setDefaultColorMapDistinct]{setDefaultColorMapDistinct()}},
+\code{\link[=setDefaultTheme]{setDefaultTheme()}},
+\code{\link[=setDefaults]{setDefaults()}},
+\code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}},
+\code{\link[=stat_qq_osp]{stat_qq_osp()}}
 }
 \concept{setDefault functions}

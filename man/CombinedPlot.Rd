@@ -21,88 +21,95 @@ combinedPlotInstance
 }
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{plotObject}}{A ggplot object representing the main plot.}
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{plotObject}}{A ggplot object representing the main plot.}
 
-\item{\code{tableObject}}{A ggplot object representing the table.}
+    \item{\code{tableObject}}{A ggplot object representing the table.}
 
-\item{\code{relWidths}}{A numeric vector of length 2 specifying the relative widths of the plot and table.}
-}
-\if{html}{\out{</div>}}
+    \item{\code{relWidths}}{A numeric vector of length 2 specifying the relative widths of the plot and table.}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-CombinedPlot-new}{\code{CombinedPlot$new()}}
-\item \href{#method-CombinedPlot-combined}{\code{CombinedPlot$combined()}}
-\item \href{#method-CombinedPlot-print}{\code{CombinedPlot$print()}}
-\item \href{#method-CombinedPlot-clone}{\code{CombinedPlot$clone()}}
-}
+  \itemize{
+    \item \href{#method-CombinedPlot-initialize}{\code{CombinedPlot$new()}}
+    \item \href{#method-CombinedPlot-combined}{\code{CombinedPlot$combined()}}
+    \item \href{#method-CombinedPlot-print}{\code{CombinedPlot$print()}}
+    \item \href{#method-CombinedPlot-clone}{\code{CombinedPlot$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-CombinedPlot-new"></a>}}
-\if{latex}{\out{\hypertarget{method-CombinedPlot-new}{}}}
-\subsection{Method \code{new()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CombinedPlot$new(plotObject = ggplot(), tableObject = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{plotObject}}{A ggplot object for the main plot.
+\if{html}{\out{<a id="method-CombinedPlot-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-CombinedPlot-initialize}{}}}
+\subsection{\code{CombinedPlot$new()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CombinedPlot$new(plotObject = ggplot(), tableObject = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{plotObject}}{A ggplot object for the main plot.
 Combine the combined plot and table
 
 This method combines the plot and table into a single output and displays it.}
+      \item{\code{tableObject}}{A ggplot object for the table.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
 
-\item{\code{tableObject}}{A ggplot object for the table.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CombinedPlot-combined"></a>}}
 \if{latex}{\out{\hypertarget{method-CombinedPlot-combined}{}}}
-\subsection{Method \code{combined()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CombinedPlot$combined()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-A ggplot object representing the combined plot and table
+\subsection{\code{CombinedPlot$combined()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CombinedPlot$combined()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A ggplot object representing the combined plot and table
 Print the combined plot and table
 
 This method overrides the default print function to display the combined output.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CombinedPlot-print"></a>}}
 \if{latex}{\out{\hypertarget{method-CombinedPlot-print}{}}}
-\subsection{Method \code{print()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CombinedPlot$print()}\if{html}{\out{</div>}}
+\subsection{\code{CombinedPlot$print()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CombinedPlot$print()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Invisibly returns the combined ggplot object
+  }
 }
 
-\subsection{Returns}{
-Invisibly returns the combined ggplot object
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CombinedPlot-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-CombinedPlot-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CombinedPlot$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{CombinedPlot$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CombinedPlot$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

@@ -18,9 +18,9 @@ A ggplot object with a watermark drawn on it. The watermark is displayed accordi
 This function customizes the printing of ggplot objects with the class "ggWatermark" by adding a watermark.
 }
 \seealso{
-Other watermark: 
-\code{\link{addWatermark}()},
-\code{\link{ggplotWithWatermark}()},
-\code{\link{plot.ggWatermark}()}
+Other watermark:
+\code{\link[=addWatermark]{addWatermark()}},
+\code{\link[=ggplotWithWatermark]{ggplotWithWatermark()}},
+\code{\link[=plot.ggWatermark]{plot.ggWatermark()}}
 }
 \concept{watermark}

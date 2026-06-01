@@ -35,7 +35,7 @@ plotRatioVsCov(
 Non-\code{NULL} values trigger a warning and have no effect.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=plotYVsX]{plotYVsX}}
+  Arguments passed on to \code{\link{plotYVsX}}
   \describe{
     \item{\code{geomComparisonLineAttributes}}{A \code{list} of arguments passed to \code{ggplot2::hline} or \code{ggplot2::abline} to display comparison lines.}
     \item{\code{geomGuestLineAttributes}}{A \code{list} of arguments passed to \code{ggplot2::geom_function} to display guest criteria.}
@@ -77,15 +77,15 @@ For details and examples, see the vignettes:
 }
 }
 \seealso{
-Other plot functions: 
-\code{\link{plotBoxWhisker}()},
-\code{\link{plotForest}()},
-\code{\link{plotHistogram}()},
-\code{\link{plotPredVsObs}()},
-\code{\link{plotQQ}()},
-\code{\link{plotRangeDistribution}()},
-\code{\link{plotResVsCov}()},
-\code{\link{plotTimeProfile}()},
-\code{\link{plotYVsX}()}
+Other plot functions:
+\code{\link[=plotBoxWhisker]{plotBoxWhisker()}},
+\code{\link[=plotForest]{plotForest()}},
+\code{\link[=plotHistogram]{plotHistogram()}},
+\code{\link[=plotPredVsObs]{plotPredVsObs()}},
+\code{\link[=plotQQ]{plotQQ()}},
+\code{\link[=plotRangeDistribution]{plotRangeDistribution()}},
+\code{\link[=plotResVsCov]{plotResVsCov()}},
+\code{\link[=plotTimeProfile]{plotTimeProfile()}},
+\code{\link[=plotYVsX]{plotYVsX()}}
 }
 \concept{plot functions}

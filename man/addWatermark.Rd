@@ -41,9 +41,9 @@ print(p_custom)
 
 }
 \seealso{
-Other watermark: 
-\code{\link{ggplotWithWatermark}()},
-\code{\link{plot.ggWatermark}()},
-\code{\link{print.ggWatermark}()}
+Other watermark:
+\code{\link[=ggplotWithWatermark]{ggplotWithWatermark()}},
+\code{\link[=plot.ggWatermark]{plot.ggWatermark()}},
+\code{\link[=print.ggWatermark]{print.ggWatermark()}}
 }
 \concept{watermark}

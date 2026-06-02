@@ -126,8 +126,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
 
       return(invisible(self))
     },
-    #' Scale data for secondary axis and update secAxis transformation
-    #'
+    #' @description Scale data for secondary axis and update secAxis transformation.
     #' This method handles the complex logic of scaling data between primary and secondary axes
     #' with different scale types (linear/log combinations).
     #' @param ylimits limits for primary axis (may be NULL)
@@ -288,8 +287,6 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
   ),
   ## active -------
   active = list(
-    #' boolean for secondary axis
-    #'
     #' @field requireDualAxis boolean, If TRUE secondary axis is required
     requireDualAxis = function() {
       private$secondaryAxisAvailable
@@ -388,7 +385,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         }
       }
     },
-    #' adjust limits
+    # adjust limits
     setyLimits = function() {
       # get data columns to scale
       scalingRelevantMappings <-

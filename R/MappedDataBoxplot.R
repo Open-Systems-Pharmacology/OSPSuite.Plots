@@ -68,8 +68,7 @@ MappedDataBoxplot <- R6::R6Class( # nolint
       # check if one dimensional in x
       self$hasXmapping <- ("x" %in% names(self$mapping))
     },
-    #' use Metadata to adjust binning of x-axis, and group aesthetic
-    #'
+    #' @description Use Metadata to adjust binning of x-axis, and group aesthetic.
     #' @param originalmapping mapping provided by user
     #' @param xScale either 'linear','log', 'discrete' or 'auto' (default) auto select linear for continuous data and discrete for categorical data
     #' @param xScaleArgs list of arguments passed to `ggplot2::scale_x_continuous()`, `ggplot2::scale_x_log10()` or

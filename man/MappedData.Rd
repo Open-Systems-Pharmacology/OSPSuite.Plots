@@ -38,17 +38,7 @@ Other MappedData classes:
     \item{\code{hasLLOQMatch}}{\code{boolean} if TRUE data has matched lloq data}
 
     \item{\code{dataForPlot}}{returns data used for plotting,
-may be adjusted in child classes (e.g. 2 axis in MappedDataTimeProfile)
-check if aesthetic is available in data
-returns data column for aesthetic
-adds and update mapping
-deletes data where mdv is 1
-
-adds new column \code{isLLOQ.i} and updates boolean \code{LLOQMatch}
-adds new columns \code{ymin} and \code{ymax} if required
-copy aesthetics \code{groupby}, but only if not explicit set
-converts Integer columns, which are no factors to double
-factorize column for group to factor}
+may be adjusted in child classes (e.g. 2 axis in MappedDataTimeProfile)}
   }
   \if{html}{\out{</div>}}
 }
@@ -101,8 +91,6 @@ factorize column for group to factor}
   }
   \subsection{Returns}{
     A new \code{MappedData} object
-filter possible aesthetics for a geom,
-check if mandatory are available
   }
 }
 
@@ -110,6 +98,7 @@ check if mandatory are available
 \if{html}{\out{<a id="method-MappedData-getAestheticsForGeom"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedData-getAestheticsForGeom}{}}}
 \subsection{\code{MappedData$getAestheticsForGeom()}}{
+  Filter possible aesthetics for a geom, check if mandatory are available.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{MappedData$getAestheticsForGeom(geom, geomAttributes)}
@@ -125,7 +114,6 @@ check if mandatory are available
   }
   \subsection{Returns}{
     list of accepted mappings
-adds list with dimension, units and column classes
   }
 }
 
@@ -133,6 +121,7 @@ adds list with dimension, units and column classes
 \if{html}{\out{<a id="method-MappedData-addMetaData"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedData-addMetaData}{}}}
 \subsection{\code{MappedData$addMetaData()}}{
+  Adds list with dimension, units and column classes.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{MappedData$addMetaData(metaData)}
@@ -147,7 +136,6 @@ adds list with dimension, units and column classes
   }
   \subsection{Returns}{
     updated \code{MappedData} object
-check if unit of scale direction is time and sets the breaks accordingly
   }
 }
 
@@ -155,6 +143,7 @@ check if unit of scale direction is time and sets the breaks accordingly
 \if{html}{\out{<a id="method-MappedData-updateScaleArgumentsForTimeUnit"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedData-updateScaleArgumentsForTimeUnit}{}}}
 \subsection{\code{MappedData$updateScaleArgumentsForTimeUnit()}}{
+  Check if unit of scale direction is time and sets the breaks accordingly.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{MappedData$updateScaleArgumentsForTimeUnit(scaleArgs, scaleDirection = "x")}

@@ -231,8 +231,6 @@ setDefaultColorMapDistinct <- function(colorMapList = NULL) {
 }
 
 
-#' @param oldColorMaps
-#'
 #' @title reset the default color map for discrete colors
 #'
 #' @param oldColorMaps list of color maps previously set

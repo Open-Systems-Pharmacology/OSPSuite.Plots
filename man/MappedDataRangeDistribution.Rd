@@ -90,7 +90,6 @@ Other MappedData classes:
   }
   \subsection{Returns}{
     \code{MappedDataRangeDistribution} class object
-Set binning columns
   }
 }
 
@@ -98,7 +97,7 @@ Set binning columns
 \if{html}{\out{<a id="method-MappedDataRangeDistribution-setBins"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedDataRangeDistribution-setBins}{}}}
 \subsection{\code{MappedDataRangeDistribution$setBins()}}{
-  This method sets the bins for the data based on the specified mode of binning.
+  Set binning columns. This method sets the bins for the data based on the specified mode of binning.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{MappedDataRangeDistribution$setBins()}
@@ -106,7 +105,6 @@ Set binning columns
   }
   \subsection{Returns}{
     The object itself (invisible)
-Create a data table with bin border information
   }
 }
 
@@ -114,8 +112,8 @@ Create a data table with bin border information
 \if{html}{\out{<a id="method-MappedDataRangeDistribution-setBorderDataTable"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedDataRangeDistribution-setBorderDataTable}{}}}
 \subsection{\code{MappedDataRangeDistribution$setBorderDataTable()}}{
-  This method sets up a data table containing border information for the bins.
-Set x mapping for the plot
+  Create a data table with bin border information.
+This method sets up a data table containing border information for the bins.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{MappedDataRangeDistribution$setBorderDataTable(identifier = "IndividualId")}
@@ -134,7 +132,8 @@ Set x mapping for the plot
 \if{html}{\out{<a id="method-MappedDataRangeDistribution-setXMapping"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedDataRangeDistribution-setXMapping}{}}}
 \subsection{\code{MappedDataRangeDistribution$setXMapping()}}{
-  This method sets the x mapping for the plot based on the specified parameters.
+  Set x mapping for the plot.
+This method sets the x mapping for the plot based on the specified parameters.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{MappedDataRangeDistribution$setXMapping(asStepPlot)}

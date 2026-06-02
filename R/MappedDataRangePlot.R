@@ -63,8 +63,7 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
       self$xScale <- xScale
     },
 
-    #' Set binning columns
-    #' @description This method sets the bins for the data based on the specified mode of binning.
+    #' @description Set binning columns. This method sets the bins for the data based on the specified mode of binning.
     #' @return The object itself (invisible)
     setBins = function() {
       if (private$modeOfBinning == BINNINGMODE$number) {
@@ -100,9 +99,9 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
       return(invisible(self))
     },
 
-    #' Create a data table with bin border information
+    #' @description Create a data table with bin border information.
+    #' This method sets up a data table containing border information for the bins.
     #' @param identifier Identifier for the data table (default is 'IndividualId')
-    #' @description This method sets up a data table containing border information for the bins.
     setBorderDataTable = function(identifier = "IndividualId") {
       checkmate::assertNames(c(".bin", identifier), subset.of = names(self$data))
 
@@ -163,9 +162,9 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
       private$.borders <- borders
     },
 
-    #' Set x mapping for the plot
+    #' @description Set x mapping for the plot.
+    #' This method sets the x mapping for the plot based on the specified parameters.
     #' @param asStepPlot Logical indicating if the plot should be a step plot.
-    #' @description This method sets the x mapping for the plot based on the specified parameters.
     setXMapping = function(asStepPlot) {
       private$asStepPlot <- asStepPlot
       if (asStepPlot) {

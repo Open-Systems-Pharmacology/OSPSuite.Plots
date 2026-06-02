@@ -188,11 +188,11 @@ plotHelperHistogram <- R6::R6Class(
     #' @param xScale scale of x -axis
     #' @param plotAsFrequency A `boolean` to switch display of y to frequency
     #' @param asBarPlot A `boolean` to switch from geom_histogram to geom_bar
-    #' @param geomHistAttributes attribute for plotting the histogram`
+    #' @param geomHistAttributes attribute for plotting the histogram
     #' @param distribution  distribution to fit the data
     #' @param meanFunction  function to display mean
     #'
-    #' @description Create a new `MappedData` object
+    #' @description Create a new `plotHelperHistogram` object.
     #' @return A new `plotHelperHistogram` object
     initialize = function(
       xScale,
@@ -229,11 +229,9 @@ plotHelperHistogram <- R6::R6Class(
 
       return(invisible(self))
     },
-    #' generates mapping for distribution
-    #'
+    #' @description Generates mapping for distribution.
     #' @param mappedData mapped data of Histogram
     #' @param plotObject ggplot object
-    #'
     #' @return mapping
     getDistrMapping = function(mappedData, plotObject) {
       binWidth <- private$getBinWidthforPlot(plotObject = plotObject)
@@ -250,10 +248,8 @@ plotHelperHistogram <- R6::R6Class(
       }
       return(newMapping)
     },
-    #' generates mapping for display of mean
-    #'
+    #' @description Generates mapping for display of mean.
     #' @param mappedData mapped data of Histogram
-    #'
     #' @return mapping
     getMeanMapping = function(mappedData) {
       meanMapping <- aes(xintercept = after_stat(x), y = 0)
@@ -281,7 +277,7 @@ plotHelperHistogram <- R6::R6Class(
     }
   ),
   private = list(
-    #' check if variable is a valid distribution
+    # check if variable is a valid distribution
     validateDistribution = function(distribution) {
       checkmate::assertCharacter(distribution, null.ok = FALSE)
       if (!(distribution %in% c("none", "normal", "lognormal"))) {
@@ -302,7 +298,7 @@ plotHelperHistogram <- R6::R6Class(
 
       return(distribution)
     },
-    #' extract bin width and bin border of ggplot object
+    # extract bin width and bin border of ggplot object
     getBinWidthforPlot = function(plotObject) {
       plotBuild <- ggplot_build(plotObject)
 
@@ -334,7 +330,7 @@ plotHelperHistogram <- R6::R6Class(
 
       return(binwidth)
     },
-    #' check if input is valid and returns function for vertical line
+    # check if input is valid and returns function for vertical line
     selectMeanFunction = function(meanFunction, xScale) {
       checkmate::assertChoice(
         meanFunction,

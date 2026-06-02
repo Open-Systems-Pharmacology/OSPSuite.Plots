@@ -25,10 +25,7 @@ R6 class container for functions and properties used in \code{plotHistogram}
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
-    \item{\code{getHistMapping}}{generates mapping for histogram
-check if variable is a valid distribution
-extract bin width and bin border of ggplot object
-check if input is valid and returns function for vertical line}
+    \item{\code{getHistMapping}}{generates mapping for histogram}
   }
   \if{html}{\out{</div>}}
 }
@@ -45,7 +42,7 @@ check if input is valid and returns function for vertical line}
 \if{html}{\out{<a id="method-plotHelperHistogram-initialize"></a>}}
 \if{latex}{\out{\hypertarget{method-plotHelperHistogram-initialize}{}}}
 \subsection{\code{plotHelperHistogram$new()}}{
-  Create a new \code{MappedData} object
+  Create a new \code{plotHelperHistogram} object.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{plotHelperHistogram$new(
@@ -64,7 +61,7 @@ check if input is valid and returns function for vertical line}
       \item{\code{xScale}}{scale of x -axis}
       \item{\code{plotAsFrequency}}{A \code{boolean} to switch display of y to frequency}
       \item{\code{asBarPlot}}{A \code{boolean} to switch from geom_histogram to geom_bar}
-      \item{\code{geomHistAttributes}}{attribute for plotting the histogram`}
+      \item{\code{geomHistAttributes}}{attribute for plotting the histogram}
       \item{\code{distribution}}{distribution to fit the data}
       \item{\code{meanFunction}}{function to display mean}
     }
@@ -72,7 +69,6 @@ check if input is valid and returns function for vertical line}
   }
   \subsection{Returns}{
     A new \code{plotHelperHistogram} object
-generates mapping for distribution
   }
 }
 
@@ -80,6 +76,7 @@ generates mapping for distribution
 \if{html}{\out{<a id="method-plotHelperHistogram-getDistrMapping"></a>}}
 \if{latex}{\out{\hypertarget{method-plotHelperHistogram-getDistrMapping}{}}}
 \subsection{\code{plotHelperHistogram$getDistrMapping()}}{
+  Generates mapping for distribution.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{plotHelperHistogram$getDistrMapping(mappedData, plotObject)}
@@ -95,7 +92,6 @@ generates mapping for distribution
   }
   \subsection{Returns}{
     mapping
-generates mapping for display of mean
   }
 }
 
@@ -103,6 +99,7 @@ generates mapping for display of mean
 \if{html}{\out{<a id="method-plotHelperHistogram-getMeanMapping"></a>}}
 \if{latex}{\out{\hypertarget{method-plotHelperHistogram-getMeanMapping}{}}}
 \subsection{\code{plotHelperHistogram$getMeanMapping()}}{
+  Generates mapping for display of mean.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{plotHelperHistogram$getMeanMapping(mappedData)}

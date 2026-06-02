@@ -19,8 +19,10 @@ CombinedPlot <- R6::R6Class( # nolint
   "CombinedPlot",
   cloneable = TRUE,
   public = list(
+    #' @description Create a new `CombinedPlot` object.
     #' @param tableObject A ggplot object for the table.
     #' @param plotObject A ggplot object for the main plot.
+    #' @return A new `CombinedPlot` object.
     initialize = function(plotObject = ggplot(), tableObject = NULL) {
       checkmate::assertClass(plotObject, "gg")
       checkmate::assertClass(tableObject, "gg", null.ok = TRUE)
@@ -29,8 +31,7 @@ CombinedPlot <- R6::R6Class( # nolint
       self$tableObject <- tableObject
       self$relWidths <- c(4, 1)
     },
-    #' Combine the combined plot and table
-    #'
+    #' @description Combine the combined plot and table.
     #' This method combines the plot and table into a single output and displays it.
     #' @return A ggplot object representing the combined plot and table
     combined = function() {
@@ -50,8 +51,7 @@ CombinedPlot <- R6::R6Class( # nolint
         rel_widths = self$relWidths
       ))
     },
-    #' Print the combined plot and table
-    #'
+    #' @description Print the combined plot and table.
     #' This method overrides the default print function to display the combined output.
     #' @return Invisibly returns the combined ggplot object
     print = function() {

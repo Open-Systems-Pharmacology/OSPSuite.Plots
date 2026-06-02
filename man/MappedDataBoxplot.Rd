@@ -105,7 +105,6 @@ Other MappedData classes:
   }
   \subsection{Returns}{
     \code{MappedDataBoxplot} class object
-use Metadata to adjust binning of x-axis, and group aesthetic
   }
 }
 
@@ -113,6 +112,7 @@ use Metadata to adjust binning of x-axis, and group aesthetic
 \if{html}{\out{<a id="method-MappedDataBoxplot-doAdjustmentsWithMetaData"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedDataBoxplot-doAdjustmentsWithMetaData}{}}}
 \subsection{\code{MappedDataBoxplot$doAdjustmentsWithMetaData()}}{
+  Use Metadata to adjust binning of x-axis, and group aesthetic.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{MappedDataBoxplot$doAdjustmentsWithMetaData(

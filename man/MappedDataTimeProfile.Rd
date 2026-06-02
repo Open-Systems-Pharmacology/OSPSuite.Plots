@@ -58,8 +58,7 @@ Other MappedData classes:
 
     \item{\code{secAxis}}{sec_axis() object}
 
-    \item{\code{dataForPlot}}{scaled data used for plotting
-adjust limits}
+    \item{\code{dataForPlot}}{scaled data used for plotting}
   }
   \if{html}{\out{</div>}}
 }
@@ -122,10 +121,6 @@ use of group aesthetics triggers second axis after simulation layers}
   }
   \subsection{Returns}{
     A new \code{MappedDataTimeProfile} object
-Scale data for secondary axis and update secAxis transformation
-
-This method handles the complex logic of scaling data between primary and secondary axes
-with different scale types (linear/log combinations).
   }
 }
 
@@ -133,6 +128,9 @@ with different scale types (linear/log combinations).
 \if{html}{\out{<a id="method-MappedDataTimeProfile-scaleDataForSecondaryAxis"></a>}}
 \if{latex}{\out{\hypertarget{method-MappedDataTimeProfile-scaleDataForSecondaryAxis}{}}}
 \subsection{\code{MappedDataTimeProfile$scaleDataForSecondaryAxis()}}{
+  Scale data for secondary axis and update secAxis transformation.
+This method handles the complex logic of scaling data between primary and secondary axes
+with different scale types (linear/log combinations).
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{MappedDataTimeProfile$scaleDataForSecondaryAxis(
@@ -153,7 +151,6 @@ with different scale types (linear/log combinations).
   }
   \subsection{Returns}{
     updated MappedDataTimeProfile
-boolean for secondary axis
   }
 }
 

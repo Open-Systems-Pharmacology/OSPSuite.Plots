@@ -137,9 +137,7 @@ MappedData <- # nolint
         private$setLimits(xScale, yScale)
       },
 
-      #' filter possible aesthetics for a geom,
-      #' check if mandatory are available
-      #'
+      #' @description Filter possible aesthetics for a geom, check if mandatory are available.
       #' @param geom  type of geometric object
       #' @param geomAttributes additionally arguments for geom layer, will overwrite aesthetics
       #'
@@ -188,9 +186,7 @@ MappedData <- # nolint
           return(structure(self$mapping[acceptedAes], class = "uneval"))
         }
       },
-      #' adds list with dimension, units and column classes
-      #'
-      #'
+      #' @description Adds list with dimension, units and column classes.
       #' @param metaData A named list of information about `data` such as the `dimension` and `unit` of its variables.
       #'
       #' @return  updated `MappedData` object
@@ -224,8 +220,7 @@ MappedData <- # nolint
         }
         return(invisible(self))
       },
-      #' check if unit of scale direction is time and sets the breaks accordingly
-      #'
+      #' @description Check if unit of scale direction is time and sets the breaks accordingly.
       #' @param scaleArgs additional arguments passed on to scale function
       #' @param scaleDirection direction of axis either 'x' or 'y'
       #'
@@ -274,11 +269,11 @@ MappedData <- # nolint
       groupAesthetics = NULL,
       direction = NULL,
       LLOQMatch = FALSE,
-      #' check if aesthetic is available in data
+      # check if aesthetic is available in data
       aestheticExists = function(aesthetic) {
         return(rlang::is_quosure(self$mapping[[aesthetic]]))
       },
-      #' returns data column for aesthetic
+      # returns data column for aesthetic
       getDataForAesthetic = function(
         aesthetic,
         data = self$data,
@@ -303,7 +298,7 @@ MappedData <- # nolint
 
         return(dataCol)
       },
-      #' adds and update mapping
+      # adds and update mapping
       addOverwriteAes = function(newMaps) {
         checkmate::assertList(newMaps, names = "named")
 
@@ -315,8 +310,8 @@ MappedData <- # nolint
 
         return(invisible(self))
       },
-      #' deletes data where mdv is 1
-      #'
+      # deletes data where mdv is 1
+      #
       adjustDataForMDV = function() {
         if (private$aestheticExists("mdv")) {
           checkmate::assertLogical(
@@ -332,7 +327,7 @@ MappedData <- # nolint
 
         return(invisible(self))
       },
-      #' adds new column `isLLOQ.i` and updates boolean `LLOQMatch`
+      # adds new column `isLLOQ.i` and updates boolean `LLOQMatch`
       adjustForLLOQMatch = function() {
         if (private$aestheticExists("lloq")) {
           checkmate::assertNames(
@@ -370,7 +365,7 @@ MappedData <- # nolint
 
         return(invisible(self))
       },
-      #' adds new columns `ymin` and `ymax` if required
+      # adds new columns `ymin` and `ymax` if required
       translateErrorAestethics = function() {
         if (
           !private$aestheticExists(paste0(private$direction, "min")) |
@@ -469,7 +464,7 @@ MappedData <- # nolint
 
         return(invisible(self))
       },
-      #' copy aesthetics `groupby`, but only if not explicit set
+      # copy aesthetics `groupby`, but only if not explicit set
       adjustGroupAesthetics = function() {
         newMapping <- list()
         if (!is.null(private$groupAesthetics)) {
@@ -484,7 +479,7 @@ MappedData <- # nolint
 
         return(invisible(self))
       },
-      #' converts Integer columns, which are no factors to double
+      # converts Integer columns, which are no factors to double
       convertIntegerToDouble = function() {
         for (aesthetic in names(self$mapping)) {
           tmp <- private$getDataForAesthetic(aesthetic, stopIfNull = FALSE)
@@ -552,7 +547,7 @@ MappedData <- # nolint
 
         return(invisible(self))
       },
-      #' factorize column for group to factor
+      # factorize column for group to factor
       addGroupOrder = function(groupOrder) {
         if (is.null(groupOrder)) {
           return(invisible(self))

@@ -44,6 +44,7 @@ combinedPlotInstance
 \if{html}{\out{<a id="method-CombinedPlot-initialize"></a>}}
 \if{latex}{\out{\hypertarget{method-CombinedPlot-initialize}{}}}
 \subsection{\code{CombinedPlot$new()}}{
+  Create a new \code{CombinedPlot} object.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{CombinedPlot$new(plotObject = ggplot(), tableObject = NULL)}
@@ -52,13 +53,13 @@ combinedPlotInstance
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{plotObject}}{A ggplot object for the main plot.
-Combine the combined plot and table
-
-This method combines the plot and table into a single output and displays it.}
+      \item{\code{plotObject}}{A ggplot object for the main plot.}
       \item{\code{tableObject}}{A ggplot object for the table.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{CombinedPlot} object.
   }
 }
 
@@ -66,6 +67,8 @@ This method combines the plot and table into a single output and displays it.}
 \if{html}{\out{<a id="method-CombinedPlot-combined"></a>}}
 \if{latex}{\out{\hypertarget{method-CombinedPlot-combined}{}}}
 \subsection{\code{CombinedPlot$combined()}}{
+  Combine the combined plot and table.
+This method combines the plot and table into a single output and displays it.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{CombinedPlot$combined()}
@@ -73,9 +76,6 @@ This method combines the plot and table into a single output and displays it.}
   }
   \subsection{Returns}{
     A ggplot object representing the combined plot and table
-Print the combined plot and table
-
-This method overrides the default print function to display the combined output.
   }
 }
 
@@ -83,6 +83,8 @@ This method overrides the default print function to display the combined output.
 \if{html}{\out{<a id="method-CombinedPlot-print"></a>}}
 \if{latex}{\out{\hypertarget{method-CombinedPlot-print}{}}}
 \subsection{\code{CombinedPlot$print()}}{
+  Print the combined plot and table.
+This method overrides the default print function to display the combined output.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{CombinedPlot$print()}

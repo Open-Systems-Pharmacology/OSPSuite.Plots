@@ -11,7 +11,7 @@ including support for secondary y-axes, dual scaling, and time-specific axis han
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,8 +99,7 @@ scaling requirements.</p>
 
 
     <dt><code>dataForPlot</code></dt>
-<dd><p>scaled data used for plotting
-adjust limits</p></dd>
+<dd><p>scaled data used for plotting</p></dd>
 
 
 </dl><p></p></div>
@@ -177,17 +176,16 @@ use of group aesthetics triggers second axis after simulation layers</p></dd>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
-<p>A new <code>MappedDataTimeProfile</code> object
-Scale data for secondary axis and update secAxis transformation</p>
-<p>This method handles the complex logic of scaling data between primary and secondary axes
-with different scale types (linear/log combinations).</p>
+<p>A new <code>MappedDataTimeProfile</code> object</p>
 </div>
 
 </div>
 
 <p></p><hr><a id="method-MappedDataTimeProfile-scaleDataForSecondaryAxis"></a><div class="section">
 <h3 id="mappeddatatimeprofile-scaledataforsecondaryaxis-"><code>MappedDataTimeProfile$scaleDataForSecondaryAxis()</code><a class="anchor" aria-label="anchor" href="#mappeddatatimeprofile-scaledataforsecondaryaxis-"></a></h3>
-<p></p><div class="section">
+<p>Scale data for secondary axis and update secAxis transformation.
+This method handles the complex logic of scaling data between primary and secondary axes
+with different scale types (linear/log combinations).</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedDataTimeProfile</span><span class="op">$</span><span class="fu">scaleDataForSecondaryAxis</span><span class="op">(</span></span>
 <span>  ylimits <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -209,8 +207,7 @@ with different scale types (linear/log combinations).</p>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
-<p>updated MappedDataTimeProfile
-boolean for secondary axis</p>
+<p>updated MappedDataTimeProfile</p>
 </div>
 
 </div>

@@ -29,9 +29,7 @@ R6 class container for functions and properties used in `plotHistogram`
 
 - `getHistMapping`:
 
-  generates mapping for histogram check if variable is a valid
-  distribution extract bin width and bin border of ggplot object check
-  if input is valid and returns function for vertical line
+  generates mapping for histogram
 
 ## Methods
 
@@ -49,7 +47,7 @@ R6 class container for functions and properties used in `plotHistogram`
 
 ### `plotHelperHistogram$new()`
 
-Create a new `MappedData` object
+Create a new `plotHelperHistogram` object.
 
 #### Usage
 
@@ -78,7 +76,7 @@ Create a new `MappedData` object
 
 - `geomHistAttributes`:
 
-  attribute for plotting the histogram\`
+  attribute for plotting the histogram
 
 - `distribution`:
 
@@ -90,11 +88,13 @@ Create a new `MappedData` object
 
 #### Returns
 
-A new `plotHelperHistogram` object generates mapping for distribution
+A new `plotHelperHistogram` object
 
 ------------------------------------------------------------------------
 
 ### `plotHelperHistogram$getDistrMapping()`
+
+Generates mapping for distribution.
 
 #### Usage
 
@@ -112,11 +112,13 @@ A new `plotHelperHistogram` object generates mapping for distribution
 
 #### Returns
 
-mapping generates mapping for display of mean
+mapping
 
 ------------------------------------------------------------------------
 
 ### `plotHelperHistogram$getMeanMapping()`
+
+Generates mapping for display of mean.
 
 #### Usage
 

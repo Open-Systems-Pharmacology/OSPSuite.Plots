@@ -35,6 +35,8 @@ objects, as well as to print the combined output.
 
 ### `CombinedPlot$new()`
 
+Create a new `CombinedPlot` object.
+
 #### Usage
 
     CombinedPlot$new(plotObject = ggplot(), tableObject = NULL)
@@ -43,18 +45,22 @@ objects, as well as to print the combined output.
 
 - `plotObject`:
 
-  A ggplot object for the main plot. Combine the combined plot and table
-
-  This method combines the plot and table into a single output and
-  displays it.
+  A ggplot object for the main plot.
 
 - `tableObject`:
 
   A ggplot object for the table.
 
+#### Returns
+
+A new `CombinedPlot` object.
+
 ------------------------------------------------------------------------
 
 ### `CombinedPlot$combined()`
+
+Combine the combined plot and table. This method combines the plot and
+table into a single output and displays it.
 
 #### Usage
 
@@ -62,15 +68,14 @@ objects, as well as to print the combined output.
 
 #### Returns
 
-A ggplot object representing the combined plot and table Print the
-combined plot and table
-
-This method overrides the default print function to display the combined
-output.
+A ggplot object representing the combined plot and table
 
 ------------------------------------------------------------------------
 
 ### `CombinedPlot$print()`
+
+Print the combined plot and table. This method overrides the default
+print function to display the combined output.
 
 #### Usage
 

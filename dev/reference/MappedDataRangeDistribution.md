@@ -123,14 +123,14 @@ Create a new `MappedDataRangeDistribution` object
 
 #### Returns
 
-`MappedDataRangeDistribution` class object Set binning columns
+`MappedDataRangeDistribution` class object
 
 ------------------------------------------------------------------------
 
 ### `MappedDataRangeDistribution$setBins()`
 
-This method sets the bins for the data based on the specified mode of
-binning.
+Set binning columns. This method sets the bins for the data based on the
+specified mode of binning.
 
 #### Usage
 
@@ -138,15 +138,14 @@ binning.
 
 #### Returns
 
-The object itself (invisible) Create a data table with bin border
-information
+The object itself (invisible)
 
 ------------------------------------------------------------------------
 
 ### `MappedDataRangeDistribution$setBorderDataTable()`
 
-This method sets up a data table containing border information for the
-bins. Set x mapping for the plot
+Create a data table with bin border information. This method sets up a
+data table containing border information for the bins.
 
 #### Usage
 
@@ -162,8 +161,8 @@ bins. Set x mapping for the plot
 
 ### `MappedDataRangeDistribution$setXMapping()`
 
-This method sets the x mapping for the plot based on the specified
-parameters.
+Set x mapping for the plot. This method sets the x mapping for the plot
+based on the specified parameters.
 
 #### Usage
 

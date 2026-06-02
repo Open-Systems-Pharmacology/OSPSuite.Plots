@@ -9,7 +9,7 @@ It provides methods to get and set the plot and table objects, as well as to pri
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,46 +82,47 @@ It provides methods to get and set the plot and table objects, as well as to pri
 <li><p><a href="#method-CombinedPlot-clone"><code>CombinedPlot$clone()</code></a></p></li>
 </ul></div><p></p><hr><a id="method-CombinedPlot-initialize"></a><div class="section">
 <h3 id="combinedplot-new-"><code>CombinedPlot$new()</code><a class="anchor" aria-label="anchor" href="#combinedplot-new-"></a></h3>
-<p></p><div class="section">
+<p>Create a new <code>CombinedPlot</code> object.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/CombinedPlot.html">CombinedPlot</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>plotObject <span class="op">=</span> <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span>, tableObject <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>plotObject</code></dt>
-<dd><p>A ggplot object for the main plot.
-Combine the combined plot and table</p>
-<p>This method combines the plot and table into a single output and displays it.</p></dd>
+<dd><p>A ggplot object for the main plot.</p></dd>
 
       <dt><code>tableObject</code></dt>
 <dd><p>A ggplot object for the table.</p></dd>
 
 
 </dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
+<p>A new <code>CombinedPlot</code> object.</p>
 </div>
 
 </div>
 
 <p></p><hr><a id="method-CombinedPlot-combined"></a><div class="section">
 <h3 id="combinedplot-combined-"><code>CombinedPlot$combined()</code><a class="anchor" aria-label="anchor" href="#combinedplot-combined-"></a></h3>
-<p></p><div class="section">
+<p>Combine the combined plot and table.
+This method combines the plot and table into a single output and displays it.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">CombinedPlot</span><span class="op">$</span><span class="fu">combined</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
-<p>A ggplot object representing the combined plot and table
-Print the combined plot and table</p>
-<p>This method overrides the default print function to display the combined output.</p>
+<h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
+<p>A ggplot object representing the combined plot and table</p>
 </div>
 
 </div>
 
 <p></p><hr><a id="method-CombinedPlot-print"></a><div class="section">
 <h3 id="combinedplot-print-"><code>CombinedPlot$print()</code><a class="anchor" aria-label="anchor" href="#combinedplot-print-"></a></h3>
-<p></p><div class="section">
+<p>Print the combined plot and table.
+This method overrides the default print function to display the combined output.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">CombinedPlot</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
+<h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
 <p>Invisibly returns the combined ggplot object</p>
 </div>
 

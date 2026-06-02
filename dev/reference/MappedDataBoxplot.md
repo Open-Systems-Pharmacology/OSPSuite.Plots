@@ -115,12 +115,13 @@ Create a new `MappedDataBoxplot` object
 
 #### Returns
 
-`MappedDataBoxplot` class object use Metadata to adjust binning of
-x-axis, and group aesthetic
+`MappedDataBoxplot` class object
 
 ------------------------------------------------------------------------
 
 ### `MappedDataBoxplot$doAdjustmentsWithMetaData()`
+
+Use Metadata to adjust binning of x-axis, and group aesthetic.
 
 #### Usage
 

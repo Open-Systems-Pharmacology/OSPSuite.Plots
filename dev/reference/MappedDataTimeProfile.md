@@ -46,7 +46,7 @@ Other MappedData classes:
 
 - `dataForPlot`:
 
-  scaled data used for plotting adjust limits
+  scaled data used for plotting
 
 ## Methods
 
@@ -141,15 +141,15 @@ Create a new `MappedDataTimeProfile` object
 
 #### Returns
 
-A new `MappedDataTimeProfile` object Scale data for secondary axis and
-update secAxis transformation
-
-This method handles the complex logic of scaling data between primary
-and secondary axes with different scale types (linear/log combinations).
+A new `MappedDataTimeProfile` object
 
 ------------------------------------------------------------------------
 
 ### `MappedDataTimeProfile$scaleDataForSecondaryAxis()`
+
+Scale data for secondary axis and update secAxis transformation. This
+method handles the complex logic of scaling data between primary and
+secondary axes with different scale types (linear/log combinations).
 
 #### Usage
 
@@ -175,7 +175,7 @@ and secondary axes with different scale types (linear/log combinations).
 
 #### Returns
 
-updated MappedDataTimeProfile boolean for secondary axis
+updated MappedDataTimeProfile
 
 ------------------------------------------------------------------------
 

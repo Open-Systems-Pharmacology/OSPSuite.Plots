@@ -48,14 +48,7 @@ Other MappedData classes:
 - `dataForPlot`:
 
   returns data used for plotting, may be adjusted in child classes (e.g.
-  2 axis in MappedDataTimeProfile) check if aesthetic is available in
-  data returns data column for aesthetic adds and update mapping deletes
-  data where mdv is 1
-
-  adds new column `isLLOQ.i` and updates boolean `LLOQMatch` adds new
-  columns `ymin` and `ymax` if required copy aesthetics `groupby`, but
-  only if not explicit set converts Integer columns, which are no
-  factors to double factorize column for group to factor
+  2 axis in MappedDataTimeProfile)
 
 ## Methods
 
@@ -136,12 +129,13 @@ Create a new `MappedData` object
 
 #### Returns
 
-A new `MappedData` object filter possible aesthetics for a geom, check
-if mandatory are available
+A new `MappedData` object
 
 ------------------------------------------------------------------------
 
 ### `MappedData$getAestheticsForGeom()`
+
+Filter possible aesthetics for a geom, check if mandatory are available.
 
 #### Usage
 
@@ -159,12 +153,13 @@ if mandatory are available
 
 #### Returns
 
-list of accepted mappings adds list with dimension, units and column
-classes
+list of accepted mappings
 
 ------------------------------------------------------------------------
 
 ### `MappedData$addMetaData()`
+
+Adds list with dimension, units and column classes.
 
 #### Usage
 
@@ -179,12 +174,14 @@ classes
 
 #### Returns
 
-updated `MappedData` object check if unit of scale direction is time and
-sets the breaks accordingly
+updated `MappedData` object
 
 ------------------------------------------------------------------------
 
 ### `MappedData$updateScaleArgumentsForTimeUnit()`
+
+Check if unit of scale direction is time and sets the breaks
+accordingly.
 
 #### Usage
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,16 +99,7 @@
 
     <dt><code>dataForPlot</code></dt>
 <dd><p>returns data used for plotting,
-may be adjusted in child classes (e.g. 2 axis in MappedDataTimeProfile)
-check if aesthetic is available in data
-returns data column for aesthetic
-adds and update mapping
-deletes data where mdv is 1</p>
-<p>adds new column <code>isLLOQ.i</code> and updates boolean <code>LLOQMatch</code>
-adds new columns <code>ymin</code> and <code>ymax</code> if required
-copy aesthetics <code>groupby</code>, but only if not explicit set
-converts Integer columns, which are no factors to double
-factorize column for group to factor</p></dd>
+may be adjusted in child classes (e.g. 2 axis in MappedDataTimeProfile)</p></dd>
 
 
 </dl><p></p></div>
@@ -175,16 +166,14 @@ factorize column for group to factor</p></dd>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
-<p>A new <code>MappedData</code> object
-filter possible aesthetics for a geom,
-check if mandatory are available</p>
+<p>A new <code>MappedData</code> object</p>
 </div>
 
 </div>
 
 <p></p><hr><a id="method-MappedData-getAestheticsForGeom"></a><div class="section">
 <h3 id="mappeddata-getaestheticsforgeom-"><code>MappedData$getAestheticsForGeom()</code><a class="anchor" aria-label="anchor" href="#mappeddata-getaestheticsforgeom-"></a></h3>
-<p></p><div class="section">
+<p>Filter possible aesthetics for a geom, check if mandatory are available.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedData</span><span class="op">$</span><span class="fu">getAestheticsForGeom</span><span class="op">(</span><span class="va">geom</span>, <span class="va">geomAttributes</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
@@ -199,15 +188,14 @@ check if mandatory are available</p>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
-<p>list of accepted mappings
-adds list with dimension, units and column classes</p>
+<p>list of accepted mappings</p>
 </div>
 
 </div>
 
 <p></p><hr><a id="method-MappedData-addMetaData"></a><div class="section">
 <h3 id="mappeddata-addmetadata-"><code>MappedData$addMetaData()</code><a class="anchor" aria-label="anchor" href="#mappeddata-addmetadata-"></a></h3>
-<p></p><div class="section">
+<p>Adds list with dimension, units and column classes.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedData</span><span class="op">$</span><span class="fu">addMetaData</span><span class="op">(</span><span class="va">metaData</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
@@ -219,15 +207,14 @@ adds list with dimension, units and column classes</p>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
-<p>updated <code>MappedData</code> object
-check if unit of scale direction is time and sets the breaks accordingly</p>
+<p>updated <code>MappedData</code> object</p>
 </div>
 
 </div>
 
 <p></p><hr><a id="method-MappedData-updateScaleArgumentsForTimeUnit"></a><div class="section">
 <h3 id="mappeddata-updatescaleargumentsfortimeunit-"><code>MappedData$updateScaleArgumentsForTimeUnit()</code><a class="anchor" aria-label="anchor" href="#mappeddata-updatescaleargumentsfortimeunit-"></a></h3>
-<p></p><div class="section">
+<p>Check if unit of scale direction is time and sets the breaks accordingly.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">MappedData</span><span class="op">$</span><span class="fu">updateScaleArgumentsForTimeUnit</span><span class="op">(</span><span class="va">scaleArgs</span>, scaleDirection <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">

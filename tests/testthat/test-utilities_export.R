@@ -14,22 +14,42 @@ legendPlot <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
   labs(color = "Number of Cylinders")
 
 
-testthat::test_that("validateFilename replaces forbidden characters and sets device", {
+testthat::test_that("validateFilename replaces forbidden characters with a warning and sets device", {
   expect_equal(
-    as.character(validateFilename("concentration in µg/L", device = NULL)),
+    suppressWarnings({as.character(validateFilename("concentration in µg/L", device = NULL))}),
     "concentration in ug_L.png"
   )
+  expect_warning(
+    validateFilename("concentration in µg/L", device = NULL),
+    regexp = "Exported filename 'concentration in µg/L.png' included forbidden characters and was replaced by 'concentration in ug_L.png'",
+    fixed = TRUE
+  )
   expect_equal(
-    as.character(validateFilename("project:details", device = "pdf")),
+    suppressWarnings({as.character(validateFilename("project:details", device = "pdf"))}),
     "project_details.pdf"
   )
-  expect_equal(
-    as.character(validateFilename("invalid*filename?", device = NULL)),
-    "invalid_filename_.png"
+  expect_warning(
+    validateFilename("project:details", device = "pdf"),
+    regexp = "Exported filename 'project:details.pdf' included forbidden characters and was replaced by 'project_details.pdf'",
+    fixed = TRUE
   )
   expect_equal(
-    as.character(validateFilename("<test>|doc.pdf", device = NULL)),
+    suppressWarnings({as.character(validateFilename("invalid*filename?", device = NULL))}),
+    "invalid_filename_.png"
+  )
+  expect_warning(
+    validateFilename("invalid*filename?", device = NULL),
+    regexp = "Exported filename 'invalid*filename?.png' included forbidden characters and was replaced by 'invalid_filename_.png'",
+    fixed = TRUE
+  )
+  expect_equal(
+    suppressWarnings({as.character(validateFilename("<test>|doc.pdf", device = NULL))}),
     "_test__doc.png"
+  )
+  expect_warning(
+    validateFilename("<test>|doc.pdf", device = NULL),
+    regexp = "Exported filename '<test>|doc.png' included forbidden characters and was replaced by '_test__doc.png'",
+    fixed = TRUE
   )
 })
 
@@ -202,16 +222,24 @@ test_that("exportPlot handles legend offsets", {
 })
 
 # Test for filename containing path
-test_that("exportPlot fails if filename contains path", {
-  expect_error(
+test_that("exportPlot warns if filename contains path and saves with cleaned name", {
+  tempDir <- tempdir()
+  cleanedFilename <- "invalid_path_testPlot.png"
+
+  expect_warning(
     exportPlot(
       testPlot,
-      filepath = tempdir(),
+      filepath = tempDir,
       filename = "invalid/path/testPlot.png"
     ),
-    regexp = messages$errorFilenameContainsPath(),
-    fixed = TRUE
+    regexp = "included forbidden characters"
   )
+
+  # Check the file was created with the cleaned filename
+  expect_true(file.exists(file.path(tempDir, cleanedFilename)))
+
+  # Clean up
+  file.remove(file.path(tempDir, cleanedFilename))
 })
 
 # Test for invalid plot object
@@ -235,11 +263,14 @@ test_that("exportPlot fails with missing filename", {
   expect_error(exportPlot(testPlot, filepath = tempdir(), filename = NULL))
 })
 
-test_that("exportPlot with invalid filename", {
+test_that("exportPlot with invalid filename warns and saves with cleaned name", {
   tempDir <- tempdir()
   filename <- "my:<Invalid>Filename-withµ.png"
 
-  expect_silent(exportPlot(testPlot, filepath = tempDir, filename = filename))
+  expect_warning(
+    exportPlot(testPlot, filepath = tempDir, filename = filename),
+    regexp = "included forbidden characters"
+  )
 
   # Check if the file was created
   expect_true(file.exists(file.path(tempDir, "my__Invalid_Filename-withu.png")))

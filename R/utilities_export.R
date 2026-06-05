@@ -65,6 +65,7 @@ exportPlot <- function(plotObject,
                        device = NULL,
                        ...) {
   if ("CombinedPlot" %in% class(plotObject)) plotObject <- plotObject$combined()
+  filename <- validateFilename(filename = filename, device = device)
   validateInputsExportPlot(plotObject,
     filepath,
     filename,
@@ -72,7 +73,7 @@ exportPlot <- function(plotObject,
     height = height,
     device = device
   )
-  filename <- validateFilename(filename = filename, device = device)
+  
 
   if (is.null(width)) width <- getOspsuite.plots.option(optionKey = OptionKeys$exportWidth)
 
@@ -115,10 +116,6 @@ validateInputsExportPlot <- function(plotObject,
   checkmate::assertCharacter(device, null.ok = TRUE)
   checkmate::assertDouble(width, null.ok = TRUE)
   checkmate::assertDouble(height, null.ok = TRUE)
-
-  if (filename != basename(filename)) {
-    stop(messages$errorFilenameContainsPath())
-  }
 
   if (!dir.exists(filepath)) {
     dir.create(filepath, recursive = TRUE)
@@ -318,6 +315,7 @@ validateFilename <- function(filename, device) {
   }
 
   filename <- fs::path_ext_set(filename, device)
+  initialFilename <- filename
 
   # replace µ by u
   filename <- iconv(filename, from = "UTF-8", to = "UTF-8")
@@ -329,6 +327,8 @@ validateFilename <- function(filename, device) {
   for (char in forbiddenChars) {
     filename <- gsub(char, replacementChar, filename, fixed = TRUE)
   }
-
+  if(filename != initialFilename){
+    warning(messages$warningUpdatedFilename(filename, initialFilename))
+  }
   return(filename)
 }

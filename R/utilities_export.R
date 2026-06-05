@@ -327,7 +327,7 @@ validateFilename <- function(filename, device) {
   for (char in forbiddenChars) {
     filename <- gsub(char, replacementChar, filename, fixed = TRUE)
   }
-  if(filename != initialFilename){
+  if (filename != initialFilename) {
     warning(messages$warningUpdatedFilename(filename, initialFilename))
   }
   return(filename)

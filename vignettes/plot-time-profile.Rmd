@@ -31,7 +31,7 @@ Basic documentation of the function can be found using: `?plotTimeProfile`. The 
 
 ## 1.1 Setup
 
-This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. We will use the default settings of `{ospsuite.plots}` (see vignette("ospsuite.plots", package = "ospsuite.plots")) but will adjust the legend position.
+This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. The `{ospsuite.plots}` plot functions apply their layout per plot (see `vignette("ospsuite.plots", package = "ospsuite.plots")`), so no global setup is required.
 
 ```{r setup, warning=FALSE, message=FALSE}
 options(rmarkdown.html_vignette.check_title = FALSE)
@@ -472,8 +472,8 @@ plotTimeProfile(
 The plot from section 2.3.2 was adjusted using geom attributes:
 
 - `geomLineAttributes = list(linetype = 'solid')`: The lines used for the simulated data are set to solid in both datasets. Note that the line type for the error bars and ribbon edges remains unchanged.
-- `geomErrorbarAttributes = list()`: The default settings for `geomErrorbarAttributes`, width = 0, were removed so that the bar caps are now visible.
-- `geomRibbonAttributes = list(alpha = 0.1)`: The shade of the ribbons was decreased by setting the alpha to 0.1; the default value for color = NA was omitted, making the edges visible.
+- `geomErrorbarAttributes = list(width = 3)`: The error-bar cap width (in mm) is increased from the default of `2` to make the caps more prominent.
+- `geomRibbonAttributes = list(alpha = 0.1)`: The shade of the ribbons was decreased by setting the alpha to 0.1; the default `color = NA` was omitted, making the edges visible.
 - `geomPointAttributes = list(size = 7)`: The size of the symbols was increased.
 
 ```{r changing_geom_attributes, fig.alt="Time profile plot demonstrating customized geometric attributes. Shows modified line types (solid), larger error bar width, reduced ribbon transparency (alpha=0.1), and increased point size (size=7), illustrating how to customize the visual appearance of plot elements."}

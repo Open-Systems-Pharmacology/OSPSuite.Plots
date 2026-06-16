@@ -28,7 +28,7 @@ This vignette documents and illustrates workflows for producing histograms using
 
 ## 1.1 Setup
 
-This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. We will use the default settings of `{ospsuite.plots}` (see vignette("ospsuite.plots", package = "ospsuite.plots")) but will adjust the legend position.
+This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. The `{ospsuite.plots}` plot functions apply their layout per plot (see `vignette("ospsuite.plots", package = "ospsuite.plots")`), so no global setup is required.
 
 ```{r setup}
 options(rmarkdown.html_vignette.check_title = FALSE)
@@ -89,7 +89,7 @@ plotHistogram(
 
 ### 2.1.2 Basic Example: Change of Defaults
 
-The variable `geomHistAttributes` is set by default to `getDefaultGeomAttributes("Hist")`, which is a list with entries `bins = 10` and `position = ggplot2::position_nudge()`.
+The variable `geomHistAttributes` is set by default to `getDefaultGeomAttributes("Hist")`, which is a list with entries `bins = 10`, `position = ggplot2::position_nudge()`, `color = "black"` and `alpha = 0.5`.
 
 In the example below, the variable `geomHistAttributes` is set to a list with entry `position = "dodge"`. This changes the position, but note that the default value of `geomHistAttributes` contains the entry `bins = 10`, which is now overwritten, and the default `{ggplot}` number of 30 is used.
 

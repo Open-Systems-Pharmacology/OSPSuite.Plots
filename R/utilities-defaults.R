@@ -181,6 +181,91 @@ colorMaps <- list(
 )
 
 
+# Per-plot color scales -------------
+
+#' @title OSP discrete color and fill scales
+#'
+#' @description
+#' Discrete `ggplot2` scales that apply the OSPSuite color palette per plot,
+#' without mutating global `ggplot2` state. Add them to a plot with
+#' `plot + scale_colour_osp()` or `plot + scale_fill_osp()`. All
+#' `ospsuite.plots` plot functions apply these automatically (unless a color
+#' or fill scale is already present), so explicit use is only needed to style
+#' unrelated plots or to override a different scale.
+#'
+#' The palette reproduces the previous global behavior of [setDefaults()]:
+#' `colorMaps$default` (6 colors) is used when there are at most 6 groups,
+#' otherwise `colorMaps$ospDefault` (50 colors).
+#'
+#' @param ... further arguments passed on to [ggplot2::discrete_scale()].
+#'
+#' @return a discrete `ggplot2` scale.
+#' @examples
+#' library(ggplot2)
+#' df <- data.frame(x = 1:3, y = 1:3, group = c("A", "B", "C"))
+#' ggplot(df, aes(x, y, color = group)) +
+#'   geom_point() +
+#'   scale_colour_osp()
+#'
+#' @export
+#' @rdname scale_osp
+#' @family scales
+# nolint start: object_name_linter
+scale_colour_osp <- function(...) {
+  ggplot2::discrete_scale(
+    aesthetics = "colour",
+    palette = .ospColorPalette,
+    ...
+  )
+}
+
+#' @export
+#' @rdname scale_osp
+scale_color_osp <- scale_colour_osp
+
+#' @export
+#' @rdname scale_osp
+scale_fill_osp <- function(...) {
+  ggplot2::discrete_scale(
+    aesthetics = "fill",
+    palette = .ospColorPalette,
+    ...
+  )
+}
+# nolint end
+
+#' OSP color palette function
+#'
+#' Reproduces the stacked-palette selection of the previous global
+#' `ggplot2.discrete.*` options: `colorMaps$default` for up to 6 groups,
+#' otherwise `colorMaps$ospDefault`.
+#'
+#' @param n number of colors needed
+#' @return character vector of colors of length `n`
+#' @keywords internal
+.ospColorPalette <- function(n) {
+  fewColors <- colorMaps$default
+  manyColors <- colorMaps$ospDefault
+
+  pal <- if (n <= length(fewColors)) fewColors else manyColors
+
+  if (n > length(pal)) {
+    warning(
+      "Number of groups (",
+      n,
+      ") exceeds available colors (",
+      length(pal),
+      "). ",
+      "Colors will be recycled.",
+      call. = FALSE
+    )
+    pal <- rep(pal, length.out = n)
+  }
+
+  pal[seq_len(n)]
+}
+
+
 #' @param colorMapList list of color-maps to be set
 #'
 #' @title set the default color-map for discrete colors

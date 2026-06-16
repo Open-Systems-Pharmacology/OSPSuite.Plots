@@ -22,6 +22,10 @@ initializePlot <- function(mappedData = NULL, setMapping = TRUE) {
   ) +
     themeOspsuite()
 
+  # Tag the plot so ggplot_build.osp_ggplot() applies the OSP discrete
+  # color/fill (and shape) scales per plot, without mutating global state.
+  class(plotObject) <- unique(c("osp_ggplot", class(plotObject)))
+
   # add labels
   plotObject <- addLabels(plotObject, mappedData)
 

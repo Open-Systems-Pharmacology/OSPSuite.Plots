@@ -61,15 +61,16 @@ Shapes <- stats::setNames(as.list(ospShapeNames), ospShapeNames) # nolint: objec
 #'   scale_shape_osp_identity()
 # nolint start: object_name_linter
 geom_point_osp <- function(
-    mapping = NULL,
-    data = NULL,
-    stat = "identity",
-    position = "identity",
-    ...,
-    na.rm = FALSE,
-    show.legend = NA,
-    inherit.aes = TRUE) {
-# nolint end
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  ...,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+) {
+  # nolint end
   layer <- ggplot2::layer(
     geom = GeomPointOsp,
     mapping = mapping,
@@ -96,16 +97,86 @@ ggplot_add.geom_point_osp_layer <- function(object, plot, ...) {
 #' @export
 #' @method ggplot_build osp_ggplot
 ggplot_build.osp_ggplot <- function(plot, ...) {
-  hasShapeScale <- any(vapply(
-    plot$scales$scales,
-    function(s) "shape" %in% s$aesthetics,
-    logical(1)
-  ))
-  if (!hasShapeScale) {
+  hasScale <- function(aesthetic) {
+    any(vapply(
+      plot$scales$scales,
+      function(s) aesthetic %in% s$aesthetics,
+      logical(1)
+    ))
+  }
+
+  if (!hasScale("shape")) {
     plot <- plot + scale_shape_osp()
   }
+
+  # Apply the OSP discrete color/fill scales per plot, but only when the
+  # aesthetic is mapped to discrete data (a continuous mapping would error on
+  # a discrete scale) and no scale for it is already present (so user-supplied
+  # scales win without a "Scale already present" message).
+  discreteAesthetics <- .usedDiscreteAesthetics(plot)
+  if ("colour" %in% discreteAesthetics && !hasScale("colour")) {
+    plot <- plot + scale_colour_osp()
+  }
+  if ("fill" %in% discreteAesthetics && !hasScale("fill")) {
+    plot <- plot + scale_fill_osp()
+  }
+
   class(plot) <- setdiff(class(plot), "osp_ggplot")
   ggplot2::ggplot_build(plot)
+}
+
+#' Determine which discrete color/fill aesthetics a plot uses
+#'
+#' Scans the plot-level and per-layer mappings for `colour`/`fill` and returns
+#' those that resolve to discrete (factor/character/logical) data. Used to
+#' decide whether the OSP discrete scales can be safely applied.
+#'
+#' @param plot a `ggplot` object
+#' @return character vector, a subset of `c("colour", "fill")`
+#' @keywords internal
+.usedDiscreteAesthetics <- function(plot) {
+  aesthetics <- c("colour", "fill")
+
+  # Build (mapping, data) pairs: the plot-level mapping/data, plus one per
+  # layer (each layer either inherits the plot mapping or carries its own,
+  # and may carry its own data).
+  pairs <- list(list(
+    mapping = plot$mapping %||% aes(),
+    data = plot$data
+  ))
+  for (layer in plot$layers) {
+    mapping <- if (isTRUE(layer$inherit.aes)) {
+      utils::modifyList(plot$mapping %||% aes(), layer$mapping %||% aes())
+    } else {
+      layer$mapping %||% aes()
+    }
+    data <- if (is.data.frame(layer$data)) layer$data else plot$data
+    pairs[[length(pairs) + 1]] <- list(mapping = mapping, data = data)
+  }
+
+  isDiscreteMapping <- function(aesthetic) {
+    for (pair in pairs) {
+      # ggplot2 standardises "color" to "colour" in mappings.
+      quoVar <- pair$mapping[[aesthetic]]
+      if (is.null(quoVar) || !is.data.frame(pair$data)) {
+        next
+      }
+      resolved <- tryCatch(
+        rlang::eval_tidy(quoVar, data = pair$data),
+        error = function(e) NULL
+      )
+      if (
+        is.factor(resolved) ||
+          is.character(resolved) ||
+          is.logical(resolved)
+      ) {
+        return(TRUE)
+      }
+    }
+    FALSE
+  }
+
+  aesthetics[vapply(aesthetics, isDiscreteMapping, logical(1))]
 }
 
 #' @title OSP Shape Scale
@@ -129,7 +200,7 @@ ggplot_build.osp_ggplot <- function(plot, ...) {
 #'   scale_shape_osp()
 # nolint start: object_name_linter
 scale_shape_osp <- function(...) {
-# nolint end
+  # nolint end
   ggplot2::discrete_scale(
     aesthetics = "shape",
     palette = .ospShapePalette,
@@ -156,7 +227,7 @@ scale_shape_osp <- function(...) {
 #'   scale_shape_osp_manual(values = c(A = "circle", B = "diamond", C = "star"))
 # nolint start: object_name_linter
 scale_shape_osp_manual <- function(values, ...) {
-# nolint end
+  # nolint end
   bad <- setdiff(values, ospShapeNames)
   if (length(bad) > 0) {
     stop(
@@ -189,7 +260,7 @@ scale_shape_osp_manual <- function(values, ...) {
 #'   scale_shape_osp_identity(guide = "legend")
 # nolint start: object_name_linter
 scale_shape_osp_identity <- function(guide = "none", ...) {
-# nolint end
+  # nolint end
   values <- stats::setNames(ospShapeNames, ospShapeNames)
   ggplot2::scale_shape_manual(values = values, guide = guide, ...)
 }
@@ -209,16 +280,17 @@ scale_shape_osp_identity <- function(guide = "none", ...) {
 #' @family layers
 # nolint start: object_name_linter
 stat_qq_osp <- function(
-    mapping = NULL,
-    data = NULL,
-    position = "identity",
-    ...,
-    distribution = stats::qnorm,
-    dparams = list(),
-    na.rm = FALSE,
-    show.legend = NA,
-    inherit.aes = TRUE) {
-# nolint end
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  ...,
+  distribution = stats::qnorm,
+  dparams = list(),
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+) {
+  # nolint end
   layer <- ggplot2::layer(
     stat = ggplot2::StatQq,
     geom = GeomPointOsp,
@@ -248,7 +320,7 @@ stat_qq_osp <- function(
 #' @family layers
 # nolint start: object_name_linter
 GeomPointOsp <- ggplot2::ggproto(
-# nolint end
+  # nolint end
 
   "GeomPointOsp",
   ggplot2::Geom,
@@ -261,9 +333,9 @@ GeomPointOsp <- ggplot2::ggproto(
     alpha = NA,
     shape = "circle"
   ),
-# nolint start: object_name_linter
+  # nolint start: object_name_linter
   draw_panel = function(data, panel_params, coord) {
-# nolint end
+    # nolint end
     coords <- coord$transform(data, panel_params)
 
     # Warn once per unique unknown shape
@@ -393,7 +465,12 @@ GeomPointOsp <- ggplot2::ggproto(
     },
     stroke = {
       lwd <- if (isTRUE(spec$thick)) strokeLwd * 2.2 else strokeLwd
-      gpStroke <- grid::gpar(col = colour, lwd = lwd, alpha = alpha, lineend = "butt")
+      gpStroke <- grid::gpar(
+        col = colour,
+        lwd = lwd,
+        alpha = alpha,
+        lineend = "butt"
+      )
       switch(
         spec$glyph,
         plus = grid::segmentsGrob(
@@ -491,17 +568,17 @@ GeomPointOsp <- ggplot2::ggproto(
 # For stroke shapes (plus, cross, asterisk): base scale is 1.0 (bounding-based)
 # since they have no fill area.
 .manualScaleAdjustments <- c(
-  circle           = 1.00,
-  diamond          = 1.00,
-  triangle         = 0.90,
-  square           = 1.10,
+  circle = 1.00,
+  diamond = 1.00,
+  triangle = 0.90,
+  square = 1.10,
   invertedTriangle = 0.90,
-  cross            = 0.95,
-  plus             = 1.10,
-  asterisk         = 1.00,
-  star             = 0.90,
-  pentagon         = 1.00,
-  hexagon          = 1.00
+  cross = 0.95,
+  plus = 1.10,
+  asterisk = 1.00,
+  star = 0.90,
+  pentagon = 1.00,
+  hexagon = 1.00
 )
 
 # Shape specifications for OSP shapes (base definitions without scale).
@@ -511,9 +588,21 @@ GeomPointOsp <- ggplot2::ggproto(
 
   circle = list(kind = "polygon", n = 64, angle = 0, open = FALSE),
   diamond = list(kind = "polygon", n = 4, angle = 0, open = FALSE),
-  triangle = list(kind = "polygon", n = 3, angle = 90, open = FALSE, yOffset = -0.22),
+  triangle = list(
+    kind = "polygon",
+    n = 3,
+    angle = 90,
+    open = FALSE,
+    yOffset = -0.22
+  ),
   square = list(kind = "polygon", n = 4, angle = 45, open = FALSE),
-  invertedTriangle = list(kind = "polygon", n = 3, angle = -90, open = FALSE, yOffset = 0.22),
+  invertedTriangle = list(
+    kind = "polygon",
+    n = 3,
+    angle = -90,
+    open = FALSE,
+    yOffset = 0.22
+  ),
   cross = list(kind = "stroke", glyph = "cross", thick = TRUE),
   plus = list(kind = "stroke", glyph = "plus", thick = TRUE),
   asterisk = list(kind = "stroke", glyph = "asterisk", thick = TRUE),
@@ -526,9 +615,21 @@ GeomPointOsp <- ggplot2::ggproto(
   # Open shapes
   circleOpen = list(kind = "polygon", n = 64, angle = 0, open = TRUE),
   diamondOpen = list(kind = "polygon", n = 4, angle = 0, open = TRUE),
-  triangleOpen = list(kind = "polygon", n = 3, angle = 90, open = TRUE, yOffset = -0.22),
+  triangleOpen = list(
+    kind = "polygon",
+    n = 3,
+    angle = 90,
+    open = TRUE,
+    yOffset = -0.22
+  ),
   squareOpen = list(kind = "polygon", n = 4, angle = 45, open = TRUE),
-  invertedTriangleOpen = list(kind = "polygon", n = 3, angle = -90, open = TRUE, yOffset = 0.22),
+  invertedTriangleOpen = list(
+    kind = "polygon",
+    n = 3,
+    angle = -90,
+    open = TRUE,
+    yOffset = 0.22
+  ),
   starOpen = list(kind = "star", points = 5, open = TRUE),
   pentagonOpen = list(kind = "polygon", n = 5, angle = 90, open = TRUE),
   hexagonOpen = list(kind = "polygon", n = 6, angle = 90, open = TRUE),
@@ -582,7 +683,8 @@ GeomPointOsp <- ggplot2::ggproto(
 
     # Apply manual adjustment
     baseName <- .shapeBaseNames[name]
-    adjustment <- if (!is.na(baseName)) .manualScaleAdjustments[baseName] else NA
+    adjustment <- if (!is.na(baseName)) .manualScaleAdjustments[baseName] else
+      NA
     if (is.na(adjustment)) adjustment <- 1
 
     specs[[name]]$scale <- areaScale * adjustment

@@ -31,6 +31,6 @@ Other setDefault functions:
 \code{\link[=setDefaultColorMapDistinct]{setDefaultColorMapDistinct()}},
 \code{\link[=setDefaultTheme]{setDefaultTheme()}},
 \code{\link[=setDefaults]{setDefaults()}},
-\code{\link[=themeOspsuite]{themeOspsuite()}}
+\code{\link[=theme_osp]{theme_osp()}}
 }
 \concept{setDefault functions}

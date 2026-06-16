@@ -162,28 +162,28 @@ test_that("setDefaults does not break raw ggplot2::geom_point() with mapped shap
   expect_no_error(ggplot2::ggplotGrob(p))
 })
 
-test_that("themeOspsuite returns a ggplot2 theme object", {
-  theme <- themeOspsuite()
+test_that("theme_osp returns a ggplot2 theme object", {
+  theme <- theme_osp()
   expect_s3_class(theme, "theme")
   expect_s3_class(theme, "gg")
 })
 
-test_that("themeOspsuite has the expected OSP element values", {
-  theme <- themeOspsuite()
+test_that("theme_osp has the expected OSP element values", {
+  theme <- theme_osp()
   expect_equal(theme$legend.position, "right")
   expect_equal(theme$legend.direction, "vertical")
   expect_equal(theme$legend.justification, 0.5)
   expect_s3_class(theme$panel.grid.minor, "element_blank")
 })
 
-test_that("themeOspsuite is a complete theme (ggplot2 recommendation)", {
-  expect_true(attr(themeOspsuite(), "complete"))
+test_that("theme_osp is a complete theme (ggplot2 recommendation)", {
+  expect_true(attr(theme_osp(), "complete"))
 })
 
-test_that("themeOspsuite centres titles while keeping theme_bw spacing", {
+test_that("theme_osp centres titles while keeping theme_bw spacing", {
   # %+replace% drops unspecified element properties, so the constructor must
   # restate size/margin to avoid regressing title/subtitle spacing.
-  theme <- themeOspsuite()
+  theme <- theme_osp()
   expect_equal(theme$plot.title$hjust, 0.5)
   expect_equal(theme$plot.title$size, ggplot2::rel(1.2))
   expect_equal(theme$plot.title$margin, theme_bw()$plot.title$margin)
@@ -191,11 +191,11 @@ test_that("themeOspsuite centres titles while keeping theme_bw spacing", {
   expect_equal(theme$plot.subtitle$margin, theme_bw()$plot.subtitle$margin)
 })
 
-test_that("themeOspsuite forwards arguments to theme_bw", {
-  expect_equal(themeOspsuite(base_size = 20)$text$size, 20)
+test_that("theme_osp forwards arguments to theme_bw", {
+  expect_equal(theme_osp(base_size = 20)$text$size, 20)
 })
 
-test_that("setDefaultTheme applies themeOspsuite globally and returns the previous theme", {
+test_that("setDefaultTheme applies theme_osp globally and returns the previous theme", {
   withr::defer(ggplot2::theme_set(oldTheme))
   oldTheme <- ggplot2::theme_set(ggplot2::theme_grey())
 
@@ -207,11 +207,11 @@ test_that("setDefaultTheme applies themeOspsuite globally and returns the previo
     previousTheme$panel.background,
     ggplot2::theme_grey()$panel.background
   )
-  # the global theme now matches themeOspsuite
+  # the global theme now matches theme_osp
   expect_equal(ggplot2::theme_get()$legend.position, "right")
 })
 
-test_that("ospsuite.plots plots carry themeOspsuite without setDefaults() (#130)", {
+test_that("ospsuite.plots plots carry theme_osp without setDefaults() (#130)", {
   # Force a non-OSP global theme so any dependence on theme_set() would surface.
   withr::defer(ggplot2::theme_set(oldTheme))
   oldTheme <- ggplot2::theme_set(ggplot2::theme_grey())

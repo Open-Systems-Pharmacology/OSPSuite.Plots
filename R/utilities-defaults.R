@@ -2,7 +2,7 @@
 
 #' @title OSPSuite plot theme
 #' @description A `ggplot2` theme with OSPSuite-specific styling, based on
-#'   [ggplot2::theme_bw()]. Apply it to a single plot with `plot + themeOspsuite()`
+#'   [ggplot2::theme_bw()]. Apply it to a single plot with `plot + theme_osp()`
 #'   without altering the global `ggplot2` state.
 #'
 #' @param base_size base font size, given in pts (passed on to [ggplot2::theme_bw()]).
@@ -14,11 +14,11 @@
 #' library(ggplot2)
 #' ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'   geom_point() +
-#'   themeOspsuite()
+#'   theme_osp()
 #'
 #' @export
 #' @family setDefault functions
-themeOspsuite <- function(base_size = 11, ...) {
+theme_osp <- function(base_size = 11, ...) {
   # Following ggplot2's guidance for theme functions: build on a complete
   # theme with `%+replace%` and fully specify every element that is touched,
   # since `%+replace%` discards unspecified element properties (unlike `+`).
@@ -55,8 +55,8 @@ themeOspsuite <- function(base_size = 11, ...) {
 #' set the OSPSuite theme as the global `ggplot2` theme for the whole session
 #' via [ggplot2::theme_set()].
 #'
-#' `ospsuite.plots` plot functions now apply [themeOspsuite()] per plot, so this
-#' global mutation is no longer needed for them. Use `plot + themeOspsuite()` to
+#' `ospsuite.plots` plot functions now apply [theme_osp()] per plot, so this
+#' global mutation is no longer needed for them. Use `plot + theme_osp()` to
 #' style an individual (non-`ospsuite.plots`) plot instead.
 #'
 #' @return invisibly return the previous theme so you can easily save it, then later restore it.
@@ -81,10 +81,10 @@ setDefaultTheme <- function() {
     what = "setDefaultTheme()",
     details = paste(
       "ospsuite.plots plots are now themed per plot.",
-      "Use `plot + themeOspsuite()` to theme an individual plot."
+      "Use `plot + theme_osp()` to theme an individual plot."
     )
   )
-  return(invisible(ggplot2::theme_set(themeOspsuite())))
+  return(invisible(ggplot2::theme_set(theme_osp())))
 }
 
 
@@ -561,7 +561,7 @@ setOspsuite.plots.option <- function(optionKey, value) { # nolint: object_name_l
 #' `ospsuite.plots` plot functions now apply the full OSPSuite styling per plot,
 #' so this is no longer needed for them. To style individual (non-`ospsuite.plots`)
 #' plots, compose the per-plot constructors instead:
-#' `plot + themeOspsuite() + scale_colour_osp() + scale_fill_osp()`.
+#' `plot + theme_osp() + scale_colour_osp() + scale_fill_osp()`.
 #'
 #' for detailed information see
 #' \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
@@ -583,7 +583,7 @@ setDefaults <- function(
     what = "setDefaults()",
     details = paste(
       "ospsuite.plots plots are now styled per plot.",
-      "Use `plot + themeOspsuite() + scale_colour_osp() + scale_fill_osp()`",
+      "Use `plot + theme_osp() + scale_colour_osp() + scale_fill_osp()`",
       "to style an individual plot."
     )
   )
@@ -625,7 +625,7 @@ setDefaults <- function(
   # set theme, color and shapes
   # (call theme_set() directly rather than the deprecated setDefaultTheme()
   # wrapper, so setDefaults() only emits its own deprecation warning)
-  oldDefaults[["theme"]] <- ggplot2::theme_set(themeOspsuite())
+  oldDefaults[["theme"]] <- ggplot2::theme_set(theme_osp())
   oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(
     colorMapList = colorMapList
   )

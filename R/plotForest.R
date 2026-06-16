@@ -360,7 +360,7 @@ combinePlots <- function(plotObject, tableObject, relWidths) {
   # Check the current legend position from the plot's own theme, falling back
   # to the OSPSuite theme rather than the global ggplot2 state.
   legendPosition <- plotObject$theme$legend.position %||%
-    themeOspsuite()$legend.position
+    theme_osp()$legend.position
   if (identical(legendPosition, "right")) {
     # Change legend position to top if table is included
     plotObject <- plotObject + theme(legend.position = "top")

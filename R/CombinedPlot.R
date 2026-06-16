@@ -106,7 +106,7 @@ CombinedPlot <- R6::R6Class(
       # the OSPSuite theme rather than the global ggplot2 state.
       currentLegendPos <- private$.plotObject$theme$legend.position
       if (is.null(currentLegendPos)) {
-        currentLegendPos <- themeOspsuite()$legend.position
+        currentLegendPos <- theme_osp()$legend.position
       }
 
       # Move legend to top if currently on right side to accommodate table

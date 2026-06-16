@@ -32,6 +32,6 @@ Other setDefault functions:
 \code{\link[=setDefaultTheme]{setDefaultTheme()}},
 \code{\link[=setDefaults]{setDefaults()}},
 \code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}},
-\code{\link[=themeOspsuite]{themeOspsuite()}}
+\code{\link[=theme_osp]{theme_osp()}}
 }
 \concept{setDefault functions}

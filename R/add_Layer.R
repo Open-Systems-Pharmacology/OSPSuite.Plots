@@ -20,7 +20,7 @@ initializePlot <- function(mappedData = NULL, setMapping = TRUE) {
     data = mappedData$dataForPlot,
     mapping = mappingToSet
   ) +
-    themeOspsuite()
+    theme_osp()
 
   # Tag the plot so ggplot_build.osp_ggplot() applies the OSP discrete
   # color/fill (and shape) scales per plot, without mutating global state.

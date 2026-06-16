@@ -143,7 +143,7 @@ validateInputsExportPlot <- function(
 calculatePlotDimensions <- function(plotObject, width) {
   # Base the resolved theme on the OSPSuite theme rather than the global
   # ggplot2 state, then overlay the plot's own theme settings.
-  themeOfPlot <- utils::modifyList(themeOspsuite(), plotObject$theme)
+  themeOfPlot <- utils::modifyList(theme_osp(), plotObject$theme)
   exportunits <- getOspsuite.plots.option(optionKey = OptionKeys$exportUnits)
 
   aspect.ratio <- themeOfPlot$aspect.ratio

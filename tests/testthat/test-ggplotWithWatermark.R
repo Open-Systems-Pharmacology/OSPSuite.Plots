@@ -129,10 +129,10 @@ test_that("cowplot::plot_list works correctly", {
   # are raw ggplots that no longer inherit a global theme from setDefaults())
   p1 <- ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point() +
-    themeOspsuite()
+    theme_osp()
   p2 <- ggplot(mtcars, aes(x = hp, y = mpg)) +
     geom_point() +
-    themeOspsuite()
+    theme_osp()
 
   # Combine plots using cowplot
   combiPlot <- cowplot::plot_grid(p1, p2) |>

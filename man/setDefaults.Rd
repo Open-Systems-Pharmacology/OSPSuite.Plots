@@ -23,7 +23,7 @@ options) for the whole session.
 \code{ospsuite.plots} plot functions now apply the full OSPSuite styling per plot,
 so this is no longer needed for them. To style individual (non-\code{ospsuite.plots})
 plots, compose the per-plot constructors instead:
-\code{plot + themeOspsuite() + scale_colour_osp() + scale_fill_osp()}.
+\code{plot + theme_osp() + scale_colour_osp() + scale_fill_osp()}.
 
 for detailed information see
 \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
@@ -40,6 +40,6 @@ Other setDefault functions:
 \code{\link[=setDefaultColorMapDistinct]{setDefaultColorMapDistinct()}},
 \code{\link[=setDefaultTheme]{setDefaultTheme()}},
 \code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}},
-\code{\link[=themeOspsuite]{themeOspsuite()}}
+\code{\link[=theme_osp]{theme_osp()}}
 }
 \concept{setDefault functions}

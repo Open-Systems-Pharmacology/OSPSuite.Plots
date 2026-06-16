@@ -77,6 +77,10 @@ reference:
     desc: "OSP shape system for custom point rendering"
     contents:
       - has_concept("shapes")
+  - title: "Scales"
+    desc: "Per-plot OSP color and fill scales"
+    contents:
+      - has_concept("scales")
   - title: "Constants"
     desc: "Enumeration constants for OSPSuite.plots options and scaling."
     contents:

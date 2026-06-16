@@ -38,14 +38,6 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 library(ospsuite.plots)
 library(tidyr)
-# Set Defaults
-oldDefaults <- ospsuite.plots::setDefaults()
-
-# Adjust legend position for better aesthetics
-theme_update(legend.position = "top")
-theme_update(legend.direction = "vertical")
-theme_update(legend.box = "horizontal")
-theme_update(legend.title = element_blank())
 ```
 
 ## 1.2 Example Data
@@ -656,8 +648,4 @@ for (unit in c("h", "day(s)", "weeks(s)", "month(s)")) {
 }
 
 cowplot::plot_grid(plotlist = plotlist, labels = "AUTO")
-```
-
-```{r cleanup, echo=FALSE}
-resetDefaults(oldDefaults)
 ```

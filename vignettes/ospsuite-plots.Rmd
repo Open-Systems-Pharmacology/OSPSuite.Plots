@@ -68,41 +68,29 @@ ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, shape = Se
   labs(tag = "B")
 ```
 
-### 2.1.2 Set ospsuite.plots Layout
+### 2.1.2 Apply the ospsuite.plots Layout per Plot
 
-To set the default layout, we use the same logic as in `ggplot2::theme_set()`. The previous settings are returned invisibly, so you can easily save them and restore them later.
+The `ospsuite.plots` plot functions already apply the full `ospsuite.plots` layout (theme, colors, shapes, line width and other geom aesthetics) to each plot they produce, so their appearance does not depend on any global setting (plot A below).
 
-`setDefaults()` sets the theme, discrete color palette, and various options. All objects can also be set separately as described below. Shape ordering for OSP-aware geoms is controlled per plot via `scale_shape_osp()` or `scale_shape_osp_manual()`.
+For your own `ggplot2` plots, compose the per-plot constructors: `themeOspsuite()` for the theme and `scale_colour_osp()` / `scale_fill_osp()` for the discrete `ospsuite.plots` color palette. Shape ordering for OSP-aware geoms is controlled per plot via `scale_shape_osp()` or `scale_shape_osp_manual()`. None of these change the global `ggplot2` state (plot B below).
 
-```{r set-ospsuite-defaults, warning=FALSE, fig.show='hold', fig.alt="Two plots showing the effect of setting ospsuite.plots defaults. Plot A shows a histogram with ospsuite.plots styling applied. Plot B shows a scatter plot that now automatically adopts the ospsuite.plots theme, colors, shapes, and formatting after setDefaults() is called."}
-# Set default layout and save previous layout in variable oldDefaults
-oldDefaults <- ospsuite.plots::setDefaults(defaultOptions = list(), colorMapList = NULL)
-
-# ospsuite.plots function
+```{r ospsuite-plots-layout-per-plot, warning=FALSE, fig.show='hold', fig.alt="Two plots showing the ospsuite.plots layout applied per plot. Plot A shows a histogram from an ospsuite.plots function with the layout already applied. Plot B shows a scatter plot built with plain ggplot2 that adopts the ospsuite.plots theme and colors by adding themeOspsuite() and scale_colour_osp()/scale_fill_osp()."}
+# ospsuite.plots function: layout already applied per plot
 ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
 
-# Customized plot
+# Your own ggplot2 plot: opt into the ospsuite.plots layout per plot
 ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, fill = Sex, shape = Sex)) +
   geom_point() +
+  themeOspsuite() +
+  scale_colour_osp() +
+  scale_fill_osp() +
   theme(legend.position = "top") +
   labs(tag = "B")
 ```
 
-### 2.1.3 Reset to Previously Saved Layout
+### 2.1.3 Setting the Layout Globally (deprecated)
 
-```{r reset-to-previous-defaults, warning=FALSE, fig.show='hold', fig.alt="Two plots demonstrating resetting to previously saved layout defaults. Plot A shows the histogram reverting to original default styling after resetDefaults() is called. Plot B shows the scatter plot also returning to the original ggplot defaults, confirming that the layout reset worked correctly."}
-# Reset to previously saved layout options
-ospsuite.plots::resetDefaults(oldDefaults = oldDefaults)
-
-# ospsuite.plots function
-ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
-
-# Customized plot
-ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)) +
-  geom_point() +
-  theme(legend.position = "top") +
-  labs(tag = "B")
-```
+`setDefaults()` mutated the global `ggplot2` state (theme, geom defaults and discrete color options) for the whole session. It is now **deprecated**: `ospsuite.plots` plots no longer need it, and the per-plot constructors above are the recommended way to style your own plots. `setDefaults()` (and `setDefaultTheme()` / `setDefaultColorMapDistinct()`) still work and remain available for styling many unrelated, non-`ospsuite.plots` plots in a session at once; the previous settings are returned invisibly so you can restore them with `resetDefaults()`.
 
 ## 2.2 Default Theme
 
@@ -115,10 +103,10 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
   themeOspsuite()
 ```
 
-For convenience, `setDefaultTheme()` and `resetDefaultTheme()` set or restore the `ospsuite.plots` theme as the global `ggplot2` theme for the whole session. `setDefaultTheme()` simply calls `theme_set(themeOspsuite())` and is also called by `setDefaults()`.
+For styling many unrelated plots at once, `setDefaultTheme()` and `resetDefaultTheme()` set or restore the `ospsuite.plots` theme as the global `ggplot2` theme for the whole session (`setDefaultTheme()` simply calls `theme_set(themeOspsuite())`). `setDefaultTheme()` is **deprecated** in favor of the per-plot `themeOspsuite()` shown above; it is kept only for the global-styling use case.
 
-```{r defaultTheme}
-# Set ospsuite.plots Default Theme
+```{r defaultTheme, warning=FALSE}
+# Set ospsuite.plots theme globally (deprecated; affects non-ospsuite.plots plots)
 oldTheme <- ospsuite.plots::setDefaultTheme()
 
 # Customize theme using ggplot functionalities
@@ -131,83 +119,50 @@ ospsuite.plots::resetDefaultTheme(oldTheme)
 
 ## 2.3 Default Color
 
-Functions to set the `ospsuite.plots` default color only are `setDefaultColorMapDistinct()` and `resetDefaultColorMapDistinct()`. These functions are called by `setDefaults()` and `resetDefaults()`.
-
-Colors are set to discrete and ordinal scales for `fill` and `colour`.
-
-The package provides some color palettes in the object `colorMaps` (see `?colorMaps`).
+The recommended way to apply the `ospsuite.plots` discrete color palette is per plot, with `scale_colour_osp()` and `scale_fill_osp()`. They do not change the global `ggplot2` state and are applied automatically by the `ospsuite.plots` plot functions. The palette uses `colorMaps$default` for up to 6 groups and `colorMaps$ospDefault` beyond (see `?colorMaps`).
 
 The example below shows plots with:
 
-- A plot with default settings for up to 6 different colors
-- B plot with default settings for more than 6 different colors
-- C customized settings for all following plots using the `colorMaps[["grays"]]`
-- D customized plot: set gray scale for this plot only using function `scale_fill_grey()`
-- E customized settings for all following plots using `ggsci::pal_lancet()(9)`
-- F customized plots: set gray scale for this plot only using function `ggsci::scale_color_lancet()`
+- A per-plot `ospsuite.plots` colors for up to 6 different colors (`scale_fill_osp()`)
+- B per-plot `ospsuite.plots` colors for more than 6 different colors (`scale_fill_osp()`)
+- C per-plot gray scale using ggplot2's `scale_fill_grey()`
+- D per-plot Lancet palette using `ggsci::scale_fill_lancet()`
 
-```{r default-color-settings-6colors, fig.alt="Tile plot demonstrating default color settings for up to 6 different colors. The plot shows a 3x2 grid of colored tiles, each representing a different discrete color from the default ospsuite.plots color palette for small categorical datasets."}
-# Set ospsuite.plots Default Color
-oldColors <- ospsuite.plots::setDefaultColorMapDistinct()
-
+```{r default-color-settings-6colors, fig.alt="Tile plot demonstrating the ospsuite.plots color palette for up to 6 different colors. The plot shows a 3x2 grid of colored tiles, each a different discrete color from the default ospsuite.plots palette, applied per plot with scale_fill_osp()."}
 ggplot() +
   geom_tile(aes(x = rep(seq(1, 3), 2), y = rep(seq(1, 2), each = 3), fill = as.factor(seq(1, 6)))) +
-  labs(title = "Default settings for up to 6 different colors", tag = "A") +
+  scale_fill_osp() +
+  labs(title = "ospsuite.plots colors for up to 6 different colors", tag = "A") +
   theme(legend.position = "none", axis.title = element_blank())
 ```
 
-```{r default-color-settings-many-colors, fig.alt="Tile plot demonstrating default color settings for more than 6 different colors. The plot shows a 7x7 grid plus 2 additional tiles (51 total), illustrating how ospsuite.plots handles large categorical datasets by cycling through and extending the color palette."}
+```{r default-color-settings-many-colors, fig.alt="Tile plot demonstrating the ospsuite.plots color palette for more than 6 different colors. The plot shows a 7x7 grid plus 2 additional tiles (51 total), illustrating how scale_fill_osp() extends to the larger ospDefault palette for many groups."}
 ggplot() +
   geom_tile(aes(x = c(rep(seq(1, 7), 7), 1, 2), y = c(rep(seq(1, 7), each = 7), 8, 8), fill = as.factor(seq(1, 51)))) +
-  labs(title = "Default settings for more than 6 different colors") +
+  scale_fill_osp() +
+  labs(title = "ospsuite.plots colors for more than 6 different colors", tag = "B") +
   theme(legend.position = "none", axis.title = element_blank())
 ```
 
-```{r customize-colors-gray, fig.alt="Tile plot demonstrating customized gray color palette. The plot shows a 3x3 grid of tiles using grayscale colors from the ospsuite.plots colorMaps gray palette, illustrating how to apply monochromatic color schemes for accessibility or publication requirements."}
-# Customize colors: set to gray colors
-ospsuite.plots::setDefaultColorMapDistinct(colorMaps[["grays"]])
+To use a different palette for a single plot, simply add the corresponding `ggplot2` (or `ggsci`) scale, which overrides the `ospsuite.plots` colors:
 
-ggplot() +
-  geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
-  theme(legend.position = "none", axis.title = element_blank()) +
-  labs(title = "colorMaps gray", tag = "C")
-```
-
-```{r ggplot-scale-fill-grey, fig.alt="Tile plot using ggplot2's built-in scale_fill_grey() function. The plot shows a 3x3 grid of tiles demonstrating how to override ospsuite.plots defaults with standard ggplot2 gray scale functions for individual plots."}
+```{r ggplot-scale-fill-grey, fig.alt="Tile plot using ggplot2's built-in scale_fill_grey() function. The plot shows a 3x3 grid of tiles demonstrating how to override the ospsuite.plots colors with a standard ggplot2 gray scale for an individual plot."}
 ggplot() +
   geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
   theme(legend.position = "none", axis.title = element_blank()) +
   scale_fill_grey() +
-  labs(title = "scale_fill_grey", tag = "D")
+  labs(title = "scale_fill_grey", tag = "C")
 ```
 
-```{r ggsci-lancet-colors, fig.alt="Tile plot using ggsci Lancet journal color palette. The plot shows a 3x3 grid of tiles demonstrating how to set ospsuite.plots defaults to use professional journal color schemes inspired by The Lancet publication style."}
-# Set to color palettes inspired by plots in Lancet journals
-ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
-
+```{r ggsci-lancet-colors, fig.alt="Tile plot using the ggsci Lancet journal color palette. The plot shows a 3x3 grid of tiles demonstrating how to apply a professional journal color scheme inspired by The Lancet to an individual plot with ggsci::scale_fill_lancet()."}
 ggplot() +
   geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
   theme(legend.position = "none", axis.title = element_blank()) +
-  labs(title = "ggsci::pal_lancet", tag = "E")
+  ggsci::scale_fill_lancet() +
+  labs(title = "ggsci::scale_fill_lancet", tag = "D")
 ```
 
-```{r ggsci-color-lancet-override, fig.alt="Tile plot using ggsci Lancet color palette with scale override. The plot shows a 3x3 grid of tiles demonstrating how to use ggsci::scale_color_lancet() to override the default color mapping for individual plots while maintaining the Lancet color scheme."}
-# Set to color palettes inspired by plots in Lancet journals
-ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
-
-ggplot() +
-  geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
-  theme(legend.position = "none", axis.title = element_blank()) +
-  ggsci::scale_color_lancet() +
-  labs(title = "ggsci::scale_color_lancet", tag = "F")
-```
-
-### Reset to Previously Saved Color Map
-
-```{r resetColorMap}
-# Reset to the previously saved color map
-ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
-```
+For styling many unrelated plots at once, `setDefaultColorMapDistinct()` and `resetDefaultColorMapDistinct()` set or restore the discrete color palette globally via `ggplot2.discrete.*` options. They are kept for that global-styling use case; for `ospsuite.plots` plots and your own plots, prefer the per-plot `scale_colour_osp()` / `scale_fill_osp()` shown above.
 
 ## 2.4 Default Shapes
 
@@ -223,10 +178,11 @@ Raw `ggplot2::geom_point()` keeps using ggplot2's native pch shapes and is unaff
 
 ## 2.5 Default Options
 
-`getDefaultOptions()` returns a list of options used in this package. These options are set by the function `setDefaults()` via the variable `defaultOptions`.
+`getDefaultOptions()` returns a list of options used in this package. The `ospsuite.plots` plot functions read these options at call time (falling back to these defaults when an option is unset), so you can override them either per call or by setting the option for the session.
 
 ```{r, eval=FALSE}
-ospsuite.plots::setDefaults(defaultOptions = ospsuite.plots::getDefaultOptions())
+# inspect the default options
+ospsuite.plots::getDefaultOptions()
 ```
 
 The names of all options defined by this package start with the package name `ospsuite.plots` as a prefix and a suffix. The suffixes are listed in the enumeration `OptionKeys`. There are two helper functions (`setOspsuite.plots.option` and `getOspsuite.plots.option`) to set and get these options.
@@ -495,20 +451,14 @@ ggplot(shapes, aes(x, y, shape = shapeNames)) +
 
 ## 6.2 Using OSP Shapes in Plot Functions
 
-OSP shapes are available in all `ospsuite.plots` functions via the default shape scale set by `setDefaults()`. You can also apply them directly with `scale_shape_osp()`.
+OSP shapes are applied per plot in all `ospsuite.plots` functions. You can also apply them directly to your own plots with `scale_shape_osp()`.
 
 ```{r osp-shapes-demo, fig.alt="Scatter plot demonstrating OSP shapes in ospsuite.plots. Shows four data points representing different species using distinct OSP shapes with each species having a distinct symbol and color."}
-oldDefaults <- ospsuite.plots::setDefaults()
-
 dt <- data.frame(x = c(1, 2, 1, 2), y = c(1, 1, 2, 2), species = c("dog", "cat", "mouse", "rat"))
 
 plotObject <- plotYVsX(data = dt, mapping = aes(x = x, y = y, groupby = species), xScale = "linear", xScaleArgs = list(limits = c(0.5, 2.5)), yScale = "linear", yScaleArgs = list(limits = c(0.5, 2.5)))
 
 plot(plotObject)
-```
-
-```{r cleanup, echo=FALSE}
-resetDefaults(oldDefaults)
 ```
 
 ```

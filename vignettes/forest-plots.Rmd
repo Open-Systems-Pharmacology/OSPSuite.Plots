@@ -28,14 +28,6 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 library(ospsuite.plots)
 library(tidyr)
 library(data.table)
-
-# Set Defaults
-oldDefaults <- ospsuite.plots::setDefaults()
-
-# Place default legend position above the plot
-theme_update(legend.position = "top")
-theme_update(legend.direction = "horizontal")
-theme_update(legend.title = element_blank())
 ```
 
 ## 1.2 Example Data

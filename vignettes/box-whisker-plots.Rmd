@@ -29,21 +29,13 @@ The function for plotting box-whiskers is `plotBoxWhisker`. Basic documentation 
 
 ## 1.1 Setup
 
-This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. We will use the default settings of `{ospsuite.plots}` (see vignette("ospsuite.plots", package = "ospsuite.plots")) but will adjust the legend position and the alignment of the caption.
+This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. The `{ospsuite.plots}` plot functions apply their layout per plot (see `vignette("ospsuite.plots", package = "ospsuite.plots")`), so no global setup is required.
 
 ```{r setup, warning=FALSE, message=FALSE}
 options(rmarkdown.html_vignette.check_title = FALSE)
 
 library(ospsuite.plots)
 library(tidyr)
-
-# Set Defaults
-oldDefaults <- ospsuite.plots::setDefaults()
-
-# Adjust default theme plot for prettier plots
-theme_update(legend.position = "top")
-theme_update(legend.direction = "horizontal")
-theme_update(plot.caption = element_text(hjust = 1))
 ```
 
 ## 1.2 Example Data
@@ -433,9 +425,5 @@ plotBoxWhisker(
   geomBoxplotAttributes = list(color = "orange", position = position_dodge(width = 1)),
   geomPointAttributes = list(position = position_dodge(width = 1), size = 4, color = "orange", shape = "diamond")
 ) + scale_fill_manual(values = c(Female = "pink", Male = "dodgerblue")) + labs(tag = "B")
-```
-
-```{r cleanup, echo=FALSE}
-resetDefaults(oldDefaults)
 ```
 

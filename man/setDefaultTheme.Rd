@@ -10,10 +10,14 @@ setDefaultTheme()
 invisibly return the previous theme so you can easily save it, then later restore it.
 }
 \description{
-set the OSPSuite theme as the global \code{ggplot2} theme for the
-whole session via \code{\link[ggplot2:theme_set]{ggplot2::theme_set()}}. This is an opt-in convenience;
-\code{ospsuite.plots} plot functions already apply \code{\link[=themeOspsuite]{themeOspsuite()}} per plot,
-so calling this is only needed to style unrelated plots in the session.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+set the OSPSuite theme as the global \code{ggplot2} theme for the whole session
+via \code{\link[ggplot2:theme_set]{ggplot2::theme_set()}}.
+
+\code{ospsuite.plots} plot functions now apply \code{\link[=themeOspsuite]{themeOspsuite()}} per plot, so this
+global mutation is no longer needed for them. Use \code{plot + themeOspsuite()} to
+style an individual (non-\code{ospsuite.plots}) plot instead.
 }
 \examples{
 \dontrun{

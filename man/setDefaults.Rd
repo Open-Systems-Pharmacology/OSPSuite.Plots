@@ -15,9 +15,16 @@ setDefaults(defaultOptions = list(), colorMapList = NULL)
 list of old settings which can be used to reset defaults with \code{resetDefaults()}
 }
 \description{
-should be started at the beginning at each workflow
-}
-\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+Mutates global \code{ggplot2} state (theme, geom defaults and discrete color
+options) for the whole session.
+
+\code{ospsuite.plots} plot functions now apply the full OSPSuite styling per plot,
+so this is no longer needed for them. To style individual (non-\code{ospsuite.plots})
+plots, compose the per-plot constructors instead:
+\code{plot + themeOspsuite() + scale_colour_osp() + scale_fill_osp()}.
+
 for detailed information see
 \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
 }

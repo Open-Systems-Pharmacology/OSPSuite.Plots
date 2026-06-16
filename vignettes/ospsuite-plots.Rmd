@@ -36,7 +36,7 @@ The library is based on `ggplot2` functionality and also utilizes the `ggh4x` pa
 
 Every `ospsuite.plots` plot function already produces a fully styled plot, so you do not need to configure anything to get the `ospsuite.plots` look. When you *do* want to change something, there are two distinct mechanisms, and it helps to know which one to reach for:
 
-- **Per-plot constructors** ([Section 2.1](#per-plot-constructors)) shape the *frame and the mapped aesthetics* of a single plot, by adding them like any other `ggplot2` component: `theme_osp()` for the theme (background, grid, legend, titles), and `scale_colour_osp()` / `scale_fill_osp()` / `scale_shape_osp()` for the discrete `ospsuite.plots` color and shape palettes. They return ordinary `ggplot2` objects and never change global state, so they also let you bring the `ospsuite.plots` look to a plot you built yourself with plain `ggplot2`.
+- **OSP theme and custom scales** ([Section 2.1](#osp-theme-and-custom-scales)) shape the *frame and the mapped aesthetics* of a single plot, by adding them like any other `ggplot2` component: `theme_osp()` for the theme (background, grid, legend, titles), and `scale_colour_osp()` / `scale_fill_osp()` / `scale_shape_osp()` for the discrete `ospsuite.plots` color and shape palettes. They return ordinary `ggplot2` objects and never change global state, so they also let you bring the `ospsuite.plots` look to a plot you built yourself with plain `ggplot2`.
 - **Session options** ([Section 2.2](#session-options)) set *defaults read at plot-function call time*: the geom aesthetics of the drawn marks (fill alpha, line width, error-bar caps, ...), statistical behaviour (percentiles, histogram bins), and side features (watermark, export format). Set them once and every later `ospsuite.plots` plot in the session picks them up; or pass the matching `geom*Attributes` argument to override just one call.
 
 In short: reach for a **constructor** to restyle the look of *one plot* (especially a hand-built `ggplot2` plot); set an **option** to change the *default marks or behaviour* across your analysis.
@@ -49,9 +49,9 @@ testData <- exampleDataCovariates |>
   dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex"))
 ```
 
-## 2.1 Per-plot Constructors
+## 2.1 OSP Theme and Custom Scales
 
-The per-plot constructors are added to a plot like any other `ggplot2` component and return ordinary `ggplot2` objects, so they do not change global state. The `ospsuite.plots` plot functions apply them internally; you add them yourself only when styling a plain `ggplot2` plot.
+The OSP theme and scales are added to a plot like any other `ggplot2` component and return ordinary `ggplot2` objects, so they do not change global state. The `ospsuite.plots` plot functions apply them internally; you add them yourself only when styling a plain `ggplot2` plot.
 
 The same plot with the default `ggplot2` layout (A) and with the `ospsuite.plots` constructors applied (B):
 
@@ -71,13 +71,25 @@ basePlot +
 
 ### 2.1.1 Theme: `theme_osp()`
 
-`theme_osp()` returns a `ggplot2` theme that styles the **frame** of a plot (panel background, grid, legend placement, title and subtitle), based on `theme_bw()`. It controls everything that is not the plotted data, and you can refine it further with ordinary `theme()` calls.
+`theme_osp()` is a regular `ggplot2` theme, built on `theme_bw()`, that styles the **frame** of a plot (panel background, grid, legend placement, title and subtitle); it controls everything that is not the plotted data. Because it is an ordinary theme object, it behaves exactly like the built-in `theme_*()` themes: use it as the starting point and layer your own choices on top with a `theme()` call (the later `theme()` wins for the elements it sets). It also accepts the usual `theme_bw()` arguments such as `base_size`.
 
-```{r theme_osp}
-ggplot(mtcars, aes(x = wt, y = mpg)) +
+```{r theme_osp, warning=FALSE, fig.alt="Scatter plot of the ggplot2 mpg dataset (engine size versus highway mileage, coloured by car class) styled by starting from theme_osp() and overriding it: the legend is moved to the left, the title and subtitle are left-aligned and the major grid is dotted."}
+# start from the OSP theme, then apply custom choices on top (these win)
+ggplot(mpg, aes(x = displ, y = hwy, color = class)) +
   geom_point() +
+  labs(
+    title = "Highway mileage vs engine size",
+    subtitle = "ggplot2 mpg dataset, coloured by car class",
+    x = "engine displacement (L)",
+    y = "highway miles per gallon"
+  ) +
   theme_osp() +
-  theme(legend.position = "bottom")
+  theme(
+    legend.position = "left",
+    plot.title = element_text(hjust = 0),
+    plot.subtitle = element_text(hjust = 0),
+    panel.grid.major = element_line(linetype = "dotted")
+  )
 ```
 
 ### 2.1.2 Color: `scale_colour_osp()` and `scale_fill_osp()`
@@ -116,7 +128,7 @@ ggplot(shapes, aes(x, y, shape = shapeNames)) +
 
 ### 2.1.4 Applying the constructors globally (deprecated)
 
-To style many unrelated (non-`ospsuite.plots`) plots in a session at once, `setDefaultTheme()` sets `theme_osp()` as the global `ggplot2` theme via `theme_set()`, and `setDefaults()` additionally mutates the global geom defaults and discrete color options. Both are **deprecated**: `ospsuite.plots` plots no longer need them, and the per-plot constructors above are the recommended path. They still work and return the previous settings so you can restore them with `resetDefaultTheme()` / `resetDefaults()`.
+To style many unrelated (non-`ospsuite.plots`) plots in a session at once, `setDefaultTheme()` sets `theme_osp()` as the global `ggplot2` theme via `theme_set()`, and `setDefaults()` additionally mutates the global geom defaults and discrete color options. Both are **deprecated**: `ospsuite.plots` plots no longer need them, and the per-plot `theme_osp()` and scales above are the recommended path. They still work and return the previous settings so you can restore them with `resetDefaultTheme()` / `resetDefaults()`.
 
 ```{r defaultTheme, warning=FALSE}
 # Deprecated: style every plot in the session, including non-ospsuite.plots ones

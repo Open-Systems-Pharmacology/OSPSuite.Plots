@@ -20,7 +20,7 @@ This vignette documents and illustrates workflows for producing forest plots usi
 
 ## 1.1 Setup
 
-This vignette uses the `{ospsuite.plots}` and `{tidyr}` libraries. The `{ospsuite.plots}` plot functions apply their layout per plot (see `vignette("ospsuite.plots", package = "ospsuite.plots")`), so no global setup is required.
+This vignette uses the `{ospsuite.plots}`, `{tidyr}`, and `{data.table}` libraries. The `{ospsuite.plots}` plot functions apply their layout per plot (see `vignette("ospsuite.plots", package = "ospsuite.plots")`), so no global setup is required.
 
 ```{r setup}
 options(rmarkdown.html_vignette.check_title = FALSE)

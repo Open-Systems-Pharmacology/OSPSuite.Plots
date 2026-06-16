@@ -1,7 +1,5 @@
 # setDefaults
 oldDefaults <- ospsuite.plots::setDefaults()
-theme_update(legend.position = "top")
-theme_update(legend.title = element_blank())
 
 
 test_that("plot histogram works for all stacked  frequency distribution fit combinations", {

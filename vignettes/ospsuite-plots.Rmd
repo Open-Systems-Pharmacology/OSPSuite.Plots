@@ -106,7 +106,16 @@ ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, shape = Se
 
 ## 2.2 Default Theme
 
-Functions to set the `ospsuite.plots` default theme only are `setDefaultTheme()` and `resetDefaultTheme()`. These functions are called by `setDefaults()` and `resetDefaults()`.
+The recommended way to apply the `ospsuite.plots` theme is per plot with `themeOspsuite()`, which returns a `ggplot2` theme object and does not change the global `ggplot2` state. The `ospsuite.plots` plot functions already apply it internally, so their styling is independent of the global theme.
+
+```{r themeOspsuite}
+# Apply the ospsuite.plots theme to a single plot
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  themeOspsuite()
+```
+
+For convenience, `setDefaultTheme()` and `resetDefaultTheme()` set or restore the `ospsuite.plots` theme as the global `ggplot2` theme for the whole session. `setDefaultTheme()` simply calls `theme_set(themeOspsuite())` and is also called by `setDefaults()`.
 
 ```{r defaultTheme}
 # Set ospsuite.plots Default Theme

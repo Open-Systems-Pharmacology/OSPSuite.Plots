@@ -10,8 +10,10 @@ setDefaultTheme()
 invisibly return the previous theme so you can easily save it, then later restore it.
 }
 \description{
-set properties of the default theme for OSPSuite plots.
-This function applies a custom theme based on theme_bw() with OSPSuite-specific styling.
+set the OSPSuite theme as the global \code{ggplot2} theme for the
+whole session via \code{\link[ggplot2:theme_set]{ggplot2::theme_set()}}. This is an opt-in convenience;
+\code{ospsuite.plots} plot functions already apply \code{\link[=themeOspsuite]{themeOspsuite()}} per plot,
+so calling this is only needed to style unrelated plots in the session.
 }
 \examples{
 \dontrun{
@@ -38,6 +40,7 @@ Other setDefault functions:
 \code{\link[=resetDefaults]{resetDefaults()}},
 \code{\link[=setDefaultColorMapDistinct]{setDefaultColorMapDistinct()}},
 \code{\link[=setDefaults]{setDefaults()}},
-\code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}}
+\code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}},
+\code{\link[=themeOspsuite]{themeOspsuite()}}
 }
 \concept{setDefault functions}

@@ -1,8 +1,57 @@
 # Default Theme -------------
 
+#' @title OSPSuite plot theme
+#' @description A `ggplot2` theme with OSPSuite-specific styling, based on
+#'   [ggplot2::theme_bw()]. Apply it to a single plot with `plot + themeOspsuite()`
+#'   without altering the global `ggplot2` state.
+#'
+#' @param base_size base font size, given in pts (passed on to [ggplot2::theme_bw()]).
+#' @param ... further arguments passed on to [ggplot2::theme_bw()]
+#'   (for example `base_family`).
+#'
+#' @return a complete `ggplot2` theme object.
+#' @examples
+#' library(ggplot2)
+#' ggplot(mtcars, aes(x = wt, y = mpg)) +
+#'   geom_point() +
+#'   themeOspsuite()
+#'
+#' @export
+#' @family setDefault functions
+themeOspsuite <- function(base_size = 11, ...) {
+  # Following ggplot2's guidance for theme functions: build on a complete
+  # theme with `%+replace%` and fully specify every element that is touched,
+  # since `%+replace%` discards unspecified element properties (unlike `+`).
+  halfLine <- base_size / 2
+
+  theme_bw(base_size = base_size, ...) %+replace%
+    theme(
+      legend.position = "right",
+      legend.direction = "vertical",
+      legend.justification = 0.5,
+      plot.title = element_text(
+        size = rel(1.2),
+        hjust = 0.5,
+        vjust = 0.5,
+        margin = margin(b = halfLine)
+      ),
+      plot.subtitle = element_text(
+        hjust = 0.5,
+        vjust = 0.5,
+        margin = margin(b = halfLine)
+      ),
+      panel.grid.minor = element_blank(),
+      strip.background = element_rect(color = NA, fill = NA),
+      complete = TRUE
+    )
+}
+
+
 #' @title set the default theme
-#' @description set properties of the default theme for OSPSuite plots.
-#'   This function applies a custom theme based on theme_bw() with OSPSuite-specific styling.
+#' @description set the OSPSuite theme as the global `ggplot2` theme for the
+#'   whole session via [ggplot2::theme_set()]. This is an opt-in convenience;
+#'   `ospsuite.plots` plot functions already apply [themeOspsuite()] per plot,
+#'   so calling this is only needed to style unrelated plots in the session.
 #'
 #' @return invisibly return the previous theme so you can easily save it, then later restore it.
 #' @examples
@@ -21,26 +70,7 @@
 #' @export
 #' @family setDefault functions
 setDefaultTheme <- function() {
-  themeNew <- theme_bw() +
-    theme(
-      legend.position = "right",
-      legend.direction = "vertical",
-      legend.justification = 0.5,
-      plot.title = element_text(
-        hjust = 0.5,
-        vjust = 0.5
-      ),
-      plot.subtitle = element_text(
-        hjust = 0.5,
-        vjust = 0.5
-      ),
-      panel.grid.minor = element_blank(),
-      strip.background = element_rect(color = NA, fill = NA)
-    )
-
-  oldTheme <- ggplot2::theme_set(themeNew)
-
-  return(invisible(oldTheme))
+  return(invisible(ggplot2::theme_set(themeOspsuite())))
 }
 
 

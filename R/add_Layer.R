@@ -19,7 +19,8 @@ initializePlot <- function(mappedData = NULL, setMapping = TRUE) {
   plotObject <- ggplotWithWatermark(
     data = mappedData$dataForPlot,
     mapping = mappingToSet
-  )
+  ) +
+    themeOspsuite()
 
   # add labels
   plotObject <- addLabels(plotObject, mappedData)
@@ -199,8 +200,13 @@ addXYScale <- function(
   yScaleArgs = list(),
   secAxis = waiver()
 ) {
-  if (!is.null(xScale)) xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log, AxisScales$discrete))
-  if (!is.null(yScale)) yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(xScale))
+    xScale <- match.arg(
+      xScale,
+      c(AxisScales$linear, AxisScales$log, AxisScales$discrete)
+    )
+  if (!is.null(yScale))
+    yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
 
   if (!is.null(xScale)) {
     plotObject <- addXScale(
@@ -255,7 +261,11 @@ addXYScale <- function(
 #' @return The updated `ggplot` object
 #' @export
 addXScale <- function(plotObject, xScale, xScaleArgs = list()) {
-  if (!is.null(xScale)) xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log, AxisScales$discrete))
+  if (!is.null(xScale))
+    xScale <- match.arg(
+      xScale,
+      c(AxisScales$linear, AxisScales$log, AxisScales$discrete)
+    )
 
   if (xScale == AxisScales$discrete) {
     scaleFunction <- scale_x_discrete
@@ -287,7 +297,8 @@ addYScale <- function(
   yScaleArgs = list(),
   secAxis = waiver()
 ) {
-  if (!is.null(yScale)) yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(yScale))
+    yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
 
   yScaleArgs <- .buildContinuousScaleArgs(
     yScaleArgs,

@@ -357,8 +357,11 @@ createTableObject <- function(
 #' @return A combined ggplot object containing both the plot and the table.
 #' @keywords internal
 combinePlots <- function(plotObject, tableObject, relWidths) {
-  # Check the current legend position
-  if (theme_get()$legend.position == "right") {
+  # Check the current legend position from the plot's own theme, falling back
+  # to the OSPSuite theme rather than the global ggplot2 state.
+  legendPosition <- plotObject$theme$legend.position %||%
+    themeOspsuite()$legend.position
+  if (identical(legendPosition, "right")) {
     # Change legend position to top if table is included
     plotObject <- plotObject + theme(legend.position = "top")
   }

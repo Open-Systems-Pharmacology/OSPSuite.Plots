@@ -15,7 +15,8 @@
 #' combinedPlotInstance
 #' }
 #' @export
-CombinedPlot <- R6::R6Class( # nolint
+CombinedPlot <- R6::R6Class(
+  # nolint
   "CombinedPlot",
   cloneable = TRUE,
   public = list(
@@ -101,15 +102,17 @@ CombinedPlot <- R6::R6Class( # nolint
 
     # Helper function to adjust legend position for better layout when table is present
     adjustLegendPosition = function() {
-      # Get current legend position from plot theme or global theme
+      # Get current legend position from the plot's own theme, falling back to
+      # the OSPSuite theme rather than the global ggplot2 state.
       currentLegendPos <- private$.plotObject$theme$legend.position
       if (is.null(currentLegendPos)) {
-        currentLegendPos <- theme_get()$legend.position
+        currentLegendPos <- themeOspsuite()$legend.position
       }
 
       # Move legend to top if currently on right side to accommodate table
       if (identical(currentLegendPos, "right")) {
-        private$.plotObject <- private$.plotObject + theme(legend.position = "top")
+        private$.plotObject <- private$.plotObject +
+          theme(legend.position = "top")
       }
     }
   )

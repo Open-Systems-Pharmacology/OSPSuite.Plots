@@ -44,6 +44,7 @@ Other setDefault functions:
 \code{\link[=resetDefaults]{resetDefaults()}},
 \code{\link[=setDefaultTheme]{setDefaultTheme()}},
 \code{\link[=setDefaults]{setDefaults()}},
-\code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}}
+\code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}},
+\code{\link[=themeOspsuite]{themeOspsuite()}}
 }
 \concept{setDefault functions}

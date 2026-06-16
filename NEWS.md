@@ -1,5 +1,9 @@
 # ospsuite.plots (development version)
 
+## New Features
+
+- Added `themeOspsuite()`, a theme constructor that returns the OSPSuite theme for per-plot application (`plot + themeOspsuite()`) without mutating global `ggplot2` state. All `ospsuite.plots` plot functions now apply this theme per plot, so their appearance no longer depends on `setDefaults()` having been called. `setDefaultTheme()` is retained as an opt-in convenience for styling unrelated plots in the session and now simply calls `theme_set(themeOspsuite())` (#130).
+
 # ospsuite.plots 1.2.0
 
 ## Breaking Changes

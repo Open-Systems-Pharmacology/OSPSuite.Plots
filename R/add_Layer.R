@@ -161,7 +161,13 @@ addLLOQLayer <-
             mapping = filteredMapping
           ),
           utils::modifyList(
-            x = list(na.rm = TRUE),
+            # Default to the OSP line width so the LLOQ line matches the other
+            # data lines without relying on global geom defaults; a user-supplied
+            # `linewidth` in geomLLOQAttributes still overrides it.
+            x = list(
+              na.rm = TRUE,
+              linewidth = getDefaultGeomAttributes("Line")$linewidth
+            ),
             val = geomLLOQAttributes
           )
         )

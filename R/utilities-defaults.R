@@ -331,14 +331,18 @@ setDefaultColorMapDistinct <- function(colorMapList = NULL) {
     "ggplot2.discrete.fill"
   )
 
-  oldColorOptions <- list()
-  newColorOptions <- list()
-  for (optionName in optionNames) {
-    oldColorOptions[[optionName]] <-
-      getOption(optionName)
-    newColorOptions[[optionName]] <-
-      colorMapList
-  }
+  # Capture previous values, preserving the names even when an option is unset
+  # (a plain `list[[name]] <- NULL` would drop the name); the names are needed
+  # for a correct round-trip through resetDefaultColorMapDistinct().
+  oldColorOptions <- stats::setNames(
+    lapply(optionNames, getOption),
+    optionNames
+  )
+
+  newColorOptions <- stats::setNames(
+    rep(list(colorMapList), length(optionNames)),
+    optionNames
+  )
 
   options(newColorOptions)
 
@@ -374,6 +378,13 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 #' @export
 #'
 getDefaultOptions <- function() {
+  # Single sources of truth shared by the per-geom attribute defaults below
+  # (and, for alpha, the standalone `ospsuite.plots.alpha` option). These are
+  # applied per layer so OSP plots get the OSP look without relying on the
+  # global `update_geom_defaults()` mutation done by `setDefaults()`.
+  defaultAlpha <- 0.5
+  defaultLinewidth <- 1.0
+
   optionList <- list(
     # watermark
     ospsuite.plots.watermarkEnabled = TRUE,
@@ -387,23 +398,35 @@ getDefaultOptions <- function() {
       alpha = 0.7
     ),
     # geom attributes
-    ospsuite.plots.geomLineAttributes = list(),
-    ospsuite.plots.geomRibbonAttributes = list(color = NA),
+    ospsuite.plots.geomLineAttributes = list(linewidth = defaultLinewidth),
+    ospsuite.plots.geomRibbonAttributes = list(
+      color = NA,
+      alpha = defaultAlpha
+    ),
     ospsuite.plots.geomPointAttributes = list(),
     ospsuite.plots.geomErrorbarAttributes = list(width = 2),
     ospsuite.plots.geomLLOQAttributes = list(),
-    ospsuite.plots.geomComparisonLineAttributes = list(linetype = "dashed"),
-    ospsuite.plots.geomGuestLineAttributes = list(linetype = "dashed"),
+    ospsuite.plots.geomComparisonLineAttributes = list(
+      linetype = "dashed",
+      linewidth = defaultLinewidth
+    ),
+    ospsuite.plots.geomGuestLineAttributes = list(
+      linetype = "dashed",
+      linewidth = defaultLinewidth
+    ),
     ospsuite.plots.geomBoxplotAttributes = list(
       position = position_dodge(width = 1),
-      color = "black"
+      color = "black",
+      alpha = defaultAlpha
     ),
     ospsuite.plots.geomHistAttributes = list(
       bins = 10,
-      position = ggplot2::position_nudge()
+      position = ggplot2::position_nudge(),
+      color = "black",
+      alpha = defaultAlpha
     ),
     # default alpha
-    ospsuite.plots.alpha = 0.5,
+    ospsuite.plots.alpha = defaultAlpha,
     # alpha of LLOQ values
     ospsuite.plots.lloqAlphaVector = c("TRUE" = 0.3, "FALSE" = 1),
     # linetype of LLOQ
@@ -555,6 +578,9 @@ setDefaults <- function(
     getDefaultOptions()[["ospsuite.plots.alpha"]]
   )
 
+  # use the same default line width as the per-plot geom attributes
+  defaultLinewidth <- getDefaultGeomAttributes("Line")$linewidth
+
   # get old settings of defaults for geoms
   nsenv <- asNamespace("ggplot2")
 
@@ -605,7 +631,7 @@ setDefaults <- function(
   update_geom_defaults(
     "line",
     list(
-      linewidth = 1.25,
+      linewidth = defaultLinewidth,
       fill = getOption("ggplot2.discrete.fill")[[1]][[1]]
     )
   )

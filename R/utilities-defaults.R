@@ -392,11 +392,14 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 #' @export
 #'
 getDefaultOptions <- function() {
-  # Single sources of truth shared by the per-geom attribute defaults below
-  # (and, for alpha, the standalone `ospsuite.plots.alpha` option). These are
-  # applied per layer so OSP plots get the OSP look without relying on the
+  # Single sources of truth shared by the per-geom attribute defaults below.
+  # `defaultAlpha` is seeded from the live `ospsuite.plots.alpha` option (with a
+  # literal fallback to avoid recursion, since this function also defines that
+  # option), so `options(ospsuite.plots.alpha = ...)` flows into the geom
+  # attribute defaults the next time a plot function reads them. These defaults
+  # are applied per layer, so OSP plots get the OSP look without relying on the
   # global `update_geom_defaults()` mutation done by `setDefaults()`.
-  defaultAlpha <- 0.5
+  defaultAlpha <- getOption("ospsuite.plots.alpha", default = 0.5)
   defaultLinewidth <- 1.0
 
   optionList <- list(

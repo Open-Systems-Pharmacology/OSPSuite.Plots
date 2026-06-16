@@ -48,10 +48,16 @@ themeOspsuite <- function(base_size = 11, ...) {
 
 
 #' @title set the default theme
-#' @description set the OSPSuite theme as the global `ggplot2` theme for the
-#'   whole session via [ggplot2::theme_set()]. This is an opt-in convenience;
-#'   `ospsuite.plots` plot functions already apply [themeOspsuite()] per plot,
-#'   so calling this is only needed to style unrelated plots in the session.
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' set the OSPSuite theme as the global `ggplot2` theme for the whole session
+#' via [ggplot2::theme_set()].
+#'
+#' `ospsuite.plots` plot functions now apply [themeOspsuite()] per plot, so this
+#' global mutation is no longer needed for them. Use `plot + themeOspsuite()` to
+#' style an individual (non-`ospsuite.plots`) plot instead.
 #'
 #' @return invisibly return the previous theme so you can easily save it, then later restore it.
 #' @examples
@@ -70,6 +76,14 @@ themeOspsuite <- function(base_size = 11, ...) {
 #' @export
 #' @family setDefault functions
 setDefaultTheme <- function() {
+  lifecycle::deprecate_soft(
+    when = "1.3.0",
+    what = "setDefaultTheme()",
+    details = paste(
+      "ospsuite.plots plots are now themed per plot.",
+      "Use `plot + themeOspsuite()` to theme an individual plot."
+    )
+  )
   return(invisible(ggplot2::theme_set(themeOspsuite())))
 }
 
@@ -538,7 +552,16 @@ setOspsuite.plots.option <- function(optionKey, value) { # nolint: object_name_l
 
 #' sets the defaults for the OSPSuite.plots package
 #'
-#' should be started at the beginning at each workflow
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' Mutates global `ggplot2` state (theme, geom defaults and discrete color
+#' options) for the whole session.
+#'
+#' `ospsuite.plots` plot functions now apply the full OSPSuite styling per plot,
+#' so this is no longer needed for them. To style individual (non-`ospsuite.plots`)
+#' plots, compose the per-plot constructors instead:
+#' `plot + themeOspsuite() + scale_colour_osp() + scale_fill_osp()`.
 #'
 #' for detailed information see
 #' \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
@@ -555,6 +578,15 @@ setDefaults <- function(
   defaultOptions = list(),
   colorMapList = NULL
 ) {
+  lifecycle::deprecate_soft(
+    when = "1.3.0",
+    what = "setDefaults()",
+    details = paste(
+      "ospsuite.plots plots are now styled per plot.",
+      "Use `plot + themeOspsuite() + scale_colour_osp() + scale_fill_osp()`",
+      "to style an individual plot."
+    )
+  )
   checkmate::assertList(colorMapList, null.ok = TRUE)
   checkmate::assertList(defaultOptions, null.ok = TRUE)
 
@@ -591,8 +623,9 @@ setDefaults <- function(
   oldDefaults[["geomLine"]] <- get("GeomLine", envir = nsenv)$default_aes
 
   # set theme, color and shapes
-
-  oldDefaults[["theme"]] <- setDefaultTheme()
+  # (call theme_set() directly rather than the deprecated setDefaultTheme()
+  # wrapper, so setDefaults() only emits its own deprecation warning)
+  oldDefaults[["theme"]] <- ggplot2::theme_set(themeOspsuite())
   oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(
     colorMapList = colorMapList
   )

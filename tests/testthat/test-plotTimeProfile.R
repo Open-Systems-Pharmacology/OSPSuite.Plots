@@ -1,6 +1,3 @@
-# setDefaults
-oldDefaults <- ospsuite.plots::setDefaults()
-
 test_that("plotTimeProfile works basic", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
@@ -676,5 +673,3 @@ test_that("'lin' is accepted as shorthand for 'linear' in plotTimeProfile", {
     )
   )
 })
-
-ospsuite.plots::resetDefaults(oldDefaults)

@@ -1,8 +1,5 @@
 # Test utilities-defaults.R functions
 
-# Store original options to restore later
-oldDefaults <- ospsuite.plots::setDefaults()
-
 test_that("getDefaultGeomAttributes works correctly", {
   # Test with valid geom types
   lineAttrs <- getDefaultGeomAttributes("Line")
@@ -151,8 +148,9 @@ test_that("resetDefaultColorMapDistinct works correctly", {
 })
 
 test_that("setDefaults does not break raw ggplot2::geom_point() with mapped shape (#118)", {
-  withr::defer(resetDefaults(oldDefaults))
-  oldDefaults <- setDefaults()
+  # setDefaults() is soft-deprecated; it still works for raw ggplot2 plots.
+  lifecycle::expect_deprecated(oldDefaults <- setDefaults())
+  withr::defer(suppressWarnings(resetDefaults(oldDefaults)))
 
   df <- data.frame(x = 1:5, y = 1:5, g = letters[1:5])
   p <- ggplot2::ggplot(
@@ -201,7 +199,8 @@ test_that("setDefaultTheme applies themeOspsuite globally and returns the previo
   withr::defer(ggplot2::theme_set(oldTheme))
   oldTheme <- ggplot2::theme_set(ggplot2::theme_grey())
 
-  previousTheme <- setDefaultTheme()
+  # setDefaultTheme() is soft-deprecated; it still mutates the global theme.
+  lifecycle::expect_deprecated(previousTheme <- setDefaultTheme())
 
   # the returned theme is the one that was active before the call
   expect_equal(
@@ -237,5 +236,3 @@ test_that("constructLabelWithUnit handles edge cases", {
   expect_equal(constructLabelWithUnit("Test", ""), "Test")
   expect_null(constructLabelWithUnit(NULL, "unit"))
 })
-
-ospsuite.plots::resetDefaults(oldDefaults)

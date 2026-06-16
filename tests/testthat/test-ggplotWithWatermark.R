@@ -1,5 +1,3 @@
-oldDefaults <- ospsuite.plots::setDefaults()
-
 test_that("Change watermark", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
@@ -77,10 +75,13 @@ test_that("saves plot with watermark in SVG", {
   svgContent <- readLines(tempSvg)
 
   # Retrieve the watermark label from the plotting options
-  watermarkLabel <- getOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel)
+  watermarkLabel <- getOspsuite.plots.option(
+    optionKey = OptionKeys$watermarkLabel
+  )
 
   # Check if the watermark label is present in the SVG content
-  expect_true(any(grepl(watermarkLabel, svgContent)),
+  expect_true(
+    any(grepl(watermarkLabel, svgContent)),
     info = "Watermark label should be present in the SVG content"
   )
 
@@ -101,7 +102,8 @@ test_that("saves plot with watermark in SVG", {
   svgContent <- readLines(tempSvg)
 
   # Check if the watermark label is present in the SVG content
-  expect_true(any(grepl(watermarkLabel, svgContent)),
+  expect_true(
+    any(grepl(watermarkLabel, svgContent)),
     info = "Watermark label should be present in the SVG content"
   )
 
@@ -115,18 +117,22 @@ test_that("saves plot with watermark in SVG", {
   svgContent <- readLines(tempSvg)
 
   # Check if the watermark label is present in the SVG content
-  expect_true(any(grepl(watermarkLabel, svgContent)),
+  expect_true(
+    any(grepl(watermarkLabel, svgContent)),
     info = "Watermark label should be present in the SVG content"
   )
 })
 
 # Test for plot_list with cowplot
 test_that("cowplot::plot_list works correctly", {
-  # Create multiple ggplot objects
+  # Create multiple ggplot objects (apply the OSP theme per plot, since these
+  # are raw ggplots that no longer inherit a global theme from setDefaults())
   p1 <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-    geom_point()
+    geom_point() +
+    themeOspsuite()
   p2 <- ggplot(mtcars, aes(x = hp, y = mpg)) +
-    geom_point()
+    geom_point() +
+    themeOspsuite()
 
   # Combine plots using cowplot
   combiPlot <- cowplot::plot_grid(p1, p2) |>
@@ -171,10 +177,10 @@ test_that("addWatermark silently treats NULL watermarkEnabled as TRUE", {
 
   options(ospsuite.plots.watermarkEnabled = NULL)
   expect_true(getOspsuite.plots.option(OptionKeys$watermarkEnabled))
-  
+
   p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
   expect_no_condition(addWatermark(p))
-  
+
   tempSvg <- tempfile(fileext = ".svg")
   suppressMessages(ggsave(tempSvg, plot = addWatermark(p), device = "svg"))
   expect_true(
@@ -190,18 +196,14 @@ test_that("print.ggWatermark silently treats NULL watermarkEnabled as TRUE", {
 
   options(ospsuite.plots.watermarkEnabled = NULL)
   expect_true(getOspsuite.plots.option(OptionKeys$watermarkEnabled))
-  
+
   p <- ggplotWithWatermark(mtcars, aes(x = wt, y = mpg)) + geom_point()
   expect_no_condition(print(p))
-  
+
   tempSvg <- tempfile(fileext = ".svg")
   suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
   expect_true(
     any(grepl(watermarkLabel, readLines(tempSvg), fixed = TRUE)),
     info = "print.ggWatermark silently treats NULL watermarkEnabled as TRUE"
   )
-  
 })
-
-
-ospsuite.plots::resetDefaults(oldDefaults)

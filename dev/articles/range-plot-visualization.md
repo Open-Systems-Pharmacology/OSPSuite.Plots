@@ -29,9 +29,6 @@ library(data.table)
 #> 
 #>     %notin%
 library(ggplot2)
-
-# Set Defaults
-oldDefaults <- setDefaults()
 ```
 
 ### 1.2 Example Data

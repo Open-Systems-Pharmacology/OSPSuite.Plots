@@ -10,11 +10,11 @@ package.
 
 This vignette uses the
 [ospsuite.plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/)
-and [tidyr](https://tidyr.tidyverse.org) libraries. We will use the
-default settings of
+and [tidyr](https://tidyr.tidyverse.org) libraries. The
 [ospsuite.plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/)
-(see vignette(“ospsuite.plots”, package = “ospsuite.plots”)) but will
-adjust the legend position.
+plot functions apply their layout per plot (see
+`vignette("ospsuite.plots", package = "ospsuite.plots")`), so no global
+setup is required.
 
 ``` r
 
@@ -23,13 +23,6 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 library(ospsuite.plots)
 #> Loading required package: ggplot2
 library(tidyr)
-# Set Defaults
-oldDefaults <- ospsuite.plots::setDefaults()
-
-# Place default legend position above the plot for clearer histogram plots
-theme_update(legend.position = "top")
-theme_update(legend.direction = "horizontal")
-theme_update(legend.title = element_blank())
 ```
 
 ### 1.2 Example Data
@@ -139,7 +132,8 @@ distributions.](histogram_files/figure-html/minimal-example-default-1.png)
 
 The variable `geomHistAttributes` is set by default to
 `getDefaultGeomAttributes("Hist")`, which is a list with entries
-`bins = 10` and `position = ggplot2::position_nudge()`.
+`bins = 10`, `position = ggplot2::position_nudge()`, `color = "black"`
+and `alpha = 0.5`.
 
 In the example below, the variable `geomHistAttributes` is set to a list
 with entry `position = "dodge"`. This changes the position, but note

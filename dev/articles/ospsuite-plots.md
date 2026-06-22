@@ -1,10 +1,6 @@
 # Overview
 
-    #> Loading required package: ggplot2
-
 ## 1. Introduction
-
-### 1.1 Objectives of ospsuite.plots
 
 The main purpose of the `ospsuite.plots` library is to provide
 standardized plots typically used in the context of PBPK modeling. The
@@ -14,10 +10,39 @@ library supports plot generation for the packages `OSPSuiteR` and
 The library is based on `ggplot2` functionality and also utilizes the
 `ggh4x` package.
 
-## 2. Default Settings for Layout
+## 2. Styling ospsuite.plots Plots
 
-`ospsuite.plots` provides default settings for the layout, including
-theme, geometric aesthetics, colors, and shapes for distinct scales.
+Every `ospsuite.plots` plot function already produces a fully styled
+plot, so you do not need to configure anything to get the
+`ospsuite.plots` look. When you *do* want to change something, there are
+two distinct mechanisms, and it helps to know which one to reach for:
+
+- **OSP theme and custom scales** ([Section
+  2.1](#osp-theme-and-custom-scales)) shape the *frame and the mapped
+  aesthetics* of a single plot, by adding them like any other `ggplot2`
+  component:
+  [`theme_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/theme_osp.md)
+  for the theme (background, grid, legend, titles), and
+  [`scale_colour_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
+  /
+  [`scale_fill_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
+  /
+  [`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.md)
+  for the discrete `ospsuite.plots` color and shape palettes. They
+  return ordinary `ggplot2` objects and never change global state, so
+  they also let you bring the `ospsuite.plots` look to a plot you built
+  yourself with plain `ggplot2`.
+- **Session options** ([Section 2.2](#session-options)) set *defaults
+  read at plot-function call time*: the geom aesthetics of the drawn
+  marks (fill alpha, line width, error-bar caps, …), statistical
+  behaviour (percentiles, histogram bins), and side features (watermark,
+  export format). Set them once and every later `ospsuite.plots` plot in
+  the session picks them up; or pass the matching `geom*Attributes`
+  argument to override just one call.
+
+In short: reach for a **constructor** to restyle the look of *one plot*
+(especially a hand-built `ggplot2` plot); set an **option** to change
+the *default marks or behaviour* across your analysis.
 
 Examples within this vignette are plotted using the following test data:
 
@@ -26,278 +51,110 @@ Examples within this vignette are plotted using the following test data:
 testData <- exampleDataCovariates |>
   dplyr::filter(SetID == "DataSet1") |>
   dplyr::select(c("ID", "Age", "Obs", "Pred", "Sex"))
-
-knitr::kable(head(testData), digits = 3)
 ```
 
-|  ID | Age |  Obs | Pred | Sex  |
-|----:|----:|-----:|-----:|:-----|
-|   1 |  48 | 4.00 | 2.90 | Male |
-|   2 |  36 | 4.40 | 5.75 | Male |
-|   3 |  52 | 2.80 | 2.70 | Male |
-|   4 |  47 | 3.75 | 3.05 | Male |
-|   5 |   0 | 1.95 | 5.25 | Male |
-|   6 |  48 | 2.45 | 5.30 | Male |
+### 2.1 OSP Theme and Custom Scales
 
-### 2.1 Plots with and without Default Layout
+The OSP theme and scales are added to a plot like any other `ggplot2`
+component and return ordinary `ggplot2` objects, so they do not change
+global state. The `ospsuite.plots` plot functions apply them internally;
+you add them yourself only when styling a plain `ggplot2` plot.
 
-#### 2.1.1 Default ggplot Layout
-
-- A plot created using the `ospsuite.plots` function
-- B customized plot
+The same plot with the default `ggplot2` layout (A) and with the
+`ospsuite.plots` constructors applied (B):
 
 ``` r
 
-# ospsuite.plots function
-ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
+basePlot <- ggplot(testData, aes(x = Obs, y = Pred, color = Sex)) +
+  geom_point()
 
-# Customized plot
-ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)) +
+# A: default ggplot2 layout
+basePlot + labs(title = "A: default ggplot2")
+
+# B: ospsuite.plots constructors added to the same plot
+basePlot +
+  theme_osp() +
+  scale_colour_osp() +
+  labs(title = "B: ospsuite.plots (theme_osp + scale_colour_osp)")
+```
+
+![Two scatter plots of the same data. Plot A uses the default ggplot2
+layout with the grey theme and default colors. Plot B applies the
+ospsuite.plots constructors theme_osp() and scale_colour_osp(), showing
+the white theme and ospsuite.plots
+colors.](ospsuite-plots_files/figure-html/default-layout-comparison-1.png)![Two
+scatter plots of the same data. Plot A uses the default ggplot2 layout
+with the grey theme and default colors. Plot B applies the
+ospsuite.plots constructors theme_osp() and scale_colour_osp(), showing
+the white theme and ospsuite.plots
+colors.](ospsuite-plots_files/figure-html/default-layout-comparison-2.png)
+
+#### 2.1.1 Theme: `theme_osp()`
+
+[`theme_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/theme_osp.md)
+is a regular `ggplot2` theme, built on
+[`theme_bw()`](https://ggplot2.tidyverse.org/reference/ggtheme.html),
+that styles the **frame** of a plot (panel background, grid, legend
+placement, title and subtitle); it controls everything that is not the
+plotted data. Because it is an ordinary theme object, it behaves exactly
+like the built-in `theme_*()` themes: use it as the starting point and
+layer your own choices on top with a
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) call
+(the later
+[`theme()`](https://ggplot2.tidyverse.org/reference/theme.html) wins for
+the elements it sets). It also accepts the usual
+[`theme_bw()`](https://ggplot2.tidyverse.org/reference/ggtheme.html)
+arguments such as `base_size`.
+
+``` r
+
+# start from the OSP theme, then apply custom choices on top (these win)
+ggplot(mpg, aes(x = displ, y = hwy, color = class)) +
   geom_point() +
-  theme(legend.position = "top") +
-  labs(tag = "B")
+  labs(
+    title = "Highway mileage vs engine size",
+    subtitle = "ggplot2 mpg dataset, coloured by car class",
+    x = "engine displacement (L)",
+    y = "highway miles per gallon"
+  ) +
+  theme_osp() +
+  theme(
+    legend.position = "left",
+    plot.title = element_text(hjust = 0),
+    plot.subtitle = element_text(hjust = 0),
+    panel.grid.major = element_line(linetype = "dotted")
+  )
 ```
 
-![Two plots comparing default ggplot styling (A) versus ospsuite.plots
-styling (B). Plot A shows a histogram with default ggplot formatting.
-Plot B shows a scatter plot with customized colors, shapes, and legend
-positioning demonstrating enhanced styling
-capabilities.](ospsuite-plots_files/figure-html/default-layout-comparison-1.png)![Two
-plots comparing default ggplot styling (A) versus ospsuite.plots styling
-(B). Plot A shows a histogram with default ggplot formatting. Plot B
-shows a scatter plot with customized colors, shapes, and legend
-positioning demonstrating enhanced styling
-capabilities.](ospsuite-plots_files/figure-html/default-layout-comparison-2.png)
+![Scatter plot of the ggplot2 mpg dataset (engine size versus highway
+mileage, coloured by car class) styled by starting from theme_osp() and
+overriding it: the legend is moved to the left, the title and subtitle
+are left-aligned and the major grid is
+dotted.](ospsuite-plots_files/figure-html/theme_osp-1.png)
 
-#### 2.1.2 Set ospsuite.plots Layout
+#### 2.1.2 Color: `scale_colour_osp()` and `scale_fill_osp()`
 
-To set the default layout, we use the same logic as in
-[`ggplot2::theme_set()`](https://ggplot2.tidyverse.org/reference/get_theme.html).
-The previous settings are returned invisibly, so you can easily save
-them and restore them later.
-
-[`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.md)
-sets the theme, discrete color palette, and various options. All objects
-can also be set separately as described below. Shape ordering for
-OSP-aware geoms is controlled per plot via
-[`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.md)
-or
-[`scale_shape_osp_manual()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp_manual.md).
-
-``` r
-
-# Set default layout and save previous layout in variable oldDefaults
-oldDefaults <- ospsuite.plots::setDefaults(defaultOptions = list(), colorMapList = NULL)
-
-# ospsuite.plots function
-ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
-
-# Customized plot
-ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, fill = Sex, shape = Sex)) +
-  geom_point() +
-  theme(legend.position = "top") +
-  labs(tag = "B")
-```
-
-![Two plots showing the effect of setting ospsuite.plots defaults. Plot
-A shows a histogram with ospsuite.plots styling applied. Plot B shows a
-scatter plot that now automatically adopts the ospsuite.plots theme,
-colors, shapes, and formatting after setDefaults() is
-called.](ospsuite-plots_files/figure-html/set-ospsuite-defaults-1.png)![Two
-plots showing the effect of setting ospsuite.plots defaults. Plot A
-shows a histogram with ospsuite.plots styling applied. Plot B shows a
-scatter plot that now automatically adopts the ospsuite.plots theme,
-colors, shapes, and formatting after setDefaults() is
-called.](ospsuite-plots_files/figure-html/set-ospsuite-defaults-2.png)
-
-#### 2.1.3 Reset to Previously Saved Layout
-
-``` r
-
-# Reset to previously saved layout options
-ospsuite.plots::resetDefaults(oldDefaults = oldDefaults)
-
-# ospsuite.plots function
-ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age)) + labs(tag = "A")
-
-# Customized plot
-ggplot(data = testData, mapping = aes(x = Obs, y = Pred, color = Sex, shape = Sex)) +
-  geom_point() +
-  theme(legend.position = "top") +
-  labs(tag = "B")
-```
-
-![Two plots demonstrating resetting to previously saved layout defaults.
-Plot A shows the histogram reverting to original default styling after
-resetDefaults() is called. Plot B shows the scatter plot also returning
-to the original ggplot defaults, confirming that the layout reset worked
-correctly.](ospsuite-plots_files/figure-html/reset-to-previous-defaults-1.png)![Two
-plots demonstrating resetting to previously saved layout defaults. Plot
-A shows the histogram reverting to original default styling after
-resetDefaults() is called. Plot B shows the scatter plot also returning
-to the original ggplot defaults, confirming that the layout reset worked
-correctly.](ospsuite-plots_files/figure-html/reset-to-previous-defaults-2.png)
-
-### 2.2 Default Theme
-
-Functions to set the `ospsuite.plots` default theme only are
-[`setDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultTheme.md)
+[`scale_colour_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
 and
-[`resetDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaultTheme.md).
-These functions are called by
-[`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.md)
-and
-[`resetDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaults.md).
-
-``` r
-
-# Set ospsuite.plots Default Theme
-oldTheme <- ospsuite.plots::setDefaultTheme()
-
-# Customize theme using ggplot functionalities
-theme_update(legend.position = "top")
-theme_update(legend.title = element_blank())
-
-# Reset to the previously saved theme
-ospsuite.plots::resetDefaultTheme(oldTheme)
-```
-
-### 2.3 Default Color
-
-Functions to set the `ospsuite.plots` default color only are
-[`setDefaultColorMapDistinct()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultColorMapDistinct.md)
-and
-[`resetDefaultColorMapDistinct()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaultColorMapDistinct.md).
-These functions are called by
-[`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.md)
-and
-[`resetDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaults.md).
-
-Colors are set to discrete and ordinal scales for `fill` and `colour`.
-
-The package provides some color palettes in the object `colorMaps` (see
+[`scale_fill_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
+apply the `ospsuite.plots` discrete color palette to the mapped
+`colour`/`fill` aesthetics (`colorMaps$default` for up to 6 groups,
+`colorMaps$ospDefault` beyond; see
 [`?colorMaps`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/colorMaps.md)).
+As in `ggplot2`,
+[`scale_color_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
+is an alias of
+[`scale_colour_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md).
+As ordinary scales, they are overridden by any other `scale_colour_*()`
+/ `scale_fill_*()` you add.
 
-The example below shows plots with:
+The palette used beyond six groups (`colorMaps$ospDefault`):
 
-- A plot with default settings for up to 6 different colors
-- B plot with default settings for more than 6 different colors
-- C customized settings for all following plots using the
-  `colorMaps[["grays"]]`
-- D customized plot: set gray scale for this plot only using function
-  [`scale_fill_grey()`](https://ggplot2.tidyverse.org/reference/scale_grey.html)
-- E customized settings for all following plots using
-  `ggsci::pal_lancet()(9)`
-- F customized plots: set gray scale for this plot only using function
-  [`ggsci::scale_color_lancet()`](https://nanx.me/ggsci/reference/scale_lancet.html)
+![Color swatch grid of the ospsuite.plots ospDefault palette, the colors
+used by scale_fill_osp() and scale_colour_osp() beyond six
+groups.](ospsuite-plots_files/figure-html/scale-fill-osp-1.png)
 
-``` r
-
-# Set ospsuite.plots Default Color
-oldColors <- ospsuite.plots::setDefaultColorMapDistinct()
-
-ggplot() +
-  geom_tile(aes(x = rep(seq(1, 3), 2), y = rep(seq(1, 2), each = 3), fill = as.factor(seq(1, 6)))) +
-  labs(title = "Default settings for up to 6 different colors", tag = "A") +
-  theme(legend.position = "none", axis.title = element_blank())
-```
-
-![Tile plot demonstrating default color settings for up to 6 different
-colors. The plot shows a 3x2 grid of colored tiles, each representing a
-different discrete color from the default ospsuite.plots color palette
-for small categorical
-datasets.](ospsuite-plots_files/figure-html/default-color-settings-6colors-1.png)
-
-``` r
-
-ggplot() +
-  geom_tile(aes(x = c(rep(seq(1, 7), 7), 1, 2), y = c(rep(seq(1, 7), each = 7), 8, 8), fill = as.factor(seq(1, 51)))) +
-  labs(title = "Default settings for more than 6 different colors") +
-  theme(legend.position = "none", axis.title = element_blank())
-```
-
-![Tile plot demonstrating default color settings for more than 6
-different colors. The plot shows a 7x7 grid plus 2 additional tiles (51
-total), illustrating how ospsuite.plots handles large categorical
-datasets by cycling through and extending the color
-palette.](ospsuite-plots_files/figure-html/default-color-settings-many-colors-1.png)
-
-``` r
-
-# Customize colors: set to gray colors
-ospsuite.plots::setDefaultColorMapDistinct(colorMaps[["grays"]])
-
-ggplot() +
-  geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
-  theme(legend.position = "none", axis.title = element_blank()) +
-  labs(title = "colorMaps gray", tag = "C")
-```
-
-![Tile plot demonstrating customized gray color palette. The plot shows
-a 3x3 grid of tiles using grayscale colors from the ospsuite.plots
-colorMaps gray palette, illustrating how to apply monochromatic color
-schemes for accessibility or publication
-requirements.](ospsuite-plots_files/figure-html/customize-colors-gray-1.png)
-
-``` r
-
-ggplot() +
-  geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
-  theme(legend.position = "none", axis.title = element_blank()) +
-  scale_fill_grey() +
-  labs(title = "scale_fill_grey", tag = "D")
-```
-
-![Tile plot using ggplot2's built-in scale_fill_grey() function. The
-plot shows a 3x3 grid of tiles demonstrating how to override
-ospsuite.plots defaults with standard ggplot2 gray scale functions for
-individual
-plots.](ospsuite-plots_files/figure-html/ggplot-scale-fill-grey-1.png)
-
-``` r
-
-# Set to color palettes inspired by plots in Lancet journals
-ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
-
-ggplot() +
-  geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
-  theme(legend.position = "none", axis.title = element_blank()) +
-  labs(title = "ggsci::pal_lancet", tag = "E")
-```
-
-![Tile plot using ggsci Lancet journal color palette. The plot shows a
-3x3 grid of tiles demonstrating how to set ospsuite.plots defaults to
-use professional journal color schemes inspired by The Lancet
-publication
-style.](ospsuite-plots_files/figure-html/ggsci-lancet-colors-1.png)
-
-``` r
-
-# Set to color palettes inspired by plots in Lancet journals
-ospsuite.plots::setDefaultColorMapDistinct(ggsci::pal_lancet()(9))
-
-ggplot() +
-  geom_tile(aes(x = rep(seq(1, 3), 3), y = rep(seq(1, 3), each = 3), fill = as.factor(seq(1, 9)))) +
-  theme(legend.position = "none", axis.title = element_blank()) +
-  ggsci::scale_color_lancet() +
-  labs(title = "ggsci::scale_color_lancet", tag = "F")
-```
-
-![Tile plot using ggsci Lancet color palette with scale override. The
-plot shows a 3x3 grid of tiles demonstrating how to use
-ggsci::scale_color_lancet() to override the default color mapping for
-individual plots while maintaining the Lancet color
-scheme.](ospsuite-plots_files/figure-html/ggsci-color-lancet-override-1.png)
-
-#### Reset to Previously Saved Color Map
-
-``` r
-
-# Reset to the previously saved color map
-ospsuite.plots::resetDefaultColorMapDistinct(oldColorMaps = oldColors)
-```
-
-### 2.4 Default Shapes
+#### 2.1.3 Shape: `scale_shape_osp()`
 
 All point layers produced by `ospsuite.plots` use
 [`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_point_osp.md),
@@ -306,142 +163,99 @@ you build your own plots and want them to combine consistently with
 `ospsuite.plots` outputs, prefer
 [`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_point_osp.md)
 over the raw
-[`ggplot2::geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html).
+[`ggplot2::geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html)
+(raw
+[`geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html)
+keeps using ggplot2’s native pch shapes and is unaffected). Shape
+ordering is controlled per plot:
 
-Shape ordering is controlled per plot, not via a global option:
-
-- [`geom_point_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_point_osp.md)
-  paired with
-  [`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.md)
+- [`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.md)
   assigns shapes automatically from `ospShapeNames`.
 - `scale_shape_osp_manual(values = c(level1 = "circle", level2 = "diamond", ...))`
   sets an explicit mapping.
 - [`scale_shape_osp_identity()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp_identity.md)
   is the right choice when the data already contains shape names.
 
-Raw
-[`ggplot2::geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html)
-keeps using ggplot2’s native pch shapes and is unaffected.
+The available shapes:
 
-### 2.5 Default Options
+![Chart displaying all default OSP shape types available in
+ospsuite.plots. Shows various point shapes arranged in a grid with
+labels, demonstrating the visual appearance of each shape
+option.](ospsuite-plots_files/figure-html/default-shapes-1.png)
 
-[`getDefaultOptions()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/getDefaultOptions.md)
-returns a list of options used in this package. These options are set by
-the function
+#### 2.1.4 Applying the constructors globally (deprecated)
+
+To style many unrelated (non-`ospsuite.plots`) plots in a session at
+once,
+[`setDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultTheme.md)
+sets
+[`theme_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/theme_osp.md)
+as the global `ggplot2` theme via
+[`theme_set()`](https://ggplot2.tidyverse.org/reference/get_theme.html),
+and
 [`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.md)
-via the variable `defaultOptions`.
+additionally mutates the global geom defaults and discrete color
+options. Both are **deprecated**: `ospsuite.plots` plots no longer need
+them, and the per-plot
+[`theme_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/theme_osp.md)
+and scales above are the recommended path. They still work and return
+the previous settings so you can restore them with
+[`resetDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaultTheme.md)
+/
+[`resetDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaults.md).
 
 ``` r
 
-ospsuite.plots::setDefaults(defaultOptions = ospsuite.plots::getDefaultOptions())
+# Deprecated: style every plot in the session, including non-ospsuite.plots ones
+oldTheme <- ospsuite.plots::setDefaultTheme()
+
+# Restore the previous global theme
+ospsuite.plots::resetDefaultTheme(oldTheme)
 ```
 
-The names of all options defined by this package start with the package
-name `ospsuite.plots` as a prefix and a suffix. The suffixes are listed
-in the enumeration `OptionKeys`. There are two helper functions
-(`setOspsuite.plots.option` and `getOspsuite.plots.option`) to set and
-get these options.
+### 2.2 Session Options
 
-### 2.5.1 Options to Customize Watermark
-
-All plots in this packages are created with the function
-[`ggplotWithWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/ggplotWithWatermark.md)
-instead of
-[`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html). This
-function creates a `ggplot` with a customized print function which adds
-a watermark.
-
-The watermark is **enabled by default** — plots produced without any
-configuration will already carry the watermark. Setting the option to
-`NULL` is treated the same as using the default, so the watermark will
-still appear.
-
-No opt-in is required; you only need to interact with these options if
-you want to customize or remove the watermark. To override this default
-in your `.Rprofile` (e.g., to disable watermarks globally):
+Session options are read by the `ospsuite.plots` plot functions at call
+time (falling back to the package defaults when an option is unset), so
+setting one changes the default for every later plot in the session. Set
+them with `options(ospsuite.plots.<key> = value)` and read them with
+`getOption("ospsuite.plots.<key>")`; the examples below use this form.
+The helpers `setOspsuite.plots.option(optionKey, value)` and
+`getOspsuite.plots.option(optionKey)` do the same using the keys from
+the `OptionKeys` enumeration, and
+[`getDefaultOptions()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/getDefaultOptions.md)
+returns the full default list.
 
 ``` r
 
-# Disable watermarks globally
-options(ospsuite.plots.watermarkEnabled = FALSE)
+# inspect the default options
+ospsuite.plots::getDefaultOptions()
 ```
 
-You can edit your `.Rprofile` with
-[`usethis::edit_r_profile()`](https://usethis.r-lib.org/reference/edit.html).
+The options fall into three groups:
 
-**Attention!** If you combine plots e.g. with `cowplot:plot_grid` the
-default print function without watermark is called. In this case you
-have to add the watermark with the function `addWatermark(plotObject)`
-before the print.
+1.  **Geom default aesthetics** ([Section
+    2.2.1](#geom-default-aesthetics)): how the drawn marks look (fill
+    alpha, line width, error-bar caps, bar outline, …).
+2.  **Statistical and plotting behaviour** ([Section
+    2.2.2](#statistical-and-plotting-behaviour)): what is computed or
+    drawn, not how it looks (percentiles, histogram bins, LLOQ
+    handling).
+3.  **Side features** ([Section
+    2.2.3](#side-features-watermark-and-export)): the watermark and the
+    export format.
 
-The watermark can be customized by these options:
+#### 2.2.1 Geom Default Aesthetics
 
-- Switch the watermark on and off (option key = `watermarkEnabled`,
-  default = `TRUE`)
-- Define the label (option key = `watermarkLabel`, default =
-  “preliminary analysis”)
-- Customize format (option key = `watermarkFormat`, default =
-  `list(x = 0.5, y = 0.5, color = "lightgrey", angle = 30, fontsize = 12, alpha = 0.7)`)
-
-#### Examples to Customize Watermark
-
-- A: Change format of watermark
-- B: Disable watermark
-- C: Reset to default
-
-``` r
-
-# Change format and label of watermark
-setOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat, value = list(x = 0.2, y = 0.6, color = "red", angle = 90, fontsize = 24, alpha = 0.2))
-setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = "NEW")
-
-# Initialize plot
-ggplotWithWatermark() + labs(title = "Changed Watermark", tag = "A")
-```
-
-![Plot demonstrating customized watermark formatting. The plot shows a
-blank coordinate system with a red watermark rotated 90 degrees,
-positioned at specific coordinates with increased font size and reduced
-transparency, labeled 'NEW' instead of the default
-text.](ospsuite-plots_files/figure-html/customize-watermark-1.png)
-
-``` r
-
-# Disable watermark
-setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = FALSE)
-
-# Initialize plot
-ggplotWithWatermark() + labs(title = "No Watermark", tag = "B")
-```
-
-![Plot demonstrating disabled watermark functionality. The plot shows a
-clean blank coordinate system with no watermark text overlay,
-illustrating how the watermarkEnabled option can be set to FALSE for
-clean publication-ready
-plots.](ospsuite-plots_files/figure-html/disable-watermark-1.png)
-
-``` r
-
-# Reset to default
-setOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat, value = NULL)
-setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = NULL)
-setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
-
-# Initialize plot
-ggplotWithWatermark() + labs(title = "Default Watermark", tag = "C")
-```
-
-![Plot demonstrating reset watermark to default settings. The plot shows
-a blank coordinate system with the default watermark restored - gray
-text reading 'preliminary analysis' at 30-degree angle in the center
-with standard transparency and font
-size.](ospsuite-plots_files/figure-html/reset-watermark-default-1.png)
-
-### 2.5.2 Options to Set the Defaults for Geom Layer Attributes
-
-All plot functions have input variables `geom*Attributes` which are
-passed as variables to the corresponding ggplot layer. The defaults of
-the input variables can be set by options.
+All plot functions have `geom*Attributes` input variables that are
+passed on to the corresponding `ggplot2` layer; their defaults are
+session options. This is how the `ospsuite.plots` look of the drawn
+marks (such as the fill alpha of ribbons and boxes, the line width, or
+the error-bar cap width) is applied per layer, rather than by mutating
+the global `ggplot2` geom defaults. Override one for a single plot by
+passing the argument
+(e.g. `plotRangeDistribution(..., geomRibbonAttributes = list(alpha = 0.3))`),
+or for the session by setting the option.
 
 | functions | Line | Ribbon | Point | Errorbar | LLOQ | Hist | Boxplot | ComparisonLine | GuestLine |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
@@ -454,78 +268,128 @@ the input variables can be set by options.
 
 Usage of options for geom attributes {.table}
 
-With default options:
-
-- `LineAttributes = list()`
-- `Ribbon = list(color = NA)`
-- `PointAttributes = list()`
-- `ErrorbarAttributes = list(width = 0)`
-- `LLOQAttributes = list()`
-- `ComparisonLineAttributes = list(linetype = "dashed")`
-- `GuestLineAttributes = list(linetype = "dashed")`
-- `BoxplotAttributes = list(position = position_dodge(width = 1), color = "black")`
-- `HistAttributes = list(bins = 10, position = ggplot2::position_nudge())`
-
-### 2.5.3 Options to Set Defaults for Aesthetics
-
-Options to set the face alpha of ribbons, filled points and options to
-set the filled points for values below and above LLOQ.
+The default fill alpha and line width are shared across these attributes
+through the `alpha` option (default `0.5`); setting it adjusts the
+transparency of every filled mark:
 
 ``` r
 
-# Default alpha = 0.5
-getOspsuite.plots.option(optionKey = "alpha")
-
-# Alpha of LLOQ values
-c("TRUE" = 0.3, "FALSE" = 1)
-getOspsuite.plots.option(optionKey = "lloqAlphaVector")
-
-# Linetype LLOQ comparison lines
-"dashed"
-getOspsuite.plots.option(optionKey = "lloqLineType")
+# Make all filled marks more transparent for the session
+options(ospsuite.plots.alpha = 0.3)
 ```
 
-### 2.5.4 Options for Percentiles
+#### 2.2.2 Statistical and Plotting Behaviour
 
-There are two percentile-related options controlling default behavior:
+These options change *what* a plot computes or draws, not how the marks
+look.
 
-- `percentiles`: A numeric vector of five quantiles defining the lower
-  whisker, lower box, median, upper box, and upper whisker used by
+- `percentiles`: five quantiles (lower whisker, lower box, median, upper
+  box, upper whisker) used by
   [`plotBoxWhisker()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotBoxWhisker.md)
-  (default = `c(0.05, 0.25, 0.5, 0.75, 0.95)`).
-- `defaultPercentiles`: A numeric vector of three quantiles used as the
-  default for
+  (default `c(0.05, 0.25, 0.5, 0.75, 0.95)`).
+- `defaultPercentiles`: three quantiles used by
   [`plotRangeDistribution()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotRangeDistribution.md)
-  (default = `c(0.05, 0.5, 0.95)`).
+  (default `c(0.05, 0.5, 0.95)`).
+- `geomHistAttributes$bins`: the default number of histogram bins.
+- `lloqAlphaVector` / `lloqLineType`: the transparency of points below
+  the LLOQ and the line type of the LLOQ line.
 
 ``` r
 
-# Get current box-whisker percentiles (5 values)
-getOspsuite.plots.option(optionKey = OptionKeys$percentiles)
+# Change box-whisker percentiles for the session
+options(ospsuite.plots.percentiles = c(0.1, 0.25, 0.5, 0.75, 0.9))
 
-# Change box-whisker percentiles globally
-setOspsuite.plots.option(optionKey = OptionKeys$percentiles, value = c(0.1, 0.25, 0.5, 0.75, 0.9))
-
-# Get current range-plot percentiles (3 values)
-getOspsuite.plots.option(optionKey = OptionKeys$defaultPercentiles)
-
-# Change range-plot default percentiles globally
-setOspsuite.plots.option(optionKey = OptionKeys$defaultPercentiles, value = c(0.1, 0.5, 0.9))
+# Change range-plot percentiles for the session
+options(ospsuite.plots.defaultPercentiles = c(0.1, 0.5, 0.9))
 ```
 
-### 2.5.5 Options to Define Export Format
+#### 2.2.3 Side Features: Watermark and Export
 
-There are options to define the export format using the function
-`exportPlot` (see details below):
+##### Watermark
 
-- `exportWidth`: Width of the exported file
-- `exportUnits`: Units for width and height
-- `exportDevice`: Device for plot export
-- `exportDpi`: Plot resolution
+All plots in this package are created with
+[`ggplotWithWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/ggplotWithWatermark.md)
+instead of
+[`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html), which
+adds a watermark on print. The watermark is **enabled by default**;
+setting the option to `NULL` is treated the same as the default, so it
+still appears. You only need these options to customize or remove it.
 
-The latter options are used directly as input for
-[`ggplot2::ggsave`](https://ggplot2.tidyverse.org/reference/ggsave.html),
-so check the help for available values.
+``` r
+
+# Disable watermarks globally (e.g. in your .Rprofile, editable via usethis::edit_r_profile())
+options(ospsuite.plots.watermarkEnabled = FALSE)
+```
+
+**Attention!** If you combine plots, e.g. with
+[`cowplot::plot_grid`](https://wilkelab.org/cowplot/reference/plot_grid.html),
+the default print function without watermark is called. In that case add
+the watermark with `addWatermark(plotObject)` before printing.
+
+The watermark is controlled by three options:
+
+- `watermarkEnabled` (default `TRUE`): switch the watermark on or off.
+- `watermarkLabel` (default `"preliminary analysis"`): the text.
+- `watermarkFormat` (default
+  `list(x = 0.5, y = 0.5, color = "lightgrey", angle = 30, fontsize = 12, alpha = 0.7)`):
+  the appearance.
+
+``` r
+
+# A: default watermark
+ggplotWithWatermark() + labs(title = "A: default watermark")
+```
+
+![Plot with the default ospsuite.plots watermark: light grey text
+reading 'preliminary analysis' at a 30-degree angle in the centre of the
+panel.](ospsuite-plots_files/figure-html/default-watermark-1.png)
+
+``` r
+
+# B: customized watermark
+options(ospsuite.plots.watermarkLabel = "CONFIDENTIAL")
+options(
+  ospsuite.plots.watermarkFormat = list(
+    x = 0.5,
+    y = 0.5,
+    color = "purple",
+    angle = 45,
+    fontsize = 18,
+    alpha = 0.35
+  )
+)
+
+ggplotWithWatermark() + labs(title = "B: customized watermark")
+```
+
+![Plot demonstrating a customized watermark: a large, bold,
+semi-transparent purple 'CONFIDENTIAL' label rotated 45 degrees across
+the centre of the
+panel.](ospsuite-plots_files/figure-html/customize-watermark-1.png)
+
+``` r
+
+# C: no watermark
+options(ospsuite.plots.watermarkEnabled = FALSE)
+
+ggplotWithWatermark() + labs(title = "C: no watermark")
+```
+
+![Plot with the watermark disabled: a clean blank coordinate system with
+no watermark text
+overlay.](ospsuite-plots_files/figure-html/disable-watermark-1.png)
+
+##### Export
+
+[`exportPlot()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/exportPlot.md)
+(see [Section 5](#plot-export)) uses these options as defaults, passed
+on to
+[`ggplot2::ggsave()`](https://ggplot2.tidyverse.org/reference/ggsave.html):
+
+- `exportWidth`: width of the exported file
+- `exportUnits`: units for width and height
+- `exportDevice`: device for plot export
+- `exportDpi`: plot resolution
 
 ## 3. Plot Functions
 
@@ -640,18 +504,27 @@ Create a simple ggplot object:
 
 ``` r
 
-plotObject <- ospsuite.plots::plotHistogram(data = testData, mapping = aes(x = Age))
+plotObject <- ospsuite.plots::plotHistogram(
+  data = testData,
+  mapping = aes(x = Age)
+)
 ```
 
 Exporting the Plot: Using the `exportPlot` function, you can easily save
 this plot to a file:
 
-Replace “path/to/save” with the actual directory path where you want to
-save the plot, and adjust the width and height parameters as needed.
+Replace `"path/to/save"` with the actual directory path where you want
+to save the plot, and adjust the width and height parameters as needed.
 
 ``` r
 
-exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "myplot", width = 10, height = 8)
+exportPlot(
+  plotObject = plotObject,
+  filepath = "path/to/save",
+  filename = "myplot",
+  width = 10,
+  height = 8
+)
 ```
 
 ### 5.2 Advanced Usage
@@ -666,7 +539,11 @@ Assuming `plotObject` is your ggplot object:
 
 ``` r
 
-exportPlot(plotObject = plotObject, filepath = "path/to/save", filename = "adjusted_plot.png")
+exportPlot(
+  plotObject = plotObject,
+  filepath = "path/to/save",
+  filename = "adjusted_plot.png"
+)
 ```
 
 In this case, you don’t need to specify the width and height explicitly;
@@ -674,53 +551,3 @@ the function calculates them for you. The default width value saved in
 the `ospsuite.plots` option `exportWidth` is used. If an aspect ratio is
 defined in the theme of the plot, height will be adjusted accordingly;
 otherwise, the function exports square figures.
-
-## 6. Shapes
-
-### 6.1 Default Shapes
-
-``` r
-
-shapes <- data.frame(
-  shapeNames = ospShapeNames,
-  x = rep(1:6, length.out = length(ospShapeNames)),
-  y = rep(1:4, each = 6, length.out = length(ospShapeNames))
-)
-
-ggplot(shapes, aes(x, y, shape = shapeNames)) +
-  geom_point_osp(size = 5, color = "blue", fill = "red") +
-  scale_shape_osp_identity() +
-  geom_text(aes(label = shapeNames), nudge_y = -0.3, size = 3) +
-  theme_void()
-```
-
-![Chart displaying all default OSP shape types available in
-ospsuite.plots. Shows various point shapes arranged in a grid with
-labels, demonstrating the visual appearance of each shape
-option.](ospsuite-plots_files/figure-html/default-shapes-1.png)
-
-### 6.2 Using OSP Shapes in Plot Functions
-
-OSP shapes are available in all `ospsuite.plots` functions via the
-default shape scale set by
-[`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.md).
-You can also apply them directly with
-[`scale_shape_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.md).
-
-``` r
-
-oldDefaults <- ospsuite.plots::setDefaults()
-
-dt <- data.frame(x = c(1, 2, 1, 2), y = c(1, 1, 2, 2), species = c("dog", "cat", "mouse", "rat"))
-
-plotObject <- plotYVsX(data = dt, mapping = aes(x = x, y = y, groupby = species), xScale = "linear", xScaleArgs = list(limits = c(0.5, 2.5)), yScale = "linear", yScaleArgs = list(limits = c(0.5, 2.5)))
-
-plot(plotObject)
-```
-
-![Scatter plot demonstrating OSP shapes in ospsuite.plots. Shows four
-data points representing different species using distinct OSP shapes
-with each species having a distinct symbol and
-color.](ospsuite-plots_files/figure-html/osp-shapes-demo-1.png)
-
-\`\`\`

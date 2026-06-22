@@ -20,11 +20,11 @@ The output of the function is a `ggplot` object.
 
 This vignette uses the
 [ospsuite.plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/)
-and [tidyr](https://tidyr.tidyverse.org) libraries. We will use the
-default settings of
+and [tidyr](https://tidyr.tidyverse.org) libraries. The
 [ospsuite.plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/)
-(see vignette(“ospsuite.plots”, package = “ospsuite.plots”)) but will
-adjust the legend position.
+plot functions apply their layout per plot (see
+`vignette("ospsuite.plots", package = "ospsuite.plots")`), so no global
+setup is required.
 
 ``` r
 
@@ -32,14 +32,6 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 library(ospsuite.plots)
 library(tidyr)
-# Set Defaults
-oldDefaults <- ospsuite.plots::setDefaults()
-
-# Adjust legend position for better aesthetics
-theme_update(legend.position = "top")
-theme_update(legend.direction = "vertical")
-theme_update(legend.box = "horizontal")
-theme_update(legend.title = element_blank())
 ```
 
 ### 1.2 Example Data
@@ -695,12 +687,12 @@ The plot from section 2.3.2 was adjusted using geom attributes:
 - `geomLineAttributes = list(linetype = 'solid')`: The lines used for
   the simulated data are set to solid in both datasets. Note that the
   line type for the error bars and ribbon edges remains unchanged.
-- `geomErrorbarAttributes = list()`: The default settings for
-  `geomErrorbarAttributes`, width = 0, were removed so that the bar caps
-  are now visible.
+- `geomErrorbarAttributes = list(width = 3)`: The error-bar cap width
+  (in mm) is increased from the default of `2` to make the caps more
+  prominent.
 - `geomRibbonAttributes = list(alpha = 0.1)`: The shade of the ribbons
-  was decreased by setting the alpha to 0.1; the default value for color
-  = NA was omitted, making the edges visible.
+  was decreased by setting the alpha to 0.1; the default `color = NA`
+  was omitted, making the edges visible.
 - `geomPointAttributes = list(size = 7)`: The size of the symbols was
   increased.
 

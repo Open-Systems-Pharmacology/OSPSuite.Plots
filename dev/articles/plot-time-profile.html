@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9002</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,22 +94,15 @@ intervals.</p>
 <h3 id="setup">1.1 Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h3>
 <p>This vignette uses the <a href="https://www.open-systems-pharmacology.org/OSPSuite.Plots/">ospsuite.plots</a> and
-<a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a> libraries. We will use the default settings of
-<a href="https://www.open-systems-pharmacology.org/OSPSuite.Plots/">ospsuite.plots</a> (see vignette(“ospsuite.plots”, package =
-“ospsuite.plots”)) but will adjust the legend position.</p>
+<a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a> libraries. The <a href="https://www.open-systems-pharmacology.org/OSPSuite.Plots/">ospsuite.plots</a> plot
+functions apply their layout per plot (see
+<code>vignette("ospsuite.plots", package = "ospsuite.plots")</code>), so
+no global setup is required.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>rmarkdown.html_vignette.check_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.open-systems-pharmacology.org/OSPSuite.Plots/">ospsuite.plots</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
-<span><span class="co"># Set Defaults</span></span>
-<span><span class="va">oldDefaults</span> <span class="op">&lt;-</span> <span class="fu">ospsuite.plots</span><span class="fu">::</span><span class="fu"><a href="../reference/setDefaults.html">setDefaults</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Adjust legend position for better aesthetics</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_theme.html" class="external-link">theme_update</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_theme.html" class="external-link">theme_update</a></span><span class="op">(</span>legend.direction <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_theme.html" class="external-link">theme_update</a></span><span class="op">(</span>legend.box <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_theme.html" class="external-link">theme_update</a></span><span class="op">(</span>legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="example-data">1.2 Example Data<a class="anchor" aria-label="anchor" href="#example-data"></a>
@@ -744,13 +737,13 @@ lines used for the simulated data are set to solid in both datasets.
 Note that the line type for the error bars and ribbon edges remains
 unchanged.</li>
 <li>
-<code>geomErrorbarAttributes = list()</code>: The default settings
-for <code>geomErrorbarAttributes</code>, width = 0, were removed so that
-the bar caps are now visible.</li>
+<code>geomErrorbarAttributes = list(width = 3)</code>: The error-bar
+cap width (in mm) is increased from the default of <code>2</code> to
+make the caps more prominent.</li>
 <li>
 <code>geomRibbonAttributes = list(alpha = 0.1)</code>: The shade of
-the ribbons was decreased by setting the alpha to 0.1; the default value
-for color = NA was omitted, making the edges visible.</li>
+the ribbons was decreased by setting the alpha to 0.1; the default
+<code>color = NA</code> was omitted, making the edges visible.</li>
 <li>
 <code>geomPointAttributes = list(size = 7)</code>: The size of the
 symbols was increased.</li>

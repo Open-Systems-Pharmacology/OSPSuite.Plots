@@ -11,12 +11,13 @@ confidence intervals.
 ### 1.1 Setup
 
 This vignette uses the
+[ospsuite.plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/),
+[tidyr](https://tidyr.tidyverse.org), and
+[data.table](https://r-datatable.com) libraries. The
 [ospsuite.plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/)
-and [tidyr](https://tidyr.tidyverse.org) libraries. We will use the
-default settings of
-[ospsuite.plots](https://www.open-systems-pharmacology.org/OSPSuite.Plots/)
-(see `vignette("ospsuite.plots", package = "ospsuite.plots")`) but will
-adjust the legend position for better visibility.
+plot functions apply their layout per plot (see
+`vignette("ospsuite.plots", package = "ospsuite.plots")`), so no global
+setup is required.
 
 ``` r
 
@@ -31,14 +32,6 @@ library(data.table)
 #> The following object is masked from 'package:base':
 #> 
 #>     %notin%
-
-# Set Defaults
-oldDefaults <- ospsuite.plots::setDefaults()
-
-# Place default legend position above the plot
-theme_update(legend.position = "top")
-theme_update(legend.direction = "horizontal")
-theme_update(legend.title = element_blank())
 ```
 
 ### 1.2 Example Data

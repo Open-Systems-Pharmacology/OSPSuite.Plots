@@ -2,6 +2,42 @@
 
 ## ospsuite.plots (development version)
 
+### New Features
+
+- `ospsuite.plots` plot functions now apply the full OSPSuite styling
+  per plot without mutating global `ggplot2` state, so their appearance
+  no longer depends on
+  [`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.md)
+  having been called. New constructors enable the per-plot styling:
+  [`theme_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/theme_osp.md)
+  (theme, `plot + theme_osp()`) and
+  [`scale_colour_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
+  /
+  [`scale_color_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
+  /
+  [`scale_fill_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
+  (the OSPSuite discrete color palette: `colorMaps$default` for up to 6
+  groups, `colorMaps$ospDefault` beyond). The default fill alpha, bar
+  outline and line width are now applied per plot through the per-geom
+  attribute defaults (#130).
+
+### Deprecations
+
+- [`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.md)
+  and
+  [`setDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultTheme.md)
+  are soft-deprecated. They still work (and remain useful for styling
+  unrelated, non-`ospsuite.plots` plots via global `ggplot2` state), but
+  `ospsuite.plots` plots no longer need them. Use the per-plot
+  constructors instead:
+  `plot + theme_osp() + scale_colour_osp() + scale_fill_osp()` (#130).
+
+### Minor improvements and bug fixes
+
+- The default line width for `ospsuite.plots` lines is now `1.0`
+  (slightly thinner than before) and is applied per plot, including to
+  distribution-fit, mean, LLOQ and comparison/guest lines (#130).
+
 ## ospsuite.plots 1.2.0
 
 ### Breaking Changes

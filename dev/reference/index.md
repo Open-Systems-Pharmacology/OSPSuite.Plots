@@ -94,13 +94,16 @@ Functions to set and reset Settings for plot layout
   : set the default color-map for discrete colors
 
 - [`setDefaultTheme()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaultTheme.md)
-  : set the default theme
+  **\[deprecated\]** : set the default theme
 
 - [`setDefaults()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.md)
-  : sets the defaults for the OSPSuite.plots package
+  **\[deprecated\]** : sets the defaults for the OSPSuite.plots package
 
 - [`setOspsuite.plots.option()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setOspsuite.plots.option.md)
   : Set OSPSuite plots option with a given key and value.
+
+- [`theme_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/theme_osp.md)
+  : OSPSuite plot theme
 
 ## DataMapping Classes
 
@@ -144,6 +147,15 @@ OSP shape system for custom point rendering
   : OSP Shape Identity Scale
 - [`scale_shape_osp_manual()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp_manual.md)
   : OSP Shape Manual Scale
+
+## Scales
+
+Per-plot OSP color and fill scales
+
+- [`scale_colour_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
+  [`scale_color_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
+  [`scale_fill_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
+  : OSP discrete color and fill scales
 
 ## Constants
 

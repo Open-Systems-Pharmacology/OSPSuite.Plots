@@ -55,8 +55,6 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 library(ospsuite.plots)
 library(tidyr)
-
-oldDefaults <- setDefaults()
 ```
 
 ### 1.2 Example Data

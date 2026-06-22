@@ -50,11 +50,13 @@
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-getMappedDataForTimeProfiles.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-getWatermarkEnabled.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-initialplotObjectForTimeProfile.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-ospColorPalette.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-ospGrob.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-ospShapePalette.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-polyVertices.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-shoelaceArea.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-starVertices.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-usedDiscreteAesthetics.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-validatePlotTimeProfileInputs.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-validatePlotYXsXInputs.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/dot-validateShapeName.html</loc></url>
@@ -93,6 +95,7 @@
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaultColorMapDistinct.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaultTheme.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/resetDefaults.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp_identity.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_shape_osp_manual.html</loc></url>
@@ -101,6 +104,7 @@
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setDefaults.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/setOspsuite.plots.option.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/stat_qq_osp.html</loc></url>
+<url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/theme_osp.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/updateScaleArgumentsForTimeUnit.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/validateFilename.html</loc></url>
 <url><loc>https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/validateInputsExportPlot.html</loc></url>

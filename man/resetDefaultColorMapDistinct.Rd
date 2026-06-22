@@ -23,6 +23,7 @@ Other setDefault functions:
 \code{\link[=setDefaultColorMapDistinct]{setDefaultColorMapDistinct()}},
 \code{\link[=setDefaultTheme]{setDefaultTheme()}},
 \code{\link[=setDefaults]{setDefaults()}},
-\code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}}
+\code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}},
+\code{\link[=theme_osp]{theme_osp()}}
 }
 \concept{setDefault functions}

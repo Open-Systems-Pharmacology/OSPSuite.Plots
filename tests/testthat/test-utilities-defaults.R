@@ -1,8 +1,5 @@
 # Test utilities-defaults.R functions
 
-# Store original options to restore later
-oldDefaults <- ospsuite.plots::setDefaults()
-
 test_that("getDefaultGeomAttributes works correctly", {
   # Test with valid geom types
   lineAttrs <- getDefaultGeomAttributes("Line")
@@ -151,8 +148,9 @@ test_that("resetDefaultColorMapDistinct works correctly", {
 })
 
 test_that("setDefaults does not break raw ggplot2::geom_point() with mapped shape (#118)", {
-  withr::defer(resetDefaults(oldDefaults))
-  oldDefaults <- setDefaults()
+  # setDefaults() is soft-deprecated; it still works for raw ggplot2 plots.
+  lifecycle::expect_deprecated(oldDefaults <- setDefaults())
+  withr::defer(suppressWarnings(resetDefaults(oldDefaults)))
 
   df <- data.frame(x = 1:5, y = 1:5, g = letters[1:5])
   p <- ggplot2::ggplot(
@@ -164,11 +162,77 @@ test_that("setDefaults does not break raw ggplot2::geom_point() with mapped shap
   expect_no_error(ggplot2::ggplotGrob(p))
 })
 
+test_that("theme_osp returns a ggplot2 theme object", {
+  theme <- theme_osp()
+  expect_s3_class(theme, "theme")
+  expect_s3_class(theme, "gg")
+})
+
+test_that("theme_osp has the expected OSP element values", {
+  theme <- theme_osp()
+  expect_equal(theme$legend.position, "right")
+  expect_equal(theme$legend.direction, "vertical")
+  expect_equal(theme$legend.justification, 0.5)
+  expect_s3_class(theme$panel.grid.minor, "element_blank")
+})
+
+test_that("theme_osp is a complete theme (ggplot2 recommendation)", {
+  expect_true(attr(theme_osp(), "complete"))
+})
+
+test_that("theme_osp centres titles while keeping theme_bw spacing", {
+  # %+replace% drops unspecified element properties, so the constructor must
+  # restate size/margin to avoid regressing title/subtitle spacing.
+  theme <- theme_osp()
+  expect_equal(theme$plot.title$hjust, 0.5)
+  expect_equal(theme$plot.title$size, ggplot2::rel(1.2))
+  expect_equal(theme$plot.title$margin, theme_bw()$plot.title$margin)
+  expect_equal(theme$plot.subtitle$hjust, 0.5)
+  expect_equal(theme$plot.subtitle$margin, theme_bw()$plot.subtitle$margin)
+})
+
+test_that("theme_osp forwards arguments to theme_bw", {
+  expect_equal(theme_osp(base_size = 20)$text$size, 20)
+})
+
+test_that("setDefaultTheme applies theme_osp globally and returns the previous theme", {
+  withr::defer(ggplot2::theme_set(oldTheme))
+  oldTheme <- ggplot2::theme_set(ggplot2::theme_grey())
+
+  # setDefaultTheme() is soft-deprecated; it still mutates the global theme.
+  lifecycle::expect_deprecated(previousTheme <- setDefaultTheme())
+
+  # the returned theme is the one that was active before the call
+  expect_equal(
+    previousTheme$panel.background,
+    ggplot2::theme_grey()$panel.background
+  )
+  # the global theme now matches theme_osp
+  expect_equal(ggplot2::theme_get()$legend.position, "right")
+})
+
+test_that("ospsuite.plots plots carry theme_osp without setDefaults() (#130)", {
+  # Force a non-OSP global theme so any dependence on theme_set() would surface.
+  withr::defer(ggplot2::theme_set(oldTheme))
+  oldTheme <- ggplot2::theme_set(ggplot2::theme_grey())
+  withr::local_options(ospsuite.plots.watermarkEnabled = FALSE)
+
+  mappedData <- MappedData$new(
+    data = data.frame(x = 1:5, y = 1:5),
+    mapping = ggplot2::aes(x = x, y = y),
+    xScale = "linear",
+    yScale = "linear"
+  )
+  plotObject <- initializePlot(mappedData)
+
+  # The plot's own theme, not the (grey) global theme, drives the layout.
+  expect_equal(plotObject$theme$legend.position, "right")
+  expect_s3_class(plotObject$theme$panel.grid.minor, "element_blank")
+})
+
 test_that("constructLabelWithUnit handles edge cases", {
   # This test is for the function defined in utilities.R but may be called from defaults
   expect_equal(constructLabelWithUnit("Test", "unit"), "Test [unit]")
   expect_equal(constructLabelWithUnit("Test", ""), "Test")
   expect_null(constructLabelWithUnit(NULL, "unit"))
 })
-
-ospsuite.plots::resetDefaults(oldDefaults)

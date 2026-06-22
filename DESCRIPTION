@@ -26,6 +26,7 @@ Imports:
     fs,
     ggh4x,
     ggnewscale,
+    lifecycle,
     ospsuite.utils (>= 1.4.0),
     R6,
     rlang,

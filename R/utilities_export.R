@@ -57,15 +57,18 @@
 #' )
 #' }
 #' @export
-exportPlot <- function(plotObject,
-                       filepath,
-                       filename,
-                       width = NULL,
-                       height = NULL,
-                       device = NULL,
-                       ...) {
+exportPlot <- function(
+  plotObject,
+  filepath,
+  filename,
+  width = NULL,
+  height = NULL,
+  device = NULL,
+  ...
+) {
   if ("CombinedPlot" %in% class(plotObject)) plotObject <- plotObject$combined()
-  validateInputsExportPlot(plotObject,
+  validateInputsExportPlot(
+    plotObject,
     filepath,
     filename,
     width = width,
@@ -74,7 +77,8 @@ exportPlot <- function(plotObject,
   )
   filename <- validateFilename(filename = filename, device = device)
 
-  if (is.null(width)) width <- getOspsuite.plots.option(optionKey = OptionKeys$exportWidth)
+  if (is.null(width))
+    width <- getOspsuite.plots.option(optionKey = OptionKeys$exportWidth)
 
   if (is.null(height)) {
     dimensions <- calculatePlotDimensions(plotObject, width)
@@ -103,12 +107,14 @@ exportPlot <- function(plotObject,
 #' @param device A character with the device to use
 #'
 #' @keywords internal
-validateInputsExportPlot <- function(plotObject,
-                                     filepath,
-                                     filename,
-                                     width,
-                                     height,
-                                     device) {
+validateInputsExportPlot <- function(
+  plotObject,
+  filepath,
+  filename,
+  width,
+  height,
+  device
+) {
   checkmate::assertClass(plotObject, "ggplot", null.ok = FALSE)
   checkmate::assertCharacter(filename, null.ok = FALSE)
   checkmate::assertCharacter(filepath, null.ok = FALSE)
@@ -135,7 +141,9 @@ validateInputsExportPlot <- function(plotObject,
 #'
 #' @keywords internal
 calculatePlotDimensions <- function(plotObject, width) {
-  themeOfPlot <- utils::modifyList(theme_get(), plotObject$theme)
+  # Base the resolved theme on the OSPSuite theme rather than the global
+  # ggplot2 state, then overlay the plot's own theme settings.
+  themeOfPlot <- utils::modifyList(theme_osp(), plotObject$theme)
   exportunits <- getOspsuite.plots.option(optionKey = OptionKeys$exportUnits)
 
   aspect.ratio <- themeOfPlot$aspect.ratio
@@ -153,7 +161,6 @@ calculatePlotDimensions <- function(plotObject, width) {
     nRow = nRow,
     nPanel
   )
-
 
   # check if legend adds to height or to width,
   # if legend is numeric, it is assumed the legend is within the panel
@@ -173,7 +180,11 @@ calculatePlotDimensions <- function(plotObject, width) {
   }
 
   if (!is.null(themeOfPlot$plot.margin)) {
-    plotMargins <- grid::convertUnit(themeOfPlot$plot.margin, unitTo = exportunits, valueOnly = TRUE)
+    plotMargins <- grid::convertUnit(
+      themeOfPlot$plot.margin,
+      unitTo = exportunits,
+      valueOnly = TRUE
+    )
   } else {
     plotMargins <- c(0, 0, 0, 0)
   }
@@ -188,7 +199,11 @@ calculatePlotDimensions <- function(plotObject, width) {
 
   backgroundWidth <- plotDim$background
 
-  height <- nRow / nCol * (backgroundWidth - widthOffset) * aspect.ratio + heightOffset
+  height <- nRow /
+    nCol *
+    (backgroundWidth - widthOffset) *
+    aspect.ratio +
+    heightOffset
 
   # get scale factor
   scf <- width / backgroundWidth
@@ -218,7 +233,6 @@ getPlotDimensions <- function(plotObject, exportunits, nCol, nRow, nPanel) {
   grobNames <- cowplot::plot_component_names(plot)
   grobs <- cowplot::plot_components(plot)
 
-
   .getGrobDimForPattern <- function(patterns, selectedDim, n = 1) {
     gIndexVector <- c()
     for (pattern in patterns) {
@@ -230,7 +244,10 @@ getPlotDimensions <- function(plotObject, exportunits, nCol, nRow, nPanel) {
       if (selectedDim %in% names(grobs[[gIndex]])) {
         values <- c(
           values,
-          as.numeric(grid::convertUnit(grobs[[gIndex]][[selectedDim]], exportunits))
+          as.numeric(grid::convertUnit(
+            grobs[[gIndex]][[selectedDim]],
+            exportunits
+          ))
         )
       }
     }
@@ -246,10 +263,8 @@ getPlotDimensions <- function(plotObject, exportunits, nCol, nRow, nPanel) {
       gropDim <- sum(values)
     }
 
-
     return(gropDim)
   }
-
 
   return(list(
     axisHeight = .getGrobDimForPattern(

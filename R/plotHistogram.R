@@ -52,8 +52,10 @@ plotHistogram <- function(
 
   checkmate::assertList(geomHistAttributes, null.ok = FALSE, min.len = 0)
 
-  if (!is.null(xScale)) xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
-  if (!is.null(yScale)) yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(xScale))
+    xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(yScale))
+    yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
 
   checkmate::assertList(xScaleArgs, null.ok = FALSE, min.len = 0)
   checkmate::assertList(yScaleArgs, null.ok = FALSE, min.len = 0)
@@ -128,6 +130,10 @@ plotHistogram <- function(
   # distribution fit or mean will overwrite y label, save it to reset to current value
   ylabel <- plotObject$labels$y
 
+  # OSP default line width, applied to the line-based overlays below so they
+  # match the styling of the main data lines without relying on global state.
+  lineWidth <- getDefaultGeomAttributes("Line")$linewidth
+
   # 2 - Distribution fit
 
   if (plotHelper$distribution != "none") {
@@ -138,7 +144,8 @@ plotHistogram <- function(
       stat_theodensity(
         mapping = distrMapping,
         distri = plotHelper$distribution,
-        inherit.aes = !plotHelper$isStacked
+        inherit.aes = !plotHelper$isStacked,
+        linewidth = lineWidth
       )
   }
 
@@ -154,7 +161,8 @@ plotHistogram <- function(
         fun = plotHelper$scaledMeanFun,
         geom = "vline",
         orientation = "y",
-        inherit.aes = !plotHelper$isStacked
+        inherit.aes = !plotHelper$isStacked,
+        linewidth = lineWidth
       )
   }
 

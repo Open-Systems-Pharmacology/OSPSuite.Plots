@@ -1,6 +1,3 @@
-# setDefaults
-oldDefaults <- ospsuite.plots::setDefaults()
-
 test_that("plot Observed vs Predicted works", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
@@ -35,5 +32,3 @@ test_that("plot Observed vs Predicted works", {
     )
   )
 })
-
-ospsuite.plots::resetDefaults(oldDefaults)

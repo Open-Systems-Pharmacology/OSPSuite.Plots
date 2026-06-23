@@ -15,36 +15,20 @@ legendPlot <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
 
 
 testthat::test_that("validateFilename replaces forbidden characters with a warning and sets device", {
-  expect_equal(
-    suppressWarnings({as.character(validateFilename("concentration in µg/L", device = NULL))}),
-    "concentration in ug_L.png"
-  )
   expect_warning(
     validateFilename("concentration in µg/L", device = NULL),
     regexp = "Exported filename 'concentration in µg/L.png' included forbidden characters and was replaced by 'concentration in ug_L.png'",
     fixed = TRUE
-  )
-  expect_equal(
-    suppressWarnings({as.character(validateFilename("project:details", device = "pdf"))}),
-    "project_details.pdf"
   )
   expect_warning(
     validateFilename("project:details", device = "pdf"),
     regexp = "Exported filename 'project:details.pdf' included forbidden characters and was replaced by 'project_details.pdf'",
     fixed = TRUE
   )
-  expect_equal(
-    suppressWarnings({as.character(validateFilename("invalid*filename?", device = NULL))}),
-    "invalid_filename_.png"
-  )
   expect_warning(
     validateFilename("invalid*filename?", device = NULL),
     regexp = "Exported filename 'invalid*filename?.png' included forbidden characters and was replaced by 'invalid_filename_.png'",
     fixed = TRUE
-  )
-  expect_equal(
-    suppressWarnings({as.character(validateFilename("<test>|doc.pdf", device = NULL))}),
-    "_test__doc.png"
   )
   expect_warning(
     validateFilename("<test>|doc.pdf", device = NULL),

@@ -19,7 +19,12 @@ initializePlot <- function(mappedData = NULL, setMapping = TRUE) {
   plotObject <- ggplotWithWatermark(
     data = mappedData$dataForPlot,
     mapping = mappingToSet
-  )
+  ) +
+    theme_osp()
+
+  # Tag the plot so ggplot_build.osp_ggplot() applies the OSP discrete
+  # color/fill (and shape) scales per plot, without mutating global state.
+  class(plotObject) <- unique(c("osp_ggplot", class(plotObject)))
 
   # add labels
   plotObject <- addLabels(plotObject, mappedData)
@@ -156,7 +161,13 @@ addLLOQLayer <-
             mapping = filteredMapping
           ),
           utils::modifyList(
-            x = list(na.rm = TRUE),
+            # Default to the OSP line width so the LLOQ line matches the other
+            # data lines without relying on global geom defaults; a user-supplied
+            # `linewidth` in geomLLOQAttributes still overrides it.
+            x = list(
+              na.rm = TRUE,
+              linewidth = getDefaultGeomAttributes("Line")$linewidth
+            ),
             val = geomLLOQAttributes
           )
         )
@@ -199,8 +210,13 @@ addXYScale <- function(
   yScaleArgs = list(),
   secAxis = waiver()
 ) {
-  if (!is.null(xScale)) xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log, AxisScales$discrete))
-  if (!is.null(yScale)) yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(xScale))
+    xScale <- match.arg(
+      xScale,
+      c(AxisScales$linear, AxisScales$log, AxisScales$discrete)
+    )
+  if (!is.null(yScale))
+    yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
 
   if (!is.null(xScale)) {
     plotObject <- addXScale(
@@ -255,7 +271,10 @@ addXYScale <- function(
 #' @return The updated `ggplot` object
 #' @export
 addXScale <- function(plotObject, xScale, xScaleArgs = list()) {
-  if (!is.null(xScale)) xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log, AxisScales$discrete))
+  xScale <- match.arg(
+    xScale,
+    c(AxisScales$linear, AxisScales$log, AxisScales$discrete)
+  )
 
   if (xScale == AxisScales$discrete) {
     scaleFunction <- scale_x_discrete
@@ -287,7 +306,7 @@ addYScale <- function(
   yScaleArgs = list(),
   secAxis = waiver()
 ) {
-  if (!is.null(yScale)) yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
 
   yScaleArgs <- .buildContinuousScaleArgs(
     yScaleArgs,

@@ -1,5 +1,3 @@
-oldDefaults <- ospsuite.plots::setDefaults()
-
 # Sample data for testing, similar to the vignette
 histData <- exampleDataCovariates |>
   dplyr::filter(SetID == "DataSet1") |>
@@ -10,7 +8,8 @@ histData <- exampleDataCovariates |>
     variable.name = "DataType"
   )
 
-plotData <- histData[, .(Mean = mean(value), SD = sd(value)),
+plotData <- histData[,
+  .(Mean = mean(value), SD = sd(value)),
   by = c("Country", "AgeBin", "DataType")
 ]
 
@@ -73,7 +72,10 @@ test_that("plotForest function generates correct plots", {
   )
 
   # Visual test using vdiffr
-  vdiffr::expect_doppelganger("facet_forest_plot_with_data_type", plotObjectWithFacet)
+  vdiffr::expect_doppelganger(
+    "facet_forest_plot_with_data_type",
+    plotObjectWithFacet
+  )
 })
 
 # Additional test cases
@@ -135,5 +137,3 @@ test_that("plotForest handles edge cases and invalid inputs", {
     )
   )
 })
-
-ospsuite.plots::resetDefaults(oldDefaults)

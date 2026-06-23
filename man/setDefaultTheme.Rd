@@ -10,8 +10,14 @@ setDefaultTheme()
 invisibly return the previous theme so you can easily save it, then later restore it.
 }
 \description{
-set properties of the default theme for OSPSuite plots.
-This function applies a custom theme based on theme_bw() with OSPSuite-specific styling.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+set the OSPSuite theme as the global \code{ggplot2} theme for the whole session
+via \code{\link[ggplot2:theme_set]{ggplot2::theme_set()}}.
+
+\code{ospsuite.plots} plot functions now apply \code{\link[=theme_osp]{theme_osp()}} per plot, so this
+global mutation is no longer needed for them. Use \code{plot + theme_osp()} to
+style an individual (non-\code{ospsuite.plots}) plot instead.
 }
 \examples{
 \dontrun{
@@ -38,6 +44,7 @@ Other setDefault functions:
 \code{\link[=resetDefaults]{resetDefaults()}},
 \code{\link[=setDefaultColorMapDistinct]{setDefaultColorMapDistinct()}},
 \code{\link[=setDefaults]{setDefaults()}},
-\code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}}
+\code{\link[=setOspsuite.plots.option]{setOspsuite.plots.option()}},
+\code{\link[=theme_osp]{theme_osp()}}
 }
 \concept{setDefault functions}

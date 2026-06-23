@@ -1,6 +1,3 @@
-# setDefaults
-oldDefaults <- ospsuite.plots::setDefaults()
-
 test_that("plotWhisker works", {
   pkRatioData <- exampleDataCovariates |>
     dplyr::filter(SetID == "DataSet1") |>
@@ -103,5 +100,3 @@ test_that("plotWhisker works", {
     )
   )
 })
-
-ospsuite.plots::resetDefaults(oldDefaults)

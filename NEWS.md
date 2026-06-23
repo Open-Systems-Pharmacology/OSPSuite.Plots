@@ -1,5 +1,17 @@
 # ospsuite.plots (development version)
 
+## New Features
+
+- `ospsuite.plots` plot functions now apply the full OSPSuite styling per plot without mutating global `ggplot2` state, so their appearance no longer depends on `setDefaults()` having been called. New constructors enable the per-plot styling: `theme_osp()` (theme, `plot + theme_osp()`) and `scale_colour_osp()` / `scale_color_osp()` / `scale_fill_osp()` (the OSPSuite discrete color palette: `colorMaps$default` for up to 6 groups, `colorMaps$ospDefault` beyond). The default fill alpha, bar outline and line width are now applied per plot through the per-geom attribute defaults (#130).
+
+## Deprecations
+
+- `setDefaults()` and `setDefaultTheme()` are soft-deprecated. They still work (and remain useful for styling unrelated, non-`ospsuite.plots` plots via global `ggplot2` state), but `ospsuite.plots` plots no longer need them. Use the per-plot constructors instead: `plot + theme_osp() + scale_colour_osp() + scale_fill_osp()` (#130).
+
+## Minor improvements and bug fixes
+
+- The default line width for `ospsuite.plots` lines is now `1.0` (slightly thinner than before) and is applied per plot, including to distribution-fit, mean, LLOQ and comparison/guest lines (#130).
+
 # ospsuite.plots 1.2.0
 
 ## Breaking Changes

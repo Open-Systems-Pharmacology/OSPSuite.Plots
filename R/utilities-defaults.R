@@ -1,8 +1,63 @@
 # Default Theme -------------
 
+#' @title OSPSuite plot theme
+#' @description A `ggplot2` theme with OSPSuite-specific styling, based on
+#'   [ggplot2::theme_bw()]. Apply it to a single plot with `plot + theme_osp()`
+#'   without altering the global `ggplot2` state.
+#'
+#' @param base_size base font size, given in pts (passed on to [ggplot2::theme_bw()]).
+#' @param ... further arguments passed on to [ggplot2::theme_bw()]
+#'   (for example `base_family`).
+#'
+#' @return a complete `ggplot2` theme object.
+#' @examples
+#' library(ggplot2)
+#' ggplot(mtcars, aes(x = wt, y = mpg)) +
+#'   geom_point() +
+#'   theme_osp()
+#'
+#' @export
+#' @family setDefault functions
+theme_osp <- function(base_size = 11, ...) {
+  # Following ggplot2's guidance for theme functions: build on a complete
+  # theme with `%+replace%` and fully specify every element that is touched,
+  # since `%+replace%` discards unspecified element properties (unlike `+`).
+  halfLine <- base_size / 2
+
+  theme_bw(base_size = base_size, ...) %+replace%
+    theme(
+      legend.position = "right",
+      legend.direction = "vertical",
+      legend.justification = 0.5,
+      plot.title = element_text(
+        size = rel(1.2),
+        hjust = 0.5,
+        vjust = 0.5,
+        margin = margin(b = halfLine)
+      ),
+      plot.subtitle = element_text(
+        hjust = 0.5,
+        vjust = 0.5,
+        margin = margin(b = halfLine)
+      ),
+      panel.grid.minor = element_blank(),
+      strip.background = element_rect(color = NA, fill = NA),
+      complete = TRUE
+    )
+}
+
+
 #' @title set the default theme
-#' @description set properties of the default theme for OSPSuite plots.
-#'   This function applies a custom theme based on theme_bw() with OSPSuite-specific styling.
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' set the OSPSuite theme as the global `ggplot2` theme for the whole session
+#' via [ggplot2::theme_set()].
+#'
+#' `ospsuite.plots` plot functions now apply [theme_osp()] per plot, so this
+#' global mutation is no longer needed for them. Use `plot + theme_osp()` to
+#' style an individual (non-`ospsuite.plots`) plot instead.
 #'
 #' @return invisibly return the previous theme so you can easily save it, then later restore it.
 #' @examples
@@ -21,26 +76,15 @@
 #' @export
 #' @family setDefault functions
 setDefaultTheme <- function() {
-  themeNew <- theme_bw() +
-    theme(
-      legend.position = "right",
-      legend.direction = "vertical",
-      legend.justification = 0.5,
-      plot.title = element_text(
-        hjust = 0.5,
-        vjust = 0.5
-      ),
-      plot.subtitle = element_text(
-        hjust = 0.5,
-        vjust = 0.5
-      ),
-      panel.grid.minor = element_blank(),
-      strip.background = element_rect(color = NA, fill = NA)
+  lifecycle::deprecate_soft(
+    when = "1.3.0",
+    what = "setDefaultTheme()",
+    details = paste(
+      "ospsuite.plots plots are now themed per plot.",
+      "Use `plot + theme_osp()` to theme an individual plot."
     )
-
-  oldTheme <- ggplot2::theme_set(themeNew)
-
-  return(invisible(oldTheme))
+  )
+  return(invisible(ggplot2::theme_set(theme_osp())))
 }
 
 
@@ -151,6 +195,91 @@ colorMaps <- list(
 )
 
 
+# Per-plot color scales -------------
+
+#' @title OSP discrete color and fill scales
+#'
+#' @description
+#' Discrete `ggplot2` scales that apply the OSPSuite color palette per plot,
+#' without mutating global `ggplot2` state. Add them to a plot with
+#' `plot + scale_colour_osp()` or `plot + scale_fill_osp()`. All
+#' `ospsuite.plots` plot functions apply these automatically (unless a color
+#' or fill scale is already present), so explicit use is only needed to style
+#' unrelated plots or to override a different scale.
+#'
+#' The palette reproduces the previous global behavior of [setDefaults()]:
+#' `colorMaps$default` (6 colors) is used when there are at most 6 groups,
+#' otherwise `colorMaps$ospDefault` (50 colors).
+#'
+#' @param ... further arguments passed on to [ggplot2::discrete_scale()].
+#'
+#' @return a discrete `ggplot2` scale.
+#' @examples
+#' library(ggplot2)
+#' df <- data.frame(x = 1:3, y = 1:3, group = c("A", "B", "C"))
+#' ggplot(df, aes(x, y, color = group)) +
+#'   geom_point() +
+#'   scale_colour_osp()
+#'
+#' @export
+#' @rdname scale_osp
+#' @family scales
+# nolint start: object_name_linter
+scale_colour_osp <- function(...) {
+  ggplot2::discrete_scale(
+    aesthetics = "colour",
+    palette = .ospColorPalette,
+    ...
+  )
+}
+
+#' @export
+#' @rdname scale_osp
+scale_color_osp <- scale_colour_osp
+
+#' @export
+#' @rdname scale_osp
+scale_fill_osp <- function(...) {
+  ggplot2::discrete_scale(
+    aesthetics = "fill",
+    palette = .ospColorPalette,
+    ...
+  )
+}
+# nolint end
+
+#' OSP color palette function
+#'
+#' Reproduces the stacked-palette selection of the previous global
+#' `ggplot2.discrete.*` options: `colorMaps$default` for up to 6 groups,
+#' otherwise `colorMaps$ospDefault`.
+#'
+#' @param n number of colors needed
+#' @return character vector of colors of length `n`
+#' @keywords internal
+.ospColorPalette <- function(n) {
+  fewColors <- colorMaps$default
+  manyColors <- colorMaps$ospDefault
+
+  pal <- if (n <= length(fewColors)) fewColors else manyColors
+
+  if (n > length(pal)) {
+    warning(
+      "Number of groups (",
+      n,
+      ") exceeds available colors (",
+      length(pal),
+      "). ",
+      "Colors will be recycled.",
+      call. = FALSE
+    )
+    pal <- rep(pal, length.out = n)
+  }
+
+  pal[seq_len(n)]
+}
+
+
 #' @param colorMapList list of color-maps to be set
 #'
 #' @title set the default color-map for discrete colors
@@ -216,14 +345,18 @@ setDefaultColorMapDistinct <- function(colorMapList = NULL) {
     "ggplot2.discrete.fill"
   )
 
-  oldColorOptions <- list()
-  newColorOptions <- list()
-  for (optionName in optionNames) {
-    oldColorOptions[[optionName]] <-
-      getOption(optionName)
-    newColorOptions[[optionName]] <-
-      colorMapList
-  }
+  # Capture previous values, preserving the names even when an option is unset
+  # (a plain `list[[name]] <- NULL` would drop the name); the names are needed
+  # for a correct round-trip through resetDefaultColorMapDistinct().
+  oldColorOptions <- stats::setNames(
+    lapply(optionNames, getOption),
+    optionNames
+  )
+
+  newColorOptions <- stats::setNames(
+    rep(list(colorMapList), length(optionNames)),
+    optionNames
+  )
 
   options(newColorOptions)
 
@@ -259,6 +392,16 @@ resetDefaultColorMapDistinct <- function(oldColorMaps) {
 #' @export
 #'
 getDefaultOptions <- function() {
+  # Single sources of truth shared by the per-geom attribute defaults below.
+  # `defaultAlpha` is seeded from the live `ospsuite.plots.alpha` option (with a
+  # literal fallback to avoid recursion, since this function also defines that
+  # option), so `options(ospsuite.plots.alpha = ...)` flows into the geom
+  # attribute defaults the next time a plot function reads them. These defaults
+  # are applied per layer, so OSP plots get the OSP look without relying on the
+  # global `update_geom_defaults()` mutation done by `setDefaults()`.
+  defaultAlpha <- getOption("ospsuite.plots.alpha", default = 0.5)
+  defaultLinewidth <- 1.0
+
   optionList <- list(
     # watermark
     ospsuite.plots.watermarkEnabled = TRUE,
@@ -272,23 +415,35 @@ getDefaultOptions <- function() {
       alpha = 0.7
     ),
     # geom attributes
-    ospsuite.plots.geomLineAttributes = list(),
-    ospsuite.plots.geomRibbonAttributes = list(color = NA),
+    ospsuite.plots.geomLineAttributes = list(linewidth = defaultLinewidth),
+    ospsuite.plots.geomRibbonAttributes = list(
+      color = NA,
+      alpha = defaultAlpha
+    ),
     ospsuite.plots.geomPointAttributes = list(),
     ospsuite.plots.geomErrorbarAttributes = list(width = 2),
     ospsuite.plots.geomLLOQAttributes = list(),
-    ospsuite.plots.geomComparisonLineAttributes = list(linetype = "dashed"),
-    ospsuite.plots.geomGuestLineAttributes = list(linetype = "dashed"),
+    ospsuite.plots.geomComparisonLineAttributes = list(
+      linetype = "dashed",
+      linewidth = defaultLinewidth
+    ),
+    ospsuite.plots.geomGuestLineAttributes = list(
+      linetype = "dashed",
+      linewidth = defaultLinewidth
+    ),
     ospsuite.plots.geomBoxplotAttributes = list(
       position = position_dodge(width = 1),
-      color = "black"
+      color = "black",
+      alpha = defaultAlpha
     ),
     ospsuite.plots.geomHistAttributes = list(
       bins = 10,
-      position = ggplot2::position_nudge()
+      position = ggplot2::position_nudge(),
+      color = "black",
+      alpha = defaultAlpha
     ),
     # default alpha
-    ospsuite.plots.alpha = 0.5,
+    ospsuite.plots.alpha = defaultAlpha,
     # alpha of LLOQ values
     ospsuite.plots.lloqAlphaVector = c("TRUE" = 0.3, "FALSE" = 1),
     # linetype of LLOQ
@@ -400,7 +555,16 @@ setOspsuite.plots.option <- function(optionKey, value) { # nolint: object_name_l
 
 #' sets the defaults for the OSPSuite.plots package
 #'
-#' should be started at the beginning at each workflow
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' Mutates global `ggplot2` state (theme, geom defaults and discrete color
+#' options) for the whole session.
+#'
+#' `ospsuite.plots` plot functions now apply the full OSPSuite styling per plot,
+#' so this is no longer needed for them. To style individual (non-`ospsuite.plots`)
+#' plots, compose the per-plot constructors instead:
+#' `plot + theme_osp() + scale_colour_osp() + scale_fill_osp()`.
 #'
 #' for detailed information see
 #' \code{vignette("ospsuite.plots", package = "ospsuite.plots")}
@@ -417,6 +581,15 @@ setDefaults <- function(
   defaultOptions = list(),
   colorMapList = NULL
 ) {
+  lifecycle::deprecate_soft(
+    when = "1.3.0",
+    what = "setDefaults()",
+    details = paste(
+      "ospsuite.plots plots are now styled per plot.",
+      "Use `plot + theme_osp() + scale_colour_osp() + scale_fill_osp()`",
+      "to style an individual plot."
+    )
+  )
   checkmate::assertList(colorMapList, null.ok = TRUE)
   checkmate::assertList(defaultOptions, null.ok = TRUE)
 
@@ -440,6 +613,9 @@ setDefaults <- function(
     getDefaultOptions()[["ospsuite.plots.alpha"]]
   )
 
+  # use the same default line width as the per-plot geom attributes
+  defaultLinewidth <- getDefaultGeomAttributes("Line")$linewidth
+
   # get old settings of defaults for geoms
   nsenv <- asNamespace("ggplot2")
 
@@ -450,8 +626,9 @@ setDefaults <- function(
   oldDefaults[["geomLine"]] <- get("GeomLine", envir = nsenv)$default_aes
 
   # set theme, color and shapes
-
-  oldDefaults[["theme"]] <- setDefaultTheme()
+  # (call theme_set() directly rather than the deprecated setDefaultTheme()
+  # wrapper, so setDefaults() only emits its own deprecation warning)
+  oldDefaults[["theme"]] <- ggplot2::theme_set(theme_osp())
   oldDefaults[["colorMaps"]] <- setDefaultColorMapDistinct(
     colorMapList = colorMapList
   )
@@ -490,7 +667,7 @@ setDefaults <- function(
   update_geom_defaults(
     "line",
     list(
-      linewidth = 1.25,
+      linewidth = defaultLinewidth,
       fill = getOption("ggplot2.discrete.fill")[[1]][[1]]
     )
   )

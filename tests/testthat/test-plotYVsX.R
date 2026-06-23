@@ -1,6 +1,3 @@
-# setDefaults
-oldDefaults <- ospsuite.plots::setDefaults()
-
 test_that("plot Residuals vs Covariate works", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
@@ -435,6 +432,3 @@ test_that("y-direction error bars render on the y-axis", {
 
   vdiffr::expect_doppelganger("ydir-errorbars", fig)
 })
-
-
-ospsuite.plots::resetDefaults(oldDefaults)

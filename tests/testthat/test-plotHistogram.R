@@ -1,9 +1,3 @@
-# setDefaults
-oldDefaults <- ospsuite.plots::setDefaults()
-theme_update(legend.position = "top")
-theme_update(legend.title = element_blank())
-
-
 test_that("plot histogram works for all stacked  frequency distribution fit combinations", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")
@@ -153,5 +147,3 @@ test_that("plot histogram works for categoricalData", {
     )
   )
 })
-
-ospsuite.plots::resetDefaults(oldDefaults)

@@ -38,8 +38,14 @@ messages$warningTablesOnlyWithoutFaceting <- function() {
   "Tables will be only added if there is no faceting vs x (xFacetColumn is NULL)"
 }
 
-messages$errorFilenameContainsPath <- function() {
-  "filename should not contain a path, use input variable filepath"
+messages$warningUpdatedFilename <- function(filename, initialFilename) {
+  paste0(
+    "Exported filename '", 
+    initialFilename, 
+    "' included forbidden characters and was replaced by '", 
+    filename, 
+    "'"
+    )
 }
 
 messages$warningDeviceMayNotBeSupported <- function(device) {

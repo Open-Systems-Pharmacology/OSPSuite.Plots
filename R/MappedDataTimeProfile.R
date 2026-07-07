@@ -89,7 +89,7 @@ MappedDataTimeProfile <- R6::R6Class(
         checkmate::assertLogical(
           private$getDataForAesthetic(aesthetic = "y2axis"),
           any.missing = FALSE,
-          .var.name = "y2axis",
+          .var.name = "y2axis"
         )
 
         private$secondaryAxisAvailable <- any(private$getDataForAesthetic(

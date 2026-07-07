@@ -649,3 +649,79 @@ for (unit in c("h", "day(s)", "weeks(s)", "month(s)")) {
 
 cowplot::plot_grid(plotlist = plotlist, labels = "AUTO")
 ```
+
+## 3.5 Negative and Zero Values on Log Scale
+
+Concentration values in pharmacokinetic profiles are inherently non-negative, but the summary statistics used to define ribbon bounds may not be.
+Three common situations can produce values ≤ 0:
+
+- **Arithmetic SD aggregation** — when the mean concentration is smaller than its standard deviation, the lower bound (`mean - SD`) becomes negative.
+- **BLQ data treated as 0** — assigning zero to below-the-limit-of-quantification observations introduces exact zeros, which have no finite logarithm.
+- **Simulated data before a dose event** — if a simulation is run before the first dose, the concentration is exactly zero.
+
+On a **linear scale** these values are displayed as-is with no issue.
+On a **log scale**, `plotTimeProfile` intercepts them automatically: any negative values in y-mapped aesthetics (`y`, `ymin`, `ymax`, …) are replaced with `0` before the data reach ggplot.
+The value `log(0) = -Inf` is then handled by ggplot's out-of-bounds mechanism.
+
+```{r negative_values_setup}
+concentrationData <- data.frame(
+  time          = c(1, 2, 4, 8, 12),
+  concentration = c(8, 5, 2.5, 0.5, 0.1),
+  ymin          = c(6, 2, -0.5, -0.2, -0.05), # mean - arithmetic SD, goes negative at late times
+  ymax          = c(10, 8, 5.5, 1.2, 0.25) # mean + arithmetic SD
+)
+```
+
+On a linear scale the negative lower bounds are rendered below zero:
+
+```{r negative_values_linear, fig.alt = "Time profile plot on a linear y-axis showing a ribbon whose lower bound dips below zero at late time points, illustrating arithmetic SD aggregation producing negative values."}
+plotTimeProfile(
+  data    = concentrationData,
+  mapping = aes(x = time, y = concentration, ymin = ymin, ymax = ymax)
+)
+plotTimeProfile(
+  observedData    = concentrationData,
+  mapping = aes(x = time, y = concentration, ymin = ymin, ymax = ymax)
+)
+```
+
+On a log scale, `plotTimeProfile` replaces the negative `ymin` values with `0` and raises a warning.
+By default (`oob_keep`) the resulting `−∞` boundary is preserved and drawn at the axis minimum:
+
+```{r negative_values_log_default, fig.alt = "Time profile plot on a log y-axis. The ribbon lower bound appears pinned to the axis minimum at late time points where the original values were negative, reflecting the automatic replacement with zero."}
+plotTimeProfile(
+  data    = concentrationData,
+  mapping = aes(x = time, y = concentration, ymin = ymin, ymax = ymax),
+  yScale  = "log"
+)
+plotTimeProfile(
+  observedData    = concentrationData,
+  mapping = aes(x = time, y = concentration, ymin = ymin, ymax = ymax),
+  yScale  = "log"
+)
+```
+
+### Controlling out-of-bounds display
+
+The behaviour of the replaced `−∞` values is governed by the `oob` argument passed through `yScaleArgs`:
+
+- **`scales::oob_keep`** (default) — keeps `−∞`; the ribbon edge is drawn at the axis minimum.
+- **`scales::oob_censor_any`** — replaces `−∞` with `NA`; the ribbon is simply not drawn below the lowest finite value.
+
+```{r negative_values_oob_keep, fig.alt = "Time profile plot on a log y-axis using oob_keep. The ribbon lower bound is pinned to the axis minimum where values were negative."}
+plotTimeProfile(
+  data       = concentrationData,
+  mapping    = aes(x = time, y = concentration, ymin = ymin, ymax = ymax),
+  yScale     = "log",
+  yScaleArgs = list(oob = scales::oob_keep)
+)
+```
+
+```{r negative_values_oob_censor, fig.alt = "Time profile plot on a log y-axis using oob_censor_any. The ribbon lower bound is absent where values were negative, with the ribbon only shown where the lower bound is a finite positive number."}
+plotTimeProfile(
+  data       = concentrationData,
+  mapping    = aes(x = time, y = concentration, ymin = ymin, ymax = ymax),
+  yScale     = "log",
+  yScaleArgs = list(oob = scales::oob_censor_any)
+)
+```

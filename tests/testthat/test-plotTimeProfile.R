@@ -121,7 +121,7 @@ test_that("plotTimeProfile works logscale", {
 
   vdiffr::expect_doppelganger(
     title = "basic_log",
-    fig
+    fig = fig
   )
 })
 
@@ -671,5 +671,197 @@ test_that("'lin' is accepted as shorthand for 'linear' in plotTimeProfile", {
       xScale = "lin",
       yScale = "lin"
     )
+  )
+})
+
+
+testNegativeData <- data.frame(
+  x = 0:3,
+  y = c(1, 0.5, 0.25, 0),
+  ymin = c(0.5, 0.25, -0.25, -0.1),
+  ymax = c(1.5, 0.75, 0.5, 0.1)
+)
+
+test_that("plotTimeProfile linear scale preserves negative values - data only", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
+  fig <- plotTimeProfile(
+    data = testNegativeData,
+    mapping = aes(x = x, y = y, ymin = ymin, ymax = ymax)
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "negative values linear data only",
+    fig = fig
+  )
+})
+
+test_that("plotTimeProfile log scale displays negative values as -Inf - data only", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
+  fig <- plotTimeProfile(
+    data = testNegativeData,
+    mapping = aes(x = x, y = y, ymin = ymin, ymax = ymax),
+    yScale = "log",
+    yScaleArgs = list(oob = scales::oob_keep)
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "negative values log data only",
+    fig = fig
+  )
+})
+
+test_that("plotTimeProfile linear scale preserves negative values - observedData only", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
+  fig <- plotTimeProfile(
+    observedData = testNegativeData,
+    mapping = aes(x = x, y = y, ymin = ymin, ymax = ymax)
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "negative values linear observedData only",
+    fig = fig
+  )
+})
+
+test_that("plotTimeProfile log scale displays negative values as -Inf - observedData only", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
+  fig <- plotTimeProfile(
+    observedData = testNegativeData,
+    mapping = aes(x = x, y = y, ymin = ymin, ymax = ymax),
+    yScale = "log",
+    yScaleArgs = list(oob = scales::oob_keep)
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "negative values log observedData only",
+    fig = fig
+  )
+})
+
+test_that("plotTimeProfile linear scale preserves negative values - data and observedData", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
+  fig <- plotTimeProfile(
+    data = testNegativeData,
+    observedData = testNegativeData,
+    mapping = aes(x = x, y = y, ymin = ymin, ymax = ymax)
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "negative values linear both",
+    fig = fig
+  )
+})
+
+test_that("plotTimeProfile log scale displays negative values as -Inf - data and observedData", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
+  fig <- plotTimeProfile(
+    data = testNegativeData,
+    observedData = testNegativeData,
+    mapping = aes(x = x, y = y, ymin = ymin, ymax = ymax),
+    yScale = "log"
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "negative values log both",
+    fig = fig
+  )
+})
+
+
+test_that("plotTimeProfile handles log scale negative values with dual y-axis", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
+  dualData <- rbind.data.frame(
+    cbind.data.frame(testNegativeData, y2 = FALSE),
+    data.frame(x = 0:3, y = 0:3, ymin = 0:3, ymax = 0.3, y2 = TRUE)
+  )
+
+  fig_lin_lin <- plotTimeProfile(
+    data = dualData,
+    mapping = ggplot2::aes(
+      x = x,
+      y = y,
+      ymin = ymin,
+      ymax = ymax,
+      y2axis = y2,
+      group = ifelse(y2, "right", "left")
+    ),
+    yScale = "lin",
+    y2Scale = "lin"
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "negative values linear left and right",
+    fig = fig_lin_lin
+  )
+
+  fig_log_lin <- plotTimeProfile(
+    data = dualData,
+    mapping = ggplot2::aes(
+      x = x,
+      y = y,
+      ymin = ymin,
+      ymax = ymax,
+      y2axis = y2,
+      group = ifelse(y2, "right", "left")
+    ),
+    yScale = "log",
+    y2Scale = "lin"
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "negative values log left and linear right",
+    fig = fig_log_lin
+  )
+
+  fig_lin_log <- plotTimeProfile(
+    data = dualData,
+    mapping = ggplot2::aes(
+      x = x,
+      y = y,
+      ymin = ymin,
+      ymax = ymax,
+      y2axis = y2,
+      group = ifelse(y2, "right", "left")
+    ),
+    yScale = "lin",
+    y2Scale = "log"
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "negative values linear left and log right",
+    fig = fig_lin_log
+  )
+
+  fig_log_log <- plotTimeProfile(
+    data = dualData,
+    mapping = ggplot2::aes(
+      x = x,
+      y = y,
+      ymin = ymin,
+      ymax = ymax,
+      y2axis = y2,
+      group = ifelse(y2, "right", "left")
+    ),
+    yScale = "log",
+    y2Scale = "log"
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "negative values log left and right",
+    fig = fig_log_log
   )
 })

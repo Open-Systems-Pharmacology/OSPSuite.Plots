@@ -786,7 +786,7 @@ test_that("plotTimeProfile handles log scale negative values with dual y-axis", 
 
   dualData <- rbind.data.frame(
     cbind.data.frame(testNegativeData, y2 = FALSE),
-    data.frame(x = 0:3, y = 0:3, ymin = 0:3, ymax = 0.3, y2 = TRUE)
+    data.frame(x = 0:3, y = 0:3, ymin = 0:3, ymax = 0:3, y2 = TRUE)
   )
 
   fig_lin_lin <- plotTimeProfile(

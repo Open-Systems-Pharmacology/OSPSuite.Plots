@@ -28,8 +28,7 @@
 #' }
 #' @export
 #' @family MappedData classes
-MappedDataTimeProfile <- R6::R6Class(
-  # nolint
+MappedDataTimeProfile <- R6::R6Class( # nolint
   "MappedDataTimeProfile",
   inherit = MappedData,
   public = list(

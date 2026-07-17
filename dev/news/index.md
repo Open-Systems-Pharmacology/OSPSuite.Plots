@@ -2,6 +2,8 @@
 
 ## ospsuite.plots (development version)
 
+## ospsuite.plots 1.3.0
+
 ### New Features
 
 - `ospsuite.plots` plot functions now apply the full OSPSuite styling

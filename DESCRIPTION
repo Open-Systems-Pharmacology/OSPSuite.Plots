@@ -1,7 +1,7 @@
 Package: ospsuite.plots
 Type: Package
 Title: Library for standardized graphs
-Version: 1.3.0
+Version: 1.3.0.9000
 Authors@R:
     c(person(given = "Open-Systems-Pharmacology Community",
              role = "cph"),
@@ -83,6 +83,6 @@ Collate: 'messages.R'
          'utilities_shapes.R'
 LazyData: true
 Remotes:
-    ospsuite.utils=Open-Systems-Pharmacology/OSPSuite.RUtils@*release
+    ospsuite.utils=Open-Systems-Pharmacology/OSPSuite.RUtils
 Config/roxygen2/version: 8.0.0
 RoxygenNote: 8.0.0

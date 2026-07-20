@@ -43,6 +43,7 @@ geom_errorbar_osp <- function(
   lineend = "butt",
   na.rm = FALSE,
   show.legend = NA,
+  key_glyph = NULL,
   inherit.aes = TRUE
 ) {
   # nolint end
@@ -54,6 +55,7 @@ geom_errorbar_osp <- function(
     stat = stat,
     position = position,
     show.legend = show.legend,
+    key_glyph = key_glyph,
     inherit.aes = inherit.aes,
     params = list(
       orientation = orientation,
@@ -87,7 +89,7 @@ GeomErrorbarOsp <- ggplot2::ggproto(
     linetype = 1,
     alpha = NA
   ),
-  draw_key = ggplot2::draw_key_path,
+  draw_key = ggplot2::draw_key_blank,
   extra_params = c("na.rm", "orientation", "width", "lineend"),
   setup_data = function(data, params) {
     # Suppress rows where the bar has zero length to avoid orphan caps.

@@ -195,9 +195,13 @@
 <rect x='310.46' y='26.76' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <polygon points='321.05,35.40 321.04,35.20 321.01,35.01 320.97,34.83 320.90,34.65 320.82,34.47 320.72,34.31 320.61,34.16 320.48,34.01 320.34,33.88 320.18,33.77 320.02,33.67 319.84,33.59 319.66,33.52 319.48,33.48 319.29,33.45 319.10,33.44 318.90,33.45 318.71,33.48 318.53,33.52 318.35,33.59 318.17,33.67 318.01,33.77 317.86,33.88 317.71,34.01 317.58,34.16 317.47,34.31 317.37,34.47 317.29,34.65 317.22,34.83 317.18,35.01 317.15,35.20 317.14,35.40 317.15,35.59 317.18,35.78 317.22,35.96 317.29,36.14 317.37,36.32 317.47,36.48 317.58,36.64 317.71,36.78 317.86,36.91 318.01,37.02 318.17,37.12 318.35,37.20 318.53,37.27 318.71,37.31 318.90,37.34 319.10,37.35 319.29,37.34 319.48,37.31 319.66,37.27 319.84,37.20 320.02,37.12 320.18,37.02 320.34,36.91 320.48,36.78 320.61,36.64 320.72,36.48 320.82,36.32 320.90,36.14 320.97,35.96 321.01,35.78 321.04,35.59 ' style='stroke-width: 0.71; stroke: #0078D7; fill: #0078D7;' />
 <line x1='312.18' y1='35.40' x2='326.01' y2='35.40' style='stroke-width: 1.07; stroke: #0078D7; stroke-linecap: butt;' />
+<line x1='312.18' y1='39.72' x2='312.18' y2='31.08' style='stroke-width: 1.07; stroke: #0078D7; stroke-linecap: butt;' />
+<line x1='326.01' y1='39.72' x2='326.01' y2='31.08' style='stroke-width: 1.07; stroke: #0078D7; stroke-linecap: butt;' />
 <rect x='310.46' y='44.04' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <polygon points='321.55,52.68 319.10,50.23 316.65,52.68 319.10,55.13 ' style='stroke-width: 0.71; stroke: #D83B01; fill: #D83B01;' />
 <line x1='312.18' y1='52.68' x2='326.01' y2='52.68' style='stroke-width: 1.07; stroke: #D83B01; stroke-linecap: butt;' />
+<line x1='312.18' y1='57.00' x2='312.18' y2='48.36' style='stroke-width: 1.07; stroke: #D83B01; stroke-linecap: butt;' />
+<line x1='326.01' y1='57.00' x2='326.01' y2='48.36' style='stroke-width: 1.07; stroke: #D83B01; stroke-linecap: butt;' />
 <text x='333.22' y='38.42' style='font-size: 8.80px; font-family: sans;' textLength='16.15px' lengthAdjust='spacingAndGlyphs'>Obs</text>
 <text x='333.22' y='55.70' style='font-size: 8.80px; font-family: sans;' textLength='18.59px' lengthAdjust='spacingAndGlyphs'>Pred</text>
 </g>

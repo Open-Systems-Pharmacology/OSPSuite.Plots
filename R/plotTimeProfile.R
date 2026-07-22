@@ -604,7 +604,10 @@ plotTimeProfile <- function(data = NULL, # nolint
   plotObject <- addLayer(
     mappedData = obsMappedData,
     geom = "errorbar",
-    geomAttributes = geomErrorbarAttributes,
+    geomAttributes = utils::modifyList(
+      list(key_glyph = ggplot2::draw_key_blank),
+      geomErrorbarAttributes
+    ),
     plotObject = plotObject,
     layerToCall = geom_errorbar_osp
   )

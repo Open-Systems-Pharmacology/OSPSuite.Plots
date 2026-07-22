@@ -2,7 +2,7 @@
 
 ## Minor improvements and bug fixes
 
-- Legend glyphs for error bar layers now default to blank. `geom_errorbar_osp()` no longer renders a line in the legend key; forest plots retain a line glyph via `key_glyph = "path"`. Distribution-fit and mean-line overlays in `plotHistogram()` likewise use a blank legend key, preventing line symbols from overlaying the histogram bar glyphs (#137).
+- `geom_errorbar_osp()` now renders a horizontal line with end caps as its default legend key glyph (`draw_key_errorbar_osp`). Forest plots inherit this default. Time-profile and Y-vs-X plots override it to blank so the error-bar glyph does not duplicate the point/line legend entries. Distribution-fit and mean-line overlays in `plotHistogram()` likewise use a blank legend key (#137).
 
 # ospsuite.plots 1.3.0
 

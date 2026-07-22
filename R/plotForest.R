@@ -185,7 +185,7 @@ createPlotObject <- function(
       mappedData = mappedData,
       geom = "errorbar",
       geomAttributes = utils::modifyList(
-        list(position = position_dodge(width = 1), orientation = "x", key_glyph = "path"),
+        list(position = position_dodge(width = 1), orientation = "x"),
         geomErrorbarAttributes
       ),
       plotObject = plotObject,

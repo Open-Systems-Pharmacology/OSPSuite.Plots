@@ -297,8 +297,7 @@ plotYVsX <- function(
         args = utils::modifyList(
           x = list(
             na.rm = TRUE,
-            orientation = "x",
-            key_glyph = ggplot2::draw_key_blank
+            orientation = "x"
           ),
           val = geomErrorbarAttributes
         )
@@ -312,8 +311,7 @@ plotYVsX <- function(
         args = utils::modifyList(
           list(
             na.rm = TRUE,
-            orientation = "y",
-            key_glyph = ggplot2::draw_key_blank
+            orientation = "y"
           ),
           geomErrorbarAttributes
         )

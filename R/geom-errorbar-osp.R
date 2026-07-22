@@ -87,8 +87,8 @@ draw_key_errorbar_osp <- function(data, params, size) { # nolint
 
   gp <- grid::gpar(
     col = scales::alpha(data$colour %||% "black", data$alpha %||% 1),
-    lwd = (data$linewidth %||% 0.5) * ggplot2::.pt,
-    lty = data$linetype %||% 1,
+    lwd = (params$linewidth %||% data$linewidth %||% 0.5) * ggplot2::.pt,
+    lty = params$linetype %||% data$linetype %||% 1,
     lineend = "butt"
   )
 

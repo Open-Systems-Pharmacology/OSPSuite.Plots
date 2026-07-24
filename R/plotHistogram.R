@@ -145,7 +145,8 @@ plotHistogram <- function(
         mapping = distrMapping,
         distri = plotHelper$distribution,
         inherit.aes = !plotHelper$isStacked,
-        linewidth = lineWidth
+        linewidth = lineWidth,
+        key_glyph = ggplot2::draw_key_blank
       )
   }
 
@@ -162,7 +163,8 @@ plotHistogram <- function(
         geom = "vline",
         orientation = "y",
         inherit.aes = !plotHelper$isStacked,
-        linewidth = lineWidth
+        linewidth = lineWidth,
+        key_glyph = ggplot2::draw_key_blank
       )
   }
 

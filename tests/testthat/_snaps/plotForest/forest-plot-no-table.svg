@@ -186,9 +186,13 @@
 <rect x='662.68' y='265.57' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <polygon points='673.27,274.21 673.26,274.02 673.23,273.83 673.19,273.64 673.12,273.46 673.04,273.29 672.94,273.12 672.83,272.97 672.70,272.82 672.56,272.70 672.40,272.58 672.24,272.48 672.06,272.40 671.88,272.34 671.70,272.29 671.51,272.26 671.32,272.25 671.12,272.26 670.93,272.29 670.75,272.34 670.57,272.40 670.39,272.48 670.23,272.58 670.08,272.70 669.93,272.82 669.80,272.97 669.69,273.12 669.59,273.29 669.51,273.46 669.44,273.64 669.40,273.83 669.37,274.02 669.36,274.21 669.37,274.40 669.40,274.59 669.44,274.77 669.51,274.96 669.59,275.13 669.69,275.29 669.80,275.45 669.93,275.59 670.08,275.72 670.23,275.83 670.39,275.93 670.57,276.01 670.75,276.08 670.93,276.13 671.12,276.15 671.32,276.16 671.51,276.15 671.70,276.13 671.88,276.08 672.06,276.01 672.24,275.93 672.40,275.83 672.56,275.72 672.70,275.59 672.83,275.45 672.94,275.29 673.04,275.13 673.12,274.96 673.19,274.77 673.23,274.59 673.26,274.40 ' style='stroke-width: 0.71; stroke: #0078D7; fill: #0078D7;' />
 <line x1='664.40' y1='274.21' x2='678.23' y2='274.21' style='stroke-width: 1.07; stroke: #0078D7; stroke-linecap: butt;' />
+<line x1='664.40' y1='278.53' x2='664.40' y2='269.89' style='stroke-width: 1.07; stroke: #0078D7; stroke-linecap: butt;' />
+<line x1='678.23' y1='278.53' x2='678.23' y2='269.89' style='stroke-width: 1.07; stroke: #0078D7; stroke-linecap: butt;' />
 <rect x='662.68' y='282.85' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <polygon points='673.77,291.49 671.32,289.04 668.87,291.49 671.32,293.94 ' style='stroke-width: 0.71; stroke: #D83B01; fill: #D83B01;' />
 <line x1='664.40' y1='291.49' x2='678.23' y2='291.49' style='stroke-width: 1.07; stroke: #D83B01; stroke-linecap: butt;' />
+<line x1='664.40' y1='295.81' x2='664.40' y2='287.17' style='stroke-width: 1.07; stroke: #D83B01; stroke-linecap: butt;' />
+<line x1='678.23' y1='295.81' x2='678.23' y2='287.17' style='stroke-width: 1.07; stroke: #D83B01; stroke-linecap: butt;' />
 <text x='685.44' y='277.24' style='font-size: 8.80px; font-family: sans;' textLength='16.15px' lengthAdjust='spacingAndGlyphs'>Obs</text>
 <text x='685.44' y='294.52' style='font-size: 8.80px; font-family: sans;' textLength='18.59px' lengthAdjust='spacingAndGlyphs'>Pred</text>
 <text transform='translate(365.87,298.17) rotate(-30)' text-anchor='middle' style='font-size: 34.14px; fill: #D3D3D3; fill-opacity: 0.70; font-family: sans;' textLength='299.85px' lengthAdjust='spacingAndGlyphs'>preliminary analysis</text>

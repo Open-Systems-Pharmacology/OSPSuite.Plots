@@ -601,13 +601,13 @@ plotTimeProfile <- function(data = NULL, # nolint
   }
 
   # - If available, add error bars
+  # The errorbar layer uses its default draw_key (draw_key_errorbar_osp) so that
+  # ggplot2 overlays the errorbar glyph on top of the point layer's glyph,
+  # producing a combined point+errorbar legend symbol.
   plotObject <- addLayer(
     mappedData = obsMappedData,
     geom = "errorbar",
-    geomAttributes = utils::modifyList(
-      list(key_glyph = ggplot2::draw_key_blank),
-      geomErrorbarAttributes
-    ),
+    geomAttributes = geomErrorbarAttributes,
     plotObject = plotObject,
     layerToCall = geom_errorbar_osp
   )

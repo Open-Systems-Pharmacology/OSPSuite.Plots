@@ -24,15 +24,33 @@ This is the beta release of the  `{ospsuite.plots}`. We welcome your feedback as
 
 ## Installation
 
-You can install the development version of `{ospsuite.plots}` from
-[GitHub](https://github.com/) with:
+`{ospsuite.plots}` and its Open Systems Pharmacology dependencies are published
+on the [OSP R-universe](https://open-systems-pharmacology.r-universe.dev).
+Installing the released version needs nothing but base R, and resolves
+`{ospsuite.utils}` for you:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("Open-Systems-Pharmacology/ospsuite.plots")
+install.packages(
+  "ospsuite.plots",
+  repos = c(OSP = "https://open-systems-pharmacology.r-universe.dev", getOption("repos"))
+)
 ```
 
-`{ospsuite.plots}` requires following packages to be installed:
+To install the development version from GitHub instead, use
+[pak](https://pak.r-lib.org):
+
+``` r
+# install.packages("pak")
+pak::pak("Open-Systems-Pharmacology/OSPSuite.Plots")
+```
+
+Binaries also remain attached to every
+[GitHub release](https://github.com/Open-Systems-Pharmacology/OSPSuite.Plots/releases),
+and can be installed from a local file with
+`install.packages(pathToZip, repos = NULL)`.
+
+`{ospsuite.plots}` requires the following packages, which the commands above
+install for you:
 
 From CRAN:
 
@@ -46,30 +64,9 @@ From CRAN:
 - [tidyr](https://cran.r-project.org/package=tidyr/index.html)
 - [fs](https://cran.r-project.org/package=fs/index.html)
 
-Must be downloaded manually:
+From the OSP R-universe:
 
--   [ospsuite.utils](https://github.com/Open-Systems-Pharmacology/OSPSuite.RUtils/releases/download/v1.3.17/ospsuite.utils_1.3.17.zip)
-
-
-To install manually, follow these instructions:
-
-```r
-# Install `{ospsuite.utils}` from local file 
-# (`pathTo_ospsuite.utils.zip` here should be replaced with the actual path to the `.zip` file)
-install.packages(pathTo_ospsuite.utils.zip, repos = NULL)
-
-
-# Install dependencies (e.g. ggplot2) which are on CRAN
-install.packages('ggplot2')
-install.packages('ggh4x')
-install.packages('data.table')
-install.packages('ggnewscale')
-install.packages('checkmate')
-install.packages('dplyr')
-install.packages('tidyr')
-install.packages('fs')
-
-```
+-   [ospsuite.utils](https://open-systems-pharmacology.r-universe.dev/ospsuite.utils)
 
 ## Code of conduct
 

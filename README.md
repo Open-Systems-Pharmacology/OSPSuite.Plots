@@ -44,11 +44,6 @@ To install the development version from GitHub instead, use
 pak::pak("Open-Systems-Pharmacology/OSPSuite.Plots")
 ```
 
-Binaries also remain attached to every
-[GitHub release](https://github.com/Open-Systems-Pharmacology/OSPSuite.Plots/releases),
-and can be installed from a local file with
-`install.packages(pathToZip, repos = NULL)`.
-
 `{ospsuite.plots}` requires the following packages, which the commands above
 install for you:
 

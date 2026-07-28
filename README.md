@@ -44,25 +44,6 @@ To install the development version from GitHub instead, use
 pak::pak("Open-Systems-Pharmacology/OSPSuite.Plots")
 ```
 
-`{ospsuite.plots}` requires the following packages, which the commands above
-install for you:
-
-From CRAN:
-
-- [ggplot2](https://cran.r-project.org/package=ggplot2/index.html)
-- [ggh4x](https://cran.r-project.org/package=ggh4x/index.html)
-- [cowplot](https://cran.r-project.org/package=cowplot/index.html)
-- [data.table](https://cran.r-project.org/package=data.table/index.html)
-- [ggnewscale](https://cran.r-project.org/package=ggnewscale/index.html)
-- [checkmate](https://cran.r-project.org/package=checkmate/index.html)
-- [dplyr](https://cran.r-project.org/package=dplyr/index.html)
-- [tidyr](https://cran.r-project.org/package=tidyr/index.html)
-- [fs](https://cran.r-project.org/package=fs/index.html)
-
-From the OSP R-universe:
-
--   [ospsuite.utils](https://open-systems-pharmacology.r-universe.dev/ospsuite.utils)
-
 ## Code of conduct
 
 Everyone interacting in the Open Systems Pharmacology community (codebases,

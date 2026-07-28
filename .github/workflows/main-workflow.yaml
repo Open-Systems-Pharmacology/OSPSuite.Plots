@@ -29,4 +29,6 @@ jobs:
     needs: bump-dev-version
     if: ${{ !cancelled() }}
     uses:  Open-Systems-Pharmacology/Workflows/.github/workflows/pkgdown.yaml@main
+    with:
+      extra-repositories: https://open-systems-pharmacology.r-universe.dev
 

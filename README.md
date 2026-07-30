@@ -24,10 +24,8 @@ This is the beta release of the  `{ospsuite.plots}`. We welcome your feedback as
 
 ## Installation
 
-`{ospsuite.plots}` and its Open Systems Pharmacology dependencies are published
-on the [OSP R-universe](https://open-systems-pharmacology.r-universe.dev).
-Installing the released version needs nothing but base R, and resolves
-`{ospsuite.utils}` for you:
+Install the released version from the [OSP
+R-universe](https://open-systems-pharmacology.r-universe.dev):
 
 ``` r
 install.packages(
@@ -37,9 +35,7 @@ install.packages(
 ```
 
 To install the development version from GitHub instead, use
-[pak](https://pak.r-lib.org). The universe still has to be on `repos` for this:
-the development sources declare their OSP dependencies without saying where
-to find them, and pak does not read `Additional_repositories`.
+[pak](https://pak.r-lib.org):
 
 ``` r
 # install.packages("pak")

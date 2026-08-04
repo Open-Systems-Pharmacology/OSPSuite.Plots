@@ -632,8 +632,8 @@ test_that("plotTimeProfile does not suppress guides when mapSimulatedAndObserved
 
   # mapSimulatedAndObserved set: no suppression, point guides active
   # however, caution guide name uses convention from ggnewscale
-  expect_false(is.null(ggplot2::get_guide_data(fig, "shape_ggnewscale_1")))
-  expect_false(is.null(ggplot2::get_guide_data(fig, "fill_ggnewscale_1")))
+  expect_false(is.null(ggplot2::get_guide_data(fig, "shape_ggnewscale_2")))
+  expect_false(is.null(ggplot2::get_guide_data(fig, "fill_ggnewscale_2")))
 })
 
 test_that("plotTimeProfile does not suppress guides when colour is not in groupAesthetics", {

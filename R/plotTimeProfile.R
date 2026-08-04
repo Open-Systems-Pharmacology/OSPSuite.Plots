@@ -670,6 +670,19 @@ plotTimeProfile <- function(
   if (is.null(obsMappedData)) {
     return(plotObject)
   }
+  # add new scales for all aesthetics which occurs in simulated AND in observed data
+  # to separate simulated and observed legend entries and start again with default colors
+  if (!is.null(mapSimulatedAndObserved)) {
+    for (aesthetic in groupAesthetics) {
+      guidesList <- stats::setNames(
+        list(guide_legend(title = "Simulated", order = 2)),
+        aesthetic
+      )
+      plotObject <- plotObject +
+        guides(!!!guidesList) +
+        ggnewscale::new_scale(new_aes = aesthetic)
+    }
+  }
 
   # - If available, add error bars
   plotObject <- addLayer(

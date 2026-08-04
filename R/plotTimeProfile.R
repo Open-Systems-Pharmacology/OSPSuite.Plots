@@ -59,30 +59,37 @@
 #' }
 #' @export
 #' @family plot functions
-plotTimeProfile <- function(data = NULL, # nolint
-                            mapping = NULL,
-                            observedData = NULL,
-                            observedMapping = mapping,
-                            metaData = NULL,
-                            mapSimulatedAndObserved = NULL,
-                            xScale = AxisScales$linear,
-                            xScaleArgs = list(limits = c(0, NA)),
-                            yScale = AxisScales$linear,
-                            yScaleArgs = list(),
-                            y2Scale = AxisScales$linear,
-                            y2ScaleArgs = list(),
-                            plotObject = NULL,
-                            geomLineAttributes = getDefaultGeomAttributes("Line"),
-                            geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
-                            geomPointAttributes = getDefaultGeomAttributes("Point"),
-                            geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
-                            geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
-                            groupAesthetics = c("colour", "fill", "shape")) {
-
+plotTimeProfile <- function(
+  data = NULL, # nolint
+  mapping = NULL,
+  observedData = NULL,
+  observedMapping = mapping,
+  metaData = NULL,
+  mapSimulatedAndObserved = NULL,
+  xScale = AxisScales$linear,
+  xScaleArgs = list(limits = c(0, NA)),
+  yScale = AxisScales$linear,
+  yScaleArgs = list(),
+  y2Scale = AxisScales$linear,
+  y2ScaleArgs = list(),
+  plotObject = NULL,
+  geomLineAttributes = getDefaultGeomAttributes("Line"),
+  geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
+  geomPointAttributes = getDefaultGeomAttributes("Point"),
+  geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
+  geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
+  groupAesthetics = c("colour", "fill", "shape")
+) {
   groupAesthetics <- ggplot2::standardise_aes_names(groupAesthetics)
-  if (!is.null(xScale)) xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
-  if (!is.null(yScale)) yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
-  if (!is.null(y2Scale)) y2Scale <- match.arg(y2Scale, c(AxisScales$linear, AxisScales$log))
+  if (!is.null(xScale)) {
+    xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
+  }
+  if (!is.null(yScale)) {
+    yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  }
+  if (!is.null(y2Scale)) {
+    y2Scale <- match.arg(y2Scale, c(AxisScales$linear, AxisScales$log))
+  }
   .validatePlotTimeProfileInputs(
     data = data,
     observedData = observedData,
@@ -133,29 +140,13 @@ plotTimeProfile <- function(data = NULL, # nolint
     )
 
   ## -- addLayers
-  plotObject <-
-    .addLayersForSimulatedData(
-      plotObject = plotObject,
-      simMappedData = listMappedData$simMappedData,
-      geomRibbonAttributes = geomRibbonAttributes,
-      geomLineAttributes = geomLineAttributes,
-      mapSimulatedAndObserved = listMappedData$mapSimulatedAndObserved,
-      groupAesthetics = groupAesthetics
-    )
-
-  # set legend properties for simulated legend
-  if (!is.null(listMappedData$mapSimulatedAndObserved)) {
-    guidesList <- stats::setNames(
-      lapply(groupAesthetics, function(aesthetic) {
-        guide_legend(
-          order = 2,
-          title = "Simulated"
-        )
-      }),
-      groupAesthetics
-    )
-    plotObject <- plotObject + guides(!!!guidesList)
-  }
+  plotObject <- .addRibbonLayerForSimulatedData(
+    plotObject = plotObject,
+    simMappedData = listMappedData$simMappedData,
+    geomRibbonAttributes = geomRibbonAttributes,
+    mapSimulatedAndObserved = listMappedData$mapSimulatedAndObserved,
+    groupAesthetics = groupAesthetics
+  )
 
   plotObject <-
     .addLayersForObserveddData(
@@ -173,10 +164,26 @@ plotTimeProfile <- function(data = NULL, # nolint
   if (!is.null(listMappedData$mapSimulatedAndObserved)) {
     guidesList <- stats::setNames(
       lapply(groupAesthetics, function(aesthetic) {
-        guide_legend(
-          order = 1,
-          title = "Observed"
-        )
+        guide_legend(order = 1, title = "Observed")
+      }),
+      groupAesthetics
+    )
+    plotObject <- plotObject + guides(!!!guidesList)
+  }
+
+  plotObject <- .addLineLayerForSimulatedData(
+    plotObject = plotObject,
+    simMappedData = listMappedData$simMappedData,
+    geomLineAttributes = geomLineAttributes,
+    mapSimulatedAndObserved = listMappedData$mapSimulatedAndObserved,
+    groupAesthetics = groupAesthetics
+  )
+
+  # set legend properties for simulated legend
+  if (!is.null(listMappedData$mapSimulatedAndObserved)) {
+    guidesList <- stats::setNames(
+      lapply(groupAesthetics, function(aesthetic) {
+        guide_legend(order = 2, title = "Simulated")
       }),
       groupAesthetics
     )
@@ -217,23 +224,25 @@ plotTimeProfile <- function(data = NULL, # nolint
 #'
 #' @keywords internal
 .validatePlotTimeProfileInputs <-
-  function(data,
-           observedData,
-           plotObject,
-           metaData,
-           xScale,
-           xScaleArgs,
-           yScale,
-           yScaleArgs,
-           y2Scale,
-           y2ScaleArgs,
-           geomLineAttributes,
-           geomRibbonAttributes,
-           geomPointAttributes,
-           geomErrorbarAttributes,
-           geomLLOQAttributes,
-           groupAesthetics,
-           mapSimulatedAndObserved) {
+  function(
+    data,
+    observedData,
+    plotObject,
+    metaData,
+    xScale,
+    xScaleArgs,
+    yScale,
+    yScaleArgs,
+    y2Scale,
+    y2ScaleArgs,
+    geomLineAttributes,
+    geomRibbonAttributes,
+    geomPointAttributes,
+    geomErrorbarAttributes,
+    geomLLOQAttributes,
+    groupAesthetics,
+    mapSimulatedAndObserved
+  ) {
     if (all(isEmpty(data), isEmpty(observedData))) {
       stop(messages$errorDataOrObservedDataRequired())
     }
@@ -251,11 +260,21 @@ plotTimeProfile <- function(data = NULL, # nolint
     checkmate::assertList(geomErrorbarAttributes, null.ok = FALSE, min.len = 0)
     checkmate::assertList(geomLLOQAttributes, null.ok = FALSE, min.len = 0)
 
-    checkmate::assertCharacter(groupAesthetics, min.len = 0, all.missing = TRUE, null.ok = TRUE)
+    checkmate::assertCharacter(
+      groupAesthetics,
+      min.len = 0,
+      all.missing = TRUE,
+      null.ok = TRUE
+    )
     checkmate::assertDataFrame(mapSimulatedAndObserved, null.ok = TRUE)
     if (!is.null(mapSimulatedAndObserved)) {
-      checkmate::assertNames(names(mapSimulatedAndObserved), must.include = c("simulated", "observed"))
-      names(mapSimulatedAndObserved) <- standardise_aes_names(names(mapSimulatedAndObserved))
+      checkmate::assertNames(
+        names(mapSimulatedAndObserved),
+        must.include = c("simulated", "observed")
+      )
+      names(mapSimulatedAndObserved) <- standardise_aes_names(names(
+        mapSimulatedAndObserved
+      ))
     }
     return(invisible())
   }
@@ -267,18 +286,20 @@ plotTimeProfile <- function(data = NULL, # nolint
 #' @return list with entries `simMappedData` and `obsMappedData`
 #'
 #' @keywords internal
-.getMappedDataForTimeProfiles <- function(data,
-                                          mapping,
-                                          observedData,
-                                          observedMapping,
-                                          metaData,
-                                          xScale,
-                                          yScale,
-                                          yScaleArgs,
-                                          y2Scale,
-                                          y2ScaleArgs,
-                                          groupAesthetics,
-                                          mapSimulatedAndObserved) {
+.getMappedDataForTimeProfiles <- function(
+  data,
+  mapping,
+  observedData,
+  observedMapping,
+  metaData,
+  xScale,
+  yScale,
+  yScaleArgs,
+  y2Scale,
+  y2ScaleArgs,
+  groupAesthetics,
+  mapSimulatedAndObserved
+) {
   requireDualAxis <- FALSE
   commonLimits <- list(
     y = yScaleArgs$limits,
@@ -286,7 +307,8 @@ plotTimeProfile <- function(data = NULL, # nolint
   )
 
   if (!is.null(mapSimulatedAndObserved)) {
-    mapSimulatedAndObserved <- data.table::setnames(data.table::setDT(mapSimulatedAndObserved),
+    mapSimulatedAndObserved <- data.table::setnames(
+      data.table::setDT(mapSimulatedAndObserved),
       old = names(mapSimulatedAndObserved),
       new = ggplot2::standardise_aes_names(names(mapSimulatedAndObserved))
     )
@@ -347,7 +369,6 @@ plotTimeProfile <- function(data = NULL, # nolint
 
     obsMappedData$addMetaData(metaData = metaData)
 
-
     requireDualAxis <- requireDualAxis | obsMappedData$requireDualAxis
     commonLimits <- .adjustLimits(
       commonLimits,
@@ -358,8 +379,7 @@ plotTimeProfile <- function(data = NULL, # nolint
     )
 
     useLLOQLinetypeAsAttribute <-
-      "linetype" %in% names(simMappedData$mapping) |
-        useLLOQLinetypeAsAttribute
+      "linetype" %in% names(simMappedData$mapping) | useLLOQLinetypeAsAttribute
   } else {
     obsMappedData <- NULL
   }
@@ -373,7 +393,6 @@ plotTimeProfile <- function(data = NULL, # nolint
       yScaleArgs = yScaleArgs,
       y2ScaleArgs = y2ScaleArgs
     )
-
 
   return(list(
     simMappedData = listMappedData$simMappedData,
@@ -401,12 +420,14 @@ plotTimeProfile <- function(data = NULL, # nolint
 #'  `secAxis`  secondary axis object
 #'
 #' @keywords internal
-.addCommonLimitsAndYScaleArguments <- function(simMappedData,
-                                               obsMappedData,
-                                               commonLimits,
-                                               requireDualAxis,
-                                               yScaleArgs,
-                                               y2ScaleArgs) {
+.addCommonLimitsAndYScaleArguments <- function(
+  simMappedData,
+  obsMappedData,
+  commonLimits,
+  requireDualAxis,
+  yScaleArgs,
+  y2ScaleArgs
+) {
   secAxis <- waiver()
   if (requireDualAxis) {
     if (!is.null(simMappedData)) {
@@ -424,8 +445,9 @@ plotTimeProfile <- function(data = NULL, # nolint
         y2limits = commonLimits$y2,
         y2ScaleArgs = y2ScaleArgs
       )
-      if (!inherits(obsMappedData$secAxis, "waiver"))
+      if (!inherits(obsMappedData$secAxis, "waiver")) {
         secAxis <- obsMappedData$secAxis
+      }
     }
 
     # to suppress warnings add limits if secondary axis exists
@@ -451,9 +473,15 @@ plotTimeProfile <- function(data = NULL, # nolint
   for (aesthetic in names(commonLimitsOld)) {
     if (!is.null(commonLimitsNew[[aesthetic]])) {
       commonLimitsNew[[aesthetic]][1] <-
-        min(c(commonLimitsOld[[aesthetic]][1], commonLimitsNew[[aesthetic]][1]), na.rm = TRUE)
+        min(
+          c(commonLimitsOld[[aesthetic]][1], commonLimitsNew[[aesthetic]][1]),
+          na.rm = TRUE
+        )
       commonLimitsNew[[aesthetic]][2] <-
-        max(c(commonLimitsOld[[aesthetic]][2], commonLimitsNew[[aesthetic]][2]), na.rm = TRUE)
+        max(
+          c(commonLimitsOld[[aesthetic]][2], commonLimitsNew[[aesthetic]][2]),
+          na.rm = TRUE
+        )
     } else {
       commonLimitsNew[[aesthetic]] <- commonLimitsOld[[aesthetic]]
     }
@@ -471,15 +499,17 @@ plotTimeProfile <- function(data = NULL, # nolint
 #'
 #' @return plot object
 #' @keywords internal
-.initialplotObjectForTimeProfile <- function(simMappedData,
-                                             obsMappedData,
-                                             plotObject,
-                                             xScale,
-                                             xScaleArgs,
-                                             yScale,
-                                             yScaleArgs,
-                                             y2ScaleArgs,
-                                             secAxis) {
+.initialplotObjectForTimeProfile <- function(
+  simMappedData,
+  obsMappedData,
+  plotObject,
+  xScale,
+  xScaleArgs,
+  yScale,
+  yScaleArgs,
+  y2ScaleArgs,
+  secAxis
+) {
   # mapping can not be set in ggplot as observed and simulated mappings may differ
   if (is.null(plotObject)) {
     plotObject <- initializePlot(
@@ -488,8 +518,10 @@ plotTimeProfile <- function(data = NULL, # nolint
     )
 
     # add y2 label to y2ScaleArgs
-    if (!is.null(plotObject@labels$y2) &
-      is.null(y2ScaleArgs$name)) {
+    if (
+      !is.null(plotObject@labels$y2) &
+        is.null(y2ScaleArgs$name)
+    ) {
       secAxis$name <- plotObject@labels$y2
       plotObject@labels$y2 <- NULL
     }
@@ -518,19 +550,20 @@ plotTimeProfile <- function(data = NULL, # nolint
 }
 
 
-#' set line and ribbon layer fro simulated data
+#' set ribbon layer for simulated data
 #'
 #' @param simMappedData object of class `MappedDataTimeprofile` for simulated data
 #' @inheritParams plotTimeProfile
 #'
 #' @return plot object wit newly added layers
 #' @keywords internal
-.addLayersForSimulatedData <- function(plotObject,
-                                       simMappedData,
-                                       geomRibbonAttributes,
-                                       geomLineAttributes,
-                                       mapSimulatedAndObserved,
-                                       groupAesthetics) {
+.addRibbonLayerForSimulatedData <- function(
+  plotObject,
+  simMappedData,
+  geomRibbonAttributes,
+  mapSimulatedAndObserved,
+  groupAesthetics
+) {
   if (is.null(simMappedData)) {
     return(plotObject)
   }
@@ -543,7 +576,53 @@ plotTimeProfile <- function(data = NULL, # nolint
     layerToCall = geom_ribbon
   )
 
+  if (!is.null(mapSimulatedAndObserved)) {
+    for (aesthetic in intersect(
+      groupAesthetics,
+      names(mapSimulatedAndObserved)
+    )) {
+      plotObject <- plotObject +
+        scale_discrete_manual(
+          aesthetic,
+          values = mapSimulatedAndObserved[[aesthetic]],
+          guide = guide_legend(order = 2, title = "Simulated")
+        )
+    }
+  }
 
+  return(plotObject)
+}
+
+#' set line layer for simulated data
+#'
+#' @param simMappedData object of class `MappedDataTimeprofile` for simulated data
+#' @inheritParams plotTimeProfile
+#'
+#' @return plot object wit newly added layers
+#' @keywords internal
+.addLineLayerForSimulatedData <- function(
+  plotObject,
+  simMappedData,
+  geomLineAttributes,
+  mapSimulatedAndObserved,
+  groupAesthetics
+) {
+  if (is.null(simMappedData)) {
+    return(plotObject)
+  }
+  # add new scales for all aesthetics which occurs in simulated AND in observed data
+  # to separate simulated and observed legend entries and start again with default colors
+  if (!is.null(mapSimulatedAndObserved)) {
+    for (aesthetic in groupAesthetics) {
+      guidesList <- stats::setNames(
+        list(guide_legend(title = "Observed", order = 1)),
+        aesthetic
+      )
+      plotObject <- plotObject +
+        guides(!!!guidesList) +
+        ggnewscale::new_scale(new_aes = aesthetic)
+    }
+  }
   # If available, add simulated time profile
   plotObject <- addLayer(
     mappedData = simMappedData,
@@ -554,9 +633,13 @@ plotTimeProfile <- function(data = NULL, # nolint
   )
 
   if (!is.null(mapSimulatedAndObserved)) {
-    for (aesthetic in intersect(groupAesthetics, names(mapSimulatedAndObserved))) {
+    for (aesthetic in intersect(
+      groupAesthetics,
+      names(mapSimulatedAndObserved)
+    )) {
       plotObject <- plotObject +
-        scale_discrete_manual(aesthetic,
+        scale_discrete_manual(
+          aesthetic,
           values = mapSimulatedAndObserved[[aesthetic]],
           guide = guide_legend(order = 2, title = "Simulated")
         )
@@ -574,30 +657,18 @@ plotTimeProfile <- function(data = NULL, # nolint
 #' @param useLLOQLinetypeAsAttribute boolean if TRUE line type for LLOQ is set as attribute
 #'
 #' @keywords internal
-.addLayersForObserveddData <- function(plotObject,
-                                       obsMappedData,
-                                       geomErrorbarAttributes,
-                                       geomPointAttributes,
-                                       geomLLOQAttributes,
-                                       useLLOQLinetypeAsAttribute,
-                                       mapSimulatedAndObserved,
-                                       groupAesthetics) {
+.addLayersForObserveddData <- function(
+  plotObject,
+  obsMappedData,
+  geomErrorbarAttributes,
+  geomPointAttributes,
+  geomLLOQAttributes,
+  useLLOQLinetypeAsAttribute,
+  mapSimulatedAndObserved,
+  groupAesthetics
+) {
   if (is.null(obsMappedData)) {
     return(plotObject)
-  }
-
-  # add new scales for all aesthetics which occurs in simulated AND in observed data
-  # to separate simulated and observed legend entries and start again with default colors
-  if (!is.null(mapSimulatedAndObserved)) {
-    for (aesthetic in groupAesthetics) {
-      guidesList <- stats::setNames(
-        list(guide_legend(title = "Simulated", order = 2)),
-        aesthetic
-      )
-      plotObject <- plotObject +
-        guides(!!!guidesList) +
-        ggnewscale::new_scale(new_aes = aesthetic)
-    }
   }
 
   # - If available, add error bars
@@ -608,7 +679,6 @@ plotTimeProfile <- function(data = NULL, # nolint
     plotObject = plotObject,
     layerToCall = geom_errorbar_osp
   )
-
 
   # - Add observed scatter points with scale for LLOQ
   plotObject <- addLayer(
@@ -630,9 +700,15 @@ plotTimeProfile <- function(data = NULL, # nolint
 
   # scale vectors of map simulated
   if (!is.null(mapSimulatedAndObserved)) {
-    for (aesthetic in intersect(groupAesthetics, names(mapSimulatedAndObserved))) {
+    for (aesthetic in intersect(
+      groupAesthetics,
+      names(mapSimulatedAndObserved)
+    )) {
       plotObject <- plotObject +
-        scale_discrete_manual(aesthetic, values = mapSimulatedAndObserved[[aesthetic]])
+        scale_discrete_manual(
+          aesthetic,
+          values = mapSimulatedAndObserved[[aesthetic]]
+        )
     }
   }
 

@@ -1,5 +1,9 @@
 # ospsuite.plots (development version)
 
+## Minor improvements and bug fixes
+
+- `plotTimeProfile()` now draws the simulated curves after the observed data symbols, so the symbols no longer cover the curves. This improves plot readability when both simulated and observed data are displayed (#143).
+
 # ospsuite.plots 1.3.0
 
 ## New Features

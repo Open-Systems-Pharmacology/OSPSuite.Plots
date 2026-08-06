@@ -307,7 +307,7 @@ createTableObject <- function(
       x = .valueType,
       label = sprintf(
         paste0("%.", digitsToShow, "f"),
-        round(.value, digitsToRound)
+        roundHalfUp(.value, digitsToRound)
       )
     )
   )

@@ -137,3 +137,25 @@ test_that("plotForest handles edge cases and invalid inputs", {
     )
   )
 })
+
+test_that("plotForest table labels use half-up rounding", {
+  tableData <- createTableData(
+    plotData = data.table(
+      Country = "USA",
+      AgeBin = "18-25",
+      Mean = 2.5
+    ),
+    tableColumns = "Mean",
+    tableLabels = "Mean"
+  )
+
+  tableObject <- createTableObject(
+    tableData = tableData,
+    mapping = aes(y = AgeBin),
+    digitsToRound = 0,
+    digitsToShow = 0,
+    yFacetColumns = "Country"
+  )
+
+  expect_equal(ggplot_build(tableObject)$data[[1]]$label, "3")
+})

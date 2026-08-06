@@ -142,3 +142,21 @@ test_that("plotRangeDistribution handles edge cases", {
     )
   )
 })
+
+test_that("range plot bin borders use half-up rounding", {
+  mappedData <- MappedDataRangeDistribution$new(
+    data = data.table(
+      IndividualId = 1:4,
+      Age = c(1, 2, 2.1, 3.1),
+      Value = 1:4
+    ),
+    mapping = aes(x = Age, y = Value),
+    modeOfBinning = BINNINGMODE$interval,
+    numberOfBins = 2
+  )
+
+  mappedData$setBins()
+  mappedData$setBorderDataTable()
+
+  expect_equal(mappedData$border$breaks[2], 2.1)
+})

@@ -149,7 +149,7 @@ MappedDataRangeDistribution <- R6::R6Class( # nolint
         borders[, diffN := 10^ceiling(-log10(diff))]
 
         # Round the breaks to the nearest adjusted value
-        borders[, breaks := round(breaksRaw * diffN) / diffN]
+        borders[, breaks := roundHalfUp(breaksRaw * diffN) / diffN]
 
         # Remove the first row used for calculations
         borders <- borders[-1, ]

@@ -96,7 +96,7 @@ updateScaleArgumentsForTimeUnit <- function(scaleArgs, dimension, unit) {
 roundHalfUp <- function(x, digits = 0) {
   posNeg <- sign(x)
   z <- abs(x) * 10^digits
-  z <- z + 0.5 + sqrt(.Machine$double.eps)
+  z <- z + .Machine$double.eps * z + 0.5
   z <- trunc(z)
   z <- z / 10^digits
 

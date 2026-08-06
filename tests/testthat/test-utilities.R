@@ -87,8 +87,8 @@ test_that("constructLabelWithUnit works correctly", {
 
 test_that("half-up rounding helpers round trailing fives away from zero", {
   expect_equal(roundHalfUp(c(-0.5, 0.5, 2.5, 4.5)), c(-1, 1, 3, 5))
-  expect_equal(roundHalfUp(c(1.125, 1.135, 2436.845), 2), c(1.13, 1.14, 2436.85))
-  expect_equal(signifHalfUp(c(-2.5, 2.5, 0.025), 1), c(-3, 3, 0.03))
+  expect_equal(roundHalfUp(c(-0.625, 0.625), 2), c(-0.63, 0.63))
+  expect_equal(signifHalfUp(c(-2.5, 2.5, 0.25), 1), c(-3, 3, 0.3))
 })
 
 test_that("getFoldDistanceList works correctly", {

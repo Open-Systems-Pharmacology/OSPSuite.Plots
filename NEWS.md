@@ -13,6 +13,7 @@
 ## Minor improvements and bug fixes
 
 - The default line width for `ospsuite.plots` lines is now `1.0` (slightly thinner than before) and is applied per plot, including to distribution-fit, mean, LLOQ and comparison/guest lines (#130).
+- Displayed numeric values in forest table labels and range-distribution bin borders now use `janitor::round_half_up()`, so midpoint values round away from zero in user-facing output.
 
 # ospsuite.plots 1.2.0
 

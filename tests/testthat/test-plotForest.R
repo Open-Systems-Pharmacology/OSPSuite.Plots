@@ -159,3 +159,25 @@ test_that("plotForest table labels use half-up rounding", {
 
   expect_equal(ggplot_build(tableObject)$data[[1]]$label, "3")
 })
+
+test_that("plotForest table labels do not reintroduce banker's rounding via sprintf", {
+  tableData <- createTableData(
+    plotData = data.table(
+      Country = "USA",
+      AgeBin = "18-25",
+      Mean = 2.25
+    ),
+    tableColumns = "Mean",
+    tableLabels = "Mean"
+  )
+
+  tableObject <- createTableObject(
+    tableData = tableData,
+    mapping = aes(y = AgeBin),
+    digitsToRound = 2,
+    digitsToShow = 1,
+    yFacetColumns = "Country"
+  )
+
+  expect_equal(ggplot_build(tableObject)$data[[1]]$label, "2.3")
+})

@@ -308,7 +308,7 @@ createTableObject <- function(
       x = .valueType,
       label = sprintf(
         paste0("%.", digitsToShow, "f"),
-        roundHalfUp(.value, effectiveRoundingDigits)
+        janitor::round_half_up(.value, effectiveRoundingDigits)
       )
     )
   )

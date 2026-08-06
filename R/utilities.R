@@ -86,45 +86,6 @@ updateScaleArgumentsForTimeUnit <- function(scaleArgs, dimension, unit) {
 }
 
 
-#' Round halves away from zero
-#'
-#' @param x Numeric vector to round.
-#' @param digits Integer indicating the number of decimal places to be used.
-#'
-#' @return Rounded numeric vector.
-#' @keywords internal
-roundHalfUp <- function(x, digits = 0) {
-  posNeg <- sign(x)
-  z <- abs(x) * 10^digits
-  z <- z + .Machine$double.eps * z + 0.5
-  z <- trunc(z)
-  z <- z / 10^digits
-
-  return(z * posNeg)
-}
-
-#' Round to significant digits with halves away from zero
-#'
-#' @param x Numeric vector to round.
-#' @param digits Integer indicating the number of significant digits to be used.
-#'
-#' @return Rounded numeric vector.
-#' @keywords internal
-signifHalfUp <- function(x, digits = 6) {
-  z <- x
-  nonZeroFinite <- which(x != 0 & !is.na(x) & !is.infinite(x))
-
-  if (length(nonZeroFinite) == 0) {
-    return(z)
-  }
-
-  scale <- 10^(digits - ceiling(log10(abs(x[nonZeroFinite]))))
-  z[nonZeroFinite] <- roundHalfUp(x[nonZeroFinite] * scale) / scale
-
-  return(z)
-}
-
-
 #' adds a labels by meta data to ggplot object
 #'
 #' @param mappedData  MappedData object with information of mapped dimensions and units

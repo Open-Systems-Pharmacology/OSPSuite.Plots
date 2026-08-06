@@ -85,12 +85,6 @@ test_that("constructLabelWithUnit works correctly", {
   expect_equal(result, "Pressure [Pa]")
 })
 
-test_that("half-up rounding helpers round trailing fives away from zero", {
-  expect_equal(roundHalfUp(c(-0.5, 0.5, 2.5, 4.5)), c(-1, 1, 3, 5))
-  expect_equal(roundHalfUp(c(-0.625, 0.625), 2), c(-0.63, 0.63))
-  expect_equal(signifHalfUp(c(-2.5, 2.5, 0.25), 1), c(-3, 3, 0.3))
-})
-
 test_that("getFoldDistanceList works correctly", {
   # Test default case
   result <- getFoldDistanceList()

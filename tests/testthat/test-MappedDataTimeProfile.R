@@ -218,13 +218,21 @@ test_that("MappedDataTimeProfile handles limits correctly", {
 test_that("MappedDataTimeProfile input validation works", {
   skip_if_not_installed("ggplot2")
 
-  testData <- data.frame(time = c(0, 1, 2), concentration = c(1, 10, 8), y2 = c(0, 1, 0))
+  testData <- data.frame(
+    time = c(0, 1, 2),
+    concentration = c(1, 10, 8),
+    y2 = c(0, 1, 0)
+  )
 
   # Test y2limits validation
   expect_error({
     mappedData <- MappedDataTimeProfile$new(
       data = testData,
-      mapping = ggplot2::aes(x = time, y = concentration, y2axis = as.logical(y2)),
+      mapping = ggplot2::aes(
+        x = time,
+        y = concentration,
+        y2axis = as.logical(y2)
+      ),
       y2limits = c(10, 5) # Should be sorted
     )
   })
@@ -232,8 +240,43 @@ test_that("MappedDataTimeProfile input validation works", {
   expect_error({
     MappedDataTimeProfile$new(
       data = testData,
-      mapping = ggplot2::aes(x = time, y = concentration, y2axis = as.logical(y2)),
+      mapping = ggplot2::aes(
+        x = time,
+        y = concentration,
+        y2axis = as.logical(y2)
+      ),
       y2limits = c(1, 1) # Should be unique
     )
   })
+})
+
+negData <- data.frame(
+  time = 1:4,
+  y = c(1, 0.5, -0.2, -0.1),
+  ymin = c(0.5, 0.2, -0.5, -0.3),
+  ymax = c(2, 1, 0.5, -0.05)
+)
+
+test_that("dataForPlot preserves negative y, ymin, ymax on linear scale", {
+  md <- MappedDataTimeProfile$new(
+    data = negData,
+    mapping = ggplot2::aes(x = time, y = y, ymin = ymin, ymax = ymax),
+    scaleOfPrimaryAxis = "linear"
+  )
+  plotData <- md$dataForPlot
+  expect_equal(plotData$y, negData$y)
+  expect_equal(plotData$ymin, negData$ymin)
+  expect_equal(plotData$ymax, negData$ymax)
+})
+
+test_that("dataForPlot update negative y, ymin, ymax on log scale", {
+  md <- MappedDataTimeProfile$new(
+    data = negData,
+    mapping = ggplot2::aes(x = time, y = y, ymin = ymin, ymax = ymax),
+    scaleOfPrimaryAxis = "log"
+  )
+  plotData <- md$dataForPlot
+  expect_equal(plotData$y, c(1, 0.5, 0, 0))
+  expect_equal(plotData$ymin, c(0.5, 0.2, 0, 0))
+  expect_equal(plotData$ymax, c(2, 1, 0.5, 0))
 })

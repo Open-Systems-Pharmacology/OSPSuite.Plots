@@ -83,12 +83,8 @@
 <text x='656.55' y='265.71' style='font-size: 11.00px; font-family: sans;' textLength='18.96px' lengthAdjust='spacingAndGlyphs'>Sex</text>
 <rect x='656.55' y='272.57' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <rect x='657.25' y='273.28' width='15.86' height='15.86' style='stroke-width: 1.07; stroke-linecap: butt; stroke-linejoin: miter; fill: #0078D7; fill-opacity: 0.50;' />
-<line x1='658.27' y1='281.21' x2='672.10' y2='281.21' style='stroke-width: 2.13; stroke: #0078D7; stroke-linecap: butt;' />
-<line x1='665.19' y1='289.85' x2='665.19' y2='272.57' style='stroke-width: 2.13; stroke: #0078D7; stroke-linecap: butt;' />
 <rect x='656.55' y='289.85' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <rect x='657.25' y='290.56' width='15.86' height='15.86' style='stroke-width: 1.07; stroke-linecap: butt; stroke-linejoin: miter; fill: #D83B01; fill-opacity: 0.50;' />
-<line x1='658.27' y1='298.49' x2='672.10' y2='298.49' style='stroke-width: 2.13; stroke: #D83B01; stroke-linecap: butt;' />
-<line x1='665.19' y1='307.13' x2='665.19' y2='289.85' style='stroke-width: 2.13; stroke: #D83B01; stroke-linecap: butt;' />
 <text x='679.31' y='284.23' style='font-size: 8.80px; font-family: sans;' textLength='29.35px' lengthAdjust='spacingAndGlyphs'>Female</text>
 <text x='679.31' y='301.51' style='font-size: 8.80px; font-family: sans;' textLength='19.08px' lengthAdjust='spacingAndGlyphs'>Male</text>
 <text x='332.77' y='15.99' text-anchor='middle' style='font-size: 13.20px; font-family: sans;' textLength='116.67px' lengthAdjust='spacingAndGlyphs'>logScaleDistribution</text>

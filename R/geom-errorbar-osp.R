@@ -43,6 +43,7 @@ geom_errorbar_osp <- function(
   lineend = "butt",
   na.rm = FALSE,
   show.legend = NA,
+  key_glyph = NULL,
   inherit.aes = TRUE
 ) {
   # nolint end
@@ -54,6 +55,7 @@ geom_errorbar_osp <- function(
     stat = stat,
     position = position,
     show.legend = show.legend,
+    key_glyph = key_glyph,
     inherit.aes = inherit.aes,
     params = list(
       orientation = orientation,
@@ -66,6 +68,46 @@ geom_errorbar_osp <- function(
 }
 
 # ggproto object ----
+
+#' Legend key glyph for [geom_errorbar_osp()]
+#'
+#' Draws a horizontal line with vertical end caps in the legend key,
+#' matching the visual appearance of the rendered error bars.
+#'
+#' @param data,params,size Passed from the ggplot2 legend-drawing infrastructure.
+#' @return A `grid` grob.
+#' @keywords internal
+draw_key_errorbar_osp <- function(data, params, size) { # nolint
+  horizontal <- identical(params$orientation %||% NA, "x")
+
+  # "along" runs the bar; "across" is where the caps extend.
+  halfAlong <- grid::unit(0.4, "npc")
+  halfAcross <- grid::unit(0.25, "npc")
+  center <- grid::unit(0.5, "npc")
+
+  gp <- grid::gpar(
+    col = scales::alpha(data$colour %||% "black", data$alpha %||% 1),
+    lwd = (params$linewidth %||% data$linewidth %||% 0.5) * ggplot2::.pt,
+    lty = params$linetype %||% data$linetype %||% 1,
+    lineend = "butt"
+  )
+
+  if (horizontal) {
+    # Horizontal bar: line along x, caps along y
+    grid::grobTree(
+      grid::segmentsGrob(center - halfAlong, center, center + halfAlong, center, gp = gp),
+      grid::segmentsGrob(center - halfAlong, center - halfAcross, center - halfAlong, center + halfAcross, gp = gp),
+      grid::segmentsGrob(center + halfAlong, center - halfAcross, center + halfAlong, center + halfAcross, gp = gp)
+    )
+  } else {
+    # Vertical bar: line along y, caps along x
+    grid::grobTree(
+      grid::segmentsGrob(center, center - halfAlong, center, center + halfAlong, gp = gp),
+      grid::segmentsGrob(center - halfAcross, center - halfAlong, center + halfAcross, center - halfAlong, gp = gp),
+      grid::segmentsGrob(center - halfAcross, center + halfAlong, center + halfAcross, center + halfAlong, gp = gp)
+    )
+  }
+}
 
 #' @title GeomErrorbarOsp
 #' @description
@@ -87,7 +129,7 @@ GeomErrorbarOsp <- ggplot2::ggproto(
     linetype = 1,
     alpha = NA
   ),
-  draw_key = ggplot2::draw_key_path,
+  draw_key = draw_key_errorbar_osp,
   extra_params = c("na.rm", "orientation", "width", "lineend"),
   setup_data = function(data, params) {
     # Suppress rows where the bar has zero length to avoid orphan caps.

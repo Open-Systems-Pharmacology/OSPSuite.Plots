@@ -1,5 +1,9 @@
 # ospsuite.plots (development version)
 
+## Minor improvements and bug fixes
+
+- `geom_errorbar_osp()` now renders a horizontal line with end caps as its default legend key glyph (`draw_key_errorbar_osp`). Forest plots inherit this default. Time-profile and Y-vs-X plots override it to blank so the error-bar glyph does not duplicate the point/line legend entries. Distribution-fit and mean-line overlays in `plotHistogram()` likewise use a blank legend key (#137).
+
 # ospsuite.plots 1.3.0
 
 ## New Features

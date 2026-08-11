@@ -23,6 +23,7 @@ geom_errorbar_osp(
   lineend = "butt",
   na.rm = FALSE,
   show.legend = NA,
+  key_glyph = NULL,
   inherit.aes = TRUE
 )
 ```

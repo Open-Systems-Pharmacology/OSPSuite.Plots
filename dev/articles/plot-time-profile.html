@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -960,6 +960,109 @@ by the variable <code>metaData</code>.</p>
 <span></span>
 <span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">plotlist</span>, labels <span class="op">=</span> <span class="st">"AUTO"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot-time-profile_files/figure-html/example_timeUnit-1.png" class="r-plt" alt="Grid of time profile plots demonstrating the effect of different time units on the x-axis. Each plot is labeled according to the time unit used, illustrating how time unit adjustments can influence the visualization of time profile data." width="80%" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level3">
+<h3 id="negative-and-zero-values-on-log-scale">3.5 Negative and Zero Values on Log Scale<a class="anchor" aria-label="anchor" href="#negative-and-zero-values-on-log-scale"></a>
+</h3>
+<p>Concentration values in pharmacokinetic profiles are inherently
+non-negative, but the summary statistics used to define ribbon bounds
+may not be. Three common situations can produce values ≤ 0:</p>
+<ul>
+<li>
+<strong>Arithmetic SD aggregation</strong> — when the mean
+concentration is smaller than its standard deviation, the lower bound
+(<code>mean - SD</code>) becomes negative.</li>
+<li>
+<strong>BLQ data treated as 0</strong> — assigning zero to
+below-the-limit-of-quantification observations introduces exact zeros,
+which have no finite logarithm.</li>
+<li>
+<strong>Simulated data before a dose event</strong> — if a
+simulation is run before the first dose, the concentration is exactly
+zero.</li>
+</ul>
+<p>On a <strong>linear scale</strong> these values are displayed as-is
+with no issue. On a <strong>log scale</strong>,
+<code>plotTimeProfile</code> intercepts them automatically: any negative
+values in y-mapped aesthetics (<code>y</code>, <code>ymin</code>,
+<code>ymax</code>, …) are replaced with <code>0</code> before the data
+reach ggplot. The value <code>log(0) = -Inf</code> is then handled by
+ggplot’s out-of-bounds mechanism.</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">concentrationData</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  time          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">12</span><span class="op">)</span>,</span>
+<span>  concentration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span>, <span class="fl">5</span>, <span class="fl">2.5</span>, <span class="fl">0.5</span>, <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>  ymin          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">2</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.05</span><span class="op">)</span>, <span class="co"># mean - arithmetic SD, goes negative at late times</span></span>
+<span>  ymax          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">8</span>, <span class="fl">5.5</span>, <span class="fl">1.2</span>, <span class="fl">0.25</span><span class="op">)</span> <span class="co"># mean + arithmetic SD</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>On a linear scale the negative lower bounds are rendered below
+zero:</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeProfile.html">plotTimeProfile</a></span><span class="op">(</span></span>
+<span>  data    <span class="op">=</span> <span class="va">concentrationData</span>,</span>
+<span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, ymin <span class="op">=</span> <span class="va">ymin</span>, ymax <span class="op">=</span> <span class="va">ymax</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plotTimeProfile.html">plotTimeProfile</a></span><span class="op">(</span></span>
+<span>  observedData    <span class="op">=</span> <span class="va">concentrationData</span>,</span>
+<span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, ymin <span class="op">=</span> <span class="va">ymin</span>, ymax <span class="op">=</span> <span class="va">ymax</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="plot-time-profile_files/figure-html/negative_values_linear-1.png" class="r-plt" alt="Time profile plot on a linear y-axis showing a ribbon whose lower bound dips below zero at late time points, illustrating arithmetic SD aggregation producing negative values." width="80%" style="display: block; margin: auto;"><img src="plot-time-profile_files/figure-html/negative_values_linear-2.png" class="r-plt" alt="Time profile plot on a linear y-axis showing a ribbon whose lower bound dips below zero at late time points, illustrating arithmetic SD aggregation producing negative values." width="80%" style="display: block; margin: auto;"></p>
+<p>On a log scale, <code>plotTimeProfile</code> replaces the negative
+<code>ymin</code> values with <code>0</code> and raises a warning. By
+default (<code>oob_keep</code>) the resulting <code>−∞</code> boundary
+is preserved and drawn at the axis minimum:</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeProfile.html">plotTimeProfile</a></span><span class="op">(</span></span>
+<span>  data    <span class="op">=</span> <span class="va">concentrationData</span>,</span>
+<span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, ymin <span class="op">=</span> <span class="va">ymin</span>, ymax <span class="op">=</span> <span class="va">ymax</span><span class="op">)</span>,</span>
+<span>  yScale  <span class="op">=</span> <span class="st">"log"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in (function (name = waiver(), breaks = waiver(), minor_breaks =</span></span>
+<span><span class="co">#&gt; waiver(), : <span style="color: #00BB00;">log-10</span> transformation introduced infinite values.</span></span>
+<span><span class="fu"><a href="../reference/plotTimeProfile.html">plotTimeProfile</a></span><span class="op">(</span></span>
+<span>  observedData    <span class="op">=</span> <span class="va">concentrationData</span>,</span>
+<span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, ymin <span class="op">=</span> <span class="va">ymin</span>, ymax <span class="op">=</span> <span class="va">ymax</span><span class="op">)</span>,</span>
+<span>  yScale  <span class="op">=</span> <span class="st">"log"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in (function (name = waiver(), breaks = waiver(), minor_breaks =</span></span>
+<span><span class="co">#&gt; waiver(), : <span style="color: #00BB00;">log-10</span> transformation introduced infinite values.</span></span></code></pre></div>
+<p><img src="plot-time-profile_files/figure-html/negative_values_log_default-1.png" class="r-plt" alt="Time profile plot on a log y-axis. The ribbon lower bound appears pinned to the axis minimum at late time points where the original values were negative, reflecting the automatic replacement with zero." width="80%" style="display: block; margin: auto;"><img src="plot-time-profile_files/figure-html/negative_values_log_default-2.png" class="r-plt" alt="Time profile plot on a log y-axis. The ribbon lower bound appears pinned to the axis minimum at late time points where the original values were negative, reflecting the automatic replacement with zero." width="80%" style="display: block; margin: auto;"></p>
+<div class="section level4">
+<h4 id="controlling-out-of-bounds-display">Controlling out-of-bounds display<a class="anchor" aria-label="anchor" href="#controlling-out-of-bounds-display"></a>
+</h4>
+<p>The behaviour of the replaced <code>−∞</code> values is governed by
+the <code>oob</code> argument passed through
+<code>yScaleArgs</code>:</p>
+<ul>
+<li>
+<strong><code><a href="https://scales.r-lib.org/reference/oob.html" class="external-link">scales::oob_keep</a></code></strong> (default) — keeps
+<code>−∞</code>; the ribbon edge is drawn at the axis minimum.</li>
+<li>
+<strong><code><a href="https://scales.r-lib.org/reference/oob.html" class="external-link">scales::oob_censor_any</a></code></strong> — replaces
+<code>−∞</code> with <code>NA</code>; the ribbon is simply not drawn
+below the lowest finite value.</li>
+</ul>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeProfile.html">plotTimeProfile</a></span><span class="op">(</span></span>
+<span>  data       <span class="op">=</span> <span class="va">concentrationData</span>,</span>
+<span>  mapping    <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, ymin <span class="op">=</span> <span class="va">ymin</span>, ymax <span class="op">=</span> <span class="va">ymax</span><span class="op">)</span>,</span>
+<span>  yScale     <span class="op">=</span> <span class="st">"log"</span>,</span>
+<span>  yScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>oob <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/oob.html" class="external-link">oob_keep</a></span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in (function (name = waiver(), breaks = waiver(), minor_breaks =</span></span>
+<span><span class="co">#&gt; waiver(), : <span style="color: #00BB00;">log-10</span> transformation introduced infinite values.</span></span></code></pre></div>
+<p><img src="plot-time-profile_files/figure-html/negative_values_oob_keep-1.png" class="r-plt" alt="Time profile plot on a log y-axis using oob_keep. The ribbon lower bound is pinned to the axis minimum where values were negative." width="80%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeProfile.html">plotTimeProfile</a></span><span class="op">(</span></span>
+<span>  data       <span class="op">=</span> <span class="va">concentrationData</span>,</span>
+<span>  mapping    <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, ymin <span class="op">=</span> <span class="va">ymin</span>, ymax <span class="op">=</span> <span class="va">ymax</span><span class="op">)</span>,</span>
+<span>  yScale     <span class="op">=</span> <span class="st">"log"</span>,</span>
+<span>  yScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>oob <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/oob.html" class="external-link">oob_censor_any</a></span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in (function (name = waiver(), breaks = waiver(), minor_breaks =</span></span>
+<span><span class="co">#&gt; waiver(), : <span style="color: #00BB00;">log-10</span> transformation introduced infinite values.</span></span></code></pre></div>
+<p><img src="plot-time-profile_files/figure-html/negative_values_oob_censor-1.png" class="r-plt" alt="Time profile plot on a log y-axis using oob_censor_any. The ribbon lower bound is absent where values were negative, with the ribbon only shown where the lower bound is a finite positive number." width="80%" style="display: block; margin: auto;"></p>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -47,6 +47,12 @@
 
 ### Minor improvements and bug fixes
 
+- On log-scaled time profile plots, negative values in y-mapped
+  aesthetics (`y`, `ymin`, `ymax`, etc.) are now replaced with `0`
+  instead of `NA`. `log(0) = -Inf` is kept at the axis minimum by
+  ggplot’s default out-of-bounds handling
+  ([`scales::oob_keep`](https://scales.r-lib.org/reference/oob.html)).
+
 - The default line width for `ospsuite.plots` lines is now `1.0`
   (slightly thinner than before) and is applied per plot, including to
   distribution-fit, mean, LLOQ and comparison/guest lines (#130).

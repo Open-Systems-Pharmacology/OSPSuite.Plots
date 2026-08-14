@@ -277,6 +277,7 @@ createTableObject <- function(
 ) {
   # initialize variable to avoid messages
   .value <- .valueType <- NULL # nolint
+  effectiveRoundingDigits <- min(digitsToRound, digitsToShow)
 
   nTypes <- tryCatch(
     {
@@ -307,7 +308,7 @@ createTableObject <- function(
       x = .valueType,
       label = sprintf(
         paste0("%.", digitsToShow, "f"),
-        round(.value, digitsToRound)
+        janitor::round_half_up(.value, effectiveRoundingDigits)
       )
     )
   )

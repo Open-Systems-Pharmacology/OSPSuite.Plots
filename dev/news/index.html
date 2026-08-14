@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,6 +70,7 @@
 <h3 id="minor-improvements-and-bug-fixes-1-3-0">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-1-3-0"></a></h3>
 <ul><li><p>On log-scaled time profile plots, negative values in y-mapped aesthetics (<code>y</code>, <code>ymin</code>, <code>ymax</code>, etc.) are now replaced with <code>0</code> instead of <code>NA</code>. <code>log(0) = -Inf</code> is kept at the axis minimum by ggplot’s default out-of-bounds handling (<code><a href="https://scales.r-lib.org/reference/oob.html" class="external-link">scales::oob_keep</a></code>).</p></li>
 <li><p>The default line width for <code>ospsuite.plots</code> lines is now <code>1.0</code> (slightly thinner than before) and is applied per plot, including to distribution-fit, mean, LLOQ and comparison/guest lines (#130).</p></li>
+<li><p>Displayed numeric values in forest table labels and range-distribution bin borders now use <code><a href="https://sfirke.github.io/janitor/reference/round_half_up.html" class="external-link">janitor::round_half_up()</a></code>, so midpoint values round away from zero in user-facing output.</p></li>
 </ul></div>
 </div>
     <div class="section level2">

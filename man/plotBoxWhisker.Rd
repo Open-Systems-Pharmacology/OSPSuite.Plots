@@ -19,7 +19,10 @@ plotBoxWhisker(
   statFunOutlier = NULL,
   geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
   geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
-  residualScale = NULL
+  residualScale = NULL,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
 )
 }
 \arguments{
@@ -60,6 +63,12 @@ which overwrites the default calculation if provided.}
 
 \item{residualScale}{Deprecated. Retained for backward compatibility only.
 Non-\code{NULL} values trigger a warning and have no effect.}
+
+\item{watermark}{Optional watermark text for this plot.}
+
+\item{watermarkFormat}{Optional list of watermark formatting values.}
+
+\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 A \code{ggplot} object representing the box-whisker plot.

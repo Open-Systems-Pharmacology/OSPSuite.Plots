@@ -20,7 +20,10 @@ plotRangeDistribution(
   xScaleArgs = list(),
   geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
   geomLineAttributes = getDefaultGeomAttributes("Line"),
-  identifier = "IndividualId"
+  identifier = "IndividualId",
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
 )
 }
 \arguments{
@@ -61,6 +64,12 @@ Default is \code{BINNINGMODE$number}.
 \item{geomLineAttributes}{A list of attributes for the line geometry in the plot, allowing customization of line characteristics such as color, size, and type.}
 
 \item{identifier}{columnName of individual identifiers, default "IndividualId"}
+
+\item{watermark}{Optional watermark text for this plot.}
+
+\item{watermarkFormat}{Optional list of watermark formatting values.}
+
+\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 A ggplot object representing the range plot. The returned object can be further customized or rendered using \code{print()} or similar functions.

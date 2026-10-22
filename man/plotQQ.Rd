@@ -13,7 +13,10 @@ plotQQ(
   geomQQAttributes = list(),
   geomQQLineAttributes = geomQQAttributes,
   groupAesthetics = c("colour", "fill", "shape"),
-  residualScale = NULL
+  residualScale = NULL,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
 )
 }
 \arguments{
@@ -38,6 +41,12 @@ Common options include \code{"colour"}, \code{"fill"}, \code{"shape"}, \code{"li
 
 \item{residualScale}{Deprecated. Retained for backward compatibility only.
 Non-\code{NULL} values trigger a warning and have no effect.}
+
+\item{watermark}{Optional watermark text for this plot.}
+
+\item{watermarkFormat}{Optional list of watermark formatting values.}
+
+\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 A \code{ggplot} object

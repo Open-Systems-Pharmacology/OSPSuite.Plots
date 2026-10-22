@@ -21,7 +21,10 @@ plotForest(
   withTable = is.null(xFacetColumn),
   geomPointAttributes = getDefaultGeomAttributes("Point"),
   geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
-  facetScales = c("free_y", "free")
+  facetScales = c("free_y", "free"),
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
 )
 }
 \arguments{
@@ -58,6 +61,12 @@ plotForest(
 \item{geomErrorbarAttributes}{A list of attributes for the error bar geometry in the plot.}
 
 \item{facetScales}{A character string indicating the scales used for facets. Options are "free_y" or "free".}
+
+\item{watermark}{Optional watermark text for this plot.}
+
+\item{watermarkFormat}{Optional list of watermark formatting values.}
+
+\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 A combined plot object containing the forest plot and the table (if applicable).

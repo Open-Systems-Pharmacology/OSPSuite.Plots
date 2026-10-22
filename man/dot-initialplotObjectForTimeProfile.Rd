@@ -13,7 +13,10 @@
   yScale,
   yScaleArgs,
   y2ScaleArgs,
-  secAxis
+  secAxis,
+  watermark,
+  watermarkFormat,
+  watermarkEnabled
 )
 }
 \arguments{
@@ -32,6 +35,12 @@
 \item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
 
 \item{y2ScaleArgs}{list of arguments passed to \code{ggplot2::sec_axis()}, trans, break are set by code}
+
+\item{watermark}{Optional watermark text for this plot.}
+
+\item{watermarkFormat}{Optional list of watermark formatting values.}
+
+\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 plot object

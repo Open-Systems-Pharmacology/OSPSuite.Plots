@@ -33,6 +33,9 @@
 #' @param yScaleArgs list of arguments passed to `ggplot2::scale_y_continuous()` or `ggplot2::scale_y_log10()`
 #' @param y2Scale either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale
 #' @param y2ScaleArgs list of arguments passed to `ggplot2::sec_axis()`, trans, break are set by code
+#' @param watermark Optional watermark text for this plot.
+#' @param watermarkFormat Optional list of watermark formatting values.
+#' @param watermarkEnabled Optional logical flag controlling watermark visibility for this plot.
 #'
 #' @return A `ggplot` object
 #' @examples
@@ -71,6 +74,9 @@ plotTimeProfile <- function(data = NULL, # nolint
                             yScaleArgs = list(),
                             y2Scale = AxisScales$linear,
                             y2ScaleArgs = list(),
+                            watermark = NULL,
+                            watermarkFormat = NULL,
+                            watermarkEnabled = NULL,
                             plotObject = NULL,
                             geomLineAttributes = getDefaultGeomAttributes("Line"),
                             geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
@@ -129,7 +135,10 @@ plotTimeProfile <- function(data = NULL, # nolint
       yScale = yScale,
       yScaleArgs = listMappedData$yScaleArgs, # for y2scaling, limits are updated
       y2ScaleArgs = listMappedData$y2ScaleArgs,
-      secAxis = listMappedData$secAxis
+      secAxis = listMappedData$secAxis,
+      watermark = watermark,
+      watermarkFormat = watermarkFormat,
+      watermarkEnabled = watermarkEnabled
     )
 
   ## -- addLayers
@@ -479,12 +488,18 @@ plotTimeProfile <- function(data = NULL, # nolint
                                              yScale,
                                              yScaleArgs,
                                              y2ScaleArgs,
-                                             secAxis) {
+                                             secAxis,
+                                             watermark,
+                                             watermarkFormat,
+                                             watermarkEnabled) {
   # mapping can not be set in ggplot as observed and simulated mappings may differ
   if (is.null(plotObject)) {
     plotObject <- initializePlot(
       mappedData = simMappedData %||% obsMappedData,
-      setMapping = FALSE
+      setMapping = FALSE,
+      watermark = watermark,
+      watermarkFormat = watermarkFormat,
+      watermarkEnabled = watermarkEnabled
     )
 
     # add y2 label to y2ScaleArgs

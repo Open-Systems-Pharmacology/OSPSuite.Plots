@@ -340,6 +340,80 @@ test_that("plotYVsX with LLOQ works for lloqOnBothAxes = TRUE", {
   )
 })
 
+test_that("plotYVsX showLLOQ toggles LLOQ lines and fading", {
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
+    dplyr::select(c("ID", "Obs", "gsd", "Pred", "Sex"))
+
+  lloqData <- signif(quantile(data$Obs, probs = 0.1), 1)
+
+  data <- data |>
+    dplyr::mutate(lloq = lloqData) |>
+    dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
+
+  baseArgs <- list(
+    data = data,
+    mapping = aes(
+      x = Obs,
+      y = Pred,
+      lloq = lloq,
+      groupby = Sex
+    ),
+    observedDataDirection = "x",
+    lloqOnBothAxes = TRUE
+  )
+
+  figDefault <- do.call(plotYVsX, baseArgs)
+  figHidden <- do.call(plotYVsX, c(baseArgs, list(showLLOQ = FALSE)))
+
+  nInterceptMappings <- function(plotObject) {
+    sum(vapply(
+      plotObject$layers,
+      function(layer) any(c("xintercept", "yintercept") %in% names(layer$mapping)),
+      logical(1)
+    ))
+  }
+  hasAlphaMapping <- function(plotObject) {
+    any(vapply(
+      plotObject$layers,
+      function(layer) "alpha" %in% names(layer$mapping),
+      logical(1)
+    ))
+  }
+
+  expect_equal(nInterceptMappings(figDefault), 2)
+  expect_true(hasAlphaMapping(figDefault))
+
+  expect_equal(nInterceptMappings(figHidden), 0)
+  expect_false(hasAlphaMapping(figHidden))
+})
+
+test_that("plotPredVsObs forwards showLLOQ to plotYVsX", {
+  data <- exampleDataCovariates |>
+    dplyr::filter(SetID == "DataSet2") |>
+    dplyr::select(c("ID", "Obs", "Pred", "Sex"))
+
+  lloqData <- signif(quantile(data$Obs, probs = 0.1), 1)
+
+  data <- data |>
+    dplyr::mutate(lloq = lloqData) |>
+    dplyr::mutate(Obs = ifelse(Obs <= lloq, lloq / 2, Obs))
+
+  fig <- plotPredVsObs(
+    data = data,
+    mapping = aes(x = Obs, y = Pred, lloq = lloq, groupby = Sex),
+    showLLOQ = FALSE
+  )
+
+  hasInterceptLayer <- any(vapply(
+    fig$layers,
+    function(layer) any(c("xintercept", "yintercept") %in% names(layer$mapping)),
+    logical(1)
+  ))
+
+  expect_false(hasInterceptLayer)
+})
+
 
 test_that("residualScale deprecation warning is issued", {
   data <- exampleDataCovariates |>

@@ -41,6 +41,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
     #' @param groupOrder labels and order for group aesthetic
     #' @param direction direction of plot either "x" or "y"
     #' @param isObserved A `boolean` if TRUE mappings mdv, lloq are evaluated
+    #' @param showLLOQ A boolean indicating whether LLOQ matching and visualization mapping should be prepared.
     #' @param xScale = scale of x-axis
     #' @param scaleOfPrimaryAxis  scale of direction, either "linear" or "log"
     #' @param scaleOfSecondaryAxis either 'linear' or 'log'
@@ -57,6 +58,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
       groupOrder = NULL,
       direction = "y",
       isObserved = TRUE,
+      showLLOQ = TRUE,
       xlimits = NULL,
       ylimits = NULL,
       xScale = AxisScales$linear,
@@ -71,6 +73,7 @@ MappedDataTimeProfile <- R6::R6Class( # nolint
         groupOrder = groupOrder,
         direction = direction,
         isObserved = isObserved,
+        showLLOQ = showLLOQ,
         xlimits = NULL,
         ylimits = NULL,
         xScale = xScale,

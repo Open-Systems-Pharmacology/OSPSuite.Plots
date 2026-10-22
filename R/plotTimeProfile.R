@@ -26,6 +26,8 @@
 #' @param geomPointAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_point`
 #' @param geomErrorbarAttributes A `list` with arguments which are passed on to the call `geom_errorbar_osp`
 #' @param geomLLOQAttributes A `list` with arguments which are passed on to the call `ggplot2::geom_hline`
+#' @param showLLOQ A boolean; if `TRUE` (default), LLOQ lines and below-LLOQ point fading are displayed.
+#'   If `FALSE`, neither the LLOQ line nor below-LLOQ fading is applied.
 #' @param groupAesthetics vector of aesthetics, which are used for columns mapped with `groupby`,
 #' @param xScale either 'linear' then `ggplot2::scale_x_continuous()` or 'log' then `ggplot2::scale_x_log10()` is used
 #' @param xScaleArgs list of arguments passed to `ggplot2::scale_x_continuous()` or `ggplot2::scale_x_log10()`
@@ -77,6 +79,7 @@ plotTimeProfile <- function(data = NULL, # nolint
                             geomPointAttributes = getDefaultGeomAttributes("Point"),
                             geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
                             geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
+                            showLLOQ = TRUE,
                             groupAesthetics = c("colour", "fill", "shape")) {
 
   groupAesthetics <- ggplot2::standardise_aes_names(groupAesthetics)
@@ -99,6 +102,7 @@ plotTimeProfile <- function(data = NULL, # nolint
     geomPointAttributes = geomPointAttributes,
     geomErrorbarAttributes = geomErrorbarAttributes,
     geomLLOQAttributes = geomLLOQAttributes,
+    showLLOQ = showLLOQ,
     groupAesthetics = groupAesthetics,
     mapSimulatedAndObserved = mapSimulatedAndObserved
   )
@@ -115,6 +119,7 @@ plotTimeProfile <- function(data = NULL, # nolint
       yScaleArgs = yScaleArgs,
       y2Scale = y2Scale,
       y2ScaleArgs = y2ScaleArgs,
+      showLLOQ = showLLOQ,
       groupAesthetics = groupAesthetics,
       mapSimulatedAndObserved = mapSimulatedAndObserved
     )
@@ -165,6 +170,7 @@ plotTimeProfile <- function(data = NULL, # nolint
       geomPointAttributes = geomPointAttributes,
       geomLLOQAttributes = geomLLOQAttributes,
       useLLOQLinetypeAsAttribute = listMappedData$useLLOQLinetypeAsAttribute,
+      showLLOQ = showLLOQ,
       mapSimulatedAndObserved = listMappedData$mapSimulatedAndObserved,
       groupAesthetics = groupAesthetics
     )
@@ -232,6 +238,7 @@ plotTimeProfile <- function(data = NULL, # nolint
            geomPointAttributes,
            geomErrorbarAttributes,
            geomLLOQAttributes,
+           showLLOQ,
            groupAesthetics,
            mapSimulatedAndObserved) {
     if (all(isEmpty(data), isEmpty(observedData))) {
@@ -250,6 +257,7 @@ plotTimeProfile <- function(data = NULL, # nolint
     checkmate::assertList(geomPointAttributes, null.ok = FALSE, min.len = 0)
     checkmate::assertList(geomErrorbarAttributes, null.ok = FALSE, min.len = 0)
     checkmate::assertList(geomLLOQAttributes, null.ok = FALSE, min.len = 0)
+    checkmate::assertFlag(showLLOQ)
 
     checkmate::assertCharacter(groupAesthetics, min.len = 0, all.missing = TRUE, null.ok = TRUE)
     checkmate::assertDataFrame(mapSimulatedAndObserved, null.ok = TRUE)
@@ -277,6 +285,7 @@ plotTimeProfile <- function(data = NULL, # nolint
                                           yScaleArgs,
                                           y2Scale,
                                           y2ScaleArgs,
+                                          showLLOQ,
                                           groupAesthetics,
                                           mapSimulatedAndObserved) {
   requireDualAxis <- FALSE
@@ -337,6 +346,7 @@ plotTimeProfile <- function(data = NULL, # nolint
         NULL
       },
       isObserved = TRUE,
+      showLLOQ = showLLOQ,
       direction = "y",
       xScale = xScale,
       scaleOfPrimaryAxis = yScale,
@@ -580,6 +590,7 @@ plotTimeProfile <- function(data = NULL, # nolint
                                        geomPointAttributes,
                                        geomLLOQAttributes,
                                        useLLOQLinetypeAsAttribute,
+                                       showLLOQ,
                                        mapSimulatedAndObserved,
                                        groupAesthetics) {
   if (is.null(obsMappedData)) {
@@ -622,14 +633,16 @@ plotTimeProfile <- function(data = NULL, # nolint
     layerToCall = geom_point
   )
 
-  # add lloq lines
-  plotObject <- addLLOQLayer(
-    plotObject = plotObject,
-    mappedData = obsMappedData,
-    layerToCall = geom_hline,
-    useLinetypeAsAttribute = useLLOQLinetypeAsAttribute,
-    geomLLOQAttributes = geomLLOQAttributes
-  )
+  if (showLLOQ) {
+    # add lloq lines
+    plotObject <- addLLOQLayer(
+      plotObject = plotObject,
+      mappedData = obsMappedData,
+      layerToCall = geom_hline,
+      useLinetypeAsAttribute = useLLOQLinetypeAsAttribute,
+      geomLLOQAttributes = geomLLOQAttributes
+    )
+  }
 
   # scale vectors of map simulated
   if (!is.null(mapSimulatedAndObserved)) {

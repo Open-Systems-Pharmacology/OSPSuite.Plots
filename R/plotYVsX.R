@@ -185,6 +185,9 @@ plotPredVsObs <- function(
 #'   and proportions within comparison lines. Common grouping aesthetics include `"colour"`, `"fill"`, `"shape"`.
 #' @param residualScale Deprecated. Retained for backward compatibility only.
 #'   Non-`NULL` values trigger a warning and have no effect.
+#' @param watermark Optional watermark text for this plot.
+#' @param watermarkFormat Optional list of watermark formatting values.
+#' @param watermarkEnabled Optional logical flag controlling watermark visibility for this plot.
 #'
 #' @return A `ggplot` object representing the plotted data.
 #' @export
@@ -210,6 +213,9 @@ plotYVsX <- function(
   xScaleArgs = list(),
   yScale = AxisScales$log,
   yScaleArgs = list(),
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL,
   observedDataDirection = "y",
   lloqOnBothAxes = FALSE,
   yDisplayAsAbsolute = TRUE
@@ -260,7 +266,12 @@ plotYVsX <- function(
   mappedData$addMetaData(metaData = metaData)
 
   #-  initialize plot
-  plotObject <- initializePlot(mappedData = mappedData)
+  plotObject <- initializePlot(
+    mappedData = mappedData,
+    watermark = watermark,
+    watermarkFormat = watermarkFormat,
+    watermarkEnabled = watermarkEnabled
+  )
 
   #----- Build layers
   # Each new layer is added on top of previous

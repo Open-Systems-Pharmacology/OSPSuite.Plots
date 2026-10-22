@@ -13,6 +13,9 @@
 #'   Common options include `"colour"`, `"fill"`, `"shape"`, `"linetype"`, and `"size"`.
 #' @param residualScale Deprecated. Retained for backward compatibility only.
 #'   Non-`NULL` values trigger a warning and have no effect.
+#' @param watermark Optional watermark text for this plot.
+#' @param watermarkFormat Optional list of watermark formatting values.
+#' @param watermarkEnabled Optional logical flag controlling watermark visibility for this plot.
 #'
 #'
 #' @return A `ggplot` object
@@ -27,7 +30,10 @@ plotQQ <- function(
   geomQQAttributes = list(),
   geomQQLineAttributes = geomQQAttributes,
   groupAesthetics = c("colour", "fill", "shape"),
-  residualScale = NULL
+  residualScale = NULL,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
 ) {
   if (!is.null(residualScale)) {
     warning(messages$warningResidualScaleDeprecated())
@@ -59,7 +65,12 @@ plotQQ <- function(
   mappedData$addMetaData(metaData = metaData)
 
   #-  initialize plot
-  plotObject <- initializePlot(mappedData = mappedData) +
+  plotObject <- initializePlot(
+    mappedData = mappedData,
+    watermark = watermark,
+    watermarkFormat = watermarkFormat,
+    watermarkEnabled = watermarkEnabled
+  ) +
     theme(aspect.ratio = 1)
   plotObject <- plotObject +
     labs(x = "Standard normal quantiles")

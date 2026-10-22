@@ -25,6 +25,9 @@
 #' `ggplot2::scale_x_log10()`, or `ggplot2::scale_x_discrete()`.
 #' @param residualScale Deprecated. Retained for backward compatibility only.
 #'   Non-`NULL` values trigger a warning and have no effect.
+#' @param watermark Optional watermark text for this plot.
+#' @param watermarkFormat Optional list of watermark formatting values.
+#' @param watermarkEnabled Optional logical flag controlling watermark visibility for this plot.
 #'
 #' @return A `ggplot` object representing the box-whisker plot.
 #' @references McGill, R., Tukey, J. W., & Larsen, W. A. (1978). Variations of box plots.
@@ -72,7 +75,10 @@ plotBoxWhisker <- function(
   statFunOutlier = NULL,
   geomBoxplotAttributes = getDefaultGeomAttributes("Boxplot"),
   geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
-  residualScale = NULL
+  residualScale = NULL,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
 ) {
   if (!is.null(residualScale)) {
     warning(messages$warningResidualScaleDeprecated())
@@ -120,7 +126,12 @@ plotBoxWhisker <- function(
 
   #-  create default plot ------
   if (is.null(plotObject)) {
-    plotObject <- initializePlot(mappedData)
+    plotObject <- initializePlot(
+      mappedData,
+      watermark = watermark,
+      watermarkFormat = watermarkFormat,
+      watermarkEnabled = watermarkEnabled
+    )
     if (!mappedData$hasXmapping) {
       plotObject$labels[["x"]] <-
         plotObject$labels[["x"]] %||% " "

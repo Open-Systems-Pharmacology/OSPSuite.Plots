@@ -19,6 +19,9 @@
 #' @param geomPointAttributes A list of attributes for the point geometry in the plot.
 #' @param geomErrorbarAttributes A list of attributes for the error bar geometry in the plot.
 #' @param facetScales A character string indicating the scales used for facets. Options are "free_y" or "free".
+#' @param watermark Optional watermark text for this plot.
+#' @param watermarkFormat Optional list of watermark formatting values.
+#' @param watermarkEnabled Optional logical flag controlling watermark visibility for this plot.
 #'
 #' @return A combined plot object containing the forest plot and the table (if applicable).
 #' @export
@@ -44,7 +47,10 @@ plotForest <- function(
   withTable = is.null(xFacetColumn),
   geomPointAttributes = getDefaultGeomAttributes("Point"),
   geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
-  facetScales = c("free_y", "free")
+  facetScales = c("free_y", "free"),
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
 ) {
   # avoid warning for global variable
   x <- y <- dataType <- NULL
@@ -80,7 +86,10 @@ plotForest <- function(
       labelWrapWidth = labelWrapWidth,
       geomPointAttributes = geomPointAttributes,
       geomErrorbarAttributes = geomErrorbarAttributes,
-      facetScales = facetScales
+      facetScales = facetScales,
+      watermark = watermark,
+      watermarkFormat = watermarkFormat,
+      watermarkEnabled = watermarkEnabled
     )
 
   combinedPlot <- CombinedPlot$new(plotObject = plotObject)
@@ -123,6 +132,9 @@ plotForest <- function(
 #' @param geomPointAttributes A list of attributes for the point geometry.
 #' @param geomErrorbarAttributes A list of attributes for the error bar geometry.
 #' @param facetScales A character string indicating the scales used for facets. Defaults to "free_y".
+#' @param watermark Optional watermark text for this plot.
+#' @param watermarkFormat Optional list of watermark formatting values.
+#' @param watermarkEnabled Optional logical flag controlling watermark visibility for this plot.
 #'
 #' @return A ggplot object representing the main plot.
 #' @keywords internal
@@ -138,7 +150,10 @@ createPlotObject <- function(
   labelWrapWidth,
   geomPointAttributes,
   geomErrorbarAttributes,
-  facetScales = "free_y"
+  facetScales = "free_y",
+  watermark,
+  watermarkFormat,
+  watermarkEnabled
 ) {
   # Generate the facet formula if yFacetColumns are provided
   facetFormula <- if (!is.null(yFacetColumns) && length(yFacetColumns) > 0) {
@@ -163,7 +178,12 @@ createPlotObject <- function(
     xScale = xScale,
     groupAesthetics = groupAesthetics
   )
-  plotObject <- initializePlot(mappedData)
+  plotObject <- initializePlot(
+    mappedData,
+    watermark = watermark,
+    watermarkFormat = watermarkFormat,
+    watermarkEnabled = watermarkEnabled
+  )
   # Points
   plotObject <- addLayer(
     mappedData = mappedData,

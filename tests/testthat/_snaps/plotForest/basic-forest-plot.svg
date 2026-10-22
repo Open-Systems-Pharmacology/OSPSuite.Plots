@@ -334,6 +334,6 @@
 <polyline points='696.38,75.01 696.38,77.75 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <text x='666.14' y='72.82' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='22.02px' lengthAdjust='spacingAndGlyphs'>Mean</text>
 <text x='696.38' y='72.82' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='12.23px' lengthAdjust='spacingAndGlyphs'>SD</text>
-<text transform='translate(365.87,298.17) rotate(-30)' text-anchor='middle' style='font-size: 34.14px; fill: #D3D3D3; fill-opacity: 0.70; font-family: sans;' textLength='299.85px' lengthAdjust='spacingAndGlyphs'>preliminary analysis</text>
+<text transform='translate(365.16,296.94) rotate(-30)' text-anchor='middle' style='font-size: 30.00px; fill: #D3D3D3; fill-opacity: 0.70; font-family: sans;' textLength='263.47px' lengthAdjust='spacingAndGlyphs'>preliminary analysis</text>
 </g>
 </svg>

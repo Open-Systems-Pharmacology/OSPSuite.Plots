@@ -58,6 +58,25 @@ test_that("Change watermark", {
       scale_y_log10() +
       scale_x_log10()
   )
+
+  vdiffr::expect_doppelganger(
+    title = "watermark_xlog_ylinear",
+    fig = initializePlot() +
+      scale_x_log10()
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "watermark_xlinear_ylog",
+    fig = initializePlot() +
+      scale_y_log10()
+  )
+
+  vdiffr::expect_doppelganger(
+    title = "watermark_xlog_ylog",
+    fig = initializePlot() +
+      scale_x_log10() +
+      scale_y_log10()
+  )
 })
 
 

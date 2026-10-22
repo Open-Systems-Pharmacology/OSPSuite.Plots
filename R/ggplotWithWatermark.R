@@ -59,10 +59,12 @@
 #' )
 #' @family watermark
 #' @export
-ggplotWithWatermark <- function(...,
-                                watermark = NULL,
-                                watermarkFormat = NULL,
-                                watermarkEnabled = NULL) {
+ggplotWithWatermark <- function(
+  ...,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
+) {
   checkmate::assertCharacter(watermark, len = 1, null.ok = TRUE)
   checkmate::assertList(watermarkFormat, null.ok = TRUE)
   checkmate::assertFlag(watermarkEnabled, null.ok = TRUE)
@@ -98,10 +100,12 @@ ggplotWithWatermark <- function(...,
 
 #' @keywords internal
 #' @noRd
-.resolveWatermarkSettings <- function(plotObject,
-                                      watermark = NULL,
-                                      watermarkFormat = NULL,
-                                      watermarkEnabled = NULL) {
+.resolveWatermarkSettings <- function(
+  plotObject,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
+) {
   storedSettings <- .getStoredWatermarkSettings(plotObject)
 
   resolvedWatermarkEnabled <- watermarkEnabled %||%
@@ -120,9 +124,14 @@ ggplotWithWatermark <- function(...,
     storedSettings$watermark %||%
     getOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel)
 
-  defaultWatermarkFormat <- getOspsuite.plots.option(optionKey = OptionKeys$watermarkFormat)
+  defaultWatermarkFormat <- getOspsuite.plots.option(
+    optionKey = OptionKeys$watermarkFormat
+  )
   userWatermarkFormat <- watermarkFormat %||% storedSettings$watermarkFormat
-  resolvedWatermarkFormat <- utils::modifyList(defaultWatermarkFormat, userWatermarkFormat %||% list())
+  resolvedWatermarkFormat <- utils::modifyList(
+    defaultWatermarkFormat,
+    userWatermarkFormat %||% list()
+  )
 
   return(list(
     watermark = resolvedWatermark,
@@ -144,11 +153,69 @@ ggplotWithWatermark <- function(...,
   checkmate::assertNumber(watermarkFormat$alpha, lower = 0, upper = 1)
 }
 
+#' @keywords internal
+#' @noRd
+.getAnnotationBounds <- function(plotObject) {
+  panelParams <- ggplot2::ggplot_build(plotObject)$layout$panel_params[[1]]
+
+  getDataRange <- function(panelAxis, transformedRange) {
+    scaleObject <- panelAxis$scale
+    if (is.null(scaleObject)) {
+      return(transformedRange)
+    }
+
+    inverseTransform <- NULL
+
+    # ggplot2 <= 3.x commonly exposes transformation objects via `$trans`.
+    if (is.list(scaleObject$trans) && is.function(scaleObject$trans$inverse)) {
+      inverseTransform <- scaleObject$trans$inverse
+    }
+
+    # ggplot2 >= 4.x may expose transforms via `$transform`.
+    if (is.null(inverseTransform) && !is.null(scaleObject$transform)) {
+      transformObject <- scaleObject$transform
+      if (is.list(transformObject) && is.function(transformObject$inverse)) {
+        inverseTransform <- transformObject$inverse
+      }
+
+      # Some scales store only a transform closure with no inverse accessor.
+      if (is.null(inverseTransform) && is.function(transformObject)) {
+        inverseFromAttr <- attr(transformObject, "inverse", exact = TRUE)
+        if (is.function(inverseFromAttr)) {
+          inverseTransform <- inverseFromAttr
+        }
+      }
+    }
+
+    if (is.null(inverseTransform)) {
+      return(transformedRange)
+    }
+
+    return(inverseTransform(transformedRange))
+  }
+
+  xRange <- panelParams$x.range %||% c(-Inf, Inf)
+  yRange <- panelParams$y.range %||% c(-Inf, Inf)
+
+  xDataRange <- getDataRange(panelParams$x, xRange)
+  yDataRange <- getDataRange(panelParams$y, yRange)
+
+  return(list(
+    xmin = xDataRange[[1]],
+    xmax = xDataRange[[2]],
+    ymin = yDataRange[[1]],
+    ymax = yDataRange[[2]]
+  ))
+}
+
 
 #' Helper function to get watermark enabled status.
 #' @keywords internal
 .getWatermarkEnabled <- function() {
-  watermarkStatus <- getOption("ospsuite.plots.watermarkEnabled", default = TRUE)
+  watermarkStatus <- getOption(
+    "ospsuite.plots.watermarkEnabled",
+    default = TRUE
+  )
   checkmate::assert_flag(watermarkStatus)
   return(watermarkStatus)
 }
@@ -176,9 +243,9 @@ print.ggWatermark <- function(x, ...) {
       watermarkEnabled = TRUE
     ))
   } else {
-    # When watermark is disabled, use ggdraw to reset class back to ggplot2
-    # This prevents infinite recursion in print method calls
-    print(cowplot::ggdraw(x))
+    # Remove custom class so default ggplot print method is used.
+    class(x) <- setdiff(class(x), "ggWatermark")
+    print(x)
   }
 }
 #' Add a watermark to a ggplot object
@@ -219,10 +286,12 @@ print.ggWatermark <- function(x, ...) {
 #' @export
 #'
 #' @family watermark
-addWatermark <- function(plotObject,
-                         watermark = NULL,
-                         watermarkFormat = NULL,
-                         watermarkEnabled = NULL) {
+addWatermark <- function(
+  plotObject,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
+) {
   # initialize variables to avoid check messages
   x <- y <- label <- NULL
 
@@ -252,22 +321,32 @@ addWatermark <- function(plotObject,
     watermarkFormat = watermarkOptions
   )
 
-  cowplot::ggdraw(plotObject) +
-    geom_text(
-      data = data.frame(
-        x = watermarkOptions$x,
-        y = watermarkOptions$y,
-        label = watermarkLabel
+  annotationBounds <- .getAnnotationBounds(plotObject)
+
+  plotWithWatermark <- plotObject +
+    annotation_custom(
+      grob = grid::textGrob(
+        label = watermarkLabel,
+        x = grid::unit(watermarkOptions$x, "npc"),
+        y = grid::unit(watermarkOptions$y, "npc"),
+        just = c("center", "center"),
+        rot = watermarkOptions$angle,
+        gp = grid::gpar(
+          col = watermarkOptions$color,
+          alpha = watermarkOptions$alpha,
+          fontsize = watermarkOptions$fontsize
+        )
       ),
-      aes(x, y, label = label),
-      hjust = 0.5,
-      vjust = 0.5,
-      angle = watermarkOptions$angle,
-      size = watermarkOptions$fontsize,
-      color = watermarkOptions$color,
-      alpha = watermarkOptions$alpha,
-      inherit.aes = FALSE
+      xmin = annotationBounds$xmin,
+      xmax = annotationBounds$xmax,
+      ymin = annotationBounds$ymin,
+      ymax = annotationBounds$ymax
     )
+
+  # Remove custom class to avoid recursive watermark application on print.
+  class(plotWithWatermark) <- setdiff(class(plotWithWatermark), "ggWatermark")
+
+  return(plotWithWatermark)
 }
 
 

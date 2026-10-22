@@ -61,7 +61,13 @@ CombinedPlot <- R6::R6Class(
         print(combinedPlot)
       } else if ("ggWatermark" %in% class(self$plotObject)) {
         # the combined plot has lost its watermarkClass
-        print(addWatermark(combinedPlot))
+        watermarkSettings <- .getStoredWatermarkSettings(self$plotObject)
+        print(addWatermark(
+          combinedPlot,
+          watermark = watermarkSettings$watermark,
+          watermarkFormat = watermarkSettings$watermarkFormat,
+          watermarkEnabled = watermarkSettings$watermarkEnabled
+        ))
       }
       invisible(combinedPlot)
     }

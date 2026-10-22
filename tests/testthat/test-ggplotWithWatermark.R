@@ -207,3 +207,63 @@ test_that("print.ggWatermark silently treats NULL watermarkEnabled as TRUE", {
     info = "print.ggWatermark silently treats NULL watermarkEnabled as TRUE"
   )
 })
+
+test_that("per-plot watermark label overrides global option", {
+  oldLabel <- getOspsuite.plots.option(OptionKeys$watermarkLabel)
+  on.exit(setOspsuite.plots.option(OptionKeys$watermarkLabel, oldLabel))
+
+  setOspsuite.plots.option(OptionKeys$watermarkLabel, "GLOBAL_LABEL")
+  p <- ggplotWithWatermark(
+    mtcars,
+    aes(mpg, wt),
+    watermark = "LOCAL_LABEL"
+  ) +
+    geom_point()
+
+  tempSvg <- tempfile(fileext = ".svg")
+  suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
+  svgContent <- readLines(tempSvg)
+
+  expect_true(any(grepl("LOCAL_LABEL", svgContent, fixed = TRUE)))
+  expect_false(any(grepl("GLOBAL_LABEL", svgContent, fixed = TRUE)))
+})
+
+test_that("per-plot watermarkEnabled can disable watermark", {
+  oldEnabled <- getOspsuite.plots.option(OptionKeys$watermarkEnabled)
+  oldLabel <- getOspsuite.plots.option(OptionKeys$watermarkLabel)
+  on.exit({
+    setOspsuite.plots.option(OptionKeys$watermarkEnabled, oldEnabled)
+    setOspsuite.plots.option(OptionKeys$watermarkLabel, oldLabel)
+  })
+
+  setOspsuite.plots.option(OptionKeys$watermarkEnabled, TRUE)
+  setOspsuite.plots.option(OptionKeys$watermarkLabel, "GLOBAL_LABEL")
+
+  p <- ggplotWithWatermark(
+    mtcars,
+    aes(mpg, wt),
+    watermarkEnabled = FALSE
+  ) +
+    geom_point()
+
+  tempSvg <- tempfile(fileext = ".svg")
+  suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
+
+  expect_false(any(grepl("GLOBAL_LABEL", readLines(tempSvg), fixed = TRUE)))
+})
+
+test_that("watermark falls back to current option at print time", {
+  oldLabel <- getOspsuite.plots.option(OptionKeys$watermarkLabel)
+  on.exit(setOspsuite.plots.option(OptionKeys$watermarkLabel, oldLabel))
+
+  p <- ggplotWithWatermark(mtcars, aes(mpg, wt)) + geom_point()
+  tempSvg <- tempfile(fileext = ".svg")
+
+  setOspsuite.plots.option(OptionKeys$watermarkLabel, "OPTION_LABEL_1")
+  suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
+  expect_true(any(grepl("OPTION_LABEL_1", readLines(tempSvg), fixed = TRUE)))
+
+  setOspsuite.plots.option(OptionKeys$watermarkLabel, "OPTION_LABEL_2")
+  suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
+  expect_true(any(grepl("OPTION_LABEL_2", readLines(tempSvg), fixed = TRUE)))
+})

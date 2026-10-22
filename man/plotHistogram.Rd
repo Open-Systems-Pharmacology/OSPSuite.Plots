@@ -17,7 +17,10 @@ plotHistogram(
   yScaleArgs = list(),
   distribution = "none",
   meanFunction = "auto",
-  residualScale = NULL
+  residualScale = NULL,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
 )
 }
 \arguments{
@@ -53,6 +56,12 @@ Shortcuts: \code{"normal"} (same as \code{"norm"}), \code{"lognormal"} (same as 
 
 \item{residualScale}{Deprecated. Retained for backward compatibility only.
 Non-\code{NULL} values trigger a warning and have no effect.}
+
+\item{watermark}{Optional watermark text for this plot.}
+
+\item{watermarkFormat}{Optional list of watermark formatting values.}
+
+\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 A \code{ggplot} object.

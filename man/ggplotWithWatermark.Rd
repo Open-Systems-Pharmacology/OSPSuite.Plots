@@ -4,10 +4,23 @@
 \alias{ggplotWithWatermark}
 \title{Create a ggplot with an optional watermark}
 \usage{
-ggplotWithWatermark(...)
+ggplotWithWatermark(
+  ...,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
+)
 }
 \arguments{
 \item{...}{Arguments to be passed to \code{ggplot()}, such as data and aesthetics. This allows for flexibility in creating different types of plots.}
+
+\item{watermark}{Optional watermark text for this plot. If \code{NULL}, the session option is used at print time.}
+
+\item{watermarkFormat}{Optional list of watermark formatting values (\code{x}, \code{y}, \code{angle}, \code{fontsize}, \code{color}, \code{alpha}).
+If provided, it is merged with current watermark format options at print time.}
+
+\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.
+If \code{NULL}, the session option is used at print time.}
 }
 \value{
 A ggplot object, which may have the class "ggWatermark" if the watermark is enabled. The object can be printed or further modified as needed.

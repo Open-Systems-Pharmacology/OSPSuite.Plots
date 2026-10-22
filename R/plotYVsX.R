@@ -180,6 +180,8 @@ plotPredVsObs <- function(
 #' @param lloqOnBothAxes A boolean; if `TRUE`, LLOQ lines are drawn on both axes. If `FALSE` (default),
 #'   the LLOQ line is drawn for the observed-data axis only.
 #'   (`geom_vline` when `observedDataDirection = "x"`, `geom_hline` when `observedDataDirection = "y"`).
+#' @param showLLOQ A boolean; if `TRUE` (default), LLOQ lines and below-LLOQ point fading are displayed.
+#'   If `FALSE`, neither the LLOQ line nor below-LLOQ fading is applied.
 #' @param groupAesthetics A character vector of aesthetic names used for grouping data points when calculating
 #'   comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
 #'   and proportions within comparison lines. Common grouping aesthetics include `"colour"`, `"fill"`, `"shape"`.
@@ -212,6 +214,7 @@ plotYVsX <- function(
   yScaleArgs = list(),
   observedDataDirection = "y",
   lloqOnBothAxes = FALSE,
+  showLLOQ = TRUE,
   yDisplayAsAbsolute = TRUE
 ) {
   if (!is.null(residualScale)) {
@@ -243,7 +246,8 @@ plotYVsX <- function(
     yScale = yScale,
     yScaleArgs = yScaleArgs,
     observedDataDirection = observedDataDirection,
-    lloqOnBothAxes = lloqOnBothAxes
+    lloqOnBothAxes = lloqOnBothAxes,
+    showLLOQ = showLLOQ
   )
 
   mappedData <- MappedData$new(
@@ -253,6 +257,7 @@ plotYVsX <- function(
     ylimits = yScaleArgs$limits,
     direction = observedDataDirection,
     isObserved = TRUE,
+    showLLOQ = showLLOQ,
     groupAesthetics = groupAesthetics,
     xScale = xScale,
     yScale = yScale
@@ -348,7 +353,7 @@ plotYVsX <- function(
   }
 
   # add lloq lines
-  if (mappedData$hasLLOQMatch) {
+  if (showLLOQ && mappedData$hasLLOQMatch) {
     lloqDirs <- if (lloqOnBothAxes) {
       c("y", "x")
     } else {
@@ -365,6 +370,7 @@ plotYVsX <- function(
           ylimits = yScaleArgs$limits,
           direction = dir,
           isObserved = TRUE,
+          showLLOQ = showLLOQ,
           groupAesthetics = groupAesthetics,
           xScale = xScale,
           yScale = yScale
@@ -885,7 +891,8 @@ countEntriesInBetween <- function(
   yScale,
   yScaleArgs,
   observedDataDirection,
-  lloqOnBothAxes
+  lloqOnBothAxes,
+  showLLOQ
 ) {
   checkmate::assertDataFrame(data)
   checkmate::assertList(metaData, types = "list", null.ok = TRUE)
@@ -945,6 +952,7 @@ countEntriesInBetween <- function(
     null.ok = TRUE
   )
   checkmate::assertFlag(lloqOnBothAxes)
+  checkmate::assertFlag(showLLOQ)
 
   return(invisible())
 }

@@ -40,6 +40,8 @@ Non-\code{NULL} values trigger a warning and have no effect.}
     \item{\code{lloqOnBothAxes}}{A boolean; if \code{TRUE}, LLOQ lines are drawn on both axes. If \code{FALSE} (default),
 the LLOQ line is drawn for the observed-data axis only.
 (\code{geom_vline} when \code{observedDataDirection = "x"}, \code{geom_hline} when \code{observedDataDirection = "y"}).}
+    \item{\code{showLLOQ}}{A boolean; if \code{TRUE} (default), LLOQ lines and below-LLOQ point fading are displayed.
+If \code{FALSE}, neither the LLOQ line nor below-LLOQ fading is applied.}
     \item{\code{groupAesthetics}}{A character vector of aesthetic names used for grouping data points when calculating
 comparison statistics. Data will be grouped by combinations of these aesthetics before computing counts
 and proportions within comparison lines. Common grouping aesthetics include \code{"colour"}, \code{"fill"}, \code{"shape"}.}

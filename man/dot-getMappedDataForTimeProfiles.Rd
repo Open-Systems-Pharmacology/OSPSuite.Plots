@@ -15,6 +15,7 @@
   yScaleArgs,
   y2Scale,
   y2ScaleArgs,
+  showLLOQ,
   groupAesthetics,
   mapSimulatedAndObserved
 )
@@ -43,6 +44,9 @@ if a different mapping is necessary use \code{mapping} and \code{observedMapping
 \item{y2Scale}{either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale}
 
 \item{y2ScaleArgs}{list of arguments passed to \code{ggplot2::sec_axis()}, trans, break are set by code}
+
+\item{showLLOQ}{A boolean; if \code{TRUE} (default), LLOQ lines and below-LLOQ point fading are displayed.
+If \code{FALSE}, neither the LLOQ line nor below-LLOQ fading is applied.}
 
 \item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with \code{groupby},}
 

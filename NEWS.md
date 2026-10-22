@@ -3,6 +3,7 @@
 ## Minor improvements and bug fixes
 
 - `geom_errorbar_osp()` now renders a horizontal line with end caps as its default legend key glyph (`draw_key_errorbar_osp`). Forest plots inherit this default. Time-profile and Y-vs-X plots override it to blank so the error-bar glyph does not duplicate the point/line legend entries. Distribution-fit and mean-line overlays in `plotHistogram()` likewise use a blank legend key (#137).
+- Watermarks are now rendered as panel annotations at print time instead of via `cowplot::ggdraw()`. Plot constructors and high-level plot functions support per-plot watermark overrides through `watermark`, `watermarkFormat`, and `watermarkEnabled`, with `NULL` values falling back to session options.
 
 # ospsuite.plots 1.3.0
 

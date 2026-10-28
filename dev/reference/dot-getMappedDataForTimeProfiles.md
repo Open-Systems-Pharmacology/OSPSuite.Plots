@@ -16,6 +16,7 @@ prepares mapped Data object for plotting
   yScaleArgs,
   y2Scale,
   y2ScaleArgs,
+  showLLOQ,
   groupAesthetics,
   mapSimulatedAndObserved
 )
@@ -84,6 +85,12 @@ prepares mapped Data object for plotting
   list of arguments passed to
   [`ggplot2::sec_axis()`](https://ggplot2.tidyverse.org/reference/sec_axis.html),
   trans, break are set by code
+
+- showLLOQ:
+
+  A boolean; if `TRUE` (default), LLOQ lines and below-LLOQ point fading
+  are displayed. If `FALSE`, neither the LLOQ line nor below-LLOQ fading
+  is applied.
 
 - groupAesthetics:
 

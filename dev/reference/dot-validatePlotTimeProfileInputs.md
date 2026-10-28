@@ -21,6 +21,7 @@ Validates input for `plotTimeProfile` function
   geomPointAttributes,
   geomErrorbarAttributes,
   geomLLOQAttributes,
+  showLLOQ,
   groupAesthetics,
   mapSimulatedAndObserved
 )
@@ -111,6 +112,12 @@ Validates input for `plotTimeProfile` function
 
   A `list` with arguments which are passed on to the call
   [`ggplot2::geom_hline`](https://ggplot2.tidyverse.org/reference/geom_abline.html)
+
+- showLLOQ:
+
+  A boolean; if `TRUE` (default), LLOQ lines and below-LLOQ point fading
+  are displayed. If `FALSE`, neither the LLOQ line nor below-LLOQ fading
+  is applied.
 
 - groupAesthetics:
 

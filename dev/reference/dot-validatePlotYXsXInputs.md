@@ -25,7 +25,8 @@ ensure proper data format and parameter values.
   yScale,
   yScaleArgs,
   observedDataDirection,
-  lloqOnBothAxes
+  lloqOnBothAxes,
+  showLLOQ
 )
 ```
 
@@ -135,6 +136,12 @@ ensure proper data format and parameter values.
   (default), the LLOQ line is drawn for the observed-data axis only.
   (`geom_vline` when `observedDataDirection = "x"`, `geom_hline` when
   `observedDataDirection = "y"`).
+
+- showLLOQ:
+
+  A boolean; if `TRUE` (default), LLOQ lines and below-LLOQ point fading
+  are displayed. If `FALSE`, neither the LLOQ line nor below-LLOQ fading
+  is applied.
 
 ## Value
 

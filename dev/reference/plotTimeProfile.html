@@ -21,7 +21,7 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9006</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,6 +90,7 @@ For the observed data a <code>geom_point</code> and a <code>geom_errorbar_osp</c
 <span>  geomPointAttributes <span class="op">=</span> <span class="fu"><a href="getDefaultGeomAttributes.html">getDefaultGeomAttributes</a></span><span class="op">(</span><span class="st">"Point"</span><span class="op">)</span>,</span>
 <span>  geomErrorbarAttributes <span class="op">=</span> <span class="fu"><a href="getDefaultGeomAttributes.html">getDefaultGeomAttributes</a></span><span class="op">(</span><span class="st">"Errorbar"</span><span class="op">)</span>,</span>
 <span>  geomLLOQAttributes <span class="op">=</span> <span class="fu"><a href="getDefaultGeomAttributes.html">getDefaultGeomAttributes</a></span><span class="op">(</span><span class="st">"LLOQ"</span><span class="op">)</span>,</span>
+<span>  showLLOQ <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  groupAesthetics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"colour"</span>, <span class="st">"fill"</span>, <span class="st">"shape"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -173,6 +174,11 @@ use of <code>mapSimulatedAndObserved</code> triggers reset of aesthetic scales a
 
 <dt id="arg-geomlloqattributes">geomLLOQAttributes<a class="anchor" aria-label="anchor" href="#arg-geomlloqattributes"></a></dt>
 <dd><p>A <code>list</code> with arguments which are passed on to the call <code><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">ggplot2::geom_hline</a></code></p></dd>
+
+
+<dt id="arg-showlloq">showLLOQ<a class="anchor" aria-label="anchor" href="#arg-showlloq"></a></dt>
+<dd><p>A boolean; if <code>TRUE</code> (default), LLOQ lines and below-LLOQ point fading are displayed.
+If <code>FALSE</code>, neither the LLOQ line nor below-LLOQ fading is applied.</p></dd>
 
 
 <dt id="arg-groupaesthetics">groupAesthetics<a class="anchor" aria-label="anchor" href="#arg-groupaesthetics"></a></dt>

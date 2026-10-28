@@ -12,6 +12,18 @@
   Distribution-fit and mean-line overlays in
   [`plotHistogram()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotHistogram.md)
   likewise use a blank legend key (#137).
+- Added `showLLOQ` to
+  [`plotTimeProfile()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotTimeProfile.md)
+  and
+  [`plotYVsX()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotYVsX.md)
+  (and therefore
+  [`plotPredVsObs()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotPredVsObs.md),
+  [`plotResVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotResVsCov.md),
+  and
+  [`plotRatioVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotRatioVsCov.md))
+  to control LLOQ display per plot. Setting `showLLOQ = FALSE` hides
+  both LLOQ lines and below-LLOQ point fading without modifying the
+  input data (#148).
 
 ## ospsuite.plots 1.3.0
 

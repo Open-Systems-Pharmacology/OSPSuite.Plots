@@ -29,7 +29,7 @@ vignette("ospsuite.plots", package = "ospsuite.plots")
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9006</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -147,6 +147,10 @@ Non-<code>NULL</code> values trigger a warning and have no effect.</p></dd>
 <dd><p>A boolean; if <code>TRUE</code>, LLOQ lines are drawn on both axes. If <code>FALSE</code> (default),
 the LLOQ line is drawn for the observed-data axis only.
 (<code>geom_vline</code> when <code>observedDataDirection = "x"</code>, <code>geom_hline</code> when <code>observedDataDirection = "y"</code>).</p></dd>
+
+    <dt><code>showLLOQ</code></dt>
+<dd><p>A boolean; if <code>TRUE</code> (default), LLOQ lines and below-LLOQ point fading are displayed.
+If <code>FALSE</code>, neither the LLOQ line nor below-LLOQ fading is applied.</p></dd>
 
     <dt><code>groupAesthetics</code></dt>
 <dd><p>A character vector of aesthetic names used for grouping data points when calculating

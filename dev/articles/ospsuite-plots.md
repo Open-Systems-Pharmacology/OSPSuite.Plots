@@ -294,6 +294,17 @@ look.
 - `lloqAlphaVector` / `lloqLineType`: the transparency of points below
   the LLOQ and the line type of the LLOQ line.
 
+For a single plot, LLOQ display can be disabled directly with
+`showLLOQ = FALSE` in
+[`plotTimeProfile()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotTimeProfile.md),
+[`plotYVsX()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotYVsX.md),
+[`plotPredVsObs()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotPredVsObs.md),
+[`plotResVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotResVsCov.md),
+and
+[`plotRatioVsCov()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotRatioVsCov.md).
+This disables both the LLOQ line and below-LLOQ point fading without
+changing your data or session options.
+
 ``` r
 
 # Change box-whisker percentiles for the session
@@ -448,7 +459,8 @@ respective functions.
   quantification, adds horizontal (or vertical) lines to the plot. All
   observed values below the “lloq” are plotted with a lighter alpha. As
   values are compared row by row, it is possible to have more than one
-  LLOQ.
+  LLOQ. To hide these effects for one call, set `showLLOQ = FALSE` in
+  supported plot functions.
 - `error`: Mapped to a column with additive error (e.g., standard
   deviation); error bars are plotted. This is a shortcut to map `ymin`
   and `ymax` directly (`ymin = y - error` and `ymax = y + error`).

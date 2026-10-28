@@ -38,6 +38,7 @@ plotYVsX(
   yScaleArgs = list(),
   observedDataDirection = "y",
   lloqOnBothAxes = FALSE,
+  showLLOQ = TRUE,
   yDisplayAsAbsolute = TRUE
 )
 ```
@@ -162,6 +163,12 @@ plotYVsX(
   (default), the LLOQ line is drawn for the observed-data axis only.
   (`geom_vline` when `observedDataDirection = "x"`, `geom_hline` when
   `observedDataDirection = "y"`).
+
+- showLLOQ:
+
+  A boolean; if `TRUE` (default), LLOQ lines and below-LLOQ point fading
+  are displayed. If `FALSE`, neither the LLOQ line nor below-LLOQ fading
+  is applied.
 
 - yDisplayAsAbsolute:
 

@@ -79,6 +79,7 @@ Create a new `MappedDataTimeProfile` object
       groupOrder = NULL,
       direction = "y",
       isObserved = TRUE,
+      showLLOQ = TRUE,
       xlimits = NULL,
       ylimits = NULL,
       xScale = AxisScales$linear,
@@ -114,6 +115,11 @@ Create a new `MappedDataTimeProfile` object
 - `isObserved`:
 
   A `boolean` if TRUE mappings mdv, lloq are evaluated
+
+- `showLLOQ`:
+
+  A boolean indicating whether LLOQ matching and visualization mapping
+  should be prepared.
 
 - `xlimits`:
 

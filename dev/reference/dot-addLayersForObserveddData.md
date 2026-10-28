@@ -12,6 +12,7 @@ set line and ribbon layer fro simulated data
   geomPointAttributes,
   geomLLOQAttributes,
   useLLOQLinetypeAsAttribute,
+  showLLOQ,
   mapSimulatedAndObserved,
   groupAesthetics
 )
@@ -45,6 +46,12 @@ set line and ribbon layer fro simulated data
 - useLLOQLinetypeAsAttribute:
 
   boolean if TRUE line type for LLOQ is set as attribute
+
+- showLLOQ:
+
+  A boolean; if `TRUE` (default), LLOQ lines and below-LLOQ point fading
+  are displayed. If `FALSE`, neither the LLOQ line nor below-LLOQ fading
+  is applied.
 
 - mapSimulatedAndObserved:
 

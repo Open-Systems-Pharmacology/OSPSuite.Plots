@@ -110,6 +110,12 @@ plotResVsCov(
       axis only. (`geom_vline` when `observedDataDirection = "x"`,
       `geom_hline` when `observedDataDirection = "y"`).
 
+  `showLLOQ`
+
+  :   A boolean; if `TRUE` (default), LLOQ lines and below-LLOQ point
+      fading are displayed. If `FALSE`, neither the LLOQ line nor
+      below-LLOQ fading is applied.
+
   `groupAesthetics`
 
   :   A character vector of aesthetic names used for grouping data

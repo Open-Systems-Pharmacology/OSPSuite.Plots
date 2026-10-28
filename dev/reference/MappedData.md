@@ -81,6 +81,7 @@ Create a new `MappedData` object
       groupOrder = NULL,
       direction = "y",
       isObserved = TRUE,
+      showLLOQ = TRUE,
       xlimits = NULL,
       ylimits = NULL
     )
@@ -118,6 +119,11 @@ Create a new `MappedData` object
 - `isObserved`:
 
   A `boolean `if TRUE mappings mdv, lloq
+
+- `showLLOQ`:
+
+  A boolean indicating whether LLOQ matching and visualization mapping
+  should be prepared.
 
 - `xlimits`:
 

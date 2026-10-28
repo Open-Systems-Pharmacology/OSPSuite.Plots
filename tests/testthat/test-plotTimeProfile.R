@@ -1,4 +1,4 @@
-expect_doppelganger_without_log10_warning <- function(title, fig, ...) {
+expectDoppelgangerWithoutLog10Warning <- function(title, fig, ...) {
   withCallingHandlers(
     {
       vdiffr::expect_doppelganger(
@@ -53,7 +53,7 @@ test_that("plotTimeProfile works basic", {
       legend.position = "top"
     )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "basic",
     fig = fig,
   )
@@ -77,7 +77,7 @@ test_that("plotTimeProfile works basic", {
       legend.position = "top"
     )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "with Limits",
     fig = fig,
   )
@@ -101,7 +101,7 @@ test_that("plotTimeProfile works basic", {
       legend.position = "top"
     )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "with Limits censor",
     fig = fig,
   )
@@ -142,7 +142,7 @@ test_that("plotTimeProfile works logscale", {
       legend.title = element_blank()
     )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "basic_log",
     fig = fig
   )
@@ -192,7 +192,7 @@ test_that("plotTimeProfile works mapping observed plot", {
       legend.position = "top"
     )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "mapped-observed-and-simulated",
     fig
   )
@@ -239,7 +239,7 @@ test_that("plotTimeProfile works lloq", {
       legend.title = element_blank()
     )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "with lloq",
     fig
   )
@@ -270,7 +270,7 @@ test_that("plotTimeProfile works lloq", {
       legend.title = element_blank()
     )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "with lloq and dashed lines",
     fig
   )
@@ -337,7 +337,7 @@ test_that("plotTimeProfile works secondary axis", {
     ) +
     guides(shape = guide_legend(order = 2))
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "secAxis linLog",
     fig = fig
   )
@@ -368,7 +368,7 @@ test_that("plotTimeProfile works secondary axis", {
     ) +
     guides(shape = guide_legend(order = 2))
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "secAxis linLog only simulation",
     fig = fig
   )
@@ -413,7 +413,7 @@ test_that("plotTimeProfile works secondary axis", {
       legend.title = element_blank()
     )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "secAxis logLin",
     fig = fig
   )
@@ -487,7 +487,7 @@ test_that("plotTimeProfile works with different observedMapping", {
       legend.position = "top"
     )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "different-observedMapping",
     fig = fig
   )
@@ -714,7 +714,7 @@ test_that("plotTimeProfile linear scale preserves negative values - data only", 
     mapping = aes(x = x, y = y, ymin = ymin, ymax = ymax)
   )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "negative values linear data only",
     fig = fig
   )
@@ -731,7 +731,7 @@ test_that("plotTimeProfile log scale displays negative values as -Inf - data onl
     yScaleArgs = list(oob = scales::oob_keep)
   )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "negative values log data only",
     fig = fig
   )
@@ -746,7 +746,7 @@ test_that("plotTimeProfile linear scale preserves negative values - observedData
     mapping = aes(x = x, y = y, ymin = ymin, ymax = ymax)
   )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "negative values linear observedData only",
     fig = fig
   )
@@ -763,7 +763,7 @@ test_that("plotTimeProfile log scale displays negative values as -Inf - observed
     yScaleArgs = list(oob = scales::oob_keep)
   )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "negative values log observedData only",
     fig = fig
   )
@@ -779,7 +779,7 @@ test_that("plotTimeProfile linear scale preserves negative values - data and obs
     mapping = aes(x = x, y = y, ymin = ymin, ymax = ymax)
   )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "negative values linear both",
     fig = fig
   )
@@ -796,7 +796,7 @@ test_that("plotTimeProfile log scale displays negative values as -Inf - data and
     yScale = "log"
   )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "negative values log both",
     fig = fig
   )
@@ -826,7 +826,7 @@ test_that("plotTimeProfile handles log scale negative values with dual y-axis", 
     y2Scale = "lin"
   )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "negative values linear left and right",
     fig = fig_lin_lin
   )
@@ -845,7 +845,7 @@ test_that("plotTimeProfile handles log scale negative values with dual y-axis", 
     y2Scale = "lin"
   )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "negative values log left and linear right",
     fig = fig_log_lin
   )
@@ -864,7 +864,7 @@ test_that("plotTimeProfile handles log scale negative values with dual y-axis", 
     y2Scale = "log"
   )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "negative values linear left and log right",
     fig = fig_lin_log
   )
@@ -883,7 +883,7 @@ test_that("plotTimeProfile handles log scale negative values with dual y-axis", 
     y2Scale = "log"
   )
 
-  expect_doppelganger_without_log10_warning(
+  expectDoppelgangerWithoutLog10Warning(
     title = "negative values log left and right",
     fig = fig_log_log
   )

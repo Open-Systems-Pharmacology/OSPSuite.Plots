@@ -315,3 +315,12 @@ test_that("watermark survives adding layers after creation", {
 
   expect_true(any(grepl("LAYER_TEST", readLines(tempSvg), fixed = TRUE)))
 })
+
+test_that("watermark layer is reordered to render last", {
+  p <- ggplotWithWatermark(mtcars, aes(mpg, wt), watermark = "TOPMOST") +
+    geom_point()
+  p <- p + geom_hline(yintercept = 3)
+
+  built <- ggplot2::ggplot_build(p)
+  expect_true("osp_watermark_layer" %in% class(built$plot$layers[[length(built$plot$layers)]]))
+})

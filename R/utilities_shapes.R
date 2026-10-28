@@ -121,8 +121,42 @@ ggplot_build.osp_ggplot <- function(plot, ...) {
     plot <- plot + scale_fill_osp()
   }
 
+  # Keep watermark overlays on top even when users append layers with `+`
+  # after creating the plot object.
+  plot <- .reorderWatermarkLayers(plot)
+
   class(plot) <- setdiff(class(plot), "osp_ggplot")
   ggplot2::ggplot_build(plot)
+}
+
+#' Move watermark layers to the end of the layer stack.
+#'
+#' @param plot A `ggplot` object.
+#'
+#' @return A `ggplot` object with watermark layers moved to the end.
+#' @keywords internal
+#' @noRd
+.reorderWatermarkLayers <- function(plot) {
+  if (length(plot$layers) == 0) {
+    return(plot)
+  }
+
+  isWatermarkLayer <- vapply(
+    plot$layers,
+    function(layer) "osp_watermark_layer" %in% class(layer),
+    logical(1)
+  )
+
+  if (!any(isWatermarkLayer)) {
+    return(plot)
+  }
+
+  plot$layers <- c(
+    plot$layers[!isWatermarkLayer],
+    plot$layers[isWatermarkLayer]
+  )
+
+  return(plot)
 }
 
 #' Determine which discrete color/fill aesthetics a plot uses

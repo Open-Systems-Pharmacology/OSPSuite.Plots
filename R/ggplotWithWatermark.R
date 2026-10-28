@@ -33,9 +33,12 @@
 #' print(plotWithWatermark)
 #'
 #' # Example usage with watermark disabled
-#' plotWithoutWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
-#'   geom_point(),
+#' plotWithoutWatermark <- ggplotWithWatermark(
+#'   data = mtcars,
+#'   aes(x = wt, y = mpg),
 #'   watermark = FALSE
+#' ) +
+#'   geom_point()
 #' print(plotWithoutWatermark)
 #'
 #' # Example usage with customized watermark
@@ -68,11 +71,14 @@ ggplotWithWatermark <- function(
   checkmate::assertList(watermarkFormat, null.ok = TRUE)
 
   plotObject <- ggplot(...)
-  return(addWatermark(
+  plotObject <- addWatermark(
     plotObject = plotObject,
     watermark = watermark,
     watermarkFormat = watermarkFormat
-  ))
+  )
+
+  class(plotObject) <- unique(c("osp_ggplot", class(plotObject)))
+  return(plotObject)
 }
 
 #' Resolve effective watermark settings for a plot.
@@ -192,7 +198,7 @@ ggplotWithWatermark <- function(
 #' @keywords internal
 #' @noRd
 .createWatermarkLayer <- function(watermark, watermarkFormat) {
-  ggplot2::layer(
+  layer <- ggplot2::layer(
     geom = .geomWatermarkNpc,
     stat = "identity",
     position = "identity",
@@ -209,6 +215,8 @@ ggplotWithWatermark <- function(
       alpha = watermarkFormat$alpha
     )
   )
+  class(layer) <- c("osp_watermark_layer", class(layer))
+  return(layer)
 }
 
 

@@ -341,6 +341,9 @@ test_that("plotYVsX with LLOQ works for lloqOnBothAxes = TRUE", {
 })
 
 test_that("plotYVsX showLLOQ toggles LLOQ lines and fading", {
+  skip_if_not_installed("vdiffr")
+  skip_if(getRversion() < "4.1")
+
   data <- exampleDataCovariates |>
     dplyr::filter(SetID == "DataSet2") |>
     dplyr::select(c("ID", "Obs", "gsd", "Pred", "Sex"))
@@ -386,6 +389,11 @@ test_that("plotYVsX showLLOQ toggles LLOQ lines and fading", {
 
   expect_equal(nInterceptMappings(figHidden), 0)
   expect_false(hasAlphaMapping(figHidden))
+
+  vdiffr::expect_doppelganger(
+    title = "plotLLOQhiddenForBothDirections",
+    fig = figHidden
+  )
 })
 
 test_that("plotPredVsObs forwards showLLOQ to plotYVsX", {

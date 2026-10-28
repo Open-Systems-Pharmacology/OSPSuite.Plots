@@ -91,6 +91,7 @@ Other MappedData classes:
   groupOrder = NULL,
   direction = "y",
   isObserved = TRUE,
+  showLLOQ = TRUE,
   xlimits = NULL,
   ylimits = NULL,
   xScale = AxisScales$linear,
@@ -110,6 +111,7 @@ use of group aesthetics triggers second axis after simulation layers}
       \item{\code{groupOrder}}{labels and order for group aesthetic}
       \item{\code{direction}}{direction of plot either "x" or "y"}
       \item{\code{isObserved}}{A \code{boolean} if TRUE mappings mdv, lloq are evaluated}
+      \item{\code{showLLOQ}}{A boolean indicating whether LLOQ matching and visualization mapping should be prepared.}
       \item{\code{xlimits}}{limits for x-axis (may be NULL)}
       \item{\code{ylimits}}{limits for primary axis (may be NULL)}
       \item{\code{xScale}}{= scale of x-axis}

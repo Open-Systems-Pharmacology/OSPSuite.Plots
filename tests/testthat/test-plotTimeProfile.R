@@ -276,6 +276,58 @@ test_that("plotTimeProfile works lloq", {
   )
 })
 
+test_that("plotTimeProfile showLLOQ toggles LLOQ line and fading", {
+  simData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == c("DataSet3")) |>
+    dplyr::filter(Type == "simulated") |>
+    dplyr::filter(dimension == "concentration") |>
+    dplyr::select(c("time", "values", "caption"))
+
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
+    dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
+
+  baseArgs <- list(
+    data = simData,
+    observedData = obsData,
+    mapping = aes(
+      x = time,
+      y = values,
+      error_relative = error_relative,
+      groupby = caption,
+      lloq = lloq
+    ),
+    yScale = AxisScales$log,
+    yScaleArgs = list(limits = c(0.01, NA))
+  )
+
+  figDefault <- do.call(plotTimeProfile, baseArgs)
+  figHidden <- do.call(plotTimeProfile, c(baseArgs, list(showLLOQ = FALSE)))
+
+  hasInterceptLayer <- function(plotObject) {
+    any(vapply(
+      plotObject$layers,
+      function(layer) any(c("xintercept", "yintercept") %in% names(layer$mapping)),
+      logical(1)
+    ))
+  }
+  hasAlphaMapping <- function(plotObject) {
+    any(vapply(
+      plotObject$layers,
+      function(layer) "alpha" %in% names(layer$mapping),
+      logical(1)
+    ))
+  }
+
+  expect_true(hasInterceptLayer(figDefault))
+  expect_true(hasAlphaMapping(figDefault))
+
+  expect_false(hasInterceptLayer(figHidden))
+  expect_false(hasAlphaMapping(figHidden))
+})
+
 test_that("plotTimeProfile works secondary axis", {
   skip_if_not_installed("vdiffr")
   skip_if(getRversion() < "4.1")

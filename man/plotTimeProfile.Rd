@@ -26,6 +26,7 @@ plotTimeProfile(
   geomPointAttributes = getDefaultGeomAttributes("Point"),
   geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
   geomLLOQAttributes = getDefaultGeomAttributes("LLOQ"),
+  showLLOQ = TRUE,
   groupAesthetics = c("colour", "fill", "shape")
 )
 }
@@ -76,6 +77,9 @@ use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after s
 \item{geomErrorbarAttributes}{A \code{list} with arguments which are passed on to the call \code{geom_errorbar_osp}}
 
 \item{geomLLOQAttributes}{A \code{list} with arguments which are passed on to the call \code{ggplot2::geom_hline}}
+
+\item{showLLOQ}{A boolean; if \code{TRUE} (default), LLOQ lines and below-LLOQ point fading are displayed.
+If \code{FALSE}, neither the LLOQ line nor below-LLOQ fading is applied.}
 
 \item{groupAesthetics}{vector of aesthetics, which are used for columns mapped with \code{groupby},}
 }

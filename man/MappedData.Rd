@@ -68,6 +68,7 @@ may be adjusted in child classes (e.g. 2 axis in MappedDataTimeProfile)}
   groupOrder = NULL,
   direction = "y",
   isObserved = TRUE,
+  showLLOQ = TRUE,
   xlimits = NULL,
   ylimits = NULL
 )}
@@ -84,6 +85,7 @@ may be adjusted in child classes (e.g. 2 axis in MappedDataTimeProfile)}
       \item{\code{groupOrder}}{labels and order for group aesthetic}
       \item{\code{direction}}{direction of plot either "x" or "y"}
       \item{\code{isObserved}}{A \code{boolean }if TRUE mappings mdv, lloq}
+      \item{\code{showLLOQ}}{A boolean indicating whether LLOQ matching and visualization mapping should be prepared.}
       \item{\code{xlimits}}{limits for x-axis (may be NULL)}
       \item{\code{ylimits}}{limits for y-axis (may be NULL)}
     }

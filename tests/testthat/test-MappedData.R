@@ -140,6 +140,35 @@ test_that("adjustForLLOQMatch works", {
   )
 })
 
+test_that("adjustForLLOQMatch can be disabled", {
+  obsData <- exampleDataTimeProfile |>
+    dplyr::filter(SetID == "DataSet3") |>
+    dplyr::filter(Type == "observed") |>
+    dplyr::filter(dimension == "concentration") |>
+    dplyr::select(c("time", "values", "caption", "lloq", "error_relative"))
+
+  obsAes <- aes(
+    x = time,
+    y = values,
+    groupby = caption,
+    error_relative = error_relative,
+    lloq = lloq
+  )
+
+  obsDataNoLLOQ <- MappedData$new(
+    data = obsData,
+    mapping = obsAes,
+    xScale = AxisScales$linear,
+    yScale = AxisScales$linear,
+    groupAesthetics = c("colour", "fill", "linetype", "shape"),
+    showLLOQ = FALSE
+  )
+
+  expect_false("isLLOQ.i" %in% names(obsDataNoLLOQ$data))
+  expect_false(obsDataNoLLOQ$hasLLOQMatch)
+  expect_false(any(c("alpha", "yintercept") %in% names(obsDataNoLLOQ$mapping)))
+})
+
 
 test_that("adjustDataForMDV works", {
   # Observed data 1

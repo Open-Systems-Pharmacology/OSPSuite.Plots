@@ -28,6 +28,7 @@ MappedData <- # nolint
       #' @param groupOrder labels and order for group aesthetic
       #' @param direction direction of plot either "x" or "y"
       #' @param isObserved A `boolean `if TRUE mappings mdv, lloq
+      #' @param showLLOQ A boolean indicating whether LLOQ matching and visualization mapping should be prepared.
       #' @param xlimits limits for x-axis (may be NULL)
       #' @param ylimits limits for y-axis (may be NULL)
       #'
@@ -42,6 +43,7 @@ MappedData <- # nolint
         groupOrder = NULL,
         direction = "y",
         isObserved = TRUE,
+        showLLOQ = TRUE,
         xlimits = NULL,
         ylimits = NULL
       ) {
@@ -65,6 +67,7 @@ MappedData <- # nolint
           null.ok = FALSE,
           .var.name = ("direction of MappedData")
         )
+        checkmate::assertFlag(showLLOQ)
 
         private$direction <- direction
 
@@ -122,7 +125,9 @@ MappedData <- # nolint
           private$adjustDataForMDV()
 
           # lloq values are matched
-          private$adjustForLLOQMatch()
+          if (showLLOQ) {
+            private$adjustForLLOQMatch()
+          }
         }
         # add ymin ymax aesthetic error and error_relative
         private$translateErrorAestethics()

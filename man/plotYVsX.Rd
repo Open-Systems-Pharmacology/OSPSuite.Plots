@@ -27,6 +27,7 @@ plotYVsX(
   yScaleArgs = list(),
   observedDataDirection = "y",
   lloqOnBothAxes = FALSE,
+  showLLOQ = TRUE,
   yDisplayAsAbsolute = TRUE
 )
 }
@@ -79,6 +80,9 @@ Non-\code{NULL} values trigger a warning and have no effect.}
 \item{lloqOnBothAxes}{A boolean; if \code{TRUE}, LLOQ lines are drawn on both axes. If \code{FALSE} (default),
 the LLOQ line is drawn for the observed-data axis only.
 (\code{geom_vline} when \code{observedDataDirection = "x"}, \code{geom_hline} when \code{observedDataDirection = "y"}).}
+
+\item{showLLOQ}{A boolean; if \code{TRUE} (default), LLOQ lines and below-LLOQ point fading are displayed.
+If \code{FALSE}, neither the LLOQ line nor below-LLOQ fading is applied.}
 
 \item{yDisplayAsAbsolute}{A boolean that defines the direction of comparison lines.}
 }

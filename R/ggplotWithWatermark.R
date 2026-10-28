@@ -65,9 +65,7 @@ ggplotWithWatermark <- function(
   watermark = NULL,
   watermarkFormat = NULL
 ) {
-  if (!is.null(watermark) && !identical(watermark, FALSE)) {
-    checkmate::assertCharacter(watermark, len = 1)
-  }
+  .validateWatermarkArgument(watermark = watermark)
   checkmate::assertList(watermarkFormat, null.ok = TRUE)
 
   plotObject <- ggplot(...)
@@ -79,6 +77,25 @@ ggplotWithWatermark <- function(
 
   class(plotObject) <- unique(c("osp_ggplot", class(plotObject)))
   return(plotObject)
+}
+
+#' Validate watermark argument.
+#'
+#' @param watermark Watermark override value from user input.
+#'
+#' @return Invisibly returns `TRUE` when `watermark` is valid.
+#' @keywords internal
+#' @noRd
+.validateWatermarkArgument <- function(watermark) {
+  if (is.null(watermark) || identical(watermark, FALSE)) {
+    return(invisible(TRUE))
+  }
+
+  if (is.character(watermark) && length(watermark) == 1) {
+    return(invisible(TRUE))
+  }
+
+  stop(messages$errorInvalidWatermarkArgument(), call. = FALSE)
 }
 
 #' Resolve effective watermark settings for a plot.
@@ -278,9 +295,7 @@ addWatermark <- function(
   watermarkFormat = NULL
 ) {
   checkmate::assert_class(plotObject, classes = "gg")
-  if (!is.null(watermark) && !identical(watermark, FALSE)) {
-    checkmate::assertCharacter(watermark, len = 1)
-  }
+  .validateWatermarkArgument(watermark = watermark)
   checkmate::assertList(watermarkFormat, null.ok = TRUE)
 
   watermarkSettings <- .resolveWatermarkSettings(

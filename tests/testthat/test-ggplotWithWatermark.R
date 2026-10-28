@@ -276,6 +276,34 @@ test_that("per-plot watermark can disable watermark with FALSE", {
   expect_false(any(grepl("GLOBAL_LABEL", readLines(tempSvg), fixed = TRUE)))
 })
 
+test_that("invalid watermark argument returns explicit message", {
+  p <- ggplot(mtcars, aes(mpg, wt)) + geom_point()
+
+  expect_error(
+    ggplotWithWatermark(mtcars, aes(mpg, wt), watermark = TRUE),
+    messages$errorInvalidWatermarkArgument(),
+    fixed = TRUE
+  )
+
+  expect_error(
+    addWatermark(plotObject = p, watermark = TRUE),
+    messages$errorInvalidWatermarkArgument(),
+    fixed = TRUE
+  )
+
+  expect_error(
+    ggplotWithWatermark(mtcars, aes(mpg, wt), watermark = c("A", "B")),
+    messages$errorInvalidWatermarkArgument(),
+    fixed = TRUE
+  )
+
+  expect_error(
+    addWatermark(plotObject = p, watermark = list("A")),
+    messages$errorInvalidWatermarkArgument(),
+    fixed = TRUE
+  )
+})
+
 test_that("watermark is resolved at plot creation time", {
   oldLabel <- getOspsuite.plots.option(OptionKeys$watermarkLabel)
   on.exit(setOspsuite.plots.option(OptionKeys$watermarkLabel, oldLabel))
@@ -322,5 +350,8 @@ test_that("watermark layer is reordered to render last", {
   p <- p + geom_hline(yintercept = 3)
 
   built <- ggplot2::ggplot_build(p)
-  expect_true("osp_watermark_layer" %in% class(built$plot$layers[[length(built$plot$layers)]]))
+  expect_true(
+    "osp_watermark_layer" %in%
+      class(built$plot$layers[[length(built$plot$layers)]])
+  )
 })

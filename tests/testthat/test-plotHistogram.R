@@ -162,8 +162,7 @@ test_that("plotHistogram applies per-plot watermark arguments", {
   p <- plotHistogram(
     data = mtcars,
     mapping = aes(x = mpg),
-    watermark = "LOCAL_HIST",
-    watermarkEnabled = TRUE
+    watermark = "LOCAL_HIST"
   )
 
   tempSvg <- tempfile(fileext = ".svg")

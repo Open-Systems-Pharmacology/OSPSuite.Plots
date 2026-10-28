@@ -1,19 +1,19 @@
 #' Create a ggplot with an optional watermark
 #'
-#' This function creates a ggplot object and adds a watermark if the watermark option is enabled.
+#' This function creates a ggplot object and adds a watermark if enabled.
 #' The watermark can be customized with various options such as position, angle, font size, color, and transparency.
 #'
 #' @param ... Arguments to be passed to `ggplot()`, such as data and aesthetics. This allows for flexibility in creating different types of plots.
-#' @param watermark Optional watermark text for this plot. If `NULL`, the session option is used at print time.
+#' @param watermark Optional watermark text for this plot. If `NULL`, the session option is used at plot creation.
+#'   Set to `FALSE` to disable the watermark for this plot.
 #' @param watermarkFormat Optional list of watermark formatting values (`x`, `y`, `angle`, `fontsize`, `color`, `alpha`).
-#'   If provided, it is merged with current watermark format options at print time.
-#' @param watermarkEnabled Optional logical flag controlling watermark visibility for this plot.
-#'   If `NULL`, the session option is used at print time.
+#'   If provided, it is merged with current watermark format options.
 #'
-#' @return A ggplot object, which may have the class "ggWatermark" if the watermark is enabled. The object can be printed or further modified as needed.
+#' @return A ggplot object that can be printed or further modified as needed.
 #'
 #' @details
-#' If the watermark feature is enabled, the resulting ggplot object will include a watermark overlay when printed.
+#' If the watermark feature is enabled, the resulting ggplot object includes
+#' a watermark annotation as part of the plot object.
 #' The watermark's properties are determined by options set in the Ospsuite plotting configuration.
 #'
 #' The following options can be used to customize the watermark:
@@ -33,12 +33,10 @@
 #' print(plotWithWatermark)
 #'
 #' # Example usage with watermark disabled
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = FALSE)
 #' plotWithoutWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
-#'   geom_point()
+#'   geom_point(),
+#'   watermark = FALSE
 #' print(plotWithoutWatermark)
-#' # Reset options
-#' setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 #'
 #' # Example usage with customized watermark
 #' setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = "Custom Label")
@@ -62,55 +60,38 @@
 ggplotWithWatermark <- function(
   ...,
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 ) {
-  checkmate::assertCharacter(watermark, len = 1, null.ok = TRUE)
+  if (!is.null(watermark) && !identical(watermark, FALSE)) {
+    checkmate::assertCharacter(watermark, len = 1)
+  }
   checkmate::assertList(watermarkFormat, null.ok = TRUE)
-  checkmate::assertFlag(watermarkEnabled, null.ok = TRUE)
 
   plotObject <- ggplot(...)
-
-  # Set new class to overwrite the print method for the ggplot object
-  class(plotObject) <- c("ggWatermark", class(plotObject))
-  attr(plotObject, "ospWatermark") <- list(
+  return(addWatermark(
+    plotObject = plotObject,
     watermark = watermark,
-    watermarkFormat = watermarkFormat,
-    watermarkEnabled = watermarkEnabled
-  )
-
-  return(plotObject)
+    watermarkFormat = watermarkFormat
+  ))
 }
 
-#' @keywords internal
-#' @noRd
-.getStoredWatermarkSettings <- function(plotObject) {
-  watermarkSettings <- attr(plotObject, "ospWatermark")
-
-  if (is.null(watermarkSettings)) {
-    return(list(
-      watermark = NULL,
-      watermarkFormat = NULL,
-      watermarkEnabled = NULL
-    ))
-  }
-
-  return(watermarkSettings)
-}
-
+#' Resolve effective watermark settings for a plot.
+#'
+#' @param watermark Optional watermark label override.
+#' @param watermarkFormat Optional watermark format override list.
+#'
+#' @return List with resolved `watermark`, `watermarkFormat`, and `watermarkEnabled`.
 #' @keywords internal
 #' @noRd
 .resolveWatermarkSettings <- function(
-  plotObject,
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 ) {
-  storedSettings <- .getStoredWatermarkSettings(plotObject)
+  resolvedWatermarkEnabled <- !identical(watermark, FALSE)
 
-  resolvedWatermarkEnabled <- watermarkEnabled %||%
-    storedSettings$watermarkEnabled %||%
-    .getWatermarkEnabled()
+  if (is.null(watermark) && resolvedWatermarkEnabled) {
+    resolvedWatermarkEnabled <- .getWatermarkEnabled()
+  }
 
   if (!resolvedWatermarkEnabled) {
     return(list(
@@ -121,13 +102,20 @@ ggplotWithWatermark <- function(
   }
 
   resolvedWatermark <- watermark %||%
-    storedSettings$watermark %||%
     getOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel)
+
+  if (is.null(resolvedWatermark)) {
+    return(list(
+      watermark = NULL,
+      watermarkFormat = NULL,
+      watermarkEnabled = FALSE
+    ))
+  }
 
   defaultWatermarkFormat <- getOspsuite.plots.option(
     optionKey = OptionKeys$watermarkFormat
   )
-  userWatermarkFormat <- watermarkFormat %||% storedSettings$watermarkFormat
+  userWatermarkFormat <- watermarkFormat
   resolvedWatermarkFormat <- utils::modifyList(
     defaultWatermarkFormat,
     userWatermarkFormat %||% list()
@@ -140,6 +128,12 @@ ggplotWithWatermark <- function(
   ))
 }
 
+#' Validate watermark label and format values.
+#'
+#' @param watermark Watermark label string.
+#' @param watermarkFormat Watermark format list.
+#'
+#' @return Invisibly returns `TRUE` when all checks pass.
 #' @keywords internal
 #' @noRd
 .validateWatermarkSettings <- function(watermark, watermarkFormat) {
@@ -153,64 +147,76 @@ ggplotWithWatermark <- function(
   checkmate::assertNumber(watermarkFormat$alpha, lower = 0, upper = 1)
 }
 
+#' Internal geom drawing watermark text in panel NPC coordinates.
 #' @keywords internal
 #' @noRd
-.getAnnotationBounds <- function(plotObject) {
-  panelParams <- ggplot2::ggplot_build(plotObject)$layout$panel_params[[1]]
-
-  getDataRange <- function(panelAxis, transformedRange) {
-    scaleObject <- panelAxis$scale
-    if (is.null(scaleObject)) {
-      return(transformedRange)
-    }
-
-    inverseTransform <- NULL
-
-    # ggplot2 <= 3.x commonly exposes transformation objects via `$trans`.
-    if (is.list(scaleObject$trans) && is.function(scaleObject$trans$inverse)) {
-      inverseTransform <- scaleObject$trans$inverse
-    }
-
-    # ggplot2 >= 4.x may expose transforms via `$transform`.
-    if (is.null(inverseTransform) && !is.null(scaleObject$transform)) {
-      transformObject <- scaleObject$transform
-      if (is.list(transformObject) && is.function(transformObject$inverse)) {
-        inverseTransform <- transformObject$inverse
-      }
-
-      # Some scales store only a transform closure with no inverse accessor.
-      if (is.null(inverseTransform) && is.function(transformObject)) {
-        inverseFromAttr <- attr(transformObject, "inverse", exact = TRUE)
-        if (is.function(inverseFromAttr)) {
-          inverseTransform <- inverseFromAttr
-        }
-      }
-    }
-
-    if (is.null(inverseTransform)) {
-      return(transformedRange)
-    }
-
-    return(inverseTransform(transformedRange))
+.geomWatermarkNpc <- ggplot2::ggproto(
+  "GeomWatermarkNpc",
+  ggplot2::Geom,
+  required_aes = c(),
+  default_aes = ggplot2::aes(),
+  draw_key = ggplot2::draw_key_blank,
+  draw_panel = function(
+    data,
+    panel_params,
+    coord,
+    label,
+    x,
+    y,
+    angle,
+    fontsize,
+    colour,
+    alpha
+  ) {
+    grid::textGrob(
+      label = label,
+      x = grid::unit(x, "npc"),
+      y = grid::unit(y, "npc"),
+      just = c("center", "center"),
+      rot = angle,
+      gp = grid::gpar(
+        col = colour,
+        alpha = alpha,
+        fontsize = fontsize
+      )
+    )
   }
+)
 
-  xRange <- panelParams$x.range %||% c(-Inf, Inf)
-  yRange <- panelParams$y.range %||% c(-Inf, Inf)
-
-  xDataRange <- getDataRange(panelParams$x, xRange)
-  yDataRange <- getDataRange(panelParams$y, yRange)
-
-  return(list(
-    xmin = xDataRange[[1]],
-    xmax = xDataRange[[2]],
-    ymin = yDataRange[[1]],
-    ymax = yDataRange[[2]]
-  ))
+#' Build a watermark layer from resolved settings.
+#'
+#' @param watermark Watermark label string.
+#' @param watermarkFormat Watermark format list.
+#'
+#' @return A ggplot2 layer object drawing the watermark.
+#' @keywords internal
+#' @noRd
+.createWatermarkLayer <- function(watermark, watermarkFormat) {
+  ggplot2::layer(
+    geom = .geomWatermarkNpc,
+    stat = "identity",
+    position = "identity",
+    data = data.frame(.watermark = 1),
+    mapping = ggplot2::aes(),
+    inherit.aes = FALSE,
+    params = list(
+      label = watermark,
+      x = watermarkFormat$x,
+      y = watermarkFormat$y,
+      angle = watermarkFormat$angle,
+      fontsize = watermarkFormat$fontsize,
+      colour = watermarkFormat$color,
+      alpha = watermarkFormat$alpha
+    )
+  )
 }
 
 
-#' Helper function to get watermark enabled status.
+#' Read global watermark-enabled option with validation.
+#'
+#' @return Logical watermark-enabled flag.
 #' @keywords internal
+#' @noRd
 .getWatermarkEnabled <- function() {
   watermarkStatus <- getOption(
     "ospsuite.plots.watermarkEnabled",
@@ -220,42 +226,14 @@ ggplotWithWatermark <- function(
   return(watermarkStatus)
 }
 
-#' Print method for ggWatermark objects
-#'
-#' This function customizes the printing of ggplot objects with the class "ggWatermark" by adding a watermark.
-#'
-#' @param x A ggWatermark object created by `ggplotWithWatermark()`.
-#' @param ... Additional arguments to be passed to the print method, allowing for further customization of the output.
-#' @return A ggplot object with a watermark drawn on it. The watermark is displayed according to the specified options.
-#'
-#' @family watermark
-#' @export
-print.ggWatermark <- function(x, ...) {
-  watermarkSettings <- .resolveWatermarkSettings(plotObject = x)
-  watermarkEnabled <- watermarkSettings$watermarkEnabled
-
-  if (watermarkEnabled) {
-    # Add watermark overlay when watermark is enabled
-    print(addWatermark(
-      x,
-      watermark = watermarkSettings$watermark,
-      watermarkFormat = watermarkSettings$watermarkFormat,
-      watermarkEnabled = TRUE
-    ))
-  } else {
-    # Remove custom class so default ggplot print method is used.
-    class(x) <- setdiff(class(x), "ggWatermark")
-    print(x)
-  }
-}
 #' Add a watermark to a ggplot object
 #'
 #' This function adds a customizable watermark to a ggplot object. The watermark can be configured with various options such as position, angle, font size, color, and transparency.
 #'
 #' @param plotObject A ggplot object to which the watermark will be added.
-#' @param watermark Optional watermark text.
+#' @param watermark Optional watermark text. If `NULL`, the session option is used.
+#'   Set to `FALSE` to disable the watermark for this plot.
 #' @param watermarkFormat Optional watermark format list.
-#' @param watermarkEnabled Optional watermark enabled flag.
 #'
 #' @return A ggplot object with a watermark drawn on it. The watermark is displayed according to the specified options.
 #'
@@ -289,22 +267,17 @@ print.ggWatermark <- function(x, ...) {
 addWatermark <- function(
   plotObject,
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 ) {
-  # initialize variables to avoid check messages
-  x <- y <- label <- NULL
-
   checkmate::assert_class(plotObject, classes = "gg")
-  checkmate::assertCharacter(watermark, len = 1, null.ok = TRUE)
+  if (!is.null(watermark) && !identical(watermark, FALSE)) {
+    checkmate::assertCharacter(watermark, len = 1)
+  }
   checkmate::assertList(watermarkFormat, null.ok = TRUE)
-  checkmate::assertFlag(watermarkEnabled, null.ok = TRUE)
 
   watermarkSettings <- .resolveWatermarkSettings(
-    plotObject = plotObject,
     watermark = watermark,
-    watermarkFormat = watermarkFormat,
-    watermarkEnabled = watermarkEnabled
+    watermarkFormat = watermarkFormat
   )
 
   # if watermark is not enabled return unchanged object
@@ -321,44 +294,11 @@ addWatermark <- function(
     watermarkFormat = watermarkOptions
   )
 
-  annotationBounds <- .getAnnotationBounds(plotObject)
-
   plotWithWatermark <- plotObject +
-    annotation_custom(
-      grob = grid::textGrob(
-        label = watermarkLabel,
-        x = grid::unit(watermarkOptions$x, "npc"),
-        y = grid::unit(watermarkOptions$y, "npc"),
-        just = c("center", "center"),
-        rot = watermarkOptions$angle,
-        gp = grid::gpar(
-          col = watermarkOptions$color,
-          alpha = watermarkOptions$alpha,
-          fontsize = watermarkOptions$fontsize
-        )
-      ),
-      xmin = annotationBounds$xmin,
-      xmax = annotationBounds$xmax,
-      ymin = annotationBounds$ymin,
-      ymax = annotationBounds$ymax
+    .createWatermarkLayer(
+      watermark = watermarkLabel,
+      watermarkFormat = watermarkOptions
     )
 
-  # Remove custom class to avoid recursive watermark application on print.
-  class(plotWithWatermark) <- setdiff(class(plotWithWatermark), "ggWatermark")
-
   return(plotWithWatermark)
-}
-
-
-#' Create plot function for ggWatermark.
-#'
-#' This method allows for the ggWatermark object to be plotted using the standard print method.
-#'
-#' @param x A ggWatermark object to be printed.
-#' @param ... Additional arguments to be passed to the print method.
-#'
-#' @family watermark
-#' @export
-plot.ggWatermark <- function(x, ...) {
-  print(x, ...)
 }

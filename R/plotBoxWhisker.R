@@ -27,7 +27,6 @@
 #'   Non-`NULL` values trigger a warning and have no effect.
 #' @param watermark Optional watermark text for this plot.
 #' @param watermarkFormat Optional list of watermark formatting values.
-#' @param watermarkEnabled Optional logical flag controlling watermark visibility for this plot.
 #'
 #' @return A `ggplot` object representing the box-whisker plot.
 #' @references McGill, R., Tukey, J. W., & Larsen, W. A. (1978). Variations of box plots.
@@ -77,8 +76,7 @@ plotBoxWhisker <- function(
   geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
   residualScale = NULL,
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 ) {
   if (!is.null(residualScale)) {
     warning(messages$warningResidualScaleDeprecated())
@@ -129,8 +127,7 @@ plotBoxWhisker <- function(
     plotObject <- initializePlot(
       mappedData,
       watermark = watermark,
-      watermarkFormat = watermarkFormat,
-      watermarkEnabled = watermarkEnabled
+      watermarkFormat = watermarkFormat
     )
     if (!mappedData$hasXmapping) {
       plotObject$labels[["x"]] <-

@@ -30,8 +30,9 @@ plotResVsCov <- function(
     warning(messages$warningResidualScaleDeprecated())
   }
 
-  if (!is.null(yScale))
+  if (!is.null(yScale)) {
     yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  }
 
   plotObject <- plotYVsX(
     data = data,
@@ -79,10 +80,12 @@ plotRatioVsCov <- function(
     warning(messages$warningResidualScaleDeprecated())
   }
 
-  if (!is.null(xScale))
+  if (!is.null(xScale)) {
     xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
-  if (!is.null(yScale))
+  }
+  if (!is.null(yScale)) {
     yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  }
 
   yDisplayAsAbsolute <- FALSE
 
@@ -187,7 +190,6 @@ plotPredVsObs <- function(
 #'   Non-`NULL` values trigger a warning and have no effect.
 #' @param watermark Optional watermark text for this plot.
 #' @param watermarkFormat Optional list of watermark formatting values.
-#' @param watermarkEnabled Optional logical flag controlling watermark visibility for this plot.
 #'
 #' @return A `ggplot` object representing the plotted data.
 #' @export
@@ -215,7 +217,6 @@ plotYVsX <- function(
   yScaleArgs = list(),
   watermark = NULL,
   watermarkFormat = NULL,
-  watermarkEnabled = NULL,
   observedDataDirection = "y",
   lloqOnBothAxes = FALSE,
   yDisplayAsAbsolute = TRUE
@@ -226,10 +227,12 @@ plotYVsX <- function(
   if (is.double(comparisonLineVector)) {
     comparisonLineVector <- as.list(comparisonLineVector)
   }
-  if (!is.null(xScale))
+  if (!is.null(xScale)) {
     xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
-  if (!is.null(yScale))
+  }
+  if (!is.null(yScale)) {
     yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  }
   .validatePlotYXsXInputs(
     data = data,
     metaData = metaData,
@@ -269,8 +272,7 @@ plotYVsX <- function(
   plotObject <- initializePlot(
     mappedData = mappedData,
     watermark = watermark,
-    watermarkFormat = watermarkFormat,
-    watermarkEnabled = watermarkEnabled
+    watermarkFormat = watermarkFormat
   )
 
   #----- Build layers

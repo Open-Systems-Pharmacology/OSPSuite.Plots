@@ -170,18 +170,19 @@ test_that("watermark is present when TRUE and absent when FALSE", {
 
   watermarkLabel <- getOspsuite.plots.option(OptionKeys$watermarkLabel)
   tempSvg <- tempfile(fileext = ".svg")
-  p <- ggplotWithWatermark(mtcars, aes(mpg, wt)) + geom_point()
 
-  # Watermark should be present when enabled
+  # Watermark should be present when enabled.
   setOspsuite.plots.option(OptionKeys$watermarkEnabled, TRUE)
+  p <- ggplotWithWatermark(mtcars, aes(mpg, wt)) + geom_point()
   suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
   expect_true(
     any(grepl(watermarkLabel, readLines(tempSvg), fixed = TRUE)),
     info = "Watermark label should appear in SVG when watermarkEnabled = TRUE"
   )
 
-  # Watermark should be absent when disabled
+  # Watermark should be absent when disabled.
   setOspsuite.plots.option(OptionKeys$watermarkEnabled, FALSE)
+  p <- ggplotWithWatermark(mtcars, aes(mpg, wt)) + geom_point()
   suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
   expect_false(
     any(grepl(watermarkLabel, readLines(tempSvg), fixed = TRUE)),
@@ -208,7 +209,7 @@ test_that("addWatermark silently treats NULL watermarkEnabled as TRUE", {
   )
 })
 
-test_that("print.ggWatermark silently treats NULL watermarkEnabled as TRUE", {
+test_that("ggplotWithWatermark silently treats NULL watermarkEnabled option as TRUE", {
   oldValue <- getOption("ospsuite.plots.watermarkEnabled")
   on.exit(options(ospsuite.plots.watermarkEnabled = oldValue))
   watermarkLabel <- getOspsuite.plots.option(OptionKeys$watermarkLabel)
@@ -217,13 +218,17 @@ test_that("print.ggWatermark silently treats NULL watermarkEnabled as TRUE", {
   expect_true(getOspsuite.plots.option(OptionKeys$watermarkEnabled))
 
   p <- ggplotWithWatermark(mtcars, aes(x = wt, y = mpg)) + geom_point()
-  expect_no_condition(print(p))
+  expect_no_condition(suppressMessages(ggsave(
+    tempfile(fileext = ".svg"),
+    plot = p,
+    device = "svg"
+  )))
 
   tempSvg <- tempfile(fileext = ".svg")
   suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
   expect_true(
     any(grepl(watermarkLabel, readLines(tempSvg), fixed = TRUE)),
-    info = "print.ggWatermark silently treats NULL watermarkEnabled as TRUE"
+    info = "ggplotWithWatermark silently treats NULL watermarkEnabled option as TRUE"
   )
 })
 
@@ -247,7 +252,7 @@ test_that("per-plot watermark label overrides global option", {
   expect_false(any(grepl("GLOBAL_LABEL", svgContent, fixed = TRUE)))
 })
 
-test_that("per-plot watermarkEnabled can disable watermark", {
+test_that("per-plot watermark can disable watermark with FALSE", {
   oldEnabled <- getOspsuite.plots.option(OptionKeys$watermarkEnabled)
   oldLabel <- getOspsuite.plots.option(OptionKeys$watermarkLabel)
   on.exit({
@@ -261,7 +266,7 @@ test_that("per-plot watermarkEnabled can disable watermark", {
   p <- ggplotWithWatermark(
     mtcars,
     aes(mpg, wt),
-    watermarkEnabled = FALSE
+    watermark = FALSE
   ) +
     geom_point()
 
@@ -271,18 +276,42 @@ test_that("per-plot watermarkEnabled can disable watermark", {
   expect_false(any(grepl("GLOBAL_LABEL", readLines(tempSvg), fixed = TRUE)))
 })
 
-test_that("watermark falls back to current option at print time", {
+test_that("watermark is resolved at plot creation time", {
   oldLabel <- getOspsuite.plots.option(OptionKeys$watermarkLabel)
   on.exit(setOspsuite.plots.option(OptionKeys$watermarkLabel, oldLabel))
 
+  setOspsuite.plots.option(OptionKeys$watermarkLabel, "OPTION_LABEL_1")
   p <- ggplotWithWatermark(mtcars, aes(mpg, wt)) + geom_point()
   tempSvg <- tempfile(fileext = ".svg")
 
-  setOspsuite.plots.option(OptionKeys$watermarkLabel, "OPTION_LABEL_1")
   suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
   expect_true(any(grepl("OPTION_LABEL_1", readLines(tempSvg), fixed = TRUE)))
 
   setOspsuite.plots.option(OptionKeys$watermarkLabel, "OPTION_LABEL_2")
   suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
-  expect_true(any(grepl("OPTION_LABEL_2", readLines(tempSvg), fixed = TRUE)))
+  expect_false(any(grepl("OPTION_LABEL_2", readLines(tempSvg), fixed = TRUE)))
+})
+
+test_that("watermark survives cowplot composition", {
+  p1 <- ggplotWithWatermark(mtcars, aes(mpg, wt), watermark = "DRAFT") +
+    geom_point()
+  p2 <- ggplotWithWatermark(mtcars, aes(hp, wt), watermark = "DRAFT") +
+    geom_point()
+
+  combined <- cowplot::plot_grid(p1, p2)
+  tempSvg <- tempfile(fileext = ".svg")
+  suppressMessages(ggsave(tempSvg, plot = combined, device = "svg"))
+
+  expect_true(any(grepl("DRAFT", readLines(tempSvg), fixed = TRUE)))
+})
+
+test_that("watermark survives adding layers after creation", {
+  p <- ggplotWithWatermark(mtcars, aes(mpg, wt), watermark = "LAYER_TEST") +
+    geom_point()
+  p <- p + geom_hline(yintercept = 3)
+
+  tempSvg <- tempfile(fileext = ".svg")
+  suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
+
+  expect_true(any(grepl("LAYER_TEST", readLines(tempSvg), fixed = TRUE)))
 })

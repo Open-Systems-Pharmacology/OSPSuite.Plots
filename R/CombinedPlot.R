@@ -57,18 +57,7 @@ CombinedPlot <- R6::R6Class(
     #' @return Invisibly returns the combined ggplot object
     print = function() {
       combinedPlot <- self$combined()
-      if (is.null(private$.tableObject)) {
-        print(combinedPlot)
-      } else if ("ggWatermark" %in% class(self$plotObject)) {
-        # the combined plot has lost its watermarkClass
-        watermarkSettings <- .getStoredWatermarkSettings(self$plotObject)
-        print(addWatermark(
-          combinedPlot,
-          watermark = watermarkSettings$watermark,
-          watermarkFormat = watermarkSettings$watermarkFormat,
-          watermarkEnabled = watermarkSettings$watermarkEnabled
-        ))
-      }
+      print(combinedPlot)
       invisible(combinedPlot)
     }
   ),

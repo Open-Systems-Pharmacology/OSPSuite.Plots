@@ -22,7 +22,6 @@
 #'   Non-`NULL` values trigger a warning and have no effect.
 #' @param watermark Optional watermark text for this plot.
 #' @param watermarkFormat Optional list of watermark formatting values.
-#' @param watermarkEnabled Optional logical flag controlling watermark visibility for this plot.
 #'
 #' @return A `ggplot` object.
 #' @export
@@ -42,8 +41,7 @@ plotHistogram <- function(
   meanFunction = "auto",
   residualScale = NULL,
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 ) {
   if (!is.null(residualScale)) {
     warning(messages$warningResidualScaleDeprecated())
@@ -96,8 +94,7 @@ plotHistogram <- function(
   plotObject <- initializePlot(
     mappedData,
     watermark = watermark,
-    watermarkFormat = watermarkFormat,
-    watermarkEnabled = watermarkEnabled
+    watermarkFormat = watermarkFormat
   )
 
   if (plotAsFrequency) {

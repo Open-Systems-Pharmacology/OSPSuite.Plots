@@ -23,7 +23,6 @@
 #' @param identifier columnName of individual identifiers, default "IndividualId"
 #' @param watermark Optional watermark text for this plot.
 #' @param watermarkFormat Optional list of watermark formatting values.
-#' @param watermarkEnabled Optional logical flag controlling watermark visibility for this plot.
 #' @return A ggplot object representing the range plot. The returned object can be further customized or rendered using `print()` or similar functions.
 #' @export
 #' @family plot functions
@@ -47,8 +46,7 @@ plotRangeDistribution <- function(
   geomLineAttributes = getDefaultGeomAttributes("Line"),
   identifier = "IndividualId",
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 ) {
   ## Validation -----------
   checkmate::assertDataFrame(data, min.rows = 1)
@@ -98,8 +96,7 @@ plotRangeDistribution <- function(
   plotObject <- initializePlot(
     mappedData,
     watermark = watermark,
-    watermarkFormat = watermarkFormat,
-    watermarkEnabled = watermarkEnabled
+    watermarkFormat = watermarkFormat
   )
 
   # add x and y scale

@@ -35,7 +35,6 @@
 #' @param y2ScaleArgs list of arguments passed to `ggplot2::sec_axis()`, trans, break are set by code
 #' @param watermark Optional watermark text for this plot.
 #' @param watermarkFormat Optional list of watermark formatting values.
-#' @param watermarkEnabled Optional logical flag controlling watermark visibility for this plot.
 #'
 #' @return A `ggplot` object
 #' @examples
@@ -76,7 +75,6 @@ plotTimeProfile <- function(data = NULL, # nolint
                             y2ScaleArgs = list(),
                             watermark = NULL,
                             watermarkFormat = NULL,
-                            watermarkEnabled = NULL,
                             plotObject = NULL,
                             geomLineAttributes = getDefaultGeomAttributes("Line"),
                             geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
@@ -137,8 +135,7 @@ plotTimeProfile <- function(data = NULL, # nolint
       y2ScaleArgs = listMappedData$y2ScaleArgs,
       secAxis = listMappedData$secAxis,
       watermark = watermark,
-      watermarkFormat = watermarkFormat,
-      watermarkEnabled = watermarkEnabled
+      watermarkFormat = watermarkFormat
     )
 
   ## -- addLayers
@@ -490,16 +487,14 @@ plotTimeProfile <- function(data = NULL, # nolint
                                              y2ScaleArgs,
                                              secAxis,
                                              watermark,
-                                             watermarkFormat,
-                                             watermarkEnabled) {
+                                             watermarkFormat) {
   # mapping can not be set in ggplot as observed and simulated mappings may differ
   if (is.null(plotObject)) {
     plotObject <- initializePlot(
       mappedData = simMappedData %||% obsMappedData,
       setMapping = FALSE,
       watermark = watermark,
-      watermarkFormat = watermarkFormat,
-      watermarkEnabled = watermarkEnabled
+      watermarkFormat = watermarkFormat
     )
 
     # add y2 label to y2ScaleArgs

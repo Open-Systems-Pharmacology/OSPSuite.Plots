@@ -321,10 +321,13 @@ options(ospsuite.plots.defaultPercentiles = c(0.1, 0.5, 0.9))
 All plots in this package are created with
 [`ggplotWithWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/ggplotWithWatermark.md)
 instead of
-[`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html), which
-adds a watermark on print. The watermark is **enabled by default**;
-setting the option to `NULL` is treated the same as the default, so it
-still appears. You only need these options to customize or remove it.
+[`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html).
+Watermark settings are stored on the plot object and resolved at print
+time; rendering uses a panel annotation
+([`annotation_custom()`](https://ggplot2.tidyverse.org/reference/annotation_custom.html)).
+The watermark is **enabled by default**; setting the option to `NULL` is
+treated the same as the default, so it still appears. You only need
+these options to customize or remove it.
 
 ``` r
 
@@ -332,18 +335,23 @@ still appears. You only need these options to customize or remove it.
 options(ospsuite.plots.watermarkEnabled = FALSE)
 ```
 
-**Attention!** If you combine plots, e.g. with
-[`cowplot::plot_grid`](https://wilkelab.org/cowplot/reference/plot_grid.html),
-the default print function without watermark is called. In that case add
-the watermark with `addWatermark(plotObject)` before printing.
+**Attention!** If you combine plots manually (for example with
+[`cowplot::plot_grid()`](https://wilkelab.org/cowplot/reference/plot_grid.html)),
+the resulting combined object is no longer a `ggWatermark` object, so
+per-plot print dispatch is lost. In that case, add a watermark
+explicitly with `addWatermark(plotObject)` before printing.
 
 The watermark is controlled by three options:
 
 - `watermarkEnabled` (default `TRUE`): switch the watermark on or off.
 - `watermarkLabel` (default `"preliminary analysis"`): the text.
 - `watermarkFormat` (default
-  `list(x = 0.5, y = 0.5, color = "lightgrey", angle = 30, fontsize = 12, alpha = 0.7)`):
+  `list(x = 0.5, y = 0.5, color = "lightgrey", angle = 30, fontsize = 30, alpha = 0.7)`):
   the appearance.
+
+Most plot functions also provide per-plot overrides via the arguments
+`watermark`, `watermarkFormat`, and `watermarkEnabled`. If an argument
+is `NULL`, the current session option is used.
 
 ``` r
 
@@ -406,8 +414,10 @@ on to
 
 All plot functions listed below call internally the function
 [`initializePlot()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/initializePlot.md).
-This function constructs labels from the metadata and adds a watermark
-layer. It can also be used to create a customized ggplot.
+This function constructs labels from the metadata and initializes a
+[`ggplotWithWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/ggplotWithWatermark.md)
+object so watermark settings can be applied at print time. It can also
+be used to create a customized ggplot.
 
 ### 3.1 `plotTimeProfile()`
 

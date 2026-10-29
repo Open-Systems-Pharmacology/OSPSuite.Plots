@@ -19,7 +19,7 @@ vignette("Goodness of fit", package = "ospsuite.plots")
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9007</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,7 +81,10 @@ vignette("Goodness of fit", package = "ospsuite.plots")
 <span>  yScaleArgs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  distribution <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  meanFunction <span class="op">=</span> <span class="st">"auto"</span>,</span>
-<span>  residualScale <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  residualScale <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  watermark <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  watermarkFormat <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  watermarkEnabled <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -146,6 +149,18 @@ Shortcuts: <code>"normal"</code> (same as <code>"norm"</code>), <code>"lognormal
 <dt id="arg-residualscale">residualScale<a class="anchor" aria-label="anchor" href="#arg-residualscale"></a></dt>
 <dd><p>Deprecated. Retained for backward compatibility only.
 Non-<code>NULL</code> values trigger a warning and have no effect.</p></dd>
+
+
+<dt id="arg-watermark">watermark<a class="anchor" aria-label="anchor" href="#arg-watermark"></a></dt>
+<dd><p>Optional watermark text for this plot.</p></dd>
+
+
+<dt id="arg-watermarkformat">watermarkFormat<a class="anchor" aria-label="anchor" href="#arg-watermarkformat"></a></dt>
+<dd><p>Optional list of watermark formatting values.</p></dd>
+
+
+<dt id="arg-watermarkenabled">watermarkEnabled<a class="anchor" aria-label="anchor" href="#arg-watermarkenabled"></a></dt>
+<dd><p>Optional logical flag controlling watermark visibility for this plot.</p></dd>
 
 </dl></div>
     <div class="section level2">

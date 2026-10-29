@@ -17,7 +17,10 @@ createPlotObject(
   labelWrapWidth,
   geomPointAttributes,
   geomErrorbarAttributes,
-  facetScales = "free_y"
+  facetScales = "free_y",
+  watermark,
+  watermarkFormat,
+  watermarkEnabled
 )
 ```
 
@@ -71,6 +74,18 @@ createPlotObject(
 
   A character string indicating the scales used for facets. Defaults to
   "free_y".
+
+- watermark:
+
+  Optional watermark text for this plot.
+
+- watermarkFormat:
+
+  Optional list of watermark formatting values.
+
+- watermarkEnabled:
+
+  Optional logical flag controlling watermark visibility for this plot.
 
 ## Value
 

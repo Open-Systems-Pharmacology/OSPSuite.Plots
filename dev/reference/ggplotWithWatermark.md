@@ -8,7 +8,12 @@ transparency.
 ## Usage
 
 ``` r
-ggplotWithWatermark(...)
+ggplotWithWatermark(
+  ...,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
+)
 ```
 
 ## Arguments
@@ -19,6 +24,22 @@ ggplotWithWatermark(...)
   [`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html),
   such as data and aesthetics. This allows for flexibility in creating
   different types of plots.
+
+- watermark:
+
+  Optional watermark text for this plot. If `NULL`, the session option
+  is used at print time.
+
+- watermarkFormat:
+
+  Optional list of watermark formatting values (`x`, `y`, `angle`,
+  `fontsize`, `color`, `alpha`). If provided, it is merged with current
+  watermark format options at print time.
+
+- watermarkEnabled:
+
+  Optional logical flag controlling watermark visibility for this plot.
+  If `NULL`, the session option is used at print time.
 
 ## Value
 

@@ -28,6 +28,9 @@ plotTimeProfile(
   yScaleArgs = list(),
   y2Scale = AxisScales$linear,
   y2ScaleArgs = list(),
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL,
   plotObject = NULL,
   geomLineAttributes = getDefaultGeomAttributes("Line"),
   geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
@@ -115,6 +118,18 @@ plotTimeProfile(
   list of arguments passed to
   [`ggplot2::sec_axis()`](https://ggplot2.tidyverse.org/reference/sec_axis.html),
   trans, break are set by code
+
+- watermark:
+
+  Optional watermark text for this plot.
+
+- watermarkFormat:
+
+  Optional list of watermark formatting values.
+
+- watermarkEnabled:
+
+  Optional logical flag controlling watermark visibility for this plot.
 
 - plotObject:
 

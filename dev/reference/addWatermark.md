@@ -7,7 +7,12 @@ angle, font size, color, and transparency.
 ## Usage
 
 ``` r
-addWatermark(plotObject)
+addWatermark(
+  plotObject,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
+)
 ```
 
 ## Arguments
@@ -15,6 +20,18 @@ addWatermark(plotObject)
 - plotObject:
 
   A ggplot object to which the watermark will be added.
+
+- watermark:
+
+  Optional watermark text.
+
+- watermarkFormat:
+
+  Optional watermark format list.
+
+- watermarkEnabled:
+
+  Optional watermark enabled flag.
 
 ## Value
 

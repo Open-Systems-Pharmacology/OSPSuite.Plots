@@ -23,7 +23,10 @@ plotForest(
   withTable = is.null(xFacetColumn),
   geomPointAttributes = getDefaultGeomAttributes("Point"),
   geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
-  facetScales = c("free_y", "free")
+  facetScales = c("free_y", "free"),
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
 )
 ```
 
@@ -106,6 +109,18 @@ plotForest(
 
   A character string indicating the scales used for facets. Options are
   "free_y" or "free".
+
+- watermark:
+
+  Optional watermark text for this plot.
+
+- watermarkFormat:
+
+  Optional list of watermark formatting values.
+
+- watermarkEnabled:
+
+  Optional logical flag controlling watermark visibility for this plot.
 
 ## Value
 

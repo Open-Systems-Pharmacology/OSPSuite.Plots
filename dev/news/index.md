@@ -12,6 +12,11 @@
   Distribution-fit and mean-line overlays in
   [`plotHistogram()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotHistogram.md)
   likewise use a blank legend key (#137).
+- Watermarks are now attached per plot as panel-annotation layers
+  (instead of using
+  [`cowplot::ggdraw()`](https://wilkelab.org/cowplot/reference/ggdraw.html)),
+  including support for per-plot overrides via `watermark` and
+  `watermarkFormat` with `NULL` values falling back to session options.
 - Added `showLLOQ` to
   [`plotTimeProfile()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plotTimeProfile.md)
   and

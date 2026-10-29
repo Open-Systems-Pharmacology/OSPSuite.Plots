@@ -18,7 +18,10 @@ plotQQ(
   geomQQAttributes = list(),
   geomQQLineAttributes = geomQQAttributes,
   groupAesthetics = c("colour", "fill", "shape"),
-  residualScale = NULL
+  residualScale = NULL,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
 )
 ```
 
@@ -74,6 +77,18 @@ plotQQ(
 
   Deprecated. Retained for backward compatibility only. Non-`NULL`
   values trigger a warning and have no effect.
+
+- watermark:
+
+  Optional watermark text for this plot.
+
+- watermarkFormat:
+
+  Optional list of watermark formatting values.
+
+- watermarkEnabled:
+
+  Optional logical flag controlling watermark visibility for this plot.
 
 ## Value
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9007</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +52,7 @@
 <h3 id="minor-improvements-and-bug-fixes-development-version">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-development-version"></a></h3>
 <ul><li>
 <code><a href="../reference/geom_errorbar_osp.html">geom_errorbar_osp()</a></code> now renders a horizontal line with end caps as its default legend key glyph (<code>draw_key_errorbar_osp</code>). Forest plots inherit this default. Time-profile and Y-vs-X plots override it to blank so the error-bar glyph does not duplicate the point/line legend entries. Distribution-fit and mean-line overlays in <code><a href="../reference/plotHistogram.html">plotHistogram()</a></code> likewise use a blank legend key (#137).</li>
+<li>Watermarks are now attached per plot as panel-annotation layers (instead of using <code><a href="https://wilkelab.org/cowplot/reference/ggdraw.html" class="external-link">cowplot::ggdraw()</a></code>), including support for per-plot overrides via <code>watermark</code> and <code>watermarkFormat</code> with <code>NULL</code> values falling back to session options.</li>
 <li>Added <code>showLLOQ</code> to <code><a href="../reference/plotTimeProfile.html">plotTimeProfile()</a></code> and <code><a href="../reference/plotYVsX.html">plotYVsX()</a></code> (and therefore <code><a href="../reference/plotPredVsObs.html">plotPredVsObs()</a></code>, <code><a href="../reference/plotResVsCov.html">plotResVsCov()</a></code>, and <code><a href="../reference/plotRatioVsCov.html">plotRatioVsCov()</a></code>) to control LLOQ display per plot. Setting <code>showLLOQ = FALSE</code> hides both LLOQ lines and below-LLOQ point fading without modifying the input data (#148).</li>
 </ul></div>
 </div>

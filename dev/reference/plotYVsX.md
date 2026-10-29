@@ -36,6 +36,9 @@ plotYVsX(
   xScaleArgs = list(),
   yScale = AxisScales$log,
   yScaleArgs = list(),
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL,
   observedDataDirection = "y",
   lloqOnBothAxes = FALSE,
   showLLOQ = TRUE,
@@ -152,6 +155,18 @@ plotYVsX(
   [`ggplot2::scale_y_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
   or
   [`ggplot2::scale_y_log10()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
+
+- watermark:
+
+  Optional watermark text for this plot.
+
+- watermarkFormat:
+
+  Optional list of watermark formatting values.
+
+- watermarkEnabled:
+
+  Optional logical flag controlling watermark visibility for this plot.
 
 - observedDataDirection:
 

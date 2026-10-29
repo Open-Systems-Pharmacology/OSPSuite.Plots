@@ -24,7 +24,10 @@ plotRangeDistribution(
   xScaleArgs = list(),
   geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
   geomLineAttributes = getDefaultGeomAttributes("Line"),
-  identifier = "IndividualId"
+  identifier = "IndividualId",
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
 )
 ```
 
@@ -123,6 +126,18 @@ plotRangeDistribution(
 - identifier:
 
   columnName of individual identifiers, default "IndividualId"
+
+- watermark:
+
+  Optional watermark text for this plot.
+
+- watermarkFormat:
+
+  Optional list of watermark formatting values.
+
+- watermarkEnabled:
+
+  Optional logical flag controlling watermark visibility for this plot.
 
 ## Value
 

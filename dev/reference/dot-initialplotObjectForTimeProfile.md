@@ -14,7 +14,10 @@ initializes plot object and set scaling
   yScale,
   yScaleArgs,
   y2ScaleArgs,
-  secAxis
+  secAxis,
+  watermark,
+  watermarkFormat,
+  watermarkEnabled
 )
 ```
 
@@ -67,6 +70,18 @@ initializes plot object and set scaling
   list of arguments passed to
   [`ggplot2::sec_axis()`](https://ggplot2.tidyverse.org/reference/sec_axis.html),
   trans, break are set by code
+
+- watermark:
+
+  Optional watermark text for this plot.
+
+- watermarkFormat:
+
+  Optional list of watermark formatting values.
+
+- watermarkEnabled:
+
+  Optional logical flag controlling watermark visibility for this plot.
 
 ## Value
 

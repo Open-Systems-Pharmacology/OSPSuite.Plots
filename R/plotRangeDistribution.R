@@ -21,6 +21,8 @@
 #' @param geomRibbonAttributes A list of attributes for the ribbon geometry in the plot, allowing customization of the visual appearance, such as colors and transparency.
 #' @param geomLineAttributes A list of attributes for the line geometry in the plot, allowing customization of line characteristics such as color, size, and type.
 #' @param identifier columnName of individual identifiers, default "IndividualId"
+#' @param watermark Optional watermark text for this plot.
+#' @param watermarkFormat Optional list of watermark formatting values.
 #' @return A ggplot object representing the range plot. The returned object can be further customized or rendered using `print()` or similar functions.
 #' @export
 #' @family plot functions
@@ -42,7 +44,9 @@ plotRangeDistribution <- function(
   xScaleArgs = list(), # nolint
   geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
   geomLineAttributes = getDefaultGeomAttributes("Line"),
-  identifier = "IndividualId"
+  identifier = "IndividualId",
+  watermark = NULL,
+  watermarkFormat = NULL
 ) {
   ## Validation -----------
   checkmate::assertDataFrame(data, min.rows = 1)
@@ -89,7 +93,11 @@ plotRangeDistribution <- function(
   }
 
   #-  create default plot ------
-  plotObject <- initializePlot(mappedData)
+  plotObject <- initializePlot(
+    mappedData,
+    watermark = watermark,
+    watermarkFormat = watermarkFormat
+  )
 
   # add x and y scale
   plotObject <- addXYScale(

@@ -30,8 +30,9 @@ plotResVsCov <- function(
     warning(messages$warningResidualScaleDeprecated())
   }
 
-  if (!is.null(yScale))
+  if (!is.null(yScale)) {
     yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  }
 
   plotObject <- plotYVsX(
     data = data,
@@ -79,10 +80,12 @@ plotRatioVsCov <- function(
     warning(messages$warningResidualScaleDeprecated())
   }
 
-  if (!is.null(xScale))
+  if (!is.null(xScale)) {
     xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
-  if (!is.null(yScale))
+  }
+  if (!is.null(yScale)) {
     yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  }
 
   yDisplayAsAbsolute <- FALSE
 
@@ -187,6 +190,8 @@ plotPredVsObs <- function(
 #'   and proportions within comparison lines. Common grouping aesthetics include `"colour"`, `"fill"`, `"shape"`.
 #' @param residualScale Deprecated. Retained for backward compatibility only.
 #'   Non-`NULL` values trigger a warning and have no effect.
+#' @param watermark Optional watermark text for this plot.
+#' @param watermarkFormat Optional list of watermark formatting values.
 #'
 #' @return A `ggplot` object representing the plotted data.
 #' @export
@@ -212,6 +217,8 @@ plotYVsX <- function(
   xScaleArgs = list(),
   yScale = AxisScales$log,
   yScaleArgs = list(),
+  watermark = NULL,
+  watermarkFormat = NULL,
   observedDataDirection = "y",
   lloqOnBothAxes = FALSE,
   showLLOQ = TRUE,
@@ -223,10 +230,12 @@ plotYVsX <- function(
   if (is.double(comparisonLineVector)) {
     comparisonLineVector <- as.list(comparisonLineVector)
   }
-  if (!is.null(xScale))
+  if (!is.null(xScale)) {
     xScale <- match.arg(xScale, c(AxisScales$linear, AxisScales$log))
-  if (!is.null(yScale))
+  }
+  if (!is.null(yScale)) {
     yScale <- match.arg(yScale, c(AxisScales$linear, AxisScales$log))
+  }
   .validatePlotYXsXInputs(
     data = data,
     metaData = metaData,
@@ -265,7 +274,11 @@ plotYVsX <- function(
   mappedData$addMetaData(metaData = metaData)
 
   #-  initialize plot
-  plotObject <- initializePlot(mappedData = mappedData)
+  plotObject <- initializePlot(
+    mappedData = mappedData,
+    watermark = watermark,
+    watermarkFormat = watermarkFormat
+  )
 
   #----- Build layers
   # Each new layer is added on top of previous

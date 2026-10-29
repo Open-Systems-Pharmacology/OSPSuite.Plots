@@ -16,7 +16,10 @@ createPlotObject(
   labelWrapWidth,
   geomPointAttributes,
   geomErrorbarAttributes,
-  facetScales = "free_y"
+  facetScales = "free_y",
+  watermark,
+  watermarkFormat,
+  watermarkEnabled
 )
 }
 \arguments{
@@ -43,6 +46,12 @@ createPlotObject(
 \item{geomErrorbarAttributes}{A list of attributes for the error bar geometry.}
 
 \item{facetScales}{A character string indicating the scales used for facets. Defaults to "free_y".}
+
+\item{watermark}{Optional watermark text for this plot.}
+
+\item{watermarkFormat}{Optional list of watermark formatting values.}
+
+\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 A ggplot object representing the main plot.

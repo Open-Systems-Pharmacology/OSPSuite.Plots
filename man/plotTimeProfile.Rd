@@ -17,6 +17,9 @@ plotTimeProfile(
   yScaleArgs = list(),
   y2Scale = AxisScales$linear,
   y2ScaleArgs = list(),
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL,
   plotObject = NULL,
   geomLineAttributes = getDefaultGeomAttributes("Line"),
   geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
@@ -56,6 +59,12 @@ use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after s
 \item{y2Scale}{either 'linear' the secondary axis is displayed linear, or 'log' secondary axis is displayed with log scale}
 
 \item{y2ScaleArgs}{list of arguments passed to \code{ggplot2::sec_axis()}, trans, break are set by code}
+
+\item{watermark}{Optional watermark text for this plot.}
+
+\item{watermarkFormat}{Optional list of watermark formatting values.}
+
+\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 
 \item{plotObject}{An optional \code{ggplot} object on which to add the plot layers}
 

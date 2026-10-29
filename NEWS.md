@@ -3,6 +3,7 @@
 ## Minor improvements and bug fixes
 
 - `geom_errorbar_osp()` now renders a horizontal line with end caps as its default legend key glyph (`draw_key_errorbar_osp`). Forest plots inherit this default. Time-profile and Y-vs-X plots override it to blank so the error-bar glyph does not duplicate the point/line legend entries. Distribution-fit and mean-line overlays in `plotHistogram()` likewise use a blank legend key (#137).
+- Watermarks are now attached per plot as panel-annotation layers (instead of using `cowplot::ggdraw()`), including support for per-plot overrides via `watermark` and `watermarkFormat` with `NULL` values falling back to session options.
 - Added `showLLOQ` to `plotTimeProfile()` and `plotYVsX()` (and therefore `plotPredVsObs()`, `plotResVsCov()`, and `plotRatioVsCov()`) to control LLOQ display per plot. Setting `showLLOQ = FALSE` hides both LLOQ lines and below-LLOQ point fading without modifying the input data (#148).
 
 # ospsuite.plots 1.3.0

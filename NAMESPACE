@@ -2,8 +2,6 @@
 
 S3method(ggplot_add,geom_point_osp_layer)
 S3method(ggplot_build,osp_ggplot)
-S3method(plot,ggWatermark)
-S3method(print,ggWatermark)
 export(AxisScales)
 export(BINNINGMODE)
 export(CombinedPlot)

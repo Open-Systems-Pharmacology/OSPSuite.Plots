@@ -4,10 +4,21 @@
 \alias{addWatermark}
 \title{Add a watermark to a ggplot object}
 \usage{
-addWatermark(plotObject)
+addWatermark(
+  plotObject,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
+)
 }
 \arguments{
 \item{plotObject}{A ggplot object to which the watermark will be added.}
+
+\item{watermark}{Optional watermark text.}
+
+\item{watermarkFormat}{Optional watermark format list.}
+
+\item{watermarkEnabled}{Optional watermark enabled flag.}
 }
 \value{
 A ggplot object with a watermark drawn on it. The watermark is displayed according to the specified options.

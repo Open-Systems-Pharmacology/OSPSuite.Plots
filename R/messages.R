@@ -40,12 +40,12 @@ messages$warningTablesOnlyWithoutFaceting <- function() {
 
 messages$warningUpdatedFilename <- function(filename, initialFilename) {
   paste0(
-    "Exported filename '", 
-    initialFilename, 
-    "' included forbidden characters and was replaced by '", 
-    filename, 
+    "Exported filename '",
+    initialFilename,
+    "' included forbidden characters and was replaced by '",
+    filename,
     "'"
-    )
+  )
 }
 
 messages$warningDeviceMayNotBeSupported <- function(device) {
@@ -126,4 +126,8 @@ messages$errorObservedPredictedMissingDisplayAesthetic <- function() {
 
 messages$warningInvalidShapeCode <- function(shape) {
   paste0("Invalid shape code: ", shape, ". Using default square.")
+}
+
+messages$errorInvalidWatermarkArgument <- function() {
+  "Invalid value for argument 'watermark'. Expected NULL, FALSE, or a single character string label."
 }

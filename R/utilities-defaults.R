@@ -411,7 +411,7 @@ getDefaultOptions <- function() {
       y = 0.5,
       color = "lightgrey",
       angle = 30,
-      fontsize = 12,
+      fontsize = 30,
       alpha = 0.7
     ),
     # geom attributes

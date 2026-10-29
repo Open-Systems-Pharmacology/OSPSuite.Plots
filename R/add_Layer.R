@@ -4,10 +4,15 @@
 #'
 #' @param mappedData A `MappedData` object.
 #' @param setMapping A boolean indicating if TRUE (default) mapping is passed to ggplot; otherwise, mapping will be used only to create labels.
+#' @param watermark Optional watermark text for this plot.
+#' @param watermarkFormat Optional list of watermark formatting values.
 #'
 #' @return A `ggplot` object.
 #' @export
-initializePlot <- function(mappedData = NULL, setMapping = TRUE) {
+initializePlot <- function(mappedData = NULL,
+                           setMapping = TRUE,
+                           watermark = NULL,
+                           watermarkFormat = NULL) {
   # Validation
   checkmate::assertClass(mappedData, classes = "MappedData", null.ok = TRUE)
   checkmate::assertFlag(setMapping)
@@ -18,7 +23,9 @@ initializePlot <- function(mappedData = NULL, setMapping = TRUE) {
   }
   plotObject <- ggplotWithWatermark(
     data = mappedData$dataForPlot,
-    mapping = mappingToSet
+    mapping = mappingToSet,
+    watermark = watermark,
+    watermarkFormat = watermarkFormat
   ) +
     theme_osp()
 

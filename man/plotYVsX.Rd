@@ -25,6 +25,9 @@ plotYVsX(
   xScaleArgs = list(),
   yScale = AxisScales$log,
   yScaleArgs = list(),
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL,
   observedDataDirection = "y",
   lloqOnBothAxes = FALSE,
   showLLOQ = TRUE,
@@ -74,6 +77,12 @@ Non-\code{NULL} values trigger a warning and have no effect.}
 \item{yScale}{either 'linear' then \code{ggplot2::scale_y_continuous()} or 'log' then \code{ggplot2::scale_y_log10()} is used}
 
 \item{yScaleArgs}{list of arguments passed to \code{ggplot2::scale_y_continuous()} or \code{ggplot2::scale_y_log10()}}
+
+\item{watermark}{Optional watermark text for this plot.}
+
+\item{watermarkFormat}{Optional list of watermark formatting values.}
+
+\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 
 \item{observedDataDirection}{Either "x" or "y", defining the direction of observed data.}
 

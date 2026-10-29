@@ -147,3 +147,28 @@ test_that("plot histogram works for categoricalData", {
     )
   )
 })
+
+test_that("plotHistogram applies per-plot watermark arguments", {
+  oldLabel <- getOspsuite.plots.option(OptionKeys$watermarkLabel)
+  oldEnabled <- getOspsuite.plots.option(OptionKeys$watermarkEnabled)
+  on.exit({
+    setOspsuite.plots.option(OptionKeys$watermarkLabel, oldLabel)
+    setOspsuite.plots.option(OptionKeys$watermarkEnabled, oldEnabled)
+  })
+
+  setOspsuite.plots.option(OptionKeys$watermarkLabel, "GLOBAL_HIST")
+  setOspsuite.plots.option(OptionKeys$watermarkEnabled, TRUE)
+
+  p <- plotHistogram(
+    data = mtcars,
+    mapping = aes(x = mpg),
+    watermark = "LOCAL_HIST"
+  )
+
+  tempSvg <- tempfile(fileext = ".svg")
+  suppressMessages(ggsave(tempSvg, plot = p, device = "svg"))
+  svgContent <- readLines(tempSvg)
+
+  expect_true(any(grepl("LOCAL_HIST", svgContent, fixed = TRUE)))
+  expect_false(any(grepl("GLOBAL_HIST", svgContent, fixed = TRUE)))
+})

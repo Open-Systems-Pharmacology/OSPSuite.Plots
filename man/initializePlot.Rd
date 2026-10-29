@@ -4,12 +4,24 @@
 \alias{initializePlot}
 \title{Initialize Plot}
 \usage{
-initializePlot(mappedData = NULL, setMapping = TRUE)
+initializePlot(
+  mappedData = NULL,
+  setMapping = TRUE,
+  watermark = NULL,
+  watermarkFormat = NULL,
+  watermarkEnabled = NULL
+)
 }
 \arguments{
 \item{mappedData}{A \code{MappedData} object.}
 
 \item{setMapping}{A boolean indicating if TRUE (default) mapping is passed to ggplot; otherwise, mapping will be used only to create labels.}
+
+\item{watermark}{Optional watermark text for this plot.}
+
+\item{watermarkFormat}{Optional list of watermark formatting values.}
+
+\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 A \code{ggplot} object.

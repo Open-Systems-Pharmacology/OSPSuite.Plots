@@ -20,6 +20,8 @@
 #'   `'auto'` selects `'mean'` for normal distribution, `'geomean'` for lognormal, `'median'` for other distributions, and `'none'` when no distribution fit.
 #' @param residualScale Deprecated. Retained for backward compatibility only.
 #'   Non-`NULL` values trigger a warning and have no effect.
+#' @param watermark Optional watermark text for this plot.
+#' @param watermarkFormat Optional list of watermark formatting values.
 #'
 #' @return A `ggplot` object.
 #' @export
@@ -37,7 +39,9 @@ plotHistogram <- function(
   yScaleArgs = list(),
   distribution = "none",
   meanFunction = "auto",
-  residualScale = NULL
+  residualScale = NULL,
+  watermark = NULL,
+  watermarkFormat = NULL
 ) {
   if (!is.null(residualScale)) {
     warning(messages$warningResidualScaleDeprecated())
@@ -88,7 +92,9 @@ plotHistogram <- function(
 
   #-  initialize plot
   plotObject <- initializePlot(
-    mappedData
+    mappedData,
+    watermark = watermark,
+    watermarkFormat = watermarkFormat
   )
 
   if (plotAsFrequency) {

@@ -81,6 +81,10 @@ reference:
     desc: "Per-plot OSP color and fill scales"
     contents:
       - has_concept("scales")
+  - title: "Legend helpers"
+    desc: "Functions to wrap long legend entries"
+    contents:
+      - has_concept("legend helpers")
   - title: "Constants"
     desc: "Enumeration constants for OSPSuite.plots options and scaling."
     contents:

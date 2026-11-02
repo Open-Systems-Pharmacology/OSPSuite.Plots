@@ -93,7 +93,9 @@ wrapLegendLabels <- function(plotObject, maxWidth) {
         function(scale) aesthetic %in% scale$aesthetics,
         logical(1)
       ))
-      plotObject$scales$scales[[scaleIndex]]$labels <- wrapLabels(existingScale$labels)
+      if (!is.null(existingScale$labels)) {
+        plotObject$scales$scales[[scaleIndex]]$labels <- wrapLabels(existingScale$labels)
+      }
       next
     }
 
@@ -189,9 +191,9 @@ legendWidthFromPlotDimensions <- function(plotObject,
   checkmate::assertNumber(legendFraction, lower = 0, upper = 1)
   checkmate::assertNumber(characterWidthRatio, lower = 0.01, upper = 2)
 
-  # Base the resolved theme on the OSPSuite theme rather than the global
-  # ggplot2 state, then overlay the plot's own theme settings.
-  themeOfPlot <- utils::modifyList(theme_osp(), plotObject$theme)
+  # Resolve the theme used for rendering; complete per-plot themes override
+  # the global theme, while incomplete themes inherit from it.
+  themeOfPlot <- ggplot2::theme_get() + plotObject$theme
   legendPosition <- themeOfPlot$legend.position
 
   legendFraction <- if (legendPosition %in% c("top", "bottom")) 1 else legendFraction
@@ -286,7 +288,9 @@ wrapLegend <- function(plotObject, plotWidth = NULL, unit = "cm", dpi = 320, ...
     mappings,
     function(mapping) ggplot2::standardise_aes_names(names(mapping))
   )))
-  return(intersect(.legendAesthetics, aestheticNames))
+  return(aestheticNames[
+    sub("_ggnewscale_[0-9]+$", "", aestheticNames) %in% .legendAesthetics
+  ])
 }
 
 #' Resolve the labels displayed by a scale for given breaks
@@ -370,12 +374,12 @@ wrapLegend <- function(plotObject, plotWidth = NULL, unit = "cm", dpi = 320, ...
     colour = if (ospStyle) {
       scale_colour_osp(labels = labels)
     } else {
-      ggplot2::scale_colour_hue(labels = labels)
+      ggplot2::scale_colour_discrete(labels = labels)
     },
     fill = if (ospStyle) {
       scale_fill_osp(labels = labels)
     } else {
-      ggplot2::scale_fill_hue(labels = labels)
+      ggplot2::scale_fill_discrete(labels = labels)
     },
     shape = if (ospStyle) {
       scale_shape_osp(labels = labels)

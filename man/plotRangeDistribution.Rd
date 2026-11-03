@@ -22,8 +22,7 @@ plotRangeDistribution(
   geomLineAttributes = getDefaultGeomAttributes("Line"),
   identifier = "IndividualId",
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 )
 }
 \arguments{
@@ -68,8 +67,6 @@ Default is \code{BINNINGMODE$number}.
 \item{watermark}{Optional watermark text for this plot.}
 
 \item{watermarkFormat}{Optional list of watermark formatting values.}
-
-\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 A ggplot object representing the range plot. The returned object can be further customized or rendered using \code{print()} or similar functions.

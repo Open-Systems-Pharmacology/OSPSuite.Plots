@@ -4,21 +4,15 @@
 \alias{addWatermark}
 \title{Add a watermark to a ggplot object}
 \usage{
-addWatermark(
-  plotObject,
-  watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
-)
+addWatermark(plotObject, watermark = NULL, watermarkFormat = NULL)
 }
 \arguments{
 \item{plotObject}{A ggplot object to which the watermark will be added.}
 
-\item{watermark}{Optional watermark text.}
+\item{watermark}{Optional watermark text. If \code{NULL}, the session option is used.
+Set to \code{FALSE} to disable the watermark for this plot.}
 
 \item{watermarkFormat}{Optional watermark format list.}
-
-\item{watermarkEnabled}{Optional watermark enabled flag.}
 }
 \value{
 A ggplot object with a watermark drawn on it. The watermark is displayed according to the specified options.
@@ -53,8 +47,6 @@ print(p_custom)
 }
 \seealso{
 Other watermark:
-\code{\link[=ggplotWithWatermark]{ggplotWithWatermark()}},
-\code{\link[=plot.ggWatermark]{plot.ggWatermark()}},
-\code{\link[=print.ggWatermark]{print.ggWatermark()}}
+\code{\link[=ggplotWithWatermark]{ggplotWithWatermark()}}
 }
 \concept{watermark}

@@ -15,8 +15,7 @@
 Character vector of wrapped labels, \code{NA} labels are kept.
 }
 \description{
-Words are wrapped with \code{\link[=strwrap]{strwrap()}}; tokens without spaces that are longer
-than \code{maxWidth} (e.g. compound output paths containing \code{|}) are hard-split
-into chunks of at most \code{maxWidth} characters. Lines are joined with \code{"\\n"}.
+Words are wrapped with \code{\link[stringr:str_wrap]{stringr::str_wrap()}} and
+lines are joined with \code{"\\n"}.
 }
 \keyword{internal}

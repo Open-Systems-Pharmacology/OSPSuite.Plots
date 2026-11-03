@@ -32,6 +32,7 @@ Imports:
     R6,
     rlang,
     scales,
+    stringr,
     tidyr
 Suggests:
     devtools (>= 2.4.5),

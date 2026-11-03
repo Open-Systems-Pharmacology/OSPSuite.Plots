@@ -4,23 +4,24 @@
 \alias{wrapLegend}
 \title{Wrap long legend entries based on the plot dimensions}
 \usage{
-wrapLegend(plotObject, plotWidth = NULL, unit = "cm", dpi = 320, ...)
+wrapLegend(plotObject, plotWidth = NULL, unit = NULL, dpi = NULL, ...)
 }
 \arguments{
 \item{plotObject}{A \code{ggplot} object, e.g. created by \code{\link[=plotTimeProfile]{plotTimeProfile()}},
 or a \code{CombinedPlot} object whose main plot is updated.}
 
-\item{plotWidth}{Width of the exported plot. If \code{NULL}, the default export
-width option \code{ospsuite.plots.exportWidth} is used.}
+\item{plotWidth}{Width of the exported plot.
+If \code{NULL}, the default export width option \code{exportWidth} is used.}
 
-\item{unit}{Unit of \code{plotWidth}: one of \code{"cm"}, \code{"in"}, \code{"mm"} or \code{"px"}.}
+\item{unit}{Unit of \code{plotWidth}: one of \code{"cm"}, \code{"in"}, \code{"mm"} or \code{"px"}.
+If \code{NULL}, the default export width option \code{exportUnits} is used.}
 
 \item{dpi}{Resolution in dots per inch; used to convert \code{plotWidth} to
-physical inches when \code{unit = "px"}.}
+physical inches when \code{unit = "px"}.
+If \code{NULL}, the default export DPI option \code{exportDpi} is used.}
 
 \item{...}{Additional arguments passed on to
-\code{\link[=legendWidthFromPlotDimensions]{legendWidthFromPlotDimensions()}} (\code{fontSize}, \code{legendFraction},
-\code{characterWidthRatio}).}
+\code{\link[=legendWidthFromPlotDimensions]{legendWidthFromPlotDimensions()}} (\code{legendFractionHorizontal}, \code{legendFractionVertical}).}
 }
 \value{
 The \code{ggplot} object with wrapped legend labels (the input object is

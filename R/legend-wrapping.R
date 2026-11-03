@@ -65,7 +65,10 @@ wrapLegendLabels <- function(plotObject, maxWidth) {
   if (inherits(plotObject, "CombinedPlot")) {
     # clone so that the input CombinedPlot is not modified
     plotClone <- plotObject$clone()
-    plotClone$plotObject <- wrapLegendLabels(plotObject$plotObject, maxWidth = maxWidth)
+    plotClone$plotObject <- wrapLegendLabels(
+      plotObject$plotObject,
+      maxWidth = maxWidth
+    )
     return(plotClone)
   }
   checkmate::assertClass(plotObject, "gg")
@@ -94,22 +97,28 @@ wrapLegendLabels <- function(plotObject, maxWidth) {
         logical(1)
       ))
       if (!is.null(existingScale$labels)) {
-        plotObject$scales$scales[[scaleIndex]]$labels <- wrapLabels(existingScale$labels)
+        plotObject$scales$scales[[scaleIndex]]$labels <- wrapLabels(
+          existingScale$labels
+        )
       }
       next
     }
 
     # Discrete scales are the only ones with entry labels; a continuous
     # colour/fill mapping without an explicit scale is left untouched.
-    if (aesthetic %in% c("colour", "fill") && !aesthetic %in% discreteAesthetics) {
+    isContinuousColorScale <- aesthetic %in%
+      c("colour", "fill") &&
+      !aesthetic %in% discreteAesthetics
+    if (isContinuousColorScale) {
       next
     }
 
-    plotObject <- plotObject + .legendScaleWithWrappedLabels(
-      aesthetic = aesthetic,
-      labels = wrapLabels(NULL),
-      ospStyle = isOspPlot
-    )
+    plotObject <- plotObject +
+      .legendScaleWithWrappedLabels(
+        aesthetic = aesthetic,
+        labels = wrapLabels(NULL),
+        ospStyle = isOspPlot
+      )
   }
 
   return(plotObject)
@@ -125,27 +134,23 @@ wrapLegendLabels <- function(plotObject, maxWidth) {
 #' The calculation is based on:
 #'
 #' * the legend position of the plot: legends on the left or right side are
-#'   given at most `legendFraction` of the total plot width (default 40%),
-#'   legends at the top or bottom are given the full plot width;
-#' * the legend font size of the plot theme (`legend.text`, in points) unless
-#'   `fontSize` is provided;
-#' * the heuristic that the average width of a character of a proportional
-#'   font is `characterWidthRatio` times the font size.
+#'   given at most `legendFractionHorizontal` of the total plot width (default 40%),
+#'   legends at the top or bottom are given `legendFractionVertical` (default 100%);
+#' * the legend font size;
 #'
 #' @param plotObject A `ggplot` object, e.g. created by [plotTimeProfile()],
 #'   or a `CombinedPlot` object whose main plot is used.
-#' @param plotWidth Width of the exported plot. If `NULL`, the default export
-#'   width option `ospsuite.plots.exportWidth` is used.
+#' @param plotWidth Width of the exported plot.
+#' If `NULL`, the default export width option `exportWidth` is used.
 #' @param unit Unit of `plotWidth`: one of `"cm"`, `"in"`, `"mm"` or `"px"`.
+#' If `NULL`, the default export width option `exportUnits` is used.
 #' @param dpi Resolution in dots per inch; used to convert `plotWidth` to
 #'   physical inches when `unit = "px"`.
-#' @param fontSize Legend font size in points. If `NULL` (default), the size
-#'   is taken from the `legend.text` element of the plot theme.
-#' @param legendFraction Maximum fraction of the total plot width available to
-#'   legends on the left or right side. Ignored for top/bottom legends, which
-#'   may use the full width.
-#' @param characterWidthRatio Average character width as a fraction of the
-#'   font size; increase to wrap earlier, decrease to wrap later.
+#' If `NULL`, the default export DPI option `exportDpi` is used.
+#' @param legendFractionHorizontal Maximum fraction of the total plot width available to
+#'   legends on the left or right side. Ignored for top/bottom legends.
+#' @param legendFractionVertical Maximum fraction of the total plot width available to
+#'   legends on the top or bottom side. Ignored for left/right and inside legends.
 #'
 #' @return A single integer, the maximum number of characters per legend line
 #'   (at least 1).
@@ -169,47 +174,57 @@ wrapLegendLabels <- function(plotObject, maxWidth) {
 #'
 #' @export
 #' @family legend helpers
-legendWidthFromPlotDimensions <- function(plotObject,
-                                          plotWidth = NULL,
-                                          unit = "cm",
-                                          dpi = 320,
-                                          fontSize = NULL,
-                                          legendFraction = 0.4,
-                                          characterWidthRatio = 0.55) {
+legendWidthFromPlotDimensions <- function(
+  plotObject,
+  plotWidth = NULL,
+  unit = NULL,
+  dpi = NULL,
+  legendFractionHorizontal = 0.4,
+  legendFractionVertical = 1
+) {
   if (inherits(plotObject, "CombinedPlot")) {
     plotObject <- plotObject$plotObject
   }
   checkmate::assertClass(plotObject, "gg")
-  if (is.null(plotWidth)) {
-    plotWidth <- getOspsuite.plots.option(optionKey = OptionKeys$exportWidth)
-  }
-  checkmate::assertNumber(plotWidth, lower = 0)
+  plotWidth <- plotWidth %||%
+    getOspsuite.plots.option(optionKey = OptionKeys$exportWidth)
+  unit <- unit %||%
+    getOspsuite.plots.option(optionKey = OptionKeys$exportUnits)
   unit <- tolower(unit)
+  dpi <- dpi %||%
+    getOspsuite.plots.option(optionKey = OptionKeys$exportDpi)
+
+  checkmate::assertNumber(plotWidth, lower = 0)
   checkmate::assertChoice(unit, choices = c("cm", "in", "mm", "px"))
   checkmate::assertNumber(dpi, lower = 1)
-  checkmate::assertNumber(fontSize, lower = 1, null.ok = TRUE)
-  checkmate::assertNumber(legendFraction, lower = 0, upper = 1)
-  checkmate::assertNumber(characterWidthRatio, lower = 0.01, upper = 2)
+  checkmate::assertNumber(legendFractionHorizontal, lower = 0)
+  checkmate::assertNumber(legendFractionVertical, lower = 0)
 
   # Resolve the theme used for rendering; complete per-plot themes override
   # the global theme, while incomplete themes inherit from it.
   themeOfPlot <- ggplot2::theme_get() + plotObject$theme
   legendPosition <- themeOfPlot$legend.position
+  fontSize <- .legendTextFontSize(themeOfPlot)
 
-  legendFraction <- if (legendPosition %in% c("top", "bottom")) 1 else legendFraction
-  fontSize <- fontSize %||% .legendTextFontSize(themeOfPlot)
+  legendFraction <- legendFractionHorizontal
+  if (legendPosition %in% c("top", "bottom")) {
+    legendFraction <- legendFractionVertical
+  }
 
-  plotWidthInches <- switch(unit,
+  plotWidthInches <- switch(
+    unit,
     cm = plotWidth / 2.54,
     "in" = plotWidth,
     mm = plotWidth / 25.4,
     px = plotWidth / dpi
   )
   availableWidthInches <- plotWidthInches * legendFraction
-  characterWidthInches <- characterWidthRatio * fontSize / 72
+  avgCharWidth <- 0.55
+  characterWidthInches <- avgCharWidth * fontSize / 72
   maxWidth <- floor(availableWidthInches / characterWidthInches)
+  maxWidth <- max(as.integer(maxWidth), 1L)
 
-  return(max(as.integer(maxWidth), 1L))
+  return(maxWidth)
 }
 
 #' Wrap long legend entries based on the plot dimensions
@@ -222,14 +237,15 @@ legendWidthFromPlotDimensions <- function(plotObject,
 #'
 #' @param plotObject A `ggplot` object, e.g. created by [plotTimeProfile()],
 #'   or a `CombinedPlot` object whose main plot is updated.
-#' @param plotWidth Width of the exported plot. If `NULL`, the default export
-#'   width option `ospsuite.plots.exportWidth` is used.
+#' @param plotWidth Width of the exported plot.
+#' If `NULL`, the default export width option `exportWidth` is used.
 #' @param unit Unit of `plotWidth`: one of `"cm"`, `"in"`, `"mm"` or `"px"`.
+#' If `NULL`, the default export width option `exportUnits` is used.
 #' @param dpi Resolution in dots per inch; used to convert `plotWidth` to
 #'   physical inches when `unit = "px"`.
+#' If `NULL`, the default export DPI option `exportDpi` is used.
 #' @param ... Additional arguments passed on to
-#'   [legendWidthFromPlotDimensions()] (`fontSize`, `legendFraction`,
-#'   `characterWidthRatio`).
+#'   [legendWidthFromPlotDimensions()] (`legendFractionHorizontal`, `legendFractionVertical`).
 #'
 #' @return The `ggplot` object with wrapped legend labels (the input object is
 #'   not modified).
@@ -256,7 +272,13 @@ legendWidthFromPlotDimensions <- function(plotObject,
 #'
 #' @export
 #' @family legend helpers
-wrapLegend <- function(plotObject, plotWidth = NULL, unit = "cm", dpi = 320, ...) {
+wrapLegend <- function(
+  plotObject,
+  plotWidth = NULL,
+  unit = NULL,
+  dpi = NULL,
+  ...
+) {
   maxWidth <- legendWidthFromPlotDimensions(
     plotObject,
     plotWidth = plotWidth,
@@ -308,11 +330,15 @@ wrapLegend <- function(plotObject, plotWidth = NULL, unit = "cm", dpi = 320, ...
   if (is.function(existingLabels)) {
     return(existingLabels(breaks))
   }
+  pos <- attr(breaks, "pos")
   breaks <- as.character(breaks)
   if (is.character(existingLabels)) {
     if (!is.null(names(existingLabels))) {
       mappedLabels <- unname(existingLabels[breaks])
       return(ifelse(is.na(mappedLabels), breaks, mappedLabels))
+    }
+    if (!is.null(pos)) {
+      return(existingLabels[pos])
     }
     if (length(existingLabels) == length(breaks)) {
       return(existingLabels)
@@ -323,17 +349,17 @@ wrapLegend <- function(plotObject, plotWidth = NULL, unit = "cm", dpi = 320, ...
 
 #' Wrap strings to a maximum number of characters per line
 #'
-#' Words are wrapped with [strwrap()]; tokens without spaces that are longer
-#' than `maxWidth` (e.g. compound output paths containing `|`) are hard-split
-#' into chunks of at most `maxWidth` characters. Lines are joined with `"\n"`.
+#' Words are wrapped with [stringr::str_wrap()] and
+#' lines are joined with `"\n"`.
 #'
 #' @param labels Character vector of labels to wrap.
 #' @param maxWidth Maximum number of characters per line.
 #'
 #' @return Character vector of wrapped labels, `NA` labels are kept.
 #' @keywords internal
+#' @importFrom stringr str_wrap
 .wrapLegendText <- function(labels, maxWidth) {
-  if (length(labels) == 0) {
+  if (length(labels) == 0 || is.expression(labels)) {
     return(labels)
   }
   wrappedLabels <- vapply(
@@ -342,14 +368,12 @@ wrapLegend <- function(plotObject, plotWidth = NULL, unit = "cm", dpi = 320, ...
       if (is.na(label)) {
         return(NA_character_)
       }
-      labelLines <- strwrap(label, width = maxWidth)
-      labelLines <- unlist(lapply(labelLines, function(labelLine) {
-        if (nchar(labelLine) <= maxWidth) {
-          return(labelLine)
-        }
-        lineStarts <- seq.int(1L, nchar(labelLine), by = as.integer(maxWidth))
-        return(substring(labelLine, lineStarts, lineStarts + as.integer(maxWidth) - 1L))
-      }), use.names = FALSE)
+      labelLines <- stringr::str_wrap(
+        label,
+        width = maxWidth,
+        # Option to split after `|` in long output paths
+        whitespace_only = FALSE
+      )
       return(paste(labelLines, collapse = "\n"))
     },
     character(1),
@@ -370,7 +394,8 @@ wrapLegend <- function(plotObject, plotWidth = NULL, unit = "cm", dpi = 320, ...
 #' @return A `ggplot2` scale.
 #' @keywords internal
 .legendScaleWithWrappedLabels <- function(aesthetic, labels, ospStyle) {
-  return(switch(aesthetic,
+  return(switch(
+    aesthetic,
     colour = if (ospStyle) {
       scale_colour_osp(labels = labels)
     } else {

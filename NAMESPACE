@@ -76,3 +76,4 @@ importFrom(data.table,
   .SD,
   data.table
 )
+importFrom(stringr,str_wrap)

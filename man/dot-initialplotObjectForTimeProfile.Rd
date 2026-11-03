@@ -15,8 +15,7 @@
   y2ScaleArgs,
   secAxis,
   watermark,
-  watermarkFormat,
-  watermarkEnabled
+  watermarkFormat
 )
 }
 \arguments{
@@ -39,8 +38,6 @@
 \item{watermark}{Optional watermark text for this plot.}
 
 \item{watermarkFormat}{Optional list of watermark formatting values.}
-
-\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 plot object

@@ -27,7 +27,6 @@ plotYVsX(
   yScaleArgs = list(),
   watermark = NULL,
   watermarkFormat = NULL,
-  watermarkEnabled = NULL,
   observedDataDirection = "y",
   lloqOnBothAxes = FALSE,
   showLLOQ = TRUE,
@@ -81,8 +80,6 @@ Non-\code{NULL} values trigger a warning and have no effect.}
 \item{watermark}{Optional watermark text for this plot.}
 
 \item{watermarkFormat}{Optional list of watermark formatting values.}
-
-\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 
 \item{observedDataDirection}{Either "x" or "y", defining the direction of observed data.}
 

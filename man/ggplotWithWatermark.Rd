@@ -4,33 +4,27 @@
 \alias{ggplotWithWatermark}
 \title{Create a ggplot with an optional watermark}
 \usage{
-ggplotWithWatermark(
-  ...,
-  watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
-)
+ggplotWithWatermark(..., watermark = NULL, watermarkFormat = NULL)
 }
 \arguments{
 \item{...}{Arguments to be passed to \code{ggplot()}, such as data and aesthetics. This allows for flexibility in creating different types of plots.}
 
-\item{watermark}{Optional watermark text for this plot. If \code{NULL}, the session option is used at print time.}
+\item{watermark}{Optional watermark text for this plot. If \code{NULL}, the session option is used at plot creation.
+Set to \code{FALSE} to disable the watermark for this plot.}
 
 \item{watermarkFormat}{Optional list of watermark formatting values (\code{x}, \code{y}, \code{angle}, \code{fontsize}, \code{color}, \code{alpha}).
-If provided, it is merged with current watermark format options at print time.}
-
-\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.
-If \code{NULL}, the session option is used at print time.}
+If provided, it is merged with current watermark format options.}
 }
 \value{
-A ggplot object, which may have the class "ggWatermark" if the watermark is enabled. The object can be printed or further modified as needed.
+A ggplot object that can be printed or further modified as needed.
 }
 \description{
-This function creates a ggplot object and adds a watermark if the watermark option is enabled.
+This function creates a ggplot object and adds a watermark if enabled.
 The watermark can be customized with various options such as position, angle, font size, color, and transparency.
 }
 \details{
-If the watermark feature is enabled, the resulting ggplot object will include a watermark overlay when printed.
+If the watermark feature is enabled, the resulting ggplot object includes
+a watermark annotation as part of the plot object.
 The watermark's properties are determined by options set in the Ospsuite plotting configuration.
 
 The following options can be used to customize the watermark:
@@ -54,12 +48,13 @@ plotWithWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
 print(plotWithWatermark)
 
 # Example usage with watermark disabled
-setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = FALSE)
-plotWithoutWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
+plotWithoutWatermark <- ggplotWithWatermark(
+  data = mtcars,
+  aes(x = wt, y = mpg),
+  watermark = FALSE
+) +
   geom_point()
 print(plotWithoutWatermark)
-# Reset options
-setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 
 # Example usage with customized watermark
 setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = "Custom Label")
@@ -81,8 +76,6 @@ setOspsuite.plots.option(
 }
 \seealso{
 Other watermark:
-\code{\link[=addWatermark]{addWatermark()}},
-\code{\link[=plot.ggWatermark]{plot.ggWatermark()}},
-\code{\link[=print.ggWatermark]{print.ggWatermark()}}
+\code{\link[=addWatermark]{addWatermark()}}
 }
 \concept{watermark}

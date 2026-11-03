@@ -7,34 +7,31 @@
 legendWidthFromPlotDimensions(
   plotObject,
   plotWidth = NULL,
-  unit = "cm",
-  dpi = 320,
-  fontSize = NULL,
-  legendFraction = 0.4,
-  characterWidthRatio = 0.55
+  unit = NULL,
+  dpi = NULL,
+  legendFractionHorizontal = 0.4,
+  legendFractionVertical = 1
 )
 }
 \arguments{
 \item{plotObject}{A \code{ggplot} object, e.g. created by \code{\link[=plotTimeProfile]{plotTimeProfile()}},
 or a \code{CombinedPlot} object whose main plot is used.}
 
-\item{plotWidth}{Width of the exported plot. If \code{NULL}, the default export
-width option \code{ospsuite.plots.exportWidth} is used.}
+\item{plotWidth}{Width of the exported plot.
+If \code{NULL}, the default export width option \code{exportWidth} is used.}
 
-\item{unit}{Unit of \code{plotWidth}: one of \code{"cm"}, \code{"in"}, \code{"mm"} or \code{"px"}.}
+\item{unit}{Unit of \code{plotWidth}: one of \code{"cm"}, \code{"in"}, \code{"mm"} or \code{"px"}.
+If \code{NULL}, the default export width option \code{exportUnits} is used.}
 
 \item{dpi}{Resolution in dots per inch; used to convert \code{plotWidth} to
-physical inches when \code{unit = "px"}.}
+physical inches when \code{unit = "px"}.
+If \code{NULL}, the default export DPI option \code{exportDpi} is used.}
 
-\item{fontSize}{Legend font size in points. If \code{NULL} (default), the size
-is taken from the \code{legend.text} element of the plot theme.}
+\item{legendFractionHorizontal}{Maximum fraction of the total plot width available to
+legends on the left or right side. Ignored for top/bottom legends.}
 
-\item{legendFraction}{Maximum fraction of the total plot width available to
-legends on the left or right side. Ignored for top/bottom legends, which
-may use the full width.}
-
-\item{characterWidthRatio}{Average character width as a fraction of the
-font size; increase to wrap earlier, decrease to wrap later.}
+\item{legendFractionVertical}{Maximum fraction of the total plot width available to
+legends on the top or bottom side. Ignored for left/right and inside legends.}
 }
 \value{
 A single integer, the maximum number of characters per legend line
@@ -48,12 +45,9 @@ used with \code{\link[=wrapLegendLabels]{wrapLegendLabels()}}.
 The calculation is based on:
 \itemize{
 \item the legend position of the plot: legends on the left or right side are
-given at most \code{legendFraction} of the total plot width (default 40\%),
-legends at the top or bottom are given the full plot width;
-\item the legend font size of the plot theme (\code{legend.text}, in points) unless
-\code{fontSize} is provided;
-\item the heuristic that the average width of a character of a proportional
-font is \code{characterWidthRatio} times the font size.
+given at most \code{legendFractionHorizontal} of the total plot width (default 40\%),
+legends at the top or bottom are given \code{legendFractionVertical} (default 100\%);
+\item the legend font size;
 }
 }
 \examples{

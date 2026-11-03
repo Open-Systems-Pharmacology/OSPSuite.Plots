@@ -8,8 +8,7 @@ initializePlot(
   mappedData = NULL,
   setMapping = TRUE,
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 )
 }
 \arguments{
@@ -20,8 +19,6 @@ initializePlot(
 \item{watermark}{Optional watermark text for this plot.}
 
 \item{watermarkFormat}{Optional list of watermark formatting values.}
-
-\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 A \code{ggplot} object.

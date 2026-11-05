@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' data-engine-version='2.0' width='720.00pt' height='576.00pt' viewBox='0 0 720.00 576.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA='>
+    <rect x='0.00' y='0.00' width='720.00' height='576.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<rect x='0.00' y='0.00' width='720.00' height='576.00' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
+</g>
+<defs>
+  <clipPath id='cpNDAuMTN8NzE0LjUyfDIyLjc4fDQ1NC4wOA=='>
+    <rect x='40.13' y='22.78' width='674.39' height='431.30' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNDAuMTN8NzE0LjUyfDIyLjc4fDQ1NC4wOA==)'>
+<rect x='40.13' y='22.78' width='674.39' height='431.30' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<polyline points='40.13,438.46 714.52,438.46 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='40.13,317.52 714.52,317.52 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='40.13,196.58 714.52,196.58 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='40.13,75.64 714.52,75.64 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='70.79,454.08 70.79,22.78 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='198.51,454.08 198.51,22.78 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='326.24,454.08 326.24,22.78 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='453.96,454.08 453.96,22.78 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='581.69,454.08 581.69,22.78 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='709.41,454.08 709.41,22.78 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='96.33,42.39 121.88,114.18 147.42,172.96 172.97,221.09 198.51,260.49 224.06,292.75 249.60,319.16 275.15,340.79 300.69,358.49 326.24,372.99 351.78,384.85 377.33,394.57 402.87,402.53 428.42,409.04 453.96,414.37 479.51,418.74 505.05,422.31 530.60,425.24 556.14,427.63 581.69,429.60 607.23,431.20 632.78,432.52 658.32,433.59 683.87,434.47 ' style='stroke-width: 2.13; stroke: #0078D7; stroke-linecap: butt;' />
+<polyline points='96.33,219.59 121.88,240.42 147.42,259.27 172.97,276.32 198.51,291.75 224.06,305.71 249.60,318.34 275.15,329.77 300.69,340.12 326.24,349.47 351.78,357.94 377.33,365.60 402.87,372.54 428.42,378.81 453.96,384.49 479.51,389.62 505.05,394.27 530.60,398.47 556.14,402.28 581.69,405.72 607.23,408.84 632.78,411.66 658.32,414.21 683.87,416.51 ' style='stroke-width: 2.13; stroke: #D83B01; stroke-linecap: butt;' />
+<text transform='translate(382.49,247.37) rotate(-30)' text-anchor='middle' style='font-size: 30.00px; fill: #D3D3D3; fill-opacity: 0.70; font-family: sans;' textLength='263.47px' lengthAdjust='spacingAndGlyphs'>preliminary analysis</text>
+<rect x='40.13' y='22.78' width='674.39' height='431.30' style='stroke-width: 1.07; stroke: #333333;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<text x='35.20' y='441.48' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='17.13px' lengthAdjust='spacingAndGlyphs'>0.00</text>
+<text x='35.20' y='320.54' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='17.13px' lengthAdjust='spacingAndGlyphs'>0.05</text>
+<text x='35.20' y='199.60' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='17.13px' lengthAdjust='spacingAndGlyphs'>0.10</text>
+<text x='35.20' y='78.67' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='17.13px' lengthAdjust='spacingAndGlyphs'>0.15</text>
+<polyline points='37.39,438.46 40.13,438.46 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='37.39,317.52 40.13,317.52 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='37.39,196.58 40.13,196.58 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='37.39,75.64 40.13,75.64 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='70.79,456.82 70.79,454.08 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='198.51,456.82 198.51,454.08 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='326.24,456.82 326.24,454.08 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='453.96,456.82 453.96,454.08 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='581.69,456.82 581.69,454.08 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='709.41,456.82 709.41,454.08 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<text x='70.79' y='465.07' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='198.51' y='465.07' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>5</text>
+<text x='326.24' y='465.07' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>10</text>
+<text x='453.96' y='465.07' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>15</text>
+<text x='581.69' y='465.07' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>20</text>
+<text x='709.41' y='465.07' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>25</text>
+<text x='377.33' y='477.20' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='20.78px' lengthAdjust='spacingAndGlyphs'>time</text>
+<text transform='translate(13.05,238.43) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='66.05px' lengthAdjust='spacingAndGlyphs'>concentration</text>
+<rect x='273.63' y='490.45' width='207.39' height='80.07' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<text x='279.11' y='504.64' style='font-size: 11.00px; font-family: sans;' textLength='30.58px' lengthAdjust='spacingAndGlyphs'>output</text>
+<rect x='279.11' y='511.26' width='17.28' height='26.89' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<line x1='280.84' y1='524.70' x2='294.66' y2='524.70' style='stroke-width: 2.13; stroke: #0078D7; stroke-linecap: butt;' />
+<rect x='279.11' y='538.15' width='17.28' height='26.89' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<line x1='280.84' y1='551.60' x2='294.66' y2='551.60' style='stroke-width: 2.13; stroke: #D83B01; stroke-linecap: butt;' />
+<text x='301.87' y='518.23' style='font-size: 8.80px; font-family: sans;' textLength='143.34px' lengthAdjust='spacingAndGlyphs'>Median and [5th-95th] percentiles for</text>
+<text x='301.87' y='527.73' style='font-size: 8.80px; font-family: sans;' textLength='170.25px' lengthAdjust='spacingAndGlyphs'>Organism|PeripheralVenousBlood|Aciclovir|</text>
+<text x='301.87' y='537.24' style='font-size: 8.80px; font-family: sans;' textLength='135.02px' lengthAdjust='spacingAndGlyphs'>Plasma (Peripheral Venous Blood)</text>
+<text x='301.87' y='545.12' style='font-size: 8.80px; font-family: sans;' textLength='143.34px' lengthAdjust='spacingAndGlyphs'>Median and [5th-95th] percentiles for</text>
+<text x='301.87' y='554.62' style='font-size: 8.80px; font-family: sans;' textLength='170.25px' lengthAdjust='spacingAndGlyphs'>Organism|PeripheralVenousBlood|Aciclovir|</text>
+<text x='301.87' y='564.13' style='font-size: 8.80px; font-family: sans;' textLength='173.68px' lengthAdjust='spacingAndGlyphs'>Plasma (Peripheral Venous Blood) observed</text>
+<text x='377.33' y='15.93' text-anchor='middle' style='font-size: 13.20px; font-family: sans;' textLength='172.43px' lengthAdjust='spacingAndGlyphs'>wrap-legend-bottom-8cm-plot</text>
+</g>
+</svg>

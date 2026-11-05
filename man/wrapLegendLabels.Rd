@@ -39,8 +39,8 @@ appearance of the plot is unchanged.
 }
 
 Strings without spaces longer than \code{maxWidth} (e.g. compound output paths)
-are hard-split into chunks of at most \code{maxWidth} characters, as
-\code{stringr::str_wrap(whitespace_only = FALSE)} would do.
+are split using \code{stringr::str_wrap(width = maxWidth, whitespace_only = FALSE)},
+so that long tokens are broken into smaller chunks.
 
 Combine with \code{\link[=legendWidthFromPlotDimensions]{legendWidthFromPlotDimensions()}} to derive \code{maxWidth} from
 the exported plot size, or use the convenience wrapper \code{\link[=wrapLegend]{wrapLegend()}}.

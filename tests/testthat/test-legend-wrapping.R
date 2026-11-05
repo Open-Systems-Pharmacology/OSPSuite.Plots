@@ -344,3 +344,109 @@ test_that("wrapLegend combines width calculation and wrapping", {
   labels <- legendTextLabels(pWrapped)
   expect_true(all(nchar(strsplit(labels[1], "\n")[[1]]) <= expectedWidth))
 })
+
+# Snapshot tests --------------------------
+
+# Simulation output paths without spaces - wrapped after `|` and `-`
+spaceFreePathLabels <- c(
+  "Organism|PeripheralVenousBlood|Aciclovir|Plasma-Peripheral-Venous-Blood",
+  "Organism|Liver|Aciclovir|Intracellular-Unclear-Binding"
+)
+
+makeSpaceFreePathsPlot <- function() {
+  df <- data.frame(
+    time = rep(seq(1, 24), 2),
+    concentration = c(dexp(1:24, 0.2), dexp(1:24, 0.1)),
+    output = rep(spaceFreePathLabels, each = 24)
+  )
+  return(plotTimeProfile(
+    data = df,
+    mapping = aes(x = time, y = concentration, color = output)
+  ))
+}
+
+test_that("wrapLegendLabels wraps long legend entries of an OSP plot", {
+  skip_if_not_installed("vdiffr")
+
+  fig <- wrapLegendLabels(makeTimeProfilePlot(), maxWidth = 20)
+  vdiffr::expect_doppelganger("wrapped-legend-osp-plot", fig)
+})
+
+test_that("wrapLegendLabels breaks space-free output paths", {
+  skip_if_not_installed("vdiffr")
+
+  fig <- wrapLegendLabels(makeSpaceFreePathsPlot(), maxWidth = 12)
+  vdiffr::expect_doppelganger("wrapped-legend-space-free-paths", fig)
+})
+
+test_that("wrapLegendLabels wraps colour, shape and linetype legends", {
+  skip_if_not_installed("vdiffr")
+
+  p <- makeTimeProfilePlot() +
+    aes(shape = output) +
+    geom_hline(
+      data = data.frame(yintercept = 0.1),
+      aes(
+        yintercept = yintercept,
+        linetype = "LLOQ of a very long legend entry"
+      )
+    ) +
+    scale_linetype_manual(
+      values = c("LLOQ of a very long legend entry" = "dashed")
+    )
+  fig <- wrapLegendLabels(p, maxWidth = 12)
+  vdiffr::expect_doppelganger("wrapped-legend-multiple-aesthetics", fig)
+})
+
+test_that("wrapLegendLabels wraps labels of scales already on the plot", {
+  skip_if_not_installed("vdiffr")
+
+  breaks <- c(longLabel, paste(longLabel, "observed"))
+  p <- makeTimeProfilePlot() +
+    scale_colour_osp(
+      breaks = breaks,
+      labels = stats::setNames(
+        c(
+          "Renamed simulated output with a long label",
+          "Renamed observed output with a long label"
+        ),
+        breaks
+      )
+    )
+  fig <- wrapLegendLabels(p, maxWidth = 12)
+  vdiffr::expect_doppelganger("wrapped-legend-renamed-scale-labels", fig)
+})
+
+test_that("wrapLegendLabels works on plain ggplot objects", {
+  skip_if_not_installed("vdiffr")
+
+  df <- data.frame(x = 1:5, y = (1:5)^2, group = rep(longLabel, 5))
+  p <- ggplot(df, aes(x, y, color = group)) +
+    geom_point()
+  fig <- wrapLegendLabels(p, maxWidth = 20)
+  vdiffr::expect_doppelganger("wrapped-legend-plain-ggplot", fig)
+})
+
+test_that("wrapLegendLabels works on CombinedPlot objects", {
+  skip_if_not_installed("vdiffr")
+
+  combinedPlot <- CombinedPlot$new(plotObject = makeTimeProfilePlot())
+  fig <- wrapLegendLabels(combinedPlot, maxWidth = 20)$combined()
+  vdiffr::expect_doppelganger("wrapped-legend-combined-plot", fig)
+})
+
+test_that("wrapLegend wraps a side legend to the plot width", {
+  skip_if_not_installed("vdiffr")
+
+  # legend may use 40% of a 6 cm wide plot -> 13 characters per line
+  fig <- wrapLegend(makeTimeProfilePlot(), plotWidth = 6, unit = "cm")
+  vdiffr::expect_doppelganger("wrap-legend-side-6cm-plot", fig)
+})
+
+test_that("wrapLegend wraps a bottom legend to the full plot width", {
+  skip_if_not_installed("vdiffr")
+
+  p <- makeTimeProfilePlot() + theme(legend.position = "bottom")
+  fig <- wrapLegend(p, plotWidth = 8, unit = "cm")
+  vdiffr::expect_doppelganger("wrap-legend-bottom-8cm-plot", fig)
+})

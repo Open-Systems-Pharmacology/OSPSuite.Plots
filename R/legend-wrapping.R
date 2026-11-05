@@ -24,8 +24,8 @@
 #'   appearance of the plot is unchanged.
 #'
 #' Strings without spaces longer than `maxWidth` (e.g. compound output paths)
-#' are hard-split into chunks of at most `maxWidth` characters, as
-#' `stringr::str_wrap(whitespace_only = FALSE)` would do.
+#' are split using `stringr::str_wrap(width = maxWidth, whitespace_only = FALSE)`, 
+#' so that long tokens are broken into smaller chunks.
 #'
 #' Combine with [legendWidthFromPlotDimensions()] to derive `maxWidth` from
 #' the exported plot size, or use the convenience wrapper [wrapLegend()].

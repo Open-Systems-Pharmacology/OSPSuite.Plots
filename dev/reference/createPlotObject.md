@@ -19,8 +19,7 @@ createPlotObject(
   geomErrorbarAttributes,
   facetScales = "free_y",
   watermark,
-  watermarkFormat,
-  watermarkEnabled
+  watermarkFormat
 )
 ```
 
@@ -82,10 +81,6 @@ createPlotObject(
 - watermarkFormat:
 
   Optional list of watermark formatting values.
-
-- watermarkEnabled:
-
-  Optional logical flag controlling watermark visibility for this plot.
 
 ## Value
 

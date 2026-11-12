@@ -20,8 +20,7 @@ plotQQ(
   groupAesthetics = c("colour", "fill", "shape"),
   residualScale = NULL,
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 )
 ```
 
@@ -85,10 +84,6 @@ plotQQ(
 - watermarkFormat:
 
   Optional list of watermark formatting values.
-
-- watermarkEnabled:
-
-  Optional logical flag controlling watermark visibility for this plot.
 
 ## Value
 

@@ -141,11 +141,6 @@ plotRatioVsCov(
 
   :   Optional list of watermark formatting values.
 
-  `watermarkEnabled`
-
-  :   Optional logical flag controlling watermark visibility for this
-      plot.
-
   `metaData`
 
   :   A named list of information about `data` such as the `dimension`

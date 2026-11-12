@@ -38,7 +38,6 @@ plotYVsX(
   yScaleArgs = list(),
   watermark = NULL,
   watermarkFormat = NULL,
-  watermarkEnabled = NULL,
   observedDataDirection = "y",
   lloqOnBothAxes = FALSE,
   showLLOQ = TRUE,
@@ -163,10 +162,6 @@ plotYVsX(
 - watermarkFormat:
 
   Optional list of watermark formatting values.
-
-- watermarkEnabled:
-
-  Optional logical flag controlling watermark visibility for this plot.
 
 - observedDataDirection:
 

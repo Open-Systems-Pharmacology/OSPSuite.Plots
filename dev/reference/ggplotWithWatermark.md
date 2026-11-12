@@ -1,19 +1,13 @@
 # Create a ggplot with an optional watermark
 
-This function creates a ggplot object and adds a watermark if the
-watermark option is enabled. The watermark can be customized with
-various options such as position, angle, font size, color, and
-transparency.
+This function creates a ggplot object and adds a watermark if enabled.
+The watermark can be customized with various options such as position,
+angle, font size, color, and transparency.
 
 ## Usage
 
 ``` r
-ggplotWithWatermark(
-  ...,
-  watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
-)
+ggplotWithWatermark(..., watermark = NULL, watermarkFormat = NULL)
 ```
 
 ## Arguments
@@ -28,29 +22,25 @@ ggplotWithWatermark(
 - watermark:
 
   Optional watermark text for this plot. If `NULL`, the session option
-  is used at print time.
+  is used at plot creation. Set to `FALSE` to disable the watermark for
+  this plot.
 
 - watermarkFormat:
 
   Optional list of watermark formatting values (`x`, `y`, `angle`,
   `fontsize`, `color`, `alpha`). If provided, it is merged with current
-  watermark format options at print time.
-
-- watermarkEnabled:
-
-  Optional logical flag controlling watermark visibility for this plot.
-  If `NULL`, the session option is used at print time.
+  watermark format options.
 
 ## Value
 
-A ggplot object, which may have the class "ggWatermark" if the watermark
-is enabled. The object can be printed or further modified as needed.
+A ggplot object that can be printed or further modified as needed.
 
 ## Details
 
-If the watermark feature is enabled, the resulting ggplot object will
-include a watermark overlay when printed. The watermark's properties are
-determined by options set in the Ospsuite plotting configuration.
+If the watermark feature is enabled, the resulting ggplot object
+includes a watermark annotation as part of the plot object. The
+watermark's properties are determined by options set in the Ospsuite
+plotting configuration.
 
 The following options can be used to customize the watermark:
 
@@ -76,9 +66,7 @@ The following options can be used to customize the watermark:
 ## See also
 
 Other watermark:
-[`addWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addWatermark.md),
-[`plot.ggWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plot.ggWatermark.md),
-[`print.ggWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/print.ggWatermark.md)
+[`addWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/addWatermark.md)
 
 ## Examples
 
@@ -90,13 +78,14 @@ print(plotWithWatermark)
 
 
 # Example usage with watermark disabled
-setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = FALSE)
-plotWithoutWatermark <- ggplotWithWatermark(data = mtcars, aes(x = wt, y = mpg)) +
+plotWithoutWatermark <- ggplotWithWatermark(
+  data = mtcars,
+  aes(x = wt, y = mpg),
+  watermark = FALSE
+) +
   geom_point()
 print(plotWithoutWatermark)
 
-# Reset options
-setOspsuite.plots.option(optionKey = OptionKeys$watermarkEnabled, value = TRUE)
 
 # Example usage with customized watermark
 setOspsuite.plots.option(optionKey = OptionKeys$watermarkLabel, value = "Custom Label")

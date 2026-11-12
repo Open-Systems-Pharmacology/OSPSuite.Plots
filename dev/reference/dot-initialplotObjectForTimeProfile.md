@@ -16,8 +16,7 @@ initializes plot object and set scaling
   y2ScaleArgs,
   secAxis,
   watermark,
-  watermarkFormat,
-  watermarkEnabled
+  watermarkFormat
 )
 ```
 
@@ -78,10 +77,6 @@ initializes plot object and set scaling
 - watermarkFormat:
 
   Optional list of watermark formatting values.
-
-- watermarkEnabled:
-
-  Optional logical flag controlling watermark visibility for this plot.
 
 ## Value
 

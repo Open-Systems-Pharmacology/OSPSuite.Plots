@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -1063,6 +1063,52 @@ below the lowest finite value.</li>
 <span><span class="co">#&gt; waiver(), : <span style="color: #00BB00;">log-10</span> transformation introduced infinite values.</span></span></code></pre></div>
 <p><img src="plot-time-profile_files/figure-html/negative_values_oob_censor-1.png" class="r-plt" alt="Time profile plot on a log y-axis using oob_censor_any. The ribbon lower bound is absent where values were negative, with the ribbon only shown where the lower bound is a finite positive number." width="80%" style="display: block; margin: auto;"></p>
 </div>
+</div>
+<div class="section level3">
+<h3 id="wrapping-long-legend-entries">3.6 Wrapping Long Legend Entries<a class="anchor" aria-label="anchor" href="#wrapping-long-legend-entries"></a>
+</h3>
+<p>Simulated datasets are often named after their full output path, and
+population plots add a statistic prefix, resulting in long legend
+entries such as
+<code>Median and [5th-95th] percentiles for Organism|PeripheralVenousBlood|Aciclovir|Plasma (Peripheral Venous Blood)</code>.
+With the default legend on the right, such entries can shrink the plot
+panel to an unreadable strip, and moving the legend below the plot does
+not help either because the entries are cut off.</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outputPathData</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">24</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  concentration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">dexp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">24</span>, <span class="fl">0.2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">dexp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">24</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  output <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Median and [5th-95th] percentiles for Organism|PeripheralVenousBlood|Aciclovir|Plasma (Peripheral Venous Blood)"</span>,</span>
+<span>    <span class="st">"Median and [5th-95th] percentiles for Organism|PeripheralVenousBlood|Aciclovir|Muscle (Muscle Interstitial)"</span></span>
+<span>  <span class="op">)</span>, each <span class="op">=</span> <span class="fl">24</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">longLegendPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTimeProfile.html">plotTimeProfile</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">outputPathData</span>,</span>
+<span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">concentration</span>, color <span class="op">=</span> <span class="va">output</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The legend helpers wrap long entries over several lines.
+<code><a href="../reference/wrapLegendLabels.html">wrapLegendLabels()</a></code> applies the wrapping for a fixed maximum
+number of characters per line,
+<code><a href="../reference/legendWidthFromPlotDimensions.html">legendWidthFromPlotDimensions()</a></code> calculates that number from
+the exported plot dimensions, the legend position and the legend font
+size, and <code><a href="../reference/wrapLegend.html">wrapLegend()</a></code> combines both:</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/wrapLegendLabels.html">wrapLegendLabels</a></span><span class="op">(</span><span class="va">longLegendPlot</span>, maxWidth <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<p><img src="plot-time-profile_files/figure-html/legend_wrapping_fixed_width-1.png" class="r-plt" alt="Time profile plot with two simulated outputs whose long legend entries are wrapped at a fixed width of 20 characters per line, keeping the plot panel readable." width="80%" style="display: block; margin: auto;"></p>
+<p>For a legend on the right of an 8 cm wide plot, the legend may use at
+most 40 % of the plot width; for a bottom legend it may use the full
+plot width:</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/wrapLegend.html">wrapLegend</a></span><span class="op">(</span></span>
+<span>  <span class="va">longLegendPlot</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span>,</span>
+<span>  plotWidth <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>  unit <span class="op">=</span> <span class="st">"cm"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="plot-time-profile_files/figure-html/legend_wrapping_bottom-1.png" class="r-plt" alt="Time profile plot with a bottom legend whose long entries are wrapped based on the plot width, so that all legend text is visible." width="80%" style="display: block; margin: auto;"></p>
+<p>The wrapping preserves the scales of the plot (colors, shapes,
+linetypes and manual values such as LLOQ lines), and only the legend
+entry labels are modified.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

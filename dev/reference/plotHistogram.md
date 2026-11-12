@@ -28,8 +28,7 @@ plotHistogram(
   meanFunction = "auto",
   residualScale = NULL,
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 )
 ```
 
@@ -126,10 +125,6 @@ plotHistogram(
 - watermarkFormat:
 
   Optional list of watermark formatting values.
-
-- watermarkEnabled:
-
-  Optional logical flag controlling watermark visibility for this plot.
 
 ## Value
 

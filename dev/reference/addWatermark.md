@@ -7,12 +7,7 @@ angle, font size, color, and transparency.
 ## Usage
 
 ``` r
-addWatermark(
-  plotObject,
-  watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
-)
+addWatermark(plotObject, watermark = NULL, watermarkFormat = NULL)
 ```
 
 ## Arguments
@@ -23,15 +18,12 @@ addWatermark(
 
 - watermark:
 
-  Optional watermark text.
+  Optional watermark text. If `NULL`, the session option is used. Set to
+  `FALSE` to disable the watermark for this plot.
 
 - watermarkFormat:
 
   Optional watermark format list.
-
-- watermarkEnabled:
-
-  Optional watermark enabled flag.
 
 ## Value
 
@@ -41,9 +33,7 @@ according to the specified options.
 ## See also
 
 Other watermark:
-[`ggplotWithWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/ggplotWithWatermark.md),
-[`plot.ggWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plot.ggWatermark.md),
-[`print.ggWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/print.ggWatermark.md)
+[`ggplotWithWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/ggplotWithWatermark.md)
 
 ## Examples
 

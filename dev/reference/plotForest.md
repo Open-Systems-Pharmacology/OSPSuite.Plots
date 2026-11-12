@@ -25,8 +25,7 @@ plotForest(
   geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
   facetScales = c("free_y", "free"),
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 )
 ```
 
@@ -117,10 +116,6 @@ plotForest(
 - watermarkFormat:
 
   Optional list of watermark formatting values.
-
-- watermarkEnabled:
-
-  Optional logical flag controlling watermark visibility for this plot.
 
 ## Value
 

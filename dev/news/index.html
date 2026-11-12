@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ospsuite.plots</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +48,10 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="ospsuiteplots-development-version">ospsuite.plots (development version)<a class="anchor" aria-label="anchor" href="#ospsuiteplots-development-version"></a></h2>
+<div class="section level3">
+<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>New legend helpers wrap long legend entries over several lines so that plots with entries such as full output paths (<code>Median and [5th-95th] percentiles for Organism|PeripheralVenousBlood|Aciclovir|Plasma (Peripheral Venous Blood)</code>) keep a readable plot panel. <code>wrapLegendLabels(plotObject, maxWidth)</code> applies the wrapping to all legend scales of a plot (<code>colour</code>/<code>fill</code>/<code>shape</code>/<code>linetype</code>), <code>legendWidthFromPlotDimensions(plotObject, plotWidth, unit, dpi)</code> calculates a suitable <code>maxWidth</code> from the exported plot dimensions, the legend position and the legend font size, and <code><a href="../reference/wrapLegend.html">wrapLegend()</a></code> combines both in a single call.</li>
+</ul></div>
 <div class="section level3">
 <h3 id="minor-improvements-and-bug-fixes-development-version">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-development-version"></a></h3>
 <ul><li>

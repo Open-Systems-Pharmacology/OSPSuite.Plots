@@ -27,8 +27,7 @@ plotBoxWhisker(
   geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
   residualScale = NULL,
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 )
 ```
 
@@ -124,10 +123,6 @@ plotBoxWhisker(
 - watermarkFormat:
 
   Optional list of watermark formatting values.
-
-- watermarkEnabled:
-
-  Optional logical flag controlling watermark visibility for this plot.
 
 ## Value
 

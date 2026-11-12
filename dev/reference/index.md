@@ -48,10 +48,6 @@ Functions to set watermark
   : Add a watermark to a ggplot object
 - [`ggplotWithWatermark()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/ggplotWithWatermark.md)
   : Create a ggplot with an optional watermark
-- [`plot(`*`<ggWatermark>`*`)`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/plot.ggWatermark.md)
-  : Create plot function for ggWatermark.
-- [`print(`*`<ggWatermark>`*`)`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/print.ggWatermark.md)
-  : Print method for ggWatermark objects
 
 ## Plot export
 
@@ -156,6 +152,18 @@ Per-plot OSP color and fill scales
   [`scale_color_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
   [`scale_fill_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/scale_osp.md)
   : OSP discrete color and fill scales
+
+## Legend helpers
+
+Functions to wrap long legend entries
+
+- [`legendWidthFromPlotDimensions()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/legendWidthFromPlotDimensions.md)
+  : Maximum number of legend characters per line for given plot
+  dimensions
+- [`wrapLegend()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/wrapLegend.md)
+  : Wrap long legend entries based on the plot dimensions
+- [`wrapLegendLabels()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/wrapLegendLabels.md)
+  : Wrap long legend entries of a plot
 
 ## Constants
 

@@ -2,6 +2,20 @@
 
 ## ospsuite.plots (development version)
 
+### New Features
+
+- New legend helpers wrap long legend entries over several lines so that
+  plots with entries such as full output paths
+  (`Median and [5th-95th] percentiles for Organism|PeripheralVenousBlood|Aciclovir|Plasma (Peripheral Venous Blood)`)
+  keep a readable plot panel. `wrapLegendLabels(plotObject, maxWidth)`
+  applies the wrapping to all legend scales of a plot
+  (`colour`/`fill`/`shape`/`linetype`),
+  `legendWidthFromPlotDimensions(plotObject, plotWidth, unit, dpi)`
+  calculates a suitable `maxWidth` from the exported plot dimensions,
+  the legend position and the legend font size, and
+  [`wrapLegend()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/wrapLegend.md)
+  combines both in a single call.
+
 ### Minor improvements and bug fixes
 
 - [`geom_errorbar_osp()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/geom_errorbar_osp.md)

@@ -26,8 +26,7 @@ plotRangeDistribution(
   geomLineAttributes = getDefaultGeomAttributes("Line"),
   identifier = "IndividualId",
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 )
 ```
 
@@ -134,10 +133,6 @@ plotRangeDistribution(
 - watermarkFormat:
 
   Optional list of watermark formatting values.
-
-- watermarkEnabled:
-
-  Optional logical flag controlling watermark visibility for this plot.
 
 ## Value
 

@@ -30,7 +30,6 @@ plotTimeProfile(
   y2ScaleArgs = list(),
   watermark = NULL,
   watermarkFormat = NULL,
-  watermarkEnabled = NULL,
   plotObject = NULL,
   geomLineAttributes = getDefaultGeomAttributes("Line"),
   geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
@@ -126,10 +125,6 @@ plotTimeProfile(
 - watermarkFormat:
 
   Optional list of watermark formatting values.
-
-- watermarkEnabled:
-
-  Optional logical flag controlling watermark visibility for this plot.
 
 - plotObject:
 

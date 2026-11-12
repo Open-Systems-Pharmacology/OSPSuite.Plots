@@ -1073,3 +1073,69 @@ plotTimeProfile(
 lower bound is absent where values were negative, with the ribbon only
 shown where the lower bound is a finite positive
 number.](plot-time-profile_files/figure-html/negative_values_oob_censor-1.png)
+
+### 3.6 Wrapping Long Legend Entries
+
+Simulated datasets are often named after their full output path, and
+population plots add a statistic prefix, resulting in long legend
+entries such as
+`Median and [5th-95th] percentiles for Organism|PeripheralVenousBlood|Aciclovir|Plasma (Peripheral Venous Blood)`.
+With the default legend on the right, such entries can shrink the plot
+panel to an unreadable strip, and moving the legend below the plot does
+not help either because the entries are cut off.
+
+``` r
+
+outputPathData <- data.frame(
+  time = rep(seq(1, 24), 2),
+  concentration = c(dexp(1:24, 0.2), dexp(1:24, 0.1)),
+  output = rep(c(
+    "Median and [5th-95th] percentiles for Organism|PeripheralVenousBlood|Aciclovir|Plasma (Peripheral Venous Blood)",
+    "Median and [5th-95th] percentiles for Organism|PeripheralVenousBlood|Aciclovir|Muscle (Muscle Interstitial)"
+  ), each = 24)
+)
+longLegendPlot <- plotTimeProfile(
+  data = outputPathData,
+  mapping = aes(x = time, y = concentration, color = output)
+)
+```
+
+The legend helpers wrap long entries over several lines.
+[`wrapLegendLabels()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/wrapLegendLabels.md)
+applies the wrapping for a fixed maximum number of characters per line,
+[`legendWidthFromPlotDimensions()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/legendWidthFromPlotDimensions.md)
+calculates that number from the exported plot dimensions, the legend
+position and the legend font size, and
+[`wrapLegend()`](https://www.open-systems-pharmacology.org/OSPSuite.Plots/dev/reference/wrapLegend.md)
+combines both:
+
+``` r
+
+wrapLegendLabels(longLegendPlot, maxWidth = 20)
+```
+
+![Time profile plot with two simulated outputs whose long legend entries
+are wrapped at a fixed width of 20 characters per line, keeping the plot
+panel
+readable.](plot-time-profile_files/figure-html/legend_wrapping_fixed_width-1.png)
+
+For a legend on the right of an 8 cm wide plot, the legend may use at
+most 40 % of the plot width; for a bottom legend it may use the full
+plot width:
+
+``` r
+
+wrapLegend(
+  longLegendPlot + theme(legend.position = "bottom"),
+  plotWidth = 8,
+  unit = "cm"
+)
+```
+
+![Time profile plot with a bottom legend whose long entries are wrapped
+based on the plot width, so that all legend text is
+visible.](plot-time-profile_files/figure-html/legend_wrapping_bottom-1.png)
+
+The wrapping preserves the scales of the plot (colors, shapes, linetypes
+and manual values such as LLOQ lines), and only the legend entry labels
+are modified.

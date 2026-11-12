@@ -19,7 +19,6 @@ plotTimeProfile(
   y2ScaleArgs = list(),
   watermark = NULL,
   watermarkFormat = NULL,
-  watermarkEnabled = NULL,
   plotObject = NULL,
   geomLineAttributes = getDefaultGeomAttributes("Line"),
   geomRibbonAttributes = getDefaultGeomAttributes("Ribbon"),
@@ -63,8 +62,6 @@ use of \code{mapSimulatedAndObserved} triggers reset of aesthetic scales after s
 \item{watermark}{Optional watermark text for this plot.}
 
 \item{watermarkFormat}{Optional list of watermark formatting values.}
-
-\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 
 \item{plotObject}{An optional \code{ggplot} object on which to add the plot layers}
 

@@ -18,8 +18,7 @@ createPlotObject(
   geomErrorbarAttributes,
   facetScales = "free_y",
   watermark,
-  watermarkFormat,
-  watermarkEnabled
+  watermarkFormat
 )
 }
 \arguments{
@@ -50,8 +49,6 @@ createPlotObject(
 \item{watermark}{Optional watermark text for this plot.}
 
 \item{watermarkFormat}{Optional list of watermark formatting values.}
-
-\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 A ggplot object representing the main plot.

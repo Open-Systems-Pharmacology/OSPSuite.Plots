@@ -23,8 +23,7 @@ plotForest(
   geomErrorbarAttributes = getDefaultGeomAttributes("Errorbar"),
   facetScales = c("free_y", "free"),
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 )
 }
 \arguments{
@@ -65,8 +64,6 @@ plotForest(
 \item{watermark}{Optional watermark text for this plot.}
 
 \item{watermarkFormat}{Optional list of watermark formatting values.}
-
-\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 A combined plot object containing the forest plot and the table (if applicable).

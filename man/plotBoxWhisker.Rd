@@ -21,8 +21,7 @@ plotBoxWhisker(
   geomPointAttributes = getDefaultGeomAttributes("Boxplot"),
   residualScale = NULL,
   watermark = NULL,
-  watermarkFormat = NULL,
-  watermarkEnabled = NULL
+  watermarkFormat = NULL
 )
 }
 \arguments{
@@ -67,8 +66,6 @@ Non-\code{NULL} values trigger a warning and have no effect.}
 \item{watermark}{Optional watermark text for this plot.}
 
 \item{watermarkFormat}{Optional list of watermark formatting values.}
-
-\item{watermarkEnabled}{Optional logical flag controlling watermark visibility for this plot.}
 }
 \value{
 A \code{ggplot} object representing the box-whisker plot.

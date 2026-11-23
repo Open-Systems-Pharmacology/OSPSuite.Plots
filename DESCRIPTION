@@ -85,5 +85,7 @@ Collate: 'messages.R'
          'utilities_shapes.R'
          'legend-wrapping.R'
 LazyData: true
+Remotes:
+    ospsuite.utils=Open-Systems-Pharmacology/OSPSuite.RUtils
 Additional_repositories: https://open-systems-pharmacology.r-universe.dev
 Config/roxygen2/version: 8.1.0

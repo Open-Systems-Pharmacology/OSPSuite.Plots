@@ -11,7 +11,5 @@ permissions: read-all
 jobs:
   test-coverage:
     uses: Open-Systems-Pharmacology/Workflows/.github/workflows/test-coverage.yaml@main
-    with:
-      extra-repositories: https://open-systems-pharmacology.r-universe.dev
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

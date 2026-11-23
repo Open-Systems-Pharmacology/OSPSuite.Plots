@@ -26,8 +26,6 @@ jobs:
   R-CMD-Check:
     if: ${{ !cancelled() }}
     uses: Open-Systems-Pharmacology/Workflows/.github/workflows/R-CMD-check-build.yaml@main
-    with:
-      extra-repositories: https://open-systems-pharmacology.r-universe.dev
 
   pkgdown:
     if: ${{ !cancelled() }}
@@ -35,5 +33,3 @@ jobs:
       contents: write # deploys the built pkgdown site
       pull-requests: read # the workflow's check-changes job reads PR file changes
     uses: Open-Systems-Pharmacology/Workflows/.github/workflows/pkgdown.yaml@main
-    with:
-      extra-repositories: https://open-systems-pharmacology.r-universe.dev
